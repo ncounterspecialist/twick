@@ -3,6 +3,7 @@ import {
 } from "fabric";
 import { CanvasMetadata, CanvasProps } from "../types";
 import { Dimensions, Position } from "@twick/media-utils";
+import { assertBrowser, assertCanvasSupport } from "./browser";
 
 /**
  * Creates and initializes a Fabric.js canvas with specified configurations.
@@ -29,6 +30,9 @@ export function createCanvas({
   enableRetinaScaling = true,
   touchZoomThreshold = 10,
 }: CanvasProps): { canvas: FabricCanvas; canvasMetadata: CanvasMetadata } {
+  assertBrowser();
+  assertCanvasSupport();
+
   // Metadata for scaling and positioning on the canvas
   const canvasMetadata = {
     width: canvasSize.width,
@@ -77,6 +81,9 @@ export function createCanvas({
  * @param canvas - The Fabric.js canvas instance.
  */
 export function reorderElementsByZIndex(canvas: FabricCanvas) {
+  assertBrowser();
+  assertCanvasSupport();
+
   if (!canvas) return;
 
   const objects = canvas.getObjects();

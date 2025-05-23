@@ -11,12 +11,12 @@ import {
 } from "../helpers/canvas.util";
 import { CANVAS_OPERATIONS } from "../helpers/constants";
 import {
-  getImageElement,
-  getVideoElement,
-  getRectElement,
-  getTextElement,
-  getCaptionElement,
-  getBackgroundElement,
+  addImageElement,  
+  addVideoElement,
+  addRectElement,
+  addTextElement,
+  addCaptionElement,
+  addBackgroundElement,
 } from "../components/elements";
 
 /**
@@ -286,8 +286,6 @@ export const useTwickCanvas = ({
               console.warn("Element not found");
               return;
             }
-            let canvasElement;
-
             // Add element based on type
             switch (element.type) {
               case "video":
@@ -300,55 +298,60 @@ export const useTwickCanvas = ({
                   (seekTime - (element?.startTime || 0)) *
                     (element?.props?.playbackRate || 1) +
                   (element?.props?.time || 0);
-                canvasElement = await getVideoElement({
+                await addVideoElement({
                   element,
                   index,
+                  canvas: twickCanvas,
                   canvasMetadata: canvasMetadataRef.current,
                   currentFrameEffect,
                   snapTime,
                 });
                 if (element.timelineType === "scene") {
-                  let bgElement = getBackgroundElement({
+                  await addBackgroundElement({
                     element,
                     index,
+                    canvas: twickCanvas,
                     canvasMetadata: canvasMetadataRef.current,
                   });
-                  twickCanvas.add(bgElement);
                 }
                 break;
               case "image":
-                canvasElement = await getImageElement({
+                await addImageElement({
                   element,
                   index,
+                  canvas: twickCanvas,
                   canvasMetadata: canvasMetadataRef.current,
                 });
                 if (element.timelineType === "scene") {
-                  let bgElement = getBackgroundElement({
+                  await addBackgroundElement({
                     element,
                     index,
+                    canvas: twickCanvas,
                     canvasMetadata: canvasMetadataRef.current,
                   });
-                  twickCanvas.add(bgElement);
                 }
                 break;
               case "rect":
-                canvasElement = getRectElement({
+                await addRectElement({
                   element,
                   index,
+                  canvas: twickCanvas,
                   canvasMetadata: canvasMetadataRef.current,
                 });
                 break;
               case "text":
-                canvasElement = getTextElement({
+                await addTextElement({
                   element,
                   index,
+                  canvas: twickCanvas,
                   canvasMetadata: canvasMetadataRef.current,
                 });
                 break;
               case "caption":
-                canvasElement = getCaptionElement({
+                await addCaptionElement({
                   element,
                   index,
+                  canvas: twickCanvas,
                   captionProps,
                   canvasMetadata: canvasMetadataRef.current,
                 });
@@ -356,17 +359,13 @@ export const useTwickCanvas = ({
               default:
                 break;
             }
-            if (canvasElement) {
-              twickCanvas.add(canvasElement);
-              twickCanvas.renderAll();
               elementMap.current[element.id] = element;
-              reorderElementsByZIndex(twickCanvas);
-            }
           } catch (error) {
             console.error(`Error adding element ${element.id}:`, error);
           }
         })
       );
+      reorderElementsByZIndex(twickCanvas);
     } catch (error) {
       console.error("Error in addElementsToCanvas:", error);
     }

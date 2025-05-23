@@ -1,8 +1,17 @@
 import { Dimensions } from "./types";
 
-// Get scaled dimensions while maintaining aspect ratio and ensuring even numbers
+/**
+ * Calculates the scaled dimensions of an element to fit inside a container
+ * based on the specified max dimensions.
+ *
+ * @param width - The original width of the element.
+ * @param height - The original height of the element.
+ * @param maxWidth - The maximum width of the container.
+ * @param maxHeight - The maximum height of the container.
+ * @returns An object containing the calculated width and height for the element.
+ */
 export function getScaledDimensions(
-    width: number,
+    width: number,  
     height: number,
     maxWidth: number,
     maxHeight: number

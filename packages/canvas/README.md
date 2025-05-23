@@ -2,6 +2,12 @@
 
 A React-based canvas library built with Fabric.js for video and image manipulation.
 
+## Requirements
+
+- Browser environment with Canvas and Video support
+- React 18 or higher
+- Fabric.js 6.6.2 or higher
+
 ## Installation
 
 ```bash
@@ -55,14 +61,14 @@ function CustomCanvas() {
 
 ```tsx
 import { 
-  getImageElement, 
-  getVideoElement, 
-  getTextElement, 
-  getCaptionElement 
+  addImageElement, 
+  addVideoElement, 
+  addTextElement, 
+  addCaptionElement 
 } from '@twick/canvas';
 
 // Add an image
-const imageElement = getImageElement({
+await addImageElement({
   src: 'image.jpg',
   x: 100,
   y: 100,
@@ -71,7 +77,7 @@ const imageElement = getImageElement({
 });
 
 // Add text
-const textElement = getTextElement({
+addTextElement({
   text: 'Hello World',
   x: 50,
   y: 50,
@@ -80,7 +86,7 @@ const textElement = getTextElement({
 });
 
 // Add caption
-const captionElement = getCaptionElement({
+addCaptionElement({
   text: 'Video Caption',
   x: 0,
   y: 0,
@@ -118,6 +124,15 @@ const captionElement = getCaptionElement({
 - `CanvasElement`: Canvas element interface
 - `CanvasElementProps`: Canvas element props interface
 - `CaptionProps`: Caption configuration props
+
+## Browser Support
+
+This library requires a browser environment with support for:
+- HTML5 Canvas
+- HTML5 Video
+- Modern JavaScript features (ES2020+)
+
+The library will throw appropriate errors if used in an unsupported environment.
 
 ## License
 

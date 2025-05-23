@@ -26,15 +26,16 @@
 ### Functions
 
 - [CanvasContainer](modules.md#canvascontainer)
+- [addBackgroundElement](modules.md#addbackgroundelement)
+- [addCaptionElement](modules.md#addcaptionelement)
+- [addImageElement](modules.md#addimageelement)
+- [addRectElement](modules.md#addrectelement)
+- [addTextElement](modules.md#addtextelement)
+- [addVideoElement](modules.md#addvideoelement)
 - [convertToCanvasPosition](modules.md#converttocanvasposition)
 - [convertToVideoPosition](modules.md#converttovideoposition)
 - [createCanvas](modules.md#createcanvas)
-- [getCaptionElement](modules.md#getcaptionelement)
 - [getCurrentFrameEffect](modules.md#getcurrentframeeffect)
-- [getImageElement](modules.md#getimageelement)
-- [getRectElement](modules.md#getrectelement)
-- [getTextElement](modules.md#gettextelement)
-- [getVideoElement](modules.md#getvideoelement)
 - [reorderElementsByZIndex](modules.md#reorderelementsbyzindex)
 - [useTwickCanvas](modules.md#usetwickcanvas)
 
@@ -48,14 +49,15 @@
 
 | Name | Type |
 | :------ | :------ |
-| `frame?` | \{ `radius?`: `number` ; `rotation?`: `number` ; `scaleX?`: `number` ; `scaleY?`: `number` ; `size?`: [`number`, `number`] ; `stroke?`: `string` ; `strokeWidth?`: `number` ; `x`: `number` ; `y`: `number`  } |
+| `backgoundColor?` | `string` |
+| `frame?` | \{ `lineWidth?`: `number` ; `radius?`: `number` ; `rotation?`: `number` ; `scaleX?`: `number` ; `scaleY?`: `number` ; `size?`: [`number`, `number`] ; `stroke?`: `string` ; `x`: `number` ; `y`: `number`  } |
+| `frame.lineWidth?` | `number` |
 | `frame.radius?` | `number` |
 | `frame.rotation?` | `number` |
 | `frame.scaleX?` | `number` |
 | `frame.scaleY?` | `number` |
 | `frame.size?` | [`number`, `number`] |
 | `frame.stroke?` | `string` |
-| `frame.strokeWidth?` | `number` |
 | `frame.x` | `number` |
 | `frame.y` | `number` |
 | `frameEffects?` | [`FrameEffect`](modules.md#frameeffect)[] |
@@ -64,11 +66,12 @@
 | `objectFit?` | ``"contain"`` \| ``"cover"`` \| ``"fill"`` \| ``"none"`` |
 | `props` | [`CanvasElementProps`](modules.md#canvaselementprops) |
 | `startTime?` | `number` |
+| `timelineType?` | `string` |
 | `type` | `string` |
 
 #### Defined in
 
-packages/canvas/src/types.ts:42
+[packages/canvas/src/types.ts:42](https://github.com/ncounterspecialist/twick/blob/fd733a8e18def806439dd44ca0b85270e8359a26/packages/canvas/src/types.ts#L42)
 
 ___
 
@@ -120,7 +123,7 @@ ___
 
 #### Defined in
 
-packages/canvas/src/types.ts:63
+[packages/canvas/src/types.ts:65](https://github.com/ncounterspecialist/twick/blob/fd733a8e18def806439dd44ca0b85270e8359a26/packages/canvas/src/types.ts#L65)
 
 ___
 
@@ -140,7 +143,7 @@ ___
 
 #### Defined in
 
-packages/canvas/src/types.ts:21
+[packages/canvas/src/types.ts:21](https://github.com/ncounterspecialist/twick/blob/fd733a8e18def806439dd44ca0b85270e8359a26/packages/canvas/src/types.ts#L21)
 
 ___
 
@@ -153,7 +156,7 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `backgroundColor?` | `string` |
-| `canvasContainer` | `HTMLCanvasElement` \| `string` |
+| `canvasRef` | `HTMLCanvasElement` \| `string` |
 | `canvasSize` | `Dimensions` |
 | `enableRetinaScaling?` | `boolean` |
 | `selectionBorderColor?` | `string` |
@@ -164,7 +167,7 @@ ___
 
 #### Defined in
 
-packages/canvas/src/types.ts:9
+[packages/canvas/src/types.ts:9](https://github.com/ncounterspecialist/twick/blob/fd733a8e18def806439dd44ca0b85270e8359a26/packages/canvas/src/types.ts#L9)
 
 ___
 
@@ -190,7 +193,7 @@ ___
 
 #### Defined in
 
-packages/canvas/src/types.ts:106
+[packages/canvas/src/types.ts:108](https://github.com/ncounterspecialist/twick/blob/fd733a8e18def806439dd44ca0b85270e8359a26/packages/canvas/src/types.ts#L108)
 
 ___
 
@@ -213,7 +216,7 @@ ___
 
 #### Defined in
 
-packages/canvas/src/types.ts:29
+[packages/canvas/src/types.ts:29](https://github.com/ncounterspecialist/twick/blob/fd733a8e18def806439dd44ca0b85270e8359a26/packages/canvas/src/types.ts#L29)
 
 ## Variables
 
@@ -234,7 +237,7 @@ packages/canvas/src/types.ts:29
 
 #### Defined in
 
-packages/canvas/src/helpers/constants.ts:27
+[packages/canvas/src/helpers/constants.ts:26](https://github.com/ncounterspecialist/twick/blob/fd733a8e18def806439dd44ca0b85270e8359a26/packages/canvas/src/helpers/constants.ts#L26)
 
 ___
 
@@ -244,7 +247,7 @@ ___
 
 #### Defined in
 
-packages/canvas/src/components/element-controls.tsx:3
+[packages/canvas/src/components/element-controls.tsx:3](https://github.com/ncounterspecialist/twick/blob/fd733a8e18def806439dd44ca0b85270e8359a26/packages/canvas/src/components/element-controls.tsx#L3)
 
 ___
 
@@ -254,7 +257,7 @@ ___
 
 #### Defined in
 
-packages/canvas/src/components/element-controls.tsx:24
+[packages/canvas/src/components/element-controls.tsx:24](https://github.com/ncounterspecialist/twick/blob/fd733a8e18def806439dd44ca0b85270e8359a26/packages/canvas/src/components/element-controls.tsx#L24)
 
 ## Functions
 
@@ -275,7 +278,178 @@ packages/canvas/src/components/element-controls.tsx:24
 
 #### Defined in
 
-packages/canvas/src/components/canvas-container.tsx:10
+[packages/canvas/src/components/canvas-container.tsx:10](https://github.com/ncounterspecialist/twick/blob/fd733a8e18def806439dd44ca0b85270e8359a26/packages/canvas/src/components/canvas-container.tsx#L10)
+
+___
+
+### addBackgroundElement
+
+▸ **addBackgroundElement**(`«destructured»`): `Rect`\<\{ `fill`: `string` ; `hasBorders`: ``false`` = false; `hasControls`: ``false`` = false; `height`: `number` = canvasMetadata.height; `left`: `number` ; `originX`: ``"center"`` = "center"; `originY`: ``"center"`` = "center"; `selectable`: ``false`` = false; `top`: `number` ; `width`: `number` = canvasMetadata.width }, `SerializedRectProps`, `ObjectEvents`\>
+
+Add a background element to the canvas.
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `«destructured»` | `Object` |
+| › `canvas` | `Canvas` |
+| › `canvasMetadata` | [`CanvasMetadata`](modules.md#canvasmetadata) |
+| › `element` | [`CanvasElement`](modules.md#canvaselement) |
+| › `index` | `number` |
+
+#### Returns
+
+`Rect`\<\{ `fill`: `string` ; `hasBorders`: ``false`` = false; `hasControls`: ``false`` = false; `height`: `number` = canvasMetadata.height; `left`: `number` ; `originX`: ``"center"`` = "center"; `originY`: ``"center"`` = "center"; `selectable`: ``false`` = false; `top`: `number` ; `width`: `number` = canvasMetadata.width }, `SerializedRectProps`, `ObjectEvents`\>
+
+A Fabric.js Rect object configured with the specified properties.
+
+#### Defined in
+
+[packages/canvas/src/components/elements.tsx:535](https://github.com/ncounterspecialist/twick/blob/fd733a8e18def806439dd44ca0b85270e8359a26/packages/canvas/src/components/elements.tsx#L535)
+
+___
+
+### addCaptionElement
+
+▸ **addCaptionElement**(`params`): `FabricText`\<\{ `angle`: `number` ; `fill`: `string` ; `fontFamily`: `string` ; `fontSize`: `number` ; `fontWeight`: `number` = DEFAULT\_CAPTION\_PROPS.fontWeight; `left`: `number` = x; `originX`: ``"center"`` = "center"; `originY`: ``"center"`` = "center"; `shadow`: `Shadow` ; `stroke`: `string` ; `strokeWidth`: `number` ; `top`: `number` = y }, `SerializedTextProps`, `ObjectEvents`\>
+
+Add a caption element for the canvas based on provided props.
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `params` | `Object` | Parameters for creating the caption. |
+| `params.canvas` | `Canvas` | The Fabric.js canvas instance. |
+| `params.canvasMetadata` | [`CanvasMetadata`](modules.md#canvasmetadata) | Metadata about the canvas, including scale and dimensions. |
+| `params.captionProps` | [`CaptionProps`](modules.md#captionprops) | Default and user-defined caption properties. |
+| `params.element` | [`CanvasElement`](modules.md#canvaselement) | The canvas element configuration. |
+| `params.index` | `number` | The z-index of the element. |
+
+#### Returns
+
+`FabricText`\<\{ `angle`: `number` ; `fill`: `string` ; `fontFamily`: `string` ; `fontSize`: `number` ; `fontWeight`: `number` = DEFAULT\_CAPTION\_PROPS.fontWeight; `left`: `number` = x; `originX`: ``"center"`` = "center"; `originY`: ``"center"`` = "center"; `shadow`: `Shadow` ; `stroke`: `string` ; `strokeWidth`: `number` ; `top`: `number` = y }, `SerializedTextProps`, `ObjectEvents`\>
+
+The configured Fabric.js caption object.
+
+#### Defined in
+
+[packages/canvas/src/components/elements.tsx:101](https://github.com/ncounterspecialist/twick/blob/fd733a8e18def806439dd44ca0b85270e8359a26/packages/canvas/src/components/elements.tsx#L101)
+
+___
+
+### addImageElement
+
+▸ **addImageElement**(`«destructured»`): `Promise`\<`undefined` \| `FabricImage`\<`Partial`\<`ImageProps`\>, `SerializedImageProps`, `ObjectEvents`\> \| `Group`\>
+
+Add an image element into a Fabric.js image object and optionally groups it with a frame.
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `«destructured»` | `Object` |
+| › `canvas` | `Canvas` |
+| › `canvasMetadata` | [`CanvasMetadata`](modules.md#canvasmetadata) |
+| › `element` | [`CanvasElement`](modules.md#canvaselement) |
+| › `index` | `number` |
+
+#### Returns
+
+`Promise`\<`undefined` \| `FabricImage`\<`Partial`\<`ImageProps`\>, `SerializedImageProps`, `ObjectEvents`\> \| `Group`\>
+
+A Fabric.js image object or a group with an image and frame.
+
+#### Defined in
+
+[packages/canvas/src/components/elements.tsx:264](https://github.com/ncounterspecialist/twick/blob/fd733a8e18def806439dd44ca0b85270e8359a26/packages/canvas/src/components/elements.tsx#L264)
+
+___
+
+### addRectElement
+
+▸ **addRectElement**(`«destructured»`): `Rect`\<\{ `angle`: `number` ; `fill`: `string` ; `height`: `number` ; `left`: `number` = x; `opacity`: `number` ; `originX`: ``"center"`` = "center"; `originY`: ``"center"`` = "center"; `rx`: `number` ; `ry`: `number` ; `stroke`: `string` ; `strokeWidth`: `number` ; `top`: `number` = y; `width`: `number`  }, `SerializedRectProps`, `ObjectEvents`\>
+
+Add a rectangular Fabric.js element based on the provided canvas element data.
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `«destructured»` | `Object` |
+| › `canvas` | `Canvas` |
+| › `canvasMetadata` | [`CanvasMetadata`](modules.md#canvasmetadata) |
+| › `element` | [`CanvasElement`](modules.md#canvaselement) |
+| › `index` | `number` |
+
+#### Returns
+
+`Rect`\<\{ `angle`: `number` ; `fill`: `string` ; `height`: `number` ; `left`: `number` = x; `opacity`: `number` ; `originX`: ``"center"`` = "center"; `originY`: ``"center"`` = "center"; `rx`: `number` ; `ry`: `number` ; `stroke`: `string` ; `strokeWidth`: `number` ; `top`: `number` = y; `width`: `number`  }, `SerializedRectProps`, `ObjectEvents`\>
+
+A Fabric.js Rect object configured with the specified properties.
+
+#### Defined in
+
+[packages/canvas/src/components/elements.tsx:478](https://github.com/ncounterspecialist/twick/blob/fd733a8e18def806439dd44ca0b85270e8359a26/packages/canvas/src/components/elements.tsx#L478)
+
+___
+
+### addTextElement
+
+▸ **addTextElement**(`params`): `FabricText`\<\{ `angle`: `number` ; `fill`: `string` ; `fontFamily`: `string` ; `fontSize`: `number` ; `fontStyle`: `string` ; `fontWeight`: `string` ; `left`: `number` = x; `originX`: ``"center"`` = "center"; `originY`: ``"center"`` = "center"; `shadow`: `undefined` \| `Shadow` ; `stroke`: `string` ; `strokeWidth`: `number` ; `top`: `number` = y }, `SerializedTextProps`, `ObjectEvents`\>
+
+Add a text element for the canvas.
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `params` | `Object` | The parameters for creating the text element. |
+| `params.canvas` | `Canvas` | - |
+| `params.canvasMetadata` | [`CanvasMetadata`](modules.md#canvasmetadata) | Metadata about the canvas, including scale and dimensions. |
+| `params.element` | [`CanvasElement`](modules.md#canvaselement) | The canvas element configuration. |
+| `params.index` | `number` | The z-index of the element. |
+
+#### Returns
+
+`FabricText`\<\{ `angle`: `number` ; `fill`: `string` ; `fontFamily`: `string` ; `fontSize`: `number` ; `fontStyle`: `string` ; `fontWeight`: `string` ; `left`: `number` = x; `originX`: ``"center"`` = "center"; `originY`: ``"center"`` = "center"; `shadow`: `undefined` \| `Shadow` ; `stroke`: `string` ; `strokeWidth`: `number` ; `top`: `number` = y }, `SerializedTextProps`, `ObjectEvents`\>
+
+The configured Fabric.js text object.
+
+#### Defined in
+
+[packages/canvas/src/components/elements.tsx:20](https://github.com/ncounterspecialist/twick/blob/fd733a8e18def806439dd44ca0b85270e8359a26/packages/canvas/src/components/elements.tsx#L20)
+
+___
+
+### addVideoElement
+
+▸ **addVideoElement**(`params`): `Promise`\<`undefined` \| `FabricImage`\<`Partial`\<`ImageProps`\>, `SerializedImageProps`, `ObjectEvents`\> \| `Group`\>
+
+Add a video frame as an image and returns it as a canvas element.
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `params` | `Object` | Parameters for creating the video element. |
+| `params.canvas` | `Canvas` | The Fabric.js canvas instance. |
+| `params.canvasMetadata` | [`CanvasMetadata`](modules.md#canvasmetadata) | Metadata about the canvas, including scale and dimensions. |
+| `params.currentFrameEffect?` | [`FrameEffect`](modules.md#frameeffect) | Optional frame effect to apply to the video. |
+| `params.element` | [`CanvasElement`](modules.md#canvaselement) | The canvas element configuration. |
+| `params.index` | `number` | The z-index of the element. |
+| `params.snapTime` | `number` | - |
+
+#### Returns
+
+`Promise`\<`undefined` \| `FabricImage`\<`Partial`\<`ImageProps`\>, `SerializedImageProps`, `ObjectEvents`\> \| `Group`\>
+
+A Fabric.js image or group object for the video frame.
+
+#### Defined in
+
+[packages/canvas/src/components/elements.tsx:185](https://github.com/ncounterspecialist/twick/blob/fd733a8e18def806439dd44ca0b85270e8359a26/packages/canvas/src/components/elements.tsx#L185)
 
 ___
 
@@ -301,7 +475,7 @@ The corresponding position in canvas space.
 
 #### Defined in
 
-packages/canvas/src/helpers/canvas.util.ts:111
+[packages/canvas/src/helpers/canvas.util.ts:118](https://github.com/ncounterspecialist/twick/blob/fd733a8e18def806439dd44ca0b85270e8359a26/packages/canvas/src/helpers/canvas.util.ts#L118)
 
 ___
 
@@ -328,7 +502,7 @@ The corresponding position in video space.
 
 #### Defined in
 
-packages/canvas/src/helpers/canvas.util.ts:131
+[packages/canvas/src/helpers/canvas.util.ts:138](https://github.com/ncounterspecialist/twick/blob/fd733a8e18def806439dd44ca0b85270e8359a26/packages/canvas/src/helpers/canvas.util.ts#L138)
 
 ___
 
@@ -357,35 +531,7 @@ An object containing the initialized canvas and its metadata.
 
 #### Defined in
 
-packages/canvas/src/helpers/canvas.util.ts:21
-
-___
-
-### getCaptionElement
-
-▸ **getCaptionElement**(`params`): `FabricText`\<\{ `angle`: `number` ; `fill`: `string` ; `fontFamily`: `string` ; `fontSize`: `number` ; `fontWeight`: `number` = DEFAULT\_CAPTION\_PROPS.fontWeight; `left`: `number` = x; `originX`: ``"center"`` = "center"; `originY`: ``"center"`` = "center"; `shadow`: `Shadow` ; `stroke`: `string` ; `strokeWidth`: `number` ; `top`: `number` = y }, `SerializedTextProps`, `ObjectEvents`\>
-
-Creates a caption element for the canvas based on provided props.
-
-#### Parameters
-
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `params` | `Object` | Parameters for creating the caption. |
-| `params.canvasMetadata` | [`CanvasMetadata`](modules.md#canvasmetadata) | Metadata about the canvas, including scale and dimensions. |
-| `params.captionProps` | [`CaptionProps`](modules.md#captionprops) | Default and user-defined caption properties. |
-| `params.element` | [`CanvasElement`](modules.md#canvaselement) | The canvas element configuration. |
-| `params.index` | `number` | The z-index of the element. |
-
-#### Returns
-
-`FabricText`\<\{ `angle`: `number` ; `fill`: `string` ; `fontFamily`: `string` ; `fontSize`: `number` ; `fontWeight`: `number` = DEFAULT\_CAPTION\_PROPS.fontWeight; `left`: `number` = x; `originX`: ``"center"`` = "center"; `originY`: ``"center"`` = "center"; `shadow`: `Shadow` ; `stroke`: `string` ; `strokeWidth`: `number` ; `top`: `number` = y }, `SerializedTextProps`, `ObjectEvents`\>
-
-The configured Fabric.js caption object.
-
-#### Defined in
-
-packages/canvas/src/components/elements.tsx:97
+[packages/canvas/src/helpers/canvas.util.ts:22](https://github.com/ncounterspecialist/twick/blob/fd733a8e18def806439dd44ca0b85270e8359a26/packages/canvas/src/helpers/canvas.util.ts#L22)
 
 ___
 
@@ -410,117 +556,7 @@ The current frame effect active at the given seek time, if any.
 
 #### Defined in
 
-packages/canvas/src/helpers/canvas.util.ts:150
-
-___
-
-### getImageElement
-
-▸ **getImageElement**(`«destructured»`): `Promise`\<`undefined` \| `FabricImage`\<`Partial`\<`ImageProps`\>, `SerializedImageProps`, `ObjectEvents`\> \| `Group`\>
-
-Converts an image element into a Fabric.js image object and optionally groups it with a frame.
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `«destructured»` | `Object` |
-| › `canvasMetadata` | [`CanvasMetadata`](modules.md#canvasmetadata) |
-| › `element` | [`CanvasElement`](modules.md#canvaselement) |
-| › `index` | `number` |
-
-#### Returns
-
-`Promise`\<`undefined` \| `FabricImage`\<`Partial`\<`ImageProps`\>, `SerializedImageProps`, `ObjectEvents`\> \| `Group`\>
-
-A Fabric.js image object or a group with an image and frame.
-
-#### Defined in
-
-packages/canvas/src/components/elements.tsx:251
-
-___
-
-### getRectElement
-
-▸ **getRectElement**(`«destructured»`): `Rect`\<\{ `angle`: `number` ; `fill`: `string` ; `height`: `number` ; `left`: `number` = x; `opacity`: `number` ; `originX`: ``"center"`` = "center"; `originY`: ``"center"`` = "center"; `rx`: `number` ; `ry`: `number` ; `stroke`: `string` ; `strokeWidth`: `number` ; `top`: `number` = y; `width`: `number`  }, `SerializedRectProps`, `ObjectEvents`\>
-
-Creates a rectangular Fabric.js element based on the provided canvas element data.
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `«destructured»` | `Object` |
-| › `canvasMetadata` | [`CanvasMetadata`](modules.md#canvasmetadata) |
-| › `element` | [`CanvasElement`](modules.md#canvaselement) |
-| › `index` | `number` |
-
-#### Returns
-
-`Rect`\<\{ `angle`: `number` ; `fill`: `string` ; `height`: `number` ; `left`: `number` = x; `opacity`: `number` ; `originX`: ``"center"`` = "center"; `originY`: ``"center"`` = "center"; `rx`: `number` ; `ry`: `number` ; `stroke`: `string` ; `strokeWidth`: `number` ; `top`: `number` = y; `width`: `number`  }, `SerializedRectProps`, `ObjectEvents`\>
-
-A Fabric.js Rect object configured with the specified properties.
-
-#### Defined in
-
-packages/canvas/src/components/elements.tsx:459
-
-___
-
-### getTextElement
-
-▸ **getTextElement**(`params`): `FabricText`\<\{ `angle`: `number` ; `fill`: `string` ; `fontFamily`: `string` ; `fontSize`: `number` ; `fontStyle`: `string` ; `fontWeight`: `string` ; `left`: `number` = x; `originX`: ``"center"`` = "center"; `originY`: ``"center"`` = "center"; `shadow`: `undefined` \| `Shadow` ; `stroke`: `string` ; `strokeWidth`: `number` ; `top`: `number` = y }, `SerializedTextProps`, `ObjectEvents`\>
-
-Creates a text element for the canvas.
-
-#### Parameters
-
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `params` | `Object` | The parameters for creating the text element. |
-| `params.canvasMetadata` | [`CanvasMetadata`](modules.md#canvasmetadata) | Metadata about the canvas, including scale and dimensions. |
-| `params.element` | [`CanvasElement`](modules.md#canvaselement) | The canvas element configuration. |
-| `params.index` | `number` | The z-index of the element. |
-
-#### Returns
-
-`FabricText`\<\{ `angle`: `number` ; `fill`: `string` ; `fontFamily`: `string` ; `fontSize`: `number` ; `fontStyle`: `string` ; `fontWeight`: `string` ; `left`: `number` = x; `originX`: ``"center"`` = "center"; `originY`: ``"center"`` = "center"; `shadow`: `undefined` \| `Shadow` ; `stroke`: `string` ; `strokeWidth`: `number` ; `top`: `number` = y }, `SerializedTextProps`, `ObjectEvents`\>
-
-The configured Fabric.js text object.
-
-#### Defined in
-
-packages/canvas/src/components/elements.tsx:20
-
-___
-
-### getVideoElement
-
-▸ **getVideoElement**(`params`): `Promise`\<`undefined` \| `FabricImage`\<`Partial`\<`ImageProps`\>, `SerializedImageProps`, `ObjectEvents`\> \| `Group`\>
-
-Loads a video frame as an image and returns it as a canvas element.
-
-#### Parameters
-
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `params` | `Object` | Parameters for creating the video element. |
-| `params.canvasMetadata` | [`CanvasMetadata`](modules.md#canvasmetadata) | Metadata about the canvas, including scale and dimensions. |
-| `params.currentFrameEffect?` | [`FrameEffect`](modules.md#frameeffect) | Optional frame effect to apply to the video. |
-| `params.element` | [`CanvasElement`](modules.md#canvaselement) | The canvas element configuration. |
-| `params.index` | `number` | The z-index of the element. |
-| `params.snapTime` | `number` | - |
-
-#### Returns
-
-`Promise`\<`undefined` \| `FabricImage`\<`Partial`\<`ImageProps`\>, `SerializedImageProps`, `ObjectEvents`\> \| `Group`\>
-
-A Fabric.js image or group object for the video frame.
-
-#### Defined in
-
-packages/canvas/src/components/elements.tsx:177
+[packages/canvas/src/helpers/canvas.util.ts:157](https://github.com/ncounterspecialist/twick/blob/fd733a8e18def806439dd44ca0b85270e8359a26/packages/canvas/src/helpers/canvas.util.ts#L157)
 
 ___
 
@@ -542,7 +578,7 @@ Reorders elements on the canvas based on their zIndex property.
 
 #### Defined in
 
-packages/canvas/src/helpers/canvas.util.ts:79
+[packages/canvas/src/helpers/canvas.util.ts:83](https://github.com/ncounterspecialist/twick/blob/fd733a8e18def806439dd44ca0b85270e8359a26/packages/canvas/src/helpers/canvas.util.ts#L83)
 
 ___
 
@@ -569,10 +605,10 @@ Canvas-related functions and state.
 | Name | Type |
 | :------ | :------ |
 | `addElementsToCanvas` | (`options`: \{ `captionProps?`: `any` ; `cleanAndAdd?`: `boolean` = false; `elements`: [`CanvasElement`](modules.md#canvaselement)[] ; `seekTime?`: `number` = 0 }) => `Promise`\<`void`\> |
-| `intiateCanvas` | (`props`: [`CanvasProps`](modules.md#canvasprops)) => `void` |
+| `buildCanvas` | (`props`: [`CanvasProps`](modules.md#canvasprops)) => `void` |
 | `onVideoSizeChange` | (`videoSize`: `Dimensions`) => `void` |
 | `twickCanvas` | ``null`` \| `Canvas` |
 
 #### Defined in
 
-packages/canvas/src/hooks/use-twick-canvas.ts:28
+[packages/canvas/src/hooks/use-twick-canvas.ts:29](https://github.com/ncounterspecialist/twick/blob/fd733a8e18def806439dd44ca0b85270e8359a26/packages/canvas/src/hooks/use-twick-canvas.ts#L29)

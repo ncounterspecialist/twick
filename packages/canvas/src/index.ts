@@ -4,12 +4,12 @@ export {
   type CanvasContainerProps,
 } from "./components/canvas-container";
 export {
-  getImageElement,
-  getVideoElement,
-  getRectElement,
-  getTextElement,
-  getCaptionElement,
-  getBackgroundElement,
+  addImageElement,
+  addVideoElement,
+  addRectElement,
+  addTextElement,
+  addCaptionElement,
+  addBackgroundElement,
 } from "./components/elements";
 export { disabledControl, rotateControl } from "./components/element-controls";
 

@@ -1,3 +1,47 @@
+# Twick Monorepo
+
+This repository contains a collection of packages for video and image manipulation, built with modern web technologies.
+
+## Packages
+
+- **@twick/media-utils**: Core utilities for media handling and manipulation
+- **@twick/canvas**: React-based canvas library for video and image editing
+
+## Getting Started
+
+1. Clone the repository:
+```bash
+git clone https://github.com/ncounterspecialist/twick.git
+cd twick
+```
+
+2. Install dependencies:
+```bash
+npm install
+```
+
+3. Build all packages:
+```bash
+npm run build
+```
+
+4. Start development:
+```bash
+npm run dev
+```
+
+## Development
+
+Each package can be developed independently:
+
+```bash
+# Build a specific package
+npm run build --workspace=@twick/canvas
+
+# Start development mode for a package
+npm run dev --workspace=@twick/canvas
+```
+
 ## 🛡 License
 
 This project is licensed under the **Apache 2.0 License with additional terms**.

@@ -1,4 +1,4 @@
-import { FabricText, Group, Image, Rect, Shadow } from "fabric";
+import { Canvas as FabricCanvas, FabricText, Group, Image, Rect, Shadow } from "fabric";
 import { convertToCanvasPosition } from "../helpers/canvas.util";
 import { CanvasElement, CanvasMetadata, CaptionProps, FrameEffect } from "../types";
 import {
@@ -9,7 +9,7 @@ import { disabledControl, rotateControl } from "./element-controls";
 import { getObjectFitSize, getThumbnail } from "@twick/media-utils";
 
 /**
- * Creates a text element for the canvas.
+ * Add a text element for the canvas.
  *
  * @param {Object} params - The parameters for creating the text element.
  * @param {CanvasElement} params.element - The canvas element configuration.
@@ -17,13 +17,15 @@ import { getObjectFitSize, getThumbnail } from "@twick/media-utils";
  * @param {CanvasMetadata} params.canvasMetadata - Metadata about the canvas, including scale and dimensions.
  * @returns {FabricText} The configured Fabric.js text object.
  */
-export const getTextElement = ({
+export const addTextElement = ({
   element,
   index,
+  canvas,
   canvasMetadata,
 }: {
   element: CanvasElement;
   index: number;
+  canvas: FabricCanvas;
   canvasMetadata: CanvasMetadata;
 }) => {
   const { x, y } = convertToCanvasPosition(
@@ -81,27 +83,31 @@ export const getTextElement = ({
   text.controls.tr = disabledControl;
   text.controls.mtr = rotateControl;
 
+  canvas.add(text);
   return text;
 };
 
 /**
- * Creates a caption element for the canvas based on provided props.
+ * Add a caption element for the canvas based on provided props.
  *
  * @param {Object} params - Parameters for creating the caption.
  * @param {CanvasElement} params.element - The canvas element configuration.
+ * @param {FabricCanvas} params.canvas - The Fabric.js canvas instance.
  * @param {number} params.index - The z-index of the element.
  * @param {CaptionProps} params.captionProps - Default and user-defined caption properties.
  * @param {CanvasMetadata} params.canvasMetadata - Metadata about the canvas, including scale and dimensions.
  * @returns {FabricText} The configured Fabric.js caption object.
  */
-export const getCaptionElement = ({
+export const addCaptionElement = ({
   element,
   index,
+  canvas,
   captionProps,
   canvasMetadata,
 }: {
   element: CanvasElement;
   index: number;
+  canvas: FabricCanvas;
   captionProps: CaptionProps;
   canvasMetadata: CanvasMetadata;
 }) => {
@@ -160,29 +166,33 @@ export const getCaptionElement = ({
   caption.controls.tr = disabledControl;
   caption.controls.mtr = disabledControl;
 
+  canvas.add(caption);
   return caption;
 };
 
 /**
- * Loads a video frame as an image and returns it as a canvas element.
+ * Add a video frame as an image and returns it as a canvas element.
  *
  * @param {Object} params - Parameters for creating the video element.
  * @param {CanvasElement} params.element - The canvas element configuration.
+ * @param {FabricCanvas} params.canvas - The Fabric.js canvas instance.
  * @param {number} params.index - The z-index of the element.
  * @param {number} params.seekTime - The seek time for extracting the video frame.
  * @param {CanvasMetadata} params.canvasMetadata - Metadata about the canvas, including scale and dimensions.
  * @param {FrameEffect} [params.currentFrameEffect] - Optional frame effect to apply to the video.
  * @returns {Promise<Image | Group | undefined>} A Fabric.js image or group object for the video frame.
  */
-export const getVideoElement = async ({
+export const addVideoElement = async ({
   element,
   index,
+  canvas,
   snapTime,
   canvasMetadata,
   currentFrameEffect,
 }: {
   element: CanvasElement;
   index: number;
+  canvas: FabricCanvas;
   snapTime: number;
   canvasMetadata: CanvasMetadata;
   currentFrameEffect?: FrameEffect;
@@ -225,14 +235,16 @@ export const getVideoElement = async ({
     });
 
     if (element.frame) {
-      return getMediaGroup({
+      return addMediaGroup({
         element,
         img,
         index,
+        canvas,
         canvasMetadata,
         currentFrameEffect,
       });
     } else {
+      canvas.add(img);
       return img;
     }
   } catch (error) {
@@ -241,20 +253,23 @@ export const getVideoElement = async ({
 };
 
 /**
- * Converts an image element into a Fabric.js image object and optionally groups it with a frame.
+ * Add an image element into a Fabric.js image object and optionally groups it with a frame.
  * 
  * @param element - The image element containing properties like source and frame information.
  * @param index - The z-index for ordering the element on the canvas.
+ * @param canvas - The Fabric.js canvas instance.
  * @param canvasMetadata - Metadata of the canvas, including dimensions and scale factors.
  * @returns A Fabric.js image object or a group with an image and frame.
  */
-export const getImageElement = async ({
+export const addImageElement = async ({
   element,
   index,
+  canvas,
   canvasMetadata,
 }: {
   element: CanvasElement;
   index: number;
+  canvas: FabricCanvas;
   canvasMetadata: CanvasMetadata;
 }) => {
   try {
@@ -288,13 +303,15 @@ export const getImageElement = async ({
 
     // Return the group if a frame is defined, otherwise return the image
     if (element.frame) {
-      return getMediaGroup({
+      return addMediaGroup({
         element,
         img,
         index,
+        canvas,
         canvasMetadata,
       });
     } else {
+      canvas.add(img);
       return img;
     }
   } catch (error) {
@@ -303,7 +320,7 @@ export const getImageElement = async ({
 };
 
 /**
- * Creates a Fabric.js group combining an image and its associated frame, 
+ * Add a Fabric.js group combining an image and its associated frame, 
  * applying styling, positioning, and scaling based on the given properties.
  *
  * @param element - The image element containing properties like frame, position, and styling.
@@ -313,16 +330,18 @@ export const getImageElement = async ({
  * @param currentFrameEffect - Optional current frame effect to override default frame properties.
  * @returns A Fabric.js group containing the image and frame with configured properties.
  */
-export const getMediaGroup = ({
+export const addMediaGroup = ({
   element,
   img,
   index,
+  canvas,
   canvasMetadata,
   currentFrameEffect,
 }: {
   element: CanvasElement;
   img: Image;
   index: number;
+  canvas: FabricCanvas;
   canvasMetadata: CanvasMetadata;
   currentFrameEffect?: FrameEffect;
 }) => {
@@ -442,25 +461,29 @@ export const getMediaGroup = ({
     group.set("zIndex", index);
     group.set("id", element.id);
 
+    canvas.add(group);
     return group;
   }
 };
 
 /**
- * Creates a rectangular Fabric.js element based on the provided canvas element data.
+ * Add a rectangular Fabric.js element based on the provided canvas element data.
  *
  * @param element - The canvas element containing properties for the rectangle.
  * @param index - The zIndex value used to determine the rendering order.
+ * @param canvas - The Fabric.js canvas instance.
  * @param canvasMetadata - Metadata containing canvas scaling and dimensions.
  * @returns A Fabric.js Rect object configured with the specified properties.
  */
-export const getRectElement = ({
+export const addRectElement = ({
   element,
   index,
+  canvas,
   canvasMetadata,
 }: {
   element: CanvasElement;
   index: number;
+  canvas: FabricCanvas;
   canvasMetadata: CanvasMetadata;
 }) => {
   // Convert element's position to canvas coordinates
@@ -495,17 +518,29 @@ export const getRectElement = ({
   // Set custom control for rotation
   rect.controls.mtr = rotateControl;
 
+  canvas.add(rect);
   return rect;
 };
 
 
-export const getBackgroundElement = ({
+/**
+ * Add a background element to the canvas.
+ *
+ * @param element - The canvas element containing properties for the background.
+ * @param index - The zIndex value used to determine the rendering order.
+ * @param canvas - The Fabric.js canvas instance.
+ * @param canvasMetadata - Metadata containing canvas scaling and dimensions. 
+ * @returns A Fabric.js Rect object configured with the specified properties.
+ */
+export const addBackgroundElement = ({
   element,
   index,
+  canvas,
   canvasMetadata,
 }: {
   element: CanvasElement;
   index: number;
+  canvas: FabricCanvas;
   canvasMetadata: CanvasMetadata;
 }) => {
   const bgRect  = new Rect({
@@ -532,6 +567,7 @@ export const getBackgroundElement = ({
   bgRect.controls.mtr = disabledControl;
   bgRect.set("zIndex", index-0.5);
 
+  canvas.add(bgRect);
   return bgRect;
 }
 
