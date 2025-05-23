@@ -1,0 +1,47 @@
+# Node modules
+**/node_modules/
+
+# Build artifacts
+**/dist/
+**/build/
+
+# Turbo & Docusaurus
+**/.turbo/
+**/.docusaurus
+
+# Misc files
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Local Netlify folder
+.netlify
+
+# IDE specific files
+.idea
+.vscode
+*.swp
+*.swo
+
+# TypeScript
+*.tsbuildinfo
+
+# Cache
+.cache
+.temp
+
+# Tarballs
+**/*.tgz
+
+
+# Documentation
+packages/*/docs/
+!packages/documentation/docs/

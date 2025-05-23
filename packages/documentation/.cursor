@@ -1,0 +1,48 @@
+{
+  "autocomplete": {
+    "enabled": true,
+    "language": {
+      "markdown": {
+        "enabled": true,
+        "snippets": true,
+        "documentation": true
+      },
+      "typescript": {
+        "enabled": true,
+        "snippets": true,
+        "documentation": true
+      },
+      "javascript": {
+        "enabled": true,
+        "snippets": true,
+        "documentation": true
+      }
+    },
+    "snippets": {
+      "enabled": true,
+      "custom": {
+        "mdx": {
+          "enabled": true,
+          "snippets": true
+        }
+      }
+    },
+    "documentation": {
+      "enabled": true,
+      "format": "markdown"
+    }
+  },
+  "formatting": {
+    "enabled": true,
+    "markdown": {
+      "enabled": true,
+      "wrap": 100
+    }
+  },
+  "linting": {
+    "enabled": true,
+    "markdown": {
+      "enabled": true
+    }
+  }
+} 

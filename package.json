@@ -1,0 +1,33 @@
+{
+  "name": "twick",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "build": "turbo run build",
+    "build:media-utils": "turbo run build --filter=@twick/media-utils",
+    "build:canvas": "turbo run build --filter=@twick/canvas",
+    "build:documentation": "turbo run build --filter=@twick/documentation",
+    "dev": "turbo run dev",
+    "dev:media-utils": "turbo run dev --filter=@twick/media-utils",
+    "dev:canvas": "turbo run dev --filter=@twick/canvas",
+    "dev:documentation": "turbo run dev --filter=@twick/documentation",
+    "lint": "turbo run lint",
+    "lint:fix": "turbo run lint --fix",
+    "test": "turbo run test",
+    "clean": "rimraf node_modules .turbo",
+    "clean:all": "turbo run clean --parallel",
+    "changeset": "changeset",
+    "version": "changeset version",
+    "release": "turbo run build && changeset publish"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.27.1",
+    "turbo": "^1.12.4",
+    "typescript": "^5.4.2",
+    "eslint": "^8.57.0",
+    "@typescript-eslint/parser": "^7.1.0",
+    "@typescript-eslint/eslint-plugin": "^7.1.0",
+    "rimraf": "^5.0.5"
+  },
+  "packageManager": "pnpm@8.15.4"
+}

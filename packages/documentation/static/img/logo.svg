@@ -1,0 +1,10 @@
+<svg width="200" height="60" viewBox="0 0 200 60" xmlns="http://www.w3.org/2000/svg" fill="none">
+  <!-- Play icon inside video frame -->
+  <rect x="0" y="5" width="50" height="50" rx="10" fill="#8C52FF"/>
+  <polygon points="18,20 36,30 18,40" fill="white"/>
+
+  <!-- TWICK text -->
+  <text x="60" y="40" font-family="Arial, Helvetica, sans-serif" font-size="32" fill="#8C52FF" font-weight="bold">
+    TWICK
+  </text>
+</svg>
