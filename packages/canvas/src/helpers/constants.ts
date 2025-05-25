@@ -31,3 +31,12 @@ export const CANVAS_OPERATIONS = {
   ITEM_GROUPED: "ITEM_GROUPED",
   ITEM_UNGROUPED: "ITEM_UNGROUPED",
 }
+
+export const ELEMENT_TYPES = {
+  TEXT: "text",
+  CAPTION: "caption",
+  IMAGE: "image",
+  VIDEO: "video",
+  RECT: "rect",
+  BACKGROUND_COLOR: "backgroundColor",
+}

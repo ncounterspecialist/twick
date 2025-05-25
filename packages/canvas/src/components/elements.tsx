@@ -524,7 +524,7 @@ export const addRectElement = ({
 
 
 /**
- * Add a background element to the canvas.
+ * Add a background color to the canvas.
  *
  * @param element - The canvas element containing properties for the background.
  * @param index - The zIndex value used to determine the rendering order.
@@ -532,7 +532,7 @@ export const addRectElement = ({
  * @param canvasMetadata - Metadata containing canvas scaling and dimensions. 
  * @returns A Fabric.js Rect object configured with the specified properties.
  */
-export const addBackgroundElement = ({
+export const addBackgroundColor = ({
   element,
   index,
   canvas,

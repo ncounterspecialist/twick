@@ -64,35 +64,120 @@ import {
   addImageElement, 
   addVideoElement, 
   addTextElement, 
-  addCaptionElement 
+  addCaptionElement,
+  addRectElement,
+  addBackgroundElement
 } from '@twick/canvas';
 
 // Add an image
-await addImageElement({
-  src: 'image.jpg',
-  x: 100,
-  y: 100,
-  width: 200,
-  height: 150
+const imageElement = await addImageElement({
+  element: {
+    id: 'image-1',
+    name: 'My Image',
+    type: 'image',
+    startTime: 0,
+    endTime: 10,
+    props: {
+      src: 'image.jpg',
+      x: 100,
+      y: 100,
+      width: 200,
+      height: 150,
+      rotation: 0,
+      scaleX: 1,
+      scaleY: 1
+    },
+    frame: {
+      size: [200, 150],
+      rotation: 0,
+      stroke: '#ffffff',
+      lineWidth: 1,
+      x: 0,
+      y: 0
+    }
+  },
+  index: 1,
+  canvas: fabricCanvas,
+  canvasMetadata: {
+    width: 800,
+    height: 600,
+    scaleX: 1,
+    scaleY: 1,
+    aspectRatio: 1.33
+  }
 });
 
 // Add text
-addTextElement({
-  text: 'Hello World',
-  x: 50,
-  y: 50,
-  fontSize: 24,
-  fill: 'white'
+const textElement = await addTextElement({
+  element: {
+    id: 'text-1',
+    name: 'My Text',
+    type: 'text',
+    startTime: 0,
+    endTime: 10,
+    props: {
+      text: 'Hello World',
+      x: 50,
+      y: 50,
+      fontSize: 24,
+      fill: 'white',
+      fontFamily: 'Arial',
+      rotation: 0,
+      shadowColor: '#000000',
+      shadowBlur: 2,
+      shadowOffset: [1, 1]
+    }
+  },
+  index: 2,
+  canvas: fabricCanvas,
+  canvasMetadata: {
+    width: 800,
+    height: 600,
+    scaleX: 1,
+    scaleY: 1,
+    aspectRatio: 1.33
+  }
 });
 
 // Add caption
-addCaptionElement({
-  text: 'Video Caption',
-  x: 0,
-  y: 0,
-  font: {
-    family: 'Arial',
-    size: 32
+const captionElement = await addCaptionElement({
+  element: {
+    id: 'caption-1',
+    name: 'My Caption',
+    type: 'caption',
+    startTime: 0,
+    endTime: 10,
+    props: {
+      text: 'Video Caption',
+      pos: { x: 0, y: 0 },
+      font: {
+        family: 'Arial',
+        size: 32,
+        style: 'normal',
+        weight: 'normal'
+      },
+      fill: 'white',
+      stroke: '#000000',
+      lineWidth: 1,
+      rotation: 0
+    }
+  },
+  index: 3,
+  canvas: fabricCanvas,
+  captionProps: {
+    pos: { x: 0, y: 0 },
+    font: {
+      family: 'Arial',
+      size: 32,
+      color: 'white'
+    }
+  },
+  canvasMetadata: {
+    width: 800,
+    height: 600,
+    scaleX: 1,
+    scaleY: 1,
+    aspectRatio: 1.33
   }
 });
 ```

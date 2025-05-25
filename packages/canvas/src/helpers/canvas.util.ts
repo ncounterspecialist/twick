@@ -81,9 +81,6 @@ export function createCanvas({
  * @param canvas - The Fabric.js canvas instance.
  */
 export function reorderElementsByZIndex(canvas: FabricCanvas) {
-  assertBrowser();
-  assertCanvasSupport();
-
   if (!canvas) return;
 
   const objects = canvas.getObjects();
