@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#2E8555"/>
+  
+  <!-- Logo -->
+  <g transform="translate(500, 200) scale(4)">
+    <circle cx="16" cy="16" r="16" fill="white"/>
+    <path d="M10 8h12v2h-5v14h-2V10h-5V8z" fill="#2E8555"/>
+  </g>
+  
+  <!-- Text -->
+  <text x="600" y="400" text-anchor="middle" font-family="Arial" font-size="48" fill="white">
+    Twick Documentation
+  </text>
+  <text x="600" y="460" text-anchor="middle" font-family="Arial" font-size="24" fill="white" opacity="0.8">
+    TypeScript Utilities for Modern Web Applications
+  </text>
+</svg> 
