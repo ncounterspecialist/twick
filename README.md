@@ -42,6 +42,12 @@ npm run build --workspace=@twick/canvas
 npm run dev --workspace=@twick/canvas
 ```
 
+## Demo Preview
+
+Here’s a glimpse of building a video using the SDK:
+
+[Watch it in action](https://youtu.be/xuocqJqc9m8?si=c6TThWJH03zYvkM5)
+
 ## 🛡 License
 
 This project is licensed under the **Apache 2.0 License with additional terms**.
