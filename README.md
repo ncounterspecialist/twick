@@ -44,9 +44,19 @@ npm run dev --workspace=@twick/canvas
 
 ## Demo Preview
 
-Here’s a glimpse of building a video using the SDK:
+Here's a glimpse of building a video using the SDK:
 
 https://youtu.be/xuocqJqc9m8?si=h0wobDZlr9aj9XxW
+
+## Discord Community
+
+Join our Discord community to:
+- Chat with other developers
+- Discuss issues and feature requests
+- Get help and share your experiences
+- Stay updated with the latest developments
+
+[Join our Discord Server](https://discord.gg/u7useVAY)
 
 ## 🛡 License
 
