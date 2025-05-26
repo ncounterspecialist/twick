@@ -46,7 +46,7 @@ npm run dev --workspace=@twick/canvas
 
 Here’s a glimpse of building a video using the SDK:
 
-[Watch it in action](https://youtu.be/xuocqJqc9m8?si=c6TThWJH03zYvkM5)
+https://static-assets.kifferai.com/twick/KifferAI-Video_Editor.mp4
 
 ## 🛡 License
 
