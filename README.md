@@ -1,4 +1,4 @@
-# Twick Monorepo
+# Twick
 
 This repository contains a collection of packages for video and image manipulation, built with modern web technologies.
 
@@ -46,7 +46,7 @@ npm run dev --workspace=@twick/canvas
 
 Here’s a glimpse of building a video using the SDK:
 
-https://static-assets.kifferai.com/twick/KifferAI-Video_Editor.mp4
+https://youtu.be/xuocqJqc9m8?si=h0wobDZlr9aj9XxW
 
 ## 🛡 License
 
