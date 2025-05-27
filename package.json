@@ -29,5 +29,15 @@
     "@typescript-eslint/eslint-plugin": "^7.1.0",
     "rimraf": "^5.0.5"
   },
-  "packageManager": "pnpm@8.15.4"
+  "packageManager": "pnpm@8.15.4",
+  "workspaces": [
+    "packages/media-utils",
+    "packages/canvas",
+    "packages/documentation"
+  ],
+  "pnpm": {
+    "overrides": {
+      "typescript": "^5.4.2"
+    }
+  }
 }
