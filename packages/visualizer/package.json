@@ -1,0 +1,26 @@
+{
+  "name": "@twick/visualizer",
+  "version": "0.0.1",
+  "license": "Apache-2.0",
+  "scripts": {
+    "start": "revideo editor --projectFile ./src/live.tsx",
+    "build": "tsc && vite build",
+    "render": "tsc && node dist/render.js"
+  },
+  "dependencies": {
+    "@preact/signals": "^1.2.1",
+    "@revideo/2d": "^0.10.4",
+    "@revideo/core": "^0.10.4",
+    "@revideo/renderer": "^0.10.4",
+    "@revideo/vite-plugin": "^0.10.4",
+    "date-fns": "^4.1.0",
+    "preact": "^10.19.2"
+  },
+  "devDependencies": {
+    "@revideo/cli": "0.10.4",
+    "@revideo/ui": "0.10.4",
+    "typescript": "5.4.2",
+    "vite": "^5.1.4"
+  }
+}
+
