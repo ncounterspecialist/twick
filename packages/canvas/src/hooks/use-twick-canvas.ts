@@ -9,14 +9,14 @@ import {
   getCurrentFrameEffect,
   reorderElementsByZIndex,
 } from "../helpers/canvas.util";
-import { CANVAS_OPERATIONS } from "../helpers/constants";
+import { CANVAS_OPERATIONS, ELEMENT_TYPES } from "../helpers/constants";
 import {
   addImageElement,  
   addVideoElement,
   addRectElement,
   addTextElement,
   addCaptionElement,
-  addBackgroundElement,
+  addBackgroundColor,
 } from "../components/elements";
 
 /**
@@ -288,7 +288,7 @@ export const useTwickCanvas = ({
             }
             // Add element based on type
             switch (element.type) {
-              case "video":
+              case ELEMENT_TYPES.VIDEO:
                 const currentFrameEffect = getCurrentFrameEffect(
                   element,
                   seekTime
@@ -307,7 +307,7 @@ export const useTwickCanvas = ({
                   snapTime,
                 });
                 if (element.timelineType === "scene") {
-                  await addBackgroundElement({
+                  await addBackgroundColor({
                     element,
                     index,
                     canvas: twickCanvas,
@@ -315,7 +315,7 @@ export const useTwickCanvas = ({
                   });
                 }
                 break;
-              case "image":
+              case ELEMENT_TYPES.IMAGE:
                 await addImageElement({
                   element,
                   index,
@@ -331,7 +331,7 @@ export const useTwickCanvas = ({
                   });
                 }
                 break;
-              case "rect":
+              case ELEMENT_TYPES.RECT:
                 await addRectElement({
                   element,
                   index,
@@ -339,7 +339,7 @@ export const useTwickCanvas = ({
                   canvasMetadata: canvasMetadataRef.current,
                 });
                 break;
-              case "text":
+              case ELEMENT_TYPES.TEXT:
                 await addTextElement({
                   element,
                   index,
@@ -347,7 +347,7 @@ export const useTwickCanvas = ({
                   canvasMetadata: canvasMetadataRef.current,
                 });
                 break;
-              case "caption":
+            case ELEMENT_TYPES.CAPTION:
                 await addCaptionElement({
                   element,
                   index,
