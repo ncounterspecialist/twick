@@ -1,64 +1,3 @@
-/**
- * Type definitions for the visualizer package.
- * Contains interfaces and types for video, audio, captions, and other visual elements.
- */
-
-/**
- * Base interface for timeline elements
- */
-export interface TimelineBase {
-  type: string;
-  startTime: number;
-  duration: number;
-}
-
-/**
- * Video timeline configuration
- */
-export interface VideoTimeline extends TimelineBase {
-  type: "video";
-  url: string;
-  position?: Position;
-  size?: Size;
-  effects?: FrameEffect[];
-}
-
-/**
- * Audio timeline configuration
- */
-export interface AudioTimeline extends TimelineBase {
-  type: "audio";
-  url: string;
-  volume?: number;
-}
-
-/**
- * Caption timeline configuration
- */
-export interface CaptionTimeline extends TimelineBase {
-  type: "caption";
-  text: string;
-  position?: Position;
-  style?: TextStyle;
-}
-
-/**
- * Scene timeline configuration
- */
-export interface SceneTimeline extends TimelineBase {
-  type: "scene";
-  backgroundColor?: string;
-  elements?: ElementProperties[];
-}
-
-/**
- * Element timeline configuration
- */
-export interface ElementTimeline extends TimelineBase {
-  type: "element";
-  properties: ElementProperties;
-}
-
 export type VideoInput = {
   backgroundColor: string;
   properties: {
@@ -75,6 +14,11 @@ export type ObjectFit = "contain" | "cover" | "fill" | "none";
 export type SizeVector = {
   x: number;
   y: number;
+};
+
+export type Size = {
+  width: number;
+  height: number;
 };
 
 export type SizeArray = [number, number];
@@ -127,7 +71,7 @@ export type CaptionStyle = {
   };
 };
 
-export interface Caption {
+export type Caption = {
   t: string;
   s: number;
   e: number;

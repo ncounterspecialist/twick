@@ -9,7 +9,7 @@ export {
   addRectElement,
   addTextElement,
   addCaptionElement,
-  addBackgroundElement,
+  addBackgroundColor,
 } from "./components/elements";
 export { disabledControl, rotateControl } from "./components/element-controls";
 

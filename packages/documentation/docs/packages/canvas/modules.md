@@ -26,7 +26,7 @@
 ### Functions
 
 - [CanvasContainer](modules.md#canvascontainer)
-- [addBackgroundElement](modules.md#addbackgroundelement)
+- [addBackgroundColor](modules.md#addbackgroundelement)
 - [addCaptionElement](modules.md#addcaptionelement)
 - [addImageElement](modules.md#addimageelement)
 - [addRectElement](modules.md#addrectelement)
@@ -282,9 +282,9 @@ ___
 
 ___
 
-### addBackgroundElement
+### addBackgroundColor
 
-▸ **addBackgroundElement**(`«destructured»`): `Rect`\<\{ `fill`: `string` ; `hasBorders`: ``false`` = false; `hasControls`: ``false`` = false; `height`: `number` = canvasMetadata.height; `left`: `number` ; `originX`: ``"center"`` = "center"; `originY`: ``"center"`` = "center"; `selectable`: ``false`` = false; `top`: `number` ; `width`: `number` = canvasMetadata.width }, `SerializedRectProps`, `ObjectEvents`\>
+▸ **addBackgroundColor**(`«destructured»`): `Rect`\<\{ `fill`: `string` ; `hasBorders`: ``false`` = false; `hasControls`: ``false`` = false; `height`: `number` = canvasMetadata.height; `left`: `number` ; `originX`: ``"center"`` = "center"; `originY`: ``"center"`` = "center"; `selectable`: ``false`` = false; `top`: `number` ; `width`: `number` = canvasMetadata.width }, `SerializedRectProps`, `ObjectEvents`\>
 
 Add a background element to the canvas.
 

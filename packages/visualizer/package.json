@@ -4,8 +4,7 @@
   "license": "Apache-2.0",
   "scripts": {
     "start": "revideo editor --projectFile ./src/live.tsx",
-    "build": "tsc && vite build",
-    "render": "tsc && node dist/render.js"
+    "build": "tsc && vite build"
   },
   "dependencies": {
     "@preact/signals": "^1.2.1",
@@ -20,6 +19,7 @@
     "@revideo/cli": "0.10.4",
     "@revideo/ui": "0.10.4",
     "typescript": "5.4.2",
+    "vite-plugin-dts": "^3.7.3",
     "vite": "^5.1.4"
   }
 }
