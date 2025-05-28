@@ -1,22 +1,24 @@
-import { useState, useRef } from 'react';
-import { LivePlayer } from '@twick/player';
-import { sample } from '../helpers/sample-data';
-import './JsonPlayer.css';
+import { useState, useRef } from "react";
+import { LivePlayer } from "@twick/player";
+import { sample } from "../helpers/sample-data";
+import "./example-video.css";
 
-const JsonPlayer = () => {
+const ExampleVideo = () => {
   const [jsonInput, setJsonInput] = useState(JSON.stringify(sample, null, 2));
   const [playerData, setPlayerData] = useState(null);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [playing, setPlaying] = useState(false);
+  const [videoDuration, setVideoDuration] = useState(0);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const videoDurationRef = useRef(0);
 
   const handleLoadJson = () => {
     try {
       const data = JSON.parse(jsonInput);
       setPlayerData(data);
-      setError('');
+      setError("");
     } catch (err) {
-      setError('Invalid JSON format');
+      setError("Invalid JSON format");
     }
   };
 
@@ -30,9 +32,9 @@ const JsonPlayer = () => {
           const data = JSON.parse(content);
           setJsonInput(content);
           setPlayerData(data);
-          setError('');
+          setError("");
         } catch (err) {
-          setError('Invalid JSON file format');
+          setError("Invalid JSON file format");
         }
       };
       reader.readAsText(file);
@@ -42,6 +44,14 @@ const JsonPlayer = () => {
   const handlePlayPause = () => {
     setPlaying(!playing);
   };
+
+  const handleTimeUpdate = (time: number) => {
+    console.log("time", time, videoDurationRef.current);
+    if (videoDurationRef.current && time >= videoDurationRef.current) {
+      setPlaying(false);
+    }
+  };
+
 
   return (
     <div className="json-player">
@@ -54,7 +64,7 @@ const JsonPlayer = () => {
             ref={fileInputRef}
             className="file-input"
           />
-          <button 
+          <button
             className="file-button"
             onClick={() => fileInputRef.current?.click()}
           >
@@ -68,29 +78,33 @@ const JsonPlayer = () => {
           placeholder="Paste your JSON here..."
           rows={20}
         />
-        
+
         <div className="buttons">
           <button onClick={handleLoadJson}>Load JSON</button>
-          <button onClick={handlePlayPause}>
-            {playing ? 'Pause' : 'Play'}
+          <button onClick={handlePlayPause} disabled={!videoDuration}>
+            {playing ? "Pause" : "Play"}
           </button>
         </div>
-        
         {error && <div className="error">{error}</div>}
       </div>
-      
       <div className="player-container">
-          <LivePlayer
-            projectData={playerData}
-            videoSize={{
-              width: 720,
-              height: 1280
-            }}
-            playing={playing}
-          />
+        <LivePlayer
+          projectData={playerData}
+          onDurationChange={(duration) => {
+            console.log("duration", duration);
+            videoDurationRef.current = duration;
+            setVideoDuration(duration);
+          }}
+          videoSize={{
+            width: 720,
+            height: 1280,
+          }}
+          onTimeUpdate={handleTimeUpdate}
+          playing={playing}
+        />
       </div>
     </div>
   );
 };
 
-export default JsonPlayer; 
+export default ExampleVideo;

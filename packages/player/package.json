@@ -13,7 +13,7 @@
     "build": "vite build",
     "dev": "vite build --watch",
     "lint": "eslint src/",
-    "clean": "rimraf .turbo node_modules dist",
+    "clean": "rimraf dist node_modules",
     "docs": "typedoc --plugin typedoc-plugin-markdown --out docs src/index.ts"
   },
   "dependencies": {

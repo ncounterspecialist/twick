@@ -42,6 +42,38 @@ npm run build --workspace=@twick/canvas
 npm run dev --workspace=@twick/canvas
 ```
 
+## How to run example
+
+Build visualizer
+
+```
+cd packages/visualizer
+npm install
+npm run build
+```
+
+**Go to root folder**
+
+```
+cd ../..
+```
+
+Build all other packages
+
+```
+pnpm install
+pnpm build
+```
+* Go-ahead even if documentation build fails
+
+Preview examples
+
+```
+pnpm preview
+```
+
+Open http://localhost:4173/ in browser
+
 ## Demo Preview
 
 Here's a glimpse of building a video using the SDK:

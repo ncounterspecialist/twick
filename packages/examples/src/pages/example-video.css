@@ -108,6 +108,18 @@ button:active {
   transform: translateY(0);
 }
 
+button:disabled {
+  background-color: #e9ecef;
+  color: #6c757d;
+  cursor: not-allowed;
+}
+
+.info {
+  color: #000;
+  padding: 12px 16px;
+  font-size: 14px;
+}
+
 .error {
   color: #dc3545;
   padding: 12px 16px;

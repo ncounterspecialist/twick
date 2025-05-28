@@ -1,17 +1,17 @@
 import './App.css'
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import JsonPlayer from './pages/JsonPlayer';
+import ExampleVideo from './pages/example-video';
 
 function App() {
   return (
     <Router>
       <div className="app-container">
         <nav className="nav-menu">
-          <Link to="/">JSON Player</Link>
+          <Link to="/">Example Video</Link>
         </nav>
         
         <Routes>
-          <Route path="/" element={<JsonPlayer />} />
+          <Route path="/" element={<ExampleVideo />} />
         </Routes>
       </div>
     </Router>

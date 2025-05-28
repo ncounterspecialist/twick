@@ -66,7 +66,7 @@ import {
   addTextElement, 
   addCaptionElement,
   addRectElement,
-  addBackgroundElement
+  addBackgroundColor
 } from '@twick/canvas';
 
 // Add an image

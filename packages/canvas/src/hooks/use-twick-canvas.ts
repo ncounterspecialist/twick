@@ -323,7 +323,7 @@ export const useTwickCanvas = ({
                   canvasMetadata: canvasMetadataRef.current,
                 });
                 if (element.timelineType === "scene") {
-                  await addBackgroundElement({
+                  await addBackgroundColor({
                     element,
                     index,
                     canvas: twickCanvas,
