@@ -18,16 +18,6 @@ import { Caption, CaptionProps, VisualizerElement } from "../helpers/types";
 import { splitPhraseTiming } from "../helpers/caption.utils";
 import { addAnimations } from "./animation";
 
-/**
- * Creates a visual element based on the provided properties
- * @param {Object} params - Parameters for element creation
- * @param {View2D} params.view - The 2D view to render the element in
- * @param {ElementProperties} params.properties - Element configuration properties
- * @returns {Object} Created element with its properties and methods
- */
-export function createElement({ view, properties }: { view: View2D; properties: ElementProperties }) {
-  // ... existing code ...
-}
 
 export function* addMediaElement({
   containerRef,

@@ -33,7 +33,9 @@
   "workspaces": [
     "packages/media-utils",
     "packages/canvas",
-    "packages/documentation"
+    "packages/examples",
+    "packages/documentation",
+    "packages/player"
   ],
   "pnpm": {
     "overrides": {

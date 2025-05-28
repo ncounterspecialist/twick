@@ -83,23 +83,3 @@ export function* fitElement({
           break;
       }
     }
-
-/**
- * Calculates the center position of an element
- * @param {Object} element - The element to calculate center for
- * @returns {Object} Center position coordinates
- */
-export function getElementCenter(element) {
-  // ... existing code ...
-}
-
-/**
- * Applies a transformation to an element
- * @param {Object} params - Parameters for the transformation
- * @param {Object} params.element - The element to transform
- * @param {Object} params.transform - The transformation to apply
- * @returns {void}
- */
-export function applyTransform({ element, transform }) {
-  // ... existing code ...
-}

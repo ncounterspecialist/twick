@@ -1,0 +1,130 @@
+.json-player {
+  display: flex;
+  gap: 30px;
+  height: calc(100vh - 80px);
+  width: 100%;
+  padding: 20px;
+  background-color: #f0f2f5;
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background: white;
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  height: fit-content;
+  min-width: 400px;
+  width: 50%;
+}
+
+.file-input-container {
+  position: relative;
+  width: 100%;
+}
+
+.file-input {
+  position: absolute;
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  z-index: -1;
+}
+
+.file-button {
+  width: 100%;
+  padding: 12px 24px;
+  background-color: #f8f9fa;
+  color: #333;
+  border: 2px dashed #dee2e6;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.file-button:hover {
+  background-color: #e9ecef;
+  border-color: #007bff;
+  color: #007bff;
+}
+
+.file-button:active {
+  transform: translateY(0);
+}
+
+textarea {
+  padding: 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  resize: vertical;
+  min-height: 200px;
+  background: #fafafa;
+  color: #000;
+}
+
+textarea:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.1);
+}
+
+.buttons {
+  display: flex;
+  gap: 12px;
+}
+
+button {
+  padding: 12px 24px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s;
+  flex: 1;
+}
+
+button:hover {
+  background-color: #0056b3;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+.error {
+  color: #dc3545;
+  padding: 12px 16px;
+  border: 1px solid #dc3545;
+  border-radius: 6px;
+  background-color: #fff5f5;
+  font-size: 14px;
+}
+
+.player-container {
+  width: 40%;
+  background-color: #000;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+} 
