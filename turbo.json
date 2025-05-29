@@ -6,6 +6,9 @@
       "dependsOn": ["^build"],
       "outputs": ["dist/**"]
     },
+    "docs": {
+      "outputs": ["docs/**"]
+    },
     "lint": {},
     "dev": {
       "cache": false,
