@@ -23,7 +23,7 @@ export default defineConfig({
       },
     },
     sourcemap: true,
-    minify: false,
+    minify: false
   },
   plugins: [
     dts({
@@ -34,6 +34,6 @@ export default defineConfig({
         sourceMap: true,
         declarationMap: true,
       },
-    }),
-  ],
+    })
+  ]
 }); 

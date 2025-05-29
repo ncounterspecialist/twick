@@ -9,7 +9,7 @@ export default defineConfig({
       entry: resolve(__dirname, 'src/index.ts'),
       name: 'TwickMediaUtils',
       fileName: (format) => `index.${format === 'es' ? 'mjs' : 'js'}`,
-      formats: ['es', 'cjs'],
+      formats: ['es', 'cjs']
     },
     rollupOptions: {
       external: ['react', 'react-dom'],
@@ -18,7 +18,7 @@ export default defineConfig({
           react: 'React',
           'react-dom': 'ReactDOM'
         }
-      },
+      }
     },
     sourcemap: true,
     minify: false,
@@ -36,6 +36,6 @@ export default defineConfig({
         sourceMap: true,
         declarationMap: true,
       },
-    }),
-  ],
+    })
+  ]
 });

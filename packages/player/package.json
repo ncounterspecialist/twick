@@ -13,13 +13,13 @@
     "build": "vite build",
     "dev": "vite build --watch",
     "lint": "eslint src/",
-    "clean": "rimraf dist node_modules",
+    "clean": "rimraf .turbo node_modules dist",
     "docs": "typedoc --plugin typedoc-plugin-markdown --out docs src/index.ts"
   },
   "dependencies": {
     "@revideo/core": "^0.10.4",
     "@revideo/player-react": "^0.10.4",
-    "@twick/visualizer": "^0.0.1",
+    "@twick/visualizer": "workspace:^0.0.1",
     "react": "^18.2.0"
   },
   "devDependencies": {
