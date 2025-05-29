@@ -46,7 +46,6 @@ const ExampleVideo = () => {
   };
 
   const handleTimeUpdate = (time: number) => {
-    console.log("time", time, videoDurationRef.current);
     if (videoDurationRef.current && time >= videoDurationRef.current) {
       setPlaying(false);
     }
@@ -90,8 +89,7 @@ const ExampleVideo = () => {
       <div className="player-container">
         <LivePlayer
           projectData={playerData}
-          onDurationChange={(duration) => {
-            console.log("duration", duration);
+          onDurationChange={(duration: number) => {
             videoDurationRef.current = duration;
             setVideoDuration(duration);
           }}

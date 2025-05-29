@@ -3,12 +3,13 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "build": "turbo run build",
+    "build": "turbo run build --filter=./packages/* --filter=!./packages/documentation",
     "build:media-utils": "turbo run build --filter=@twick/media-utils",
     "build:canvas": "turbo run build --filter=@twick/canvas",
     "build:documentation": "turbo run build --filter=@twick/documentation",
     "build:player": "turbo run build --filter=@twick/player",
     "build:examples": "turbo run build --filter=@twick/examples",
+    "build:visualizer": "turbo run build --filter=@twick/visualizer",
     "dev": "turbo run dev",
     "dev:media-utils": "turbo run dev --filter=@twick/media-utils",
     "dev:canvas": "turbo run dev --filter=@twick/canvas",
@@ -20,7 +21,7 @@
     "lint:fix": "turbo run lint --fix",
     "test": "turbo run test",
     "clean": "rimraf node_modules .turbo",
-    "clean:all": "turbo run clean --parallel",
+    "clean:packages": "turbo run clean --filter=./packages/*",
     "changeset": "changeset",
     "version": "changeset version",
     "release": "turbo run build && changeset publish"
@@ -37,10 +38,10 @@
   "packageManager": "pnpm@8.15.4",
   "workspaces": [
     "packages/media-utils",
+    "packages/visualizer",
     "packages/canvas",
-    "packages/examples",
-    "packages/documentation",
-    "packages/player"
+    "packages/player",
+    "packages/examples"
   ],
   "pnpm": {
     "overrides": {

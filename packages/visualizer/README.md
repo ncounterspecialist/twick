@@ -1,23 +1,13 @@
-# @twick/media-utils
+# @twick/visualizer
 
-Media utilities for the Twick platform.
+A visualization library built on top of [@revideo/2d](https://github.com/re-video/2d) for creating interactive visualizations.
 
 ## Installation
-
-```bash
-pnpm add @twick/media-utils
+```
+pnpm install
 ```
 
-## Usage
-
-```typescript
-import { /* your exports */ } from '@twick/media-utils';
+## Build
 ```
-
-## API Documentation
-
-For detailed API documentation, see the generated docs in the `docs` directory.
-
-## License
-
-Apache-2.0
+pnpm build
+```

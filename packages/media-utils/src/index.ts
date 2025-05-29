@@ -1,4 +1,4 @@
-export * from './types';
+export type { Dimensions, VideoMeta, Position } from "./types";
 
 export { getAudioDuration } from "./get-audio-duration";
 export { getImageDimensions } from "./get-image-dimensions";

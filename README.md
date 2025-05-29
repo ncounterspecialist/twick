@@ -6,6 +6,9 @@ This repository contains a collection of packages for video and image manipulati
 
 - **@twick/media-utils**: Core utilities for media handling and manipulation
 - **@twick/canvas**: React-based canvas library for video and image editing
+- **@twick/visualizer**: Video visualization and animation toolkit
+- **@twick/player**: React component for video playback and control
+- **@twick/examples**: Example implementations and usage demonstrations
 
 ## Getting Started
 
@@ -17,17 +20,12 @@ cd twick
 
 2. Install dependencies:
 ```bash
-npm install
+pnpm install
 ```
 
 3. Build all packages:
 ```bash
-npm run build
-```
-
-4. Start development:
-```bash
-npm run dev
+pnpm build
 ```
 
 ## Development
@@ -36,37 +34,23 @@ Each package can be developed independently:
 
 ```bash
 # Build a specific package
-npm run build --workspace=@twick/canvas
-
-# Start development mode for a package
-npm run dev --workspace=@twick/canvas
+pnpm build:media-utils
 ```
 
 ## How to run example
 
-Build visualizer
-
-```
-cd packages/visualizer
-npm install
-npm run build
-```
-
-**Go to root folder**
-
-```
-cd ../..
-```
-
-Build all other packages
+1. Install Dependencies 
 
 ```
 pnpm install
+```
+2. Build packages
+
+```
 pnpm build
 ```
-* Go-ahead even if documentation build fails
 
-Preview examples
+3. Preview examples
 
 ```
 pnpm preview
