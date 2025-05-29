@@ -10,5 +10,6 @@
   "readme": "README.md",
   "plugin": ["typedoc-plugin-markdown"],
   "categorizeByGroup": true,
-  "categoryOrder": ["Core", "Utils", "*"]
+  "categoryOrder": ["Core", "Utils", "*"],
+  "hideBreadcrumbs": true
 } 

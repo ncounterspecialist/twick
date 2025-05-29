@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "docs": "echo 'Examples package - no API docs to generate'",
     "lint": "eslint .",
     "preview": "vite preview",
     "clean": "rimraf .turbo node_modules dist"
