@@ -12,7 +12,7 @@ const config = {
   // Set the production url of your site here
   url: 'https://docs.twick.dev',
   // Set the /<baseUrl>/ pathname under which your site is served
-  baseUrl: '/',
+  baseUrl: '/twick/',
 
   // GitHub pages deployment config.
   organizationName: 'twick',
