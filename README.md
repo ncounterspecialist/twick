@@ -1,5 +1,7 @@
 # Twick
 
+[![CI](https://github.com/ncounterspecialist/twick/actions/workflows/ci.yml/badge.svg)](https://github.com/ncounterspecialist/twick/actions/workflows/ci.yml)
+
 This repository contains a collection of packages for video and image manipulation, built with modern web technologies.
 
 ## Packages
