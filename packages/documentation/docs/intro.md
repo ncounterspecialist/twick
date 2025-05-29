@@ -70,6 +70,10 @@ The goal is to offer **high-level editing functions** that can be triggered with
 ## Available Packages
 
 - **@twick/media-utils**: Utilities for handling media files (images, audio, video)
+- **@twick/canvas**: React-based canvas library for video and image editing
+- **@twick/player**: React component for video playback and control  
+- **@twick/visualizer**: Video visualization and animation toolkit
+- **@twick/examples**: Example implementations and usage demonstrations
 - More packages coming soon...
 
 ## Getting Started

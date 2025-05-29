@@ -20,7 +20,21 @@ const sidebars = {
           label: '@twick/canvas',
           id: 'packages/canvas/modules'
         },
-        // Add more packages here as they are documented
+        {
+          type: 'doc',
+          label: '@twick/player',
+          id: 'packages/player/modules'
+        },
+        {
+          type: 'doc',
+          label: '@twick/visualizer',
+          id: 'packages/visualizer/modules'
+        },
+        {
+          type: 'doc',
+          label: '@twick/examples',
+          id: 'packages/examples/README'
+        },
       ],
     },
   ],

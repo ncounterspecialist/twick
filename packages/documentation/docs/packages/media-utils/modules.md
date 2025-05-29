@@ -7,6 +7,7 @@
 ### Type Aliases
 
 - [Dimensions](modules.md#dimensions)
+- [Position](modules.md#position)
 - [VideoMeta](modules.md#videometa)
 
 ### Functions
@@ -38,7 +39,24 @@
 
 #### Defined in
 
-[types.ts:1](https://github.com/ncounterspecialist/twick/blob/e3206b5681eee87b453682e44353e5dff59c5983/packages/media-utils/src/types.ts#L1)
+[types.ts:1](https://github.com/ncounterspecialist/twick/blob/322058f5130be7eb0f94cfb23a9e57764d22f682/packages/media-utils/src/types.ts#L1)
+
+___
+
+### Position
+
+Ƭ **Position**: `Object`
+
+#### Type declaration
+
+| Name | Type |
+| :------ | :------ |
+| `x` | `number` |
+| `y` | `number` |
+
+#### Defined in
+
+[types.ts:3](https://github.com/ncounterspecialist/twick/blob/322058f5130be7eb0f94cfb23a9e57764d22f682/packages/media-utils/src/types.ts#L3)
 
 ___
 
@@ -48,7 +66,7 @@ ___
 
 #### Defined in
 
-[types.ts:3](https://github.com/ncounterspecialist/twick/blob/e3206b5681eee87b453682e44353e5dff59c5983/packages/media-utils/src/types.ts#L3)
+[types.ts:5](https://github.com/ncounterspecialist/twick/blob/322058f5130be7eb0f94cfb23a9e57764d22f682/packages/media-utils/src/types.ts#L5)
 
 ## Functions
 
@@ -73,7 +91,7 @@ A Promise that resolves to a File object.
 
 #### Defined in
 
-file-helper.ts:8
+[file-helper.ts:8](https://github.com/ncounterspecialist/twick/blob/322058f5130be7eb0f94cfb23a9e57764d22f682/packages/media-utils/src/file-helper.ts#L8)
 
 ___
 
@@ -98,7 +116,7 @@ A promise that resolves to 'image', 'video', or 'audio' based on the Content-Typ
 
 #### Defined in
 
-url-helper.ts:8
+[url-helper.ts:8](https://github.com/ncounterspecialist/twick/blob/322058f5130be7eb0f94cfb23a9e57764d22f682/packages/media-utils/src/url-helper.ts#L8)
 
 ___
 
@@ -123,7 +141,7 @@ A Promise that resolves when the download is initiated or rejects if there is an
 
 #### Defined in
 
-file-helper.ts:41
+[file-helper.ts:41](https://github.com/ncounterspecialist/twick/blob/322058f5130be7eb0f94cfb23a9e57764d22f682/packages/media-utils/src/file-helper.ts#L41)
 
 ___
 
@@ -148,7 +166,7 @@ A Promise that resolves to the duration of the audio in seconds.
 
 #### Defined in
 
-[get-audio-duration.ts:10](https://github.com/ncounterspecialist/twick/blob/e3206b5681eee87b453682e44353e5dff59c5983/packages/media-utils/src/get-audio-duration.ts#L10)
+[get-audio-duration.ts:10](https://github.com/ncounterspecialist/twick/blob/322058f5130be7eb0f94cfb23a9e57764d22f682/packages/media-utils/src/get-audio-duration.ts#L10)
 
 ___
 
@@ -174,7 +192,7 @@ A Promise that resolves to an object containing `width` and `height`.
 
 #### Defined in
 
-[get-image-dimensions.ts:35](https://github.com/ncounterspecialist/twick/blob/e3206b5681eee87b453682e44353e5dff59c5983/packages/media-utils/src/get-image-dimensions.ts#L35)
+[get-image-dimensions.ts:35](https://github.com/ncounterspecialist/twick/blob/322058f5130be7eb0f94cfb23a9e57764d22f682/packages/media-utils/src/get-image-dimensions.ts#L35)
 
 ___
 
@@ -201,7 +219,7 @@ An object containing the calculated width and height for the element.
 
 #### Defined in
 
-dimension-handler.ts:54
+[dimension-handler.ts:63](https://github.com/ncounterspecialist/twick/blob/322058f5130be7eb0f94cfb23a9e57764d22f682/packages/media-utils/src/dimension-handler.ts#L63)
 
 ___
 
@@ -209,22 +227,27 @@ ___
 
 ▸ **getScaledDimensions**(`width`, `height`, `maxWidth`, `maxHeight`): [`Dimensions`](modules.md#dimensions)
 
+Calculates the scaled dimensions of an element to fit inside a container
+based on the specified max dimensions.
+
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `width` | `number` |
-| `height` | `number` |
-| `maxWidth` | `number` |
-| `maxHeight` | `number` |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `width` | `number` | The original width of the element. |
+| `height` | `number` | The original height of the element. |
+| `maxWidth` | `number` | The maximum width of the container. |
+| `maxHeight` | `number` | The maximum height of the container. |
 
 #### Returns
 
 [`Dimensions`](modules.md#dimensions)
 
+An object containing the calculated width and height for the element.
+
 #### Defined in
 
-dimension-handler.ts:4
+[dimension-handler.ts:13](https://github.com/ncounterspecialist/twick/blob/322058f5130be7eb0f94cfb23a9e57764d22f682/packages/media-utils/src/dimension-handler.ts#L13)
 
 ___
 
@@ -234,7 +257,7 @@ ___
 
 Extracts a thumbnail from a video at a specific seek time and playback rate.
 
-This function creates a hidden video element in the browser,
+This function creates a hidden `<video>` element in the browser,
 seeks to the specified time, and captures the frame into a canvas,
 which is then exported as a JPEG data URL or Blob URL.
 
@@ -254,7 +277,7 @@ A Promise that resolves to a thumbnail image URL (either a base64 data URL or bl
 
 #### Defined in
 
-get-thumbnail.ts:13
+[get-thumbnail.ts:13](https://github.com/ncounterspecialist/twick/blob/322058f5130be7eb0f94cfb23a9e57764d22f682/packages/media-utils/src/get-thumbnail.ts#L13)
 
 ___
 
@@ -279,7 +302,7 @@ A Promise that resolves to an object containing video metadata.
 
 #### Defined in
 
-[get-video-metadata.ts:11](https://github.com/ncounterspecialist/twick/blob/e3206b5681eee87b453682e44353e5dff59c5983/packages/media-utils/src/get-video-metadata.ts#L11)
+[get-video-metadata.ts:11](https://github.com/ncounterspecialist/twick/blob/322058f5130be7eb0f94cfb23a9e57764d22f682/packages/media-utils/src/get-video-metadata.ts#L11)
 
 ___
 
@@ -310,7 +333,7 @@ Promise that resolves/rejects with fn's result
 
 #### Defined in
 
-[limit.ts:33](https://github.com/ncounterspecialist/twick/blob/e3206b5681eee87b453682e44353e5dff59c5983/packages/media-utils/src/limit.ts#L33)
+[limit.ts:33](https://github.com/ncounterspecialist/twick/blob/322058f5130be7eb0f94cfb23a9e57764d22f682/packages/media-utils/src/limit.ts#L33)
 
 ___
 
@@ -334,4 +357,4 @@ Triggers a download of a file from a string or Blob.
 
 #### Defined in
 
-file-helper.ts:21
+[file-helper.ts:21](https://github.com/ncounterspecialist/twick/blob/322058f5130be7eb0f94cfb23a9e57764d22f682/packages/media-utils/src/file-helper.ts#L21)

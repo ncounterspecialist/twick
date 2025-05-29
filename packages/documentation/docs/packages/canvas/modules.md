@@ -26,7 +26,7 @@
 ### Functions
 
 - [CanvasContainer](modules.md#canvascontainer)
-- [addBackgroundColor](modules.md#addbackgroundelement)
+- [addBackgroundColor](modules.md#addbackgroundcolor)
 - [addCaptionElement](modules.md#addcaptionelement)
 - [addImageElement](modules.md#addimageelement)
 - [addRectElement](modules.md#addrectelement)
@@ -71,7 +71,7 @@
 
 #### Defined in
 
-[packages/canvas/src/types.ts:42](https://github.com/ncounterspecialist/twick/blob/fd733a8e18def806439dd44ca0b85270e8359a26/packages/canvas/src/types.ts#L42)
+[packages/canvas/src/types.ts:42](https://github.com/ncounterspecialist/twick/blob/322058f5130be7eb0f94cfb23a9e57764d22f682/packages/canvas/src/types.ts#L42)
 
 ___
 
@@ -123,7 +123,7 @@ ___
 
 #### Defined in
 
-[packages/canvas/src/types.ts:65](https://github.com/ncounterspecialist/twick/blob/fd733a8e18def806439dd44ca0b85270e8359a26/packages/canvas/src/types.ts#L65)
+[packages/canvas/src/types.ts:65](https://github.com/ncounterspecialist/twick/blob/322058f5130be7eb0f94cfb23a9e57764d22f682/packages/canvas/src/types.ts#L65)
 
 ___
 
@@ -143,7 +143,7 @@ ___
 
 #### Defined in
 
-[packages/canvas/src/types.ts:21](https://github.com/ncounterspecialist/twick/blob/fd733a8e18def806439dd44ca0b85270e8359a26/packages/canvas/src/types.ts#L21)
+[packages/canvas/src/types.ts:21](https://github.com/ncounterspecialist/twick/blob/322058f5130be7eb0f94cfb23a9e57764d22f682/packages/canvas/src/types.ts#L21)
 
 ___
 
@@ -167,7 +167,7 @@ ___
 
 #### Defined in
 
-[packages/canvas/src/types.ts:9](https://github.com/ncounterspecialist/twick/blob/fd733a8e18def806439dd44ca0b85270e8359a26/packages/canvas/src/types.ts#L9)
+[packages/canvas/src/types.ts:9](https://github.com/ncounterspecialist/twick/blob/322058f5130be7eb0f94cfb23a9e57764d22f682/packages/canvas/src/types.ts#L9)
 
 ___
 
@@ -193,7 +193,7 @@ ___
 
 #### Defined in
 
-[packages/canvas/src/types.ts:108](https://github.com/ncounterspecialist/twick/blob/fd733a8e18def806439dd44ca0b85270e8359a26/packages/canvas/src/types.ts#L108)
+[packages/canvas/src/types.ts:108](https://github.com/ncounterspecialist/twick/blob/322058f5130be7eb0f94cfb23a9e57764d22f682/packages/canvas/src/types.ts#L108)
 
 ___
 
@@ -216,7 +216,7 @@ ___
 
 #### Defined in
 
-[packages/canvas/src/types.ts:29](https://github.com/ncounterspecialist/twick/blob/fd733a8e18def806439dd44ca0b85270e8359a26/packages/canvas/src/types.ts#L29)
+[packages/canvas/src/types.ts:29](https://github.com/ncounterspecialist/twick/blob/322058f5130be7eb0f94cfb23a9e57764d22f682/packages/canvas/src/types.ts#L29)
 
 ## Variables
 
@@ -237,7 +237,7 @@ ___
 
 #### Defined in
 
-[packages/canvas/src/helpers/constants.ts:26](https://github.com/ncounterspecialist/twick/blob/fd733a8e18def806439dd44ca0b85270e8359a26/packages/canvas/src/helpers/constants.ts#L26)
+[packages/canvas/src/helpers/constants.ts:26](https://github.com/ncounterspecialist/twick/blob/322058f5130be7eb0f94cfb23a9e57764d22f682/packages/canvas/src/helpers/constants.ts#L26)
 
 ___
 
@@ -247,7 +247,7 @@ ___
 
 #### Defined in
 
-[packages/canvas/src/components/element-controls.tsx:3](https://github.com/ncounterspecialist/twick/blob/fd733a8e18def806439dd44ca0b85270e8359a26/packages/canvas/src/components/element-controls.tsx#L3)
+[packages/canvas/src/components/element-controls.tsx:3](https://github.com/ncounterspecialist/twick/blob/322058f5130be7eb0f94cfb23a9e57764d22f682/packages/canvas/src/components/element-controls.tsx#L3)
 
 ___
 
@@ -257,7 +257,7 @@ ___
 
 #### Defined in
 
-[packages/canvas/src/components/element-controls.tsx:24](https://github.com/ncounterspecialist/twick/blob/fd733a8e18def806439dd44ca0b85270e8359a26/packages/canvas/src/components/element-controls.tsx#L24)
+[packages/canvas/src/components/element-controls.tsx:24](https://github.com/ncounterspecialist/twick/blob/322058f5130be7eb0f94cfb23a9e57764d22f682/packages/canvas/src/components/element-controls.tsx#L24)
 
 ## Functions
 
@@ -278,7 +278,7 @@ ___
 
 #### Defined in
 
-[packages/canvas/src/components/canvas-container.tsx:10](https://github.com/ncounterspecialist/twick/blob/fd733a8e18def806439dd44ca0b85270e8359a26/packages/canvas/src/components/canvas-container.tsx#L10)
+[packages/canvas/src/components/canvas-container.tsx:10](https://github.com/ncounterspecialist/twick/blob/322058f5130be7eb0f94cfb23a9e57764d22f682/packages/canvas/src/components/canvas-container.tsx#L10)
 
 ___
 
@@ -286,7 +286,7 @@ ___
 
 ▸ **addBackgroundColor**(`«destructured»`): `Rect`\<\{ `fill`: `string` ; `hasBorders`: ``false`` = false; `hasControls`: ``false`` = false; `height`: `number` = canvasMetadata.height; `left`: `number` ; `originX`: ``"center"`` = "center"; `originY`: ``"center"`` = "center"; `selectable`: ``false`` = false; `top`: `number` ; `width`: `number` = canvasMetadata.width }, `SerializedRectProps`, `ObjectEvents`\>
 
-Add a background element to the canvas.
+Add a background color to the canvas.
 
 #### Parameters
 
@@ -306,13 +306,13 @@ A Fabric.js Rect object configured with the specified properties.
 
 #### Defined in
 
-[packages/canvas/src/components/elements.tsx:535](https://github.com/ncounterspecialist/twick/blob/fd733a8e18def806439dd44ca0b85270e8359a26/packages/canvas/src/components/elements.tsx#L535)
+[packages/canvas/src/components/elements.tsx:535](https://github.com/ncounterspecialist/twick/blob/322058f5130be7eb0f94cfb23a9e57764d22f682/packages/canvas/src/components/elements.tsx#L535)
 
 ___
 
 ### addCaptionElement
 
-▸ **addCaptionElement**(`params`): `FabricText`\<\{ `angle`: `number` ; `fill`: `string` ; `fontFamily`: `string` ; `fontSize`: `number` ; `fontWeight`: `number` = DEFAULT\_CAPTION\_PROPS.fontWeight; `left`: `number` = x; `originX`: ``"center"`` = "center"; `originY`: ``"center"`` = "center"; `shadow`: `Shadow` ; `stroke`: `string` ; `strokeWidth`: `number` ; `top`: `number` = y }, `SerializedTextProps`, `ObjectEvents`\>
+▸ **addCaptionElement**(`params`): `FabricText`\<\{ `angle`: `number` ; `fill`: `string` ; `fontFamily`: `string` ; `fontSize`: `number` ; `fontWeight`: `number` = DEFAULT\_CAPTION\_PROPS.fontWeight; `left`: `Position` = x; `originX`: ``"center"`` = "center"; `originY`: ``"center"`` = "center"; `shadow`: `Shadow` ; `stroke`: `string` ; `strokeWidth`: `number` ; `top`: `Position` = y }, `SerializedTextProps`, `ObjectEvents`\>
 
 Add a caption element for the canvas based on provided props.
 
@@ -329,13 +329,13 @@ Add a caption element for the canvas based on provided props.
 
 #### Returns
 
-`FabricText`\<\{ `angle`: `number` ; `fill`: `string` ; `fontFamily`: `string` ; `fontSize`: `number` ; `fontWeight`: `number` = DEFAULT\_CAPTION\_PROPS.fontWeight; `left`: `number` = x; `originX`: ``"center"`` = "center"; `originY`: ``"center"`` = "center"; `shadow`: `Shadow` ; `stroke`: `string` ; `strokeWidth`: `number` ; `top`: `number` = y }, `SerializedTextProps`, `ObjectEvents`\>
+`FabricText`\<\{ `angle`: `number` ; `fill`: `string` ; `fontFamily`: `string` ; `fontSize`: `number` ; `fontWeight`: `number` = DEFAULT\_CAPTION\_PROPS.fontWeight; `left`: `Position` = x; `originX`: ``"center"`` = "center"; `originY`: ``"center"`` = "center"; `shadow`: `Shadow` ; `stroke`: `string` ; `strokeWidth`: `number` ; `top`: `Position` = y }, `SerializedTextProps`, `ObjectEvents`\>
 
 The configured Fabric.js caption object.
 
 #### Defined in
 
-[packages/canvas/src/components/elements.tsx:101](https://github.com/ncounterspecialist/twick/blob/fd733a8e18def806439dd44ca0b85270e8359a26/packages/canvas/src/components/elements.tsx#L101)
+[packages/canvas/src/components/elements.tsx:101](https://github.com/ncounterspecialist/twick/blob/322058f5130be7eb0f94cfb23a9e57764d22f682/packages/canvas/src/components/elements.tsx#L101)
 
 ___
 
@@ -363,13 +363,13 @@ A Fabric.js image object or a group with an image and frame.
 
 #### Defined in
 
-[packages/canvas/src/components/elements.tsx:264](https://github.com/ncounterspecialist/twick/blob/fd733a8e18def806439dd44ca0b85270e8359a26/packages/canvas/src/components/elements.tsx#L264)
+[packages/canvas/src/components/elements.tsx:264](https://github.com/ncounterspecialist/twick/blob/322058f5130be7eb0f94cfb23a9e57764d22f682/packages/canvas/src/components/elements.tsx#L264)
 
 ___
 
 ### addRectElement
 
-▸ **addRectElement**(`«destructured»`): `Rect`\<\{ `angle`: `number` ; `fill`: `string` ; `height`: `number` ; `left`: `number` = x; `opacity`: `number` ; `originX`: ``"center"`` = "center"; `originY`: ``"center"`` = "center"; `rx`: `number` ; `ry`: `number` ; `stroke`: `string` ; `strokeWidth`: `number` ; `top`: `number` = y; `width`: `number`  }, `SerializedRectProps`, `ObjectEvents`\>
+▸ **addRectElement**(`«destructured»`): `Rect`\<\{ `angle`: `number` ; `fill`: `string` ; `height`: `number` ; `left`: `Position` = x; `opacity`: `number` ; `originX`: ``"center"`` = "center"; `originY`: ``"center"`` = "center"; `rx`: `number` ; `ry`: `number` ; `stroke`: `string` ; `strokeWidth`: `number` ; `top`: `Position` = y; `width`: `number`  }, `SerializedRectProps`, `ObjectEvents`\>
 
 Add a rectangular Fabric.js element based on the provided canvas element data.
 
@@ -385,19 +385,19 @@ Add a rectangular Fabric.js element based on the provided canvas element data.
 
 #### Returns
 
-`Rect`\<\{ `angle`: `number` ; `fill`: `string` ; `height`: `number` ; `left`: `number` = x; `opacity`: `number` ; `originX`: ``"center"`` = "center"; `originY`: ``"center"`` = "center"; `rx`: `number` ; `ry`: `number` ; `stroke`: `string` ; `strokeWidth`: `number` ; `top`: `number` = y; `width`: `number`  }, `SerializedRectProps`, `ObjectEvents`\>
+`Rect`\<\{ `angle`: `number` ; `fill`: `string` ; `height`: `number` ; `left`: `Position` = x; `opacity`: `number` ; `originX`: ``"center"`` = "center"; `originY`: ``"center"`` = "center"; `rx`: `number` ; `ry`: `number` ; `stroke`: `string` ; `strokeWidth`: `number` ; `top`: `Position` = y; `width`: `number`  }, `SerializedRectProps`, `ObjectEvents`\>
 
 A Fabric.js Rect object configured with the specified properties.
 
 #### Defined in
 
-[packages/canvas/src/components/elements.tsx:478](https://github.com/ncounterspecialist/twick/blob/fd733a8e18def806439dd44ca0b85270e8359a26/packages/canvas/src/components/elements.tsx#L478)
+[packages/canvas/src/components/elements.tsx:478](https://github.com/ncounterspecialist/twick/blob/322058f5130be7eb0f94cfb23a9e57764d22f682/packages/canvas/src/components/elements.tsx#L478)
 
 ___
 
 ### addTextElement
 
-▸ **addTextElement**(`params`): `FabricText`\<\{ `angle`: `number` ; `fill`: `string` ; `fontFamily`: `string` ; `fontSize`: `number` ; `fontStyle`: `string` ; `fontWeight`: `string` ; `left`: `number` = x; `originX`: ``"center"`` = "center"; `originY`: ``"center"`` = "center"; `shadow`: `undefined` \| `Shadow` ; `stroke`: `string` ; `strokeWidth`: `number` ; `top`: `number` = y }, `SerializedTextProps`, `ObjectEvents`\>
+▸ **addTextElement**(`params`): `FabricText`\<\{ `angle`: `number` ; `fill`: `string` ; `fontFamily`: `string` ; `fontSize`: `number` ; `fontStyle`: `string` ; `fontWeight`: `string` ; `left`: `Position` = x; `originX`: ``"center"`` = "center"; `originY`: ``"center"`` = "center"; `shadow`: `undefined` \| `Shadow` ; `stroke`: `string` ; `strokeWidth`: `number` ; `top`: `Position` = y }, `SerializedTextProps`, `ObjectEvents`\>
 
 Add a text element for the canvas.
 
@@ -413,13 +413,13 @@ Add a text element for the canvas.
 
 #### Returns
 
-`FabricText`\<\{ `angle`: `number` ; `fill`: `string` ; `fontFamily`: `string` ; `fontSize`: `number` ; `fontStyle`: `string` ; `fontWeight`: `string` ; `left`: `number` = x; `originX`: ``"center"`` = "center"; `originY`: ``"center"`` = "center"; `shadow`: `undefined` \| `Shadow` ; `stroke`: `string` ; `strokeWidth`: `number` ; `top`: `number` = y }, `SerializedTextProps`, `ObjectEvents`\>
+`FabricText`\<\{ `angle`: `number` ; `fill`: `string` ; `fontFamily`: `string` ; `fontSize`: `number` ; `fontStyle`: `string` ; `fontWeight`: `string` ; `left`: `Position` = x; `originX`: ``"center"`` = "center"; `originY`: ``"center"`` = "center"; `shadow`: `undefined` \| `Shadow` ; `stroke`: `string` ; `strokeWidth`: `number` ; `top`: `Position` = y }, `SerializedTextProps`, `ObjectEvents`\>
 
 The configured Fabric.js text object.
 
 #### Defined in
 
-[packages/canvas/src/components/elements.tsx:20](https://github.com/ncounterspecialist/twick/blob/fd733a8e18def806439dd44ca0b85270e8359a26/packages/canvas/src/components/elements.tsx#L20)
+[packages/canvas/src/components/elements.tsx:20](https://github.com/ncounterspecialist/twick/blob/322058f5130be7eb0f94cfb23a9e57764d22f682/packages/canvas/src/components/elements.tsx#L20)
 
 ___
 
@@ -449,7 +449,7 @@ A Fabric.js image or group object for the video frame.
 
 #### Defined in
 
-[packages/canvas/src/components/elements.tsx:185](https://github.com/ncounterspecialist/twick/blob/fd733a8e18def806439dd44ca0b85270e8359a26/packages/canvas/src/components/elements.tsx#L185)
+[packages/canvas/src/components/elements.tsx:185](https://github.com/ncounterspecialist/twick/blob/322058f5130be7eb0f94cfb23a9e57764d22f682/packages/canvas/src/components/elements.tsx#L185)
 
 ___
 
@@ -475,7 +475,7 @@ The corresponding position in canvas space.
 
 #### Defined in
 
-[packages/canvas/src/helpers/canvas.util.ts:118](https://github.com/ncounterspecialist/twick/blob/fd733a8e18def806439dd44ca0b85270e8359a26/packages/canvas/src/helpers/canvas.util.ts#L118)
+[packages/canvas/src/helpers/canvas.util.ts:115](https://github.com/ncounterspecialist/twick/blob/322058f5130be7eb0f94cfb23a9e57764d22f682/packages/canvas/src/helpers/canvas.util.ts#L115)
 
 ___
 
@@ -502,7 +502,7 @@ The corresponding position in video space.
 
 #### Defined in
 
-[packages/canvas/src/helpers/canvas.util.ts:138](https://github.com/ncounterspecialist/twick/blob/fd733a8e18def806439dd44ca0b85270e8359a26/packages/canvas/src/helpers/canvas.util.ts#L138)
+[packages/canvas/src/helpers/canvas.util.ts:135](https://github.com/ncounterspecialist/twick/blob/322058f5130be7eb0f94cfb23a9e57764d22f682/packages/canvas/src/helpers/canvas.util.ts#L135)
 
 ___
 
@@ -531,7 +531,7 @@ An object containing the initialized canvas and its metadata.
 
 #### Defined in
 
-[packages/canvas/src/helpers/canvas.util.ts:22](https://github.com/ncounterspecialist/twick/blob/fd733a8e18def806439dd44ca0b85270e8359a26/packages/canvas/src/helpers/canvas.util.ts#L22)
+[packages/canvas/src/helpers/canvas.util.ts:22](https://github.com/ncounterspecialist/twick/blob/322058f5130be7eb0f94cfb23a9e57764d22f682/packages/canvas/src/helpers/canvas.util.ts#L22)
 
 ___
 
@@ -556,7 +556,7 @@ The current frame effect active at the given seek time, if any.
 
 #### Defined in
 
-[packages/canvas/src/helpers/canvas.util.ts:157](https://github.com/ncounterspecialist/twick/blob/fd733a8e18def806439dd44ca0b85270e8359a26/packages/canvas/src/helpers/canvas.util.ts#L157)
+[packages/canvas/src/helpers/canvas.util.ts:154](https://github.com/ncounterspecialist/twick/blob/322058f5130be7eb0f94cfb23a9e57764d22f682/packages/canvas/src/helpers/canvas.util.ts#L154)
 
 ___
 
@@ -578,7 +578,7 @@ Reorders elements on the canvas based on their zIndex property.
 
 #### Defined in
 
-[packages/canvas/src/helpers/canvas.util.ts:83](https://github.com/ncounterspecialist/twick/blob/fd733a8e18def806439dd44ca0b85270e8359a26/packages/canvas/src/helpers/canvas.util.ts#L83)
+[packages/canvas/src/helpers/canvas.util.ts:83](https://github.com/ncounterspecialist/twick/blob/322058f5130be7eb0f94cfb23a9e57764d22f682/packages/canvas/src/helpers/canvas.util.ts#L83)
 
 ___
 
@@ -611,4 +611,4 @@ Canvas-related functions and state.
 
 #### Defined in
 
-[packages/canvas/src/hooks/use-twick-canvas.ts:29](https://github.com/ncounterspecialist/twick/blob/fd733a8e18def806439dd44ca0b85270e8359a26/packages/canvas/src/hooks/use-twick-canvas.ts#L29)
+[packages/canvas/src/hooks/use-twick-canvas.ts:29](https://github.com/ncounterspecialist/twick/blob/322058f5130be7eb0f94cfb23a9e57764d22f682/packages/canvas/src/hooks/use-twick-canvas.ts#L29)
