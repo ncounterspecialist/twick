@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "build": "turbo run build --filter=./packages/* --filter=!./packages/documentation",
+    "build": "turbo run build --filter=./packages/*",
     "build:media-utils": "turbo run build --filter=@twick/media-utils",
     "build:canvas": "turbo run build --filter=@twick/canvas",
     "build:documentation": "pnpm run docs && pnpm run docs:copy && turbo run build --filter=@twick/documentation",
