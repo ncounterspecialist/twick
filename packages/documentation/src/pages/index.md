@@ -14,7 +14,7 @@ Twick is a collection of TypeScript packages designed to help developers build m
 
 - **[@twick/media-utils](/docs/packages/media-utils/)** - Core utilities for media handling and manipulation
 - **[@twick/canvas](/docs/packages/canvas/)** - React-based canvas library for video and image editing  
-- **[@twick/player](/docs/packages/player/)** - React component for video playback and control
+- **[@twick/live-player](/docs/packages/live-player/)** - React component for video playback and control
 - **[@twick/visualizer](/docs/packages/visualizer/)** - Video visualization and animation toolkit
 - **[@twick/examples](/docs/packages/examples/)** - Example implementations and usage demonstrations
 

@@ -121,9 +121,9 @@ importers:
       '@twick/canvas':
         specifier: workspace:^0.0.1
         version: link:../canvas
-      '@twick/player':
+      '@twick/live-player':
         specifier: workspace:^0.0.1
-        version: link:../player
+        version: link:../live-player
       '@types/react-router-dom':
         specifier: ^5.3.3
         version: 5.3.3
@@ -171,38 +171,7 @@ importers:
         specifier: ^6.3.5
         version: 6.3.5
 
-  packages/media-utils:
-    dependencies:
-      react:
-        specifier: ^18.0.0
-        version: 18.3.1
-      react-dom:
-        specifier: ^18.0.0
-        version: 18.3.1(react@18.3.1)
-    devDependencies:
-      '@types/node':
-        specifier: ^20.11.24
-        version: 20.17.52
-      rimraf:
-        specifier: ^5.0.5
-        version: 5.0.10
-      typedoc:
-        specifier: ^0.25.8
-        version: 0.25.13(typescript@5.8.3)
-      typedoc-plugin-markdown:
-        specifier: ^3.17.1
-        version: 3.17.1(typedoc@0.25.13)
-      typescript:
-        specifier: ^5.4.2
-        version: 5.8.3
-      vite:
-        specifier: ^5.1.4
-        version: 5.4.19(@types/node@20.17.52)
-      vite-plugin-dts:
-        specifier: ^3.7.3
-        version: 3.9.1(@types/node@20.17.52)(typescript@5.8.3)(vite@5.4.19)
-
-  packages/player:
+  packages/live-player:
     dependencies:
       '@revideo/core':
         specifier: ^0.10.4
@@ -226,6 +195,37 @@ importers:
       '@types/react-dom':
         specifier: ^18.2.19
         version: 18.3.7(@types/react@18.3.23)
+      rimraf:
+        specifier: ^5.0.5
+        version: 5.0.10
+      typedoc:
+        specifier: ^0.25.8
+        version: 0.25.13(typescript@5.8.3)
+      typedoc-plugin-markdown:
+        specifier: ^3.17.1
+        version: 3.17.1(typedoc@0.25.13)
+      typescript:
+        specifier: ^5.4.2
+        version: 5.8.3
+      vite:
+        specifier: ^5.1.4
+        version: 5.4.19(@types/node@20.17.52)
+      vite-plugin-dts:
+        specifier: ^3.7.3
+        version: 3.9.1(@types/node@20.17.52)(typescript@5.8.3)(vite@5.4.19)
+
+  packages/media-utils:
+    dependencies:
+      react:
+        specifier: ^18.0.0
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.0.0
+        version: 18.3.1(react@18.3.1)
+    devDependencies:
+      '@types/node':
+        specifier: ^20.11.24
+        version: 20.17.52
       rimraf:
         specifier: ^5.0.5
         version: 5.0.10

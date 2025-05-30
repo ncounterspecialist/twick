@@ -22,8 +22,8 @@ const sidebars = {
         },
         {
           type: 'doc',
-          label: '@twick/player',
-          id: 'packages/player/modules'
+          label: '@twick/live-player',
+          id: 'packages/live-player/modules'
         },
         {
           type: 'doc',
