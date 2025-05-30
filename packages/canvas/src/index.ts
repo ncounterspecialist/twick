@@ -1,8 +1,3 @@
-// Components
-export {
-  CanvasContainer,
-  type CanvasContainerProps,
-} from "./components/canvas-container";
 export {
   addImageElement,
   addVideoElement,

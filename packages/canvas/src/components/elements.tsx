@@ -46,7 +46,7 @@ export const addTextElement = ({
     canvasMetadata
   );
 
-  const text = new FabricText(element.props.text || element.name || "", {
+  const text = new FabricText(element.props?.text || "", {
     left: x,
     top: y,
     originX: "center",
@@ -162,7 +162,7 @@ export const addCaptionElement = ({
     canvasMetadata
   );
 
-  const caption = new FabricText(element.name || "", {
+  const caption = new FabricText(element.props?.text || "", {
     left: x,
     top: y,
     originX: "center",
@@ -425,8 +425,6 @@ const addMediaGroup = ({
     height: frameSize.height,
     angle: angle,
   };
-
-  console.log("groupProps", groupProps);
 
   // Customize the control points for the group
   // Change only the top control to a different style, keep others as circles

@@ -43,7 +43,6 @@ export type FrameEffect = {
 
 export type CanvasElement = {
     id: string;
-    name: string;
     type: string;
     props: CanvasElementProps;
     s?: number;

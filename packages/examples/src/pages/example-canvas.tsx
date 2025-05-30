@@ -1,6 +1,6 @@
 import {
   CANVAS_OPERATIONS,
-  CanvasContainer,
+  type CanvasElement,
   useTwickCanvas,
 } from "@twick/canvas";
 import { useEffect, useRef, useState } from "react";
@@ -9,7 +9,6 @@ import "./example-canvas.css";
 export default function ExampleCanvas() {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const isMounted = useRef(false);
   const [elements, setElements] = useState<any[]>([]);
   const handleCanvasReady = (canvas: any) => {
     console.log("Canvas ready", canvas);
@@ -45,11 +44,8 @@ export default function ExampleCanvas() {
   };
 
   useEffect(() => {
-    if (!isMounted.current) {
       console.log("initCanvas");
       initCanvas();
-      isMounted.current = true;
-    }
   }, []);
 
   const { twickCanvas, buildCanvas, addElementToCanvas } = useTwickCanvas({
@@ -58,7 +54,7 @@ export default function ExampleCanvas() {
   });
 
   const addImage = () => {
-    const image = {
+    const image: CanvasElement = {
       type: "image",
       id: elements.length + 1,
       frame: {
@@ -75,7 +71,7 @@ export default function ExampleCanvas() {
   };
 
   const addRect = () => {
-    const rect = {
+    const rect: CanvasElement = {
       type: "rect",
       id: elements.length + 1,
       props: {
@@ -93,7 +89,7 @@ export default function ExampleCanvas() {
   };
 
   const addText = () => {
-    const text = {
+    const text: CanvasElement = {
       type: "text",
       id: elements.length + 1,
       props: {
@@ -122,7 +118,7 @@ export default function ExampleCanvas() {
         <button onClick={addText}>Add Text</button>
       </div>
       <div ref={containerRef} className="canvas-container">
-        <CanvasContainer fabricCanvas={twickCanvas} canvasRef={canvasRef} />
+        <canvas ref={canvasRef} className="w-full h-full"></canvas>
       </div>
     </div>
   );

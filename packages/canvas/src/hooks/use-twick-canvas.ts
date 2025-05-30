@@ -18,7 +18,6 @@ import {
   addCaptionElement,
   addBackgroundColor,
 } from "../components/elements";
-import { assertBrowser } from "../helpers/browser";
 
 /**
  * Custom hook to manage a Fabric.js canvas and associated operations.
@@ -37,7 +36,7 @@ export const useTwickCanvas = ({
   const [twickCanvas, setTwickCanvas] = useState<FabricCanvas | null>(null); // Canvas instance
   const elementMap = useRef<Record<string, any>>({}); // Maps element IDs to their data
   const elementFrameMap = useRef<Record<string, any>>({}); // Maps element IDs to their frame effects
-
+  const twickCanvasRef = useRef<FabricCanvas | null>(null);
   const videoSizeRef = useRef<Dimensions>({ width: 1, height: 1 }); // Stores the video dimensions
   const canvasMetadataRef = useRef<CanvasMetadata>({
     width: 0,
@@ -80,12 +79,11 @@ export const useTwickCanvas = ({
   }: CanvasProps) => {
     if (!canvasRef) return;
 
-    assertBrowser()
     // Dispose of the old canvas if it exists
-    if (twickCanvas) {
+    if (twickCanvasRef.current) {
       console.log("Destroying twickCanvas");
-      twickCanvas.off("mouse:up", handleMouseUp);
-      twickCanvas.destroy();
+      twickCanvasRef.current.off("mouse:up", handleMouseUp);
+      twickCanvasRef.current.dispose();
     }
 
     // Create a new canvas and update metadata
@@ -105,7 +103,7 @@ export const useTwickCanvas = ({
     // Attach event listeners
     canvas?.on("mouse:up", handleMouseUp);
     setTwickCanvas(canvas);
-
+    twickCanvasRef.current = canvas;
     // Notify when canvas is ready
     if (onCanvasReady) {
       onCanvasReady(canvas);
