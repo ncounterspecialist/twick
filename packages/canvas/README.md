@@ -11,7 +11,7 @@ A React-based canvas library built with Fabric.js for video and image manipulati
 ## Installation
 
 ```bash
-npm install @twick/canvas
+pnpm install @twick/canvas
 ```
 
 ## Usage

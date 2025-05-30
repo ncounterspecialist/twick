@@ -13,7 +13,7 @@ const CanvasContainer: React.FC<CanvasContainerProps> = ({
 }) => {
   return (
     <>
-      <div className="flex items-center justify-center w-full h-full bg-black">
+      <div className="flex items-center justify-center w-full h-full bg-transparent">
         <canvas ref={canvasRef} className="w-full h-full"></canvas>
       </div>
       

@@ -118,6 +118,9 @@ importers:
 
   packages/examples:
     dependencies:
+      '@twick/canvas':
+        specifier: workspace:^0.0.1
+        version: link:../canvas
       '@twick/player':
         specifier: workspace:^0.0.1
         version: link:../player

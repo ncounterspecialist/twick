@@ -82,13 +82,15 @@ export function createCanvas({
  */
 export function reorderElementsByZIndex(canvas: FabricCanvas) {
   if (!canvas) return;
+  let backgroundColor = canvas.backgroundColor;
 
   const objects = canvas.getObjects();
-
   // Sort objects by zIndex and re-add to the canvas in order
   objects.sort((a, b) => (a.zIndex || 0) - (b.zIndex || 0));
 
   canvas.clear();
+  canvas.backgroundColor = backgroundColor;
+
   objects.forEach((obj) => canvas.add(obj));
   canvas.renderAll();
 }
