@@ -11,47 +11,50 @@ A React-based canvas library built with Fabric.js for video and image manipulati
 ## Installation
 
 ```bash
-npm install @twick/canvas
+pnpm install @twick/canvas
 ```
 
 ## Usage
 
-### Basic Video Canvas
-
-```tsx
-import { CanvasContainer } from '@twick/canvas';
-
-function App() {
-  return (
-    <CanvasContainer
-      videoUrl="https://example.com/video.mp4"
-      width={800}
-      height={600}
-      onCanvasReady={(canvas) => {
-        // Access canvas instance
-      }}
-    />
-  );
-}
-```
-
-### Custom Hook
+### Basic Canvas Setup
 
 ```tsx
 import { useTwickCanvas } from '@twick/canvas';
+import { useRef, useEffect } from 'react';
 
 function CustomCanvas() {
-  const { canvas, video, isPlaying, play, pause, seek } = useTwickCanvas(
-    canvasRef,
-    videoUrl
-  );
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const { twickCanvas, buildCanvas, addElementToCanvas } = useTwickCanvas({
+    onCanvasReady: (canvas) => {
+      console.log("Canvas ready", canvas);
+    },
+    onCanvasOperation: (operation, data) => {
+      console.log("Canvas operation", operation, data);
+    }
+  });
+
+  useEffect(() => {
+    const container = containerRef.current;
+    const canvasSize = {
+      width: container?.clientWidth,
+      height: container?.clientHeight,
+    };
+    
+    buildCanvas({
+      videoSize: {
+        width: 720,
+        height: 1280,
+      },
+      canvasSize,
+      canvasRef: canvasRef.current,
+    });
+  }, []);
 
   return (
-    <div>
+    <div ref={containerRef}>
       <canvas ref={canvasRef} />
-      <button onClick={isPlaying ? pause : play}>
-        {isPlaying ? 'Pause' : 'Play'}
-      </button>
     </div>
   );
 }
@@ -60,134 +63,37 @@ function CustomCanvas() {
 ### Adding Elements
 
 ```tsx
-import { 
-  addImageElement, 
-  addVideoElement, 
-  addTextElement, 
-  addCaptionElement,
-  addRectElement,
-  addBackgroundColor
-} from '@twick/canvas';
-
 // Add an image
-const imageElement = await addImageElement({
-  element: {
-    id: 'image-1',
-    name: 'My Image',
-    type: 'image',
-    startTime: 0,
-    endTime: 10,
-    props: {
-      src: 'image.jpg',
-      x: 100,
-      y: 100,
-      width: 200,
-      height: 150,
-      rotation: 0,
-      scaleX: 1,
-      scaleY: 1
-    },
-    frame: {
-      size: [200, 150],
-      rotation: 0,
-      stroke: '#ffffff',
-      lineWidth: 1,
-      x: 0,
-      y: 0
-    }
+const imageElement = {
+  type: "image",
+  id: "image-1",
+  frame: {
+    size: [400, 300],
   },
-  index: 1,
-  canvas: fabricCanvas,
-  canvasMetadata: {
-    width: 800,
-    height: 600,
-    scaleX: 1,
-    scaleY: 1,
-    aspectRatio: 1.33
+  props: {
+    src: "https://example.com/image.jpg",
   }
-});
+};
+
+addElementToCanvas({ element: imageElement, index: 0 });
 
 // Add text
-const textElement = await addTextElement({
-  element: {
-    id: 'text-1',
-    name: 'My Text',
-    type: 'text',
-    startTime: 0,
-    endTime: 10,
-    props: {
-      text: 'Hello World',
-      x: 50,
-      y: 50,
-      fontSize: 24,
-      fill: 'white',
-      fontFamily: 'Arial',
-      rotation: 0,
-      shadowColor: '#000000',
-      shadowBlur: 2,
-      shadowOffset: [1, 1]
-    }
-  },
-  index: 2,
-  canvas: fabricCanvas,
-  canvasMetadata: {
-    width: 800,
-    height: 600,
-    scaleX: 1,
-    scaleY: 1,
-    aspectRatio: 1.33
+const textElement = {
+  type: "text",
+  id: "text-1",
+  props: {
+    x: 100,
+    y: 100,
+    text: "Hello World",
+    fontSize: 64,
+    fill: "#FFFFFF",
   }
-});
+};
 
-// Add caption
-const captionElement = await addCaptionElement({
-  element: {
-    id: 'caption-1',
-    name: 'My Caption',
-    type: 'caption',
-    startTime: 0,
-    endTime: 10,
-    props: {
-      text: 'Video Caption',
-      pos: { x: 0, y: 0 },
-      font: {
-        family: 'Arial',
-        size: 32,
-        style: 'normal',
-        weight: 'normal'
-      },
-      fill: 'white',
-      stroke: '#000000',
-      lineWidth: 1,
-      rotation: 0
-    }
-  },
-  index: 3,
-  canvas: fabricCanvas,
-  captionProps: {
-    pos: { x: 0, y: 0 },
-    font: {
-      family: 'Arial',
-      size: 32,
-      color: 'white'
-    }
-  },
-  canvasMetadata: {
-    width: 800,
-    height: 600,
-    scaleX: 1,
-    scaleY: 1,
-    aspectRatio: 1.33
-  }
-});
+addElementToCanvas({ element: textElement, index: 1 });
 ```
 
 ## API Reference
-
-### Components
-
-- `CanvasContainer`: Main component for video/image canvas
-- `CanvasContainerProps`: Props interface for CanvasContainer
 
 ### Hooks
 

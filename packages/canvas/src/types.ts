@@ -30,6 +30,8 @@ export type FrameEffect = {
     s: number;
     e: number;
     props: {
+        shape?: "circle" | "rect";
+        radius?: number;
         rotation?: number;
         framePosition?: {
             x: number;
@@ -41,10 +43,10 @@ export type FrameEffect = {
 
 export type CanvasElement = {
     id: string;
-    name: string;
     type: string;
     props: CanvasElementProps;
-    startTime?: number;
+    s?: number;
+    e?: number;
     frameEffects?: FrameEffect[];
     timelineType?: string;
     backgoundColor?: string;
@@ -64,6 +66,7 @@ export type CanvasElement = {
 
 export type CanvasElementProps = {
     src?: string;
+    text?: string;
     rotation?: number;
     scaleX?: number;
     scaleY?: number;

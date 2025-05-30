@@ -11,7 +11,7 @@ import {
 } from "../helpers/canvas.util";
 import { CANVAS_OPERATIONS, ELEMENT_TYPES } from "../helpers/constants";
 import {
-  addImageElement,  
+  addImageElement,
   addVideoElement,
   addRectElement,
   addTextElement,
@@ -36,7 +36,7 @@ export const useTwickCanvas = ({
   const [twickCanvas, setTwickCanvas] = useState<FabricCanvas | null>(null); // Canvas instance
   const elementMap = useRef<Record<string, any>>({}); // Maps element IDs to their data
   const elementFrameMap = useRef<Record<string, any>>({}); // Maps element IDs to their frame effects
-
+  const twickCanvasRef = useRef<FabricCanvas | null>(null);
   const videoSizeRef = useRef<Dimensions>({ width: 1, height: 1 }); // Stores the video dimensions
   const canvasMetadataRef = useRef<CanvasMetadata>({
     width: 0,
@@ -80,9 +80,10 @@ export const useTwickCanvas = ({
     if (!canvasRef) return;
 
     // Dispose of the old canvas if it exists
-    if (twickCanvas) {
-      twickCanvas.off("mouse:up", handleMouseUp);
-      twickCanvas.dispose();
+    if (twickCanvasRef.current) {
+      console.log("Destroying twickCanvas");
+      twickCanvasRef.current.off("mouse:up", handleMouseUp);
+      twickCanvasRef.current.dispose();
     }
 
     // Create a new canvas and update metadata
@@ -102,7 +103,7 @@ export const useTwickCanvas = ({
     // Attach event listeners
     canvas?.on("mouse:up", handleMouseUp);
     setTwickCanvas(canvas);
-
+    twickCanvasRef.current = canvas;
     // Notify when canvas is ready
     if (onCanvasReady) {
       onCanvasReady(canvas);
@@ -112,7 +113,7 @@ export const useTwickCanvas = ({
   /**
    * Handles mouse up events on the canvas.
    *
-   * @param event - Event object. 
+   * @param event - Event object.
    */
   const handleMouseUp = (event: any) => {
     if (event.target) {
@@ -156,92 +157,90 @@ export const useTwickCanvas = ({
               elementMap.current[elementId]
             );
           } else {
-              if (object?.type === "group") {
-                const currentFrameEffect = elementFrameMap.current[elementId];
-                let updatedFrameSize;
-                if (currentFrameEffect) {
-                  updatedFrameSize = [
-                    currentFrameEffect.props.frameSize[0] * object.scaleX,
-                    currentFrameEffect.props.frameSize[1] * object.scaleY,
-                  ];
-                } else {
-                  updatedFrameSize = [
-                    elementMap.current[elementId].frame.size[0] * object.scaleX,
-                    elementMap.current[elementId].frame.size[1] * object.scaleY,
-                  ];
-                }
-
-                if (currentFrameEffect) {
-                  elementMap.current[elementId] = {
-                    ...elementMap.current[elementId],
-                    frameEffects: (
-                      elementMap.current[elementId].frameEffects || []
-                    ).map((frameEffect: any) =>
-                      frameEffect.id === currentFrameEffect?.id
-                        ? {
-                            ...frameEffect,
-                            props: {
-                              ...frameEffect.props,
-                              framePosition: {
-                                x,
-                                y,
-                              },
-                              frameSize: updatedFrameSize,
-                            },
-                          }
-                        : frameEffect
-                    ),
-                  };
-                  elementFrameMap.current[elementId] = {
-                    ...elementFrameMap.current[elementId],
-                    framePosition: {
-                      x,
-                      y,
-                    },
-                    frameSize: updatedFrameSize,
-                  };
-                } else {
-                  elementMap.current[elementId] = {
-                    ...elementMap.current[elementId],
-                    frame: {
-                      ...elementMap.current[elementId].frame,
-                      rotation: object.angle,
-                      size: updatedFrameSize,
-                      x,
-                      y,
-                    },
-                  };
-                }
+            if (object?.type === "group") {
+              const currentFrameEffect = elementFrameMap.current[elementId];
+              let updatedFrameSize;
+              if (currentFrameEffect) {
+                updatedFrameSize = [
+                  currentFrameEffect.props.frameSize[0] * object.scaleX,
+                  currentFrameEffect.props.frameSize[1] * object.scaleY,
+                ];
               } else {
-                if (object?.type === "text") {
-                  elementMap.current[elementId] = {
-                    ...elementMap.current[elementId],
-                    props: {
-                      ...elementMap.current[elementId].props,
-                      rotation: object.angle,
-                      x,
-                      y,
-                    },
-                  };
-                } 
-                else {
-                  elementMap.current[elementId] = {
-                    ...elementMap.current[elementId],
-                    props: {
-                      ...elementMap.current[elementId].props,
-                      rotation: object.angle,
-                      width:
-                        elementMap.current[elementId].props.width *
-                        object.scaleX,
-                      height:
-                        elementMap.current[elementId].props.height *
-                        object.scaleY,
-                      x,
-                      y,
-                    },
-                  };
-                }
+                updatedFrameSize = [
+                  elementMap.current[elementId].frame.size[0] * object.scaleX,
+                  elementMap.current[elementId].frame.size[1] * object.scaleY,
+                ];
               }
+
+              if (currentFrameEffect) {
+                elementMap.current[elementId] = {
+                  ...elementMap.current[elementId],
+                  frameEffects: (
+                    elementMap.current[elementId].frameEffects || []
+                  ).map((frameEffect: any) =>
+                    frameEffect.id === currentFrameEffect?.id
+                      ? {
+                          ...frameEffect,
+                          props: {
+                            ...frameEffect.props,
+                            framePosition: {
+                              x,
+                              y,
+                            },
+                            frameSize: updatedFrameSize,
+                          },
+                        }
+                      : frameEffect
+                  ),
+                };
+                elementFrameMap.current[elementId] = {
+                  ...elementFrameMap.current[elementId],
+                  framePosition: {
+                    x,
+                    y,
+                  },
+                  frameSize: updatedFrameSize,
+                };
+              } else {
+                elementMap.current[elementId] = {
+                  ...elementMap.current[elementId],
+                  frame: {
+                    ...elementMap.current[elementId].frame,
+                    rotation: object.angle,
+                    size: updatedFrameSize,
+                    x,
+                    y,
+                  },
+                };
+              }
+            } else {
+              if (object?.type === "text") {
+                elementMap.current[elementId] = {
+                  ...elementMap.current[elementId],
+                  props: {
+                    ...elementMap.current[elementId].props,
+                    rotation: object.angle,
+                    x,
+                    y,
+                  },
+                };
+              } else {
+                elementMap.current[elementId] = {
+                  ...elementMap.current[elementId],
+                  props: {
+                    ...elementMap.current[elementId].props,
+                    rotation: object.angle,
+                    width:
+                      elementMap.current[elementId].props.width * object.scaleX,
+                    height:
+                      elementMap.current[elementId].props.height *
+                      object.scaleY,
+                    x,
+                    y,
+                  },
+                };
+              }
+            }
             onCanvasOperation?.(
               CANVAS_OPERATIONS.ITEM_UPDATED,
               elementMap.current[elementId]
@@ -253,11 +252,11 @@ export const useTwickCanvas = ({
   };
 
   /**
-   * Adds elements to the canvas.
+   * Sets elements to the canvas.
    *
    * @param options - Object containing elements, seek time, and additional options.
    */
-  const addElementsToCanvas = async ({
+  const setCanvasElements = async ({
     elements,
     seekTime = 0,
     captionProps,
@@ -286,80 +285,13 @@ export const useTwickCanvas = ({
               console.warn("Element not found");
               return;
             }
-            // Add element based on type
-            switch (element.type) {
-              case ELEMENT_TYPES.VIDEO:
-                const currentFrameEffect = getCurrentFrameEffect(
-                  element,
-                  seekTime
-                );
-                elementFrameMap.current[element.id] = currentFrameEffect;
-                const snapTime =
-                  (seekTime - (element?.startTime || 0)) *
-                    (element?.props?.playbackRate || 1) +
-                  (element?.props?.time || 0);
-                await addVideoElement({
-                  element,
-                  index,
-                  canvas: twickCanvas,
-                  canvasMetadata: canvasMetadataRef.current,
-                  currentFrameEffect,
-                  snapTime,
-                });
-                if (element.timelineType === "scene") {
-                  await addBackgroundColor({
-                    element,
-                    index,
-                    canvas: twickCanvas,
-                    canvasMetadata: canvasMetadataRef.current,
-                  });
-                }
-                break;
-              case ELEMENT_TYPES.IMAGE:
-                await addImageElement({
-                  element,
-                  index,
-                  canvas: twickCanvas,
-                  canvasMetadata: canvasMetadataRef.current,
-                });
-                if (element.timelineType === "scene") {
-                  await addBackgroundColor({
-                    element,
-                    index,
-                    canvas: twickCanvas,
-                    canvasMetadata: canvasMetadataRef.current,
-                  });
-                }
-                break;
-              case ELEMENT_TYPES.RECT:
-                await addRectElement({
-                  element,
-                  index,
-                  canvas: twickCanvas,
-                  canvasMetadata: canvasMetadataRef.current,
-                });
-                break;
-              case ELEMENT_TYPES.TEXT:
-                await addTextElement({
-                  element,
-                  index,
-                  canvas: twickCanvas,
-                  canvasMetadata: canvasMetadataRef.current,
-                });
-                break;
-            case ELEMENT_TYPES.CAPTION:
-                await addCaptionElement({
-                  element,
-                  index,
-                  canvas: twickCanvas,
-                  captionProps,
-                  canvasMetadata: canvasMetadataRef.current,
-                });
-                break;
-              default:
-                break;
-            }
-              elementMap.current[element.id] = element;
+            await addElementToCanvas({
+              element,
+              index,
+              reorder: false,
+              seekTime,
+              captionProps,
+            });
           } catch (error) {
             console.error(`Error adding element ${element.id}:`, error);
           }
@@ -367,7 +299,105 @@ export const useTwickCanvas = ({
       );
       reorderElementsByZIndex(twickCanvas);
     } catch (error) {
-      console.error("Error in addElementsToCanvas:", error);
+      console.error("Error in setCanvasElements:", error);
+    }
+  };
+
+  /**
+   * Add element to the canvas.
+   *
+   * @param options - Object containing elements, seek time, and additional options.
+   */
+  const addElementToCanvas = async ({
+    element,
+    index,
+    reorder = true,
+    seekTime,
+    captionProps,
+  }: {
+    element: CanvasElement;
+    index: number;
+    reorder: boolean;
+    seekTime?: number;
+    captionProps?: any;
+  }) => {
+    if (!twickCanvas) {
+      console.warn("Canvas not initialized");
+      return;
+    }
+    // Add element based on type
+    switch (element.type) {
+      case ELEMENT_TYPES.VIDEO:
+        const currentFrameEffect = getCurrentFrameEffect(element, seekTime || 0);
+        elementFrameMap.current[element.id] = currentFrameEffect;
+        const snapTime =
+          ((seekTime || 0) - (element?.s || 0)) *
+            (element?.props?.playbackRate || 1) +
+          (element?.props?.time || 0);
+        await addVideoElement({
+          element,
+          index,
+          canvas: twickCanvas,
+          canvasMetadata: canvasMetadataRef.current,
+          currentFrameEffect,
+          snapTime,
+        });
+        if (element.timelineType === "scene") {
+          await addBackgroundColor({
+            element,
+            index,
+            canvas: twickCanvas,
+            canvasMetadata: canvasMetadataRef.current,
+          });
+        }
+        break;
+      case ELEMENT_TYPES.IMAGE:
+        await addImageElement({
+          element,
+          index,
+          canvas: twickCanvas,
+          canvasMetadata: canvasMetadataRef.current,
+        });
+        if (element.timelineType === "scene") {
+          await addBackgroundColor({
+            element,
+            index,
+            canvas: twickCanvas,
+            canvasMetadata: canvasMetadataRef.current,
+          });
+        }
+        break;
+      case ELEMENT_TYPES.RECT:
+        await addRectElement({
+          element,
+          index,
+          canvas: twickCanvas,
+          canvasMetadata: canvasMetadataRef.current,
+        });
+        break;
+      case ELEMENT_TYPES.TEXT:
+        await addTextElement({
+          element,
+          index,
+          canvas: twickCanvas,
+          canvasMetadata: canvasMetadataRef.current,
+        });
+        break;
+      case ELEMENT_TYPES.CAPTION:
+        await addCaptionElement({
+          element,
+          index,
+          canvas: twickCanvas,
+          captionProps,
+          canvasMetadata: canvasMetadataRef.current,
+        });
+        break;
+      default:
+        break;
+    }
+    elementMap.current[element.id] = element;
+    if (reorder) {
+      reorderElementsByZIndex(twickCanvas);
     }
   };
 
@@ -375,6 +405,7 @@ export const useTwickCanvas = ({
     twickCanvas,
     buildCanvas,
     onVideoSizeChange,
-    addElementsToCanvas,
+    addElementToCanvas,
+    setCanvasElements,
   };
 };

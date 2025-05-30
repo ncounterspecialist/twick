@@ -1,6 +1,18 @@
-import { Canvas as FabricCanvas, FabricText, Group, Image, Rect, Shadow } from "fabric";
+import {
+  Canvas as FabricCanvas,
+  FabricText,
+  Group,
+  FabricImage,
+  Rect,
+  Shadow,
+} from "fabric";
 import { convertToCanvasPosition } from "../helpers/canvas.util";
-import { CanvasElement, CanvasMetadata, CaptionProps, FrameEffect } from "../types";
+import {
+  CanvasElement,
+  CanvasMetadata,
+  CaptionProps,
+  FrameEffect,
+} from "../types";
 import {
   DEFAULT_CAPTION_PROPS,
   DEFAULT_TEXT_PROPS,
@@ -34,7 +46,7 @@ export const addTextElement = ({
     canvasMetadata
   );
 
-  const text = new FabricText(element.name || "", {
+  const text = new FabricText(element.props?.text || "", {
     left: x,
     top: y,
     originX: "center",
@@ -87,6 +99,39 @@ export const addTextElement = ({
   return text;
 };
 
+const setImageProps = ({
+  img,
+  element,
+  index,
+  canvasMetadata,
+}: {
+  img: FabricImage;
+  element: CanvasElement;
+  index: number;
+  canvasMetadata: CanvasMetadata;
+}) => {
+  const width =
+    (element.props?.width || 0) * canvasMetadata.scaleX || canvasMetadata.width;
+  const height =
+    (element.props?.height || 0) * canvasMetadata.scaleY ||
+    canvasMetadata.height;
+  const { x, y } = convertToCanvasPosition(
+    element.props?.x || 0,
+    element.props?.y || 0,
+    canvasMetadata
+  );
+  console.log(width, height, x, y);
+  img.set("id", element.id);
+  img.set("zIndex", index);
+  img.set("width", width);
+  img.set("height", height);
+  img.set("left", x);
+  img.set("top", y);
+  img.set("selectable", true);
+  img.set("hasControls", true);
+  img.set("touchAction", "all");
+};
+
 /**
  * Add a caption element for the canvas based on provided props.
  *
@@ -117,7 +162,7 @@ export const addCaptionElement = ({
     canvasMetadata
   );
 
-  const caption = new FabricText(element.name || "", {
+  const caption = new FabricText(element.props?.text || "", {
     left: x,
     top: y,
     originX: "center",
@@ -180,7 +225,7 @@ export const addCaptionElement = ({
  * @param {number} params.seekTime - The seek time for extracting the video frame.
  * @param {CanvasMetadata} params.canvasMetadata - Metadata about the canvas, including scale and dimensions.
  * @param {FrameEffect} [params.currentFrameEffect] - Optional frame effect to apply to the video.
- * @returns {Promise<Image | Group | undefined>} A Fabric.js image or group object for the video frame.
+ * @returns {Promise<FabricImage | Group | undefined>} A Fabric.js image or group object for the video frame.
  */
 export const addVideoElement = async ({
   element,
@@ -207,46 +252,13 @@ export const addVideoElement = async ({
       return;
     }
 
-    const img = await Image.fromURL(thumbnailUrl);
-    img.set({
-      originX: "center",
-      originY: "center",
-      objectFit: "cover",
-      left: 0,
-      top: 0,
-      cornerColor: "white",
-      cornerStrokeColor: "#2563eb",
-      cornerSize: 14,
-      transparentCorners: false,
-      borderColor: "#2563eb",
-      borderScaleFactor: 2,
-      centeredScaling: true,
-      centeredRotation: true,
-      lockMovementX: false,
-      lockMovementY: false,
-      lockUniScaling: true,
-      hasControls: false,
-      hasBorders: true,
-      hasRotatingPoint: true,
-      touchAction: "all",
-      renderOnAddRemove: false,
-      stateful: false,
-      selection: true,
+    return addImageElement({
+      imageUrl: thumbnailUrl,
+      element,
+      index,
+      canvas,
+      canvasMetadata,
     });
-
-    if (element.frame) {
-      return addMediaGroup({
-        element,
-        img,
-        index,
-        canvas,
-        canvasMetadata,
-        currentFrameEffect,
-      });
-    } else {
-      canvas.add(img);
-      return img;
-    }
   } catch (error) {
     console.error("Error loading image:", error);
   }
@@ -254,7 +266,7 @@ export const addVideoElement = async ({
 
 /**
  * Add an image element into a Fabric.js image object and optionally groups it with a frame.
- * 
+ *
  * @param element - The image element containing properties like source and frame information.
  * @param index - The z-index for ordering the element on the canvas.
  * @param canvas - The Fabric.js canvas instance.
@@ -262,11 +274,13 @@ export const addVideoElement = async ({
  * @returns A Fabric.js image object or a group with an image and frame.
  */
 export const addImageElement = async ({
+  imageUrl,
   element,
   index,
   canvas,
   canvasMetadata,
 }: {
+  imageUrl?: string;
   element: CanvasElement;
   index: number;
   canvas: FabricCanvas;
@@ -274,31 +288,15 @@ export const addImageElement = async ({
 }) => {
   try {
     // Load the image from the provided source URL
-    const img = await Image.fromURL(element.props.src || '');
+    const img = await FabricImage.fromURL(imageUrl ||element.props.src || "");
     img.set({
       originX: "center",
       originY: "center",
-      objectFit: "cover",
-      left: 0,
-      top: 0,
-      cornerColor: "white",
-      cornerStrokeColor: "#2563eb",
-      cornerSize: 14,
-      transparentCorners: false,
-      borderColor: "#2563eb",
-      borderScaleFactor: 2,
-      centeredScaling: true,
-      centeredRotation: true,
       lockMovementX: false,
       lockMovementY: false,
       lockUniScaling: true,
       hasControls: false,
-      hasBorders: true,
-      hasRotatingPoint: true,
-      touchAction: "all",
-      renderOnAddRemove: false,
-      stateful: false,
-      selection: true,
+      selectable: false,
     });
 
     // Return the group if a frame is defined, otherwise return the image
@@ -311,6 +309,7 @@ export const addImageElement = async ({
         canvasMetadata,
       });
     } else {
+      setImageProps({ img, element, index, canvasMetadata });
       canvas.add(img);
       return img;
     }
@@ -320,7 +319,7 @@ export const addImageElement = async ({
 };
 
 /**
- * Add a Fabric.js group combining an image and its associated frame, 
+ * Add a Fabric.js group combining an image and its associated frame,
  * applying styling, positioning, and scaling based on the given properties.
  *
  * @param element - The image element containing properties like frame, position, and styling.
@@ -330,7 +329,7 @@ export const addImageElement = async ({
  * @param currentFrameEffect - Optional current frame effect to override default frame properties.
  * @returns A Fabric.js group containing the image and frame with configured properties.
  */
-export const addMediaGroup = ({
+const addMediaGroup = ({
   element,
   img,
   index,
@@ -339,131 +338,118 @@ export const addMediaGroup = ({
   currentFrameEffect,
 }: {
   element: CanvasElement;
-  img: Image;
+  img: FabricImage;
   index: number;
   canvas: FabricCanvas;
   canvasMetadata: CanvasMetadata;
   currentFrameEffect?: FrameEffect;
 }) => {
-  if (element.frame) {
-    // Canvas dimensions
-    const maxWidth = canvasMetadata.width;
-    const maxHeight = canvasMetadata.height;
-
-    // Determine frame size, angle, and position based on frame effect or element properties
-    let frameSize, angle, framePosition;
-    if (currentFrameEffect) {
-      frameSize = {
-        width:
-          (currentFrameEffect.props.frameSize?.[0] || 0) *
-            canvasMetadata.scaleX || maxWidth,
-        height:
-          (currentFrameEffect.props.frameSize?.[1] || 0) *
-            canvasMetadata.scaleY || maxHeight,
-      };
-      angle = currentFrameEffect.props.rotation || 0;
-      framePosition = currentFrameEffect.props.framePosition;
-    } else {
-      frameSize = {
-        width:
-          (element.frame.size?.[0] || 0) * canvasMetadata.scaleX ||
-          maxWidth,
-        height:
-          (element.frame.size?.[1] || 0) * canvasMetadata.scaleY ||
-          maxHeight,
-      };
-      angle = element.frame.rotation || 0;
-      framePosition = {
-        x: element.frame.x || 0,
-        y: element.frame.y || 0,
-      };
-    }
-
-    // Adjust the image size to fit within the frame
-    const newSize = getObjectFitSize(
-      element.objectFit || "none",
-      { width: img.width!, height: img.height! },
-      frameSize
-    );
-
-    // Create a Fabric.js rectangle to represent the frame
-    const frameRect = new Rect({
-      width: frameSize.width,
-      height: frameSize.height,
-      left: frameSize.width / 2,
-      top: frameSize.height / 2,
-      fill: "transparent",
-      stroke: element.frame.stroke || "#ffffff",
-      strokeWidth: element.frame.lineWidth || 1,
-      originX: "center",
-      originY: "center",
-      hasControls: true,
-      hasBorders: true,
-      lockUniScaling: true,
-      hasRotatingPoint: true,
-      selectable: true,
-    });
-
-    // Position and scale the image within the frame
-    img.set({
-      lockUniScaling: true,
-      left:
-        (element.props.pos?.x || 0) * canvasMetadata.scaleX +
-        frameSize.width / 2,
-      top:
-        (element.props.pos?.y || 0) * canvasMetadata.scaleY +
-        frameSize.height / 2,
-      originX: "center",
-      originY: "center",
-      scaleX: newSize.width / img.width!,
-      scaleY: newSize.height / img.height!,
-    });
-
-    // Convert frame position to canvas coordinates
-    const { x, y } = convertToCanvasPosition(
-      framePosition?.x || 0,
-      framePosition?.y || 0,
-      canvasMetadata
-    );
-
-    // Define group properties
-    const groupProps = {
-      left: x,
-      top: y,
-      width: frameSize.width,
-      height: frameSize.height,
-      angle: angle,
+  let frameSize;
+  let angle;
+  let framePosition;
+  let frameRadius = 0;
+  if (currentFrameEffect) {
+    frameSize = {
+      width:
+        (currentFrameEffect.props.frameSize?.[0] || 0) *
+          canvasMetadata.scaleX || canvasMetadata.width,
+      height:
+        (currentFrameEffect.props.frameSize?.[1] || 0) *
+          canvasMetadata.scaleY || canvasMetadata.height,
     };
-
-    // Create a Fabric.js group containing the image and frame
-    const group = new Group([img, frameRect], {
-      left: groupProps.left,
-      top: groupProps.top,
-      originX: "center",
-      originY: "center",
-      width: frameSize.width,
-      height: frameSize.height,
-      clipPath: frameRect,
-      angle: groupProps.angle,
-      selectable: true,
-      hasControls: true,
-      hasBorders: true,
-    });
-
-    // Customize the control points for the group
-    group.controls.mt = disabledControl; // Disable middle-top control
-    group.controls.mb = disabledControl; // Disable middle-bottom control
-    group.controls.ml = disabledControl; // Disable middle-left control
-    group.controls.mr = disabledControl; // Disable middle-right control
-    group.controls.mtr = rotateControl;  // Enable and style the rotation control
-
-    // Set group metadata
-    group.set("zIndex", index);
-    group.set("id", element.id);
-
-    canvas.add(group);
-    return group;
+    angle = currentFrameEffect.props.rotation || 0;
+    framePosition = currentFrameEffect.props.framePosition;
+    if (currentFrameEffect.props.shape === "circle") {
+      frameRadius = frameSize.width / 2;
+    } else {
+      frameRadius = currentFrameEffect?.props?.radius || 0;
+    }
+  } else {
+    frameSize = {
+      width:
+        (element?.frame?.size?.[0] || 0) * canvasMetadata.scaleX ||
+        canvasMetadata.width,
+      height:
+        (element?.frame?.size?.[1] || 0) * canvasMetadata.scaleY ||
+        canvasMetadata.height,
+    };
+    angle = element?.frame?.rotation || 0;
+    framePosition = {
+      x: element?.frame?.x || 0,
+      y: element?.frame?.y || 0,
+    };
   }
+
+  const newSize = getObjectFitSize(
+    element.objectFit,
+    { width: img.width!, height: img.height! },
+    frameSize
+  );
+
+  const frameRect = new Rect({
+    originX: "center",
+    originY: "center",
+    lockMovementX: false,
+    lockMovementY: false,
+    lockUniScaling: true,
+    hasControls: false,
+    selectable: false,
+    width: frameSize.width,
+    height: frameSize.height,
+    stroke: element?.frame?.stroke || "#ffffff",
+    strokeWidth: element?.frame?.lineWidth || 0,
+    hasRotatingPoint: true,
+    rx: element?.frame?.radius || 0,
+    ry: element?.frame?.radius || 0,
+  });
+
+  img.set({
+    lockUniScaling: true,
+    originX: "center",
+    originY: "center",
+    width: newSize.width,
+    height: newSize.height,
+  });
+
+
+  const { x, y } = convertToCanvasPosition(
+    framePosition?.x || 0,
+    framePosition?.y || 0,
+    canvasMetadata
+  );
+
+  const groupProps = {
+    left: x,
+    top: y,
+    width: frameSize.width,
+    height: frameSize.height,
+    angle: angle,
+  };
+
+  // Customize the control points for the group
+  // Change only the top control to a different style, keep others as circles
+
+  const group = new Group([frameRect, img], {
+    ...groupProps,
+    originX: "center",
+    originY: "center",
+    angle: groupProps.angle,
+    selectable: true,
+    hasControls: true,
+    hasBorders: true,
+    clipPath: frameRect,
+  });
+
+  group.controls.mt = disabledControl;
+  group.controls.mb = disabledControl;
+  group.controls.ml = disabledControl;
+  group.controls.mr = disabledControl;
+  group.controls.mtr = rotateControl;
+
+  group.set("id", element.id);
+  group.set("zIndex", index);
+  canvas.add(group);
+  return group;
 };
 
 /**
@@ -496,15 +482,14 @@ export const addRectElement = ({
   // Create a new rectangular Fabric.js object
   const rect = new Rect({
     left: x, // X-coordinate on the canvas
-    top: y,  // Y-coordinate on the canvas
+    top: y, // Y-coordinate on the canvas
     originX: "center", // Center the rectangle based on its position
     originY: "center", // Center the rectangle based on its position
     angle: element.props?.rotation || 0, // Rotation angle
     rx: (element.props?.radius || 0) * canvasMetadata.scaleX, // Horizontal radius for rounded corners
     ry: (element.props?.radius || 0) * canvasMetadata.scaleY, // Vertical radius for rounded corners
     stroke: element.props?.stroke || "#000000", // Stroke color
-    strokeWidth:
-      (element.props?.lineWidth || 0) * canvasMetadata.scaleX, // Scaled stroke width
+    strokeWidth: (element.props?.lineWidth || 0) * canvasMetadata.scaleX, // Scaled stroke width
     fill: element.props?.fill || "#000000", // Fill color
     opacity: element.props?.opacity || 1, // Opacity level
     width: (element.props?.width || 0) * canvasMetadata.scaleX, // Scaled width
@@ -522,14 +507,13 @@ export const addRectElement = ({
   return rect;
 };
 
-
 /**
  * Add a background color to the canvas.
  *
  * @param element - The canvas element containing properties for the background.
  * @param index - The zIndex value used to determine the rendering order.
  * @param canvas - The Fabric.js canvas instance.
- * @param canvasMetadata - Metadata containing canvas scaling and dimensions. 
+ * @param canvasMetadata - Metadata containing canvas scaling and dimensions.
  * @returns A Fabric.js Rect object configured with the specified properties.
  */
 export const addBackgroundColor = ({
@@ -543,7 +527,7 @@ export const addBackgroundColor = ({
   canvas: FabricCanvas;
   canvasMetadata: CanvasMetadata;
 }) => {
-  const bgRect  = new Rect({
+  const bgRect = new Rect({
     width: canvasMetadata.width,
     height: canvasMetadata.height,
     left: canvasMetadata.width / 2,
@@ -565,14 +549,8 @@ export const addBackgroundColor = ({
   bgRect.controls.tl = disabledControl;
   bgRect.controls.tr = disabledControl;
   bgRect.controls.mtr = disabledControl;
-  bgRect.set("zIndex", index-0.5);
+  bgRect.set("zIndex", index - 0.5);
 
   canvas.add(bgRect);
   return bgRect;
-}
-
-
-
-
-
-
+};
