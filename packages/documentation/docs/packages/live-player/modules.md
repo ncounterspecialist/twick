@@ -1,6 +1,6 @@
-[@twick/player](README.md) / Exports
+[@twick/live-player](README.md) / Exports
 
-# @twick/player
+# @twick/live-player
 
 ## Table of contents
 
@@ -14,7 +14,7 @@
 
 ▸ **LivePlayer**(`props`): `Element`
 
-`LivePlayer` is a React component that wraps around the `@revideo/player-react` player.
+`LivePlayer` is a React component that renders a video from JSON input.
 
 It supports dynamic project variables, external control for playback, time seeking,
 volume and quality adjustment, and lifecycle callbacks like `onPlayerReady` and `onDurationChange`.
@@ -33,4 +33,4 @@ A configured player UI component
 
 #### Defined in
 
-[components/live-player.tsx:60](https://github.com/ncounterspecialist/twick/blob/322058f5130be7eb0f94cfb23a9e57764d22f682/packages/player/src/components/live-player.tsx#L60)
+[components/live-player.tsx:60](https://github.com/ncounterspecialist/twick/blob/322058f5130be7eb0f94cfb23a9e57764d22f682/packages/live-player/src/components/live-player.tsx#L60)

@@ -1,6 +1,6 @@
 # Twick Examples
 
-This package contains example implementations and demonstrations of the Twick SDK features, specifically showcasing the usage of `@twick/player` with React and React Router.
+This package contains example implementations and demonstrations of the Twick SDK features, specifically showcasing the usage of `@twick/live-player` with React and React Router.
 
 ## Getting Started
 

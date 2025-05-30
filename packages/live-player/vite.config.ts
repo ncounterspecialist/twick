@@ -27,7 +27,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@twick/player': resolve(__dirname, 'src/index.ts')
+      '@twick/live-player': resolve(__dirname, 'src/index.ts')
     }
   },
   plugins: [

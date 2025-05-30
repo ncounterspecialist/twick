@@ -7,7 +7,7 @@
     "build:media-utils": "turbo run build --filter=@twick/media-utils",
     "build:canvas": "turbo run build --filter=@twick/canvas",
     "build:documentation": "pnpm run docs && pnpm run docs:copy && turbo run build --filter=@twick/documentation",
-    "build:player": "turbo run build --filter=@twick/player",
+    "build:live-player": "turbo run build --filter=@twick/live-player",
     "build:examples": "turbo run build --filter=@twick/examples",
     "build:visualizer": "turbo run build --filter=@twick/visualizer",
     "docs": "turbo run docs",
@@ -17,7 +17,7 @@
     "dev:media-utils": "turbo run dev --filter=@twick/media-utils",
     "dev:canvas": "turbo run dev --filter=@twick/canvas",
     "dev:documentation": "pnpm run docs && pnpm run docs:copy && turbo run dev --filter=@twick/documentation",
-    "dev:player": "turbo run dev --filter=@twick/player",
+    "dev:live-player": "turbo run dev --filter=@twick/live-player",
     "dev:examples": "turbo run dev --filter=@twick/examples",
     "preview": "cd packages/examples && npm run preview",
     "lint": "turbo run lint",
@@ -43,7 +43,7 @@
     "packages/media-utils",
     "packages/visualizer",
     "packages/canvas",
-    "packages/player",
+    "packages/live-player",
     "packages/examples"
   ],
   "pnpm": {

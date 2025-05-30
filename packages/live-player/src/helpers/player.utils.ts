@@ -1,5 +1,5 @@
 /**
- * Generates a base project structure for the Twick Player.
+ * Generates a base project structure for the Twick Live Player.
  *
  * This function returns a minimal project configuration object with
  * the specified video dimensions. It's typically used as a starting
