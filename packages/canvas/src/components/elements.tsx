@@ -365,6 +365,7 @@ const addMediaGroup = ({
       frameRadius = currentFrameEffect?.props?.radius || 0;
     }
   } else {
+    frameRadius = element?.frame?.radius || 0;
     frameSize = {
       width:
         (element?.frame?.size?.[0] || 0) * canvasMetadata.scaleX ||
@@ -399,8 +400,8 @@ const addMediaGroup = ({
     stroke: element?.frame?.stroke || "#ffffff",
     strokeWidth: element?.frame?.lineWidth || 0,
     hasRotatingPoint: true,
-    rx: element?.frame?.radius || 0,
-    ry: element?.frame?.radius || 0,
+    rx: frameRadius || 0,
+    ry: frameRadius || 0,
   });
 
   img.set({
