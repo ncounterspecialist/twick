@@ -258,6 +258,7 @@ export const addVideoElement = async ({
       index,
       canvas,
       canvasMetadata,
+      currentFrameEffect,
     });
   } catch (error) {
     console.error("Error loading image:", error);
@@ -279,12 +280,14 @@ export const addImageElement = async ({
   index,
   canvas,
   canvasMetadata,
+  currentFrameEffect
 }: {
   imageUrl?: string;
   element: CanvasElement;
   index: number;
   canvas: FabricCanvas;
   canvasMetadata: CanvasMetadata;
+  currentFrameEffect?: FrameEffect;
 }) => {
   try {
     // Load the image from the provided source URL
@@ -307,6 +310,7 @@ export const addImageElement = async ({
         index,
         canvas,
         canvasMetadata,
+        currentFrameEffect
       });
     } else {
       setImageProps({ img, element, index, canvasMetadata });
