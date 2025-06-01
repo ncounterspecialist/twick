@@ -258,6 +258,7 @@ export const addVideoElement = async ({
       index,
       canvas,
       canvasMetadata,
+      currentFrameEffect,
     });
   } catch (error) {
     console.error("Error loading image:", error);
@@ -271,6 +272,8 @@ export const addVideoElement = async ({
  * @param index - The z-index for ordering the element on the canvas.
  * @param canvas - The Fabric.js canvas instance.
  * @param canvasMetadata - Metadata of the canvas, including dimensions and scale factors.
+ * @param currentFrameEffect - Optional frame effect to apply to the image.
+ * @param imageUrl - Optional The url of the image to be added to the canvas.
  * @returns A Fabric.js image object or a group with an image and frame.
  */
 export const addImageElement = async ({
@@ -279,12 +282,14 @@ export const addImageElement = async ({
   index,
   canvas,
   canvasMetadata,
+  currentFrameEffect
 }: {
   imageUrl?: string;
   element: CanvasElement;
   index: number;
   canvas: FabricCanvas;
   canvasMetadata: CanvasMetadata;
+  currentFrameEffect?: FrameEffect;
 }) => {
   try {
     // Load the image from the provided source URL
@@ -307,6 +312,7 @@ export const addImageElement = async ({
         index,
         canvas,
         canvasMetadata,
+        currentFrameEffect
       });
     } else {
       setImageProps({ img, element, index, canvasMetadata });
@@ -325,6 +331,7 @@ export const addImageElement = async ({
  * @param element - The image element containing properties like frame, position, and styling.
  * @param img - The Fabric.js image object to be included in the group.
  * @param index - The z-index for ordering the group on the canvas.
+ * @param canvas - The Fabric.js canvas instance.
  * @param canvasMetadata - Metadata of the canvas, including dimensions and scale factors.
  * @param currentFrameEffect - Optional current frame effect to override default frame properties.
  * @returns A Fabric.js group containing the image and frame with configured properties.
