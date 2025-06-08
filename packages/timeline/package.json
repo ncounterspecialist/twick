@@ -1,0 +1,40 @@
+{
+  "name": "@twick/timeline",
+  "version": "0.0.1",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "license": "Apache-2.0",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite build --watch",
+    "lint": "eslint src/",
+    "clean": "rimraf .turbo node_modules dist",
+    "docs": "typedoc --plugin typedoc-plugin-markdown --out docs src/index.ts"
+  },
+  "dependencies": {
+    "@react-spring/web": "^10.0.1",
+    "@use-gesture/react": "^10.3.0",
+    "framer-motion": "^11.0.3",
+    "lucide-react": "^0.511.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.24",
+    "@types/react": "^18.2.55",
+    "@types/react-dom": "^18.2.19",
+    "rimraf": "^5.0.5",
+    "typedoc": "^0.25.8",
+    "typedoc-plugin-markdown": "^3.17.1",
+    "typescript": "^5.4.2",
+    "vite": "^5.1.4",
+    "vite-plugin-dts": "^3.7.3",
+    "postcss": "^8.4.35",
+    "autoprefixer": "^10.4.17"
+  }
+}
