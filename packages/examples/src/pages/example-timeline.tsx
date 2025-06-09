@@ -1,5 +1,5 @@
 import { sample } from "../helpers/sample-data";
-import { TIMELINE_ELEMENT_TYPE, TimelineProvider } from "@twick/timeline";
+import { TIMELINE_ELEMENT_TYPE, TIMELINE_OPERATION, TimelineProvider, useTimelineContext } from "@twick/timeline";
 import TimelineManager from "../components/timeline-manager";
 import { PlayerContainer } from "../components/player-container";
 import { useState } from "react";
@@ -39,7 +39,7 @@ const ExampleTimeline = () => {
             </button>
           </div>
           <div className="flex w-full h-auto justify-center items-center bg-black">
-            <PlayerContainer playerData={sample} playing={playing} />
+            <PlayerContainer videoProps={sample.input.properties} playing={playing} />
           </div>
         </div>
         <div className="flex flex-col w-full h-full bg-background border border-border overflow-x-hidden">
