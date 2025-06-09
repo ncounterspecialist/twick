@@ -21,6 +21,7 @@ export default defineConfig({
         'lucide-react'
       ],
       output: {
+        exports: 'named',
         globals: {
           react: 'React',
           'react-dom': 'ReactDOM',

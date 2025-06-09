@@ -215,18 +215,16 @@ export const addCaptionElement = ({
   return caption;
 };
 
-/**
- * Add a video frame as an image and returns it as a canvas element.
- *
- * @param {Object} params - Parameters for creating the video element.
- * @param {CanvasElement} params.element - The canvas element configuration.
- * @param {FabricCanvas} params.canvas - The Fabric.js canvas instance.
- * @param {number} params.index - The z-index of the element.
- * @param {number} params.seekTime - The seek time for extracting the video frame.
- * @param {CanvasMetadata} params.canvasMetadata - Metadata about the canvas, including scale and dimensions.
- * @param {FrameEffect} [params.currentFrameEffect] - Optional frame effect to apply to the video.
- * @returns {Promise<FabricImage | Group | undefined>} A Fabric.js image or group object for the video frame.
- */
+/* Add a video frame as element into a Fabric.js image object and optionally groups it with a frame.
+*
+* @param element - The video element containing properties like source and frame information.
+* @param index - The z-index for ordering the element on the canvas.
+* @param canvas - The Fabric.js canvas instance.
+* @param canvasMetadata - Metadata of the canvas, including dimensions and scale factors.
+* @param currentFrameEffect - Optional frame effect to apply to the image.
+* @param snapTime - The time to snap the video frame with respect to full video duration.
+* @returns A Fabric.js image object or a group with an image and frame.
+*/
 export const addVideoElement = async ({
   element,
   index,

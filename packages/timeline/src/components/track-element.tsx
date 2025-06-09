@@ -135,8 +135,8 @@ export const TrackElement: React.FC<{
           position.start -
           (lastPosRef.current?.start || 0) * (element.props?.playbackRate || 1);
         updates = {
-          startTime: getDecimalNumber(position.start),
-          duration: getDecimalNumber(position.end - position.start),
+          s: getDecimalNumber(position.start),
+          e: getDecimalNumber(position.end),
           props: {
             ...(element.props || {}),
             time: getDecimalNumber(
@@ -146,8 +146,8 @@ export const TrackElement: React.FC<{
         };
       } else {
         updates = {
-          startTime: getDecimalNumber(position.start),
-          duration: getDecimalNumber(position.end - position.start),
+          s: getDecimalNumber(position.start),
+          e: getDecimalNumber(position.end),
         };
       }
       updateTrackElement(element.id, updates);
@@ -187,38 +187,40 @@ export const TrackElement: React.FC<{
 
   return (
     <motion.div {...motionProps}>
-    <div {...bind()}>
-      <div
-        style={{ touchAction: "none" }}
-        {...bindStartHandle()}
-        className="twick-track-element-handle twick-track-element-handle-start"
-      />
-
-      <div className="twick-track-element-content">
-        {element.props?.text || element.type}
-      </div>
-
-      <div
-        style={{ touchAction: "none" }}
-        {...bindEndHandle()}
-        className="twick-track-element-handle twick-track-element-handle-end"
-      />
-      {(element?.frameEffects || []).map((frameEffect: FrameEffect) => {
-        return (
+      <div style={{ touchAction: "none", height: "100%" }} {...bind()}>
+        {selectedItem?.id === element.id ? (
           <div
-            className="twick-track-element-frame-effect"
-            key={frameEffect.s + frameEffect.e}
-            style={{
-              backgroundColor: getElementColor("frameEffect"),
-              width: `${
-                ((frameEffect.e - frameEffect.s) / (element.e - element.s)) *
-                100
-              }%`,
-              left: `${(frameEffect.s / (element.e - element.s)) * 100}%`,
-            }}
-          ></div>
-        );
-      })}
+            style={{ touchAction: "none" }}
+            {...bindStartHandle()}
+            className="twick-track-element-handle twick-track-element-handle-start"
+          />
+        ) : null}
+        <div className="twick-track-element-content">
+          {element.props?.text || element.type}
+        </div>
+        {selectedItem?.id === element.id ? (
+          <div
+            style={{ touchAction: "none" }}
+            {...bindEndHandle()}
+            className="twick-track-element-handle twick-track-element-handle-end"
+          />
+        ) : null}
+        {(element?.frameEffects || []).map((frameEffect: FrameEffect) => {
+          return (
+            <div
+              className="twick-track-element-frame-effect"
+              key={frameEffect.s + frameEffect.e}
+              style={{
+                backgroundColor: getElementColor("frameEffect"),
+                width: `${
+                  ((frameEffect.e - frameEffect.s) / (element.e - element.s)) *
+                  100
+                }%`,
+                left: `${(frameEffect.s / (element.e - element.s)) * 100}%`,
+              }}
+            ></div>
+          );
+        })}
       </div>
     </motion.div>
   );

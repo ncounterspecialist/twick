@@ -82,7 +82,7 @@
   height: 0.75rem;
   transform: translate(-50%, -50%);
   background-color: #FFFFFF;
-  border-radius: 50%;
+  border-radius: 25%;
 }
 
 .twick-track-element {
@@ -97,15 +97,14 @@
   border: 2px solid #FFFFFF;
   z-index: 10;
   box-shadow: 0 0 0 1px rgba(255,255,255,0.8);
-  outline: 2px solid #FFFFFF;
 }
 
 .twick-track-element-default {
-  border: 1px solid #404040;
+  border: 1px solid #d1d1d1;
 }
 
 .twick-track-element-dragging {
-  border: 1px solid #262626;
+  border: 1px solid #ffffff;
 }
 
 .twick-track-element-content {
@@ -114,23 +113,26 @@
   cursor: move;
   transition: background-color 0.2s ease-in-out;
   padding: 0.25rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .twick-track-element-handle {
   position: absolute;
-  width: 3px;
+  width: 2px;
   height: 60%;
   cursor: ew-resize;
   transition: background-color 0.2s ease-in-out;
   top: 50%;
   transform: translate(-50%, -50%);
   background-color: #FFFFFF;
-  border-radius: 50%;
+  border-radius: 25%;
   z-index: 10;
 }
 
 .twick-track-element-handle-start {
-  left: -1px;
+  left: 0px;
 }
 
 .twick-track-element-handle-end {

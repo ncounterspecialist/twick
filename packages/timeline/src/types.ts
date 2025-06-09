@@ -64,11 +64,6 @@ export type TimelineElement = {
     y: number;
   }
   
-  export type TimelineProject = {
-    timeline: Timeline[];
-    version: number;
-  }
-  
   export type Timeline = {
     id: string;
     name: string;

@@ -1,16 +1,19 @@
 .app-container {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  width: 100%;
-  overflow-x: hidden;
+  @apply flex flex-col min-h-screen w-full overflow-x-hidden;
 }
 
 .nav-menu {
-  display: flex;
-  gap: 20px;
-  padding: 5px 20px;
-  background-color: #f0f2f5;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  @apply flex gap-5 p-1.5 px-5 bg-gray-50 shadow-sm;
 }
 
+.nav-menu a {
+  @apply text-gray-700 hover:text-gray-900;
+}
+
+.nav-menu a.active {
+  @apply text-blue-500;
+}
+
+.nav-menu a.active:hover {
+  @apply text-blue-600;
+}
