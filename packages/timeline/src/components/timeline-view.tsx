@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import {
   DEFAULT_TIMELINE_ZOOM,
 } from "../helpers/constants";
-import { Timeline, TimelineElement, TimelineProject } from "../types";
+import { Timeline, TimelineElement } from "../types";
 import Track from "./track";
 import TrackHeader from "./track-header";
 import SeekTrack from "./seek-track";
@@ -12,7 +12,7 @@ import "../styles/timeline.css";
 function TimelineView({
   selectedItem,
   duration,
-  timelineProject,
+  timelines,
   onReorder,
   onEditElement,
   onSeek,
@@ -21,7 +21,7 @@ function TimelineView({
 }: {
   duration: number;
   seekTime: number;
-  timelineProject: TimelineProject;
+  timelines: Timeline[];
   selectedItem: TimelineElement | Timeline | null;
   onReorder: (timelines: Timeline[]) => void;
   onEditElement: (timelineId: string, elementId: string, updates: any) => void;
@@ -123,7 +123,7 @@ function TimelineView({
     if (!draggedTimeline || draggedTimeline.id === targetTimeline.id) return;
 
     // Reorder timelines
-    const reordered = [...(timelineProject?.timeline || [])];
+    const reordered = [...(timelines || [])];
     const draggedIndex = reordered.findIndex(
       (t) => t.id === draggedTimeline.id
     );
@@ -179,7 +179,7 @@ function TimelineView({
           </div>
         </div>
         <div ref={timelineContentRef} style={{ width: timelineWidthPx }}>
-          {(timelineProject?.timeline || []).map((timeline: Timeline) => (
+          {(timelines|| []).map((timeline: Timeline) => (
             <div className="twick-timeline-container" key={timeline.id}>
               {/* Track header with drag support */}
               <div className="twick-timeline-header-container">

@@ -444,7 +444,7 @@ export const sample = {
             }
           ]
         }
-      ]
-    },
-    "version": 1
+      ],
+      "version": 1
+    }
   }
