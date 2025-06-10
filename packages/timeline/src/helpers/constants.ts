@@ -91,7 +91,7 @@ export const TIMELINE_OPERATION = {
   SPLIT_ELEMENT: "SPLIT_ELEMENT",
   LOAD_PROJECT: "LOAD_PROJECT",
   SET_PROJECT_SCRIPT: "SET_PROJECT_SCRIPT",
-  GET_PROJECT_STATE: "getProjectState",
+  FETCH_LATEST_PROJECT_DATA: "FETCH_LATEST_PROJECT_DATA",
   UPDATE_CANVAS_ELEMENTS: "updateCanvasElements",
 };
 
@@ -101,18 +101,11 @@ export const TIMELINE_ACTION = {
   SET_DURATION: "setDuration",
   RESET_HISTORY: "resetHistory",
   SET_PRESENT: "setPresent",
-  SET_LATEST_PROJECT_VERSION: "setLatestProjectVersion",
   SET_CURRENT_TIMELINE_PROPS: "setCurrentTimelineProps",
-  SET_SELECTED_ITEM: "setSelectedItem",
   SET_CAPTION_PROPS: "setCaptionProps",
   SET_SCREEN_ACTION: "setScreenAction",
   SET_PLAYER_STATE: "setPlayerState",
-  ADDED_NEW_TIMELINE: "addedNewTimeline",
-  DELETED_TIMELINE: "deletedTimeline",
-  ADDED_TIMELINE_ELEMENT: "addedTimelineElement",
-  DELETED_TIMELINE_ELEMENT: "deletedTimelineElement",
-  UPDATED_TIMELINE_ELEMENT: "updatedTimelineElement",
-  LATEST_PROJECT_STATE: "latestProjectState",
+  SET_LATEST_PROJECT_DATA: "latestProjectData",
 };
 
 export const SCREEN_ACTION = {

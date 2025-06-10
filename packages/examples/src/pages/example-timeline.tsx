@@ -39,7 +39,7 @@ const ExampleTimeline = () => {
             </button>
           </div>
           <div className="flex w-full h-auto justify-center items-center bg-black">
-            <PlayerContainer playerData={sample} playing={playing} />
+            <PlayerContainer videoProps={sample.input.properties} playing={playing} />
           </div>
         </div>
         <div className="flex flex-col w-full h-full bg-background border border-border overflow-x-hidden">

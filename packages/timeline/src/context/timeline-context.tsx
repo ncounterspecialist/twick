@@ -1,7 +1,9 @@
 import { createContext, useContext, useState } from "react";
 import { TIMELINE_ACTION, TIMELINE_OPERATION } from "../helpers/constants";
+import { Timeline, TimelineElement } from "../types";
 
 type TimelineContextType = {
+  selectedItem: TimelineElement | Timeline | null;
   timelineAction: {
     action: string;
     data: any;
@@ -10,6 +12,7 @@ type TimelineContextType = {
     operation: string;
     data: any;
   };
+  setSelectedItem: (item: TimelineElement | Timeline | null) => void;
   setTimelineAction: (action: string, data: any) => void;
   setTimelineOperation: (action: string, data: any) => void;
 };
@@ -27,6 +30,8 @@ export const TimelineProvider = ({ children }: { children: React.ReactNode }) =>
     data: null,
   });
 
+  const [selectedItem, setSelectedItem] = useState<TimelineElement | Timeline | null>(null);
+
   const setTimelineAction = (action: string, data: any) => {
     setTimelineActionState({ action, data });
   };
@@ -38,10 +43,12 @@ export const TimelineProvider = ({ children }: { children: React.ReactNode }) =>
   return (
     <TimelineContext.Provider
       value={{
+        selectedItem,
         timelineAction,
         timelineOperation,
         setTimelineAction,
         setTimelineOperation,
+        setSelectedItem,
       }}
     >
       {children}
@@ -52,7 +59,7 @@ export const TimelineProvider = ({ children }: { children: React.ReactNode }) =>
 export const useTimelineContext = () => {
   const context = useContext(TimelineContext);
   if (context === undefined) {
-    throw new Error("useTimeline must be used within a TimelineProvider");
+    throw new Error("useTimelineContext must be used within a TimelineProvider");
   }
   return context;
 };
