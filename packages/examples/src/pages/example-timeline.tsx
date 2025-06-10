@@ -1,5 +1,5 @@
 import { sample } from "../helpers/sample-data";
-import { TIMELINE_ELEMENT_TYPE, TIMELINE_OPERATION, TimelineProvider, useTimelineContext } from "@twick/timeline";
+import { TIMELINE_ELEMENT_TYPE, TimelineProvider } from "@twick/timeline";
 import TimelineManager from "../components/timeline-manager";
 import { PlayerContainer } from "../components/player-container";
 import { useState } from "react";
