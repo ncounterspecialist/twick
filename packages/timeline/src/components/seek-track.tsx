@@ -1,6 +1,5 @@
 import { useRef, useState, useEffect, useCallback } from "react";
 import { useDrag } from "@use-gesture/react";
-import { useSpring, animated } from "@react-spring/web";
 import "../styles/timeline.css";
 
 interface SeekTrackProps {
@@ -8,6 +7,7 @@ interface SeekTrackProps {
   duration: number;     // in seconds
   zoom?: number;        // e.g. 1 = 100px/sec
   onSeek: (time: number) => void;
+  timelineCount?: number; // number of timelines to calculate pin height
 }
 
 export default function SeekTrack({
@@ -15,27 +15,26 @@ export default function SeekTrack({
   duration,
   zoom = 1,
   onSeek,
+  timelineCount = 0,
 }: SeekTrackProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [containerWidth, setContainerWidth] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
+  const [seekPosition, setSeekPosition] = useState(0);
 
   const pixelsPerSecond = 100 * zoom;
   const totalWidth = duration * pixelsPerSecond;
 
-  // Use spring animation for smoother playhead movement
-  const [{ seekPos }, api] = useSpring(() => ({
-    seekPos: currentTime * pixelsPerSecond,
-    config: { tension: 300, friction: 30 }
-  }));
+  // Calculate pin height based on number of timelines
+  const pinHeight = 2 + timelineCount * (2.75 + 0.5); // 2.75rem height + 0.5rem margin per timeline
 
-  // Update spring when currentTime changes (but not during drag)
+  // Update seek position when currentTime changes
   useEffect(() => {
     if (!isDragging) {
-      api.start({ seekPos: currentTime * pixelsPerSecond });
+      setSeekPosition(currentTime * pixelsPerSecond);
     }
-  }, [currentTime, pixelsPerSecond, api, isDragging]);
+  }, [currentTime, pixelsPerSecond, isDragging]);
 
   // Draw the timeline on canvas
   const drawTimeline = useCallback(() => {
@@ -129,9 +128,7 @@ export default function SeekTrack({
     const xPos = x - rect.left;
     const newTime = Math.max(0, Math.min(duration, xPos / pixelsPerSecond));
     
-    // Update spring directly during drag for immediate feedback
-    api.start({ seekPos: xPos, immediate: active });
-    
+    setSeekPosition(xPos);
     onSeek(newTime);
   });
 
@@ -149,17 +146,21 @@ export default function SeekTrack({
         />
         
         {/* Seek tip (playhead) */}
-        <animated.div
+        <div
           {...bind()}
           className="twick-seek-track-playhead"
           style={{ 
-            left: seekPos, 
-            touchAction: "none" 
+            left: seekPosition, 
+            touchAction: "none",
+            transition: isDragging ? 'none' : 'left 0.1s linear'
           }}
         >
           <div className="twick-seek-track-handle"></div>
-          <div className="twick-seek-track-pin"></div>
-        </animated.div>
+          <div 
+            className="twick-seek-track-pin"
+            style={{ height: `${pinHeight}rem` }}
+          ></div>
+        </div>
       </div>
     </div>
   );

@@ -1,55 +1,45 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import {
-  DEFAULT_TIMELINE_ZOOM,
-} from "../helpers/constants";
+import { DEFAULT_TIMELINE_ZOOM } from "../helpers/constants";
 import { Timeline, TimelineElement } from "../types";
 import Track from "./track";
 import TrackHeader from "./track-header";
-import SeekTrack from "./seek-track";
 
 import "../styles/timeline.css";
 
 function TimelineView({
+  zoom = DEFAULT_TIMELINE_ZOOM,
   selectedItem,
   duration,
   timelines,
+  seekTrack,
   onReorder,
   onEditElement,
-  onSeek,
   onSelectionChange,
   onDeletion,
 }: {
+  zoom?: number;
   duration: number;
-  seekTime: number;
   timelines: Timeline[];
   selectedItem: TimelineElement | Timeline | null;
+  seekTrack?: React.ReactNode;
   onReorder: (timelines: Timeline[]) => void;
   onEditElement: (timelineId: string, elementId: string, updates: any) => void;
   onSeek: (time: number) => void;
   onSelectionChange: (element: TimelineElement | Timeline) => void;
   onDeletion: (element: TimelineElement | Timeline) => void;
 }) {
-  const [zoom] = useState(DEFAULT_TIMELINE_ZOOM);
-  const [currentTime, setCurrentTime] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
   const seekContainerRef = useRef<HTMLDivElement>(null);
   const timelineContentRef = useRef<HTMLDivElement>(null);
   const [, setScrollLeft] = useState(0);
   const [draggedTimeline, setDraggedTimeline] = useState<Timeline | null>(null);
 
-  const {selectedTimeline, selectedTimelineElement } = useMemo(() => {
-    if (selectedItem && 'elements' in selectedItem) {
-      return {selectedTimeline: selectedItem, selectedTimelineElement: null};
+  const { selectedTimeline, selectedTimelineElement } = useMemo(() => {
+    if (selectedItem && "elements" in selectedItem) {
+      return { selectedTimeline: selectedItem, selectedTimelineElement: null };
     }
-    return {selectedTimeline: null, selectedTimelineElement: selectedItem};
+    return { selectedTimeline: null, selectedTimelineElement: selectedItem };
   }, [selectedItem]);
-
-  const handleSeekAction = (time: number) => {
-    if (onSeek) {
-      onSeek(time);
-    }
-    setCurrentTime(time);
-  };
 
   // Calculate track width - using the same calculation for all tracks
   const timelineWidth = Math.max(100, duration * zoom * 100);
@@ -135,7 +125,7 @@ function TimelineView({
       // Insert it at the target position
       reordered.splice(targetIndex, 0, removed);
 
-      if(onReorder) {
+      if (onReorder) {
         onReorder(reordered);
       }
       // Here you would also update the state in your backend or Redux store
@@ -158,62 +148,55 @@ function TimelineView({
   };
 
   return (
-      <div
-        ref={containerRef}
-        className="twick-timeline-manager-container"
-        onScroll={handleScroll}
-      >
-        <div
-          style={{ width: timelineWidthPx }}
-        >
+    <div
+      ref={containerRef}
+      className="twick-timeline-manager-container"
+      onScroll={handleScroll}
+    >
+      <div style={{ width: timelineWidthPx }}>
+        {seekTrack ? (
           <div style={{ display: "flex", position: "relative" }}>
             <div className="twick-seek-track-empty-space"></div>
-            <div style={{ flexGrow: 1 }}>
-              <SeekTrack
-                duration={duration}
-                currentTime={currentTime}
-                zoom={zoom}
-                onSeek={handleSeekAction}
-              />
-            </div>
+            <div style={{ flexGrow: 1 }}>{seekTrack}</div>
           </div>
-        </div>
-        <div ref={timelineContentRef} style={{ width: timelineWidthPx }}>
-          {(timelines|| []).map((timeline: Timeline) => (
-            <div className="twick-timeline-container" key={timeline.id}>
-              {/* Track header with drag support */}
-              <div className="twick-timeline-header-container">
-                <TrackHeader
-                  timeline={timeline}
-                  selectedItem={selectedTimeline}
-                  onDeletion={handleItemDeletion}
-                  onSelect={handleItemSelection}
-                  onDragStart={handleTrackDragStart}
-                  onDragOver={handleTrackDragOver}
-                  onDrop={handleTrackDrop}
-                />
-              </div>
-
-              {/* Track content */}
-              <Track
-                duration={duration}
-                selectedItem={selectedTimelineElement}
-                zoom={zoom}
-                allowOverlap={timeline.allowOverlap}
-                elements={timeline.elements}
-                trackWidth={timelineWidth - labelWidth} // Subtract label width for accurate track width
-                onItemSelection={handleItemSelection}
-                onItemDeletion={handleItemDeletion}
-                updateTrackElement={(elementId, partials) => {
-                  if (onEditElement) {
-                    onEditElement(timeline.id, elementId, partials);
-                  }
-                }}
+        ) : null}
+      </div>
+      <div ref={timelineContentRef} style={{ width: timelineWidthPx }}>
+        {(timelines || []).map((timeline: Timeline) => (
+          <div className="twick-timeline-container" key={timeline.id}>
+            {/* Track header with drag support */}
+            <div className="twick-timeline-header-container">
+              <TrackHeader
+                timeline={timeline}
+                selectedItem={selectedTimeline}
+                onDeletion={handleItemDeletion}
+                onSelect={handleItemSelection}
+                onDragStart={handleTrackDragStart}
+                onDragOver={handleTrackDragOver}
+                onDrop={handleTrackDrop}
               />
             </div>
-          ))}
-        </div>
+
+            {/* Track content */}
+            <Track
+              duration={duration}
+              selectedItem={selectedTimelineElement}
+              zoom={zoom}
+              allowOverlap={timeline.allowOverlap}
+              elements={timeline.elements}
+              trackWidth={timelineWidth - labelWidth} // Subtract label width for accurate track width
+              onItemSelection={handleItemSelection}
+              onItemDeletion={handleItemDeletion}
+              updateTrackElement={(elementId, partials) => {
+                if (onEditElement) {
+                  onEditElement(timeline.id, elementId, partials);
+                }
+              }}
+            />
+          </div>
+        ))}
       </div>
+    </div>
   );
 }
 
