@@ -2,8 +2,6 @@
   display: flex;
   flex-direction: column;
   flex: 1;
-  overflow-x: auto;
-  overflow-y: auto;
 }
 /* Timeline Container Styles */
 .twick-timeline-container {
@@ -21,8 +19,10 @@
 
 .twick-seek-track-container {
   display: flex;
+  position: relative;
   min-width: 100%;
   height: 2rem;
+  width: 100%;
 }
 
 .twick-seek-track-empty-space {
@@ -44,12 +44,6 @@
   background-color: #171717;
 }
 
-.twick-seek-track-container {
-  position: relative;
-  overflow: hidden;
-  width: 100%;
-}
-
 .twick-seek-track-canvas {
   min-width: 100%;
   height: 2rem;
@@ -69,7 +63,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 2px;
+  width: 1.5px;
   height: 100%;
   background-color: #FFFFFF;
 }
@@ -110,7 +104,7 @@
 .twick-track-element-content {
   width: 100%;
   height: 100%;
-  cursor: move;
+  cursor: grab;
   transition: background-color 0.2s ease-in-out;
   padding: 0.25rem;
   white-space: nowrap;

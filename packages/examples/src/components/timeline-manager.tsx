@@ -5,6 +5,8 @@ import {
   type TimelineElement,
 } from "@twick/timeline";
 import { useEffect, useState } from "react";
+import SeekControl from "./seek-control";
+import { useLivePlayerContext } from "@twick/live-player";
 
 const TimelineManager = ({ projectData }: { projectData: any }) => {
   const [selectedItem, setSelectedItem] = useState<
@@ -15,6 +17,8 @@ const TimelineManager = ({ projectData }: { projectData: any }) => {
     captionProps: {},
     applyPropsToAllSubtitle: false,
   });
+
+  const { setSeekTime, setCurrentTime } = useLivePlayerContext();
 
   useEffect(() => {
     if (projectData.timeline) {
@@ -27,11 +31,15 @@ const TimelineManager = ({ projectData }: { projectData: any }) => {
     setTimelines(reorderedItems, (timelineData?.version ?? 0) + 1);
   };
 
+  const handleSeekAction = (time: number) => {
+    setCurrentTime(time);
+    setSeekTime(time);
+  };
+
   return (
     <TimelineView
       timelines={timelineData?.timelines ?? []}
       duration={duration}
-      seekTime={0}
       selectedItem={selectedItem}
       onDeletion={() => {}}
       onReorder={onReorder}
@@ -42,7 +50,10 @@ const TimelineManager = ({ projectData }: { projectData: any }) => {
       onSelectionChange={(selectedItem: TimelineElement | Timeline | null) => {
         setSelectedItem(selectedItem);
       }}
-    />
+      seekTrack={
+        <SeekControl duration={duration} zoom={1.5} onSeek={handleSeekAction} timelineCount={timelineData?.timelines?.length ?? 0} />
+      }
+    ></TimelineView>
   );
 };
 
