@@ -1,4 +1,3 @@
-import { sample } from "../helpers/sample-data";
 import VideoEditor from "@twick/video-editor";
 import "@twick/video-editor/dist/video-editor.css";
 import EditorControls from "../components/editor-controls";
@@ -19,7 +18,10 @@ const ExampleEditor = () => {
           leftPanel={<EditorControls />}
           rightPanel={<div></div>}
           editorConfig={{
-            videoProps: sample.input.properties,
+            videoProps: {
+              width: 720,
+              height: 1280,
+            },
           }}
         />
       </TimelineProvider>

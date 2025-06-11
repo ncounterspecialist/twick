@@ -1,6 +1,7 @@
 {
   "name": "@twick/video-editor",
   "version": "0.0.1",
+  "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -25,6 +26,8 @@
   "dependencies": {
     "@emotion/is-prop-valid": "^1.2.2",
     "@twick/canvas": "workspace:^0.0.1",
+    "@twick/live-player": "workspace:^0.0.1",
+    "@twick/timeline": "workspace:^0.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },

@@ -21,7 +21,7 @@
     "dev:live-player": "turbo run dev --filter=@twick/live-player",
     "dev:video-editor": "turbo run dev --filter=@twick/video-editor",
     "dev:examples": "turbo run dev --filter=@twick/examples",
-    "preview": "cd packages/examples && npm run preview",
+    "preview": "cd packages/examples && pnpm run preview",
     "lint": "turbo run lint",
     "lint:fix": "turbo run lint --fix",
     "test": "turbo run test",

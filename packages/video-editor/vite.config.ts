@@ -6,7 +6,7 @@ export default defineConfig({
   build: {
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
-      name: 'TwickTimeline',
+      name: 'TwickVideoEditor',
       fileName: (format) => `index.${format === 'es' ? 'mjs' : 'js'}`,
     },
     rollupOptions: {
@@ -23,7 +23,9 @@ export default defineConfig({
         globals: {
           react: 'React',
           'react-dom': 'ReactDOM',
-          'react/jsx-runtime': 'jsxRuntime'
+          'react/jsx-runtime': 'jsxRuntime',
+          '@twick/live-player': 'TwickLivePlayer',
+          '@twick/timeline': 'TwickTimeline'
         },
         assetFileNames: (assetInfo) => {
           if (assetInfo.name === 'style.css') return 'video-editor.css';
