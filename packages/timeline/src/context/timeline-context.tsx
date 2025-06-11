@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 import { TIMELINE_ACTION, TIMELINE_OPERATION } from "../helpers/constants";
 import { Timeline, TimelineElement } from "../types";
 
@@ -19,7 +19,15 @@ type TimelineContextType = {
 
 const TimelineContext = createContext<TimelineContextType | undefined>(undefined);
 
-export const TimelineProvider = ({ children }: { children: React.ReactNode }) => {
+export interface TimelineProviderProps {
+  children: React.ReactNode;
+  initialData?: {
+    timeline: Timeline[];
+    version: number;
+  };
+}
+
+export const TimelineProvider = ({ children, initialData }: TimelineProviderProps) => {
   const [timelineAction, setTimelineActionState] = useState<{ action: string; data: any }>({
     action: TIMELINE_ACTION.NONE,
     data: null,
@@ -39,6 +47,13 @@ export const TimelineProvider = ({ children }: { children: React.ReactNode }) =>
   const setTimelineOperation = (operation: string, data: any) => {
     setTimelineOperationState({ operation, data });
   };
+
+  // Initialize timeline data if provided
+  useEffect(() => {
+    if (initialData) {
+      setTimelineAction(TIMELINE_ACTION.UPDATE_PROJECT_DATA, initialData);
+    }
+  }, [initialData]);
 
   return (
     <TimelineContext.Provider

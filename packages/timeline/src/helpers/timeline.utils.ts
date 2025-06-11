@@ -1,4 +1,4 @@
-import { Timeline } from "../types";
+import { Timeline, TimelineElement } from "../types";
 import { DEFAULT_ELEMENT_COLORS, ElementColors } from "./constants";
 
 export let ELEMENT_COLORS: ElementColors = { ...DEFAULT_ELEMENT_COLORS };
@@ -6,7 +6,7 @@ export let ELEMENT_COLORS: ElementColors = { ...DEFAULT_ELEMENT_COLORS };
 export const setElementColors = (colors: Partial<ElementColors>) => {
   ELEMENT_COLORS = {
     ...DEFAULT_ELEMENT_COLORS,
-    ...colors
+    ...colors,
   };
 };
 export function formatTime(seconds: number) {
@@ -24,26 +24,48 @@ export const getDecimalNumber = (num: number, precision = 3) => {
   return Number(num.toFixed(precision));
 };
 
-export function getTotalDuration(timelines: Timeline[]) {
-    return (timelines || []).reduce(
-      (maxDuration, timeline) =>
-        Math.max(
-          maxDuration,
-          (timeline?.elements || []).reduce(
-            (timelineDuration, element) =>
-              Math.max(timelineDuration, element.e),
-            0
-          )
-        ),
-      0
-    );
-  }
+export function getTotalDuration(timeline: Timeline[]) {
+  return (timeline || []).reduce(
+    (maxDuration, timeline) =>
+      Math.max(
+        maxDuration,
+        (timeline?.elements || []).reduce(
+          (timelineDuration, element) => Math.max(timelineDuration, element.e),
+          0
+        )
+      ),
+    0
+  );
+}
 
-  export function generateShortUuid(): string {
-    return "xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
-      const r = (Math.random() * 16) | 0,
-        v = c === "x" ? r : (r & 0x3) | 0x8;
-      return v.toString(16);
-    });
+export function generateShortUuid(): string {
+  return "xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
+    const r = (Math.random() * 16) | 0,
+      v = c === "x" ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
+}
+
+export const getCurrentElements = (
+  currentTime: number,
+  timeline: Timeline[]
+) => {
+  const currentElements: Array<TimelineElement & { timelineType?: string }> =
+    [];
+  if (timeline?.length) {
+    for (let i = 0; i < timeline.length; i++) {
+      if (timeline[i]) {
+        for (let j = 0; j < timeline[i].elements.length; j++) {
+          const element = timeline[i].elements[j];
+          if (element.s <= currentTime && element.e >= currentTime) {
+            currentElements.push({
+              ...element,
+              timelineType: timeline[i].type,
+            });
+          }
+        }
+      }
+    }
   }
-  
+  return currentElements;
+};

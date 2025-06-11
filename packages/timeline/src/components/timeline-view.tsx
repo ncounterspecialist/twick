@@ -7,22 +7,24 @@ import TrackHeader from "./track-header";
 import "../styles/timeline.css";
 
 function TimelineView({
+  timelineControls,
   zoom = DEFAULT_TIMELINE_ZOOM,
   selectedItem,
   duration,
-  timelines,
+  timeline,
   seekTrack,
   onReorder,
   onEditElement,
   onSelectionChange,
   onDeletion,
 }: {
+  timelineControls?: React.ReactNode;
   zoom?: number;
   duration: number;
-  timelines: Timeline[];
+  timeline: Timeline[];
   selectedItem: TimelineElement | Timeline | null;
   seekTrack?: React.ReactNode;
-  onReorder: (timelines: Timeline[]) => void;
+  onReorder: (timeline: Timeline[]) => void;
   onEditElement: (timelineId: string, elementId: string, updates: any) => void;
   onSeek: (time: number) => void;
   onSelectionChange: (element: TimelineElement | Timeline) => void;
@@ -88,7 +90,7 @@ function TimelineView({
   }, [duration, zoom]);
 
   // Fixed width for track labels
-  const labelWidth = 120;
+  const labelWidth = 140;
 
   // Track reordering handlers
   const handleTrackDragStart = (e: React.DragEvent, timeline: Timeline) => {
@@ -112,8 +114,8 @@ function TimelineView({
 
     if (!draggedTimeline || draggedTimeline.id === targetTimeline.id) return;
 
-    // Reorder timelines
-    const reordered = [...(timelines || [])];
+    // Reorder timeline
+    const reordered = [...(timeline || [])];
     const draggedIndex = reordered.findIndex(
       (t) => t.id === draggedTimeline.id
     );
@@ -150,19 +152,21 @@ function TimelineView({
   return (
     <div
       ref={containerRef}
-      className="twick-timeline-manager-container"
+      className="twick-timeline-scroll-container"
       onScroll={handleScroll}
     >
       <div style={{ width: timelineWidthPx }}>
         {seekTrack ? (
           <div style={{ display: "flex", position: "relative" }}>
-            <div className="twick-seek-track-empty-space"></div>
+            <div className="twick-seek-track-empty-space">
+              {timelineControls}
+            </div>
             <div style={{ flexGrow: 1 }}>{seekTrack}</div>
           </div>
         ) : null}
       </div>
       <div ref={timelineContentRef} style={{ width: timelineWidthPx }}>
-        {(timelines || []).map((timeline: Timeline) => (
+        {(timeline || []).map((timeline: Timeline) => (
           <div className="twick-timeline-container" key={timeline.id}>
             {/* Track header with drag support */}
             <div className="twick-timeline-header-container">

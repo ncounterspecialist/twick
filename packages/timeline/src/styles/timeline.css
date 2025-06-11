@@ -1,7 +1,8 @@
-.twick-timeline-manager-container {
+.twick-timeline-scroll-container {
   display: flex;
   flex-direction: column;
   flex: 1;
+  overflow-x: auto;
 }
 /* Timeline Container Styles */
 .twick-timeline-container {
@@ -31,7 +32,7 @@
   z-index: 30;
   display: flex;
   flex-grow: 0;
-  min-width: 120px;
+  min-width: 140px;
   height: 34px;
   background-color: #171717;
 }
@@ -148,7 +149,7 @@
   display: flex;
   flex: none;
   position: relative;
-  width: 120px;
+  width: 140px;
   height: 100%;
   background-color: #171717;
   border-right: 1px solid #262626;

@@ -4,11 +4,15 @@ import {
   useTimeline,
   type TimelineElement,
 } from "@twick/timeline";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import SeekControl from "./seek-control";
 import { useLivePlayerContext } from "@twick/live-player";
 
-const TimelineManager = ({ projectData }: { projectData: any }) => {
+const TimelineManager = ({
+  timelineControls,
+}: {
+  timelineControls?: React.ReactNode;
+}) => {
   const [selectedItem, setSelectedItem] = useState<
     TimelineElement | Timeline | null
   >(null);
@@ -19,12 +23,6 @@ const TimelineManager = ({ projectData }: { projectData: any }) => {
   });
 
   const { setSeekTime, setCurrentTime } = useLivePlayerContext();
-
-  useEffect(() => {
-    if (projectData.timeline) {
-      setTimeline(projectData.timeline, projectData.version ?? 0);
-    }
-  }, [projectData]);
 
   const onReorder = (reorderedItems: Timeline[]) => {
     console.log(reorderedItems, timelineData);
@@ -38,12 +36,13 @@ const TimelineManager = ({ projectData }: { projectData: any }) => {
 
   return (
     <TimelineView
+      timelineControls={timelineControls}
       timeline={timelineData?.timeline ?? []}
       duration={duration}
       selectedItem={selectedItem}
       onDeletion={() => {}}
       onReorder={onReorder}
-      onEditElement={(timelineId, elementId, updates) => {
+      onEditElement={(timelineId: string, elementId: string, updates: any) => {
         editElement({ timelineId, elementId, updates, noSelection: true });
       }}
       onSeek={() => {}}
@@ -51,7 +50,12 @@ const TimelineManager = ({ projectData }: { projectData: any }) => {
         setSelectedItem(selectedItem);
       }}
       seekTrack={
-        <SeekControl duration={duration} zoom={1.5} onSeek={handleSeekAction} timelineCount={timelineData?.timeline?.length ?? 0} />
+        <SeekControl
+          duration={duration}
+          zoom={1.5}
+          onSeek={handleSeekAction}
+          timelineCount={timelineData?.timeline?.length ?? 0}
+        />
       }
     ></TimelineView>
   );

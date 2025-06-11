@@ -81,7 +81,7 @@ export type TimelineElement = {
   }
   
   export type TimelineData = {
-    timelines: Timeline[];
+    timeline: Timeline[];
     version: number;
   }
 

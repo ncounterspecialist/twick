@@ -8,8 +8,9 @@
     "build:canvas": "turbo run build --filter=@twick/canvas",
     "build:documentation": "pnpm run docs && pnpm run docs:copy && turbo run build --filter=@twick/documentation",
     "build:live-player": "turbo run build --filter=@twick/live-player",
-    "build:examples": "turbo run build --filter=@twick/examples",
     "build:visualizer": "turbo run build --filter=@twick/visualizer",
+    "build:video-editor": "turbo run build --filter=@twick/video-editor",
+    "build:examples": "turbo run build --filter=@twick/examples",
     "docs": "turbo run docs",
     "docs:copy": "./scripts/copy-docs.sh",
     "docs:build": "pnpm run docs && pnpm run docs:copy",
@@ -18,6 +19,7 @@
     "dev:canvas": "turbo run dev --filter=@twick/canvas",
     "dev:documentation": "pnpm run docs && pnpm run docs:copy && turbo run dev --filter=@twick/documentation",
     "dev:live-player": "turbo run dev --filter=@twick/live-player",
+    "dev:video-editor": "turbo run dev --filter=@twick/video-editor",
     "dev:examples": "turbo run dev --filter=@twick/examples",
     "preview": "cd packages/examples && npm run preview",
     "lint": "turbo run lint",
@@ -44,6 +46,7 @@
     "packages/visualizer",
     "packages/canvas",
     "packages/live-player",
+    "packages/video-editor",
     "packages/examples"
   ],
   "pnpm": {

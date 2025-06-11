@@ -1,0 +1,48 @@
+.twick-editor-main-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  gap: 6px;
+}
+
+.twick-editor-view-section {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 6px;
+  width: 100%;
+  height: 100%;
+}
+
+.twick-editor-timeline-section {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  border-radius: 10px;
+  overflow-x: hidden;
+}
+
+.twick-editor-container {
+  position: relative;
+  height: 80dvh;
+  overflow: hidden;
+  border-radius: 10px;
+  background-color: #000;
+  color: #fff;
+}
+
+.twick-editor-canvas-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.twick-editor-canvas {
+  width: 100%;
+  height: 100%;
+}

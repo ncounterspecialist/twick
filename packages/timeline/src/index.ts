@@ -5,10 +5,11 @@ import Track from "./components/track";
 import TrackHeader from "./components/track-header";
 import TimelineView from "./components/timeline-view";
 import { TIMELINE_ELEMENT_TYPE } from "./helpers/constants";
+import { TimelineProvider, TimelineProviderProps } from "./context/timeline-context";
 
-export { useTimeline, SeekTrack, Track, TrackHeader, TimelineView };
+export { useTimeline, SeekTrack, Track, TrackHeader, TimelineView, TimelineProvider };
+export type { Timeline, TimelineData, TimelineElement, TimelineProviderProps };
 export { TIMELINE_ELEMENT_TYPE };
-export type { Timeline, TimelineData, TimelineElement };
 
 export * from "./helpers/constants";
 export * from "./helpers/timeline.utils";

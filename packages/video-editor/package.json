@@ -1,0 +1,46 @@
+{
+  "name": "@twick/video-editor",
+  "version": "0.0.1",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "license": "Apache-2.0",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite build --watch",
+    "lint": "eslint src/",
+    "clean": "rimraf .turbo node_modules dist",
+    "docs": "typedoc --plugin typedoc-plugin-markdown --out docs src/index.ts"
+  },
+  "peerDependencies": {
+    "@twick/timeline": "workspace:^0.0.1",
+    "@twick/live-player": "workspace:^0.0.1"
+  },
+  "dependencies": {
+    "@emotion/is-prop-valid": "^1.2.2",
+    "@twick/canvas": "workspace:^0.0.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.24",
+    "@types/react": "^18.2.55",
+    "@types/react-dom": "^18.2.19",
+    "@twick/live-player": "workspace:^0.0.1",
+    "@twick/timeline": "workspace:^0.0.1",
+    "rimraf": "^5.0.5",
+    "typedoc": "^0.25.8",
+    "typedoc-plugin-markdown": "^3.17.1",
+    "typescript": "^5.4.2",
+    "vite": "^5.1.4",
+    "vite-plugin-dts": "^3.7.3",
+    "postcss": "^8.4.35",
+    "autoprefixer": "^10.4.17"
+  }
+}
