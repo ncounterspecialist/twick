@@ -33,7 +33,12 @@ export const LivePlayerProvider = ({ children }: { children: React.ReactNode }) 
         totalDuration,
         setTotalDuration,
         setSeekTime,
-        setPlayerState,
+        setPlayerState: (state: string) => {
+          if(state === PLAYER_STATE.PAUSED) {
+            setSeekTime(currentTime);
+          }
+          setPlayerState(state);
+        },
         setCurrentTime,
         setPlayerVolume,
       }}

@@ -7,7 +7,6 @@ import {
 } from "../types";
 import {
   PLAYER_STATE,
-  SCREEN_ACTION,
   TIMELINE_ACTION,
   TIMELINE_ELEMENT_TYPE,
   TIMELINE_OPERATION,
@@ -37,10 +36,10 @@ export const useTimeline = ({
 
   const latestTimelineData = useRef<TimelineData | null>(null);
 
-  const setTimelines = (timelines: Timeline[], version?: number) => {
+  const setTimeline = (timeline: Timeline[], version?: number) => {
     const updatedVersion = version ?? (timelineData?.version || 0) + 1;
     const updatedTimelineData = {
-      timelines: timelines,
+      timeline: timeline,
       version: updatedVersion,
     };
 
@@ -49,7 +48,7 @@ export const useTimeline = ({
     // Update the timeline props and element key map
     timelinePropsMap.current = {};
     elementKeyMap.current = {};
-    timelines.forEach((timeline) => {
+    timeline.forEach((timeline) => {
       timelinePropsMap.current[timeline.id] = timeline.props;
       timeline.elements.forEach((element) => {
         elementKeyMap.current[element.id] = element;
@@ -61,31 +60,31 @@ export const useTimeline = ({
 
   // Create a new timeline
   const addTimeline = (timeline: Timeline) => {
-    const updatedTimelines = [...(timelineData?.timelines || []), timeline];
-    const version = setTimelines(updatedTimelines);
+    const updatedTimelines = [...(timelineData?.timeline || []), timeline];
+    const version = setTimeline(updatedTimelines);
     return { timeline, version };
   };
 
   // Delete a timeline
   const deleteTimeline = (timelineId: string) => {
-    timelineData?.timelines
+    timelineData?.timeline
       ?.find((timeline) => timeline.id === timelineId)
       ?.elements.forEach((element) => {
         delete elementKeyMap.current[element.id];
       });
     const updatedTimelines =
-      timelineData?.timelines?.filter(
+      timelineData?.timeline?.filter(
         (timeline) => timeline.id !== timelineId
       ) || [];
     delete timelinePropsMap.current[timelineId];
-    const version = setTimelines(updatedTimelines);
+    const version = setTimeline(updatedTimelines);
     return { timelineId: timelineId, version };
   };
 
   // Edit a timeline
   const editTimeline = (timelineId: string, updates: Partial<Timeline>) => {
     const updatedTimelines =
-      timelineData?.timelines?.map((timeline) => {
+      timelineData?.timeline?.map((timeline) => {
         if (timeline.id === timelineId) {
           const updatedTimeline = { ...timeline, ...updates };
           timelinePropsMap.current[timelineId] = updatedTimeline.props;
@@ -93,7 +92,7 @@ export const useTimeline = ({
         }
         return timeline;
       }) || [];
-    const version = setTimelines(updatedTimelines);
+    const version = setTimeline(updatedTimelines);
     return {
       timelineId: timelineId,
       updates,
@@ -115,13 +114,13 @@ export const useTimeline = ({
     elementKeyMap.current[newElement.id] = newElement;
 
     const updatedTimelines =
-      timelineData?.timelines?.map((timeline) =>
+      timelineData?.timeline?.map((timeline) =>
         timeline.id === timelineId
           ? { ...timeline, elements: [...timeline.elements, newElement] }
           : timeline
       ) || [];
 
-    const version = setTimelines(updatedTimelines);
+    const version = setTimeline(updatedTimelines);
     return {
       timelineId,
       element: newElement,
@@ -132,7 +131,7 @@ export const useTimeline = ({
   // Delete an element from a timeline
   const deleteElement = (timelineId: string, elementId: string) => {
     const updatedTimelines =
-      timelineData?.timelines?.map((timeline) =>
+      timelineData?.timeline?.map((timeline) =>
         timeline.id === timelineId
           ? {
               ...timeline,
@@ -142,7 +141,7 @@ export const useTimeline = ({
       ) || [];
 
     delete elementKeyMap.current[elementId];
-    const version = setTimelines(updatedTimelines);
+    const version = setTimeline(updatedTimelines);
 
     return { timelineId, elementId, version };
   };
@@ -236,7 +235,7 @@ export const useTimeline = ({
     }
 
     const updatedTimelines =
-      timelineData?.timelines?.map((timeline) =>
+      timelineData?.timeline?.map((timeline) =>
         timeline.id === timelineId
           ? {
               ...timeline,
@@ -265,7 +264,7 @@ export const useTimeline = ({
           : timeline
       ) || [];
 
-    const version = setTimelines(updatedTimelines);
+    const version = setTimeline(updatedTimelines);
     if (updatedElement) {
       setSelectedItem(updatedElement);
     }
@@ -298,7 +297,7 @@ export const useTimeline = ({
       return;
     }
     const updatedTimelines =
-      timelineData?.timelines?.map((timeline) =>
+      timelineData?.timeline?.map((timeline) =>
         timeline.id === timelineId
           ? {
               ...timeline,
@@ -320,7 +319,7 @@ export const useTimeline = ({
           : timeline
       ) || [];
 
-    const version = setTimelines(updatedTimelines);
+    const version = setTimeline(updatedTimelines);
 
     if (updatedElement) {
       elementKeyMap.current[elementId] = updatedElement;
@@ -404,7 +403,7 @@ export const useTimeline = ({
       return;
     }
     const updatedTimelines =
-      timelineData?.timelines?.map((timeline) =>
+      timelineData?.timeline?.map((timeline) =>
         timeline.id === timelineId
           ? {
               ...timeline,
@@ -422,33 +421,32 @@ export const useTimeline = ({
     delete elementKeyMap.current[element.id];
     elementKeyMap.current[split1.id] = split1;
     elementKeyMap.current[split2.id] = split2;
-    const version = setTimelines(updatedTimelines);
+    const version = setTimeline(updatedTimelines);
     return version;
   };
 
-  const addNewTimeline = (videoData: any) => {
+  const addNewTimeline = (timelineData: Timeline | undefined) => {
     const newTimelineId = `t-${generateShortUuid()}`;
-    let videoElement;
-    if (videoData.element) {
-      videoElement = {
-        id: `e-${generateShortUuid()}`,
-        timelineId: newTimelineId,
-        ...videoData.element,
-      };
-      elementKeyMap.current[videoElement.id] = videoElement;
-    }
-
     const newTimeline: Timeline = {
       id: newTimelineId,
-      type: videoData?.timelineType ?? "element",
-      name: videoData?.timelineType ?? "element",
-      elements: videoElement ? [videoElement] : [],
+      type: "element",
+      name: "element",
+      ...timelineData,
+      elements: timelineData?.elements?.length ? timelineData.elements.map((element) => {
+        const newElement = {
+          ...element,
+          id: element.id || `e-${generateShortUuid()}`,
+          timelineId: newTimelineId
+        };
+        elementKeyMap.current[newElement.id] = newElement;
+        return newElement;
+      }) : [],
     };
     return addTimeline(newTimeline);
   };
 
   const updateCaptionTimeline = (captionData: any) => {
-    const existingTimeline = (timelineData?.timelines || []).find(
+    const existingTimeline = (timelineData?.timeline || []).find(
       ({ type }) => type == "caption"
     );
     let timelineId;
@@ -488,8 +486,8 @@ export const useTimeline = ({
   };
 
   useEffect(() => {
-    const totalDuration = timelineData?.timelines
-      ? getTotalDuration(timelineData?.timelines)
+    const totalDuration = timelineData?.timeline
+      ? getTotalDuration(timelineData?.timeline)
       : 0;
     setDuration(totalDuration);
     setTimelineAction(TIMELINE_ACTION.SET_DURATION, totalDuration);
@@ -520,7 +518,7 @@ export const useTimeline = ({
 
     let elementTimelineId = timelineId;
     if (elementTimelineId) {
-      const selectedTimeline = timelineData?.timelines?.find(
+      const selectedTimeline = timelineData?.timeline?.find(
         (timeline) => timeline.id === timelineId
       );
       if (selectedTimeline?.type === TIMELINE_ELEMENT_TYPE.VIDEO) {
@@ -547,38 +545,6 @@ export const useTimeline = ({
     };
   };
 
-  const addElementToCanvas = (currentTime: number) => {
-    const currentElements: Array<TimelineElement & { timelineType?: string }> =
-      [];
-    if (timelineData?.timelines) {
-      for (let i = 0; i < timelineData.timelines.length; i++) {
-        const timeline = timelineData.timelines[i];
-        if (timeline) {
-          for (let j = 0; j < timeline.elements.length; j++) {
-            const element = timeline.elements[j];
-            if (element.s <= currentTime && element.e >= currentTime) {
-              currentElements.push({
-                ...element,
-                timelineType: timeline.type,
-              });
-              if (timeline.type === "element") {
-                continue;
-              } else {
-                break;
-              }
-            }
-          }
-        }
-      }
-    }
-    setTimelineAction(TIMELINE_ACTION.SET_SCREEN_ACTION, {
-      action: SCREEN_ACTION.OPEN_CANVAS,
-      data: {
-        showCanvas: true,
-        timelineElements: currentElements,
-      },
-    });
-  };
 
   useEffect(() => {
     if (selectedItem?.id) {
@@ -600,9 +566,10 @@ export const useTimeline = ({
 
   useEffect(() => {
     switch (timelineOperation?.operation) {
-      case TIMELINE_OPERATION.UPDATE_CANVAS_ELEMENTS:
+      case TIMELINE_OPERATION.LOAD_PROJECT:
         {
-          addElementToCanvas(timelineOperation?.data?.currentTime);
+          setTimeline(timelineOperation?.data?.timeline || [], timelineOperation?.data?.version || 0);
+          setTimelineAction(TIMELINE_ACTION.UPDATE_PROJECT_DATA, latestTimelineData.current);
         }
         break;
       case TIMELINE_OPERATION.ADD_NEW_TIMELINE:
@@ -611,7 +578,7 @@ export const useTimeline = ({
           const data = addNewTimeline(timelineOperation?.data);
           setSelectedItem(data?.timeline);
           setTimelineAction(
-            TIMELINE_ACTION.SET_LATEST_PROJECT_DATA,
+            TIMELINE_ACTION.UPDATE_PROJECT_DATA,
             latestTimelineData.current
           );
         }
@@ -622,7 +589,7 @@ export const useTimeline = ({
           updateCaptionTimeline(timelineOperation?.data);
           setSelectedItem(null);
           setTimelineAction(
-            TIMELINE_ACTION.SET_LATEST_PROJECT_DATA,
+            TIMELINE_ACTION.UPDATE_PROJECT_DATA,
             latestTimelineData.current
           );
         }
@@ -637,14 +604,14 @@ export const useTimeline = ({
             );
             setSelectedItem(null);
             setTimelineAction(
-              TIMELINE_ACTION.SET_LATEST_PROJECT_DATA,
+              TIMELINE_ACTION.UPDATE_PROJECT_DATA,
               latestTimelineData.current
             );
           } else if ((timelineOperation?.data?.id || "").startsWith("t-")) {
             deleteTimeline(timelineOperation?.data?.id);
             setSelectedItem(null);
             setTimelineAction(
-              TIMELINE_ACTION.SET_LATEST_PROJECT_DATA,
+              TIMELINE_ACTION.UPDATE_PROJECT_DATA,
               latestTimelineData.current
             );
           }
@@ -655,7 +622,7 @@ export const useTimeline = ({
           pauseVideo();
           const { element, timelineId } = timelineOperation?.data;
           if (timelineId) {
-            const selectedTimeline = timelineData?.timelines?.find(
+            const selectedTimeline = timelineData?.timeline?.find(
               (timeline) => timeline.id === timelineId
             );
             let startTime = 0;
@@ -666,7 +633,7 @@ export const useTimeline = ({
             }
             const data = addElement(timelineId, { ...element, startTime });
             setTimelineAction(
-              TIMELINE_ACTION.SET_LATEST_PROJECT_DATA,
+              TIMELINE_ACTION.UPDATE_PROJECT_DATA,
               latestTimelineData.current
             );
             if (data?.element) {
@@ -685,7 +652,7 @@ export const useTimeline = ({
           editElement({ timelineId, elementId, updates, noSelection: false });
           if (forceUpdate) {
             setTimelineAction(
-              TIMELINE_ACTION.SET_LATEST_PROJECT_DATA,
+              TIMELINE_ACTION.UPDATE_PROJECT_DATA,
               latestTimelineData.current
             );
           }
@@ -702,9 +669,9 @@ export const useTimeline = ({
         break;
       case TIMELINE_OPERATION.SET_PROJECT_SCRIPT:
         {
-          const timelines = timelineOperation.data?.input?.timeline;
+          const timeline = timelineOperation.data?.input?.timeline;
           elementKeyMap.current = {};
-          timelinePropsMap.current = timelines.reduce(
+          timelinePropsMap.current = timeline.reduce(
             (acc: Record<string, any>, timeline: Timeline) => {
               acc[timeline.id] = timeline.props;
               timeline.elements.forEach((element) => {
@@ -715,9 +682,9 @@ export const useTimeline = ({
             {}
           );
           setTimelineAction(TIMELINE_ACTION.RESET_HISTORY, null);
-          setTimelines(timelines, 0);
+          setTimeline(timeline, 0);
           setTimelineAction(
-            TIMELINE_ACTION.SET_LATEST_PROJECT_DATA,
+            TIMELINE_ACTION.UPDATE_PROJECT_DATA,
             latestTimelineData.current
           );
         }
@@ -737,7 +704,7 @@ export const useTimeline = ({
         }
         setSelectedItem(null);
         setTimelineAction(
-          TIMELINE_ACTION.SET_LATEST_PROJECT_DATA,
+          TIMELINE_ACTION.UPDATE_PROJECT_DATA,
           latestTimelineData.current
         );
         break;
@@ -749,14 +716,14 @@ export const useTimeline = ({
           }
         }
         setTimelineAction(
-          TIMELINE_ACTION.SET_LATEST_PROJECT_DATA,
+          TIMELINE_ACTION.UPDATE_PROJECT_DATA,
           latestTimelineData.current
         );
         break;
       case TIMELINE_OPERATION.FETCH_LATEST_PROJECT_DATA:
         {
           setTimelineAction(
-            TIMELINE_ACTION.SET_LATEST_PROJECT_DATA,
+            TIMELINE_ACTION.UPDATE_PROJECT_DATA,
             latestTimelineData.current
           );
         }
@@ -767,9 +734,9 @@ export const useTimeline = ({
   return {
     timelineData,
     duration,
-    setTimelines: (timelines: Timeline[], version?: number) => {
-      setTimelines(timelines, version);
-      setTimelineAction(TIMELINE_ACTION.SET_LATEST_PROJECT_DATA, latestTimelineData.current);
+    setTimeline: (timeline: Timeline[], version?: number) => {
+      setTimeline(timeline, version);
+      setTimelineAction(TIMELINE_ACTION.UPDATE_PROJECT_DATA, latestTimelineData.current);
     },
     addTimeline,
     deleteTimeline,

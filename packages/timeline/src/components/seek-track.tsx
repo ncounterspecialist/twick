@@ -7,7 +7,7 @@ interface SeekTrackProps {
   duration: number;     // in seconds
   zoom?: number;        // e.g. 1 = 100px/sec
   onSeek: (time: number) => void;
-  timelineCount?: number; // number of timelines to calculate pin height
+  timelineCount?: number; // number of timeline to calculate pin height
 }
 
 export default function SeekTrack({
@@ -26,7 +26,7 @@ export default function SeekTrack({
   const pixelsPerSecond = 100 * zoom;
   const totalWidth = duration * pixelsPerSecond;
 
-  // Calculate pin height based on number of timelines
+  // Calculate pin height based on number of timeline
   const pinHeight = 2 + timelineCount * (2.75 + 0.5); // 2.75rem height + 0.5rem margin per timeline
 
   // Update seek position when currentTime changes

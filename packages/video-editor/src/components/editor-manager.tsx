@@ -11,14 +11,16 @@ import {
   useTimelineContext,
 } from "@twick/timeline";
 import { useEffect, useRef, useState } from "react";
+import "../styles/video-editor.css";
 
-export const PlayerContainer = ({
+export const EditorManager = ({
   videoProps,
 }: {
   videoProps: { width: number; height: number };
 }) => {
   const [projectData, setProjectData] = useState<any>(null);
-  const { timelineAction, setTimelineAction, setSelectedItem } = useTimelineContext();
+  const { timelineAction, setTimelineAction, setSelectedItem } =
+    useTimelineContext();
   const durationRef = useRef<number>(0);
   const {
     playerState,
@@ -37,7 +39,7 @@ export const PlayerContainer = ({
   };
 
   const handleCanvasOperation = (operation: string, data: any) => {
-    switch(operation) {
+    switch (operation) {
       case CANVAS_OPERATIONS.ITEM_SELECTED:
         setSelectedItem(data);
         break;
@@ -118,11 +120,10 @@ export const PlayerContainer = ({
 
   return (
     <div
-      className="relative w-full h-[80dvh] overflow-hidden rounded-lg
-     bg-gray-100 dark:bg-gray-800"
-     style={{
-      aspectRatio: `${videoProps.width}/${videoProps.height}`
-     }}
+      className="twick-editor-container"
+      style={{
+        aspectRatio: `${videoProps.width}/${videoProps.height}`,
+      }}
     >
       <LivePlayer
         seekTime={seekTime}
@@ -141,12 +142,12 @@ export const PlayerContainer = ({
       />
       <div
         ref={containerRef}
-        className="editor-canvas-container"
+        className="twick-editor-canvas-container"
         style={{
           opacity: playerState === PLAYER_STATE.PAUSED ? 1 : 0,
         }}
       >
-        <canvas ref={canvasRef} className="w-full h-full"></canvas>
+        <canvas ref={canvasRef} className="twick-editor-canvas" />
       </div>
     </div>
   );

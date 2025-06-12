@@ -67,6 +67,37 @@ Here's a glimpse of building a video using the SDK:
 
 https://youtu.be/xuocqJqc9m8?si=h0wobDZlr9aj9XxW
 
+## Integrate Video Editor in your project 
+
+1. Install Dependencies 
+
+```
+npm install --save @twick/canvas @twick/live-player @twick/timeline  @twick/video-editor
+```
+
+2. Add VideoEditor component with LivePlayer and Timeline Context as shown
+```
+    <LivePlayerProvider>
+      <TimelineProvider
+        initialData={{
+          timeline: [],
+          version: 0,
+        }}
+      >
+        <VideoEditor
+          leftPanel={null}
+          rightPanel={null}
+          editorConfig={{
+            videoProps: {
+              width: 720,  // Desired width
+              height: 1280, // Desired height
+            },
+          }}
+        />
+      </TimelineProvider>
+    </LivePlayerProvider>
+```
+
 ## Discord Community
 
 Join our Discord community to:

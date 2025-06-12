@@ -105,14 +105,7 @@ export const TIMELINE_ACTION = {
   SET_CAPTION_PROPS: "setCaptionProps",
   SET_SCREEN_ACTION: "setScreenAction",
   SET_PLAYER_STATE: "setPlayerState",
-  SET_LATEST_PROJECT_DATA: "latestProjectData",
-};
-
-export const SCREEN_ACTION = {
-  NONE: "NONE",
-  SET_ZOOM: "SET_ZOOM",
-  ADD_TIMELINE: "ADD_TIMELINE",
-  OPEN_CANVAS: "OPEN_CANVAS",
+  UPDATE_PROJECT_DATA: "updateProjectData",
 };
 
 export const TIMELINE_ELEMENT_TYPE = {
