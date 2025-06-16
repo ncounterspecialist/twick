@@ -18,6 +18,7 @@ const ExampleEditor = () => {
           leftPanel={<EditorControls />}
           rightPanel={<div></div>}
           editorConfig={{
+            canvasMode: true,
             videoProps: {
               width: 720,
               height: 1280,

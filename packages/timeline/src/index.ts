@@ -17,6 +17,7 @@ export * from './context/timeline-context';
 export * from './components/timeline-view';
 export * from './hooks/use-timeline';
 export * from './types';
+export * from './helpers/element.utils';
 
 // Import CSS
 import './styles/timeline.css';

@@ -29,6 +29,9 @@ export type LivePlayerProps = {
   /** Time in seconds to seek to on load or update */
   seekTime?: number;
 
+  /** Style for the player container */
+  containerStyle?: React.CSSProperties;
+
   /** Volume of the player (0.0 - 1.0) */
   volume?: number;
 
@@ -59,6 +62,7 @@ export type LivePlayerProps = {
  */
 export const LivePlayer = ({
   playing,
+  containerStyle,
   projectData,
   videoSize,
   seekTime = 0,
@@ -163,6 +167,7 @@ export const LivePlayer = ({
         height: "100%",
         justifyContent: "center",
         alignItems: "center",
+        ...containerStyle || {},
       }}
     >
       <Player

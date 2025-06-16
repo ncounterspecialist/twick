@@ -21,6 +21,7 @@
   "dependencies": {
     "@react-spring/web": "^10.0.1",
     "@use-gesture/react": "^10.3.0",
+    "@twick/media-utils": "workspace:^0.0.1",
     "framer-motion": "^11.0.3",
     "lucide-react": "^0.511.0"
   },

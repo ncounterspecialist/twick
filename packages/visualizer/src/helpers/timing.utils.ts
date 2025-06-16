@@ -108,22 +108,3 @@ export function getTimingFunction(name: string) {
       return linear;
   }
 }
-
-/**
- * Calculates the duration between two timestamps
- * @param {number} startTime - Start timestamp
- * @param {number} endTime - End timestamp
- * @returns {number} Duration in milliseconds
- */
-export function calculateDuration(startTime: number, endTime: number) {
-  // ... existing code ...
-}
-
-/**
- * Formats a timestamp into a readable time string
- * @param {number} timestamp - Timestamp to format
- * @returns {string} Formatted time string
- */
-export function formatTime(timestamp: number) {
-  // ... existing code ...
-}
