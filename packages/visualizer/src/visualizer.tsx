@@ -29,7 +29,7 @@ export const scene = makeScene2D("scene", function* (view: View2D) {
   const input = useScene().variables.get("input", null)() as VideoInput | null;
   
   if (input) {
-    logger("Scene updated");
+    logger("Scene updated", input);
     
     // Add background rectangle with specified or default color
     yield view.add(

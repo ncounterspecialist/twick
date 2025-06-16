@@ -15,6 +15,7 @@ const TimelineManager = ({ projectData }: { projectData: any }) => {
   const { timelineData, duration, setTimeline, editElement } = useTimeline({
     selectedItem: selectedItem,
     captionProps: {},
+    videoSize: { width: 720, height: 1280 },
     applyPropsToAllSubtitle: false,
   });
 

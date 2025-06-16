@@ -413,8 +413,8 @@ const addMediaGroup = ({
     lockUniScaling: true,
     originX: "center",
     originY: "center",
-    width: newSize.width,
-    height: newSize.height,
+    scaleX: newSize.width / img.width,
+    scaleY: newSize.height / img.height,
   });
 
 

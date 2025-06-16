@@ -15,8 +15,10 @@ import "../styles/video-editor.css";
 
 export const EditorManager = ({
   videoProps,
+  canvasMode,
 }: {
   videoProps: { width: number; height: number };
+  canvasMode: boolean;
 }) => {
   const [projectData, setProjectData] = useState<any>(null);
   const { timelineAction, setTimelineAction, setSelectedItem } =
@@ -107,7 +109,7 @@ export const EditorManager = ({
         cleanAndAdd: true,
       });
     }
-  }, [playerState, seekTime, twickCanvas]);
+  }, [playerState, seekTime, twickCanvas, projectData]);
 
   const handleTimeUpdate = (time: number) => {
     if (time >= durationRef.current) {
@@ -132,6 +134,13 @@ export const EditorManager = ({
           width: videoProps.width,
           height: videoProps.height,
         }}
+        containerStyle={{
+          opacity: canvasMode
+            ? playerState === PLAYER_STATE.PAUSED
+              ? 0
+              : 1
+            : 1,
+        }}
         onTimeUpdate={handleTimeUpdate}
         volume={playerVolume}
         onDurationChange={(duration: number) => {
@@ -140,15 +149,17 @@ export const EditorManager = ({
         }}
         playing={playerState === PLAYER_STATE.PLAYING}
       />
-      <div
-        ref={containerRef}
-        className="twick-editor-canvas-container"
-        style={{
-          opacity: playerState === PLAYER_STATE.PAUSED ? 1 : 0,
-        }}
-      >
-        <canvas ref={canvasRef} className="twick-editor-canvas" />
-      </div>
+      {canvasMode && (
+        <div
+          ref={containerRef}
+          className="twick-editor-canvas-container"
+          style={{
+            opacity: playerState === PLAYER_STATE.PAUSED ? 1 : 0,
+          }}
+        >
+          <canvas ref={canvasRef} className="twick-editor-canvas" />
+        </div>
+      )}
     </div>
   );
 };

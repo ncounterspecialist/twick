@@ -1,14 +1,45 @@
 import { PLAYER_STATE, useLivePlayerContext } from "@twick/live-player";
-import { TIMELINE_ACTION, TIMELINE_ELEMENT_TYPE, TIMELINE_OPERATION, useTimelineContext } from "@twick/timeline";
+import { TIMELINE_ACTION, TIMELINE_ELEMENT_TYPE, TIMELINE_OPERATION, useTimelineContext, type TimelineElement } from "@twick/timeline";
 import { useEffect, useState } from "react";
 import FileInput from "../shared/file-input";
 
 const EditorControls = () => {
     const { playerState, setPlayerState} = useLivePlayerContext();
-    const { timelineAction, setTimelineOperation } = useTimelineContext();
+    const { timelineAction, setTimelineOperation, selectedItem } = useTimelineContext();
     const [playButtonText, setPlayButtonText] = useState("Play");
-    const addElement = (type: string) => {
-        console.log("addElement", type);
+
+    const addElement = (type: string, input: any) => {
+      if(!selectedItem) {
+        alert("Please select a timeline/element to add an element");
+        return;
+      }
+      const timelineId = selectedItem.id.startsWith("t-") ? selectedItem.id : (selectedItem as TimelineElement).timelineId;
+      switch(type) {
+        case TIMELINE_ELEMENT_TYPE.IMAGE:
+          setTimelineOperation(TIMELINE_OPERATION.ADD_ELEMENT, {
+            timelineId,
+            element: {
+              type: TIMELINE_ELEMENT_TYPE.IMAGE,
+              objectFit: "contain",
+              props: {
+                src: input.blobUrl
+              },
+            }
+          });
+          break;
+        case TIMELINE_ELEMENT_TYPE.VIDEO:
+          setTimelineOperation(TIMELINE_OPERATION.ADD_ELEMENT, {
+            timelineId,
+            element: {
+              type: TIMELINE_ELEMENT_TYPE.VIDEO,
+              objectFit: "contain",
+              props: {
+                src: input.blobUrl
+              },
+            }
+          });
+          break;
+        }
     }
 
     const togglePlaying = () => {
@@ -22,7 +53,7 @@ const EditorControls = () => {
         } 
     }
 
-    const loadProject = (content: any) => {
+    const loadProject = ({content}: any) => {
       if(typeof content === "string") {
         const contentData = JSON.parse(content);
         let projectData;
@@ -60,8 +91,26 @@ const EditorControls = () => {
 
     return (
         <div className="flex flex-col gap-2">
-            <FileInput acceptFileTypes={["application/json"]} onFileLoad={loadProject} buttonText="Load Project" />
-              <button onClick={() => addElement(TIMELINE_ELEMENT_TYPE.IMAGE)}>
+            <FileInput 
+                id="project-file-input"
+                acceptFileTypes={["application/json"]} 
+                onFileLoad={loadProject} 
+                buttonText="Load Project" 
+            />
+            <FileInput 
+                id="image-file-input"
+                acceptFileTypes={["image/png", "image/jpeg"]} 
+                onFileLoad={(content) => addElement(TIMELINE_ELEMENT_TYPE.IMAGE, content)} 
+                buttonText="Add Image" 
+            />
+            <FileInput 
+                id="image-video-input"
+                acceptFileTypes={["video/mp4"]} 
+                onFileLoad={(content) => addElement(TIMELINE_ELEMENT_TYPE.VIDEO, content)} 
+                buttonText="Add Video" 
+            />
+
+              {/* <button onClick={() => addElement(TIMELINE_ELEMENT_TYPE.IMAGE)}>
                 Image
               </button>
               <button onClick={() => addElement(TIMELINE_ELEMENT_TYPE.TEXT)}>
@@ -72,7 +121,7 @@ const EditorControls = () => {
               </button>
               <button onClick={() => addElement(TIMELINE_ELEMENT_TYPE.VIDEO)}>
                 Video
-              </button>
+              </button> */}
               <button onClick={() => addTimeline()}>
                 Add Timeline
               </button>

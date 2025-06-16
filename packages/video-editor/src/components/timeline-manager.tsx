@@ -3,22 +3,23 @@ import {
   type Timeline,
   useTimeline,
   type TimelineElement,
+  useTimelineContext,
 } from "@twick/timeline";
-import { useState } from "react";
 import SeekControl from "./seek-control";
 import { useLivePlayerContext } from "@twick/live-player";
 
 const TimelineManager = ({
   timelineControls,
+  videoSize,
 }: {
   timelineControls?: React.ReactNode;
+  videoSize: { width: number; height: number };
 }) => {
-  const [selectedItem, setSelectedItem] = useState<
-    TimelineElement | Timeline | null
-  >(null);
+  const { selectedItem, setSelectedItem } = useTimelineContext();
   const { timelineData, duration, setTimeline, editElement } = useTimeline({
     selectedItem: selectedItem,
     captionProps: {},
+    videoSize,
     applyPropsToAllSubtitle: false,
   });
 
@@ -46,7 +47,7 @@ const TimelineManager = ({
         editElement({ timelineId, elementId, updates, noSelection: true });
       }}
       onSeek={() => {}}
-      onSelectionChange={(selectedItem: TimelineElement | Timeline | null) => {
+      onSelectionChange={(selectedItem: TimelineElement | Timeline | null) => {    
         setSelectedItem(selectedItem);
       }}
       seekTrack={

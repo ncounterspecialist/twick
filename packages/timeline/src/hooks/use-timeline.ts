@@ -1,9 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import {
   CaptionProps,
+  ImageProps,
   Timeline,
   TimelineData,
   TimelineElement,
+  VideoProps,
 } from "../types";
 import {
   PLAYER_STATE,
@@ -17,13 +19,19 @@ import {
   generateShortUuid,
 } from "../helpers/timeline.utils";
 import { useTimelineContext } from "../context/timeline-context";
+import { createImageElement, createVideoElement } from "../helpers/element.utils";
 
 export const useTimeline = ({
   selectedItem,
   captionProps,
+  videoSize,
   applyPropsToAllSubtitle,
 }: {
   selectedItem: TimelineElement | Timeline | null;
+  videoSize: {
+    width: number;
+    height: number;
+  };
   captionProps: CaptionProps;
   applyPropsToAllSubtitle: boolean;
 }) => {
@@ -54,6 +62,7 @@ export const useTimeline = ({
         elementKeyMap.current[element.id] = element;
       });
     });
+    console.log("timelineData", timelineData);
     setTimelineAction(TIMELINE_ACTION.SET_PRESENT, updatedTimelineData);
     return updatedVersion;
   };
@@ -101,15 +110,43 @@ export const useTimeline = ({
   };
 
   // Add an element to a timeline
-  const addElement = (
+  const addElement = async (
     timelineId: string,
     element: Omit<TimelineElement, "id" | "timelineId">
   ) => {
-    const newElement: TimelineElement = {
-      ...element,
-      id: `e-${generateShortUuid()}`,
-      timelineId: timelineId,
-    };
+    let newElement: TimelineElement;
+
+    if (element.type === TIMELINE_ELEMENT_TYPE.IMAGE) {
+      const imageElement = await createImageElement({
+        props: element.props as ImageProps,
+        timing: { s: element.s , e: element.e},
+        videoSize,
+        timelineId,
+        id: `e-${generateShortUuid()}`,
+      });
+      newElement = {
+        ...element,
+        ...imageElement,
+      };
+    } else if (element.type === TIMELINE_ELEMENT_TYPE.VIDEO) {
+      const videoElement = await createVideoElement({
+        props: element.props as VideoProps,
+        timing: { s: element.s, e: element.e },
+        videoSize,
+        timelineId,
+        id: `e-${generateShortUuid()}`,
+      });
+      newElement = {
+        ...element,
+        ...videoElement,
+      };
+    } else {
+      newElement = {
+        ...element,
+        id: `e-${generateShortUuid()}`,
+        timelineId: timelineId,
+      };
+     }
 
     elementKeyMap.current[newElement.id] = newElement;
 
@@ -355,14 +392,14 @@ export const useTimeline = ({
         split1 = {
           ...element,
           id: `e-${generateShortUuid()}`,
-          startTime: element.s,
-          duration: splitTime - element.s,
+          s: element.s,
+          e: splitTime,
         };
         split2 = {
           ...element,
           id: `e-${generateShortUuid()}`,
-          startTime: splitTime,
-          duration: element.e - splitTime,
+          s: splitTime,
+          e: element.e,
           props: {
             ...(element.props || {}),
             time: (element.props?.time || 0) + (splitTime - element.s),
@@ -379,8 +416,8 @@ export const useTimeline = ({
         split1 = {
           ...element,
           id: `e-${generateShortUuid()}`,
-          startTime: element.S,
-          duration: splitTime - element.s,
+          s: element.S,
+          e: splitTime,
           name: originalTextArray
             .slice(0, Math.floor(originalTextArray.length * percentage))
             .join(" "),
@@ -388,8 +425,8 @@ export const useTimeline = ({
         split2 = {
           ...element,
           id: `e-${generateShortUuid()}`,
-          startTime: splitTime,
-          duration: element.e - splitTime,
+          s: splitTime,
+          e: element.e,
           name: originalTextArray
             .slice(
               Math.floor(originalTextArray.length * percentage),
@@ -432,15 +469,17 @@ export const useTimeline = ({
       type: "element",
       name: "element",
       ...timelineData,
-      elements: timelineData?.elements?.length ? timelineData.elements.map((element) => {
-        const newElement = {
-          ...element,
-          id: element.id || `e-${generateShortUuid()}`,
-          timelineId: newTimelineId
-        };
-        elementKeyMap.current[newElement.id] = newElement;
-        return newElement;
-      }) : [],
+      elements: timelineData?.elements?.length
+        ? timelineData.elements.map((element) => {
+            const newElement = {
+              ...element,
+              id: element.id || `e-${generateShortUuid()}`,
+              timelineId: newTimelineId,
+            };
+            elementKeyMap.current[newElement.id] = newElement;
+            return newElement;
+          })
+        : [],
     };
     return addTimeline(newTimeline);
   };
@@ -468,8 +507,8 @@ export const useTimeline = ({
         const phraseElement = {
           id: caption.id || `e-${generateShortUuid()}`,
           type: "caption",
-          startTime: caption.s,
-          duration: Math.max(0, caption.e - caption.s),
+          s: caption.s,
+          e: caption.e,
           timelineId: timelineId,
           name: caption.t,
           props: caption.props ? caption.props : undefined,
@@ -497,7 +536,7 @@ export const useTimeline = ({
     setTimelineAction(TIMELINE_ACTION.SET_PLAYER_STATE, PLAYER_STATE.PAUSED);
   };
 
-  const addSoloElement = ({
+  const addSoloElement = async ({
     currentTime,
     timelineId,
     element,
@@ -525,7 +564,7 @@ export const useTimeline = ({
         soloElement.timelineId = elementTimelineId;
 
         elementKeyMap.current[soloElement.id] = soloElement;
-        return addElement(elementTimelineId, soloElement);
+        return await addElement(elementTimelineId, soloElement);
       }
     }
     elementTimelineId = `t-${generateShortUuid()}`;
@@ -544,7 +583,6 @@ export const useTimeline = ({
       version: data.version,
     };
   };
-
 
   useEffect(() => {
     if (selectedItem?.id) {
@@ -568,8 +606,14 @@ export const useTimeline = ({
     switch (timelineOperation?.operation) {
       case TIMELINE_OPERATION.LOAD_PROJECT:
         {
-          setTimeline(timelineOperation?.data?.timeline || [], timelineOperation?.data?.version || 0);
-          setTimelineAction(TIMELINE_ACTION.UPDATE_PROJECT_DATA, latestTimelineData.current);
+          setTimeline(
+            timelineOperation?.data?.timeline || [],
+            timelineOperation?.data?.version || 0
+          );
+          setTimelineAction(
+            TIMELINE_ACTION.UPDATE_PROJECT_DATA,
+            latestTimelineData.current
+          );
         }
         break;
       case TIMELINE_OPERATION.ADD_NEW_TIMELINE:
@@ -625,22 +669,25 @@ export const useTimeline = ({
             const selectedTimeline = timelineData?.timeline?.find(
               (timeline) => timeline.id === timelineId
             );
-            let startTime = 0;
+            let s = 0;
             if (selectedTimeline && selectedTimeline.elements.length) {
-              startTime =
+              s =
                 selectedTimeline.elements[selectedTimeline.elements.length - 1]
                   .e;
             }
-            const data = addElement(timelineId, { ...element, startTime });
-            setTimelineAction(
-              TIMELINE_ACTION.UPDATE_PROJECT_DATA,
-              latestTimelineData.current
+            addElement(timelineId, { ...element, s }).then(
+              (data: any) => {
+                setTimelineAction(
+                  TIMELINE_ACTION.UPDATE_PROJECT_DATA,
+                  latestTimelineData.current
+                );
+                if (data?.element) {
+                  setTimeout(() => {
+                    setSelectedItem(data?.element);
+                  }, 1000);
+                }
+              }
             );
-            if (data?.element) {
-              setTimeout(() => {
-                setSelectedItem(data?.element);
-              }, 1000);
-            }
           }
         }
         break;
@@ -710,15 +757,16 @@ export const useTimeline = ({
         break;
       case TIMELINE_OPERATION.ADD_SOLO_ELEMENT:
         {
-          const data = addSoloElement(timelineOperation?.data);
-          if (data?.element) {
-            setSelectedItem(data?.element);
-          }
+          addSoloElement(timelineOperation?.data).then((data: any) => {
+            if (data?.element) {
+              setSelectedItem(data?.element);
+            }
+            setTimelineAction(
+              TIMELINE_ACTION.UPDATE_PROJECT_DATA,
+              latestTimelineData.current
+            );
+          });
         }
-        setTimelineAction(
-          TIMELINE_ACTION.UPDATE_PROJECT_DATA,
-          latestTimelineData.current
-        );
         break;
       case TIMELINE_OPERATION.FETCH_LATEST_PROJECT_DATA:
         {
@@ -736,7 +784,10 @@ export const useTimeline = ({
     duration,
     setTimeline: (timeline: Timeline[], version?: number) => {
       setTimeline(timeline, version);
-      setTimelineAction(TIMELINE_ACTION.UPDATE_PROJECT_DATA, latestTimelineData.current);
+      setTimelineAction(
+        TIMELINE_ACTION.UPDATE_PROJECT_DATA,
+        latestTimelineData.current
+      );
     },
     addTimeline,
     deleteTimeline,

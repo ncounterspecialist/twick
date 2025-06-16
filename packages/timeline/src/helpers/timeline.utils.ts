@@ -57,7 +57,7 @@ export const getCurrentElements = (
       if (timeline[i]) {
         for (let j = 0; j < timeline[i].elements.length; j++) {
           const element = timeline[i].elements[j];
-          if (element.s <= currentTime && element.e >= currentTime) {
+          if ((element.s <= currentTime) && element.e >= currentTime) {
             currentElements.push({
               ...element,
               timelineType: timeline[i].type,

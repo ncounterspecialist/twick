@@ -5,9 +5,9 @@
 
 /**
  * Splits a phrase into words with timing information
- * @param {string} phrase - The phrase to split
- * @param {number} startTime - Start time of the phrase
- * @param {number} duration - Duration of the phrase
+ * @param {string} t - The phrase to split
+ * @param {number} s - Start time of the phrase
+ * @param {number} e - End time of the phrase
  * @returns {Array} Array of words with timing information
  */
 export function splitPhraseTiming({ t, s, e }: { t: string, s: number, e: number }) {

@@ -12,6 +12,7 @@ interface VideoEditorProps {
       width: number;
       height: number;
     };
+    canvasMode?: boolean;
   };
 }
 
@@ -25,12 +26,13 @@ const VideoEditor: React.FC<VideoEditorProps> = ({
     <div className="twick-editor-main-container">
       <div className="twick-editor-view-section">
         {leftPanel ? leftPanel : null}
-        <EditorManager videoProps={editorConfig.videoProps} />
+        <EditorManager videoProps={editorConfig.videoProps} canvasMode={editorConfig.canvasMode ?? true} />
         {rightPanel ? rightPanel : null}
       </div>
       <div className="twick-editor-timeline-section">
         <TimelineManager
           timelineControls={timelineControls}
+          videoSize={{ width: editorConfig.videoProps.width, height: editorConfig.videoProps.height }}
         />
       </div>
     </div>

@@ -108,3 +108,21 @@ export type TimelineElement = {
         highlight?: string;
     }
 }
+
+export type ImageProps = {
+    src: string;
+    width: number;
+    height: number;
+    x: number;
+    y: number;
+    objectFit: "contain" | "cover" | "fill";
+};
+
+export type VideoProps = {
+    src: string;
+    width: number;
+    height: number;
+    x: number;
+    y: number;
+    objectFit: "contain" | "cover" | "fill";
+};
