@@ -4,6 +4,7 @@ import { Timeline, TimelineElement } from "../types";
 
 type TimelineContextType = {
   selectedItem: TimelineElement | Timeline | null;
+  latestProjectVersion: number;
   timelineAction: {
     action: string;
     data: any;
@@ -12,6 +13,7 @@ type TimelineContextType = {
     operation: string;
     data: any;
   };
+  setLatestProjectVersion: (version: number) => void;
   setSelectedItem: (item: TimelineElement | Timeline | null) => void;
   setTimelineAction: (action: string, data: any) => void;
   setTimelineOperation: (action: string, data: any) => void;
@@ -40,6 +42,8 @@ export const TimelineProvider = ({ children, initialData }: TimelineProviderProp
 
   const [selectedItem, setSelectedItem] = useState<TimelineElement | Timeline | null>(null);
 
+  const [latestProjectVersion, setLatestProjectVersion] = useState(0);
+
   const setTimelineAction = (action: string, data: any) => {
     setTimelineActionState({ action, data });
   };
@@ -61,6 +65,8 @@ export const TimelineProvider = ({ children, initialData }: TimelineProviderProp
         selectedItem,
         timelineAction,
         timelineOperation,
+        latestProjectVersion,
+        setLatestProjectVersion,
         setTimelineAction,
         setTimelineOperation,
         setSelectedItem,

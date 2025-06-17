@@ -21,8 +21,12 @@ export const EditorManager = ({
   canvasMode: boolean;
 }) => {
   const [projectData, setProjectData] = useState<any>(null);
-  const { timelineAction, setTimelineAction, setSelectedItem } =
-    useTimelineContext();
+  const {
+    timelineAction,
+    setTimelineAction,
+    latestProjectVersion,
+    setSelectedItem,
+  } = useTimelineContext();
   const durationRef = useRef<number>(0);
   const {
     playerState,
@@ -81,7 +85,7 @@ export const EditorManager = ({
 
   useEffect(() => {
     switch (timelineAction.action) {
-      case TIMELINE_ACTION.UPDATE_PROJECT_DATA:
+      case TIMELINE_ACTION.SET_PROJECT_DATA:
         if (videoProps) {
           const _latestProjectData = {
             input: {
@@ -91,6 +95,20 @@ export const EditorManager = ({
             },
           };
           setProjectData(_latestProjectData);
+        }
+        break;
+      case TIMELINE_ACTION.UPDATE_PROJECT_DATA:
+        if (videoProps) {
+          if (latestProjectVersion !== projectData?.input?.version) {
+            const _latestProjectData = {
+              input: {
+                properties: videoProps,
+                timeline: timelineAction.data?.timeline ?? [],
+                version: timelineAction.data?.version ?? 0,
+              },
+            };
+            setProjectData(_latestProjectData);
+          }
         }
         break;
     }

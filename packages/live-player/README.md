@@ -92,7 +92,7 @@ export default VideoPlayerComp;
               "props": {
                 "text": "Hello Guys!",
                 "fontSize": 100,
-                "fontColor": "#FFF000"
+                "fill": "#FF0000"
               }
             },
             {
@@ -103,7 +103,7 @@ export default VideoPlayerComp;
               "props": {
                 "text": "Welcome to the world of Twick!",
                 "fontSize": 100,
-                "fontColor": "#FFF000",
+                "fill": "#FF0000",
                 "maxWidth": 500,
                 "textAlign": "center",
                 "textWrap": true

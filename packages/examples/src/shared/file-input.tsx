@@ -37,7 +37,7 @@ const FileInput = ({acceptFileTypes, onFileLoad, buttonText, id}: {acceptFileTyp
               />
               <label 
                 htmlFor={id}
-                className="inline-flex w-full items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 cursor-pointer transition-colors duration-200"
+                className="label-button"
               >
                 {buttonText}
               </label>

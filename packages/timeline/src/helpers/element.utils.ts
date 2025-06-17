@@ -1,5 +1,5 @@
 import { getImageDimensions, getObjectFitSize, getVideoMeta } from "@twick/media-utils";
-import { ImageProps, VideoProps } from "../types";
+import { ImageProps, TextProps, VideoProps } from "../types";
 import { TIMELINE_ELEMENT_TYPE } from "./constants";
 
 export const createImageElement = async ({props, timing, videoSize, timelineId, id}: {
@@ -59,11 +59,40 @@ export const createVideoElement = async ({props, timing, videoSize, timelineId, 
         e: timing.e ?? timing.s + videoMeta.duration,
         props: {
             src: props.src,
+            play: true
         },
         frame: {
             size: [props.width ?? fullSize.width, props.height ?? fullSize.height] as [number, number],
             x: props.x,
             y: props.y,
         }
+    };
+};
+
+export const createTextElement = async ({props, timing, timelineId, id}: {
+    props: TextProps,
+    timing: {s: number, e?: number},
+    timelineId: string,
+    id: string,
+}) => {
+    return {
+        type: TIMELINE_ELEMENT_TYPE.TEXT,
+        timelineId,
+        id,
+        s: timing.s,
+        e: timing.e ?? timing.s + 1,
+        props: {
+            text: props.text,
+            fontFamily: props.fontFamily ?? "Poppins",
+            fontSize: props.fontSize ?? 40,
+            fontWeight: props.fontWeight ?? 400,
+            fontStyle: props.fontStyle ?? "normal",
+            x: props.x ?? 0,
+            y: props.y ?? 0,
+            rotation: props.rotation ?? 0,
+            fill: props.fill ?? "#000000",
+            textAlign: props.textAlign ?? "center",
+            textWrap: props.textWrap ?? false,
+        },
     };
 };

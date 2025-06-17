@@ -126,3 +126,17 @@ export type VideoProps = {
     y: number;
     objectFit: "contain" | "cover" | "fill";
 };
+
+export type TextProps = {
+  text: string;
+  fontFamily?: string;
+  fontSize?: number;
+  fontWeight?: number;
+  fontStyle?: string;
+  x?: number;
+  y?: number;
+  rotation?: number;
+  fill?: string;
+  textAlign?: "left" | "center" | "right";
+  textWrap?: boolean;
+};

@@ -77,6 +77,8 @@ export type CanvasElementProps = {
     opacity?: number;
     width?: number;
     height?: number;
+    textWrap?: boolean;
+    textAlign?: "left" | "center" | "right";
     pos?: {
         x: number;
         y: number;
