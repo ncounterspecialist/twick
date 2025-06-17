@@ -68,8 +68,27 @@ export const sample = {
             }
           ],
           "name": "element"
+        },
+        {
+          "id": "t-audio-1",
+          "type": "audio",
+          "elements": [
+            {
+              "id": "e-244f8d5aabaa",
+              "type": "audio",
+              "s": 0,
+              "e": 5,
+              "props": {
+                "src": "https://static-assets.kifferai.com/assets/summer-hikes-163562.mp3",
+                "play": true,
+                "volume": 0.5
+              }
+            }
+          ],
+          "name": "audio"
         }
       ],
       "version": 1
     }
   }
+

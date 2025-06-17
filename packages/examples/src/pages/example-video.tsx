@@ -1,10 +1,12 @@
 import { useState, useRef } from "react";
 import { LivePlayer } from "@twick/live-player";
 import { sample } from "../helpers/sample-data";
+import "@twick/timeline/dist/timeline.css";
+import "./example-editor.css";
 
 const ExampleVideo = () => {
   const [jsonInput, setJsonInput] = useState(JSON.stringify(sample, null, 2));
-  const [playerData, setPlayerData] = useState(null);
+  const [playerData, setPlayerData] = useState(sample);
   const [error, setError] = useState("");
   const [playing, setPlaying] = useState(false);
   const [videoDuration, setVideoDuration] = useState(0);
@@ -84,7 +86,7 @@ const ExampleVideo = () => {
                 onClick={handleLoadJson}
                 className="btn btn-primary flex-1"
               >
-                Load JSON
+                Update Preview
               </button>
               <button
                 onClick={handlePlayPause}

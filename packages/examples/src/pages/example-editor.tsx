@@ -5,6 +5,7 @@ import { LivePlayerProvider } from "@twick/live-player";
 import { TimelineProvider } from "@twick/timeline";
 
 import "./example-editor.css";
+
 const ExampleEditor = () => {
   return (
     <LivePlayerProvider>

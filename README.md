@@ -42,19 +42,6 @@ pnpm build:media-utils
 
 ## How to run example
 
-1. Install Dependencies 
-
-```
-pnpm install
-```
-2. Build packages
-
-```
-pnpm build
-```
-
-3. Preview examples
-
 ```
 pnpm preview
 ```
@@ -66,6 +53,7 @@ Open http://localhost:4173/ in browser
 Here's a glimpse of building a video using the SDK:
 
 https://youtu.be/xuocqJqc9m8?si=h0wobDZlr9aj9XxW
+
 
 ## Integrate Video Editor in your project 
 
