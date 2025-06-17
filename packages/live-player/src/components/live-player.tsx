@@ -138,6 +138,7 @@ export const LivePlayer = ({
    */
   const setProjectData = (projectData: any) => {
     if (playerRef.current?.htmlElement && projectData) {
+      console.log("setProjectData in live player");
       playerRef.current.htmlElement.setAttribute(
         "variables",
         JSON.stringify(projectData)

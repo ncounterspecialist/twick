@@ -105,6 +105,7 @@ export const TIMELINE_ACTION = {
   SET_CAPTION_PROPS: "setCaptionProps",
   SET_SCREEN_ACTION: "setScreenAction",
   SET_PLAYER_STATE: "setPlayerState",
+  SET_PROJECT_DATA: "setProjectData",
   UPDATE_PROJECT_DATA: "updateProjectData",
 };
 

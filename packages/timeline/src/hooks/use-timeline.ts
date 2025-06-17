@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import {
   CaptionProps,
   ImageProps,
+  TextProps,
   Timeline,
   TimelineData,
   TimelineElement,
@@ -19,7 +20,7 @@ import {
   generateShortUuid,
 } from "../helpers/timeline.utils";
 import { useTimelineContext } from "../context/timeline-context";
-import { createImageElement, createVideoElement } from "../helpers/element.utils";
+import { createImageElement, createTextElement, createVideoElement } from "../helpers/element.utils";
 
 export const useTimeline = ({
   selectedItem,
@@ -35,7 +36,7 @@ export const useTimeline = ({
   captionProps: CaptionProps;
   applyPropsToAllSubtitle: boolean;
 }) => {
-  const { timelineOperation, setTimelineAction, setSelectedItem } =
+  const { timelineOperation, setTimelineAction, setSelectedItem, setLatestProjectVersion } =
     useTimelineContext();
   const [duration, setDuration] = useState(0);
   const [timelineData, setTimelineData] = useState<TimelineData | null>(null);
@@ -51,6 +52,7 @@ export const useTimeline = ({
       version: updatedVersion,
     };
 
+    setLatestProjectVersion(updatedVersion);
     setTimelineData(updatedTimelineData);
     latestTimelineData.current = updatedTimelineData;
     // Update the timeline props and element key map
@@ -62,7 +64,7 @@ export const useTimeline = ({
         elementKeyMap.current[element.id] = element;
       });
     });
-    console.log("timelineData", timelineData);
+    console.log("timelineData", updatedTimelineData);
     setTimelineAction(TIMELINE_ACTION.SET_PRESENT, updatedTimelineData);
     return updatedVersion;
   };
@@ -116,37 +118,53 @@ export const useTimeline = ({
   ) => {
     let newElement: TimelineElement;
 
-    if (element.type === TIMELINE_ELEMENT_TYPE.IMAGE) {
-      const imageElement = await createImageElement({
-        props: element.props as ImageProps,
-        timing: { s: element.s , e: element.e},
-        videoSize,
-        timelineId,
-        id: `e-${generateShortUuid()}`,
-      });
-      newElement = {
-        ...element,
-        ...imageElement,
-      };
-    } else if (element.type === TIMELINE_ELEMENT_TYPE.VIDEO) {
-      const videoElement = await createVideoElement({
-        props: element.props as VideoProps,
-        timing: { s: element.s, e: element.e },
-        videoSize,
-        timelineId,
-        id: `e-${generateShortUuid()}`,
-      });
-      newElement = {
-        ...element,
-        ...videoElement,
-      };
-    } else {
-      newElement = {
-        ...element,
-        id: `e-${generateShortUuid()}`,
-        timelineId: timelineId,
-      };
-     }
+    switch(element.type) {
+      case TIMELINE_ELEMENT_TYPE.IMAGE:
+        const imageElement = await createImageElement({
+          props: element.props as ImageProps,
+          timing: { s: element.s , e: element.e},
+          videoSize,
+          timelineId, 
+          id: `e-${generateShortUuid()}`,
+        });
+        newElement = {
+          ...element,
+          ...imageElement,
+        };
+        break;
+      case TIMELINE_ELEMENT_TYPE.VIDEO:
+        const videoElement = await createVideoElement({
+          props: element.props as VideoProps,
+          timing: { s: element.s, e: element.e },
+          videoSize,
+          timelineId,
+          id: `e-${generateShortUuid()}`,
+        });
+        newElement = {
+          ...element,
+          ...videoElement,
+        };
+        break;
+      case TIMELINE_ELEMENT_TYPE.TEXT:
+        const textElement = await createTextElement({
+          props: element.props as TextProps,
+          timing: { s: element.s, e: element.e },
+          timelineId,
+          id: `e-${generateShortUuid()}`,
+        });
+        newElement = {
+          ...element,
+          ...textElement,
+        };
+        break;
+      default:
+        newElement = {
+          ...element,
+          timelineId,
+          id: `e-${generateShortUuid()}`,
+        };
+        break;
+    }
 
     elementKeyMap.current[newElement.id] = newElement;
 
@@ -611,7 +629,7 @@ export const useTimeline = ({
             timelineOperation?.data?.version || 0
           );
           setTimelineAction(
-            TIMELINE_ACTION.UPDATE_PROJECT_DATA,
+            TIMELINE_ACTION.SET_PROJECT_DATA,
             latestTimelineData.current
           );
         }

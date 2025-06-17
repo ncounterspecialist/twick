@@ -38,7 +38,7 @@ export const sample = {
               "props": {
                 "text": "Hello Guys!",
                 "fontSize": 100,
-                "fontColor": "#FFF000"
+                "fill": "#FF0000"
               }
             },
             {
@@ -49,7 +49,7 @@ export const sample = {
               "props": {
                 "text": "Welcome to the world of Twick!",
                 "fontSize": 100,
-                "fontColor": "#FFF000",
+                "fill": "#FF0000",
                 "maxWidth": 500,
                 "textAlign": "center",
                 "textWrap": true
@@ -63,7 +63,7 @@ export const sample = {
               "props": {
                 "text": "Bye!",
                 "fontSize": 100,
-                "fontColor": "#FFF000"
+                "fill": "#FF0000"
               }
             }
           ],

@@ -60,6 +60,8 @@ export const addTextElement = ({
     fontStyle: element.props?.fontStyle || "normal",
     fontWeight: element.props?.fontWeight || "normal",
     fill: element.props?.fill || DEFAULT_TEXT_PROPS.fill,
+    skipWrapping: false,
+    textAlign: element.props?.textAlign || "center",
     stroke: element.props?.stroke || DEFAULT_TEXT_PROPS.stroke,
     strokeWidth: element.props?.lineWidth || DEFAULT_TEXT_PROPS.lineWidth,
     shadow: element.props?.shadowColor

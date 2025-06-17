@@ -61,6 +61,16 @@
   transform: translateY(0);
 }
 
+.label-button {
+  display: inline-flex;
+  width: 100%;
+  height: 40px;
+  align-items: center;
+  padding: 12px 24px;
+  background-color: #007bff;
+  color: white;
+}
+
 textarea {
   padding: 16px;
   border: 1px solid #e0e0e0;
@@ -85,7 +95,7 @@ textarea:focus {
   gap: 12px;
 }
 
-button {
+button, .label-button {
   padding: 12px 24px;
   background-color: #007bff;
   color: white;
@@ -95,7 +105,6 @@ button {
   font-size: 14px;
   font-weight: 500;
   transition: all 0.2s;
-  flex: 1;
 }
 
 button:hover {
