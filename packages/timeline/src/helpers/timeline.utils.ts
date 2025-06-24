@@ -60,6 +60,7 @@ export const getCurrentElements = (
           if ((element.s <= currentTime) && element.e >= currentTime) {
             currentElements.push({
               ...element,
+              timelineId: timeline[i].id,
               timelineType: timeline[i].type,
             });
           }

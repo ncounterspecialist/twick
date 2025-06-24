@@ -3,12 +3,12 @@
   flex-direction: column;
   flex: 1;
   overflow-x: auto;
+  overflow-y: hidden;
 }
 /* Timeline Container Styles */
 .twick-timeline-container {
   display: flex;
   height: 2.75rem;
-  margin-bottom: 0.5rem;
   position: relative;
 }
 
@@ -29,7 +29,7 @@
 .twick-seek-track-empty-space {
   position: sticky;
   left: 0;
-  z-index: 30;
+  z-index: 40;
   display: flex;
   flex-grow: 0;
   min-width: 140px;
@@ -171,8 +171,10 @@
 
 .twick-track-header-lock {
   position: absolute;
-  top: 4px;
-  right: 1px;
+  top: 14px;
+  right: 2px;
+  width: 16px;
+  height: 16px;
   z-index: 20;
   color: #333;
 }
@@ -189,6 +191,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top: 4px;
   width: 20px;
   height: 20px;
   cursor: grab;
@@ -197,7 +200,6 @@
 .twick-track-header-name {
   display: flex;
   align-items: center;
-  justify-content: center;
   width: 100%;
   height: 100%;
   padding: 0 0.5rem;
@@ -211,3 +213,45 @@
   background-color: #474747;
 }
 
+.twick-track-zoom-container {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  background-color: #171717;
+  border: 1px solid #262626;
+}
+
+.twick-zoom-slider {
+  position: relative;
+  width: 100%;
+  height: 2px;
+  cursor: pointer;
+  background-color: #ffffff55;
+  border-radius: 50%;
+}
+
+.twick-zoom-slider-track {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background-color: #4949d5;
+  border-radius: 50%;
+  transition: all 0.2s ease-in-out;
+}
+
+.twick-zoom-slider-thumb {
+  position: absolute;
+  top: 50%;
+  width: 16px;
+  height: 16px;
+  background-color: #ffffff;
+  border: 2px solid #4949d5;
+  border-radius: 50%;
+  cursor: grab;
+  transform: translate(-50%, -50%);
+  transition: all 0.2s ease-in-out;
+} 

@@ -97,7 +97,7 @@ textarea:focus {
 
 button, .label-button {
   padding: 12px 24px;
-  background-color: #007bff;
+  background-color: #3a5378;
   color: white;
   border: none;
   border-radius: 6px;
@@ -121,6 +121,22 @@ button:disabled {
   background-color: #e9ecef;
   color: #6c757d;
   cursor: not-allowed;
+}
+
+.controls-button {
+  display: flex;
+  width: 80px;
+  min-height: 80px;
+  word-wrap: break-word;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  padding: 3px 2.5px;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  border-radius: 6px;
+  background-color: #3a5378;
 }
 
 .info {
@@ -157,4 +173,57 @@ button:disabled {
   position: absolute;
   top: 0;
   display: flex;
+}
+
+/* Modern scrollbar styles */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+  transition: background 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+::-webkit-scrollbar-corner {
+  background: #f1f1f1;
+}
+
+/* Firefox scrollbar styles */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #c1c1c1 #f1f1f1;
+}
+
+/* Dark theme scrollbar variants */
+.dark ::-webkit-scrollbar-track {
+  background: #2d2d2d;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #555;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #777;
+}
+
+.dark ::-webkit-scrollbar-corner {
+  background: #2d2d2d;
+}
+
+.dark * {
+  scrollbar-color: #555 #2d2d2d;
 }

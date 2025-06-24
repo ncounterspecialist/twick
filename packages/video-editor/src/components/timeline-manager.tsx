@@ -7,6 +7,7 @@ import {
 } from "@twick/timeline";
 import SeekControl from "./seek-control";
 import { useLivePlayerContext } from "@twick/live-player";
+import { useState } from "react";
 
 const TimelineManager = ({
   timelineControls,
@@ -16,6 +17,7 @@ const TimelineManager = ({
   videoSize: { width: number; height: number };
 }) => {
   const { selectedItem, setSelectedItem } = useTimelineContext();
+  const [zoomLevel, setZoomLevel] = useState(1.5);
   const { timelineData, duration, setTimeline, editElement } = useTimeline({
     selectedItem: selectedItem,
     captionProps: {},
@@ -39,6 +41,8 @@ const TimelineManager = ({
     <TimelineView
       timelineControls={timelineControls}
       timeline={timelineData?.timeline ?? []}
+      zoomLevel={zoomLevel}
+      setZoomLevel={setZoomLevel}
       duration={duration}
       selectedItem={selectedItem}
       onDeletion={() => {}}
@@ -53,7 +57,7 @@ const TimelineManager = ({
       seekTrack={
         <SeekControl
           duration={duration}
-          zoom={1.5}
+          zoom={zoomLevel}
           onSeek={handleSeekAction}
           timelineCount={timelineData?.timeline?.length ?? 0}
         />
