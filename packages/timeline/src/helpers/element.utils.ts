@@ -1,5 +1,5 @@
-import { getImageDimensions, getObjectFitSize, getVideoMeta } from "@twick/media-utils";
-import { ImageProps, TextProps, VideoProps } from "../types";
+import { getAudioDuration, getImageDimensions, getObjectFitSize, getVideoMeta } from "@twick/media-utils";
+import { AudioProps, ImageProps, TextProps, VideoProps } from "../types";
 import { TIMELINE_ELEMENT_TYPE } from "./constants";
 
 export const createImageElement = async ({props, timing, videoSize, timelineId, id}: {
@@ -59,13 +59,38 @@ export const createVideoElement = async ({props, timing, videoSize, timelineId, 
         e: timing.e ?? timing.s + videoMeta.duration,
         props: {
             src: props.src,
-            play: true
+            play: true,
+            playbackRate: props.playbackRate ?? 1,
+            volume: props.volume ?? 1,
         },
         frame: {
             size: [props.width ?? fullSize.width, props.height ?? fullSize.height] as [number, number],
             x: props.x,
             y: props.y,
         }
+    };
+};
+
+export const createAudioElement = async ({props, timing, timelineId, id}: { 
+    props: AudioProps,
+    timing: {s: number, e?: number},
+    timelineId: string,
+    id: string,
+}) => {
+    const audioDuration = await getAudioDuration(props.src);
+    return {
+        type: TIMELINE_ELEMENT_TYPE.AUDIO,      
+        timelineId,
+        id,
+        s: timing.s,
+        e: timing.e ?? timing.s + audioDuration,
+        props: {
+            src: props.src, 
+            play: true,
+            volume: props.volume ?? 1,
+            loop: props.loop ?? false,
+            playbackRate: props.playbackRate ?? 1,
+        },
     };
 };
 

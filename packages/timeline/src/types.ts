@@ -124,6 +124,8 @@ export type VideoProps = {
     height: number;
     x: number;
     y: number;
+    playbackRate?: number;
+    volume?: number;
     objectFit: "contain" | "cover" | "fill";
 };
 
@@ -139,4 +141,11 @@ export type TextProps = {
   fill?: string;
   textAlign?: "left" | "center" | "right";
   textWrap?: boolean;
+};
+
+export type AudioProps = {
+  src: string;
+  volume?: number;
+  loop?: boolean;
+  playbackRate?: number;
 };

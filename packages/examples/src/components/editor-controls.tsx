@@ -121,6 +121,17 @@ const EditorControls = () => {
           },
         });
         break;
+      case TIMELINE_ELEMENT_TYPE.AUDIO:
+          setTimelineOperation(TIMELINE_OPERATION.ADD_ELEMENT, {
+            timelineId,
+            element: {
+              type: TIMELINE_ELEMENT_TYPE.AUDIO,
+              props: {
+                src: element.url,
+              },
+            },
+          });
+          break;
     }
   };
 

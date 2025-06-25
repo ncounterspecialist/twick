@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import {
+  AudioProps,
   CaptionProps,
   ImageProps,
   TextProps,
@@ -20,7 +21,7 @@ import {
   generateShortUuid,
 } from "../helpers/timeline.utils";
 import { useTimelineContext } from "../context/timeline-context";
-import { createImageElement, createTextElement, createVideoElement } from "../helpers/element.utils";
+import { createAudioElement, createImageElement, createTextElement, createVideoElement } from "../helpers/element.utils";
 
 export const useTimeline = ({
   selectedItem,
@@ -143,6 +144,18 @@ export const useTimeline = ({
         newElement = {
           ...element,
           ...videoElement,
+        };
+        break;
+      case TIMELINE_ELEMENT_TYPE.AUDIO:
+        const audioElement = await createAudioElement({
+          props: element.props as AudioProps,
+          timing: { s: element.s, e: element.e },
+          timelineId,
+          id: `e-${generateShortUuid()}`,
+        }); 
+        newElement = {
+          ...element,
+          ...audioElement,
         };
         break;
       case TIMELINE_ELEMENT_TYPE.TEXT:
