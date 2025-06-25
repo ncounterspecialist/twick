@@ -36,8 +36,7 @@ const FileInput = ({acceptFileTypes, onFileLoad, buttonText, id}: {acceptFileTyp
                 onChange={onFileChange}
               />
               <label 
-                htmlFor={id}
-                className="label-button"
+                htmlFor={id} className="label-button"
               >
                 {buttonText}
               </label>

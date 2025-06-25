@@ -23,7 +23,7 @@ export const EditorManager = ({
   const [projectData, setProjectData] = useState<any>(null);
   const {
     timelineAction,
-    setTimelineAction,
+    setTimelineOperation,
     latestProjectVersion,
     setSelectedItem,
   } = useTimelineContext();
@@ -50,10 +50,11 @@ export const EditorManager = ({
         setSelectedItem(data);
         break;
       case CANVAS_OPERATIONS.ITEM_UPDATED:
-        setTimelineAction(TIMELINE_OPERATION.UPDATE_ELEMENT, {
+        setTimelineOperation(TIMELINE_OPERATION.UPDATE_ELEMENT, {
           timelineId: data.timelineId,
-          elementId: data.elementId,
-          updates: data.updates,
+          elementId: data.id,
+          updates: data,
+          forceUpdate: true,
           noSelection: true,
         });
         break;

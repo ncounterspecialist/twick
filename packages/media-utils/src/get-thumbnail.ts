@@ -23,6 +23,16 @@ export async function getThumbnail(
       video.autoplay = false;
       video.preload = "auto";
       video.playbackRate = playbackRate;
+      
+      // Make video element hidden
+      video.style.position = "absolute";
+      video.style.left = "-9999px";
+      video.style.top = "-9999px";
+      video.style.width = "1px";
+      video.style.height = "1px";
+      video.style.opacity = "0";
+      video.style.pointerEvents = "none";
+      video.style.zIndex = "-1";
   
       let timeoutId: number | undefined;
   
@@ -113,4 +123,3 @@ export async function getThumbnail(
       document.body.appendChild(video);
     });
   }
-  

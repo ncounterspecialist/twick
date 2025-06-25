@@ -115,6 +115,7 @@ export const TIMELINE_ELEMENT_TYPE = {
   IMAGE: "image",
   AUDIO: "audio",
   TEXT: "text",
+  RECT: "rect",
 };
 
 export const PROCESS_STATE = {

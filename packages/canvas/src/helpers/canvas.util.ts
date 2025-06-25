@@ -85,6 +85,7 @@ export function reorderElementsByZIndex(canvas: FabricCanvas) {
   let backgroundColor = canvas.backgroundColor;
 
   const objects = canvas.getObjects();
+  console.log("objects", objects);
   // Sort objects by zIndex and re-add to the canvas in order
   objects.sort((a, b) => (a.zIndex || 0) - (b.zIndex || 0));
 

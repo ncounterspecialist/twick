@@ -47,6 +47,7 @@ export type CanvasElement = {
     props: CanvasElementProps;
     s?: number;
     e?: number;
+    t?: string;
     frameEffects?: FrameEffect[];
     timelineType?: string;
     backgoundColor?: string;

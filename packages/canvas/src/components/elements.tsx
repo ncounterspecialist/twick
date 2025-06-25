@@ -46,7 +46,7 @@ export const addTextElement = ({
     canvasMetadata
   );
 
-  const text = new FabricText(element.props?.text || "", {
+  const text = new FabricText(element.props?.text || element.t || "", {
     left: x,
     top: y,
     originX: "center",
@@ -164,7 +164,7 @@ export const addCaptionElement = ({
     canvasMetadata
   );
 
-  const caption = new FabricText(element.props?.text || "", {
+  const caption = new FabricText(element.props?.text || element.t ||"", {
     left: x,
     top: y,
     originX: "center",

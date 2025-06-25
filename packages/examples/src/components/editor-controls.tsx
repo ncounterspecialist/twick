@@ -7,62 +7,35 @@ import {
 } from "@twick/timeline";
 import { useEffect, useState } from "react";
 import FileInput from "../shared/file-input";
-import { usePlayerControl } from "@twick/video-editor";
+import { usePlayerControl, type MediaItem } from "@twick/video-editor";
+import { MediaPanel } from "./media-panel";
+import ColorInputDialog from "../shared/color-input";
 
 const EditorControls = () => {
   const { playerState } = useLivePlayerContext();
+  const [panelType, setPanelType] = useState<
+    "media" | "text" | "timeline" | null
+  >(null);
   const { setTimelineOperation, selectedItem } = useTimelineContext();
+  const [showColorDialog, setShowColorDialog] = useState(false);
   const [playButtonText, setPlayButtonText] = useState("Play");
   const { togglePlaying } = usePlayerControl();
 
-  const addElement = (type: string, input: any) => {
-    if (!selectedItem) {
-      alert("Please select a timeline/element to add an element");
+  const addTextElement = (text: string) => {
+    const timelineId = getSelectedTimelineId();
+    if (!timelineId) {
       return;
     }
-    const timelineId = selectedItem.id.startsWith("t-")
-      ? selectedItem.id
-      : (selectedItem as TimelineElement).timelineId;
-    switch (type) {
-      case TIMELINE_ELEMENT_TYPE.IMAGE:
-        setTimelineOperation(TIMELINE_OPERATION.ADD_ELEMENT, {
-          timelineId,
-          element: {
-            type: TIMELINE_ELEMENT_TYPE.IMAGE,
-            objectFit: "contain",
-            props: {
-              src: input.blobUrl,
-            },
-          },
-        });
-        break;
-      case TIMELINE_ELEMENT_TYPE.VIDEO:
-        setTimelineOperation(TIMELINE_OPERATION.ADD_ELEMENT, {
-          timelineId,
-          element: {
-            type: TIMELINE_ELEMENT_TYPE.VIDEO,
-            objectFit: "contain",
-            props: {
-              src: input.blobUrl,
-            },
-          },
-        });
-        break;
-      case TIMELINE_ELEMENT_TYPE.TEXT:
-          setTimelineOperation(TIMELINE_OPERATION.ADD_ELEMENT, {
-            timelineId,
-            element: {
-              type: TIMELINE_ELEMENT_TYPE.TEXT,
-              props: {
-                text: input.text,
-              },
-            },
-          });
-          break;
-  
-    }
-  };
-
+    setTimelineOperation(TIMELINE_OPERATION.ADD_ELEMENT, {
+      timelineId,
+      element: {
+        type: TIMELINE_ELEMENT_TYPE.TEXT,
+        props: {
+          text: text,
+        },
+      },
+    });
+  }
   const loadProject = ({ content }: any) => {
     if (typeof content === "string") {
       const contentData = JSON.parse(content);
@@ -87,6 +60,70 @@ const EditorControls = () => {
     setTimelineOperation(TIMELINE_OPERATION.ADD_NEW_TIMELINE, undefined);
   };
 
+  const addRectElement = (color: string) => {
+    console.log("color", color);
+    setShowColorDialog(false);
+    const timelineId = getSelectedTimelineId();
+    if (!timelineId) {
+      return;
+    }
+    setTimelineOperation(TIMELINE_OPERATION.ADD_ELEMENT, {
+      timelineId,
+      element: {
+        type: TIMELINE_ELEMENT_TYPE.RECT,
+        props: {
+          fill: color,
+          width: 200,
+          height: 200,
+        },
+      },
+    });
+    
+  }
+
+  const getSelectedTimelineId = () => {
+    if (!selectedItem) {
+      alert("Please select a timeline/element to add an element");
+      return;
+    }
+    return selectedItem.id.startsWith("t-")
+      ? selectedItem.id
+      : (selectedItem as TimelineElement).timelineId;
+  };
+
+  const addMedia = (element: MediaItem) => {
+    const timelineId = getSelectedTimelineId();
+    if (!timelineId) {
+      return;
+    }
+    switch (element?.type) {
+      case TIMELINE_ELEMENT_TYPE.IMAGE:
+        setTimelineOperation(TIMELINE_OPERATION.ADD_ELEMENT, {
+          timelineId,
+          element: {
+            type: TIMELINE_ELEMENT_TYPE.IMAGE,
+            objectFit: "contain",
+            props: {
+              src: element.url,
+            },
+          },
+        });
+        break;
+      case TIMELINE_ELEMENT_TYPE.VIDEO:
+        setTimelineOperation(TIMELINE_OPERATION.ADD_ELEMENT, {
+          timelineId,
+          element: {
+            type: TIMELINE_ELEMENT_TYPE.VIDEO,
+            objectFit: "contain",
+            props: {
+              src: element.url,
+            },
+          },
+        });
+        break;
+    }
+  };
+
   useEffect(() => {
     if (playerState === PLAYER_STATE.PAUSED) {
       setPlayButtonText("Play");
@@ -98,46 +135,43 @@ const EditorControls = () => {
   }, [playerState]);
 
   return (
-    <div className="flex flex-col gap-2 p-2">
-      <FileInput
-        id="project-file-input"
-        acceptFileTypes={["application/json"]}
-        onFileLoad={loadProject}
-        buttonText="Load Project"
-      />
-      <FileInput
-        id="image-file-input"
-        acceptFileTypes={["image/png", "image/jpeg"]}
-        onFileLoad={(content) =>
-          addElement(TIMELINE_ELEMENT_TYPE.IMAGE, content)
-        }
-        buttonText="Add Image"
-      />
-      <FileInput
-        id="image-video-input"
-        acceptFileTypes={["video/mp4"]}
-        onFileLoad={(content) =>
-          addElement(TIMELINE_ELEMENT_TYPE.VIDEO, content)
-        }
-        buttonText="Add Video"
-      />
-      <button onClick={() => {
-        const text = prompt("Enter text:");
-        if (text) {
-          addElement(TIMELINE_ELEMENT_TYPE.TEXT, { text });
-        }
-      }}>
-        Add Text
-      </button>
+    <div className="flex flex-row gap-2 p-2">
+      <div className="flex flex-col gap-2 p-2">
+        <FileInput
+          id="project-file-input"
+          acceptFileTypes={["application/json"]}
+          onFileLoad={loadProject}
+          buttonText="Load"
+        />
 
-      <button onClick={() => addTimeline()}>
-        Add Timeline
-      </button>
+        <div className="controls-button" onClick={() => setPanelType("media")}>Add Media</div>
+        <div className="controls-button"
+          onClick={() => {
+            const text = prompt("Enter text:");
+            if (text) {
+              addTextElement(text);
+            }
+          }}
+        >
+          Add Text
+        </div>
 
-      <div className="flex flex-col-reverse h-full">
-        <button onClick={togglePlaying}>{playButtonText}</button>
+        <div className="controls-button"
+          onClick={() => {
+            setShowColorDialog(true);
+          }}
+        >
+          Add Rect
+        </div>
+
+        <div className="controls-button" onClick={() => addTimeline()}>Add Timeline</div>
+
+        <div className="flex flex-col-reverse h-full">
+          <div className="controls-button" onClick={togglePlaying}>{playButtonText}</div>
+        </div>
       </div>
-
+      {panelType === "media" && <MediaPanel onSelect={addMedia} />}
+      {showColorDialog && <ColorInputDialog onColorSelect={addRectElement} onCancel={() => setShowColorDialog(false)} />}
     </div>
   );
 };

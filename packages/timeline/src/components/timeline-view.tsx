@@ -1,14 +1,15 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { DEFAULT_TIMELINE_ZOOM } from "../helpers/constants";
 import { Timeline, TimelineElement } from "../types";
 import Track from "./track";
 import TrackHeader from "./track-header";
 
 import "../styles/timeline.css";
+import TimelineZoom from "./timeline-zoom";
 
 function TimelineView({
   timelineControls,
-  zoom = DEFAULT_TIMELINE_ZOOM,
+  zoomLevel,
+  setZoomLevel,
   selectedItem,
   duration,
   timeline,
@@ -19,7 +20,8 @@ function TimelineView({
   onDeletion,
 }: {
   timelineControls?: React.ReactNode;
-  zoom?: number;
+  zoomLevel: number;
+  setZoomLevel: (zoom: number) => void;
   duration: number;
   timeline: Timeline[];
   selectedItem: TimelineElement | Timeline | null;
@@ -34,6 +36,7 @@ function TimelineView({
   const seekContainerRef = useRef<HTMLDivElement>(null);
   const timelineContentRef = useRef<HTMLDivElement>(null);
   const [, setScrollLeft] = useState(0);
+
   const [draggedTimeline, setDraggedTimeline] = useState<Timeline | null>(null);
 
   const { selectedTimeline, selectedTimelineElement } = useMemo(() => {
@@ -44,7 +47,7 @@ function TimelineView({
   }, [selectedItem]);
 
   // Calculate track width - using the same calculation for all tracks
-  const timelineWidth = Math.max(100, duration * zoom * 100);
+  const timelineWidth = Math.max(100, duration * zoomLevel * 100);
   const timelineWidthPx = `${timelineWidth}px`;
 
   // Sync scroll between seek container and timeline container
@@ -87,7 +90,7 @@ function TimelineView({
     return () => {
       window.removeEventListener("resize", updateWidth);
     };
-  }, [duration, zoom]);
+  }, [duration, zoomLevel]);
 
   // Fixed width for track labels
   const labelWidth = 140;
@@ -159,6 +162,7 @@ function TimelineView({
         {seekTrack ? (
           <div style={{ display: "flex", position: "relative" }}>
             <div className="twick-seek-track-empty-space">
+              <TimelineZoom zoomLevel={zoomLevel} setZoomLevel={setZoomLevel} />
               {timelineControls}
             </div>
             <div style={{ flexGrow: 1 }}>{seekTrack}</div>
@@ -185,7 +189,7 @@ function TimelineView({
             <Track
               duration={duration}
               selectedItem={selectedTimelineElement}
-              zoom={zoom}
+              zoom={zoomLevel}
               allowOverlap={timeline.allowOverlap}
               elements={timeline.elements}
               trackWidth={timelineWidth - labelWidth} // Subtract label width for accurate track width

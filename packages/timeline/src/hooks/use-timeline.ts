@@ -160,6 +160,7 @@ export const useTimeline = ({
       default:
         newElement = {
           ...element,
+          e: element.e || element.s + 1,
           timelineId,
           id: `e-${generateShortUuid()}`,
         };
