@@ -1,8 +1,8 @@
-
-import type { MediaItem } from '@twick/video-editor';
-import { useEffect, useState } from 'react';
-import { getMediaManager } from '../shared/media-manager';
-import FileInput from '../shared/file-input';
+import type { MediaItem } from "@twick/video-editor";
+import { useEffect, useState } from "react";
+import { getMediaManager } from "../shared/media-manager";
+import FileInput from "../shared/file-input";
+import { Music } from "lucide-react";
 
 interface MediaPanelProps {
   onSelect?: (item: MediaItem) => void;
@@ -11,7 +11,7 @@ interface MediaPanelProps {
 export const MediaPanel = ({ onSelect }: MediaPanelProps) => {
   const [items, setItems] = useState<MediaItem[]>([]);
   const [showOnlyImages, setShowOnlyImages] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const mediaManager = getMediaManager();
 
   useEffect(() => {
@@ -22,28 +22,37 @@ export const MediaPanel = ({ onSelect }: MediaPanelProps) => {
     loadItems();
   }, [searchQuery]);
 
-  const handleFileUpload = async (fileData: { file: File; blobUrl: string }) => {
+  const handleFileUpload = async (fileData: {
+    file: File;
+    blobUrl: string;
+  }) => {
     const arrayBuffer = await fileData.file.arrayBuffer();
+    let type = "image";
+    if (fileData.file.type.startsWith("video/")) {
+      type = "video";
+    } else if (fileData.file.type.startsWith("audio/")) {
+      type = "audio";
+    }
     const newItem = await mediaManager.addItem({
       url: fileData.blobUrl,
-      type: fileData.file.type.startsWith('image/') ? 'image' : 'video',
+      type: type as "image" | "video" | "audio",
       arrayBuffer,
       metadata: {
         name: fileData.file.name,
         size: fileData.file.size,
-        type: fileData.file.type
-      }
+        type: fileData.file.type,
+      },
     });
-    setItems(prev => [...prev, newItem]);
+    setItems((prev) => [...prev, newItem]);
   };
 
-  const filteredItems = items.filter(item => {
-    const matchesType = !showOnlyImages || item.type === 'image';
+  const filteredItems = items.filter((item) => {
+    const matchesType = !showOnlyImages || item.type === "image";
     return matchesType;
   });
 
   return (
-    <div className="flex flex-col gap-4 p-2 w-[320px] border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm bg-white dark:bg-gray-900">
+    <div className="flex flex-col gap-4 p-2 w-[320px] max-h-[540px] border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm bg-white dark:bg-gray-900">
       <div className="flex flex-col gap-4">
         <div className="flex items-center gap-2">
           <input
@@ -54,7 +63,7 @@ export const MediaPanel = ({ onSelect }: MediaPanelProps) => {
             className="flex-1 rounded-lg border border-gray-300 p-2 dark:border-gray-600 dark:bg-gray-800 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
           <FileInput
-            acceptFileTypes={['image/*', 'video/*']}
+            acceptFileTypes={["image/*", "video/*", "audio/*"]}
             onFileLoad={handleFileUpload}
             buttonText="Upload"
             id="media-upload"
@@ -70,24 +79,31 @@ export const MediaPanel = ({ onSelect }: MediaPanelProps) => {
           <span>Show only images</span>
         </label>
       </div>
-      <div className="grid grid-cols-2 gap-4 overflow-y-auto max-h-[400px] pr-2">
+      <div className="flex flex-wrap gap-2 overflow-y-auto">
         {filteredItems.map((item) => (
           <div
             key={item.id}
             onClick={() => onSelect?.(item)}
             className="group relative aspect-square cursor-pointer overflow-hidden rounded-lg bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-400 transition-all duration-200"
           >
-            {item.type === 'image' ? (
-              <img
-                src={item.url}
-                alt=""
-                className="h-full w-full object-cover transition-transform group-hover:scale-105"
-              />
-            ) : (
+            {item.type === "audio" && (
+              <div className="flex flex-col items-center justify-center h-[90px] w-[90PX] object-cover transition-transform group-hover:scale-105">
+                <Music size={24} />
+                <span className="text-white text-[10px] px-2 text-ellipsis overflow-hidden">{item.metadata?.name}</span>
+              </div>
+            )}
+            {item.type === "video" && (
               <video
                 src={item.url}
                 poster={item.thumbnail}
-                className="h-full w-full object-cover transition-transform group-hover:scale-105"
+                className="h-[90px] w-[90PX] object-cover transition-transform group-hover:scale-105"
+              />
+            )}
+            {item.type === "image" && (
+              <img
+                src={item.url}
+                alt=""
+                className="h-[90px] w-[90PX] object-cover transition-transform group-hover:scale-105"
               />
             )}
             <div className="absolute inset-0 bg-black bg-opacity-0 transition-opacity group-hover:bg-opacity-20" />
