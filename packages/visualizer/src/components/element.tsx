@@ -17,6 +17,7 @@ import { addFrameEffect } from "./frame-effects";
 import { Caption, CaptionProps, VisualizerElement } from "../helpers/types";
 import { splitPhraseTiming } from "../helpers/caption.utils";
 import { addAnimations } from "./animation";
+import textEffectManager from "../helpers/text-effect-manager";
 
 
 export function* addMediaElement({
@@ -283,6 +284,7 @@ export function* addTextElement({
   );
   yield* all(
     addAnimations({ elementRef: elementRef }),
+    addTextEffect({ elementRef: elementRef, element: element }),
     waitFor(Math.max(0, element.e - element.s))
   );
   yield elementRef().remove();
@@ -341,4 +343,18 @@ export function* addAudioElement({
   yield* waitFor(Math.max(0, element.e - element.s));
   yield elementRef().playing(false);
   yield elementRef().remove();
+}
+
+
+export function* addTextEffect({ elementRef, element }: { elementRef: Reference<any>; element: VisualizerElement;}) {
+  yield elementRef();
+  if (element.textEffect) {
+    const effect = textEffectManager.get(element.textEffect.name);
+    if (effect) {
+      yield* (effect.run({
+        ref: elementRef,
+        ...element.textEffect,
+      }));
+    }
+  }
 }

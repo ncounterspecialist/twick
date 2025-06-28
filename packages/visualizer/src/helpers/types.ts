@@ -1,3 +1,5 @@
+import { Reference } from "@revideo/core";
+
 export type VideoInput = {
   backgroundColor: string;
   properties: {
@@ -115,6 +117,7 @@ export type VisualizerElement = {
   backgroundColor?: string;
   elements?: VisualizerElement[];
   animations?: any[];
+  textEffect: TextEffectProps;
   scale?: number;
   t?: string;
   hWords?: any;
@@ -144,3 +147,27 @@ export type VisualizerTimeline = {
     captionProps?: CaptionProps;
   };
 };
+
+
+export type TextEffectParams = {
+  ref: Reference<any>;
+  interval: number;
+  duration: number;
+  bufferTime: number;
+  delay: number;
+  direction: "left" | "right" | "center";
+};
+
+export type TextEffectProps = {
+  name: string;
+  interval: number;
+  duration: number;
+  bufferTime: number;
+  delay: number;
+  direction: "left" | "right" | "center";
+}
+
+export interface TextEffect<Params = any> {
+  name: string;
+  run(params: Params): Generator;
+}
