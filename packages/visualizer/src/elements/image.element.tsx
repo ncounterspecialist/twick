@@ -1,7 +1,7 @@
 import { ElementParams } from "../helpers/types";
 import { all, createRef, waitFor } from "@revideo/core";
 import { Img, Rect } from "@revideo/2d";
-import { addAnimations, fitElement } from "../helpers/element.utils";
+import { addAnimation, fitElement } from "../helpers/element.utils";
 import { logger } from "../helpers/log.utils";
 import { addFrameEffect } from "../components/frame-effects";
 import { applyColorFilter } from "../helpers/filters";
@@ -35,8 +35,9 @@ export const ImageElement = {
       }
 
       yield* all(
-        addAnimations({
+        addAnimation({
           elementRef: frameElementRef,
+          containerRef: frameContainerRef,
           element: element,
           view,
         }),

@@ -1,7 +1,7 @@
 import { ElementParams } from "../helpers/types";
 import { all, createRef, waitFor } from "@revideo/core";
 import { Rect } from "@revideo/2d";
-import { addAnimations } from "../helpers/element.utils";
+import { addAnimation } from "../helpers/element.utils";
 
 export const RectElement = {
   name: "rect",
@@ -12,7 +12,7 @@ export const RectElement = {
       <Rect ref={elementRef} key={element.id} {...element.props} />
     );
     yield* all(
-      addAnimations({ elementRef: elementRef, element: element, view }),
+      addAnimation({ elementRef: elementRef, element: element, view }),
       waitFor(Math.max(0, element.e - element.s))
     );
     yield elementRef().remove();

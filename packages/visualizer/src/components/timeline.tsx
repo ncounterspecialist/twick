@@ -12,7 +12,7 @@ import {
   DEFAULT_CAPTION_FONT,
 } from "../helpers/constants";
 import { logger } from "../helpers/log.utils";
-import elementManager from "../helpers/element-manager";
+import elementController from "../controllers/element.controller";
 
 /**
  * Creates a video timeline with specified configuration
@@ -33,7 +33,7 @@ export function* makeVideoTimeline({
   view.add(<Layout size={"100%"} ref={frameRef} layout />);
   for (const element of timeline.elements || []) {
     yield* waitFor(element?.s - prevTime);
-    yield* elementManager.get("video")?.create({
+    yield* elementController.get("video")?.create({
       containerRef: frameRef,
       element,
       view,
@@ -159,7 +159,7 @@ export function* makeCaptionTimeline({
         new Color(phraseProps.bgColor).alpha(phraseProps.bgOpacity)
       );
     }
-    yield* elementManager.get("caption")?.create({
+    yield* elementController.get("caption")?.create({
       containerRef: phraseRef,
       caption: {
         ...element,
@@ -191,7 +191,7 @@ export function* makeSceneTimeline({
   const frameRef = createRef<any>();
   view.add(<Layout size={"100%"} ref={frameRef} layout />);
   for (const sceneElement of timeline.elements || []) {
-    yield* elementManager.get("scene")?.create({
+    yield* elementController.get("scene")?.create({
       containerRef: frameRef,
       element: sceneElement,
       view,
@@ -220,7 +220,7 @@ export function* makeElementTimeline({
   const sequence: ThreadGenerator[] = [];
   for (const element of timeline.elements) {
     sequence.push(
-      elementManager.get(element.type)?.create({
+      elementController.get(element.type)?.create({
         containerRef: elementTimelineRef,
         element,
         view,

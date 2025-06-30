@@ -118,7 +118,7 @@ export type VisualizerElement = {
   e: number;
   backgroundColor?: string;
   elements?: VisualizerElement[];
-  animations?: any[];
+  animation?: AnimationProps;
   textEffect: TextEffectProps;
   scale?: number;
   t?: string;
@@ -165,21 +165,21 @@ export interface Element<Params = ElementParams> {
 }
 
 export type TextEffectParams = {
-  ref: Reference<any>;
-  interval: number;
-  duration: number;
-  bufferTime: number;
-  delay: number;
-  direction: "left" | "right" | "center";
+  elementRef: Reference<any>;
+  interval?: number;
+  duration?: number;
+  bufferTime?: number;
+  delay?: number;
+  direction?: "left" | "right" | "center";
 };
 
 export type TextEffectProps = {
   name: string;
-  interval: number;
-  duration: number;
-  bufferTime: number;
-  delay: number;
-  direction: "left" | "right" | "center";
+  interval?: number;
+  duration?: number;
+  bufferTime?: number;
+  delay?: number;
+  direction?: "left" | "right" | "center";
 }
 
 export interface TextEffect<Params = TextEffectParams> {
@@ -189,25 +189,28 @@ export interface TextEffect<Params = TextEffectParams> {
 
 
 export type AnimationParams = {
-  ref: Reference<any>;
+  elementRef: Reference<any>;
+  containerRef?: Reference<any>;
   view: View2D;
-  interval: number;
-  duration: number;
-  delay: number;
-  animate: "enter" | "exit" | "both";
-  direction: "left" | "right" | "center" | "top" | "bottom";
+  interval?: number;
+  duration?: number;
+  shift?: number;
+  mode?: "in" | "out";
+  animate?: "enter" | "exit" | "both";
+  direction?: "left" | "right" | "center" | "top" | "bottom";
 };
 
 export type AnimationProps = {
   name: string;
-  interval: number;
-  duration: number;
-  delay: number;
-  animate: "enter" | "exit" | "both";
-  direction: "left" | "right" | "center" | "top" | "bottom";
+  interval?: number;
+  duration?: number;
+  shift?: number;
+  mode?: "in" | "out";
+  animate?: "enter" | "exit" | "both";
+  direction?: "left" | "right" | "center" | "top" | "bottom";
 }
 
 export interface Animation<Params = AnimationParams> {
   name: string;
-  run(params: Params): Generator;
+  run(params: Params): ThreadGenerator;
 }

@@ -3,12 +3,12 @@ import { TextEffectParams } from "../helpers/types";
 
 export const TypewriterEffect = {
   name: "typewriter",
-  *run({ ref, interval, duration, delay, bufferTime = 0.1}: TextEffectParams) {
-    const fullText = ref().text();
-    const size = ref().size();
-    ref().setText("");
-    ref().size(size);
-    ref().textAlign("left");
+  *run({ elementRef, interval, duration, delay, bufferTime = 0.1}: TextEffectParams) {
+    const fullText = elementRef().text();
+    const size = elementRef().size();
+    elementRef().setText("");
+    elementRef().size(size);
+    elementRef().textAlign("left");
     if (delay) {
       yield* waitFor(delay);
     }
@@ -16,7 +16,7 @@ export const TypewriterEffect = {
     yield* waitFor(timeInterval);
     for (let i = 0; i < fullText.length; i++) {
       yield* waitFor(timeInterval);
-      ref().setText(fullText.substring(0, i + 1));
+      elementRef().setText(fullText.substring(0, i + 1));
     }
   }
 };

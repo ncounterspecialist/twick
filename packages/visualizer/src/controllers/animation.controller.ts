@@ -1,3 +1,8 @@
+import { BlurAnimation } from "../animations/blur";
+import { BreatheAnimation } from "../animations/breathe";
+import { FadeAnimation } from "../animations/fade";
+import { RiseAnimation } from "../animations/rise";
+import { SuccessionAnimation } from "../animations/succession";
 import { Animation } from "../helpers/types";
 
 export class AnimationController {
@@ -17,6 +22,11 @@ export class AnimationController {
   }
 
   export const registerAnimations = () => {
+    animationController.register(FadeAnimation);
+    animationController.register(RiseAnimation);
+    animationController.register(BreatheAnimation);
+    animationController.register(SuccessionAnimation);
+    animationController.register(BlurAnimation);
   }
 
   const animationController = new AnimationController();  
