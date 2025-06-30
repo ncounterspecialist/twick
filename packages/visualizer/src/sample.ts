@@ -267,6 +267,10 @@ export const sample = {
               "s": 0.009,
               "e": 4.691000000000001,
               "t": "GOD WILL BREAK YOU",
+              "textEffect": {
+                "name": "elastic",
+                "duration": 1,
+              },
               "props": {
                 "fill": "#ffd700",
                 "font": {

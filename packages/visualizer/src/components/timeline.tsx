@@ -5,10 +5,14 @@
 
 import { Layout, Rect, View2D, Audio } from "@revideo/2d";
 import { VisualizerTimeline } from "../helpers/types";
-import { all, Color, createRef, waitFor } from "@revideo/core";
-import { addAudioElement, addCaptionElement, addCircleElement, addIconElement, addMediaElement, addRectElement, addTextElement, makeSceneElements } from "./element";
-import { CAPTION_STYLE, DEFAULT_CAPTION_COLORS, DEFAULT_CAPTION_FONT, ELEMENT_TYPES } from "../helpers/constants";
+import { all, Color, createRef, ThreadGenerator, waitFor } from "@revideo/core";
+import {
+  CAPTION_STYLE,
+  DEFAULT_CAPTION_COLORS,
+  DEFAULT_CAPTION_FONT,
+} from "../helpers/constants";
 import { logger } from "../helpers/log.utils";
+import elementManager from "../helpers/element-manager";
 
 /**
  * Creates a video timeline with specified configuration
@@ -29,11 +33,10 @@ export function* makeVideoTimeline({
   view.add(<Layout size={"100%"} ref={frameRef} layout />);
   for (const element of timeline.elements || []) {
     yield* waitFor(element?.s - prevTime);
-    yield* addMediaElement({
+    yield* elementManager.get("video")?.create({
       containerRef: frameRef,
       element,
-      mediaType: ELEMENT_TYPES.VIDEO,
-      waitOnStart: false,
+      view,
     });
     prevTime = element.e;
   }
@@ -76,18 +79,27 @@ export function* makeAudioTimeline({
  * @param {CaptionTimeline} params.timeline - Caption timeline configuration
  * @returns {Generator} Generator function for caption timeline animation
  */
-export function* makeCaptionTimeline({ view, timeline }: { view: View2D; timeline: VisualizerTimeline }) {
+export function* makeCaptionTimeline({
+  view,
+  timeline,
+}: {
+  view: View2D;
+  timeline: VisualizerTimeline;
+}) {
   let prevTime = 0;
   const captionTimelineRef = createRef<any>();
   view.add(<Layout size={"100%"} ref={captionTimelineRef} />);
 
   const tProps = timeline?.props;
 
-  const timelineDefaultProps = (CAPTION_STYLE[tProps?.capStyle ?? ""] || {}).word || {};
+  const timelineDefaultProps =
+    (CAPTION_STYLE[tProps?.capStyle ?? ""] || {}).word || {};
 
   for (const element of timeline.elements) {
     const eProps = element.props;
-    const rectStyle = (CAPTION_STYLE[eProps?.capStyle ?? tProps?.capStyle ?? ""] || {}).rect || {};
+    const rectStyle =
+      (CAPTION_STYLE[eProps?.capStyle ?? tProps?.capStyle ?? ""] || {}).rect ||
+      {};
     // Cast alignItems/justifyContent as any to satisfy RectProps
     const mappedRectStyle = {
       ...rectStyle,
@@ -97,16 +109,35 @@ export function* makeCaptionTimeline({ view, timeline }: { view: View2D; timelin
     const phraseProps = {
       ...timelineDefaultProps,
       colors: {
-        text: eProps?.colors?.text ?? tProps?.colors?.text ?? DEFAULT_CAPTION_COLORS.text,
-        background: eProps?.colors?.background ?? tProps?.colors?.background ?? DEFAULT_CAPTION_COLORS.background,
+        text:
+          eProps?.colors?.text ??
+          tProps?.colors?.text ??
+          DEFAULT_CAPTION_COLORS.text,
+        background:
+          eProps?.colors?.background ??
+          tProps?.colors?.background ??
+          DEFAULT_CAPTION_COLORS.background,
       },
       font: {
-        family: eProps?.font?.family ?? tProps?.font?.family ?? DEFAULT_CAPTION_FONT.family,
-        size: eProps?.font?.size ?? tProps?.font?.size ?? DEFAULT_CAPTION_FONT.size,
-        weight: eProps?.font?.weight ?? tProps?.font?.weight ?? DEFAULT_CAPTION_FONT.weight
+        family:
+          eProps?.font?.family ??
+          tProps?.font?.family ??
+          DEFAULT_CAPTION_FONT.family,
+        size:
+          eProps?.font?.size ?? tProps?.font?.size ?? DEFAULT_CAPTION_FONT.size,
+        weight:
+          eProps?.font?.weight ??
+          tProps?.font?.weight ??
+          DEFAULT_CAPTION_FONT.weight,
       },
-      fill: eProps?.colors?.text ?? tProps?.colors?.text ?? DEFAULT_CAPTION_COLORS.text,
-      bgColor: eProps?.colors?.background ?? tProps?.colors?.background ??DEFAULT_CAPTION_COLORS.background,
+      fill:
+        eProps?.colors?.text ??
+        tProps?.colors?.text ??
+        DEFAULT_CAPTION_COLORS.text,
+      bgColor:
+        eProps?.colors?.background ??
+        tProps?.colors?.background ??
+        DEFAULT_CAPTION_COLORS.background,
       bgOpacity: eProps?.bgOpacity ?? tProps?.bgOpacity ?? 1,
       ...(tProps?.captionProps || {}),
     };
@@ -128,11 +159,15 @@ export function* makeCaptionTimeline({ view, timeline }: { view: View2D; timelin
         new Color(phraseProps.bgColor).alpha(phraseProps.bgOpacity)
       );
     }
-    yield* addCaptionElement({
-      caption: {...element, t: element.t ?? ""},
-      captionProps: phraseProps,
+    yield* elementManager.get("caption")?.create({
       containerRef: phraseRef,
-      capStyle: eProps?.capStyle ?? tProps?.capStyle,
+      caption: {
+        ...element,
+        t: element.t ?? "",
+        capStyle: eProps?.capStyle ?? tProps?.capStyle,
+        props: phraseProps,
+      },
+      view,
     });
     prevTime = element.e;
     yield phraseRef().remove();
@@ -146,17 +181,21 @@ export function* makeCaptionTimeline({ view, timeline }: { view: View2D; timelin
  * @param {SceneTimeline} params.timeline - Scene timeline configuration
  * @returns {Generator} Generator function for scene timeline animation
  */
-export function* makeSceneTimeline({ view, timeline }: { view: View2D; timeline: VisualizerTimeline }) {
+export function* makeSceneTimeline({
+  view,
+  timeline,
+}: {
+  view: View2D;
+  timeline: VisualizerTimeline;
+}) {
   const frameRef = createRef<any>();
-  let prevTime = 0;
   view.add(<Layout size={"100%"} ref={frameRef} layout />);
   for (const sceneElement of timeline.elements || []) {
-    yield* waitFor(sceneElement?.s - prevTime);
-    yield* makeSceneElements({
+    yield* elementManager.get("scene")?.create({
       containerRef: frameRef,
       element: sceneElement,
+      view,
     });
-    prevTime = sceneElement.e;
   }
   yield frameRef().remove();
 }
@@ -168,57 +207,25 @@ export function* makeSceneTimeline({ view, timeline }: { view: View2D; timeline:
  * @param {ElementTimeline} params.timeline - Element timeline configuration
  * @returns {Generator} Generator function for element timeline animation
  */
-export function* makeElementTimeline({ view, timeline }: { view: View2D; timeline: VisualizerTimeline }) {
+export function* makeElementTimeline({
+  view,
+  timeline,
+}: {
+  view: View2D;
+  timeline: VisualizerTimeline;
+}) {
   const elementTimelineRef = createRef<any>();
   view.add(<Layout size={"100%"} ref={elementTimelineRef} />);
 
-  const sequence = [];
+  const sequence: ThreadGenerator[] = [];
   for (const element of timeline.elements) {
-    switch (element.type) {
-      case ELEMENT_TYPES.RECT:
-        sequence.push(
-          addRectElement({ containerRef: elementTimelineRef, element })
-        );
-        break;
-      case ELEMENT_TYPES.TEXT:
-        sequence.push(
-          addTextElement({ containerRef: elementTimelineRef, element })
-        );
-        break;
-      case ELEMENT_TYPES.IMAGE:
-        sequence.push(
-          addMediaElement({
-            containerRef: elementTimelineRef,
-            element,
-            mediaType: ELEMENT_TYPES.IMAGE,
-          })
-        );
-        break;
-      case ELEMENT_TYPES.VIDEO:
-        sequence.push(
-          addMediaElement({
-            containerRef: elementTimelineRef,
-            element,
-            mediaType: ELEMENT_TYPES.VIDEO,
-          })
-        );
-        break;
-      case ELEMENT_TYPES.AUDIO:
-        sequence.push(
-          addAudioElement({ containerRef: elementTimelineRef, element })
-        );
-        break;
-      case ELEMENT_TYPES.CIRCLE:
-        sequence.push(
-          addCircleElement({ containerRef: elementTimelineRef, element })
-        );
-        break;
-      case ELEMENT_TYPES.ICON:
-        sequence.push(
-          addIconElement({ containerRef: elementTimelineRef, element })
-        );
-        break;
-    }
+    sequence.push(
+      elementManager.get(element.type)?.create({
+        containerRef: elementTimelineRef,
+        element,
+        view,
+      })
+    );
   }
   yield* all(...sequence);
   yield elementTimelineRef().remove();

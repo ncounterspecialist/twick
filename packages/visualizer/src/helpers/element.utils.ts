@@ -1,6 +1,9 @@
-import { Reference } from "@revideo/core";
-import { ObjectFit, SizeVector } from "./types";
+import { all, Reference } from "@revideo/core";
+import { ObjectFit, SizeVector, VisualizerElement } from "./types";
 import { OBJECT_FIT } from "./constants";
+import textEffectController from "../controllers/text-effect.controller";
+import animationController from "../controllers/animation.controller";
+import { View2D } from "@revideo/2d";
 
 /**
  * Element utilities for the visualizer package.
@@ -82,4 +85,33 @@ export function* fitElement({
         default:
           break;
       }
+    }
+
+
+    export function* addTextEffect({ elementRef, element }: { elementRef: Reference<any>; element: VisualizerElement;}) {
+      yield elementRef();
+      if (element.textEffect) {
+        const effect = textEffectController.get(element.textEffect.name);
+        if (effect) {
+          yield* (effect.run({
+            ref: elementRef,
+            ...element.textEffect,
+          }));
+        }
+      }
+    }
+    
+    export function* addAnimations({ elementRef, element, view }: { elementRef: Reference<any>; element: VisualizerElement; view: View2D;}) {
+      yield elementRef();
+      const animations = element.animations || [];
+      for (const animationProps of animations) {
+        const animation = animationController.get(animationProps.name);
+        if (animation) {
+          animations.push(animation.run({
+            ref: elementRef,
+            ...animationProps,
+          }));
+        }
+      }
+      yield* all(...animations);
     }
