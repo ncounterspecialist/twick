@@ -28,13 +28,3 @@ export function splitPhraseTiming({ t, s, e }: { t: string, s: number, e: number
       };
     });
   }
-
-/**
- * Formats caption text with specified style
- * @param {string} text - The text to format
- * @param {Object} style - The style to apply
- * @returns {string} Formatted text
- */
-export function formatCaptionText(text: string, style: any) {
-  // ... existing code ...
-}

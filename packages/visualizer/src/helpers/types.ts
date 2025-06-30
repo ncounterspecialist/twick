@@ -1,4 +1,5 @@
-import { Reference } from "@revideo/core";
+import { View2D } from "@revideo/2d";
+import { Reference, ThreadGenerator } from "@revideo/core";
 
 export type VideoInput = {
   backgroundColor: string;
@@ -77,6 +78,7 @@ export type Caption = {
   t: string;
   s: number;
   e: number;
+  capStyle?: string;
   props?: CaptionProps;
 }
 
@@ -149,6 +151,19 @@ export type VisualizerTimeline = {
 };
 
 
+export type ElementParams = {
+  view: View2D;
+  containerRef: Reference<any>;
+  element?: VisualizerElement;
+  caption?: Caption;
+  waitOnStart?: boolean;
+};
+
+export interface Element<Params = ElementParams> {
+  name: string;
+  create(params: Params): ThreadGenerator;
+}
+
 export type TextEffectParams = {
   ref: Reference<any>;
   interval: number;
@@ -167,7 +182,32 @@ export type TextEffectProps = {
   direction: "left" | "right" | "center";
 }
 
-export interface TextEffect<Params = any> {
+export interface TextEffect<Params = TextEffectParams> {
+  name: string;
+  run(params: Params): Generator;
+}
+
+
+export type AnimationParams = {
+  ref: Reference<any>;
+  view: View2D;
+  interval: number;
+  duration: number;
+  delay: number;
+  animate: "enter" | "exit" | "both";
+  direction: "left" | "right" | "center" | "top" | "bottom";
+};
+
+export type AnimationProps = {
+  name: string;
+  interval: number;
+  duration: number;
+  delay: number;
+  animate: "enter" | "exit" | "both";
+  direction: "left" | "right" | "center" | "top" | "bottom";
+}
+
+export interface Animation<Params = AnimationParams> {
   name: string;
   run(params: Params): Generator;
 }
