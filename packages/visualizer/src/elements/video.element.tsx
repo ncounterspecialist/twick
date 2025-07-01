@@ -1,15 +1,14 @@
 import { ElementParams } from "../helpers/types";
 import { all, createRef, waitFor } from "@revideo/core";
 import { Rect, Video } from "@revideo/2d";
-import { addAnimations, fitElement } from "../helpers/element.utils";
+import { addAnimation, addFrameEffect, fitElement } from "../helpers/element.utils";
 import { logger } from "../helpers/log.utils";
-import { addFrameEffect } from "../components/frame-effects";
 import { applyColorFilter } from "../helpers/filters";
 
 export const VideoElement = {
   name: "video",
   *create({ containerRef, element, view }: ElementParams) {
-    logger(`Adding image element ${element.id}`);
+    logger(`Adding video element ${element.id}`);
     const frameContainerRef = createRef<any>();
     const frameElementRef = createRef<any>();
 
@@ -35,15 +34,16 @@ export const VideoElement = {
       }
 
       yield* all(
-        addAnimations({
+        addAnimation({
           elementRef: frameElementRef,
+          containerRef: frameContainerRef,
           element: element,
           view,
         }),
         addFrameEffect({
           containerRef: frameContainerRef,
           elementRef: frameElementRef,
-          frameElement,
+          element,
         }),
         waitFor(Math.max(0, element.e - element.s))
       );

@@ -3,11 +3,11 @@ import { TextEffectParams } from "../helpers/types";
 
 export const ElasticEffect = {
   name: "elastic",
-  *run({ ref,  duration , delay}: TextEffectParams) {
+  *run({ elementRef,  duration , delay}: TextEffectParams) {
     if(delay) {
       yield* waitFor(delay);
     }
-    ref().scale(0);
-    yield* ref().scale(1, duration, easeOutElastic);
+    elementRef().scale(0);
+    yield* elementRef().scale(1, duration, easeOutElastic);
   },
 };

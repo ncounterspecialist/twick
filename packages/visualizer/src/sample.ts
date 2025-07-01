@@ -45,6 +45,13 @@ export const sample = {
                 "volume": 1,
                 "playbackRate": 2.4
               },
+              "animation": {
+                  "name": "photo-zoom",
+                  "interval": 1,
+                  "mode": "out",
+                  "animate": "both",
+                  "direction": "top"
+              },
               "frame": {
                 "size": [
                   720,
@@ -102,130 +109,6 @@ export const sample = {
                 "x": 269.48206359326264,
                 "y": 6.293648227413769
               }
-            },
-            {
-              "id": "e-8e7713322971",
-              "type": "video",
-              "s": 9.395,
-              "e": 11.045625,
-              "objectFit": "cover",
-              "props": {
-                "time": 0,
-                "src": "https://static-assets.kifferai.com/developmen/a251d9971a55/785c23ac-46b9-412e-afa6-a2cb56359409/video_1746791788884-91cb1098-d5f0-4528-83ee-40396774362e-normalized-1747225092682.mp4",
-                "play": true,
-                "decoder": "web",
-                "volume": 1,
-                "playbackRate": 1.6
-              },
-              "frame": {
-                "size": [
-                  2308.2048543926235,
-                  1295.1593905203056
-                ],
-                "layout": false,
-                "clip": "true",
-                "rotation": 0,
-                "x": -13.276787982361498,
-                "y": 7.751279402190107
-              }
-            },
-            {
-              "id": "e-7531e6fa1e0d",
-              "type": "video",
-              "s": 11.046,
-              "e": 12.07,
-              "objectFit": "cover",
-              "props": {
-                "time": 7.721,
-                "src": "https://static-assets.kifferai.com/developmen/a251d9971a55/9e75d848-ee72-417c-a0ab-9b03cbe8a8e8/video_1746791788884-91cb1098-d5f0-4528-83ee-40396774362e-normalized-1747225094687.mp4",
-                "play": true,
-                "decoder": "web",
-                "volume": 1,
-                "playbackRate": 1.25
-              },
-              "frame": {
-                "size": [
-                  2311.1861840816873,
-                  1296.8322477347244
-                ],
-                "layout": false,
-                "clip": "true",
-                "rotation": 0,
-                "x": 449.37247349257666,
-                "y": 9.38850926628038
-              }
-            },
-            {
-              "id": "e-3b7b7272a680",
-              "type": "video",
-              "s": 12.07,
-              "e": 12.65,
-              "objectFit": "cover",
-              "props": {
-                "time": 15.761000000000001,
-                "src": "https://static-assets.kifferai.com/developmen/a251d9971a55/c8411732-b0c8-45a9-808d-e5adf6396cc0/video_1746791788884-91cb1098-d5f0-4528-83ee-40396774362e-normalized-1747225095328.mp4",
-                "play": true,
-                "decoder": "web"
-              },
-              "frame": {
-                "size": [
-                  2350.1907312156336,
-                  1318.718132515439
-                ],
-                "layout": false,
-                "clip": "true",
-                "rotation": 0,
-                "x": 172.4452216608522,
-                "y": 15.93068052161425
-              }
-            },
-            {
-              "id": "e-6121e86e1529",
-              "type": "video",
-              "s": 12.65,
-              "e": 12.97,
-              "objectFit": "cover",
-              "props": {
-                "time": 16.467,
-                "src": "https://static-assets.kifferai.com/developmen/a251d9971a55/ebdd6f60-5750-4228-a5cd-f321f60664c2/video_1746791788884-91cb1098-d5f0-4528-83ee-40396774362e-normalized-1747225093091.mp4",
-                "play": true,
-                "decoder": "web"
-              },
-              "frame": {
-                "size": [
-                  2250.6441550073,
-                  1262.861442531874
-                ],
-                "layout": false,
-                "clip": "true",
-                "rotation": 0,
-                "x": 349.31120819483976,
-                "y": 10.893313528412591
-              }
-            },
-            {
-              "id": "e-1b1fe6998ebd",
-              "type": "video",
-              "s": 12.97,
-              "e": 16.644000000000002,
-              "objectFit": "cover",
-              "props": {
-                "time": 23.286,
-                "src": "https://static-assets.kifferai.com/developmen/a251d9971a55/d0156321-eb31-4168-adc0-9c4ad1fd3963/video_1746791788884-91cb1098-d5f0-4528-83ee-40396774362e-normalized-1747225092630.mp4",
-                "play": true,
-                "decoder": "web"
-              },
-              "frame": {
-                "size": [
-                  2338.697802344495,
-                  1312.2693224266334
-                ],
-                "layout": false,
-                "clip": "true",
-                "rotation": 0,
-                "x": 105.53672564636827,
-                "y": 12.299877537072007
-              }
             }
           ],
           "name": "scene"
@@ -239,7 +122,7 @@ export const sample = {
               "id": "e-50848c2d8271",
               "type": "audio",
               "s": 0,
-              "e": 16.587755,
+              "e": 10,
               "props": {
                 "time": 0,
                 "src": "https://static-assets.kifferai.com/developmen/a251d9971a55/brand-music/Unstoppable-Reprise-909549aa-6807-482b-ab92-bce7e6834fe7.mp3",
@@ -355,95 +238,6 @@ export const sample = {
                 "rotation": 0,
                 "x": 4.522605909576328,
                 "y": 81.35589157062759
-              }
-            },
-            {
-              "id": "e-7eada9ab2394",
-              "type": "text",
-              "s": 9.521,
-              "e": 10.993,
-              "t": "BUT",
-              "props": {
-                "fill": "#ffd700",
-                "font": {
-                  "size": 48,
-                  "family": "Poppins"
-                },
-                "fontSize": 54,
-                "fontFamily": "Impact",
-                "stroke": "#000000",
-                "lineWidth": 0.25,
-                "fontWeight": "bold",
-                "fontStyle": "Italic"
-              }
-            },
-            {
-              "id": "e-03039d49039b",
-              "type": "text",
-              "s": 11.171,
-              "e": 12.831999999999999,
-              "t": "IN THE END",
-              "props": {
-                "fill": "#ffd700",
-                "font": {
-                  "size": 48,
-                  "family": "Poppins"
-                },
-                "fontSize": 54,
-                "fontFamily": "Impact",
-                "stroke": "#000000",
-                "lineWidth": 0.25,
-                "fontWeight": "bold",
-                "fontStyle": "Italic",
-                "rotation": 0,
-                "x": 2.2613029547882206,
-                "y": 108.4745220941702
-              }
-            },
-            {
-              "id": "e-91d44d6180f9",
-              "type": "text",
-              "s": 13.077,
-              "e": 16.543,
-              "t": "HE WILL MAKE YOU",
-              "props": {
-                "fill": "#FFFFFF",
-                "font": {
-                  "size": 48,
-                  "family": "Poppins"
-                },
-                "fontSize": 54,
-                "fontFamily": "Impact",
-                "stroke": "#000000",
-                "lineWidth": 0.25,
-                "fontWeight": "bold",
-                "fontStyle": "normal",
-                "rotation": 0,
-                "x": 0,
-                "y": 27.118630523542492
-              }
-            },
-            {
-              "id": "e-ebf12eac0207",
-              "type": "text",
-              "s": 13.811,
-              "e": 16.534,
-              "t": "UNSTOPPABLE",
-              "props": {
-                "fill": "#ffd700",
-                "font": {
-                  "size": 48,
-                  "family": "Poppins"
-                },
-                "rotation": 0,
-                "x": -6.783908864364491,
-                "y": 99.43497858632281,
-                "fontSize": 58,
-                "fontFamily": "Impact",
-                "stroke": "#000000",
-                "lineWidth": 0.25,
-                "fontWeight": "bold",
-                "fontStyle": "Italic"
               }
             }
           ]

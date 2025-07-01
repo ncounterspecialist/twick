@@ -9,8 +9,6 @@ import { fitElement } from "../helpers/element.utils";
 import { DEFAULT_POSITION, DEFAULT_TIMING_FUNCTION, FRAME_SHAPE } from "../helpers/constants";
 import { FrameEffect } from "../helpers/types";
 import { View2D } from "@revideo/2d";
-import { createSignal } from "@revideo/core";
-import { logger } from "../helpers/log.utils";
 
 /**
  * Applies frame effects to a view or element
