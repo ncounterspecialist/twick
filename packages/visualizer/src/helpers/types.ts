@@ -194,7 +194,7 @@ export type AnimationParams = {
   view: View2D;
   interval?: number;
   duration?: number;
-  shift?: number;
+  intensity?: number;
   mode?: "in" | "out";
   animate?: "enter" | "exit" | "both";
   direction?: "left" | "right" | "center" | "top" | "bottom";
@@ -204,7 +204,7 @@ export type AnimationProps = {
   name: string;
   interval?: number;
   duration?: number;
-  shift?: number;
+  intensity?: number;
   mode?: "in" | "out";
   animate?: "enter" | "exit" | "both";
   direction?: "left" | "right" | "center" | "top" | "bottom";
