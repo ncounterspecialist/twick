@@ -1,6 +1,7 @@
 import { BlurAnimation } from "../animations/blur";
 import { BreatheAnimation } from "../animations/breathe";
 import { FadeAnimation } from "../animations/fade";
+import { PhotoRiseAnimation } from "../animations/photo-rise";
 import { PhotoZoomAnimation } from "../animations/photo-zoom";
 import { RiseAnimation } from "../animations/rise";
 import { SuccessionAnimation } from "../animations/succession";
@@ -29,6 +30,7 @@ export class AnimationController {
     animationController.register(SuccessionAnimation);
     animationController.register(BlurAnimation);
     animationController.register(PhotoZoomAnimation);
+    animationController.register(PhotoRiseAnimation);
   }
 
   const animationController = new AnimationController();  
