@@ -4,18 +4,18 @@ import { AnimationParams } from "../helpers/types";
  * PhotoRiseAnimation applies a smooth directional movement to a photo element.
  *
  * Behavior:
- * - Starts offset in a given direction (top, bottom, left, or right).
+ * - Starts offset in a given direction (up, down, left, or right).
  * - Animates back to the original position over the specified duration.
  *
  * Available directions:
- * - "top": Starts below and moves upward.
- * - "bottom": Starts above and moves downward.
+ * - "up": Starts below and moves upward.
+ * - "down": Starts above and moves downward.
  * - "left": Starts to the right and moves leftward.
  * - "right": Starts to the left and moves rightward.
  *
  * @param elementRef - Reference to the photo element to animate.
  * @param containerRef - Optional reference to a container element (required for this animation).
- * @param direction - Direction of the movement ("top" | "bottom" | "left" | "right").
+ * @param direction - Direction of the movement ("up" | "down" | "left" | "right").
  * @param duration - Duration of the movement animation.
  * @param intensity - Offset distance in pixels (default: 200).
  */
@@ -37,13 +37,13 @@ export const PhotoRiseAnimation = {
       // Get the element's current position
       const pos = elementRef().position();
 
-      if (direction === "top") {
+      if (direction === "up") {
         // Start offset below
         elementRef().y(pos.y + intensity);
         // Animate moving upward to the original position
         yield* elementRef().y(pos.y, duration);
 
-      } else if (direction === "bottom") {
+      } else if (direction === "down") {
         // Start offset above
         elementRef().y(pos.y - intensity);
         // Animate moving downward to the original position

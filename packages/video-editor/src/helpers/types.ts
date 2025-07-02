@@ -17,3 +17,13 @@ export type MediaItem = {
     type?: 'image' | 'video' | 'audio';
     metadata?: Record<string, any>;
   }
+
+  export type Animation = {
+    name: string;
+    interval?: number;
+    animate?: "enter" | "exit" | "both";
+    mode?: "in" | "out";
+    direction?: "up" | "down" | "left" | "right" | "center";
+    options?: Record<string, any>;
+    getSample: (animation?: Animation) => string;
+};

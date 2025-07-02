@@ -15,7 +15,7 @@ import { AnimationParams } from "../helpers/types";
  * @param interval - Duration of movement and opacity transitions (default: 0.25).
  * @param duration - Total duration of the animation.
  * @param animate - Animation phase ("enter" | "exit" | "both").
- * @param direction - Direction to animate ("top" or "bottom").
+ * @param direction - Direction to animate ("up" or "down").
  * @param intensity - Number of units to offset position vertically (default: 200).
  */
 export const RiseAnimation = {
@@ -30,7 +30,7 @@ export const RiseAnimation = {
     interval = 0.25,
     duration,
     animate,
-    direction = "top",
+    direction,
     intensity = 200,
   }: AnimationParams) {
     // Use containerRef if provided, otherwise fallback to elementRef
@@ -43,7 +43,7 @@ export const RiseAnimation = {
       // Start fully transparent
       ref().opacity(0);
 
-      if (direction === "top") {
+      if (direction === "up") {
         // Offset element below final position
         ref().y(pos.y + intensity);
         // Animate moving up while fading in
@@ -51,7 +51,7 @@ export const RiseAnimation = {
           ref().opacity(1, interval / 4),
           ref().y(pos.y, interval)
         );
-      } else if (direction === "bottom") {
+      } else if (direction === "down") {
         // Offset element above final position
         ref().y(pos.y - intensity);
         // Animate moving down while fading in
@@ -64,13 +64,13 @@ export const RiseAnimation = {
       // Wait until exit animation starts
       yield* waitFor(duration - interval);
 
-      if (direction === "top") {
+      if (direction === "up") {
         // Animate moving up while fading out (opacity fades slightly after motion starts)
         yield* all(
           delay((3 * interval) / 4, ref().opacity(0, interval / 4)),
           ref().y(pos.y - intensity, interval)
         );
-      } else if (direction === "bottom") {
+      } else if (direction === "down") {
         // Animate moving down while fading out
         yield* all(
           delay((3 * interval) / 4, ref().opacity(0, interval / 4)),
@@ -81,7 +81,7 @@ export const RiseAnimation = {
       // Start fully transparent
       ref().opacity(0);
 
-      if (direction === "top") {
+      if (direction === "up") {
         // Enter animation: move up while fading in
         ref().y(pos.y + intensity);
         yield* all(
@@ -95,7 +95,7 @@ export const RiseAnimation = {
           delay((3 * interval) / 4, ref().opacity(0, interval / 4)),
           ref().y(pos.y - intensity, interval)
         );
-      } else if (direction === "bottom") {
+      } else if (direction === "down") {
         // Enter animation: move down while fading in
         ref().y(pos.y - intensity);
         yield* all(
