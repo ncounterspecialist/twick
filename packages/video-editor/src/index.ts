@@ -1,9 +1,11 @@
 import VideoEditor from "./components/video-editor";
 import { usePlayerControl } from "./hooks/use-player-control";
 import BrowserMediaManager from "./helpers/media-manager/browser-media-manager";
-import { MediaItem, PaginationOptions, SearchOptions } from "./helpers/types";
+import { MediaItem, PaginationOptions, SearchOptions, Animation } from "./helpers/types";
 import BaseMediaManager from "./helpers/media-manager/base-media-manager";
-
-export type { MediaItem, PaginationOptions, SearchOptions };
-export { usePlayerControl, BrowserMediaManager, BaseMediaManager };
+import { animationGifs, getAnimationGif } from "./assets";
+import { ANIMATIONS } from "./helpers/animation-manager";
+export type { MediaItem, PaginationOptions, SearchOptions, Animation };
+export { ANIMATIONS };
+export { usePlayerControl, BrowserMediaManager, BaseMediaManager, animationGifs, getAnimationGif };
 export default VideoEditor;

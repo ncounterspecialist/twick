@@ -196,7 +196,7 @@ export type AnimationParams = {
   intensity?: number;
   mode?: "in" | "out";
   animate?: "enter" | "exit" | "both";
-  direction?: "left" | "right" | "center" | "top" | "bottom";
+  direction?: "left" | "right" | "center" | "up" | "down";
 };
 
 export type AnimationProps = {
@@ -206,7 +206,7 @@ export type AnimationProps = {
   intensity?: number;
   mode?: "in" | "out";
   animate?: "enter" | "exit" | "both";
-  direction?: "left" | "right" | "center" | "top" | "bottom";
+  direction?: "left" | "right" | "center" | "up" | "down";
 };
 
 export interface Animation<Params = AnimationParams> {
