@@ -11,6 +11,7 @@ This repository contains a collection of packages for video and image manipulati
 - **@twick/canvas**: React-based canvas library for video and image editing
 - **@twick/visualizer**: Video visualization and animation toolkit
 - **@twick/live-player**: React component for video playback and control
+- **twick/video-editor**: React based video editor
 - **@twick/examples**: Example implementations and usage demonstrations
 
 ## Getting Started
