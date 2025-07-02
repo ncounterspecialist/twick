@@ -24,6 +24,10 @@ export type MediaItem = {
     animate?: "enter" | "exit" | "both";
     mode?: "in" | "out";
     direction?: "up" | "down" | "left" | "right" | "center";
-    options?: Record<string, any>;
+    options?: {
+      animate?: string[];
+      direction?: string[];
+      mode?: string[];
+    };
     getSample: (animation?: Animation) => string;
 };

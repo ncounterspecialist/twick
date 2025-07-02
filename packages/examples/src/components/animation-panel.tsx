@@ -76,7 +76,7 @@ const AnimationPanel = () => {
                                     onChange={(e) => setAnimate(e.target.value)}
                                     className="w-full text-xs border border-gray-600 rounded px-2 py-1 bg-gray-700 text-white"
                                 >
-                                    {selectedAnimData.options.animate.map((option) => (
+                                    {selectedAnimData.options.animate.map((option: string) => (
                                         <option key={option} value={option}>
                                             {option.charAt(0).toUpperCase() + option.slice(1)}
                                         </option>
@@ -96,7 +96,7 @@ const AnimationPanel = () => {
                                     onChange={(e) => setDirection(e.target.value)}
                                     className="w-full text-xs border border-gray-600 rounded px-2 py-1 bg-gray-700 text-white"
                                 >
-                                    {selectedAnimData.options.direction.map((option) => (
+                                    {selectedAnimData.options.direction.map((option: string) => (
                                         <option key={option} value={option}>
                                             {option.charAt(0).toUpperCase() + option.slice(1)}
                                         </option>
@@ -116,7 +116,7 @@ const AnimationPanel = () => {
                                     onChange={(e) => setMode(e.target.value)}
                                     className="w-full text-xs border border-gray-600 rounded px-2 py-1 bg-gray-700 text-white"
                                 >
-                                    {selectedAnimData.options.mode.map((option) => (
+                                    {selectedAnimData.options.mode.map((option: string) => (
                                         <option key={option} value={option}>
                                             {option.charAt(0).toUpperCase() + option.slice(1)}
                                         </option>
