@@ -39,6 +39,8 @@ export const RiseAnimation = {
     // Get the element's current position
     const pos = ref().position();
 
+    let animationInterval = Math.min(interval, duration);
+
     if (animate === "enter") {
       // Start fully transparent
       ref().opacity(0);
@@ -48,36 +50,37 @@ export const RiseAnimation = {
         ref().y(pos.y + intensity);
         // Animate moving up while fading in
         yield* all(
-          ref().opacity(1, interval / 4),
-          ref().y(pos.y, interval)
+          ref().opacity(1, animationInterval / 4),
+          ref().y(pos.y, animationInterval)
         );
       } else if (direction === "down") {
         // Offset element above final position
         ref().y(pos.y - intensity);
         // Animate moving down while fading in
         yield* all(
-          ref().opacity(1, interval / 4),
-          ref().y(pos.y, interval)
+          ref().opacity(1, animationInterval / 4),
+          ref().y(pos.y, animationInterval)
         );
       }
     } else if (animate === "exit") {
       // Wait until exit animation starts
-      yield* waitFor(duration - interval);
+      yield* waitFor(duration - animationInterval);
 
       if (direction === "up") {
         // Animate moving up while fading out (opacity fades slightly after motion starts)
         yield* all(
-          delay((3 * interval) / 4, ref().opacity(0, interval / 4)),
-          ref().y(pos.y - intensity, interval)
+          delay((3 * animationInterval) / 4, ref().opacity(0, animationInterval / 4)),
+          ref().y(pos.y - intensity, animationInterval)
         );
       } else if (direction === "down") {
         // Animate moving down while fading out
         yield* all(
-          delay((3 * interval) / 4, ref().opacity(0, interval / 4)),
-          ref().y(pos.y + intensity, interval)
+          delay((3 * animationInterval) / 4, ref().opacity(0, animationInterval / 4)),
+          ref().y(pos.y + intensity, animationInterval)
         );
       }
     } else if (animate === "both") {
+      animationInterval = Math.min(interval, duration/2);
       // Start fully transparent
       ref().opacity(0);
 
@@ -85,29 +88,29 @@ export const RiseAnimation = {
         // Enter animation: move up while fading in
         ref().y(pos.y + intensity);
         yield* all(
-          ref().opacity(1, interval / 4),
-          ref().y(pos.y, interval)
+          ref().opacity(1, animationInterval / 4),
+          ref().y(pos.y, animationInterval)
         );
         // Wait for the remaining duration
-        yield* waitFor(duration - interval);
+        yield* waitFor(duration - animationInterval);
         // Exit animation: move up further while fading out
         yield* all(
-          delay((3 * interval) / 4, ref().opacity(0, interval / 4)),
-          ref().y(pos.y - intensity, interval)
+          delay((3 * animationInterval) / 4, ref().opacity(0, animationInterval / 4)),
+          ref().y(pos.y - intensity, animationInterval)
         );
       } else if (direction === "down") {
         // Enter animation: move down while fading in
         ref().y(pos.y - intensity);
         yield* all(
-          ref().opacity(1, interval / 4),
-          ref().y(pos.y, interval)
+          ref().opacity(1, animationInterval / 4),
+          ref().y(pos.y, animationInterval)
         );
         // Wait for the remaining duration
-        yield* waitFor(duration - interval);
+        yield* waitFor(duration - animationInterval);
         // Exit animation: move down further while fading out
         yield* all(
-          delay((3 * interval) / 4, ref().opacity(0, interval / 4)),
-          ref().y(pos.y + intensity, interval)
+          delay((3 * animationInterval) / 4, ref().opacity(0, animationInterval / 4)),
+          ref().y(pos.y + intensity, animationInterval)
         );
       }
     }

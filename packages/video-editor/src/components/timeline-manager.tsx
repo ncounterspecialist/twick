@@ -4,6 +4,7 @@ import {
   useTimeline,
   type TimelineElement,
   useTimelineContext,
+  TIMELINE_OPERATION,
 } from "@twick/timeline";
 import SeekControl from "./seek-control";
 import { useLivePlayerContext } from "@twick/live-player";
@@ -18,7 +19,8 @@ const TimelineManager = ({
 }) => {
   const { selectedItem, setSelectedItem } = useTimelineContext();
   const [zoomLevel, setZoomLevel] = useState(1.5);
-  const { timelineData, duration, setTimeline, editElement } = useTimeline({
+  const { setTimelineOperation } = useTimelineContext();
+  const { timelineData, duration } = useTimeline({
     selectedItem: selectedItem,
     captionProps: {},
     videoSize,
@@ -29,7 +31,10 @@ const TimelineManager = ({
 
   const onReorder = (reorderedItems: Timeline[]) => {
     console.log(reorderedItems, timelineData);
-    setTimeline(reorderedItems, (timelineData?.version ?? 0) + 1);
+    setTimelineOperation(TIMELINE_OPERATION.SET_TIMELINE, {
+      timeline: reorderedItems,
+      version: (timelineData?.version ?? 0) + 1,
+    });
   };
 
   const handleSeekAction = (time: number) => {
@@ -48,10 +53,15 @@ const TimelineManager = ({
       onDeletion={() => {}}
       onReorder={onReorder}
       onEditElement={(timelineId: string, elementId: string, updates: any) => {
-        editElement({ timelineId, elementId, updates, noSelection: true });
+        setTimelineOperation(TIMELINE_OPERATION.UPDATE_ELEMENT, {
+          timelineId,
+          elementId,
+          updates,
+          noSelection: true,
+        });
       }}
       onSeek={() => {}}
-      onSelectionChange={(selectedItem: TimelineElement | Timeline | null) => {    
+      onSelectionChange={(selectedItem: TimelineElement | Timeline | null) => {
         setSelectedItem(selectedItem);
       }}
       seekTrack={

@@ -34,25 +34,27 @@ export const BlurAnimation = {
     // Choose containerRef if provided; otherwise, fallback to elementRef
     const ref = containerRef ?? elementRef;
 
+    let animationInterval = Math.min(interval, duration);
     if (animate === "enter") {
       // Start fully blurred
       ref().filters.blur(intensity);
       // Animate to no blur over 'interval'
-      yield* ref().filters.blur(0, interval);
+      yield* ref().filters.blur(0, animationInterval);
     } else if (animate === "exit") {
       // Wait for the time before exit animation starts
-      yield* waitFor(duration - interval);
+      yield* waitFor(duration - animationInterval);
       // Animate from no blur to full blur over 'interval'
-      yield* ref().filters.blur(intensity, interval);
+      yield* ref().filters.blur(intensity, animationInterval);
     } else if (animate === "both") {
+      animationInterval = Math.min(interval, duration/2);
       // Start fully blurred
       ref().filters.blur(intensity);
       // Animate to no blur
-      yield* ref().filters.blur(0, interval);
+      yield* ref().filters.blur(0, animationInterval);
       // Wait until exit animation
-      yield* waitFor(duration - interval);
+      yield* waitFor(duration - animationInterval);
       // Animate to full blur again
-      yield* ref().filters.blur(intensity, interval);
+      yield* ref().filters.blur(intensity, animationInterval);
     }
   },
 };

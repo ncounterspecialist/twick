@@ -156,7 +156,7 @@ const EditorControls = () => {
           buttonText="Load"
         />
 
-        <div className="controls-button" onClick={() => setPanelType("media")}>Add Media</div>
+        <div className="controls-button" onClick={() => setPanelType("media")}>Media</div>
         <div className="controls-button"
           onClick={() => {
             const text = prompt("Enter text:");
@@ -165,7 +165,7 @@ const EditorControls = () => {
             }
           }}
         >
-          Add Text
+          Text
         </div>
 
         <div className="controls-button"
@@ -173,12 +173,12 @@ const EditorControls = () => {
             setShowColorDialog(true);
           }}
         >
-          Add Rect
+          Rect
         </div>
 
-        <div className="controls-button" onClick={() => setPanelType("animation")}>Add Animation</div>
+        <div className="controls-button" onClick={() => setPanelType("animation")}>Animation</div>
 
-        <div className="controls-button" onClick={() => addTimeline()}>Add Timeline</div>
+        <div className="controls-button" onClick={() => addTimeline()}>Timeline</div>
 
         <div className="flex flex-col-reverse h-full">
           <div className="controls-button" onClick={togglePlaying}>{playButtonText}</div>

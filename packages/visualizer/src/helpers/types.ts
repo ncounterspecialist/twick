@@ -110,6 +110,7 @@ export type CaptionFont = {
 
 export type VisualizerElement = {
   id: string;
+  timelineId?: string;
   frame?: any;
   props?: any;
   objectFit?: "contain" | "cover" | "fill";
@@ -117,7 +118,6 @@ export type VisualizerElement = {
   s: number;
   e: number;
   backgroundColor?: string;
-  elements?: VisualizerElement[];
   animation?: AnimationProps;
   textEffect: TextEffectProps;
   frameEffects?: FrameEffect[];

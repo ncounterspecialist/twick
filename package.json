@@ -6,6 +6,7 @@
     "build": "turbo run build --filter=./packages/*",
     "build:media-utils": "turbo run build --filter=@twick/media-utils",
     "build:canvas": "turbo run build --filter=@twick/canvas",
+    "build:timeline": "turbo run build --filter=@twick/timeline",
     "build:documentation": "pnpm run docs && pnpm run docs:copy && turbo run build --filter=@twick/documentation",
     "build:live-player": "turbo run build --filter=@twick/live-player",
     "build:visualizer": "turbo run build --filter=@twick/visualizer",
