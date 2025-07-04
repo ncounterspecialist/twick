@@ -1,3 +1,43 @@
+export interface TimelineServiceConfig {
+  videoSize: {
+    width: number;
+    height: number;
+  };
+  onTimelineUpdate?: (data: TimelineData) => void;
+  onSelectionChange?: (item: TimelineElement | Timeline | null) => void;
+  onOperationComplete?: (operation: string, data: any) => void;
+}
+
+export interface AddElementOptions {
+  timelineId: string;
+  type: string;
+  props: ImageProps | VideoProps | AudioProps | TextProps | any;
+  timing: {
+    s: number;
+    e?: number;
+  };
+  name?: string;
+}
+
+export interface EditElementOptions {
+  timelineId: string;
+  elementId: string;
+  updates: Partial<TimelineElement>;
+  noSelection?: boolean;
+}
+
+export interface AddTimelineOptions {
+  type: string;
+  name: string;
+  allowOverlap?: boolean;
+  props?: any;
+}
+
+export interface AnimationOptions {
+  timelineId: string;
+  elementId: string;
+  animation: Animation | null;
+}
 export type FrameEffect = {
     s: number;
     e: number;
@@ -13,6 +53,15 @@ export type FrameEffect = {
     };
 }
 
+export type Animation = {
+    name: string;
+    interval?: number;
+    intensity?: number;
+    animate?: "enter" | "exit" | "both";
+    mode?: "in" | "out";
+    direction?: "up" | "down" | "left" | "right" | "center";
+}
+
 export type TimelineElement = {
     id: string;
     type: string;
@@ -24,6 +73,7 @@ export type TimelineElement = {
     timelineType?: string;
     backgroundColor?: string; 
     frameEffects?: FrameEffect[];
+    animation?: Animation;
     props?: {
         playbackRate?: number;
         capStyle?: string;
@@ -149,3 +199,45 @@ export type AudioProps = {
   loop?: boolean;
   playbackRate?: number;
 };
+
+// TimelineService interfaces
+export interface TimelineServiceConfig {
+  videoSize: {
+    width: number;
+    height: number;
+  };
+  onTimelineUpdate?: (data: TimelineData) => void;
+  onSelectionChange?: (item: TimelineElement | Timeline | null) => void;
+  onOperationComplete?: (operation: string, data: any) => void;
+}
+
+export interface AddElementOptions {
+  timelineId: string;
+  type: string;
+  props: ImageProps | VideoProps | AudioProps | TextProps | any;
+  timing: {
+    s: number;
+    e?: number;
+  };
+  name?: string;
+}
+
+export interface EditElementOptions {
+  timelineId: string;
+  elementId: string;
+  updates: Partial<TimelineElement>;
+  noSelection?: boolean;
+}
+
+export interface AddTimelineOptions {
+  type: string;
+  name: string;
+  allowOverlap?: boolean;
+  props?: any;
+}
+
+export interface AnimationOptions {
+  timelineId: string;
+  elementId: string;
+  animation: Animation | null;
+}

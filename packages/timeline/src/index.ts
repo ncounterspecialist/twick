@@ -7,8 +7,9 @@ import TimelineZoom from "./components/timeline-zoom";
 import TimelineView from "./components/timeline-view";
 import { TIMELINE_ELEMENT_TYPE } from "./helpers/constants";
 import { TimelineProvider, TimelineProviderProps } from "./context/timeline-context";
+import TimelineService from "./services/timeline-service";
 
-export { useTimeline, SeekTrack, Track, TrackHeader, TimelineView, TimelineProvider, TimelineZoom };
+export { useTimeline, SeekTrack, Track, TrackHeader, TimelineView, TimelineProvider, TimelineZoom, TimelineService };
 export type { Timeline, TimelineData, TimelineElement, TimelineProviderProps };
 export { TIMELINE_ELEMENT_TYPE };
 
