@@ -53,10 +53,10 @@ const AnimationPanel = () => {
       setMaxInterval(element.e - element.s);
       if (element.animation) {
         setSelectedAnimation(element.animation.name);
-        setAnimate(element.animation.animate);
-        setDirection(element.animation.direction);
-        setMode(element.animation.mode);
-        setInterval(element.animation.interval * 1000);
+        setAnimate(element.animation.animate || "enter");
+        setDirection(element.animation.direction || "up");
+        setMode(element.animation.mode || "in");
+        setInterval((element.animation.interval || 0.5) * 1000);
       }
     }
   }, [selectedItem]);
