@@ -11,6 +11,7 @@ import {
   EditElementOptions,
   AnimationOptions,
   CaptionProps,
+  TextEffectOptions,
 } from "../types";
 import {
   TIMELINE_ELEMENT_TYPE,
@@ -553,6 +554,43 @@ class TimelineService {
     };
   };
 
+  setTextEffect(options: TextEffectOptions): {
+    timelineId: string;
+    elementId: string;
+    element: TimelineElement | null;
+    version: number;
+  } {
+    const { timelineId, elementId, textEffect } = options;
+
+    const updatedTimelines =
+      this.timelineData?.timeline?.map((timeline: Timeline) =>
+        timeline.id === timelineId
+          ? {
+              ...timeline,
+              elements: timeline.elements.map((el) => {
+                if (el.id === elementId && el.type === TIMELINE_ELEMENT_TYPE.TEXT) {
+                  const updatedElement = {
+                    ...el,
+                    textEffect: textEffect || undefined,
+                  };
+                  this.elementKeyMap[elementId] = updatedElement;
+                  return updatedElement;
+                }
+                return el;
+              }),
+            }
+          : timeline
+      ) || [];
+
+    const { version } = this.setTimeline(updatedTimelines);
+    this.config?.onSelectionChange?.(this.elementKeyMap[elementId]);
+    return {
+      timelineId,
+      elementId,
+      element: this.elementKeyMap[elementId],
+      version,
+    };
+  }
   // Animation Management
   setElementAnimation(options: AnimationOptions): {
     timelineId: string;

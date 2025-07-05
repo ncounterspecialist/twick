@@ -126,7 +126,7 @@ button:disabled {
 .controls-button {
   display: flex;
   width: 80px;
-  min-height: 80px;
+  min-height: 60px;
   word-wrap: break-word;
   flex-direction: column;
   text-align: center;

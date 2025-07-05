@@ -256,6 +256,11 @@ export const useTimeline = ({
           timelineService.setElementAnimation(timelineOperation?.data);
         }
         break;
+      case TIMELINE_OPERATION.SET_TEXT_EFFECT:
+        {
+          timelineService.setTextEffect(timelineOperation?.data);
+        }
+        break;
       case TIMELINE_OPERATION.SPLIT_ELEMENT:
         {
           const { element: elementToSplit, currentTime } =

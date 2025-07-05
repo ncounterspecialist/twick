@@ -11,7 +11,6 @@ import { TextEffectParams } from "../helpers/types";
  * - Animates removing one character at a time from the end.
  *
  * @param elementRef - Reference to the text element to animate.
- * @param interval - Time between removing each character. If not provided, calculated from duration.
  * @param duration - Total duration of the erasing animation.
  * @param delay - Optional delay before starting.
  * @param bufferTime - Time reserved at the end of animation (default: 0.1).
@@ -24,7 +23,6 @@ export const EraseEffect = {
    */
   *run({
     elementRef,
-    interval,
     duration,
     delay,
     bufferTime = 0.1,
@@ -46,7 +44,7 @@ export const EraseEffect = {
     }
 
     // Compute the time interval between each character removal
-    let timeInterval = interval ?? (duration - bufferTime) / fullText.length;
+    let timeInterval = (duration - bufferTime) / fullText.length;
 
     // Optionally wait a bit before starting erasing
     yield* waitFor(timeInterval);

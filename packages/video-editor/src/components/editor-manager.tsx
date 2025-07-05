@@ -8,6 +8,7 @@ import {
   getCurrentElements,
   TIMELINE_ACTION,
   TIMELINE_OPERATION,
+  timelineService,
   useTimelineContext,
 } from "@twick/timeline";
 import { useEffect, useRef, useState } from "react";
@@ -119,7 +120,7 @@ export const EditorManager = ({
     if (twickCanvas && playerState === PLAYER_STATE.PAUSED) {
       const elements = getCurrentElements(
         seekTime,
-        projectData?.input?.timeline ?? []
+        timelineService.getTimelineData()?.timeline ?? []
       );
       setCanvasElements({
         elements,
@@ -128,7 +129,7 @@ export const EditorManager = ({
         cleanAndAdd: true,
       });
     }
-  }, [playerState, seekTime, twickCanvas, projectData]);
+  }, [playerState, seekTime, twickCanvas, latestProjectVersion]);
 
   const handleTimeUpdate = (time: number) => {
     if (time >= durationRef.current) {

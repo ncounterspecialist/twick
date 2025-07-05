@@ -18,6 +18,12 @@ export type MediaItem = {
     metadata?: Record<string, any>;
   }
 
+  export type TextEffect = {
+    name: string;
+    delay?: number;
+    bufferTime?: number;
+    getSample: (textEffect?: TextEffect) => string;
+  }
   export type Animation = {
     name: string;
     interval?: number;

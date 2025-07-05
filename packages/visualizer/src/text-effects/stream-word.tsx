@@ -11,7 +11,6 @@ import { TextEffectParams } from "../helpers/types";
  * - Reveals one word at a time with a consistent interval.
  *
  * @param elementRef - Reference to the text element to animate.
- * @param interval - Time between adding each word. If not provided, calculated from duration.
  * @param duration - Total duration of the animation.
  * @param delay - Optional delay before starting.
  * @param bufferTime - Time reserved at the end of animation (default: 0.1).
@@ -24,7 +23,6 @@ export const StreamWordEffect = {
    */
   *run({
     elementRef,
-    interval,
     duration,
     delay,
     bufferTime = 0.1,
@@ -51,8 +49,7 @@ export const StreamWordEffect = {
     elementRef().textAlign("left");
 
     // Calculate the interval between words
-    let timeInterval =
-      interval ?? (duration - bufferTime) / words.length;
+    let timeInterval =(duration - bufferTime) / words.length;
 
     // Reveal each word one at a time
     for (let i = 0; i < words.length; i++) {

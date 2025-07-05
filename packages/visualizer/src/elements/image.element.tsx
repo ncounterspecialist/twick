@@ -8,6 +8,7 @@ import { applyColorFilter } from "../helpers/filters";
 export const ImageElement = {
   name: "image",
   *create({ containerRef, element, view }: ElementParams) {
+    yield* waitFor(element?.s);
     logger(`Adding image element ${element.id}`);
     const frameContainerRef = createRef<any>();
     const frameElementRef = createRef<any>();

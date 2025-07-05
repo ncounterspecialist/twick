@@ -5,7 +5,8 @@ import { MediaItem, PaginationOptions, SearchOptions, Animation } from "./helper
 import BaseMediaManager from "./helpers/media-manager/base-media-manager";
 import { animationGifs, getAnimationGif } from "./assets";
 import { ANIMATIONS } from "./helpers/animation-manager";
+import { TEXT_EFFECTS } from "./helpers/text-effects-manager";
 export type { MediaItem, PaginationOptions, SearchOptions, Animation };
-export { ANIMATIONS };
+export { ANIMATIONS, TEXT_EFFECTS };
 export { usePlayerControl, BrowserMediaManager, BaseMediaManager, animationGifs, getAnimationGif };
 export default VideoEditor;

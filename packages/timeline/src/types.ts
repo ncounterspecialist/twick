@@ -38,6 +38,20 @@ export interface AnimationOptions {
   elementId: string;
   animation: Animation | null;
 }
+
+export interface TextEffectOptions {
+  timelineId: string;
+  elementId: string;
+  textEffect: TextEffect | null;
+}
+
+export type TextEffect = {
+  name: string;
+  duration?: number;
+  delay?: number;
+  bufferTime?: number;
+}
+
 export type FrameEffect = {
     s: number;
     e: number;
@@ -74,6 +88,7 @@ export type TimelineElement = {
     backgroundColor?: string; 
     frameEffects?: FrameEffect[];
     animation?: Animation;
+    textEffect?: TextEffect;
     props?: {
         playbackRate?: number;
         capStyle?: string;
