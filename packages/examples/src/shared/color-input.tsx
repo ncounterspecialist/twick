@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 const ColorInputDialog = ({ onColorSelect, onCancel }: { onColorSelect: (color: string) => void; onCancel: () => void }) => {
-  const [selectedColor, setSelectedColor] = useState('#ff0000');
+  const [selectedColor, setSelectedColor] = useState('#ffffff');
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">

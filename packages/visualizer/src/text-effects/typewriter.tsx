@@ -11,7 +11,6 @@ import { TextEffectParams } from "../helpers/types";
  * - Reveals one character at a time at a consistent interval.
  *
  * @param elementRef - Reference to the text element to animate.
- * @param interval - Time between adding each character. If not provided, calculated from duration.
  * @param duration - Total duration of the animation.
  * @param delay - Optional delay before starting.
  * @param bufferTime - Time reserved at the end of animation (default: 0.1).
@@ -24,7 +23,6 @@ export const TypewriterEffect = {
    */
   *run({
     elementRef,
-    interval,
     duration,
     delay,
     bufferTime = 0.1,
@@ -47,9 +45,7 @@ export const TypewriterEffect = {
       yield* waitFor(delay);
     }
 
-    // Compute the interval between each character
-    let timeInterval =
-      interval ?? (duration - bufferTime) / fullText.length;
+    let timeInterval =(duration - bufferTime) / fullText.length;
 
     // Wait briefly before starting typing
     yield* waitFor(timeInterval);

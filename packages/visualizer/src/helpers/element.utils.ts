@@ -102,6 +102,7 @@ export function* addTextEffect({
     if (effect) {
       yield* effect.run({
         elementRef,
+        duration: element.e - element.s,
         ...element.textEffect,
       });
     }

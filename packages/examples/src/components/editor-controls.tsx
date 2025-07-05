@@ -11,11 +11,12 @@ import { usePlayerControl, type MediaItem } from "@twick/video-editor";
 import { MediaPanel } from "./media-panel";
 import ColorInputDialog from "../shared/color-input";
 import AnimationPanel from "./animation-panel";
+import TextEffectPanel from "./text-effect-panel";
 
 const EditorControls = () => {
   const { playerState } = useLivePlayerContext();
   const [panelType, setPanelType] = useState<
-    "media" | "text" | "timeline" | "animation" | null
+    "media" | "text" | "timeline" | "animation" | "text-effect" | null
   >(null);
   const { setTimelineOperation, selectedItem } = useTimelineContext();
   const [showColorDialog, setShowColorDialog] = useState(false);
@@ -176,6 +177,8 @@ const EditorControls = () => {
           Rect
         </div>
 
+        <div className="controls-button" onClick={() => setPanelType("text-effect")}>Text Effect</div>
+
         <div className="controls-button" onClick={() => setPanelType("animation")}>Animation</div>
 
         <div className="controls-button" onClick={() => addTimeline()}>Timeline</div>
@@ -186,6 +189,7 @@ const EditorControls = () => {
       </div>
       {panelType === "media" && <MediaPanel onSelect={addMedia} />}
       {panelType === "animation" && <AnimationPanel />}
+      {panelType === "text-effect" && <TextEffectPanel />}
       {showColorDialog && <ColorInputDialog onColorSelect={addRectElement} onCancel={() => setShowColorDialog(false)} />}
     </div>
   );
