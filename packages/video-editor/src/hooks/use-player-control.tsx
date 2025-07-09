@@ -1,29 +1,38 @@
 import { PLAYER_STATE, useLivePlayerContext } from "@twick/live-player";
-import { TIMELINE_ACTION, TIMELINE_OPERATION, useTimelineContext } from "@twick/timeline";
-import { useEffect } from "react";
+import {
+  TIMELINE_ACTION,
+  timelineService,
+  useTimelineContext,
+} from "@twick/timeline";
+import { useEffect, useRef } from "react";
 
 export const usePlayerControl = () => {
-    const { playerState, setPlayerState } = useLivePlayerContext();
-    const { timelineAction, setTimelineOperation } = useTimelineContext();
+  const { playerState, setPlayerState } = useLivePlayerContext();
+  const { timelineAction,setTimelineAction } = useTimelineContext();
 
-    const togglePlaying = () => {
-        if (playerState === PLAYER_STATE.PLAYING) {
-            setPlayerState(PLAYER_STATE.PAUSED);
-        } else if(playerState === PLAYER_STATE.PAUSED) {
-            setPlayerState(PLAYER_STATE.REFRESHING);
-            setTimelineOperation(TIMELINE_OPERATION.FETCH_LATEST_PROJECT_DATA, null);
-        } 
+  const playerStateRef = useRef<PLAYER_STATE>(playerState);
+
+  const togglePlaying = () => {
+    if (playerState === PLAYER_STATE.PLAYING) {
+      playerStateRef.current = PLAYER_STATE.PAUSED;
+      setPlayerState(PLAYER_STATE.PAUSED);
+    } else if (playerState === PLAYER_STATE.PAUSED) {
+      playerStateRef.current = PLAYER_STATE.REFRESHING;
+      setPlayerState(PLAYER_STATE.REFRESHING);
+      setTimelineAction(TIMELINE_ACTION.UPDATE_PLAYER_DATA, timelineService.getTimelineData());
     }
+  };
 
-    useEffect(() => {
-        if(playerState === PLAYER_STATE.REFRESHING) {
-          if (timelineAction.action === TIMELINE_ACTION.UPDATE_PROJECT_DATA) {
-            setPlayerState(PLAYER_STATE.PLAYING);
-          }
-        }
-      }, [timelineAction, playerState]);
-
-      return {
-        togglePlaying,
+  useEffect(() => {
+    if (timelineAction.action === TIMELINE_ACTION.ON_PLAYER_UPDATED) {
+      if(playerStateRef.current === PLAYER_STATE.REFRESHING) {
+        playerStateRef.current = PLAYER_STATE.PLAYING;
+        setPlayerState(PLAYER_STATE.PLAYING);
       }
-}
+    }
+  }, [timelineAction]);
+
+  return {
+    togglePlaying,
+  };
+};

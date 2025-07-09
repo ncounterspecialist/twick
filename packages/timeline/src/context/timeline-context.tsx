@@ -55,7 +55,7 @@ export const TimelineProvider = ({ children, initialData }: TimelineProviderProp
   // Initialize timeline data if provided
   useEffect(() => {
     if (initialData) {
-      setTimelineAction(TIMELINE_ACTION.UPDATE_PROJECT_DATA, initialData);
+      setTimelineAction(TIMELINE_ACTION.UPDATE_PLAYER_DATA, initialData);
     }
   }, [initialData]);
 

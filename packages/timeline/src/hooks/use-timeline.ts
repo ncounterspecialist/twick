@@ -103,10 +103,6 @@ export const useTimeline = ({
       case TIMELINE_OPERATION.SET_TIMELINE:
         {
           timelineService.setTimeline(timelineOperation?.data?.timeline, timelineOperation?.data?.version);
-          setTimelineAction(
-            TIMELINE_ACTION.UPDATE_PROJECT_DATA,
-            latestTimelineData.current
-          );
         }
         break;
       case TIMELINE_OPERATION.ADD_NEW_TIMELINE:
@@ -114,10 +110,6 @@ export const useTimeline = ({
           pauseVideo();
           const data = timelineService.addNewTimeline(timelineOperation?.data);
           setSelectedItem(data?.timeline);
-          setTimelineAction(
-            TIMELINE_ACTION.UPDATE_PROJECT_DATA,
-            latestTimelineData.current
-          );
         }
         break;
       case TIMELINE_OPERATION.UPDATE_CAPTION_TIMELINE:
@@ -125,10 +117,6 @@ export const useTimeline = ({
           pauseVideo();
           timelineService.updateCaptionTimeline(timelineOperation?.data);
           setSelectedItem(null);
-          setTimelineAction(
-            TIMELINE_ACTION.UPDATE_PROJECT_DATA,
-            latestTimelineData.current
-          );
         }
         break;
       case TIMELINE_OPERATION.DELETE_ITEM:
@@ -140,17 +128,9 @@ export const useTimeline = ({
               timelineOperation?.data?.id
             );
             setSelectedItem(null);
-            setTimelineAction(
-              TIMELINE_ACTION.UPDATE_PROJECT_DATA,
-              latestTimelineData.current
-            );
           } else if ((timelineOperation?.data?.id || "").startsWith("t-")) {
             timelineService.deleteTimeline(timelineOperation?.data?.id);
             setSelectedItem(null);
-            setTimelineAction(
-              TIMELINE_ACTION.UPDATE_PROJECT_DATA,
-              latestTimelineData.current
-            );
           }
         }
         break;
@@ -177,10 +157,6 @@ export const useTimeline = ({
                 name: element.name,
               })
               .then((data: any) => {
-                setTimelineAction(
-                  TIMELINE_ACTION.UPDATE_PROJECT_DATA,
-                  latestTimelineData.current
-                );
                 if (data?.element) {
                   setTimeout(() => {
                     setSelectedItem(data?.element);
@@ -193,15 +169,9 @@ export const useTimeline = ({
       case TIMELINE_OPERATION.UPDATE_ELEMENT:
         {
           pauseVideo();
-          const { elementId, timelineId, updates, forceUpdate } =
+          const { elementId, timelineId, updates } =
             timelineOperation?.data;
           timelineService.editElement({ timelineId, elementId, updates, noSelection: false });
-          if (forceUpdate) {
-            setTimelineAction(
-              TIMELINE_ACTION.UPDATE_PROJECT_DATA,
-              latestTimelineData.current
-            );
-          }
         }
         break;
       case TIMELINE_OPERATION.UPDATE_CAPTION_PROPS:
@@ -245,10 +215,6 @@ export const useTimeline = ({
           );
           setTimelineAction(TIMELINE_ACTION.RESET_HISTORY, null);
           timelineService.setTimeline(timeline, 0);
-          setTimelineAction(
-            TIMELINE_ACTION.UPDATE_PROJECT_DATA,
-            latestTimelineData.current
-          );
         }
         break;
       case TIMELINE_OPERATION.SET_ELEMENT_ANIMATION:
@@ -275,10 +241,6 @@ export const useTimeline = ({
           }
         }
         setSelectedItem(null);
-        setTimelineAction(
-          TIMELINE_ACTION.UPDATE_PROJECT_DATA,
-          latestTimelineData.current
-        );
         break;
       case TIMELINE_OPERATION.ADD_SOLO_ELEMENT:
         {
@@ -286,19 +248,7 @@ export const useTimeline = ({
             if (data?.element) {
               setSelectedItem(data?.element);
             }
-            setTimelineAction(
-              TIMELINE_ACTION.UPDATE_PROJECT_DATA,
-              latestTimelineData.current
-            );
           });
-        }
-        break;
-      case TIMELINE_OPERATION.FETCH_LATEST_PROJECT_DATA:
-        {
-          setTimelineAction(
-            TIMELINE_ACTION.UPDATE_PROJECT_DATA,
-            latestTimelineData.current
-          );
         }
         break;
     }
