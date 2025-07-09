@@ -25,6 +25,7 @@ export const EditorManager = ({
   const {
     timelineAction,
     setTimelineOperation,
+    setTimelineAction,
     latestProjectVersion,
     setSelectedItem,
   } = useTimelineContext();
@@ -99,7 +100,7 @@ export const EditorManager = ({
           setProjectData(_latestProjectData);
         }
         break;
-      case TIMELINE_ACTION.UPDATE_PROJECT_DATA:
+      case TIMELINE_ACTION.UPDATE_PLAYER_DATA:
         if (videoProps) {
           if (latestProjectVersion !== projectData?.input?.version) {
             const _latestProjectData = {
@@ -110,8 +111,9 @@ export const EditorManager = ({
               },
             };
             setProjectData(_latestProjectData);
-          }
+          } 
         }
+        setTimelineAction(TIMELINE_ACTION.ON_PLAYER_UPDATED, null);
         break;
     }
   }, [timelineAction]);
