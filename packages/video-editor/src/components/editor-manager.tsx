@@ -87,14 +87,14 @@ export const EditorManager = ({
   }, [videoProps]);
 
   useEffect(() => {
-    switch (timelineAction.action) {
+    switch (timelineAction.type) {
       case TIMELINE_ACTION.SET_PROJECT_DATA:
         if (videoProps) {
           const _latestProjectData = {
             input: {
               properties: videoProps,
-              timeline: timelineAction.data?.timeline ?? [],
-              version: timelineAction.data?.version ?? 0,
+              timeline: timelineAction.payload?.timeline ?? [],
+              version: timelineAction.payload?.version ?? 0,
             },
           };
           setProjectData(_latestProjectData);
@@ -106,8 +106,8 @@ export const EditorManager = ({
             const _latestProjectData = {
               input: {
                 properties: videoProps,
-                timeline: timelineAction.data?.timeline ?? [],
-                version: timelineAction.data?.version ?? 0,
+                timeline: timelineAction.payload?.timeline ?? [],
+                version: timelineAction.payload?.version ?? 0,
               },
             };
             setProjectData(_latestProjectData);
