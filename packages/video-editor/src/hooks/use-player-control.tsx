@@ -24,7 +24,7 @@ export const usePlayerControl = () => {
   };
 
   useEffect(() => {
-    if (timelineAction.action === TIMELINE_ACTION.ON_PLAYER_UPDATED) {
+    if (timelineAction.type === TIMELINE_ACTION.ON_PLAYER_UPDATED) {
       if(playerStateRef.current === PLAYER_STATE.REFRESHING) {
         playerStateRef.current = PLAYER_STATE.PLAYING;
         setPlayerState(PLAYER_STATE.PLAYING);

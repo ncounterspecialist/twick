@@ -6,17 +6,17 @@ type TimelineContextType = {
   selectedItem: TimelineElement | Timeline | null;
   latestProjectVersion: number;
   timelineAction: {
-    action: string;
-    data: any;
+    type: string;
+    payload: any;
   };
   timelineOperation: {
-    operation: string;
-    data: any;
+    type: string;
+    payload: any;
   };
   setLatestProjectVersion: (version: number) => void;
   setSelectedItem: (item: TimelineElement | Timeline | null) => void;
-  setTimelineAction: (action: string, data: any) => void;
-  setTimelineOperation: (action: string, data: any) => void;
+  setTimelineAction: (type: string, payload: any) => void;
+  setTimelineOperation: (type: string, payload: any) => void;
 };
 
 const TimelineContext = createContext<TimelineContextType | undefined>(undefined);
@@ -30,26 +30,26 @@ export interface TimelineProviderProps {
 }
 
 export const TimelineProvider = ({ children, initialData }: TimelineProviderProps) => {
-  const [timelineAction, setTimelineActionState] = useState<{ action: string; data: any }>({
-    action: TIMELINE_ACTION.NONE,
-    data: null,
+  const [timelineAction, setTimelineActionState] = useState<{ type: string; payload: any }>({
+    type: TIMELINE_ACTION.NONE,
+    payload: null,
   });
 
-  const [timelineOperation, setTimelineOperationState] = useState<{ operation: string; data: any }>({
-    operation: TIMELINE_OPERATION.NONE,
-    data: null,
+  const [timelineOperation, setTimelineOperationState] = useState<{ type: string; payload: any }>({
+    type: TIMELINE_OPERATION.NONE,
+    payload: null,
   });
 
   const [selectedItem, setSelectedItem] = useState<TimelineElement | Timeline | null>(null);
 
   const [latestProjectVersion, setLatestProjectVersion] = useState(0);
 
-  const setTimelineAction = (action: string, data: any) => {
-    setTimelineActionState({ action, data });
+  const setTimelineAction = (type: string, payload: any) => {
+    setTimelineActionState({ type, payload });
   };
 
-  const setTimelineOperation = (operation: string, data: any) => {
-    setTimelineOperationState({ operation, data });
+  const setTimelineOperation = (type: string, payload: any) => {
+    setTimelineOperationState({ type, payload });
   };
 
   // Initialize timeline data if provided

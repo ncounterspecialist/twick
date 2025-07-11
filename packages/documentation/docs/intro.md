@@ -4,19 +4,6 @@ sidebar_position: 1
 
 # Introduction
 
-Welcome to the Twick documentation! This documentation site provides comprehensive guides and API references for all Twick packages.
-
-## What is Twick?
-
-Twick is a collection of TypeScript packages designed to help developers build modern web applications. Our packages are:
-
-- **Type-safe**: Built with TypeScript for better developer experience  
-- **Modular**: Each package focuses on a specific functionality  
-- **Well-documented**: Comprehensive documentation and examples  
-- **Maintained**: Regular updates and bug fixes  
-
-## Twick SDK for Video Editing
-
 Twick includes a powerful React-based video editing SDK that makes it easy to add video editing capabilities to any frontend app.
 
 The goal is to offer **high-level editing functions** that can be triggered with simple function calls — ideal for building powerful media experiences without reinventing the wheel.

@@ -87,12 +87,12 @@ export const useTimeline = ({
   }, [selectedItem]);
 
   useEffect(() => {
-    switch (timelineOperation?.operation) {
+    switch (timelineOperation?.type) {
       case TIMELINE_OPERATION.LOAD_PROJECT:
         {
           timelineService.setTimeline(
-            timelineOperation?.data?.timeline || [],
-            timelineOperation?.data?.version || 0
+            timelineOperation?.payload?.timeline || [],
+            timelineOperation?.payload?.version || 0
           );
           setTimelineAction(
             TIMELINE_ACTION.SET_PROJECT_DATA,
@@ -102,34 +102,34 @@ export const useTimeline = ({
         break;
       case TIMELINE_OPERATION.SET_TIMELINE:
         {
-          timelineService.setTimeline(timelineOperation?.data?.timeline, timelineOperation?.data?.version);
+          timelineService.setTimeline(timelineOperation?.payload?.timeline, timelineOperation?.payload?.version);
         }
         break;
       case TIMELINE_OPERATION.ADD_NEW_TIMELINE:
         {
           pauseVideo();
-          const data = timelineService.addNewTimeline(timelineOperation?.data);
+          const data = timelineService.addNewTimeline(timelineOperation?.payload);
           setSelectedItem(data?.timeline);
         }
         break;
       case TIMELINE_OPERATION.UPDATE_CAPTION_TIMELINE:
         {
           pauseVideo();
-          timelineService.updateCaptionTimeline(timelineOperation?.data);
+          timelineService.updateCaptionTimeline(timelineOperation?.payload);
           setSelectedItem(null);
         }
         break;
       case TIMELINE_OPERATION.DELETE_ITEM:
         {
           pauseVideo();
-          if ((timelineOperation?.data?.id || "").startsWith("e-")) {
+          if ((timelineOperation?.payload?.id || "").startsWith("e-")) {
             timelineService.deleteElement(
-              timelineOperation?.data?.timelineId,
-              timelineOperation?.data?.id
+              timelineOperation?.payload?.timelineId,
+              timelineOperation?.payload?.id
             );
             setSelectedItem(null);
-          } else if ((timelineOperation?.data?.id || "").startsWith("t-")) {
-            timelineService.deleteTimeline(timelineOperation?.data?.id);
+          } else if ((timelineOperation?.payload?.id || "").startsWith("t-")) {
+            timelineService.deleteTimeline(timelineOperation?.payload?.id);
             setSelectedItem(null);
           }
         }
@@ -137,7 +137,7 @@ export const useTimeline = ({
       case TIMELINE_OPERATION.ADD_ELEMENT:
         {
           pauseVideo();
-          const { element, timelineId } = timelineOperation?.data;
+          const { element, timelineId } = timelineOperation?.payload;
           if (timelineId) {
             const selectedTimeline = timelineData?.timeline?.find(
               (timeline) => timeline.id === timelineId
@@ -170,7 +170,7 @@ export const useTimeline = ({
         {
           pauseVideo();
           const { elementId, timelineId, updates } =
-            timelineOperation?.data;
+            timelineOperation?.payload;
           timelineService.editElement({ timelineId, elementId, updates, noSelection: false });
         }
         break;
@@ -178,7 +178,7 @@ export const useTimeline = ({
         {
           pauseVideo();
           const { elementId, timelineId, updates } =
-            timelineOperation?.data || {};
+            timelineOperation?.payload || {};
           const { element, updatedCaptionProps } =
             timelineService.editCaptionProps({
               timelineId,
@@ -201,7 +201,7 @@ export const useTimeline = ({
         break;
       case TIMELINE_OPERATION.SET_PROJECT_SCRIPT:
         {
-          const timeline = timelineOperation.data?.input?.timeline;
+          const timeline = timelineOperation?.payload?.input?.timeline;
           elementKeyMap.current = {};
           timelinePropsMap.current = timeline.reduce(
             (acc: Record<string, any>, timeline: Timeline) => {
@@ -219,18 +219,18 @@ export const useTimeline = ({
         break;
       case TIMELINE_OPERATION.SET_ELEMENT_ANIMATION:
         {
-          timelineService.setElementAnimation(timelineOperation?.data);
+          timelineService.setElementAnimation(timelineOperation?.payload);
         }
         break;
       case TIMELINE_OPERATION.SET_TEXT_EFFECT:
         {
-          timelineService.setTextEffect(timelineOperation?.data);
+          timelineService.setTextEffect(timelineOperation?.payload);
         }
         break;
       case TIMELINE_OPERATION.SPLIT_ELEMENT:
         {
           const { element: elementToSplit, currentTime } =
-            timelineOperation?.data;
+            timelineOperation?.payload;
           if (elementToSplit?.id.startsWith("e-")) {
             pauseVideo();
             timelineService.splitElement(
@@ -244,7 +244,7 @@ export const useTimeline = ({
         break;
       case TIMELINE_OPERATION.ADD_SOLO_ELEMENT:
         {
-          timelineService.addSoloElement(timelineOperation?.data).then((data: any) => {
+          timelineService.addSoloElement(timelineOperation?.payload).then((data: any) => {
             if (data?.element) {
               setSelectedItem(data?.element);
             }
