@@ -122,14 +122,15 @@ export const useTimeline = ({
       case TIMELINE_OPERATION.DELETE_ITEM:
         {
           pauseVideo();
-          if ((timelineOperation?.payload?.id || "").startsWith("e-")) {
+          const { timelineId, id } = timelineOperation?.payload;
+          if ((id || "").startsWith("e-")) {
             timelineService.deleteElement(
-              timelineOperation?.payload?.timelineId,
-              timelineOperation?.payload?.id
+              timelineId,
+              id
             );
             setSelectedItem(null);
-          } else if ((timelineOperation?.payload?.id || "").startsWith("t-")) {
-            timelineService.deleteTimeline(timelineOperation?.payload?.id);
+          } else if ((id || "").startsWith("t-")) {
+            timelineService.deleteTimeline(id);
             setSelectedItem(null);
           }
         }
