@@ -130,9 +130,15 @@ importers:
       '@twick/video-editor':
         specifier: workspace:^0.0.1
         version: link:../video-editor
+      '@types/dompurify':
+        specifier: ^3.2.0
+        version: 3.2.0
       '@types/react-router-dom':
         specifier: ^5.3.3
         version: 5.3.3
+      dompurify:
+        specifier: ^3.2.6
+        version: 3.2.6
       lucide-react:
         specifier: ^0.511.0
         version: 0.511.0(react@18.3.1)
@@ -5336,6 +5342,13 @@ packages:
     dependencies:
       '@types/ms': 2.1.0
 
+  /@types/dompurify@3.2.0:
+    resolution: {integrity: sha512-Fgg31wv9QbLDA0SpTOXO3MaxySc4DKGLi8sna4/Utjo4r3ZRPdCt4UQee8BWr+Q5z21yifghREPJGYaEOEIACg==}
+    deprecated: This is a stub types definition. dompurify provides its own type definitions, so you do not need this installed.
+    dependencies:
+      dompurify: 3.2.6
+    dev: false
+
   /@types/eslint-scope@3.7.7:
     resolution: {integrity: sha512-MzMFlSLBqNF2gcHWO0G1vP/YQyfvrxZ0bF+u7mzUdZ1/xK4A4sru+nraZz5i3iEIk1l1uyicaDVTB4QbbEkAYg==}
     dependencies:
@@ -5561,6 +5574,12 @@ packages:
     dependencies:
       '@types/node': 20.17.52
     dev: false
+
+  /@types/trusted-types@2.0.7:
+    resolution: {integrity: sha512-ScaPdn1dQczgbl0QFTeTOmVHFULt394XJgOQNoyVhZ6r2vLnMLJfBPd53SB52T/3G36VI1/g2MZaX0cwDuXsfw==}
+    requiresBuild: true
+    dev: false
+    optional: true
 
   /@types/unist@2.0.11:
     resolution: {integrity: sha512-CmBKiL6NNo/OqgmMn95Fk9Whlp2mtvIv+KNpQKN2F4SjvrEesubTRWGYSg+BnWZOnlCaSTU1sMpsBOzgbYhnsA==}
@@ -7647,6 +7666,12 @@ packages:
     engines: {node: '>= 4'}
     dependencies:
       domelementtype: 2.3.0
+    dev: false
+
+  /dompurify@3.2.6:
+    resolution: {integrity: sha512-/2GogDQlohXPZe6D6NOgQvXLPSYBqIWMnZ8zzOhn09REE4eyAzb+Hed3jhoM9OkuaJ8P6ZGTTVWQKAi8ieIzfQ==}
+    optionalDependencies:
+      '@types/trusted-types': 2.0.7
     dev: false
 
   /domutils@2.8.0:
