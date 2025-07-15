@@ -12,10 +12,8 @@ export interface AddElementOptions {
   timelineId: string;
   type: string;
   props: ImageProps | VideoProps | AudioProps | TextProps | any;
-  timing: {
-    s: number;
-    e?: number;
-  };
+  s: number;
+  e?: number;
   name?: string;
 }
 
@@ -230,10 +228,8 @@ export interface AddElementOptions {
   timelineId: string;
   type: string;
   props: ImageProps | VideoProps | AudioProps | TextProps | any;
-  timing: {
-    s: number;
-    e?: number;
-  };
+  s: number;
+  e?: number;
   name?: string;
 }
 
