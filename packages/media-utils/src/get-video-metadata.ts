@@ -17,6 +17,12 @@ export const getVideoMeta = (videoSrc: string): Promise<VideoMeta> => {
   return new Promise<VideoMeta>((resolve, reject) => {
     const video: HTMLVideoElement = document.createElement("video");
     video.preload = "metadata"; // Only preload metadata to reduce bandwidth
+    // Validate the videoSrc to ensure it's a safe URL before assigning it to video.src
+    const isSafeUrl = /^(https?:|blob:|data:video\/)/i.test(videoSrc);
+    if (!isSafeUrl) {
+      reject(new Error("Unsafe video source URL"));
+      return;
+    }
     video.src = videoSrc;
 
     // When metadata is loaded, extract and cache it

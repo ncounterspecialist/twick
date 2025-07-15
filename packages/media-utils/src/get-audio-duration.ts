@@ -16,6 +16,11 @@ export const getAudioDuration = (audioSrc: string): Promise<number> => {
   return new Promise((resolve, reject) => {
     const audio = document.createElement("audio");
     audio.preload = "metadata"; // Only load metadata (e.g., duration)
+    // Sanitize the audioSrc to prevent XSS by only allowing safe URLs (http, https, blob, data)
+    const isSafeUrl = /^(https?:|blob:|data:audio\/)/i.test(audioSrc);
+    if (!isSafeUrl) {
+      throw new Error("Unsafe audio source URL");
+    }
     audio.src = audioSrc;
 
     // When metadata is loaded, store duration in cache and resolve
