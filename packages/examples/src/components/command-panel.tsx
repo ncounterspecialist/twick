@@ -15,78 +15,6 @@ export const OPERATIONS = {
   UPDATE_ELEMENT: TIMELINE_OPERATION.UPDATE_ELEMENT,
 };
 
-// Safe JSON parsing with DOMPurify for XSS protection
-const safeJsonParse = (jsonString: string): { success: boolean; data?: any; error?: string } => {
-  try {
-    // Sanitize the input string using DOMPurify
-    const sanitizedInput = DOMPurify.sanitize(jsonString, {
-      ALLOWED_TAGS: [], // No HTML tags allowed
-      ALLOWED_ATTR: [], // No attributes allowed
-      KEEP_CONTENT: true, // Keep text content but strip HTML
-    });
-    
-    const parsed = JSON.parse(sanitizedInput);
-    
-    // Ensure the parsed data is a plain object (not arrays, primitives, or null)
-    if (parsed === null || typeof parsed !== 'object' || Array.isArray(parsed)) {
-      return { 
-        success: false, 
-        error: "Invalid data structure. Expected a plain object." 
-      };
-    }
-    
-    // Check for potentially dangerous properties that could lead to prototype pollution
-    const dangerousProps = ['__proto__', 'constructor', 'prototype', 'toString', 'valueOf'];
-    for (const prop of dangerousProps) {
-      if (prop in parsed) {
-        return { 
-          success: false, 
-          error: `Dangerous property '${prop}' is not allowed.` 
-        };
-      }
-    }
-    
-    // Deep sanitize the object using DOMPurify
-    const sanitizeObject = (obj: any): any => {
-      if (typeof obj !== 'object' || obj === null) {
-        return obj;
-      }
-      
-      const sanitized: any = {};
-      for (const [key, value] of Object.entries(obj)) {
-        // Skip dangerous property names
-        if (dangerousProps.includes(key)) {
-          continue;
-        }
-        
-        // Sanitize string values using DOMPurify
-        if (typeof value === 'string') {
-          const sanitizedValue = DOMPurify.sanitize(value, {
-            ALLOWED_TAGS: [], // No HTML tags allowed
-            ALLOWED_ATTR: [], // No attributes allowed
-            KEEP_CONTENT: true, // Keep text content but strip HTML
-          });
-          sanitized[key] = sanitizedValue;
-        } else if (typeof value === 'object' && value !== null) {
-          // Recursively sanitize nested objects
-          sanitized[key] = sanitizeObject(value);
-        } else {
-          sanitized[key] = value;
-        }
-      }
-      return sanitized;
-    };
-    
-    const sanitizedData = sanitizeObject(parsed);
-    
-    return { success: true, data: sanitizedData };
-  } catch (error) {
-    return { 
-      success: false, 
-      error: error instanceof Error ? error.message : "Invalid JSON format" 
-    };
-  }
-};
 
 const CommandPanel: React.FC = () => {
   const { selectedItem, setTimelineOperation } = useTimelineContext();
@@ -155,7 +83,7 @@ const CommandPanel: React.FC = () => {
   };
 
   const handleExecuteCommand = () => {
-    setTimelineOperation(selectedCommand, JSON.parse(jsonInput));
+    setTimelineOperation(selectedCommand, JSON.parse(DOMPurify.sanitize(jsonInput)));
     setJsonInput(JSON.stringify({}, null, 2));
     setSelectedCommand(OPERATIONS.NONE);
   };
