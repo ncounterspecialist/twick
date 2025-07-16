@@ -69,4 +69,4 @@ export const getCurrentElements = (
     }
   }
   return currentElements;
-};
+}; 

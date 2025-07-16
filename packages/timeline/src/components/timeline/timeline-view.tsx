@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Timeline, TimelineElement } from "../types";
-import Track from "./track";
-import TrackHeader from "./track-header";
+import { Timeline, TimelineElement } from "../../types";
+import Track from "../tracks/track";
+import TrackHeader from "../tracks/track-header";
 
-import "../styles/timeline.css";
-import TimelineZoom from "./timeline-zoom";
+import "../../styles/timeline.css";
+import TimelineZoom from "../controls/timeline-zoom";
 
 function TimelineView({
   timelineControls,

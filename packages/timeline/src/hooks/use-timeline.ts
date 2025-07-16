@@ -5,14 +5,14 @@ import {
   TimelineData,
   TimelineElement,
 } from "../types";
-import {
-  PLAYER_STATE,
-  TIMELINE_ACTION,
-} from "../helpers/constants";
+import { PLAYER_STATE, TIMELINE_ACTION } from "../utils/constants";
 
 import { useTimelineContext } from "../context/timeline-context";
-import timelineService from "../services/timeline-service";
-import { executeTimelineOperation, TimelineOperationContext } from "./timeline-operations";
+import timelineService from "../services/timeline/timeline.service";
+import {
+  executeTimelineOperation,
+  TimelineOperationContext,
+} from "./timeline-operations";
 
 export const useTimeline = ({
   selectedItem,
@@ -32,6 +32,7 @@ export const useTimeline = ({
     timelineOperation,
     setTimelineAction,
     setSelectedItem,
+    setTimelineOperationResult,
     setLatestProjectVersion,
   } = useTimelineContext();
   const [duration, setDuration] = useState(0);
@@ -51,6 +52,7 @@ export const useTimeline = ({
     applyPropsToAllSubtitle,
     setSelectedItem,
     setTimelineAction,
+    setTimelineOperationResult,
     setLatestProjectVersion,
     pauseVideo,
   });
@@ -62,6 +64,7 @@ export const useTimeline = ({
     applyPropsToAllSubtitle,
     setSelectedItem,
     setTimelineAction,
+    setTimelineOperationResult,
     setLatestProjectVersion,
     pauseVideo,
   };
@@ -73,11 +76,11 @@ export const useTimeline = ({
         setTimelineData(timelineData);
         setLatestProjectVersion(timelineData.version);
         latestTimelineData.current = timelineData;
-        setTimelineAction(TIMELINE_ACTION.SET_PRESENT, timelineData);    
+        setTimelineAction(TIMELINE_ACTION.SET_PRESENT, timelineData);
       },
       onSelectionChange: (item: TimelineElement | Timeline | null) => {
         setSelectedItem(item);
-      }
+      },
     });
   }, [videoSize]);
 
@@ -114,7 +117,7 @@ export const useTimeline = ({
 
   return {
     timelineData,
-    duration
+    duration,
   };
 };
 

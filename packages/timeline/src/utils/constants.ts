@@ -126,4 +126,4 @@ export const PROCESS_STATE = {
   PROCESSING: "Processing",
   COMPLETED: "Completed",
   FAILED: "Failed",
-};
+}; 

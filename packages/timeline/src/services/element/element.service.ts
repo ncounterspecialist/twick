@@ -7,20 +7,17 @@ import {
   TextProps,
   AddElementOptions,
   EditElementOptions,
-} from "../types";
-import {
-  TIMELINE_ELEMENT_TYPE,
-} from "../helpers/constants";
-import { generateShortUuid } from "../helpers/timeline.utils";
+} from "../../types";
+import { TIMELINE_ELEMENT_TYPE } from "../../utils/constants";
+import { generateShortUuid } from "../../utils/timeline.utils";
 import {
   createAudioElement,
   createImageElement,
   createTextElement,
   createVideoElement,
-} from "../helpers/element.utils";
-import { TimelineDataService } from "./timeline-data.service";
-import { ServiceResult, ServiceResultHelper } from "../types/service-results";
-import { ValidationHelper } from "../helpers/validation";
+} from "../../utils/element.utils";
+import { TimelineDataService } from "../timeline/timeline-data.service";
+import { ValidationHelper } from "../../utils/validation";
 
 /**
  * Internal service for managing timeline elements
@@ -29,7 +26,9 @@ import { ValidationHelper } from "../helpers/validation";
 export class ElementService {
   constructor(
     private dataService: TimelineDataService,
-    private getConfig: () => { videoSize: { width: number; height: number } } | null
+    private getConfig: () => {
+      videoSize: { width: number; height: number };
+    } | null
   ) {}
 
   async addElement(options: AddElementOptions): Promise<{
@@ -37,21 +36,16 @@ export class ElementService {
     element: TimelineElement;
     version: number;
   }> {
-    try {
-      // Validate input
-      ValidationHelper.validateAddElementOptions(options);
-    } catch (error) {
-      console.warn('Invalid add element options:', error);
-      throw error;
-    }
-    
+    // Validate input
+    ValidationHelper.validateAddElementOptions(options);
+
     // Check if timeline exists
     const timeline = this.dataService.getTimeline(options.timelineId);
     if (!timeline) {
       throw new Error(`Timeline with ID "${options.timelineId}" not found`);
     }
 
-    const { timelineId, type, props, s , e, name } = options;
+    const { timelineId, type, props, s, e, name } = options;
     const config = this.getConfig();
     const videoSize = config?.videoSize || { width: 1920, height: 1080 };
 
@@ -128,19 +122,6 @@ export class ElementService {
     return this.dataService.addElementToTimeline(timelineId, newElement);
   }
 
-  async addElementSafe(options: AddElementOptions): Promise<ServiceResult<{
-    timelineId: string;
-    element: TimelineElement;
-    version: number;
-  }>> {
-    try {
-      const result = await this.addElement(options);
-      return ServiceResultHelper.success(result);
-    } catch (error) {
-      return ServiceResultHelper.fromError(error as Error);
-    }
-  }
-
   editElement(options: EditElementOptions): {
     timelineId: string;
     elementId: string;
@@ -158,7 +139,11 @@ export class ElementService {
     return this.dataService.removeElementFromTimeline(timelineId, elementId);
   }
 
-  splitElement(timelineId: string, elementId: string, splitTime: number): { version: number } | undefined {
+  splitElement(
+    timelineId: string,
+    elementId: string,
+    splitTime: number
+  ): { version: number } | undefined {
     const element = this.dataService.getElement(elementId);
     if (!element || element.s > splitTime || element.e < splitTime) {
       return;
@@ -221,7 +206,7 @@ export class ElementService {
     this.dataService.removeElementFromTimeline(timelineId, elementId);
     this.dataService.addElementToTimeline(timelineId, split1);
     const result = this.dataService.addElementToTimeline(timelineId, split2);
-    
+
     return { version: result.version };
   }
 
@@ -257,7 +242,7 @@ export class ElementService {
           timelineId: elementTimelineId,
           type: soloElement.type,
           props: soloElement.props,
-          s: soloElement.s, 
+          s: soloElement.s,
           e: soloElement.e,
           name: soloElement.name,
         });
@@ -285,4 +270,4 @@ export class ElementService {
   getElement(elementId: string): TimelineElement | undefined {
     return this.dataService.getElement(elementId);
   }
-} 
+}

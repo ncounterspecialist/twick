@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../pages/example-demo.css";
 import {
   TIMELINE_OPERATION,
@@ -17,14 +17,17 @@ export const OPERATIONS = {
 
 
 const CommandPanel: React.FC = () => {
-  const { selectedItem, setTimelineOperation } = useTimelineContext();
+  const { selectedItem, setTimelineOperation, timelineOperationResult } = useTimelineContext();
   const [selectedCommand, setSelectedCommand] = useState<string>(
     OPERATIONS.ADD_NEW_TIMELINE
   );
   const [jsonInput, setJsonInput] = useState(JSON.stringify({}, null, 2));
 
+  const [errorMessage, setErrorMessage] = useState<string>("");
+
   const handleCommandChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const command = e.target.value as keyof typeof TIMELINE_OPERATION;
+    setErrorMessage('');
     setSelectedCommand(command);
     switch (command) {
       case OPERATIONS.ADD_NEW_TIMELINE:
@@ -66,7 +69,11 @@ const CommandPanel: React.FC = () => {
                 ? {
                     elementId: selectedItem.id,
                     timelineId: (selectedItem as TimelineElement).timelineId,
-                    updates: {},
+                    updates: {
+                      ...selectedItem,
+                      id: undefined,
+                      timelineId: undefined,
+                    },
                   }
                 : {}),
             },
@@ -83,10 +90,23 @@ const CommandPanel: React.FC = () => {
   };
 
   const handleExecuteCommand = () => {
+    setErrorMessage('');
     setTimelineOperation(selectedCommand, JSON.parse(DOMPurify.sanitize(jsonInput)));
-    setJsonInput(JSON.stringify({}, null, 2));
-    setSelectedCommand(OPERATIONS.NONE);
   };
+
+  useEffect(() => {
+    if (timelineOperationResult) {
+      if(timelineOperationResult?.operation === selectedCommand) {
+        if(timelineOperationResult.success) {
+          setJsonInput(JSON.stringify({}, null, 2));
+          setSelectedCommand(OPERATIONS.NONE);
+        } else {
+          setErrorMessage(timelineOperationResult.error);
+        }
+      }
+      console.log(timelineOperationResult);
+    }
+  }, [timelineOperationResult]);
 
   return (
     <div className="command-panel">
@@ -111,6 +131,7 @@ const CommandPanel: React.FC = () => {
         className="command-textarea"
       />
       <button onClick={handleExecuteCommand}>Execute</button>
+      {errorMessage && <p className="error-message">{errorMessage}</p>}
     </div>
   );
 };

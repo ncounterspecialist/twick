@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import TrackElement from "./track-element";
-import { TimelineElement } from "../types";
-import "../styles/timeline.css";
+import { TimelineElement } from "../../types";
+import "../../styles/timeline.css";
 
 interface TrackProps {
   duration: number;

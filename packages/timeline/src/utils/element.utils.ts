@@ -160,4 +160,4 @@ export const createTextElement = async ({
       textWrap: props.textWrap ?? false,
     },
   };
-};
+}; 

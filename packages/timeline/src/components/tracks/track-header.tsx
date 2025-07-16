@@ -1,7 +1,7 @@
 import React from "react";
-import { Timeline } from "../types";
+import { Timeline } from "../../types";
 import { GripVertical, Lock } from "lucide-react";
-import "../styles/timeline.css";
+import "../../styles/timeline.css";
 
 interface TrackHeaderProps {
   timeline: Timeline;
