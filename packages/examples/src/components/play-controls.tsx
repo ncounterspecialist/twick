@@ -20,15 +20,15 @@ const iconProps = {
 
 const PlayControls: React.FC<PlayControlsProps> = ({}) => {
   const { playerState } = useLivePlayerContext();
-  const { togglePlaying } = usePlayerControl();
+  const { togglePlayback } = usePlayerControl();
   let icon, onClick, ariaLabel;
   if (playerState === PLAYER_STATE.PLAYING) {
     icon = <Pause {...iconProps} />;
-    onClick = togglePlaying;
+    onClick = togglePlayback;
     ariaLabel = "Pause";
   } else if (playerState === PLAYER_STATE.PAUSED) {
     icon = <Play {...iconProps} />;
-    onClick = togglePlaying;
+    onClick = togglePlayback;
     ariaLabel = "Play";
   } else {
     icon = <RefreshCw {...iconProps} />;

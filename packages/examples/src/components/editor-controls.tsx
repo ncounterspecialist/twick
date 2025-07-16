@@ -21,7 +21,7 @@ const EditorControls = () => {
   const { setTimelineOperation, selectedItem } = useTimelineContext();
   const [showColorDialog, setShowColorDialog] = useState(false);
   const [playButtonText, setPlayButtonText] = useState("Play");
-  const { togglePlaying } = usePlayerControl();
+  const { togglePlayback } = usePlayerControl();
 
   const addTextElement = (text: string) => {
     const timelineId = getSelectedTimelineId();
@@ -184,7 +184,7 @@ const EditorControls = () => {
         <div className="controls-button" onClick={() => addTimeline()}>Timeline</div>
 
         <div className="flex flex-col-reverse h-full">
-          <div className="controls-button" onClick={togglePlaying}>{playButtonText}</div>
+          <div className="controls-button" onClick={togglePlayback}>{playButtonText}</div>
         </div>
       </div>
       {panelType === "media" && <MediaPanel onSelect={addMedia} />}

@@ -1,4 +1,6 @@
 import VideoEditor from "./components/video-editor";
+import PlayerControls from "./components/controls/player-controls";
+import TimelineManager from "./components/timeline/timeline-manager";
 import { usePlayerControl } from "./hooks/use-player-control";
 import BrowserMediaManager from "./helpers/media-manager/browser-media-manager";
 import { MediaItem, PaginationOptions, SearchOptions, Animation } from "./helpers/types";
@@ -8,5 +10,5 @@ import { ANIMATIONS } from "./helpers/animation-manager";
 import { TEXT_EFFECTS } from "./helpers/text-effects-manager";
 export type { MediaItem, PaginationOptions, SearchOptions, Animation };
 export { ANIMATIONS, TEXT_EFFECTS };
-export { usePlayerControl, BrowserMediaManager, BaseMediaManager, animationGifs, getAnimationGif };
+export { usePlayerControl, BrowserMediaManager, BaseMediaManager, animationGifs, getAnimationGif, PlayerControls, TimelineManager };
 export default VideoEditor;

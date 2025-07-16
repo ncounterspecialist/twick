@@ -42,7 +42,6 @@ const TrackHeader = ({
         <div className="twick-track-header-grip">
           <GripVertical size={14} />
         </div>
-        <div className="twick-track-header-name">{timeline.name}</div>
       </div>
     </div>
   );
