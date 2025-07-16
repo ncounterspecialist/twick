@@ -1,7 +1,14 @@
-import { TimelineElement, Timeline, TimelineData, CaptionProps } from "../types";
+import {
+  TimelineElement,
+  Timeline,
+  TimelineData,
+  CaptionProps,
+} from "../types";
 import { TIMELINE_ACTION, TIMELINE_OPERATION } from "../utils/constants";
 import timelineService from "../services/timeline/timeline.service";
 import { getDecimalNumber } from "../utils/timeline.utils";
+import { ServiceResult, ServiceErrorCode, serviceResultError, serviceResultSuccess } from "../types/result.types";
+import { TimelineServiceError } from "../utils/timeline-service-error";
 
 /**
  * Type for timeline operation context
@@ -10,6 +17,7 @@ export interface TimelineOperationContext {
   timelineData: TimelineData | null;
   captionProps: CaptionProps;
   applyPropsToAllSubtitle: boolean;
+  setTimelineOperationResult: (result: ServiceResult<any> | null) => void;
   setSelectedItem: (item: TimelineElement | Timeline | null) => void;
   setTimelineAction: (action: string, payload?: any) => void;
   setLatestProjectVersion: (version: number) => void;
@@ -20,7 +28,19 @@ export interface TimelineOperationContext {
  * Base interface for operation handlers
  */
 export interface TimelineOperationHandler {
-  execute(payload: any, context: TimelineOperationContext): void | Promise<void>;
+  execute(
+    payload: any,
+    context: TimelineOperationContext
+  ): void | Promise<void>;
+}
+
+/**
+ * None operation handler (no-op)
+ */
+export class NoneHandler implements TimelineOperationHandler {
+  execute(payload: any, context: TimelineOperationContext): void {
+    // do nothing
+  }
 }
 
 /**
@@ -28,10 +48,7 @@ export interface TimelineOperationHandler {
  */
 export class LoadProjectHandler implements TimelineOperationHandler {
   execute(payload: any, context: TimelineOperationContext): void {
-    timelineService.setTimeline(
-      payload?.timeline || [],
-      payload?.version || 0
-    );
+    timelineService.setTimeline(payload?.timeline || [], payload?.version || 0);
     context.setTimelineAction(
       TIMELINE_ACTION.SET_PROJECT_DATA,
       timelineService.getTimelineData()
@@ -77,7 +94,7 @@ export class DeleteItemHandler implements TimelineOperationHandler {
   execute(payload: any, context: TimelineOperationContext): void {
     context.pauseVideo();
     const { timelineId, id } = payload;
-    
+
     if ((id || "").startsWith("e-")) {
       timelineService.deleteElement(timelineId, id);
       context.setSelectedItem(null);
@@ -92,10 +109,13 @@ export class DeleteItemHandler implements TimelineOperationHandler {
  * Add element operation handler
  */
 export class AddElementHandler implements TimelineOperationHandler {
-  async execute(payload: any, context: TimelineOperationContext): Promise<void> {
+  async execute(
+    payload: any,
+    context: TimelineOperationContext
+  ): Promise<void> {
     context.pauseVideo();
     const { element, timelineId } = payload;
-    
+
     if (timelineId) {
       const selectedTimeline = context.timelineData?.timeline?.find(
         (timeline) => timeline.id === timelineId
@@ -104,24 +124,20 @@ export class AddElementHandler implements TimelineOperationHandler {
       if (selectedTimeline && selectedTimeline.elements.length) {
         s = selectedTimeline.elements[selectedTimeline.elements.length - 1].e;
       }
-      
-      try {
-        const data = await timelineService.addElement({
-          timelineId,
-          type: element.type,
-          props: element.props,
-          s, 
-          e: element.e,
-          name: element.name
+
+      const data = await timelineService.addElement({
+        timelineId,
+        type: element.type,
+        props: element.props,
+        s,
+        e: element.e,
+        name: element.name,
       });
-        
-        if (data?.element) {
-          setTimeout(() => {
-            context.setSelectedItem(data.element);
-          }, 1000);
-        }
-      } catch (error) {
-        console.error('Failed to add element:', error);
+
+      if (data?.element) {
+        setTimeout(() => {
+          context.setSelectedItem(data.element);
+        }, 1000);
       }
     }
   }
@@ -134,7 +150,12 @@ export class UpdateElementHandler implements TimelineOperationHandler {
   execute(payload: any, context: TimelineOperationContext): void {
     context.pauseVideo();
     const { elementId, timelineId, updates } = payload;
-    timelineService.editElement({ timelineId, elementId, updates, noSelection: false });
+    timelineService.editElement({
+      timelineId,
+      elementId,
+      updates,
+      noSelection: false,
+    });
   }
 }
 
@@ -152,7 +173,7 @@ export class UpdateCaptionPropsHandler implements TimelineOperationHandler {
       captionProps: context.captionProps,
       applyPropsToAllSubtitle: context.applyPropsToAllSubtitle,
     });
-    
+
     if (element) {
       context.setSelectedItem(element);
     }
@@ -162,7 +183,6 @@ export class UpdateCaptionPropsHandler implements TimelineOperationHandler {
         updatedCaptionProps
       );
     }
-    context.setTimelineAction(TIMELINE_ACTION.NONE, null);
   }
 }
 
@@ -217,14 +237,13 @@ export class SplitElementHandler implements TimelineOperationHandler {
  * Add solo element operation handler
  */
 export class AddSoloElementHandler implements TimelineOperationHandler {
-  async execute(payload: any, context: TimelineOperationContext): Promise<void> {
-    try {
-      const data = await timelineService.addSoloElement(payload);
-      if (data?.element) {
-        context.setSelectedItem(data.element);
-      }
-    } catch (error) {
-      console.error('Failed to add solo element:', error);
+  async execute(
+    payload: any,
+    context: TimelineOperationContext
+  ): Promise<void> {
+    const data = await timelineService.addSoloElement(payload);
+    if (data?.element) {
+      context.setSelectedItem(data.element);
     }
   }
 }
@@ -233,10 +252,12 @@ export class AddSoloElementHandler implements TimelineOperationHandler {
  * Operation handler registry
  */
 export const OperationHandlers: Record<string, TimelineOperationHandler> = {
+  [TIMELINE_OPERATION.NONE]: new NoneHandler(),
   [TIMELINE_OPERATION.LOAD_PROJECT]: new LoadProjectHandler(),
   [TIMELINE_OPERATION.SET_TIMELINE]: new SetTimelineHandler(),
   [TIMELINE_OPERATION.ADD_NEW_TIMELINE]: new AddNewTimelineHandler(),
-  [TIMELINE_OPERATION.UPDATE_CAPTION_TIMELINE]: new UpdateCaptionTimelineHandler(),
+  [TIMELINE_OPERATION.UPDATE_CAPTION_TIMELINE]:
+    new UpdateCaptionTimelineHandler(),
   [TIMELINE_OPERATION.DELETE_ITEM]: new DeleteItemHandler(),
   [TIMELINE_OPERATION.ADD_ELEMENT]: new AddElementHandler(),
   [TIMELINE_OPERATION.UPDATE_ELEMENT]: new UpdateElementHandler(),
@@ -260,15 +281,45 @@ export async function executeTimelineOperation(
   }
 
   const handler = OperationHandlers[operation.type];
-  if (!handler) {
-    console.warn(`Unknown timeline operation: ${operation.type}`);
-    return;
-  }
-
   try {
-    await handler.execute(operation.payload, context);
+    if (!handler) {
+      console.warn(`Unknown timeline operation: ${operation.type}`);
+      context.setTimelineOperationResult(
+        serviceResultError({
+          error: `Unknown timeline operation: ${operation.type}`,   
+          code: ServiceErrorCode.OPERATION_NOT_FOUND,
+          operation: operation.type,
+          details: { type: operation.type }
+        })
+      );
+      return;
+    }
+    const result = await handler.execute(operation.payload, context);
+      context.setTimelineOperationResult(
+        serviceResultSuccess({
+          data: result,
+          operation: operation.type
+        })
+      );
   } catch (error) {
-    console.error(`Error executing timeline operation ${operation.type}:`, error);
-    // Could add user notification here
+    if (error instanceof TimelineServiceError) {
+      context.setTimelineOperationResult(
+        serviceResultError({
+          error: error.message,
+          code: error.code,
+          operation: operation.type,
+          details: error.details
+        })
+      );
+    } else {
+      context.setTimelineOperationResult(
+        serviceResultError({
+          error: (error as Error).message || "Unknown error",
+          code: ServiceErrorCode.OPERATION_FAILED,
+          operation: operation.type,
+          details: { type: operation.type }
+        })
+      );
+    }
   }
-} 
+}

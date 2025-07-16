@@ -5,7 +5,6 @@ import {
   TimelineServiceConfig,
 } from "../../types";
 import { getTotalDuration } from "../../utils/timeline.utils";
-import { ServiceResult, ServiceResultHelper, ServiceErrorCode } from "../../utils/service-results";
 import { ValidationHelper } from "../../utils/validation";
 
 /**
@@ -29,35 +28,10 @@ export class TimelineDataService {
   }
 
   getTimeline(timelineId: string): Timeline | undefined {
-    try {
-      ValidationHelper.validateTimelineId(timelineId);
-    } catch (error) {
-      console.warn('Invalid timeline ID:', timelineId, error);
-      return undefined;
-    }
-    
+    ValidationHelper.validateTimelineId(timelineId);  
     return this.timelineData?.timeline.find(
       (t: Timeline) => t.id === timelineId
     );
-  }
-
-  getTimelineSafe(timelineId: string): ServiceResult<Timeline> {
-    try {
-      ValidationHelper.validateTimelineId(timelineId);
-      const timeline = this.getTimeline(timelineId);
-      
-      if (!timeline) {
-        return ServiceResultHelper.error(
-          `Timeline with ID "${timelineId}" not found`,
-          ServiceErrorCode.TIMELINE_NOT_FOUND,
-          { timelineId }
-        );
-      }
-      
-      return ServiceResultHelper.success(timeline);
-    } catch (error) {
-      return ServiceResultHelper.fromError(error as Error);
-    }
   }
 
   getAllTimelines(): Timeline[] {

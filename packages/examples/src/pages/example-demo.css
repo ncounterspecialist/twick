@@ -6,6 +6,11 @@
   min-width: 120px;
 }
 
+.error-message {
+  color: red;
+  font-size: 12px;
+  margin-top: 8px;
+}
 /* Command Panel Styles */
 .command-panel {
   padding: 20px;

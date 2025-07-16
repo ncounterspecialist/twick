@@ -21,7 +21,7 @@ export * from './components/timeline/timeline-view';
 export * from './hooks/use-timeline';
 export * from './hooks/timeline-operations';
 export * from './types';
-export * from './utils/service-results';
+export * from './utils/timeline-service-error';
 export * from './utils/element.utils';
 
 // Import CSS

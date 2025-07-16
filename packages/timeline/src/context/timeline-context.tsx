@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { TIMELINE_ACTION, TIMELINE_OPERATION } from "../utils/constants";
 import { Timeline, TimelineElement } from "../types";
+import { ServiceResult } from "../types/result.types";
 
 type TimelineContextType = {
   selectedItem: TimelineElement | Timeline | null;
@@ -13,12 +14,12 @@ type TimelineContextType = {
     type: string;
     payload: any;
   };
-  operationError: any,
+  timelineOperationResult: ServiceResult<any> | null,
   setLatestProjectVersion: (version: number) => void;
   setSelectedItem: (item: TimelineElement | Timeline | null) => void;
   setTimelineAction: (type: string, payload: any) => void;
   setTimelineOperation: (type: string, payload: any) => void;
-  setOperationError: (error: any) => void;
+  setTimelineOperationResult: (result: ServiceResult<any> | null) => void;
 };
 
 const TimelineContext = createContext<TimelineContextType | undefined>(undefined);
@@ -42,7 +43,7 @@ export const TimelineProvider = ({ children, initialData }: TimelineProviderProp
     payload: null,
   });
 
-  const [operationError, setOperationError] = useState<any>(null);
+  const [timelineOperationResult, setTimelineOperationResult] = useState<ServiceResult<any> | null>(null);
 
   const [selectedItem, setSelectedItem] = useState<TimelineElement | Timeline | null>(null);
 
@@ -70,8 +71,8 @@ export const TimelineProvider = ({ children, initialData }: TimelineProviderProp
         timelineAction,
         timelineOperation,
         latestProjectVersion,
-        operationError,
-        setOperationError,
+        timelineOperationResult,
+        setTimelineOperationResult,
         setLatestProjectVersion,
         setTimelineAction,
         setTimelineOperation,
