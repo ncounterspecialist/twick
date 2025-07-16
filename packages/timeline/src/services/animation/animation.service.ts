@@ -2,11 +2,10 @@ import {
   TimelineElement,
   AnimationOptions,
   TextEffectOptions,
-} from "../types";
-import {
-  TIMELINE_ELEMENT_TYPE,
-} from "../helpers/constants";
-import { TimelineDataService } from "./timeline-data.service";
+} from "../../types";
+import { TIMELINE_ELEMENT_TYPE } from "../../utils/constants";
+
+import { TimelineDataService } from "../timeline/timeline-data.service";
 
 /**
  * Internal service for managing animations and text effects

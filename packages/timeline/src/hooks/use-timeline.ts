@@ -8,10 +8,10 @@ import {
 import {
   PLAYER_STATE,
   TIMELINE_ACTION,
-} from "../helpers/constants";
+} from "../utils/constants";
 
 import { useTimelineContext } from "../context/timeline-context";
-import timelineService from "../services/timeline-service";
+import timelineService from "../services/timeline/timeline.service";
 import { executeTimelineOperation, TimelineOperationContext } from "./timeline-operations";
 
 export const useTimeline = ({

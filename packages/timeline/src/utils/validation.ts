@@ -1,5 +1,5 @@
 import { Timeline, TimelineElement, AddElementOptions } from "../types";
-import { TimelineServiceError, ServiceErrorCode } from "../types/service-results";
+import { TimelineServiceError, ServiceErrorCode } from "./service-results";
 
 /**
  * Validation helpers for timeline operations

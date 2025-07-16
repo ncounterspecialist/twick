@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect, useCallback } from "react";
 import { useDrag } from "@use-gesture/react";
-import "../styles/timeline.css";
+import "../../styles/timeline.css";
 
 interface SeekTrackProps {
   currentTime: number;

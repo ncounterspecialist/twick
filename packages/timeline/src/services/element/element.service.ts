@@ -7,20 +7,20 @@ import {
   TextProps,
   AddElementOptions,
   EditElementOptions,
-} from "../types";
+} from "../../types";
 import {
   TIMELINE_ELEMENT_TYPE,
-} from "../helpers/constants";
-import { generateShortUuid } from "../helpers/timeline.utils";
+} from "../../utils/constants";
+import { generateShortUuid } from "../../utils/timeline.utils";
 import {
   createAudioElement,
   createImageElement,
   createTextElement,
   createVideoElement,
-} from "../helpers/element.utils";
-import { TimelineDataService } from "./timeline-data.service";
-import { ServiceResult, ServiceResultHelper } from "../types/service-results";
-import { ValidationHelper } from "../helpers/validation";
+} from "../../utils/element.utils";
+import { TimelineDataService } from "../timeline/timeline-data.service";
+import { ServiceResult, ServiceResultHelper } from "../../utils/service-results";
+import { ValidationHelper } from "../../utils/validation";
 
 /**
  * Internal service for managing timeline elements

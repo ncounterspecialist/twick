@@ -2,10 +2,10 @@ import { useState, useEffect, useRef, useMemo } from "react";
 
 import { useDrag } from "@use-gesture/react";
 import { motion, HTMLMotionProps } from "framer-motion";
-import { TimelineElement, FrameEffect } from "../types";
-import { DRAG_TYPE, MIN_DURATION } from "../helpers/constants";
-import { getDecimalNumber, ELEMENT_COLORS } from "../helpers/timeline.utils";
-import "../styles/timeline.css";
+import { TimelineElement, FrameEffect } from "../../types";
+import { DRAG_TYPE, MIN_DURATION } from "../../utils/constants";
+import { getDecimalNumber, ELEMENT_COLORS } from "../../utils/timeline.utils";
+import "../../styles/timeline.css";
 
 export const TrackElement: React.FC<{
   element: TimelineElement;

@@ -3,10 +3,10 @@ import {
   TimelineElement,
   TimelineData,
   TimelineServiceConfig,
-} from "../types";
-import { getTotalDuration } from "../helpers/timeline.utils";
-import { ServiceResult, ServiceResultHelper, ServiceErrorCode } from "../types/service-results";
-import { ValidationHelper } from "../helpers/validation";
+} from "../../types";
+import { getTotalDuration } from "../../utils/timeline.utils";
+import { ServiceResult, ServiceResultHelper, ServiceErrorCode } from "../../utils/service-results";
+import { ValidationHelper } from "../../utils/validation";
 
 /**
  * Internal service for managing timeline data state

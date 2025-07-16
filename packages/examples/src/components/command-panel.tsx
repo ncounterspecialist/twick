@@ -66,7 +66,11 @@ const CommandPanel: React.FC = () => {
                 ? {
                     elementId: selectedItem.id,
                     timelineId: (selectedItem as TimelineElement).timelineId,
-                    updates: {},
+                    updates: {
+                      ...selectedItem,
+                      id: undefined,
+                      timelineId: undefined,
+                    },
                   }
                 : {}),
             },

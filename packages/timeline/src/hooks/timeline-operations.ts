@@ -1,7 +1,7 @@
 import { TimelineElement, Timeline, TimelineData, CaptionProps } from "../types";
-import { TIMELINE_ACTION, TIMELINE_OPERATION } from "../helpers/constants";
-import timelineService from "../services/timeline-service";
-import { getDecimalNumber } from "../helpers/timeline.utils";
+import { TIMELINE_ACTION, TIMELINE_OPERATION } from "../utils/constants";
+import timelineService from "../services/timeline/timeline.service";
+import { getDecimalNumber } from "../utils/timeline.utils";
 
 /**
  * Type for timeline operation context

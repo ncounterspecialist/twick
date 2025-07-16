@@ -2,9 +2,9 @@ import {
   Timeline,
   TimelineElement,
   CaptionProps,
-} from "../types";
-import { generateShortUuid } from "../helpers/timeline.utils";
-import { TimelineDataService } from "./timeline-data.service";
+} from "../../types";
+import { generateShortUuid } from "../../utils/timeline.utils";
+import { TimelineDataService } from "../timeline/timeline-data.service";
 
 /**
  * Internal service for managing captions

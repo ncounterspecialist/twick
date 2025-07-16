@@ -1,28 +1,28 @@
 import useTimeline from "./hooks/use-timeline";
 import { Timeline, TimelineData, TimelineElement } from "./types";
-import SeekTrack from "./components/seek-track";
-import Track from "./components/track";
-import TrackHeader from "./components/track-header";
-import TimelineZoom from "./components/timeline-zoom";
-import TimelineView from "./components/timeline-view";
-import { TIMELINE_ELEMENT_TYPE } from "./helpers/constants";
+import SeekTrack from "./components/controls/seek-track";
+import Track from "./components/tracks/track";
+import TrackHeader from "./components/tracks/track-header";
+import TimelineZoom from "./components/controls/timeline-zoom";
+import TimelineView from "./components/timeline/timeline-view";
+import { TIMELINE_ELEMENT_TYPE } from "./utils/constants";
 import { TimelineProvider, TimelineProviderProps } from "./context/timeline-context";
-import timelineService from "./services/timeline-service";
+import timelineService from "./services/timeline/timeline.service";
 
 export { useTimeline, SeekTrack, Track, TrackHeader, TimelineView, TimelineProvider, TimelineZoom, timelineService };
 export type { Timeline, TimelineData, TimelineElement as TimelineElement, TimelineProviderProps };
 export { TIMELINE_ELEMENT_TYPE };
 
-export * from "./helpers/constants";
-export * from "./helpers/timeline.utils";
-export * from "./helpers/validation";
+export * from "./utils/constants";
+export * from "./utils/timeline.utils";
+export * from "./utils/validation";
 export * from './context/timeline-context';
-export * from './components/timeline-view';
+export * from './components/timeline/timeline-view';
 export * from './hooks/use-timeline';
 export * from './hooks/timeline-operations';
 export * from './types';
-export * from './types/service-results';
-export * from './helpers/element.utils';
+export * from './utils/service-results';
+export * from './utils/element.utils';
 
 // Import CSS
 import './styles/timeline.css';
