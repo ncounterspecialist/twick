@@ -10,15 +10,18 @@ import { TimelineProvider, TimelineProviderProps } from "./context/timeline-cont
 import timelineService from "./services/timeline-service";
 
 export { useTimeline, SeekTrack, Track, TrackHeader, TimelineView, TimelineProvider, TimelineZoom, timelineService };
-export type { Timeline, TimelineData, TimelineElement, TimelineProviderProps };
+export type { Timeline, TimelineData, TimelineElement as TimelineElement, TimelineProviderProps };
 export { TIMELINE_ELEMENT_TYPE };
 
 export * from "./helpers/constants";
 export * from "./helpers/timeline.utils";
+export * from "./helpers/validation";
 export * from './context/timeline-context';
 export * from './components/timeline-view';
 export * from './hooks/use-timeline';
+export * from './hooks/timeline-operations';
 export * from './types';
+export * from './types/service-results';
 export * from './helpers/element.utils';
 
 // Import CSS
