@@ -4,12 +4,9 @@ import Track from "../tracks/track";
 import TrackHeader from "../tracks/track-header";
 
 import "../../styles/timeline.css";
-import TimelineZoom from "../controls/timeline-zoom";
 
 function TimelineView({
-  timelineControls,
   zoomLevel,
-  setZoomLevel,
   selectedItem,
   duration,
   timeline,
@@ -21,7 +18,6 @@ function TimelineView({
 }: {
   timelineControls?: React.ReactNode;
   zoomLevel: number;
-  setZoomLevel: (zoom: number) => void;
   duration: number;
   timeline: Timeline[];
   selectedItem: TimelineElement | Timeline | null;
@@ -162,8 +158,6 @@ function TimelineView({
         {seekTrack ? (
           <div style={{ display: "flex", position: "relative" }}>
             <div className="twick-seek-track-empty-space">
-              <TimelineZoom zoomLevel={zoomLevel} setZoomLevel={setZoomLevel} />
-              {timelineControls}
             </div>
             <div style={{ flexGrow: 1 }}>{seekTrack}</div>
           </div>

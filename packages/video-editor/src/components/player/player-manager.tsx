@@ -12,9 +12,9 @@ import {
   useTimelineContext,
 } from "@twick/timeline";
 import { useEffect, useRef, useState } from "react";
-import "../styles/video-editor.css";
+import "../../styles/video-editor.css";
 
-export const EditorManager = ({
+export const PlayerManager = ({
   videoProps,
   canvasMode,
 }: {

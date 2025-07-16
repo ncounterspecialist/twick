@@ -8,11 +8,11 @@ import { useEffect, useRef } from "react";
 
 export const usePlayerControl = () => {
   const { playerState, setPlayerState } = useLivePlayerContext();
-  const { timelineAction,setTimelineAction } = useTimelineContext();
+  const { timelineAction, setTimelineAction } = useTimelineContext();
 
   const playerStateRef = useRef<PLAYER_STATE>(playerState);
 
-  const togglePlaying = () => {
+  const togglePlayback = () => {
     if (playerState === PLAYER_STATE.PLAYING) {
       playerStateRef.current = PLAYER_STATE.PAUSED;
       setPlayerState(PLAYER_STATE.PAUSED);
@@ -33,6 +33,6 @@ export const usePlayerControl = () => {
   }, [timelineAction]);
 
   return {
-    togglePlaying,
+    togglePlayback,
   };
 };

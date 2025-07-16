@@ -1,0 +1,189 @@
+.player-controls {
+  background: #474747;
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  user-select: none;
+  max-height: 200px;
+}
+
+.player-controls-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  height: 40px;
+}
+
+/* Edit Controls (Left Section) */
+.edit-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Playback Controls (Center Section) */
+.playback-controls {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex: 1;
+  justify-content: space-around;
+}
+
+/* Time Display (Right Section) */
+.time-display {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+  font-size: 14px;
+  color: #fff;
+  min-width: 80px;
+  justify-content: flex-end;
+}
+
+.current-time {
+  color: #fff;
+  font-weight: 500;
+}
+
+.time-separator {
+  color: #666;
+  margin: 0 2px;
+}
+
+.total-time {
+  color: #999;
+}
+
+/* Control Buttons */
+.control-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: #2a2a2a;
+  border: 1px solid #444;
+  border-radius: 6px;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+  min-height: 36px;
+}
+
+.control-btn:hover {
+  background: #3a3a3a;
+  border-color: #555;
+}
+
+.control-btn:active {
+  transform: translateY(1px);
+  background: #1a1a1a;
+}
+
+.control-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.control-btn svg {
+  flex-shrink: 0;
+}
+
+/* Specific Button Styles */
+.play-pause-btn {
+  background: #0066cc;
+  border-color: #0066cc;
+  padding: 8px;
+  min-width: 44px;
+  justify-content: center;
+}
+
+.play-pause-btn:hover {
+  background: #0077dd;
+  border-color: #0077dd;
+}
+
+.delete-btn {
+  color: #ff4444;
+  border-color: #ff444440;
+}
+
+.delete-btn:hover {
+  background: #ff444420;
+  border-color: #ff4444;
+}
+
+.split-btn svg {
+  color: #ffa500;
+}
+
+.clone-btn svg {
+  color: #00cc66;
+}
+
+.prev-btn,
+.next-btn {
+  padding: 8px;
+  min-width: 36px;
+  justify-content: center;
+}
+
+/* Timeline Controls */
+.timeline-controls {
+  position: relative;
+  background: #2a2a2a;
+  border-radius: 6px;
+  padding: 8px;
+  border: 1px solid #444;
+}
+
+
+.twick-track-zoom-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  background-color: #171717;
+  border: 4px;
+  padding: 0 4px;
+}
+
+.twick-zoom-slider {
+  position: relative;
+  width: 100%;
+  height: 2px;
+  cursor: pointer;
+  background-color: #ffffff55;
+  border-radius: 50%;
+}
+
+.twick-zoom-slider-track {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background-color: #4949d5;
+  border-radius: 50%;
+  transition: all 0.2s ease-in-out;
+}
+
+.twick-zoom-slider-thumb {
+  position: absolute;
+  top: 50%;
+  width: 16px;
+  height: 16px;
+  background-color: #ffffff;
+  border: 2px solid #4949d5;
+  border-radius: 50%;
+  cursor: grab;
+  transform: translate(-50%, -50%);
+  transition: all 0.2s ease-in-out;
+} 

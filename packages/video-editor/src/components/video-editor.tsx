@@ -1,12 +1,12 @@
-import { EditorManager } from "./editor-manager";
-import TimelineManager from "./timeline-manager";
+import { PlayerManager } from "./player/player-manager";
+import TimelineManager from "./timeline/timeline-manager";
 import "../styles/video-editor.css";
-import React from "react";
+import React, { useState } from "react";
+import ControlManager from "./controls/control-manager";
 
 interface VideoEditorProps {
   leftPanel?: React.ReactNode;
   rightPanel?: React.ReactNode;
-  timelineControls?: React.ReactNode;
   editorConfig: {
     videoProps: {
       width: number;
@@ -19,20 +19,28 @@ interface VideoEditorProps {
 const VideoEditor: React.FC<VideoEditorProps> = ({
   leftPanel,
   rightPanel,
-  timelineControls,
   editorConfig,
 }) => {
+  const [trackZoom, setTrackZoom] = useState(1);
   return (
     <div className="twick-editor-main-container">
       <div className="twick-editor-view-section">
         {leftPanel ? leftPanel : null}
-        <EditorManager videoProps={editorConfig.videoProps} canvasMode={editorConfig.canvasMode ?? true} />
+        <PlayerManager
+          videoProps={editorConfig.videoProps}
+          canvasMode={editorConfig.canvasMode ?? true}
+        />
         {rightPanel ? rightPanel : null}
       </div>
       <div className="twick-editor-timeline-section">
+        <ControlManager trackZoom={trackZoom} setTrackZoom={setTrackZoom} />
+
         <TimelineManager
-          timelineControls={timelineControls}
-          videoSize={{ width: editorConfig.videoProps.width, height: editorConfig.videoProps.height }}
+          trackZoom={trackZoom}
+          videoSize={{
+            width: editorConfig.videoProps.width,
+            height: editorConfig.videoProps.height,
+          }}
         />
       </div>
     </div>
