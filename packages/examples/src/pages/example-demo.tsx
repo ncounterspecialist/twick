@@ -4,7 +4,6 @@ import "./example-demo.css";
 import { TimelineProvider } from "@twick/timeline";
 import VideoEditor, { INITIAL_TIMELINE_DATA } from "@twick/video-editor";
 import CommandPanel from "../components/command-panel";
-import PlayControls from "../components/play-controls";
 
 const ExampleDemo = () => {
   return (
