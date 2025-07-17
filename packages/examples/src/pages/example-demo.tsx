@@ -13,11 +13,7 @@ const ExampleDemo = () => {
         initialData={INITIAL_TIMELINE_DATA}
       >
         <VideoEditor
-          leftPanel={
-            <div className="left-panel">
-              <PlayControls />
-            </div>
-          }
+          leftPanel={<div></div>}
           rightPanel={<CommandPanel />}
           editorConfig={{
             canvasMode: true,
