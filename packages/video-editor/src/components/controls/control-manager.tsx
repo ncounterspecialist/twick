@@ -1,8 +1,9 @@
 import { useLivePlayerContext } from "@twick/live-player";
 import PlayerControls from "./player-controls";
-import { TIMELINE_OPERATION, useTimelineContext } from "@twick/timeline";
+import { useTimelineContext } from "@twick/timeline";
 import { usePlayerControl } from "../../hooks/use-player-control";
 import TimelineZoom from "./timeline-zoom";
+import useTimelineControl from "../../hooks/use-timeline-control";
 
 const ControlManager = ({
   trackZoom,
@@ -13,17 +14,8 @@ const ControlManager = ({
 }) => {
   const { totalDuration, currentTime, playerState } = useLivePlayerContext();
   const { togglePlayback } = usePlayerControl();
-  const { selectedItem, setTimelineOperation } = useTimelineContext();
-  const onDelete = () => {
-    if (selectedItem) {
-      setTimelineOperation(TIMELINE_OPERATION.DELETE_ITEM, {
-        id: selectedItem.id,
-      });
-    }
-  };
-  const onSplit = () => {
-    console.log("onSplit");
-  };
+  const { selectedItem } = useTimelineContext();
+  const { deleteItem, splitElement } = useTimelineControl();
 
   return (
     <div className="twick-editor-timeline-controls">
@@ -33,8 +25,8 @@ const ControlManager = ({
         currentTime={currentTime}
         playerState={playerState}
         togglePlayback={togglePlayback}
-        onDelete={onDelete}
-        onSplit={onSplit}
+        onDelete={deleteItem}
+        onSplit={splitElement}
       />
       <TimelineZoom zoomLevel={trackZoom} setZoomLevel={setTrackZoom} />
     </div>

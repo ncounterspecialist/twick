@@ -128,6 +128,12 @@
   color: #00cc66;
 }
 
+.btn-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
 .prev-btn,
 .next-btn {
   padding: 8px;

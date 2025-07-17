@@ -7,6 +7,7 @@ import {
   TextProps,
   AddElementOptions,
   EditElementOptions,
+  ServiceErrorCode,
 } from "../../types";
 import { TIMELINE_ELEMENT_TYPE } from "../../utils/constants";
 import { generateShortUuid } from "../../utils/timeline.utils";
@@ -18,6 +19,7 @@ import {
 } from "../../utils/element.utils";
 import { TimelineDataService } from "../timeline/timeline-data.service";
 import { ValidationHelper } from "../../utils/validation";
+import { TimelineServiceError } from "../../utils/timeline-service-error";
 
 /**
  * Internal service for managing timeline elements
@@ -136,6 +138,7 @@ export class ElementService {
     timelineId: string,
     elementId: string
   ): { timelineId: string; elementId: string; version: number } {
+    ValidationHelper.validateElementId(elementId)
     return this.dataService.removeElementFromTimeline(timelineId, elementId);
   }
 
@@ -145,12 +148,18 @@ export class ElementService {
     splitTime: number
   ): { version: number } | undefined {
     const element = this.dataService.getElement(elementId);
-    if (!element || element.s > splitTime || element.e < splitTime) {
-      return;
+    if(!element) {
+      throw new TimelineServiceError(
+        'Element not found',
+        ServiceErrorCode.ELEMENT_NOT_FOUND,
+        { elementId }
+      );
     }
 
+    ValidationHelper.validateSplitOperation(elementId, splitTime, element);
     let split1: TimelineElement;
     let split2: TimelineElement;
+
 
     switch (element.type) {
       case TIMELINE_ELEMENT_TYPE.CAPTION:

@@ -6,9 +6,15 @@ import {
 } from "../types";
 import { TIMELINE_ACTION, TIMELINE_OPERATION } from "../utils/constants";
 import timelineService from "../services/timeline/timeline.service";
-import { getDecimalNumber } from "../utils/timeline.utils";
-import { ServiceResult, ServiceErrorCode, serviceResultError, serviceResultSuccess } from "../types/result.types";
+import { getDecimalNumber, isTimelineId } from "../utils/timeline.utils";
+import {
+  ServiceResult,
+  ServiceErrorCode,
+  serviceResultError,
+  serviceResultSuccess,
+} from "../types/result.types";
 import { TimelineServiceError } from "../utils/timeline-service-error";
+import { isTimelineElementId } from "../utils/element.utils";
 
 /**
  * Type for timeline operation context
@@ -48,7 +54,8 @@ export class NoneHandler implements TimelineOperationHandler {
  */
 export class LoadProjectHandler implements TimelineOperationHandler {
   execute(payload: any, context: TimelineOperationContext): void {
-    timelineService.setTimeline(payload?.timeline || [], payload?.version || 0);
+    const { timeline, version } = payload;
+    timelineService.setTimeline(timeline || [], version || 0);
     context.setTimelineAction(
       TIMELINE_ACTION.SET_PROJECT_DATA,
       timelineService.getTimelineData()
@@ -62,7 +69,8 @@ export class LoadProjectHandler implements TimelineOperationHandler {
 export class SetTimelineHandler implements TimelineOperationHandler {
   execute(payload: any, context: TimelineOperationContext): void {
     context.pauseVideo();
-    timelineService.setTimeline(payload?.timeline, payload?.version);
+    const { timeline, version } = payload;
+    timelineService.setTimeline(timeline, version);
   }
 }
 
@@ -94,13 +102,13 @@ export class UpdateCaptionTimelineHandler implements TimelineOperationHandler {
 export class DeleteItemHandler implements TimelineOperationHandler {
   execute(payload: any, context: TimelineOperationContext): void {
     context.pauseVideo();
-    const { timelineId, id } = payload;
+    const { timelineId, elementId } = payload;
 
-    if ((id || "").startsWith("e-")) {
-      timelineService.deleteElement(timelineId, id);
+    if (isTimelineElementId(elementId)) {
+      timelineService.deleteElement(timelineId, elementId);
       context.setSelectedItem(null);
-    } else if ((id || "").startsWith("t-")) {
-      timelineService.deleteTimeline(id);
+    } else if (isTimelineId(elementId)) {
+      timelineService.deleteTimeline(elementId);
       context.setSelectedItem(null);
     }
   }
@@ -223,15 +231,13 @@ export class SetTextEffectHandler implements TimelineOperationHandler {
  */
 export class SplitElementHandler implements TimelineOperationHandler {
   execute(payload: any, context: TimelineOperationContext): void {
-    const { element: elementToSplit, currentTime } = payload;
-    if (elementToSplit?.id.startsWith("e-")) {
-      context.pauseVideo();
-      timelineService.splitElement(
-        elementToSplit.timelineId,
-        elementToSplit.id,
-        getDecimalNumber(currentTime)
-      );
-    }
+    const { timelineId, elementId, splitTime } = payload;
+    context.pauseVideo();
+    timelineService.splitElement(
+      timelineId,
+      elementId,
+      getDecimalNumber(splitTime)
+    );
     context.setSelectedItem(null);
   }
 }
@@ -289,21 +295,21 @@ export async function executeTimelineOperation(
       console.warn(`Unknown timeline operation: ${operation.type}`);
       context.setTimelineOperationResult(
         serviceResultError({
-          error: `Unknown timeline operation: ${operation.type}`,   
+          error: `Unknown timeline operation: ${operation.type}`,
           code: ServiceErrorCode.OPERATION_NOT_FOUND,
           operation: operation.type,
-          details: { type: operation.type }
+          details: { type: operation.type },
         })
       );
       return;
     }
     const result = await handler.execute(operation.payload, context);
-      context.setTimelineOperationResult(
-        serviceResultSuccess({
-          data: result,
-          operation: operation.type
-        })
-      );
+    context.setTimelineOperationResult(
+      serviceResultSuccess({
+        data: result,
+        operation: operation.type,
+      })
+    );
   } catch (error) {
     if (error instanceof TimelineServiceError) {
       context.setTimelineOperationResult(
@@ -311,7 +317,7 @@ export async function executeTimelineOperation(
           error: error.message,
           code: error.code,
           operation: operation.type,
-          details: error.details
+          details: error.details,
         })
       );
     } else {
@@ -320,7 +326,7 @@ export async function executeTimelineOperation(
           error: (error as Error).message || "Unknown error",
           code: ServiceErrorCode.OPERATION_FAILED,
           operation: operation.type,
-          details: { type: operation.type }
+          details: { type: operation.type },
         })
       );
     }

@@ -1,5 +1,6 @@
 import { ServiceErrorCode } from "../types";
 import { Timeline, TimelineElement, AddElementOptions } from "../types";
+import { canSplitElement } from "./element.utils";
 import { TimelineServiceError } from "./timeline-service-error";
 
 /**
@@ -204,7 +205,7 @@ export class ValidationHelper {
   static validateSplitOperation(
     elementId: string,
     splitTime: number,
-    element?: TimelineElement
+    element: TimelineElement
   ): void {
     this.validateElementId(elementId);
 
@@ -216,7 +217,18 @@ export class ValidationHelper {
       );
     }
 
-    if (element) {
+    if(!canSplitElement(element)) {
+      throw new TimelineServiceError(
+        'Split element can only be done on video, audio or caption elements',
+        ServiceErrorCode.ELEMENT_INVALID,
+        { 
+          elementId, 
+          splitTime, 
+          elementStart: element.s, 
+          elementEnd: element.e 
+        }
+      );
+    }
       if (splitTime <= element.s || splitTime >= element.e) {
         throw new TimelineServiceError(
           'Split time must be between element start and end times',
@@ -229,7 +241,6 @@ export class ValidationHelper {
           }
         );
       }
-    }
   }
 
   /**

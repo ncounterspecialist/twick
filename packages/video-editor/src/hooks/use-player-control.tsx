@@ -32,6 +32,7 @@ export const usePlayerControl = () => {
     }
   }, [timelineAction]);
 
+
   return {
     togglePlayback,
   };

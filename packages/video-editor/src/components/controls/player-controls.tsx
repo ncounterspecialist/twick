@@ -1,8 +1,8 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useMemo } from "react";
 import { PLAYER_STATE } from "@twick/live-player";
 import "../../styles/player-controls.css";
 import { Trash2, Scissors,  Play, Pause, Loader2 } from "lucide-react";
-import { Timeline, TimelineElement } from "@twick/timeline";
+import { canSplitElement, Timeline, TimelineElement } from "@twick/timeline";
 
 interface PlayerControlsProps {
   selectedItem: TimelineElement | Timeline | null;
@@ -10,8 +10,8 @@ interface PlayerControlsProps {
   duration: number;
   playerState: keyof typeof PLAYER_STATE;
   togglePlayback: () => void;
-  onDelete?: () => void;
-  onSplit?: () => void;
+  onDelete?: (item: TimelineElement | Timeline) => void;
+  onSplit?: (item: TimelineElement, splitTime: number) => void;
   className?: string;
   useEnhancedControls?: boolean;
 }
@@ -35,6 +35,22 @@ const PlayerControls: React.FC<PlayerControlsProps> = ({
       .padStart(2, "0")}`;
   }, []);
 
+  const canSplit = useMemo(() => {
+    return  selectedItem && canSplitElement(selectedItem as TimelineElement);
+  }, [selectedItem]);
+
+  const handleDelete = useCallback(() => {
+    if(selectedItem && onDelete) {
+      onDelete(selectedItem)
+    }
+
+  }, [selectedItem, onDelete]);
+
+  const handleSplit = useCallback(() => {
+    if(selectedItem && onSplit && canSplitElement(selectedItem as TimelineElement)) {
+      onSplit(selectedItem as TimelineElement, currentTime)
+    }
+  }, [selectedItem, onSplit, canSplit, currentTime]);
 
   return (
     <div
@@ -44,9 +60,9 @@ const PlayerControls: React.FC<PlayerControlsProps> = ({
       <div className="edit-controls player-controls-edit-controls">
         <button
           className={`control-btn delete-btn player-controls-delete-btn${
-            !!selectedItem ? " active" : ""
+            !!selectedItem ? " active" : " btn-disabled"
           }`}
-          onClick={onDelete}
+          onClick={handleDelete}
           disabled={!selectedItem}
           title="Delete"
         >
@@ -55,8 +71,8 @@ const PlayerControls: React.FC<PlayerControlsProps> = ({
 
         <button
           className={`control-btn split-btn player-controls-split-btn${
-            !!selectedItem ? " active" : ""}`}
-          onClick={onSplit}
+            canSplit ? " active" : " btn-disabled"}`}
+          onClick={handleSplit}
           title="Split"
         >
           <Scissors size={18} strokeWidth={2} />

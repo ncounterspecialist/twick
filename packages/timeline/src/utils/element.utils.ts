@@ -4,7 +4,7 @@ import {
   getObjectFitSize,
   getVideoMeta,
 } from "@twick/media-utils";
-import { AudioProps, ImageProps, TextProps, VideoProps } from "../types";
+import { AudioProps, ImageProps, TextProps, TimelineElement, VideoProps } from "../types";
 import { TIMELINE_ELEMENT_TYPE } from "./constants";
 
 export const createImageElement = async ({
@@ -161,3 +161,23 @@ export const createTextElement = async ({
     },
   };
 }; 
+
+export const isTimelineElementId = (id: string) => id.startsWith("e-");
+
+export const isVideoElement = (selectedItem: TimelineElement) => isTimelineElementId(selectedItem?.id) && selectedItem?.type === "video";
+
+export const isAudioElement = (selectedItem: TimelineElement) => isTimelineElementId(selectedItem?.id) && selectedItem?.type === "audio";
+
+export const isImageElement = (selectedItem: TimelineElement) => isTimelineElementId(selectedItem?.id) && selectedItem?.type === "image";
+
+export const isTextElement = (selectedItem: TimelineElement) => isTimelineElementId(selectedItem?.id) && selectedItem?.type === "text";
+
+export const isRectElement = (selectedItem: TimelineElement) => isTimelineElementId(selectedItem?.id) && selectedItem?.type === "rect";
+
+export const isIconElement = (selectedItem: TimelineElement) => isTimelineElementId(selectedItem?.id) && selectedItem?.type === "icon";
+
+export const isCircleElement = (selectedItem: TimelineElement) => isTimelineElementId(selectedItem?.id) && selectedItem?.type === "circle";
+
+export const isCaptionElement = (selectedItem: TimelineElement) => isTimelineElementId(selectedItem?.id) && selectedItem?.type === "caption";
+
+export const canSplitElement = (selectedItem: TimelineElement) => isVideoElement(selectedItem) || isAudioElement(selectedItem) || isCaptionElement(selectedItem);
