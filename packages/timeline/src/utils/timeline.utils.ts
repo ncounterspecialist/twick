@@ -70,3 +70,5 @@ export const getCurrentElements = (
   }
   return currentElements;
 }; 
+
+export const isTimelineId = (id: string) => id.startsWith("t-");

@@ -39,6 +39,7 @@ export class TimelineDataService {
   }
 
   getElement(elementId: string): TimelineElement | undefined {
+    ValidationHelper.validateElementId(elementId);
     return this.elementKeyMap[elementId];
   }
 

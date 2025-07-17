@@ -7,6 +7,7 @@ import {
   TextProps,
   AddElementOptions,
   EditElementOptions,
+  ServiceErrorCode,
 } from "../../types";
 import { TIMELINE_ELEMENT_TYPE } from "../../utils/constants";
 import { generateShortUuid } from "../../utils/timeline.utils";
@@ -18,6 +19,7 @@ import {
 } from "../../utils/element.utils";
 import { TimelineDataService } from "../timeline/timeline-data.service";
 import { ValidationHelper } from "../../utils/validation";
+import { TimelineServiceError } from "../../utils/timeline-service-error";
 
 /**
  * Internal service for managing timeline elements
@@ -48,73 +50,94 @@ export class ElementService {
     const { timelineId, type, props, s, e, name } = options;
     const config = this.getConfig();
     const videoSize = config?.videoSize || { width: 1920, height: 1080 };
+    const elementId = `e-${generateShortUuid()}`;
 
     let newElement: TimelineElement;
-
+    let elementData: any;
     switch (type) {
       case TIMELINE_ELEMENT_TYPE.IMAGE:
-        const imageElement = await createImageElement({
+        elementData = {
           props: props as ImageProps,
           s,
           e,
           videoSize,
           timelineId,
-          id: `e-${generateShortUuid()}`,
-        });
+          id: elementId,
+        };
+        // Validate image element creation parameters
+        ValidationHelper.validateCreateImageElement(elementData);
+        const imageElement = await createImageElement(elementData);
         newElement = {
           ...imageElement,
           name: name || "Image",
         };
         break;
       case TIMELINE_ELEMENT_TYPE.VIDEO:
-        const videoElement = await createVideoElement({
+        elementData = {
           props: props as VideoProps,
           s,
           e,
           videoSize,
           timelineId,
-          id: `e-${generateShortUuid()}`,
-        });
+          id: elementId,
+        };
+        // Validate video element creation parameters
+        ValidationHelper.validateCreateVideoElement(elementData);
+
+        const videoElement = await createVideoElement(elementData);
         newElement = {
           ...videoElement,
           name: name || "Video",
         };
         break;
       case TIMELINE_ELEMENT_TYPE.AUDIO:
-        const audioElement = await createAudioElement({
+        elementData = {
           props: props as AudioProps,
           s,
           e,
           timelineId,
-          id: `e-${generateShortUuid()}`,
-        });
+          id: elementId,
+        };
+        // Validate audio element creation parameters
+        ValidationHelper.validateCreateAudioElement(elementData);
+
+        const audioElement = await createAudioElement(elementData);
         newElement = {
           ...audioElement,
           name: name || "Audio",
         };
         break;
       case TIMELINE_ELEMENT_TYPE.TEXT:
-        const textElement = await createTextElement({
+        elementData = {
           props: props as TextProps,
           s,
           e: e || s + 1,
           timelineId,
-          id: `e-${generateShortUuid()}`,
-        });
+          id: elementId,
+        };
+        // Validate text element creation parameters
+        ValidationHelper.validateCreateTextElement(elementData);
+
+        const textElement = await createTextElement(elementData);
         newElement = {
           ...textElement,
           name: name || "Text",
         };
         break;
       default:
-        newElement = {
-          id: `e-${generateShortUuid()}`,
+        elementData = {
+          timelineId,
+          id: elementId,
           type,
           s,
           e: e || s + 1,
-          timelineId,
           name: name || "Element",
           props,
+        };
+        // Validate basic element parameters for custom types
+        ValidationHelper.validateCreateElementParams(elementData);
+        newElement = {
+          ...elementData,
         };
         break;
     }
@@ -129,6 +152,179 @@ export class ElementService {
     version: number;
   } {
     const { timelineId, elementId, updates } = options;
+
+    // Validate basic IDs
+    ValidationHelper.validateTimelineId(
+      timelineId,
+      (id) => !!this.dataService.getTimeline(id)
+    );
+    ValidationHelper.validateElementId(
+      elementId,
+      (id) => !!this.dataService.getElement(id)
+    );
+
+    // Validate updates object
+    if (!updates || typeof updates !== "object") {
+      throw new TimelineServiceError(
+        "Updates must be a valid object",
+        ServiceErrorCode.INVALID_INPUT,
+        { updates }
+      );
+    }
+
+    // Get the current element to validate against
+    const currentElement = this.dataService.getElement(elementId);
+    if (!currentElement) {
+      throw new TimelineServiceError(
+        `Element with ID "${elementId}" not found`,
+        ServiceErrorCode.ELEMENT_NOT_FOUND,
+        { elementId }
+      );
+    }
+
+    // Validate timing updates
+    if (updates.s !== undefined) {
+      if (typeof updates.s !== "number" || updates.s < 0) {
+        throw new TimelineServiceError(
+          "Start time (s) must be a non-negative number",
+          ServiceErrorCode.ELEMENT_TIMING_INVALID,
+          { s: updates.s }
+        );
+      }
+
+      // If end time is also being updated, validate the relationship
+      const endTime = updates.e !== undefined ? updates.e : currentElement.e;
+      if (updates.s >= endTime) {
+        throw new TimelineServiceError(
+          "Start time must be less than end time",
+          ServiceErrorCode.ELEMENT_TIMING_INVALID,
+          { s: updates.s, e: endTime }
+        );
+      }
+    }
+
+    if (updates.e !== undefined) {
+      if (typeof updates.e !== "number") {
+        throw new TimelineServiceError(
+          "End time (e) must be a number",
+          ServiceErrorCode.ELEMENT_TIMING_INVALID,
+          { e: updates.e }
+        );
+      }
+
+      // Validate against start time
+      const startTime = updates.s !== undefined ? updates.s : currentElement.s;
+      if (updates.e <= startTime) {
+        throw new TimelineServiceError(
+          "End time must be greater than start time",
+          ServiceErrorCode.ELEMENT_TIMING_INVALID,
+          { s: startTime, e: updates.e }
+        );
+      }
+    }
+
+    // Validate props updates based on element type
+    if (updates.props) {
+      const elementType = updates.type || currentElement.type;
+
+      switch (elementType) {
+        case TIMELINE_ELEMENT_TYPE.IMAGE:
+          // Only validate if we have a complete ImageProps object or it's a partial update
+          if (typeof updates.props === "object") {
+            const mergedProps = { ...currentElement.props, ...updates.props };
+            try {
+              ValidationHelper.validateImageElementProps(
+                mergedProps as ImageProps
+              );
+            } catch (error) {
+              // Re-throw with more context for partial updates
+              if (error instanceof TimelineServiceError) {
+                throw new TimelineServiceError(
+                  `Invalid image props update: ${error.message}`,
+                  error.code,
+                  { elementId, updates: updates.props }
+                );
+              }
+              throw error;
+            }
+          }
+          break;
+
+        case TIMELINE_ELEMENT_TYPE.VIDEO:
+          if (typeof updates.props === "object") {
+            const mergedProps = { ...currentElement.props, ...updates.props };
+            try {
+              ValidationHelper.validateVideoElementProps(
+                mergedProps as VideoProps
+              );
+            } catch (error) {
+              if (error instanceof TimelineServiceError) {
+                throw new TimelineServiceError(
+                  `Invalid video props update: ${error.message}`,
+                  error.code,
+                  { elementId, updates: updates.props }
+                );
+              }
+              throw error;
+            }
+          }
+          break;
+
+        case TIMELINE_ELEMENT_TYPE.AUDIO:
+          if (typeof updates.props === "object") {
+            const mergedProps = { ...currentElement.props, ...updates.props };
+            try {
+              ValidationHelper.validateAudioElementProps(
+                mergedProps as AudioProps
+              );
+            } catch (error) {
+              if (error instanceof TimelineServiceError) {
+                throw new TimelineServiceError(
+                  `Invalid audio props update: ${error.message}`,
+                  error.code,
+                  { elementId, updates: updates.props }
+                );
+              }
+              throw error;
+            }
+          }
+          break;
+
+        case TIMELINE_ELEMENT_TYPE.TEXT:
+          if (typeof updates.props === "object") {
+            const mergedProps = { ...currentElement.props, ...updates.props };
+            try {
+              ValidationHelper.validateTextElementProps(
+                mergedProps as TextProps
+              );
+            } catch (error) {
+              if (error instanceof TimelineServiceError) {
+                throw new TimelineServiceError(
+                  `Invalid text props update: ${error.message}`,
+                  error.code,
+                  { elementId, updates: updates.props }
+                );
+              }
+              throw error;
+            }
+          }
+          break;
+      }
+    }
+
+    // Validate element ID if it's being updated
+    if (updates.id !== undefined) {
+      ValidationHelper.validateElementId(updates.id);
+    }
+
+    // Validate timeline ID if it's being updated
+    if (updates.timelineId !== undefined) {
+      ValidationHelper.validateTimelineId(
+        updates.timelineId,
+        (id) => !!this.dataService.getTimeline(id)
+      );
+    }
+
     return this.dataService.updateElement(timelineId, elementId, updates);
   }
 
@@ -136,6 +332,26 @@ export class ElementService {
     timelineId: string,
     elementId: string
   ): { timelineId: string; elementId: string; version: number } {
+    // Validate timeline and element IDs with existence checks
+    ValidationHelper.validateTimelineId(
+      timelineId,
+      (id) => !!this.dataService.getTimeline(id)
+    );
+    ValidationHelper.validateElementId(
+      elementId,
+      (id) => !!this.dataService.getElement(id)
+    );
+
+    // Verify element belongs to the specified timeline
+    const element = this.dataService.getElement(elementId);
+    if (element && element.timelineId !== timelineId) {
+      throw new TimelineServiceError(
+        `Element "${elementId}" does not belong to timeline "${timelineId}"`,
+        ServiceErrorCode.ELEMENT_INVALID,
+        { elementId, timelineId, actualTimelineId: element.timelineId }
+      );
+    }
+
     return this.dataService.removeElementFromTimeline(timelineId, elementId);
   }
 
@@ -145,10 +361,15 @@ export class ElementService {
     splitTime: number
   ): { version: number } | undefined {
     const element = this.dataService.getElement(elementId);
-    if (!element || element.s > splitTime || element.e < splitTime) {
-      return;
+    if (!element) {
+      throw new TimelineServiceError(
+        "Element not found",
+        ServiceErrorCode.ELEMENT_NOT_FOUND,
+        { elementId }
+      );
     }
 
+    ValidationHelper.validateSplitOperation(elementId, splitTime, element);
     let split1: TimelineElement;
     let split2: TimelineElement;
 

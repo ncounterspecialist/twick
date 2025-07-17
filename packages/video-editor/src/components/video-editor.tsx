@@ -3,10 +3,14 @@ import TimelineManager from "./timeline/timeline-manager";
 import "../styles/video-editor.css";
 import React, { useState } from "react";
 import ControlManager from "./controls/control-manager";
+import { DEFAULT_TIMELINE_ZOOM } from "../helpers/constants";
 
 interface VideoEditorProps {
   leftPanel?: React.ReactNode;
   rightPanel?: React.ReactNode;
+  bottomPanel?: React.ReactNode;
+  playControls?: React.ReactNode;
+  defaultPlayControls?: boolean;
   editorConfig: {
     videoProps: {
       width: number;
@@ -19,9 +23,12 @@ interface VideoEditorProps {
 const VideoEditor: React.FC<VideoEditorProps> = ({
   leftPanel,
   rightPanel,
+  bottomPanel,
   editorConfig,
+  playControls,
+  defaultPlayControls = true,
 }) => {
-  const [trackZoom, setTrackZoom] = useState(1);
+  const [trackZoom, setTrackZoom] = useState(DEFAULT_TIMELINE_ZOOM);
   return (
     <div className="twick-editor-main-container">
       <div className="twick-editor-view-section">
@@ -32,8 +39,13 @@ const VideoEditor: React.FC<VideoEditorProps> = ({
         />
         {rightPanel ? rightPanel : null}
       </div>
+      {bottomPanel ? bottomPanel : null}
       <div className="twick-editor-timeline-section">
-        <ControlManager trackZoom={trackZoom} setTrackZoom={setTrackZoom} />
+        {playControls ? (
+          playControls
+        ) : defaultPlayControls ? (
+          <ControlManager trackZoom={trackZoom} setTrackZoom={setTrackZoom} />
+        ) : null}
 
         <TimelineManager
           trackZoom={trackZoom}

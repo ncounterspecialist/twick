@@ -29,9 +29,6 @@ export const DEFAULT_ELEMENT_COLORS: ElementColors = {
 };
 
 
-
-export const DEFAULT_TIMELINE_ZOOM = 1.5;
-
 export const MIN_DURATION = 0.1;
 
 export const DRAG_TYPE = {
