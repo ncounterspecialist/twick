@@ -38,7 +38,7 @@ export interface TimelineOperationHandler {
  * None operation handler (no-op)
  */
 export class NoneHandler implements TimelineOperationHandler {
-  execute(payload: any, context: TimelineOperationContext): void {
+  execute(_payload: any, _context: TimelineOperationContext): void {
     // do nothing
   }
 }
@@ -61,6 +61,7 @@ export class LoadProjectHandler implements TimelineOperationHandler {
  */
 export class SetTimelineHandler implements TimelineOperationHandler {
   execute(payload: any, context: TimelineOperationContext): void {
+    context.pauseVideo();
     timelineService.setTimeline(payload?.timeline, payload?.version);
   }
 }
@@ -202,6 +203,7 @@ export class SetProjectScriptHandler implements TimelineOperationHandler {
  */
 export class SetElementAnimationHandler implements TimelineOperationHandler {
   execute(payload: any, context: TimelineOperationContext): void {
+    context.pauseVideo();
     timelineService.setElementAnimation(payload);
   }
 }
@@ -211,6 +213,7 @@ export class SetElementAnimationHandler implements TimelineOperationHandler {
  */
 export class SetTextEffectHandler implements TimelineOperationHandler {
   execute(payload: any, context: TimelineOperationContext): void {
+    context.pauseVideo();
     timelineService.setTextEffect(payload);
   }
 }
