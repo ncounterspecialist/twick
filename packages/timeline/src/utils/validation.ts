@@ -1,8 +1,9 @@
 import { ServiceErrorCode } from "../types";
-import { Timeline, TimelineElement, AddElementOptions } from "../types";
+import { Timeline, TimelineElement, AddElementOptions, ImageProps, VideoProps, AudioProps, TextProps } from "../types";
 import { canSplitElement } from "./element.utils";
 import { TimelineServiceError } from "./timeline-service-error";
 
+const isNil = (value: any) => value === undefined || value === null;
 /**
  * Validation helpers for timeline operations
  */
@@ -253,5 +254,415 @@ export class ValidationHelper {
         ServiceErrorCode.SERVICE_NOT_INITIALIZED
       );
     }
+  }
+
+  /**
+   * Validates common create element parameters
+   */
+  static validateCreateElementParams({
+    timelineId,
+    id,
+    s,
+    e,
+  }: {
+    timelineId: string;
+    id: string;
+    s: number;
+    e?: number;
+  }): void {
+    this.validateTimelineId(timelineId);
+    this.validateElementId(id);
+
+    if (typeof s !== 'number' || s < 0) {
+      throw new TimelineServiceError(
+        'Start time (s) must be a non-negative number',
+        ServiceErrorCode.ELEMENT_TIMING_INVALID,
+        { s }
+      );
+    }
+
+    if (e !== undefined && (typeof e !== 'number' || e <= s)) {
+      throw new TimelineServiceError(
+        'End time (e) must be a number greater than start time',
+        ServiceErrorCode.ELEMENT_TIMING_INVALID,
+        { s, e }
+      );
+    }
+  }
+
+  /**
+   * Validates video size object
+   */
+  static validateVideoSize(videoSize: { width: number; height: number }): void {
+    if (!videoSize || typeof videoSize !== 'object') {
+      throw new TimelineServiceError(
+        'Video size must be a valid object',
+        ServiceErrorCode.INVALID_INPUT,
+        { videoSize }
+      );
+    }
+
+    if (typeof videoSize.width !== 'number' || videoSize.width <= 0) {
+      throw new TimelineServiceError(
+        'Video size width must be a positive number',
+        ServiceErrorCode.INVALID_INPUT,
+        { width: videoSize.width }
+      );
+    }
+
+    if (typeof videoSize.height !== 'number' || videoSize.height <= 0) {
+      throw new TimelineServiceError(
+        'Video size height must be a positive number',
+        ServiceErrorCode.INVALID_INPUT,
+        { height: videoSize.height }
+      );
+    }
+  }
+
+  /**
+   * Validates image element props
+   */
+  static validateImageElementProps(props: ImageProps): void {
+    if (!props || typeof props !== 'object') {
+      throw new TimelineServiceError(
+        'Image props must be a valid object',
+        ServiceErrorCode.INVALID_INPUT,
+        { props }
+      );
+    }
+
+    if (!props.src || typeof props.src !== 'string') {
+      throw new TimelineServiceError(
+        'Image src is required and must be a string',
+        ServiceErrorCode.INVALID_INPUT,
+        { src: props.src }
+      );
+    }
+
+    if (props.width && typeof props.width !== 'number' || props.width <= 0) {
+      throw new TimelineServiceError(
+        'Image width must be a positive number',
+        ServiceErrorCode.INVALID_INPUT,
+        { width: props.width }
+      );
+    }
+
+    if (props.height && typeof props.height !== 'number' || props.height <= 0) {
+      throw new TimelineServiceError(
+        'Image height must be a positive number',
+        ServiceErrorCode.INVALID_INPUT,
+        { height: props.height }
+      );
+    }
+
+    if (props.x !== undefined && typeof props.x !== 'number') {
+      throw new TimelineServiceError(
+        'Image x position must be a number',
+        ServiceErrorCode.INVALID_INPUT,
+        { x: props.x }
+      );
+    }
+
+    if (typeof props.y !== 'number') {
+      throw new TimelineServiceError(
+        'Image y position must be a number',
+        ServiceErrorCode.INVALID_INPUT,
+        { y: props.y }
+      );
+    }
+
+    const validObjectFitValues = ['contain', 'cover', 'fill'];
+    if (!validObjectFitValues.includes(props.objectFit)) {
+      throw new TimelineServiceError(
+        'Image objectFit must be one of: contain, cover, fill',
+        ServiceErrorCode.INVALID_INPUT,
+        { objectFit: props.objectFit }
+      );
+    }
+  }
+
+  /**
+   * Validates video element props
+   */
+  static validateVideoElementProps(props: VideoProps): void {
+    if (isNil(props) || typeof props !== 'object') {
+      throw new TimelineServiceError(
+        'Video props must be a valid object',
+        ServiceErrorCode.INVALID_INPUT,
+        { props }
+      );
+    }
+
+    if (isNil(props.src) || typeof props.src !== 'string') {
+      throw new TimelineServiceError(
+        'Video src is required and must be a string',
+        ServiceErrorCode.INVALID_INPUT,
+        { src: props.src }
+      );
+    }
+
+    if (!isNil(props.width) && typeof props.width !== 'number' || props.width <= 0) {
+      throw new TimelineServiceError(
+        'Video width must be a positive number',
+        ServiceErrorCode.INVALID_INPUT,
+        { width: props.width }
+      );
+    }
+
+    if (!isNil(props.height) && typeof props.height !== 'number' || props.height <= 0) {
+      throw new TimelineServiceError(
+        'Video height must be a positive number',
+        ServiceErrorCode.INVALID_INPUT,
+        { height: props.height }
+      );
+    }
+
+    if (!isNil(props.x) && typeof props.x !== 'number') {
+      throw new TimelineServiceError(
+        'Video x position must be a number',
+        ServiceErrorCode.INVALID_INPUT,
+        { x: props.x }
+      );
+    }
+
+    if (!isNil(props.y) && typeof props.y !== 'number') {
+      throw new TimelineServiceError(
+        'Video y position must be a number',
+        ServiceErrorCode.INVALID_INPUT,
+        { y: props.y }
+      );
+    }
+
+    if (!isNil(props.playbackRate) && (typeof props.playbackRate !== 'number' || props.playbackRate <= 0)) {
+      throw new TimelineServiceError(
+        'Video playbackRate must be a positive number',
+        ServiceErrorCode.INVALID_INPUT,
+        { playbackRate: props.playbackRate }
+      );
+    }
+
+    if (!isNil(props.volume) && (typeof props.volume !== 'number' || props.volume < 0 || props.volume > 1)) {
+      throw new TimelineServiceError(
+        'Video volume must be a number between 0 and 1',
+        ServiceErrorCode.INVALID_INPUT,
+        { volume: props.volume }
+      );
+    }
+
+    const validObjectFitValues = ['contain', 'cover', 'fill', 'none'];
+    if (!isNil(props.objectFit) && !validObjectFitValues.includes(props.objectFit)) {
+      throw new TimelineServiceError(
+        'Video objectFit must be one of: contain, cover, fill',
+        ServiceErrorCode.INVALID_INPUT,
+        { objectFit: props.objectFit }
+      );
+    }
+  }
+
+  /**
+   * Validates audio element props
+   */
+  static validateAudioElementProps(props: AudioProps): void {
+    if (isNil(props) || typeof props !== 'object') {
+      throw new TimelineServiceError(
+        'Audio props must be a valid object',
+        ServiceErrorCode.INVALID_INPUT,
+        { props }
+      );
+    }
+
+    if (isNil(props.src) || typeof props.src !== 'string') {
+      throw new TimelineServiceError(
+        'Audio src is required and must be a string',
+        ServiceErrorCode.INVALID_INPUT,
+        { src: props.src }
+      );
+    }
+
+    if (isNil(props.volume) && (typeof props.volume !== 'number' || props.volume < 0 || props.volume > 1)) {
+      throw new TimelineServiceError(
+        'Audio volume must be a number between 0 and 1',
+        ServiceErrorCode.INVALID_INPUT,
+        { volume: props.volume }
+      );
+    }
+
+    if (!isNil(props.loop) && typeof props.loop !== 'boolean') {
+      throw new TimelineServiceError(
+        'Audio loop must be a boolean',
+        ServiceErrorCode.INVALID_INPUT,
+        { loop: props.loop }
+      );
+    }
+
+    if (!isNil(props.playbackRate) && (typeof props.playbackRate !== 'number' || props.playbackRate <= 0)) {
+      throw new TimelineServiceError(
+        'Audio playbackRate must be a positive number',
+        ServiceErrorCode.INVALID_INPUT,
+        { playbackRate: props.playbackRate }
+      );
+    }
+  }
+
+  /**
+   * Validates text element props
+   */
+  static validateTextElementProps(props: TextProps): void {
+      if (isNil(props) || typeof props !== 'object') {
+      throw new TimelineServiceError(
+        'Text props must be a valid object',
+        ServiceErrorCode.INVALID_INPUT,
+        { props }
+      );
+    }
+
+    if (isNil(props.text) || typeof props.text !== 'string') {
+      throw new TimelineServiceError(
+        'Text content is required and must be a string',
+        ServiceErrorCode.INVALID_INPUT,
+        { text: props.text }
+      );
+    }
+
+    if (!isNil(props.fontFamily) && typeof props.fontFamily !== 'string') {
+      throw new TimelineServiceError(
+        'Text fontFamily must be a string',
+        ServiceErrorCode.INVALID_INPUT,
+        { fontFamily: props.fontFamily }
+      );
+    }
+
+    if (!isNil(props.fontSize) && (typeof props.fontSize !== 'number' || props.fontSize <= 0)) {
+      throw new TimelineServiceError(
+        'Text fontSize must be a positive number',
+        ServiceErrorCode.INVALID_INPUT,
+        { fontSize: props.fontSize }
+      );
+    }
+
+    if (!isNil(props.fontWeight) && typeof props.fontWeight !== 'number') {
+      throw new TimelineServiceError(
+        'Text fontWeight must be a number',
+        ServiceErrorCode.INVALID_INPUT,
+        { fontWeight: props.fontWeight }
+      );
+    }
+
+    if (!isNil(props.fontStyle) && typeof props.fontStyle !== 'string') {
+      throw new TimelineServiceError(
+        'Text fontStyle must be a string',
+        ServiceErrorCode.INVALID_INPUT,
+        { fontStyle: props.fontStyle }
+      );
+    }
+
+    if (!isNil(props.x) && typeof props.x !== 'number') {
+      throw new TimelineServiceError(
+        'Text x position must be a number',
+        ServiceErrorCode.INVALID_INPUT,
+        { x: props.x }
+      );
+    }
+
+    if (!isNil(props.y) && typeof props.y !== 'number') {
+      throw new TimelineServiceError(
+        'Text y position must be a number',
+        ServiceErrorCode.INVALID_INPUT,
+        { y: props.y }
+      );
+    }
+
+    if (!isNil(props.rotation) && typeof props.rotation !== 'number') {
+      throw new TimelineServiceError(
+        'Text rotation must be a number',
+        ServiceErrorCode.INVALID_INPUT,
+        { rotation: props.rotation }
+      );
+    }
+
+    if (!isNil(props.fill) && typeof props.fill !== 'string') {
+      throw new TimelineServiceError(
+        'Text fill must be a valid color in hex format',
+        ServiceErrorCode.INVALID_INPUT,
+        { fill: props.fill }
+      );
+    }
+
+    const validTextAlignValues = ['left', 'center', 'right'];
+    if (!isNil(props.textAlign) && !validTextAlignValues.includes(props.textAlign!)) {
+      throw new TimelineServiceError(
+        'Text textAlign must be one of: left, center, right',
+        ServiceErrorCode.INVALID_INPUT,
+        { textAlign: props.textAlign }
+      );
+    }
+
+    if (!isNil(props.textWrap) && typeof props.textWrap !== 'boolean') {
+      throw new TimelineServiceError(
+        'Text textWrap must be a boolean',
+        ServiceErrorCode.INVALID_INPUT,
+        { textWrap: props.textWrap }
+      );
+    }
+  }
+
+  /**
+   * Validates complete image element creation parameters
+   */
+  static validateCreateImageElement(params: {
+    props: ImageProps;
+    s: number;
+    e?: number;
+    videoSize: { width: number; height: number };
+    timelineId: string;
+    id: string;
+  }): void {
+    this.validateCreateElementParams(params);
+    this.validateVideoSize(params.videoSize);
+    this.validateImageElementProps(params.props);
+  }
+
+  /**
+   * Validates complete video element creation parameters
+   */
+  static validateCreateVideoElement(params: {
+    props: VideoProps;
+    s: number;
+    e?: number;
+    videoSize: { width: number; height: number };
+    timelineId: string;
+    id: string;
+  }): void {
+    this.validateCreateElementParams(params);
+    this.validateVideoSize(params.videoSize);
+    this.validateVideoElementProps(params.props);
+  }
+
+  /**
+   * Validates complete audio element creation parameters
+   */
+  static validateCreateAudioElement(params: {
+    props: AudioProps;
+    s: number;
+    e?: number;
+    timelineId: string;
+    id: string;
+  }): void {
+    this.validateCreateElementParams(params);
+    this.validateAudioElementProps(params.props);
+  }
+
+  /**
+   * Validates complete text element creation parameters
+   */
+  static validateCreateTextElement(params: {
+    props: TextProps;
+    s: number;
+    e?: number;
+    timelineId: string;
+    id: string;
+  }): void {
+    this.validateCreateElementParams(params);
+    this.validateTextElementProps(params.props);
   }
 } 
