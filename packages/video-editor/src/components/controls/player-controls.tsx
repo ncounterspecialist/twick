@@ -1,8 +1,9 @@
 import React, { useCallback, useMemo } from "react";
 import { PLAYER_STATE } from "@twick/live-player";
 import "../../styles/player-controls.css";
-import { Trash2, Scissors,  Play, Pause, Loader2 } from "lucide-react";
+import { Trash2, Scissors, Play, Pause, Loader2 } from "lucide-react";
 import { canSplitElement, Timeline, TimelineElement } from "@twick/timeline";
+import { UndoRedoControls } from "./undo-redo-controls";
 
 interface PlayerControlsProps {
   selectedItem: TimelineElement | Timeline | null;
@@ -13,7 +14,7 @@ interface PlayerControlsProps {
   onDelete?: (item: TimelineElement | Timeline) => void;
   onSplit?: (item: TimelineElement, splitTime: number) => void;
   className?: string;
-  useEnhancedControls?: boolean;
+  enableUndoRedo?: boolean;
 }
 
 const PlayerControls: React.FC<PlayerControlsProps> = ({
@@ -24,6 +25,7 @@ const PlayerControls: React.FC<PlayerControlsProps> = ({
   togglePlayback,
   onSplit,
   onDelete,
+  enableUndoRedo = false,
   className = "",
 }) => {
   // Format time to MM:SS format
@@ -36,19 +38,22 @@ const PlayerControls: React.FC<PlayerControlsProps> = ({
   }, []);
 
   const canSplit = useMemo(() => {
-    return  selectedItem && canSplitElement(selectedItem as TimelineElement);
+    return selectedItem && canSplitElement(selectedItem as TimelineElement);
   }, [selectedItem]);
 
   const handleDelete = useCallback(() => {
-    if(selectedItem && onDelete) {
-      onDelete(selectedItem)
+    if (selectedItem && onDelete) {
+      onDelete(selectedItem);
     }
-
   }, [selectedItem, onDelete]);
 
   const handleSplit = useCallback(() => {
-    if(selectedItem && onSplit && canSplitElement(selectedItem as TimelineElement)) {
-      onSplit(selectedItem as TimelineElement, currentTime)
+    if (
+      selectedItem &&
+      onSplit &&
+      canSplitElement(selectedItem as TimelineElement)
+    ) {
+      onSplit(selectedItem as TimelineElement, currentTime);
     }
   }, [selectedItem, onSplit, canSplit, currentTime]);
 
@@ -71,12 +76,14 @@ const PlayerControls: React.FC<PlayerControlsProps> = ({
 
         <button
           className={`control-btn split-btn player-controls-split-btn${
-            canSplit ? " active" : " btn-disabled"}`}
+            canSplit ? " active" : " btn-disabled"
+          }`}
           onClick={handleSplit}
           title="Split"
         >
           <Scissors size={18} strokeWidth={2} />
         </button>
+        {enableUndoRedo ? <UndoRedoControls /> : null}
       </div>
 
       {/* Playback Controls */}

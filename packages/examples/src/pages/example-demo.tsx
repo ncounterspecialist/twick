@@ -10,6 +10,8 @@ const ExampleDemo = () => {
     <LivePlayerProvider>
       <TimelineProvider
         initialData={INITIAL_TIMELINE_DATA}
+        enableUndoRedo={true}
+        undoRedoPersistenceKey="twick-demo"
       >
         <VideoEditor
           leftPanel={<div></div>}

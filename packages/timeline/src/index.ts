@@ -1,6 +1,6 @@
-import useTimeline from "./hooks/use-timeline";
+import { useTimeline } from "./hooks/use-timeline";
 import { Timeline, TimelineData, TimelineElement } from "./types";
-import SeekTrack from "./components/controls/seek-track";
+import SeekTrack from "./components/tracks/seek-track";
 import Track from "./components/tracks/track";
 import TrackHeader from "./components/tracks/track-header";
 import TimelineView from "./components/timeline/timeline-view";

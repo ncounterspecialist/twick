@@ -99,7 +99,6 @@ export const TIMELINE_ACTION = {
   SET_SEEK_TIME: "setSeekTime",
   SET_DURATION: "setDuration",
   RESET_HISTORY: "resetHistory",
-  SET_PRESENT: "setPresent",
   SET_CURRENT_TIMELINE_PROPS: "setCurrentTimelineProps",
   SET_CAPTION_PROPS: "setCaptionProps",
   SET_SCREEN_ACTION: "setScreenAction",
@@ -107,6 +106,10 @@ export const TIMELINE_ACTION = {
   SET_PROJECT_DATA: "setProjectData",
   UPDATE_PLAYER_DATA: "updatePlayerData",
   ON_PLAYER_UPDATED: "onPlayerUpdated",
+  // Undo/Redo actions
+  UNDO: "undo",
+  REDO: "redo",
+  SET_PRESENT: "setPresent",
 };
 
 export const TIMELINE_ELEMENT_TYPE = {
