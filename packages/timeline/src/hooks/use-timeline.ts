@@ -34,7 +34,9 @@ export const useTimeline = ({
     setSelectedItem,
     setTimelineOperationResult,
     setLatestProjectVersion,
+    enableUndoRedo,
   } = useTimelineContext();
+  
   const [duration, setDuration] = useState(0);
   const [timelineData, setTimelineData] = useState<TimelineData | null>(null);
   const timelinePropsMap = useRef<Record<string, any>>({});
@@ -75,14 +77,18 @@ export const useTimeline = ({
       onTimelineUpdate: (timelineData: TimelineData) => {
         setTimelineData(timelineData);
         setLatestProjectVersion(timelineData.version);
-        latestTimelineData.current = timelineData;
-        setTimelineAction(TIMELINE_ACTION.SET_PRESENT, timelineData);
+        latestTimelineData.current = timelineData;        
+        // Update undo-redo history if enabled
+        if (enableUndoRedo) {
+          // The undo/redo context will be updated through the TimelineContext
+          setTimelineAction(TIMELINE_ACTION.SET_PRESENT, timelineData);
+        }
       },
       onSelectionChange: (item: TimelineElement | Timeline | null) => {
         setSelectedItem(item);
       },
     });
-  }, [videoSize]);
+  }, [videoSize, enableUndoRedo]);
 
   useEffect(() => {
     const totalDuration = timelineService.getTotalDuration();
@@ -117,8 +123,6 @@ export const useTimeline = ({
 
   return {
     timelineData,
-    duration,
+    duration
   };
 };
-
-export default useTimeline;

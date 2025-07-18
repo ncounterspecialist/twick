@@ -34,14 +34,12 @@ const CommandPanel: React.FC = () => {
         setJsonInput(JSON.stringify({}, null, 2));
         break;
       case OPERATIONS.DELETE_ITEM:
-        const timelineId = selectedItem?.id.startsWith("e-")
-          ? (selectedItem as TimelineElement).timelineId
-          : undefined;
+        const timelineId = (selectedItem as TimelineElement)?.timelineId;
         setJsonInput(
           JSON.stringify(
             {
               timelineId,
-              id: selectedItem?.id,
+              elementId: selectedItem?.id,
             },
             null,
             2

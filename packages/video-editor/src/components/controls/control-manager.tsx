@@ -14,7 +14,7 @@ const ControlManager = ({
 }) => {
   const { totalDuration, currentTime, playerState } = useLivePlayerContext();
   const { togglePlayback } = usePlayerControl();
-  const { selectedItem } = useTimelineContext();
+  const { enableUndoRedo, selectedItem } = useTimelineContext();
   const { deleteItem, splitElement } = useTimelineControl();
 
   return (
@@ -27,6 +27,7 @@ const ControlManager = ({
         togglePlayback={togglePlayback}
         onDelete={deleteItem}
         onSplit={splitElement}
+        enableUndoRedo={enableUndoRedo}
       />
       <TimelineZoom zoomLevel={trackZoom} setZoomLevel={setTrackZoom} />
     </div>

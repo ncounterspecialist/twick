@@ -1,27 +1,23 @@
-import { PLAYER_STATE, useLivePlayerContext } from "@twick/live-player";
 import {
   TIMELINE_ELEMENT_TYPE,
   TIMELINE_OPERATION,
   useTimelineContext,
   type TimelineElement,
 } from "@twick/timeline";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import FileInput from "../shared/file-input";
-import { usePlayerControl, type MediaItem } from "@twick/video-editor";
+import { type MediaItem } from "@twick/video-editor";
 import { MediaPanel } from "./media-panel";
 import ColorInputDialog from "../shared/color-input";
 import AnimationPanel from "./animation-panel";
 import TextEffectPanel from "./text-effect-panel";
 
 const EditorControls = () => {
-  const { playerState } = useLivePlayerContext();
   const [panelType, setPanelType] = useState<
     "media" | "text" | "timeline" | "animation" | "text-effect" | null
   >(null);
   const { setTimelineOperation, selectedItem } = useTimelineContext();
   const [showColorDialog, setShowColorDialog] = useState(false);
-  const [playButtonText, setPlayButtonText] = useState("Play");
-  const { togglePlayback } = usePlayerControl();
 
   const addTextElement = (text: string) => {
     const timelineId = getSelectedTimelineId();
@@ -137,16 +133,6 @@ const EditorControls = () => {
     }
   };
 
-  useEffect(() => {
-    if (playerState === PLAYER_STATE.PAUSED) {
-      setPlayButtonText("Play");
-    } else if (playerState === PLAYER_STATE.REFRESHING) {
-      setPlayButtonText("Loading");
-    } else if (playerState === PLAYER_STATE.PLAYING) {
-      setPlayButtonText("Pause");
-    }
-  }, [playerState]);
-
   return (
     <div className="flex flex-row gap-2 p-2">
       <div className="flex flex-col gap-2 p-2">
@@ -183,9 +169,6 @@ const EditorControls = () => {
 
         <div className="controls-button" onClick={() => addTimeline()}>Timeline</div>
 
-        <div className="flex flex-col-reverse h-full">
-          <div className="controls-button" onClick={togglePlayback}>{playButtonText}</div>
-        </div>
       </div>
       {panelType === "media" && <MediaPanel onSelect={addMedia} />}
       {panelType === "animation" && <AnimationPanel />}

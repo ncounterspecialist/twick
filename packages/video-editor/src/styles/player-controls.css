@@ -193,3 +193,9 @@
   transform: translate(-50%, -50%);
   transition: all 0.2s ease-in-out;
 } 
+
+.undo-redo-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
