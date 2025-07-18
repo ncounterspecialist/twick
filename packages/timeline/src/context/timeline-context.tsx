@@ -48,7 +48,7 @@ export interface TimelineProviderProps {
 const TimelineProviderInner = ({ 
   children, 
   initialData, 
-  enableUndoRedo = false,
+  enableUndoRedo = true,
 }: TimelineProviderProps) => {
   const [timelineAction, setTimelineActionState] = useState<{ type: string; payload: any }>({
     type: TIMELINE_ACTION.NONE,
@@ -174,7 +174,7 @@ const TimelineProviderInner = ({
 export const TimelineProvider = ({ 
   children, 
   initialData, 
-  enableUndoRedo = false,
+  enableUndoRedo = true,
   undoRedoPersistenceKey,
   maxHistorySize,
 }: TimelineProviderProps) => {
