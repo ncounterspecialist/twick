@@ -32,7 +32,6 @@ export default defineConfig({
           'lucide-react': 'LucideReact'
         },
         assetFileNames: (assetInfo) => {
-          if (assetInfo.name === 'style.css') return 'timeline.css';
           return assetInfo.name;
         },
       },

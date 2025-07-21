@@ -23,6 +23,7 @@ export interface TimelineOperationContext {
   timelineData: TimelineData | null;
   captionProps: CaptionProps;
   applyPropsToAllSubtitle: boolean;
+  setTimelineOperation: (operation: { type: string; payload?: any } | null) => void;
   setTimelineOperationResult: (result: ServiceResult<any> | null) => void;
   setSelectedItem: (item: TimelineElement | Timeline | null) => void;
   setTimelineAction: (action: string, payload?: any) => void;

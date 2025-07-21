@@ -1,6 +1,3 @@
-// Component types
-export * from './component.types';
-
 // Element types
 export * from './element.types';
 

@@ -5,6 +5,20 @@ export type TextEffect = {
   bufferTime?: number;
 };
 
+export type Size = {
+  width: number;
+  height: number;
+};
+
+export type Frame = {
+  size?: [number, number];
+  x?: number;
+  y?: number;
+  fill?: string;
+  stroke?: string;
+  strokeWidth?: number;
+};
+
 export type FrameEffect = {
   s: number;
   e: number;
@@ -19,6 +33,77 @@ export type FrameEffect = {
     frameSize?: [number, number];
   };
 };
+
+export type ObjectFit = "cover" | "contain" | "fill" | "none";
+
+export type TextAlign = "left" | "center" | "right";
+
+
+export type AudioProps = {
+  src: string;
+  volume?: number;
+  loop?: boolean;
+};
+
+export type CaptionProps = {
+  font?: {
+      family?: string;
+      size?: number;  
+      fill?: string;
+  };
+  pos?: {
+      x: number;
+      y: number;
+  };
+  color?: {
+      text?: string;
+      background?: string;
+      highlight?: string;
+  }
+}
+
+export type CircleProps = {
+  radius: number;
+  fill: string;
+};
+
+export type IconProps = {
+  src: string;
+  size: Size;
+};
+
+export type ImageProps = {
+  src: string;
+  mediaFilter?: string;
+};
+
+
+export type RectProps = {
+  width: number;
+  height: number;
+  fill: string;
+};
+
+export type TextProps = {
+  text: string;
+  fill?: string;
+  rotation?: number;
+  fontSize?: number;
+  fontFamily?: string;
+  fontWeight?: string;
+  fontStyle?: string;
+  textAlign?: TextAlign;
+};
+
+export type VideoProps = {
+  src: string;
+  play?: boolean;
+  playbackRate?: number;
+  time?: number;
+  mediaFilter?: string;
+  volume?: number;
+};
+
 
 export type Animation = {
   name: string;
@@ -55,12 +140,5 @@ export type TimelineElement = {
     hWords?: Record<string, any>;
     [key: string]: any;
   };
-  frame?: {
-    size?: [number, number];
-    x?: number;
-    y?: number;
-    fill?: string;
-    stroke?: string;
-    strokeWidth?: number;
-  };
+  frame?: Frame;
 };
