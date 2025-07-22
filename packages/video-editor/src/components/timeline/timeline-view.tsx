@@ -1,9 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Timeline, TimelineElement } from "../../types";
-import Track from "../tracks/track";
-import TrackHeader from "../tracks/track-header";
-
+import { Timeline, TimelineElement } from "@twick/timeline";
 import "../../styles/timeline.css";
+import TrackHeader from "../track/track-header";
+import TrackBase from "../track/track-base";
 
 function TimelineView({
   zoomLevel,
@@ -180,7 +179,7 @@ function TimelineView({
             </div>
 
             {/* Track content */}
-            <Track
+            <TrackBase
               duration={duration}
               selectedItem={selectedTimelineElement}
               zoom={zoomLevel}

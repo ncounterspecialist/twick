@@ -28,15 +28,6 @@ export const DEFAULT_ELEMENT_COLORS: ElementColors = {
   animation: "#32645C", // Slate pine green
 };
 
-
-export const MIN_DURATION = 0.1;
-
-export const DRAG_TYPE = {
-  START: "start",
-  MOVE: "move",
-  END: "end",
-};
-
 export const PLAYER_STATE = {
   REFRESH: "Refresh",
   PLAYING: "Playing",

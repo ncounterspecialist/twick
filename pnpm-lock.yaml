@@ -271,21 +271,9 @@ importers:
 
   packages/timeline:
     dependencies:
-      '@react-spring/web':
-        specifier: ^10.0.1
-        version: 10.0.1(react-dom@18.3.1)(react@18.3.1)
       '@twick/media-utils':
         specifier: workspace:^0.0.1
         version: link:../media-utils
-      '@use-gesture/react':
-        specifier: ^10.3.0
-        version: 10.3.1(react@18.3.1)
-      framer-motion:
-        specifier: ^11.0.3
-        version: 11.18.2(react-dom@18.3.1)(react@18.3.1)
-      lucide-react:
-        specifier: ^0.511.0
-        version: 0.511.0(react@18.3.1)
     devDependencies:
       '@types/node':
         specifier: ^20.11.24
@@ -299,9 +287,6 @@ importers:
       autoprefixer:
         specifier: ^10.4.17
         version: 10.4.21(postcss@8.5.4)
-      postcss:
-        specifier: ^8.4.35
-        version: 8.5.4
       rimraf:
         specifier: ^5.0.5
         version: 5.0.10
@@ -326,15 +311,27 @@ importers:
       '@emotion/is-prop-valid':
         specifier: ^1.2.2
         version: 1.3.1
+      '@react-spring/web':
+        specifier: ^10.0.1
+        version: 10.0.1(react-dom@18.3.1)(react@18.3.1)
       '@twick/canvas':
         specifier: workspace:^0.0.1
         version: link:../canvas
       '@twick/live-player':
         specifier: workspace:^0.0.1
         version: link:../live-player
+      '@twick/media-utils':
+        specifier: workspace:^0.0.1
+        version: link:../media-utils
       '@twick/timeline':
         specifier: workspace:^0.0.1
         version: link:../timeline
+      '@use-gesture/react':
+        specifier: ^10.3.0
+        version: 10.3.1(react@18.3.1)
+      framer-motion:
+        specifier: ^11.0.3
+        version: 11.18.2(@emotion/is-prop-valid@1.3.1)(react-dom@18.3.1)(react@18.3.1)
       lucide-react:
         specifier: ^0.511.0
         version: 0.511.0(react@18.3.1)
@@ -8582,7 +8579,7 @@ packages:
   /fraction.js@4.3.7:
     resolution: {integrity: sha512-ZsDfxO51wGAXREY55a7la9LScWpwv9RxIrYABrlvOFBlH/ShPnrtsXeuUIfXKKOVicNxQ+o8JTbJvjS4M89yew==}
 
-  /framer-motion@11.18.2(react-dom@18.3.1)(react@18.3.1):
+  /framer-motion@11.18.2(@emotion/is-prop-valid@1.3.1)(react-dom@18.3.1)(react@18.3.1):
     resolution: {integrity: sha512-5F5Och7wrvtLVElIpclDT0CBzMVg3dL22B64aZwHtsIY8RB4mXICLrkajK4G9R+ieSAGcgrLeae2SeUTg2pr6w==}
     peerDependencies:
       '@emotion/is-prop-valid': '*'
@@ -8596,6 +8593,7 @@ packages:
       react-dom:
         optional: true
     dependencies:
+      '@emotion/is-prop-valid': 1.3.1
       motion-dom: 11.18.1
       motion-utils: 11.18.1
       react: 18.3.1

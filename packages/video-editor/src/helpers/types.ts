@@ -37,3 +37,19 @@ export type MediaItem = {
     };
     getSample: (animation?: Animation) => string;
 };
+
+
+export interface ElementColors {
+  fragment: string;
+  video: string;
+  caption: string;
+  image: string;
+  audio: string;
+  text: string;
+  element: string;
+  rect: string;
+  frameEffect: string;
+  filters: string;
+  transition: string;
+  animation: string;
+}

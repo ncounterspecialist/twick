@@ -1,5 +1,4 @@
 import {
-  TimelineView,
   type Timeline,
   useTimeline,
   type TimelineElement,
@@ -8,6 +7,7 @@ import {
 } from "@twick/timeline";
 import SeekControl from "../controls/seek-control";
 import { useLivePlayerContext } from "@twick/live-player";
+import TimelineView from "./timeline-view";
 
 const TimelineManager = ({
   timelineControls,

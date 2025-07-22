@@ -1,7 +1,6 @@
 import { LivePlayerProvider } from "@twick/live-player";
-import "@twick/timeline/dist/timeline.css";
 import "./example-demo.css";
-import { TimelineProvider } from "@twick/timeline";
+import { generateShortUuid, TimelineProvider } from "@twick/timeline";
 import VideoEditor, { INITIAL_TIMELINE_DATA } from "@twick/video-editor";
 import CommandPanel from "../components/command-panel";
 
@@ -9,6 +8,7 @@ const ExampleDemo = () => {
   return (
     <LivePlayerProvider>
       <TimelineProvider
+         contextId={generateShortUuid()}
         initialData={INITIAL_TIMELINE_DATA}
         undoRedoPersistenceKey="twick-demo"
       >

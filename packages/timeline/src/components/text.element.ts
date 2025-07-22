@@ -41,7 +41,7 @@ export class TextElement extends BaseTimelineElement{
         return this;
     }
 
-    setFontStyle(fontStyle: string) {
+    setFontStyle(fontStyle: "normal" | "italic") {
         this.props.fontStyle = fontStyle;
     }
 

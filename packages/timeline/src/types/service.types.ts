@@ -1,6 +1,5 @@
 import { Timeline, TimelineElement, TimelineData } from "./timeline.types";
-import { Animation, TextEffect } from "./element.types";
-import { ImageProps, VideoProps, AudioProps, TextProps } from "./component.types";
+import { Animation, TextEffect, ImageProps, VideoProps, AudioProps, TextProps } from "./element.types";
 
 export interface TimelineServiceConfig {
   videoSize: {

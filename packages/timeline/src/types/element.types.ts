@@ -90,8 +90,8 @@ export type TextProps = {
   rotation?: number;
   fontSize?: number;
   fontFamily?: string;
-  fontWeight?: string;
-  fontStyle?: string;
+  fontWeight?: number;
+  fontStyle?: "normal" | "italic";
   textAlign?: TextAlign;
 };
 

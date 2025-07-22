@@ -339,44 +339,11 @@ export class ValidationHelper {
       );
     }
 
-    if (props.width && typeof props.width !== 'number' || props.width <= 0) {
+    if (props.mediaFilter && typeof props.mediaFilter !== 'string') {
       throw new TimelineServiceError(
-        'Image width must be a positive number',
+        'Image mediaFilter must be a string',
         ServiceErrorCode.INVALID_INPUT,
-        { width: props.width }
-      );
-    }
-
-    if (props.height && typeof props.height !== 'number' || props.height <= 0) {
-      throw new TimelineServiceError(
-        'Image height must be a positive number',
-        ServiceErrorCode.INVALID_INPUT,
-        { height: props.height }
-      );
-    }
-
-    if (props.x !== undefined && typeof props.x !== 'number') {
-      throw new TimelineServiceError(
-        'Image x position must be a number',
-        ServiceErrorCode.INVALID_INPUT,
-        { x: props.x }
-      );
-    }
-
-    if (typeof props.y !== 'number') {
-      throw new TimelineServiceError(
-        'Image y position must be a number',
-        ServiceErrorCode.INVALID_INPUT,
-        { y: props.y }
-      );
-    }
-
-    const validObjectFitValues = ['contain', 'cover', 'fill'];
-    if (!validObjectFitValues.includes(props.objectFit)) {
-      throw new TimelineServiceError(
-        'Image objectFit must be one of: contain, cover, fill',
-        ServiceErrorCode.INVALID_INPUT,
-        { objectFit: props.objectFit }
+        { mediaFilter: props.mediaFilter }
       );
     }
   }
@@ -401,35 +368,11 @@ export class ValidationHelper {
       );
     }
 
-    if (!isNil(props.width) && typeof props.width !== 'number' || props.width <= 0) {
+    if (!isNil(props.play) && typeof props.play !== 'boolean') {
       throw new TimelineServiceError(
-        'Video width must be a positive number',
+        'Video play must be a boolean',
         ServiceErrorCode.INVALID_INPUT,
-        { width: props.width }
-      );
-    }
-
-    if (!isNil(props.height) && typeof props.height !== 'number' || props.height <= 0) {
-      throw new TimelineServiceError(
-        'Video height must be a positive number',
-        ServiceErrorCode.INVALID_INPUT,
-        { height: props.height }
-      );
-    }
-
-    if (!isNil(props.x) && typeof props.x !== 'number') {
-      throw new TimelineServiceError(
-        'Video x position must be a number',
-        ServiceErrorCode.INVALID_INPUT,
-        { x: props.x }
-      );
-    }
-
-    if (!isNil(props.y) && typeof props.y !== 'number') {
-      throw new TimelineServiceError(
-        'Video y position must be a number',
-        ServiceErrorCode.INVALID_INPUT,
-        { y: props.y }
+        { play: props.play }
       );
     }
 
@@ -441,20 +384,27 @@ export class ValidationHelper {
       );
     }
 
+    if (!isNil(props.time) && typeof props.time !== 'number') {
+      throw new TimelineServiceError(
+        'Video time must be a number',
+        ServiceErrorCode.INVALID_INPUT,
+        { time: props.time }
+      );
+    }
+
+    if (!isNil(props.mediaFilter) && typeof props.mediaFilter !== 'string') {
+      throw new TimelineServiceError(
+        'Video mediaFilter must be a string',
+        ServiceErrorCode.INVALID_INPUT,
+        { mediaFilter: props.mediaFilter }
+      );
+    }
+
     if (!isNil(props.volume) && (typeof props.volume !== 'number' || props.volume < 0 || props.volume > 1)) {
       throw new TimelineServiceError(
         'Video volume must be a number between 0 and 1',
         ServiceErrorCode.INVALID_INPUT,
         { volume: props.volume }
-      );
-    }
-
-    const validObjectFitValues = ['contain', 'cover', 'fill', 'none'];
-    if (!isNil(props.objectFit) && !validObjectFitValues.includes(props.objectFit)) {
-      throw new TimelineServiceError(
-        'Video objectFit must be one of: contain, cover, fill',
-        ServiceErrorCode.INVALID_INPUT,
-        { objectFit: props.objectFit }
       );
     }
   }
@@ -479,7 +429,7 @@ export class ValidationHelper {
       );
     }
 
-    if (isNil(props.volume) && (typeof props.volume !== 'number' || props.volume < 0 || props.volume > 1)) {
+    if (!isNil(props.volume) && (typeof props.volume !== 'number' || props.volume < 0 || props.volume > 1)) {
       throw new TimelineServiceError(
         'Audio volume must be a number between 0 and 1',
         ServiceErrorCode.INVALID_INPUT,
@@ -492,14 +442,6 @@ export class ValidationHelper {
         'Audio loop must be a boolean',
         ServiceErrorCode.INVALID_INPUT,
         { loop: props.loop }
-      );
-    }
-
-    if (!isNil(props.playbackRate) && (typeof props.playbackRate !== 'number' || props.playbackRate <= 0)) {
-      throw new TimelineServiceError(
-        'Audio playbackRate must be a positive number',
-        ServiceErrorCode.INVALID_INPUT,
-        { playbackRate: props.playbackRate }
       );
     }
   }
@@ -524,11 +466,19 @@ export class ValidationHelper {
       );
     }
 
-    if (!isNil(props.fontFamily) && typeof props.fontFamily !== 'string') {
+    if (!isNil(props.fill) && typeof props.fill !== 'string') {
       throw new TimelineServiceError(
-        'Text fontFamily must be a string',
+        'Text fill must be a valid color in hex format',
         ServiceErrorCode.INVALID_INPUT,
-        { fontFamily: props.fontFamily }
+        { fill: props.fill }
+      );
+    }
+
+    if (!isNil(props.rotation) && typeof props.rotation !== 'number') {
+      throw new TimelineServiceError(
+        'Text rotation must be a number',
+        ServiceErrorCode.INVALID_INPUT,
+        { rotation: props.rotation }
       );
     }
 
@@ -537,6 +487,14 @@ export class ValidationHelper {
         'Text fontSize must be a positive number',
         ServiceErrorCode.INVALID_INPUT,
         { fontSize: props.fontSize }
+      );
+    }
+
+    if (!isNil(props.fontFamily) && typeof props.fontFamily !== 'string') {
+      throw new TimelineServiceError(
+        'Text fontFamily must be a string',
+        ServiceErrorCode.INVALID_INPUT,
+        { fontFamily: props.fontFamily }
       );
     }
 
@@ -556,52 +514,12 @@ export class ValidationHelper {
       );
     }
 
-    if (!isNil(props.x) && typeof props.x !== 'number') {
-      throw new TimelineServiceError(
-        'Text x position must be a number',
-        ServiceErrorCode.INVALID_INPUT,
-        { x: props.x }
-      );
-    }
-
-    if (!isNil(props.y) && typeof props.y !== 'number') {
-      throw new TimelineServiceError(
-        'Text y position must be a number',
-        ServiceErrorCode.INVALID_INPUT,
-        { y: props.y }
-      );
-    }
-
-    if (!isNil(props.rotation) && typeof props.rotation !== 'number') {
-      throw new TimelineServiceError(
-        'Text rotation must be a number',
-        ServiceErrorCode.INVALID_INPUT,
-        { rotation: props.rotation }
-      );
-    }
-
-    if (!isNil(props.fill) && typeof props.fill !== 'string') {
-      throw new TimelineServiceError(
-        'Text fill must be a valid color in hex format',
-        ServiceErrorCode.INVALID_INPUT,
-        { fill: props.fill }
-      );
-    }
-
     const validTextAlignValues = ['left', 'center', 'right'];
     if (!isNil(props.textAlign) && !validTextAlignValues.includes(props.textAlign!)) {
       throw new TimelineServiceError(
         'Text textAlign must be one of: left, center, right',
         ServiceErrorCode.INVALID_INPUT,
         { textAlign: props.textAlign }
-      );
-    }
-
-    if (!isNil(props.textWrap) && typeof props.textWrap !== 'boolean') {
-      throw new TimelineServiceError(
-        'Text textWrap must be a boolean',
-        ServiceErrorCode.INVALID_INPUT,
-        { textWrap: props.textWrap }
       );
     }
   }
@@ -665,4 +583,4 @@ export class ValidationHelper {
     this.validateCreateElementParams(params);
     this.validateTextElementProps(params.props);
   }
-} 
+}

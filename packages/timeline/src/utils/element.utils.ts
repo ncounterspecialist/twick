@@ -31,21 +31,22 @@ export const createImageElement = async ({
 
   return {
     type: TIMELINE_ELEMENT_TYPE.IMAGE,
-    objectFit: props.objectFit ?? "cover",
+    objectFit: "cover",
     timelineId,
     id,
     s: s,
     e: e ?? s + 1,
     props: {
       src: props.src,
+      mediaFilter: props.mediaFilter,
     },
     frame: {
       size: [
-        props.width ?? fullSize.width,
-        props.height ?? fullSize.height,
+        fullSize.width,
+        fullSize.height,
       ] as [number, number],
-      x: props.x,
-      y: props.y,
+      x: 0,
+      y: 0,
     },
   };
 };
@@ -74,7 +75,7 @@ export const createVideoElement = async ({
 
   return {
     type: TIMELINE_ELEMENT_TYPE.VIDEO,
-    objectFit: props.objectFit ?? "cover",
+    objectFit: "cover",
     videoDuration: videoMeta.duration,
     timelineId,
     id,
@@ -82,17 +83,19 @@ export const createVideoElement = async ({
     e: e ?? s + videoMeta.duration,
     props: {
       src: props.src,
-      play: true,
+      play: props.play ?? true,
       playbackRate: props.playbackRate ?? 1,
+      time: props.time ?? 0,
+      mediaFilter: props.mediaFilter,
       volume: props.volume ?? 1,
     },
     frame: {
       size: [
-        props.width ?? fullSize.width,
-        props.height ?? fullSize.height,
+        fullSize.width,
+        fullSize.height,
       ] as [number, number],
-      x: props.x,
-      y: props.y,
+      x: 0,
+      y: 0,
     },
   };
 };
@@ -119,10 +122,8 @@ export const createAudioElement = async ({
     e: e ?? s + audioDuration,
     props: {
       src: props.src,
-      play: true,
       volume: props.volume ?? 1,
       loop: props.loop ?? false,
-      playbackRate: props.playbackRate ?? 1,
     },
   };
 };
@@ -148,19 +149,20 @@ export const createTextElement = async ({
     e: e ?? s + 1,
     props: {
       text: props.text,
-      fontFamily: props.fontFamily ?? "Poppins",
-      fontSize: props.fontSize ?? 40,
-      fontWeight: props.fontWeight ?? 400,
-      fontStyle: props.fontStyle ?? "normal",
-      x: props.x ?? 0,
-      y: props.y ?? 0,
+      fill: props.fill,
       rotation: props.rotation ?? 0,
-      fill: props.fill ?? "#000000",
-      textAlign: props.textAlign ?? "center",
-      textWrap: props.textWrap ?? false,
+      fontSize: props.fontSize,
+      fontFamily: props.fontFamily,
+      fontWeight: props.fontWeight,
+      fontStyle: props.fontStyle,
+      textAlign: props.textAlign,
+    },
+    frame: {
+      x: 0,
+      y: 0,
     },
   };
-}; 
+};
 
 export const isTimelineElementId = (id: string) => id.startsWith("e-");
 

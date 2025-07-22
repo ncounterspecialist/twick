@@ -1,5 +1,5 @@
 import { getObjectFitSize, getVideoMeta } from "@twick/media-utils";
-import { Frame, FrameEffect, ObjectFit, Size, VideoProps } from "../../types";
+import { Frame, FrameEffect, ObjectFit, Size, VideoProps } from "../types";
 import { BaseTimelineElement } from "./base.element";
 
 export class VideoElement extends BaseTimelineElement {
@@ -109,4 +109,6 @@ export class VideoElement extends BaseTimelineElement {
       mediaDuration: this.mediaDuration,
     };
   }
+
+
 }

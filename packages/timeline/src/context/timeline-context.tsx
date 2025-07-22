@@ -6,6 +6,7 @@ import { UndoRedoProvider, useUndoRedo } from "./undo-redo-context";
 import timelineService from "../services/timeline/timeline.service";
 
 type TimelineContextType = {
+  contextId: string;
   selectedItem: TimelineElement | Timeline | null;
   latestProjectVersion: number;
   timelineAction: {
@@ -35,6 +36,7 @@ const TimelineContext = createContext<TimelineContextType | undefined>(undefined
 
 export interface TimelineProviderProps {
   children: React.ReactNode;
+  contextId: string;
   initialData?: {
     timeline: Timeline[];
     version: number;
@@ -46,6 +48,7 @@ export interface TimelineProviderProps {
 
 // Inner component that uses the UndoRedo context
 const TimelineProviderInner = ({ 
+  contextId,
   children, 
   initialData, 
   enableUndoRedo = true,
@@ -145,6 +148,7 @@ const TimelineProviderInner = ({
   }, [initialData]);
 
   const contextValue: TimelineContextType = {
+    contextId,
     selectedItem,
     timelineAction,
     timelineOperation,
@@ -172,6 +176,7 @@ const TimelineProviderInner = ({
 };
 
 export const TimelineProvider = ({ 
+  contextId,
   children, 
   initialData, 
   enableUndoRedo = true,
@@ -187,6 +192,7 @@ export const TimelineProvider = ({
       >
         <TimelineProviderInner 
           initialData={initialData}
+          contextId={contextId}
           enableUndoRedo={enableUndoRedo}
           undoRedoPersistenceKey={undoRedoPersistenceKey}
           maxHistorySize={maxHistorySize}
@@ -202,6 +208,7 @@ export const TimelineProvider = ({
     <TimelineProviderInner 
       initialData={initialData}
       enableUndoRedo={enableUndoRedo}
+      contextId={contextId}
       undoRedoPersistenceKey={undoRedoPersistenceKey}
       maxHistorySize={maxHistorySize}
     >
