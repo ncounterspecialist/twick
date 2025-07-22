@@ -1,6 +1,7 @@
 import { getObjectFitSize, getImageDimensions } from "@twick/media-utils";
 import { Frame, FrameEffect, ImageProps, ObjectFit, Size } from "../types";
 import { BaseTimelineElement } from "./base.element";
+import type { ElementVisitor } from "./element.visitor";
 
 export class ImageElement extends BaseTimelineElement {
   protected baseSize!: Size;
@@ -65,6 +66,10 @@ export class ImageElement extends BaseTimelineElement {
     return this;
   }
 
+  accept<T>(visitor: ElementVisitor<T>): T {
+    return visitor.visitImage(this);
+  }
+
   override toJSON() {
     return {
       ...super.toJSON(),
@@ -74,5 +79,20 @@ export class ImageElement extends BaseTimelineElement {
       frameEffects: this.frameEffects,
       backgroundColor: this.backgroundColor,
     };
+  }
+
+  static fromJSON(json: any): ImageElement {
+    const parentSize = json.frame && json.frame.size ? { width: json.frame.size[0], height: json.frame.size[1] } : { width: 0, height: 0 };
+    const element = new ImageElement(json.props.src, parentSize);
+    element.props = json.props;
+    element.objectFit = json.objectFit;
+    element.frame = json.frame;
+    element.frameEffects = json.frameEffects;
+    element.backgroundColor = json.backgroundColor;
+    if (json.id) element.id = json.id;
+    if (json.timelineId) element.timelineId = json.timelineId;
+    if (json.s !== undefined) element.s = json.s;
+    if (json.e !== undefined) element.e = json.e;
+    return element;
   }
 }

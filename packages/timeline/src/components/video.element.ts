@@ -1,6 +1,7 @@
 import { getObjectFitSize, getVideoMeta } from "@twick/media-utils";
 import { Frame, FrameEffect, ObjectFit, Size, VideoProps } from "../types";
 import { BaseTimelineElement } from "./base.element";
+import type { ElementVisitor } from "./element.visitor";
 
 export class VideoElement extends BaseTimelineElement {
   protected mute!: boolean;
@@ -98,6 +99,10 @@ export class VideoElement extends BaseTimelineElement {
     return this;
   }
 
+  accept<T>(visitor: ElementVisitor<T>): T {
+    return visitor.visitVideo(this);
+  }
+
   override toJSON() {
     return {
       ...super.toJSON(),
@@ -108,6 +113,23 @@ export class VideoElement extends BaseTimelineElement {
       backgroundColor: this.backgroundColor,
       mediaDuration: this.mediaDuration,
     };
+  }
+
+  static fromJSON(json: any): VideoElement {
+    // You may want to adjust this to match your constructor signature
+    const parentSize = json.frame && json.frame.size ? { width: json.frame.size[0], height: json.frame.size[1] } : { width: 0, height: 0 };
+    const element = new VideoElement(json.props.src, parentSize);
+    element.props = json.props;
+    element.mediaDuration = json.mediaDuration;
+    element.objectFit = json.objectFit;
+    element.frame = json.frame;
+    element.frameEffects = json.frameEffects;
+    element.backgroundColor = json.backgroundColor;
+    if (json.id) element.id = json.id;
+    if (json.timelineId) element.timelineId = json.timelineId;
+    if (json.s !== undefined) element.s = json.s;
+    if (json.e !== undefined) element.e = json.e;
+    return element;
   }
 
 

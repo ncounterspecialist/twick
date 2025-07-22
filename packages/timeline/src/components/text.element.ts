@@ -1,5 +1,6 @@
 import { TextAlign, TextEffect, TextProps } from "../types";
 import { BaseTimelineElement } from "./base.element";
+import type { ElementVisitor } from "./element.visitor";
 
 export class TextElement extends BaseTimelineElement{
     protected textEffect?: TextEffect;
@@ -62,5 +63,20 @@ export class TextElement extends BaseTimelineElement{
             props: this.props,
             textEffect: this.textEffect,
         };
+    }
+
+    static fromJSON(json: any): TextElement {
+        const element = new TextElement(json.props.text);
+        element.props = json.props;
+        element.textEffect = json.textEffect;
+        if (json.id) element.id = json.id;
+        if (json.timelineId) element.timelineId = json.timelineId;
+        if (json.s !== undefined) element.s = json.s;
+        if (json.e !== undefined) element.e = json.e;
+        return element;
+    }
+
+    accept<T>(visitor: ElementVisitor<T>): T {
+        return visitor.visitText(this);
     }
 }

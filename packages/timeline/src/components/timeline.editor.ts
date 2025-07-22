@@ -2,6 +2,7 @@ import { ServiceResult } from "../types";
 import { generateShortUuid } from "../utils/timeline.utils";
 import { TimelineTrack } from "./timeline.track";
 import { timelineContextStore, TimelineTrackData } from "../services/data/data.service";
+import { BaseTimelineElement } from "./base.element";
 
 /**
  * Type for timeline operation context
@@ -68,5 +69,50 @@ export class TimelineEditor {
     const prevTimelineData = this.getTimelineData();
     const track = prevTimelineData?.tracks.find((t) => t.getName() === name);
     return track as TimelineTrack | null;
+  }
+
+  removeTrackById(id: string): void {
+    const tracks = this.getTimelineData()?.tracks || [];
+    const updatedTracks = tracks.filter((t) => t.getId() !== id);
+    this.setTimelineData(updatedTracks);
+  }
+
+  /**
+   * Add an element to a track and update context/state
+   */
+  addElementToTrack(trackId: string, element: BaseTimelineElement): void {
+    const tracks = this.getTimelineData()?.tracks || [];
+    const track = tracks.find(t => t.getId() === trackId);
+    if (track) {
+      track.addElement(element);
+      this.setTimelineData(tracks);
+    }
+  }
+
+  /**
+   * Remove an element from a track and update context/state
+   */
+  removeElementFromTrack(trackId: string, elementId: string): void {
+    const tracks = this.getTimelineData()?.tracks || [];
+    const track = tracks.find(t => t.getId() === trackId);
+    if (track) {
+      const element = track.getElementById(elementId);
+      if (element) {
+        track.removeElement(element);
+        this.setTimelineData(tracks);
+      }
+    }
+  }
+
+  /**
+   * Update an element in a track and update context/state
+   */
+  updateElementInTrack(trackId: string, element: BaseTimelineElement): void {
+    const tracks = this.getTimelineData()?.tracks || [];
+    const track = tracks.find(t => t.getId() === trackId);
+    if (track) {
+      track.updateElement(element);
+      this.setTimelineData(tracks);
+    }
   }
 }

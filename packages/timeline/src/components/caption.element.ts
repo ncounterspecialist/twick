@@ -1,4 +1,5 @@
 import { BaseTimelineElement } from "./base.element";
+import type { ElementVisitor } from "./element.visitor";
 
 export class CaptionElement extends BaseTimelineElement {
   protected t: string;
@@ -23,5 +24,17 @@ export class CaptionElement extends BaseTimelineElement {
       ...super.toJSON(),
       t: this.t,
     };
+  }
+
+  accept<T>(visitor: ElementVisitor<T>): T {
+    return visitor.visitCaption(this);
+  }
+
+  static fromJSON(json: any): CaptionElement {
+    const element = new CaptionElement(json.t, json.s, json.e);
+    element.props = json.props || {};
+    if (json.id) element.id = json.id;
+    if (json.timelineId) element.timelineId = json.timelineId;
+    return element;
   }
 }

@@ -8,6 +8,9 @@ import { CaptionElement } from "./caption.element";
 import { IconElement } from "./icon.element";
 import { AudioElement } from "./audio.element";
 import { CircleElement } from "./circle.element";
+import { generateShortUuid } from "../utils/timeline.utils";
+import { ElementSerializer } from "./element.serializer";
+import { ElementDeserializer } from "./element.deserializer";
 
 export class TimelineTrack {
     protected id: string;
@@ -15,8 +18,8 @@ export class TimelineTrack {
     protected type: string;
     protected elements: BaseTimelineElement[];
 
-    constructor(id: string, name: string) {
-        this.id = id;
+    constructor( name: string, id?:string) {
+        this.id = id || `t-${generateShortUuid()}`;
         this.name = name;
         this.type = "element";
         this.elements = [];
@@ -92,6 +95,11 @@ export class TimelineTrack {
         return circle;
     }
 
+    addElement(element: BaseTimelineElement): BaseTimelineElement {
+        this.elements.push(element);
+        return element;
+    }
+
     removeElement(element: BaseTimelineElement) {
         this.elements = this.elements.filter((e) => e !== element);
         return this;
@@ -107,11 +115,19 @@ export class TimelineTrack {
     }
 
     toJSON(): Timeline {
+        const serializer = new ElementSerializer();
         return {
             id: this.id,
             name: this.name,
             type: this.type,
-            elements: this.elements.map((element) => element.toJSON() as TimelineElement),
+            elements: this.elements.map((element) => element.accept(serializer) as TimelineElement),
         };
+    }
+
+    static fromJSON(json: any): TimelineTrack {
+        const track = new TimelineTrack(json.name, json.id);
+        track.type = json.type;
+        track.elements = (json.elements || []).map(ElementDeserializer.fromJSON);
+        return track;
     }
 }

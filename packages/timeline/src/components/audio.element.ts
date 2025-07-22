@@ -1,6 +1,7 @@
 import { getAudioDuration } from "@twick/media-utils";
 import { BaseTimelineElement } from "./base.element";
 import { AudioProps } from "../types";
+import type { ElementVisitor } from "./element.visitor";
 
 export class AudioElement extends BaseTimelineElement {
   protected mediaDuration!: number;
@@ -37,4 +38,16 @@ export class AudioElement extends BaseTimelineElement {
       mediaDuration: this.mediaDuration,
     };
   }
+
+  static fromJSON(json: any): AudioElement {
+    const element = new AudioElement(json.props.src);
+    element.mediaDuration = json.mediaDuration;
+    element.props = json.props;
+    return element;
+  }
+
+  accept<T>(visitor: ElementVisitor<T>): T {
+    return visitor.visitAudio(this);
+  }
+  
 }

@@ -1,6 +1,7 @@
 import { generateShortUuid } from "../utils/timeline.utils";
+import type { ElementVisitor } from "./element.visitor";
 
-export class BaseTimelineElement {
+export abstract class BaseTimelineElement {
   protected id: string;
   protected type: string;
   protected s!: number;
@@ -10,10 +11,12 @@ export class BaseTimelineElement {
   protected animation?: Animation;
   protected props?: Record<string, any>;
 
-  constructor(type: string) {
-    this.id = generateShortUuid();
+  constructor(type: string, id?: string) {
+    this.id = id || `e-${generateShortUuid()}`;
     this.type = type;
   }
+
+  abstract accept<T>(visitor: ElementVisitor<T>): T;
 
   getId(): string {
     return this.id;
