@@ -1,6 +1,6 @@
-import { IconProps, Size } from "../types";
+import { IconProps, Size } from "../../types";
 import { BaseTimelineElement } from "./base.element";
-import type { ElementVisitor } from "./element.visitor";
+import type { ElementVisitor } from "../visitor/element-visitor";
 
 export class IconElement extends BaseTimelineElement {
     protected declare props: IconProps;
@@ -30,6 +30,6 @@ export class IconElement extends BaseTimelineElement {
   }
 
   accept<T>(visitor: ElementVisitor<T>): T {
-      return visitor.visitIcon(this);
+      return visitor.visitIconElement(this);
   }
 }

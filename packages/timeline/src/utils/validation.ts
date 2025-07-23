@@ -1,5 +1,5 @@
 import { ServiceErrorCode } from "../types";
-import { Timeline, TimelineElement, AddElementOptions, ImageProps, VideoProps, AudioProps, TextProps } from "../types";
+import { Timeline, TimelineElement, ImageProps, VideoProps, AudioProps, TextProps } from "../types";
 import { canSplitElement } from "./element.utils";
 import { TimelineServiceError } from "./timeline-service-error";
 
@@ -164,7 +164,12 @@ export class ValidationHelper {
   /**
    * Validates add element options
    */
-  static validateAddElementOptions(options: AddElementOptions): void {
+  static validateAddElementOptions(options: {
+    timelineId: string;
+    type: string;
+    s: number;
+    e?: number;
+  }): void {
     if (!options || typeof options !== 'object') {
       throw new TimelineServiceError(
         'Add element options must be a valid object',

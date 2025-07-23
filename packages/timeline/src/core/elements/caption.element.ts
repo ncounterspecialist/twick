@@ -1,5 +1,5 @@
 import { BaseTimelineElement } from "./base.element";
-import type { ElementVisitor } from "./element.visitor";
+import type { ElementVisitor } from "../visitor/element-visitor";
 
 export class CaptionElement extends BaseTimelineElement {
   protected t: string;
@@ -27,7 +27,7 @@ export class CaptionElement extends BaseTimelineElement {
   }
 
   accept<T>(visitor: ElementVisitor<T>): T {
-    return visitor.visitCaption(this);
+    return visitor.visitCaptionElement(this);
   }
 
   static fromJSON(json: any): CaptionElement {

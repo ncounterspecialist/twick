@@ -1,6 +1,6 @@
-import { RectProps, Size } from "../types";
+import { RectProps, Size } from "../../types";
 import { BaseTimelineElement } from "./base.element";
-import { ElementVisitor } from "./element.visitor";
+import { ElementVisitor } from "../visitor/element-visitor";
 
 export class RectElement extends BaseTimelineElement{
     protected declare props: RectProps;
@@ -43,6 +43,6 @@ export class RectElement extends BaseTimelineElement{
     }
 
     accept<T>(visitor: ElementVisitor<T>): T {
-        return visitor.visitRect(this);
+        return visitor.visitRectElement(this);
     }
 }

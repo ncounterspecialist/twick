@@ -1,6 +1,6 @@
-import { CircleProps } from "../types";
+import { CircleProps } from "../../types";
 import { BaseTimelineElement } from "./base.element";
-import type { ElementVisitor } from "./element.visitor";
+import type { ElementVisitor } from "../visitor/element-visitor";
 
 export class CircleElement extends BaseTimelineElement {
   protected declare props: CircleProps;
@@ -48,6 +48,6 @@ export class CircleElement extends BaseTimelineElement {
   }
 
   accept<T>(visitor: ElementVisitor<T>): T {
-    return visitor.visitCircle(this);
+    return visitor.visitCircleElement(this);
   }
 }

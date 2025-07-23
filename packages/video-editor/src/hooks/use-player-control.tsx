@@ -1,7 +1,6 @@
 import { PLAYER_STATE, useLivePlayerContext } from "@twick/live-player";
 import {
   TIMELINE_ACTION,
-  timelineService,
   useTimelineContext,
 } from "@twick/timeline";
 import { useEffect, useRef } from "react";
@@ -9,7 +8,6 @@ import { useEffect, useRef } from "react";
 export const usePlayerControl = () => {
   const { playerState, setPlayerState } = useLivePlayerContext();
   const { timelineAction, setTimelineAction } = useTimelineContext();
-
   const playerStateRef = useRef<PLAYER_STATE>(playerState);
 
   const togglePlayback = () => {
@@ -19,7 +17,8 @@ export const usePlayerControl = () => {
     } else if (playerState === PLAYER_STATE.PAUSED) {
       playerStateRef.current = PLAYER_STATE.REFRESHING;
       setPlayerState(PLAYER_STATE.REFRESHING);
-      setTimelineAction(TIMELINE_ACTION.UPDATE_PLAYER_DATA, timelineService.getTimelineData());
+      // TODO: get player data from timeline context
+      setTimelineAction(TIMELINE_ACTION.UPDATE_PLAYER_DATA, {});
     }
   };
 

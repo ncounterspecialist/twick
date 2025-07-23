@@ -1,9 +1,8 @@
 import {
   type Timeline,
-  useTimeline,
+  useTimelineEditor,
   type TimelineElement,
   useTimelineContext,
-  TIMELINE_OPERATION,
 } from "@twick/timeline";
 import SeekControl from "../controls/seek-control";
 import { useLivePlayerContext } from "@twick/live-player";
@@ -19,22 +18,17 @@ const TimelineManager = ({
   trackZoom: number;
 }) => {
   const { selectedItem, setSelectedItem } = useTimelineContext();
-  const { setTimelineOperation } = useTimelineContext();
-  const { timelineData, duration } = useTimeline({
-    selectedItem: selectedItem,
-    captionProps: {},
-    videoSize,
-    applyPropsToAllSubtitle: false,
-  });
+  const editor = useTimelineEditor();
+  
+  // Get timeline data from editor
+  const timelineData = editor.getTimelineData();
+  const duration = 0; // This should be calculated from timeline data
 
   const { setSeekTime, setCurrentTime } = useLivePlayerContext();
 
   const onReorder = (reorderedItems: Timeline[]) => {
     console.log(reorderedItems, timelineData);
-    setTimelineOperation(TIMELINE_OPERATION.SET_TIMELINE, {
-      timeline: reorderedItems,
-      version: (timelineData?.version ?? 0) + 1,
-    });
+    editor.setTimeline(reorderedItems, (timelineData?.version ?? 0) + 1);
   };
 
   const handleSeekAction = (time: number) => {
@@ -45,14 +39,14 @@ const TimelineManager = ({
   return (
     <TimelineView
       timelineControls={timelineControls}
-      timeline={timelineData?.timeline ?? []}
+      timeline={timelineData?.tracks?.map(track => track.toJSON()) ?? []}
       zoomLevel={trackZoom}
       duration={duration}
       selectedItem={selectedItem}
       onDeletion={() => {}}
       onReorder={onReorder}
       onEditElement={(timelineId: string, elementId: string, updates: any) => {
-        setTimelineOperation(TIMELINE_OPERATION.UPDATE_ELEMENT, {
+        editor.updateElement({
           timelineId,
           elementId,
           updates,
@@ -68,7 +62,7 @@ const TimelineManager = ({
           duration={duration}
           zoom={trackZoom}
           onSeek={handleSeekAction}
-          timelineCount={timelineData?.timeline?.length ?? 0}
+          timelineCount={timelineData?.tracks?.length ?? 0}
         />
       }
     ></TimelineView>

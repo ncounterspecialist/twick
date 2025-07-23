@@ -1,5 +1,5 @@
-import { generateShortUuid } from "../utils/timeline.utils";
-import type { ElementVisitor } from "./element.visitor";
+import { generateShortUuid } from "../../utils/timeline.utils";
+import type { ElementVisitor } from "../visitor/element-visitor";
 
 export abstract class BaseTimelineElement {
   protected id: string;

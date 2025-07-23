@@ -1,6 +1,6 @@
-import { TextAlign, TextEffect, TextProps } from "../types";
+import { TextAlign, TextEffect, TextProps } from "../../types";
 import { BaseTimelineElement } from "./base.element";
-import type { ElementVisitor } from "./element.visitor";
+import type { ElementVisitor } from "../visitor/element-visitor";
 
 export class TextElement extends BaseTimelineElement{
     protected textEffect?: TextEffect;
@@ -77,6 +77,6 @@ export class TextElement extends BaseTimelineElement{
     }
 
     accept<T>(visitor: ElementVisitor<T>): T {
-        return visitor.visitText(this);
+        return visitor.visitTextElement(this);
     }
 }

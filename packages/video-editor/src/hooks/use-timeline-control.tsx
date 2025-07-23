@@ -1,27 +1,19 @@
 import {
-  TIMELINE_OPERATION,
   Timeline,
   TimelineElement,
-  useTimelineContext,
+  useTimelineEditor,
 } from "@twick/timeline";
 
 const useTimelineControl = () => {
-  const { setTimelineOperation } = useTimelineContext();
+  const editor = useTimelineEditor();
 
   const deleteItem = (item: TimelineElement | Timeline) => {
     const timelineId = (item as TimelineElement)?.timelineId;
-    setTimelineOperation(TIMELINE_OPERATION.DELETE_ITEM, {
-      elementId: item?.id,
-      timelineId,
-    });
+    editor.deleteItem(timelineId || item.id, item.id);
   };
   
   const splitElement = (element: TimelineElement, splitTime: number) => {
-    setTimelineOperation(TIMELINE_OPERATION.SPLIT_ELEMENT, {
-      elementId: element?.id,
-      timelineId: element?.timelineId,
-      splitTime,
-    });
+    editor.splitElement(element.timelineId, element.id, splitTime);
   };
 
   return {

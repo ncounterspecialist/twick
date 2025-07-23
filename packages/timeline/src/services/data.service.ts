@@ -1,5 +1,5 @@
-import { BaseTimelineElement } from "../../components/base.element";
-import { TimelineTrack } from "../../components/timeline.track";
+import { BaseTimelineElement } from "../core/elements/base.element";
+import { TimelineTrack } from "../core/track/timeline-track";
 
 type TimelineStore = {
   tracks: TimelineTrack[];

@@ -1,18 +1,16 @@
-import { getObjectFitSize, getVideoMeta } from "@twick/media-utils";
-import { Frame, FrameEffect, ObjectFit, Size, VideoProps } from "../types";
+import { getObjectFitSize, getImageDimensions } from "@twick/media-utils";
+import { Frame, FrameEffect, ImageProps, ObjectFit, Size } from "../../types";
 import { BaseTimelineElement } from "./base.element";
-import type { ElementVisitor } from "./element.visitor";
+import type { ElementVisitor } from "../visitor/element-visitor";
 
-export class VideoElement extends BaseTimelineElement {
-  protected mute!: boolean;
+export class ImageElement extends BaseTimelineElement {
   protected baseSize!: Size;
-  protected mediaDuration!: number;
   protected backgroundColor!: string;
   protected parentSize: Size;
   protected objectFit: ObjectFit;
-  protected frameEffects?: FrameEffect[];
-  protected frame!: Frame;
-  protected declare props: VideoProps;
+  frameEffects?: FrameEffect[];
+  frame!: Frame;
+  protected declare props: ImageProps;
 
   constructor(src: string, parentSize: Size) {
     super("video");
@@ -21,17 +19,12 @@ export class VideoElement extends BaseTimelineElement {
     this.frameEffects = [];
     this.props = {
       src,
-      play: true,
-      playbackRate: 1,
-      time: 0,
       mediaFilter: "none",
-      volume: 1,
     };
   }
 
-  async updateVideoMeta() {
-    const meta = await getVideoMeta(this.props.src);
-    this.mediaDuration = meta.duration;
+  async updateImageMeta() {
+    const meta = await getImageDimensions(this.props.src);
     this.baseSize = getObjectFitSize(
       "contain",
       { width: meta.width, height: meta.height },
@@ -41,12 +34,6 @@ export class VideoElement extends BaseTimelineElement {
         size: [this.baseSize.width, this.baseSize.height],
         ...this.frame,
     }
-  }
-
-  override setStart(s: number) {
-    this.s = s;
-    this.e = this.s + (this.mediaDuration ?? 1);
-    return this;
   }
 
   setObjectFit(objectFit: ObjectFit) {
@@ -59,28 +46,8 @@ export class VideoElement extends BaseTimelineElement {
     return this;
   }
 
-  setPlay(play: boolean) {
-    this.props.play = play;
-    return this;
-  }
-
-  setPlaybackRate(playbackRate: number) {
-    this.props.playbackRate = playbackRate;
-    return this;
-  }
-
-  setStartAt(time: number) {
-    this.props.time = time;
-    return this;
-  } 
-
   setMediaFilter(mediaFilter: string) {
     this.props.mediaFilter = mediaFilter;
-    return this;
-  }
-
-  setVolume(volume: number) {
-    this.props.volume = volume;
     return this;
   }
 
@@ -100,7 +67,7 @@ export class VideoElement extends BaseTimelineElement {
   }
 
   accept<T>(visitor: ElementVisitor<T>): T {
-    return visitor.visitVideo(this);
+    return visitor.visitImageElement(this);
   }
 
   override toJSON() {
@@ -111,16 +78,13 @@ export class VideoElement extends BaseTimelineElement {
       props: this.props,
       frameEffects: this.frameEffects,
       backgroundColor: this.backgroundColor,
-      mediaDuration: this.mediaDuration,
     };
   }
 
-  static fromJSON(json: any): VideoElement {
-    // You may want to adjust this to match your constructor signature
+  static fromJSON(json: any): ImageElement {
     const parentSize = json.frame && json.frame.size ? { width: json.frame.size[0], height: json.frame.size[1] } : { width: 0, height: 0 };
-    const element = new VideoElement(json.props.src, parentSize);
+    const element = new ImageElement(json.props.src, parentSize);
     element.props = json.props;
-    element.mediaDuration = json.mediaDuration;
     element.objectFit = json.objectFit;
     element.frame = json.frame;
     element.frameEffects = json.frameEffects;
@@ -131,6 +95,4 @@ export class VideoElement extends BaseTimelineElement {
     if (json.e !== undefined) element.e = json.e;
     return element;
   }
-
-
 }

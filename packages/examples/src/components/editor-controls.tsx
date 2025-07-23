@@ -1,7 +1,7 @@
 import {
   TIMELINE_ELEMENT_TYPE,
-  TIMELINE_OPERATION,
   useTimelineContext,
+  useTimelineEditor,
   type TimelineElement,
 } from "@twick/timeline";
 import { useState } from "react";
@@ -16,7 +16,8 @@ const EditorControls = () => {
   const [panelType, setPanelType] = useState<
     "media" | "text" | "timeline" | "animation" | "text-effect" | null
   >(null);
-  const { setTimelineOperation, selectedItem } = useTimelineContext();
+  const { selectedItem } = useTimelineContext();
+  const editor = useTimelineEditor();
   const [showColorDialog, setShowColorDialog] = useState(false);
 
   const addTextElement = (text: string) => {
@@ -24,7 +25,7 @@ const EditorControls = () => {
     if (!timelineId) {
       return;
     }
-    setTimelineOperation(TIMELINE_OPERATION.ADD_ELEMENT, {
+    editor.addElement({
       timelineId,
       element: {
         type: TIMELINE_ELEMENT_TYPE.TEXT,
@@ -34,6 +35,7 @@ const EditorControls = () => {
       },
     });
   }
+
   const loadProject = ({ content }: any) => {
     if (typeof content === "string") {
       const contentData = JSON.parse(content);
@@ -44,10 +46,7 @@ const EditorControls = () => {
         projectData = contentData;
       }
       if (projectData?.input) {
-        setTimelineOperation(
-          TIMELINE_OPERATION.LOAD_PROJECT,
-          projectData?.input
-        );
+        editor.loadProject(projectData?.input?.timeline || [], projectData?.input?.version || 0);
       } else {
         alert("Invalid project data");
       }
@@ -55,7 +54,7 @@ const EditorControls = () => {
   };
 
   const addTimeline = () => {
-    setTimelineOperation(TIMELINE_OPERATION.ADD_NEW_TIMELINE, undefined);
+    editor.addNewTimeline({ name: "New Timeline" });
   };
 
   const addRectElement = (color: string) => {
@@ -65,7 +64,7 @@ const EditorControls = () => {
     if (!timelineId) {
       return;
     }
-    setTimelineOperation(TIMELINE_OPERATION.ADD_ELEMENT, {
+    editor.addElement({
       timelineId,
       element: {
         type: TIMELINE_ELEMENT_TYPE.RECT,
@@ -76,7 +75,6 @@ const EditorControls = () => {
         },
       },
     });
-    
   }
 
   const getSelectedTimelineId = () => {
@@ -96,7 +94,7 @@ const EditorControls = () => {
     }
     switch (element?.type) {
       case TIMELINE_ELEMENT_TYPE.IMAGE:
-        setTimelineOperation(TIMELINE_OPERATION.ADD_ELEMENT, {
+        editor.addElement({
           timelineId,
           element: {
             type: TIMELINE_ELEMENT_TYPE.IMAGE,
@@ -108,7 +106,7 @@ const EditorControls = () => {
         });
         break;
       case TIMELINE_ELEMENT_TYPE.VIDEO:
-        setTimelineOperation(TIMELINE_OPERATION.ADD_ELEMENT, {
+        editor.addElement({
           timelineId,
           element: {
             type: TIMELINE_ELEMENT_TYPE.VIDEO,
@@ -120,60 +118,110 @@ const EditorControls = () => {
         });
         break;
       case TIMELINE_ELEMENT_TYPE.AUDIO:
-          setTimelineOperation(TIMELINE_OPERATION.ADD_ELEMENT, {
-            timelineId,
-            element: {
-              type: TIMELINE_ELEMENT_TYPE.AUDIO,
-              props: {
-                src: element.url,
-              },
+        editor.addElement({
+          timelineId,
+          element: {
+            type: TIMELINE_ELEMENT_TYPE.AUDIO,
+            props: {
+              src: element.url,
             },
-          });
-          break;
+          },
+        });
+        break;
     }
   };
 
   return (
-    <div className="flex flex-row gap-2 p-2">
-      <div className="flex flex-col gap-2 p-2">
-        <FileInput
-          id="project-file-input"
-          acceptFileTypes={["application/json"]}
-          onFileLoad={loadProject}
-          buttonText="Load"
-        />
-
-        <div className="controls-button" onClick={() => setPanelType("media")}>Media</div>
-        <div className="controls-button"
-          onClick={() => {
-            const text = prompt("Enter text:");
-            if (text) {
-              addTextElement(text);
-            }
-          }}
+    <div className="twick-editor-controls">
+      <div className="twick-editor-controls-header">
+        <button
+          className={`twick-editor-control-button ${
+            panelType === "media" ? "active" : ""
+          }`}
+          onClick={() => setPanelType(panelType === "media" ? null : "media")}
+        >
+          Media
+        </button>
+        <button
+          className={`twick-editor-control-button ${
+            panelType === "text" ? "active" : ""
+          }`}
+          onClick={() => setPanelType(panelType === "text" ? null : "text")}
         >
           Text
-        </div>
-
-        <div className="controls-button"
-          onClick={() => {
-            setShowColorDialog(true);
-          }}
+        </button>
+        <button
+          className={`twick-editor-control-button ${
+            panelType === "timeline" ? "active" : ""
+          }`}
+          onClick={() => setPanelType(panelType === "timeline" ? null : "timeline")}
         >
-          Rect
-        </div>
-
-        <div className="controls-button" onClick={() => setPanelType("text-effect")}>Text Effect</div>
-
-        <div className="controls-button" onClick={() => setPanelType("animation")}>Animation</div>
-
-        <div className="controls-button" onClick={() => addTimeline()}>Timeline</div>
-
+          Timeline
+        </button>
+        <button
+          className={`twick-editor-control-button ${
+            panelType === "animation" ? "active" : ""
+          }`}
+          onClick={() => setPanelType(panelType === "animation" ? null : "animation")}
+        >
+          Animation
+        </button>
+        <button
+          className={`twick-editor-control-button ${
+            panelType === "text-effect" ? "active" : ""
+          }`}
+          onClick={() => setPanelType(panelType === "text-effect" ? null : "text-effect")}
+        >
+          Text Effect
+        </button>
       </div>
-      {panelType === "media" && <MediaPanel onSelect={addMedia} />}
-      {panelType === "animation" && <AnimationPanel />}
-      {panelType === "text-effect" && <TextEffectPanel />}
-      {showColorDialog && <ColorInputDialog onColorSelect={addRectElement} onCancel={() => setShowColorDialog(false)} />}
+
+      <div className="twick-editor-controls-content">
+        {panelType === "media" && (
+          <MediaPanel onSelect={addMedia} />
+        )}
+        {panelType === "text" && (
+          <div className="twick-editor-text-panel">
+            <button
+              className="twick-editor-button"
+              onClick={() => addTextElement("Sample Text")}
+            >
+              Add Text
+            </button>
+            <button
+              className="twick-editor-button"
+              onClick={() => setShowColorDialog(true)}
+            >
+              Add Rectangle
+            </button>
+          </div>
+        )}
+        {panelType === "timeline" && (
+          <div className="twick-editor-timeline-panel">
+            <button
+              className="twick-editor-button"
+              onClick={addTimeline}
+            >
+              Add Timeline
+            </button>
+            <FileInput
+              id="project-file-input"
+              acceptFileTypes={["application/json"]}
+              onFileLoad={loadProject}
+              buttonText="Load Project"
+            />
+          </div>
+        )}
+        {panelType === "animation" && <AnimationPanel />}
+        {panelType === "text-effect" && <TextEffectPanel />}
+      </div>
+
+      {showColorDialog && (
+        <ColorInputDialog
+          onColorSelect={addRectElement}
+          onCancel={() => setShowColorDialog(false)}
+        />
+      )}
     </div>
   );
 };

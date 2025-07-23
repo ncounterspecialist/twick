@@ -14,7 +14,6 @@ interface PlayerControlsProps {
   onDelete?: (item: TimelineElement | Timeline) => void;
   onSplit?: (item: TimelineElement, splitTime: number) => void;
   className?: string;
-  enableUndoRedo?: boolean;
 }
 
 const PlayerControls: React.FC<PlayerControlsProps> = ({
@@ -25,7 +24,6 @@ const PlayerControls: React.FC<PlayerControlsProps> = ({
   togglePlayback,
   onSplit,
   onDelete,
-  enableUndoRedo = false,
   className = "",
 }) => {
   // Format time to MM:SS format
@@ -83,7 +81,7 @@ const PlayerControls: React.FC<PlayerControlsProps> = ({
         >
           <Scissors size={18} strokeWidth={2} />
         </button>
-        {enableUndoRedo ? <UndoRedoControls /> : null}
+        <UndoRedoControls />
       </div>
 
       {/* Playback Controls */}
