@@ -1,7 +1,7 @@
 import { Timeline, TimelineData, TimelineElement } from "./types";
 import { TIMELINE_ELEMENT_TYPE } from "./utils/constants";
+import { TimelineEditor } from "./core/editor/timeline.editor";
 import { TimelineProvider, TimelineProviderProps } from "./context/timeline-context";
-import { TimelineEditor } from "./core/editor/timeline-editor";
 import useTimelineEditor, { cleanupEditor, cleanupAllEditors, getActiveEditors } from "./hooks/use-timeline-editor";
 
 export { TimelineProvider, TimelineEditor, useTimelineEditor, cleanupEditor, cleanupAllEditors, getActiveEditors };

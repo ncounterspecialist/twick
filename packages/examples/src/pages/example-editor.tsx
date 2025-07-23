@@ -4,6 +4,7 @@ import { LivePlayerProvider } from "@twick/live-player";
 import { generateShortUuid, TimelineProvider } from "@twick/timeline";
 
 import "./example-editor.css";
+import EditorControls from "../components/editor-controls";
 
 const ExampleEditor = () => {
   return (
@@ -13,7 +14,7 @@ const ExampleEditor = () => {
         initialData={INITIAL_TIMELINE_DATA}
       >
         <VideoEditor
-          leftPanel={<div></div>}
+          leftPanel={<EditorControls/>}
           rightPanel={<div></div>}
           editorConfig={{
             canvasMode: true,

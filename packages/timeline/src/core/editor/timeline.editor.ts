@@ -1,7 +1,14 @@
 import { ServiceResult, TimelineData } from "../../types";
-import { generateShortUuid, getTotalDuration, isTimelineId } from "../../utils/timeline.utils";
+import {
+  generateShortUuid,
+  getTotalDuration,
+  isTimelineId,
+} from "../../utils/timeline.utils";
 import { TimelineTrack } from "../track/timeline-track";
-import { timelineContextStore, TimelineTrackData } from "../../services/data.service";
+import {
+  timelineContextStore,
+  TimelineTrackData,
+} from "../../services/data.service";
 import { BaseTimelineElement } from "../elements/base.element";
 import { TimelineElement, Timeline } from "../../types";
 import { PLAYER_STATE, TIMELINE_ACTION } from "../../utils/constants";
@@ -25,7 +32,7 @@ export interface TimelineOperationContext {
 
 /**
  * TimelineEditor
- * 
+ *
  * This class provides an interface to execute all timeline operations
  * using a direct, class-based approach with track-based management.
  * It also handles undo/redo operations internally.
@@ -51,29 +58,38 @@ export class TimelineEditor {
     return this.context;
   }
 
-  pauseVideo(): void {  
-    if(this.context?.setTimelineAction) {
-      this.context.setTimelineAction(TIMELINE_ACTION.SET_PLAYER_STATE, PLAYER_STATE.PAUSED);
+  pauseVideo(): void {
+    if (this.context?.setTimelineAction) {
+      this.context.setTimelineAction(
+        TIMELINE_ACTION.SET_PLAYER_STATE,
+        PLAYER_STATE.PAUSED
+      );
     }
   }
 
   getTimelineData(): TimelineTrackData | null {
     const contextId = this.context.contextId;
     return timelineContextStore.getTimelineData(contextId);
-  }   
+  }
 
-  setTimelineData(timeline: TimelineTrack[], version?: number): TimelineTrackData {
+  setTimelineData(
+    timeline: TimelineTrack[],
+    version?: number
+  ): TimelineTrackData {
     const prevTimelineData = this.getTimelineData();
     const updatedVersion = version ?? (prevTimelineData?.version || 0) + 1;
     const updatedTimelineData = {
       tracks: timeline,
       version: updatedVersion,
     };
-    timelineContextStore.setTimelineData(this.context.contextId, updatedTimelineData);
+    timelineContextStore.setTimelineData(
+      this.context.contextId,
+      updatedTimelineData
+    );
     this.context.setLatestProjectVersion(updatedVersion);
     this.updateHistory(updatedTimelineData);
     return updatedTimelineData as TimelineTrackData;
-  } 
+  }
 
   addTrack(name: string): TimelineTrack {
     const prevTimelineData = this.getTimelineData();
@@ -107,7 +123,7 @@ export class TimelineEditor {
    */
   addElementToTrack(trackId: string, element: BaseTimelineElement): void {
     const tracks = this.getTimelineData()?.tracks || [];
-    const track = tracks.find(t => t.getId() === trackId);
+    const track = tracks.find((t) => t.getId() === trackId);
     if (track) {
       track.addElement(element);
       this.setTimelineData(tracks);
@@ -119,7 +135,7 @@ export class TimelineEditor {
    */
   removeElementFromTrack(trackId: string, elementId: string): void {
     const tracks = this.getTimelineData()?.tracks || [];
-    const track = tracks.find(t => t.getId() === trackId);
+    const track = tracks.find((t) => t.getId() === trackId);
     if (track) {
       const element = track.getElementById(elementId);
       if (element) {
@@ -134,7 +150,7 @@ export class TimelineEditor {
    */
   updateElementInTrack(trackId: string, element: BaseTimelineElement): void {
     const tracks = this.getTimelineData()?.tracks || [];
-    const track = tracks.find(t => t.getId() === trackId);
+    const track = tracks.find((t) => t.getId() === trackId);
     if (track) {
       track.updateElement(element);
       this.setTimelineData(tracks);
@@ -148,13 +164,10 @@ export class TimelineEditor {
     switch (action) {
       case TIMELINE_ACTION.SET_PROJECT_DATA:
         if (payload?.timeline) {
-          this.setProjectData(payload.timeline, payload.version);
-          if(this.context?.setTimelineAction) {
-            this.context.setTimelineAction(TIMELINE_ACTION.UPDATE_PLAYER_DATA, {
-              timeline: payload.timeline,
-              version: payload.version,
-            });
-          }
+          this.loadProject({
+            timeline: payload.timeline,
+            version: payload.version,
+          });
         }
         break;
       case TIMELINE_ACTION.RESET_HISTORY:
@@ -167,16 +180,16 @@ export class TimelineEditor {
   }
 
   updateHistory(timelineTrackData: TimelineTrackData): void {
-    const timeline = timelineTrackData.tracks.map(t => t.toJSON());
+    const timeline = timelineTrackData.tracks.map((t) => t.toJSON());
     this.context.setTotalDuration(getTotalDuration(timeline));
     const version = timelineTrackData.version;
     this.context.setPresent({
-      timeline, 
+      timeline,
       version,
     });
   }
 
-  /** 
+  /**
    * Trigger undo operation
    */
   undo(): void {
@@ -197,13 +210,23 @@ export class TimelineEditor {
     this.context.handleResetHistory();
   }
 
-
-
-  setProjectData(timeline: Timeline[], version: number): void {
+  loadProject({
+    timeline,
+    version,
+  }: {
+    timeline: Timeline[];
+    version: number;
+  }): void {
     this.pauseVideo();
     // Convert Timeline[] to TimelineTrack[] and set
-    const tracks = timeline.map(t => TimelineTrack.fromJSON(t));
+    const tracks = timeline.map((t) => TimelineTrack.fromJSON(t));
     this.setTimelineData(tracks, version);
+    if (this.context?.setTimelineAction) {
+      this.context.setTimelineAction(TIMELINE_ACTION.UPDATE_PLAYER_DATA, {
+        timeline: timeline,
+        version: version,
+      });
+    }
   }
 
   addNewTimeline(payload: any): any {
@@ -212,7 +235,10 @@ export class TimelineEditor {
     if (this.context.setSelectedItem) {
       this.context.setSelectedItem(track.toJSON());
     }
-    return { timeline: track.toJSON(), version: this.getTimelineData()?.version };
+    return {
+      timeline: track.toJSON(),
+      version: this.getTimelineData()?.version,
+    };
   }
 
   deleteItem(timelineId: string, elementId: string): void {
@@ -240,13 +266,19 @@ export class TimelineEditor {
       const elementInstance = this.createElementInstance(element);
       if (elementInstance) {
         this.addElementToTrack(timelineId, elementInstance);
-        
+
         if (this.context.setSelectedItem) {
           setTimeout(() => {
-            this.context.setSelectedItem!(elementInstance as unknown as TimelineElement);
+            this.context.setSelectedItem!(
+              elementInstance as unknown as TimelineElement
+            );
           }, 1000);
         }
-        return { element: elementInstance, timelineId, version: this.getTimelineData()?.version };
+        return {
+          element: elementInstance,
+          timelineId,
+          version: this.getTimelineData()?.version,
+        };
       }
     }
   }
@@ -254,7 +286,7 @@ export class TimelineEditor {
   updateElement(payload: any): void {
     this.pauseVideo();
     const { elementId, timelineId, updates } = payload;
-    
+
     const track = this.getTrackById(timelineId);
     if (track) {
       const element = track.getElementById(elementId);
@@ -295,9 +327,15 @@ export class TimelineEditor {
     if (elementInstance) {
       this.addElementToTrack(track.getId(), elementInstance);
       if (this.context.setSelectedItem) {
-        this.context.setSelectedItem(elementInstance as unknown as TimelineElement);
+        this.context.setSelectedItem(
+          elementInstance as unknown as TimelineElement
+        );
       }
-      return { element: elementInstance, timelineId: track.getId(), version: this.getTimelineData()?.version };
+      return {
+        element: elementInstance,
+        timelineId: track.getId(),
+        version: this.getTimelineData()?.version,
+      };
     }
   }
 
