@@ -1,57 +1,12 @@
 import { useState } from "react";
-import { useTimelineContext, useTimelineEditor } from "@twick/timeline";
+import { useTimelineContext } from "@twick/timeline";
 
 const CommandPanel = () => {
   const [command, setCommand] = useState("");
-  const [result, setResult] = useState("");
+  const [result] = useState("");
   const { timelineAction } = useTimelineContext();
-  const editor = useTimelineEditor();
 
   const executeCommand = () => {
-    try {
-      const parsedCommand = JSON.parse(command);
-      const { operation, payload } = parsedCommand;
-
-      switch (operation) {
-        case "addElement":
-          editor.addElement(payload).then((result) => {
-            setResult(JSON.stringify(result, null, 2));
-          });
-          break;
-        case "updateElement":
-          editor.updateElement(payload);
-          setResult("Element updated successfully");
-          break;
-        case "deleteItem":
-          editor.deleteItem(payload.timelineId, payload.elementId);
-          setResult("Item deleted successfully");
-          break;
-        case "addNewTimeline":
-          const result = editor.addNewTimeline(payload);
-          setResult(JSON.stringify(result, null, 2));
-          break;
-        case "loadProject":
-          editor.setProjectData(payload.timeline, payload.version);
-          setResult("Project loaded successfully");
-          break;
-        case "undo":
-          editor.undo();
-          setResult("Undo executed");
-          break;
-        case "redo":
-          editor.redo();
-          setResult("Redo executed");
-          break;
-        case "resetHistory":
-          editor.resetHistory();
-          setResult("History reset");
-          break;
-        default:
-          setResult(`Unknown operation: ${operation}`);
-      }
-    } catch (error) {
-      setResult(`Error: ${error instanceof Error ? error.message : 'Unknown error'}`);
-    }
   };
 
   return (

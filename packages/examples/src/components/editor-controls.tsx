@@ -20,7 +20,7 @@ const EditorControls = () => {
   const editor = useTimelineEditor();
   const [showColorDialog, setShowColorDialog] = useState(false);
 
-  const addTextElement = (text: string) => {
+  const addTextElement = (_text: string) => {
     const timelineId = getSelectedTimelineId();
     if (!timelineId) {
       return;

@@ -25,7 +25,10 @@ const TimelineManager = ({
 
   const onReorder = (reorderedItems: Timeline[]) => {
     console.log(reorderedItems, timelineData);
-    editor.setProjectData(reorderedItems, (timelineData?.version ?? 0) + 1);
+    editor.loadProject({
+      timeline: reorderedItems,
+      version: (timelineData?.version ?? 0) + 1,
+    });
   };
 
   const handleSeekAction = (time: number) => {

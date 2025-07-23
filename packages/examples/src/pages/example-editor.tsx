@@ -1,7 +1,7 @@
 import VideoEditor, { INITIAL_TIMELINE_DATA } from "@twick/video-editor";
 import "@twick/video-editor/dist/video-editor.css";
 import { LivePlayerProvider } from "@twick/live-player";
-import { generateShortUuid, TimelineProvider } from "@twick/timeline";
+import {  TimelineProvider } from "@twick/timeline";
 
 import "./example-editor.css";
 import EditorControls from "../components/editor-controls";
@@ -10,7 +10,7 @@ const ExampleEditor = () => {
   return (
     <LivePlayerProvider>
       <TimelineProvider
-        contextId={generateShortUuid()}
+        contextId={'editor-demo'}
         initialData={INITIAL_TIMELINE_DATA}
       >
         <VideoEditor

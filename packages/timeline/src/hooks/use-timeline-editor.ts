@@ -1,9 +1,15 @@
 import { useMemo, useEffect } from "react";
 import { useTimelineContext } from "../context/timeline-context";
 import { TimelineEditor } from "../core/editor/timeline.editor";
-
+ 
+const ENABLE_TIMELINE_EDITOR_REGISTRY = true;
 // Global registry to store editor instances per contextId
-const editorRegistry = new Map<string, TimelineEditor>();
+const editorRegistry: Map<string, TimelineEditor> =
+  (typeof window !== "undefined" && ENABLE_TIMELINE_EDITOR_REGISTRY) ?
+    (
+      ((window as any).timelineEditorRegistry = (window as any).timelineEditorRegistry || new Map<string, TimelineEditor>())
+    ) :
+    new Map<string, TimelineEditor>();
 
 /**
  * Clean up a specific editor instance
