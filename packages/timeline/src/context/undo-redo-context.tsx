@@ -18,7 +18,7 @@ interface UndoRedoContextType {
   // State
   canUndo: boolean;
   canRedo: boolean;
-
+  present: TimelineData | null;
   // Actions
   setPresent: (timelineData: TimelineData) => void;
   undo: () => TimelineData | null;
@@ -201,6 +201,7 @@ export const UndoRedoProvider: React.FC<UndoRedoProviderProps> = ({
   const contextValue: UndoRedoContextType = {
     canUndo: state.past.length > 0,
     canRedo: state.future.length > 0,
+    present: state.present,
     setPresent,
     undo,
     redo,

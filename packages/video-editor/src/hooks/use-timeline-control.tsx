@@ -16,9 +16,19 @@ const useTimelineControl = () => {
     editor.splitElement(element.timelineId, element.id, splitTime);
   };
 
+  const handleUndo = () => {
+    editor.undo();
+  }
+
+  const handleRedo = () => {
+    editor.redo();
+  }
+
   return {
     splitElement,
     deleteItem,
+    handleUndo,
+    handleRedo,
   };
 };
 

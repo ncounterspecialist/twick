@@ -36,9 +36,11 @@ export const getActiveEditors = (): Map<string, TimelineEditor> => {
 const useTimelineEditor = () => {
   const {
     contextId,
+    setTotalDuration,
     setLatestProjectVersion,
     setSelectedItem,
     setTimelineAction,
+    setPresent,
     handleUndo,
     handleRedo,
     handleResetHistory,
@@ -63,6 +65,8 @@ const useTimelineEditor = () => {
     // Create a new editor instance
     const newEditor = new TimelineEditor({
       contextId,
+      setTotalDuration,
+      setPresent,
       handleUndo,
       handleRedo,
       handleResetHistory,

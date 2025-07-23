@@ -7,7 +7,7 @@ import { useEffect, useRef } from "react";
 
 export const usePlayerControl = () => {
   const { playerState, setPlayerState } = useLivePlayerContext();
-  const { timelineAction, setTimelineAction } = useTimelineContext();
+  const { present, timelineAction, setTimelineAction } = useTimelineContext();
   const playerStateRef = useRef<PLAYER_STATE>(playerState);
 
   const togglePlayback = () => {
@@ -18,7 +18,7 @@ export const usePlayerControl = () => {
       playerStateRef.current = PLAYER_STATE.REFRESHING;
       setPlayerState(PLAYER_STATE.REFRESHING);
       // TODO: get player data from timeline context
-      setTimelineAction(TIMELINE_ACTION.UPDATE_PLAYER_DATA, {});
+      setTimelineAction(TIMELINE_ACTION.UPDATE_PLAYER_DATA, present);
     }
   };
 

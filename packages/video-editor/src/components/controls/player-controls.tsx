@@ -9,8 +9,12 @@ interface PlayerControlsProps {
   selectedItem: TimelineElement | Timeline | null;
   currentTime: number;
   duration: number;
+  canUndo: boolean;
+  canRedo: boolean;
   playerState: keyof typeof PLAYER_STATE;
   togglePlayback: () => void;
+  onUndo?: () => void;
+  onRedo?: () => void;
   onDelete?: (item: TimelineElement | Timeline) => void;
   onSplit?: (item: TimelineElement, splitTime: number) => void;
   className?: string;
@@ -22,6 +26,10 @@ const PlayerControls: React.FC<PlayerControlsProps> = ({
   currentTime,
   playerState,
   togglePlayback,
+  canUndo = false,
+  canRedo = false,
+  onUndo,
+  onRedo,
   onSplit,
   onDelete,
   className = "",
@@ -81,7 +89,7 @@ const PlayerControls: React.FC<PlayerControlsProps> = ({
         >
           <Scissors size={18} strokeWidth={2} />
         </button>
-        <UndoRedoControls />
+        <UndoRedoControls canUndo={canUndo} canRedo={canRedo} onUndo={onUndo} onRedo={onRedo} />
       </div>
 
       {/* Playback Controls */}

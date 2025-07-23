@@ -49,10 +49,6 @@ const VideoEditor: React.FC<VideoEditorProps> = ({
 
         <TimelineManager
           trackZoom={trackZoom}
-          videoSize={{
-            width: editorConfig.videoProps.width,
-            height: editorConfig.videoProps.height,
-          }}
         />
       </div>
     </div>

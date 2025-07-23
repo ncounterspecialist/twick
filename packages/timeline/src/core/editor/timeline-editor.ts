@@ -143,19 +143,16 @@ export class TimelineEditor {
    */
   handleTimelineAction(action: string, payload: any): void {
     switch (action) {
-      case TIMELINE_ACTION.UNDO:
-      case TIMELINE_ACTION.REDO:
+      case TIMELINE_ACTION.UPDATE_PLAYER_DATA:
         if (payload?.timeline) {
-          this.setTimeline(payload.timeline, payload.version);
-        }
-        break;
-      case TIMELINE_ACTION.SET_PROJECT_DATA:
-        if (payload?.timeline) {
-          this.setTimeline(payload.timeline, payload.version);
-        }
-        break;
-      case TIMELINE_ACTION.RESET_HISTORY:
-        // Handle history reset if needed
+          this.updateTimeline(payload.timeline, payload.version);
+          if(this.context?.setTimelineAction) {
+            this.context.setTimelineAction(TIMELINE_ACTION.ON_PLAYER_UPDATED, {
+              timeline: payload.timeline,
+              version: payload.version,
+            });
+          }
+        } 
         break;
       default:
         // Handle other actions if needed
@@ -184,20 +181,8 @@ export class TimelineEditor {
     this.context.handleResetHistory();
   }
 
-  // Legacy operations - these maintain compatibility but use the track-based system
-  loadProject(timeline: Timeline[], version: number = 0): void {
-    // Convert Timeline[] to TimelineTrack[] and set
-    const tracks = timeline.map((t: Timeline) => TimelineTrack.fromJSON(t));
-    this.setTimelineData(tracks, version);
-    if (this.context.setTimelineAction) {
-      this.context.setTimelineAction(
-        TIMELINE_ACTION.SET_PROJECT_DATA,
-        this.getTimelineData()
-      );
-    }
-  }
 
-  setTimeline(timeline: Timeline[], version: number): void {
+  updateTimeline(timeline: Timeline[], version: number): void {
     this.pauseVideo();
     // Convert Timeline[] to TimelineTrack[] and set
     const tracks = timeline.map((t: Timeline) => TimelineTrack.fromJSON(t));

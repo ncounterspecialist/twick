@@ -31,7 +31,7 @@ const CommandPanel = () => {
           setResult(JSON.stringify(result, null, 2));
           break;
         case "loadProject":
-          editor.loadProject(payload.timeline, payload.version);
+          editor.setProjectData(payload.timeline, payload.version);
           setResult("Project loaded successfully");
           break;
         case "undo":

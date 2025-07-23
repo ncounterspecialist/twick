@@ -1,5 +1,5 @@
-import { ServiceResult } from "../../types";
-import { generateShortUuid, isTimelineId } from "../../utils/timeline.utils";
+import { ServiceResult, TimelineData } from "../../types";
+import { generateShortUuid, getTotalDuration, isTimelineId } from "../../utils/timeline.utils";
 import { TimelineTrack } from "../track/timeline-track";
 import { timelineContextStore, TimelineTrackData } from "../../services/data.service";
 import { BaseTimelineElement } from "../elements/base.element";
@@ -12,6 +12,8 @@ import { isTimelineElementId } from "../../utils/element.utils";
  */
 export interface TimelineOperationContext {
   contextId: string;
+  setTotalDuration: (duration: number) => void;
+  setPresent: (data: TimelineData) => void;
   handleUndo: () => void;
   handleRedo: () => void;
   handleResetHistory: () => void;
@@ -69,6 +71,7 @@ export class TimelineEditor {
     };
     timelineContextStore.setTimelineData(this.context.contextId, updatedTimelineData);
     this.context.setLatestProjectVersion(updatedVersion);
+    this.updateHistory(updatedTimelineData);
     return updatedTimelineData as TimelineTrackData;
   } 
 
@@ -143,15 +146,15 @@ export class TimelineEditor {
    */
   handleTimelineAction(action: string, payload: any): void {
     switch (action) {
-      case TIMELINE_ACTION.UNDO:
-      case TIMELINE_ACTION.REDO:
-        if (payload?.timeline) {
-          this.setTimeline(payload.timeline, payload.version);
-        }
-        break;
       case TIMELINE_ACTION.SET_PROJECT_DATA:
         if (payload?.timeline) {
-          this.setTimeline(payload.timeline, payload.version);
+          this.setProjectData(payload.timeline, payload.version);
+          if(this.context?.setTimelineAction) {
+            this.context.setTimelineAction(TIMELINE_ACTION.UPDATE_PLAYER_DATA, {
+              timeline: payload.timeline,
+              version: payload.version,
+            });
+          }
         }
         break;
       case TIMELINE_ACTION.RESET_HISTORY:
@@ -163,7 +166,17 @@ export class TimelineEditor {
     }
   }
 
-  /**
+  updateHistory(timelineTrackData: TimelineTrackData): void {
+    const timeline = timelineTrackData.tracks.map(t => t.toJSON());
+    this.context.setTotalDuration(getTotalDuration(timeline));
+    const version = timelineTrackData.version;
+    this.context.setPresent({
+      timeline, 
+      version,
+    });
+  }
+
+  /** 
    * Trigger undo operation
    */
   undo(): void {
@@ -184,20 +197,9 @@ export class TimelineEditor {
     this.context.handleResetHistory();
   }
 
-  // Legacy operations - these maintain compatibility but use the track-based system
-  loadProject(timeline: Timeline[], version: number = 0): void {
-    // Convert Timeline[] to TimelineTrack[] and set
-    const tracks = timeline.map(t => TimelineTrack.fromJSON(t));
-    this.setTimelineData(tracks, version);
-    if (this.context.setTimelineAction) {
-      this.context.setTimelineAction(
-        TIMELINE_ACTION.SET_PROJECT_DATA,
-        this.getTimelineData()
-      );
-    }
-  }
 
-  setTimeline(timeline: Timeline[], version: number): void {
+
+  setProjectData(timeline: Timeline[], version: number): void {
     this.pauseVideo();
     // Convert Timeline[] to TimelineTrack[] and set
     const tracks = timeline.map(t => TimelineTrack.fromJSON(t));

@@ -12,10 +12,10 @@ const ControlManager = ({
   trackZoom: number;
   setTrackZoom: (zoom: number) => void;
 }) => {
-  const { totalDuration, currentTime, playerState } = useLivePlayerContext();
+  const { currentTime, playerState } = useLivePlayerContext();
   const { togglePlayback } = usePlayerControl();
-  const { selectedItem } = useTimelineContext();
-  const { deleteItem, splitElement } = useTimelineControl();
+  const { canRedo, canUndo, totalDuration, selectedItem } = useTimelineContext();
+  const { deleteItem, splitElement, handleUndo, handleRedo } = useTimelineControl();
 
   return (
     <div className="twick-editor-timeline-controls">
@@ -25,8 +25,12 @@ const ControlManager = ({
         currentTime={currentTime}
         playerState={playerState}
         togglePlayback={togglePlayback}
+        canUndo={canUndo}
+        canRedo={canRedo}
         onDelete={deleteItem}
         onSplit={splitElement}
+        onUndo={handleUndo}
+        onRedo={handleRedo}
       />
       <TimelineZoom zoomLevel={trackZoom} setZoomLevel={setTrackZoom} />
     </div>

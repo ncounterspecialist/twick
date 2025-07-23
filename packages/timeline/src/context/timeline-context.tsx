@@ -11,11 +11,15 @@ type TimelineContextType = {
     type: string;
     payload: any;
   };
+  totalDuration: number;
+  present: TimelineData | null;
+  setPresent: (data: TimelineData) => void;
   canUndo: boolean;
   canRedo: boolean;
   handleUndo: () => void;
   handleRedo: () => void;
   handleResetHistory: () => void;
+  setTotalDuration: (duration: number) => void;
   setLatestProjectVersion: (version: number) => void;
   setSelectedItem: (item: TimelineElement | Timeline | null) => void;
   setTimelineAction: (type: string, payload: any) => void;
@@ -54,6 +58,8 @@ const TimelineProviderInner = ({
     TimelineElement | Timeline | null
   >(null);
 
+  const [totalDuration, setTotalDuration] = useState(0);
+
   const [latestProjectVersion, setLatestProjectVersion] = useState(0);
 
   const undoRedoContext = useUndoRedo();
@@ -82,13 +88,17 @@ const TimelineProviderInner = ({
     contextId,
     selectedItem,
     timelineAction,
+    totalDuration,
     latestProjectVersion,
+    present: undoRedoContext.present,
+    setPresent: undoRedoContext.setPresent,
     canUndo: undoRedoContext.canUndo,
     canRedo: undoRedoContext.canRedo,
     handleUndo: undoRedoContext.undo,
     handleRedo: undoRedoContext.redo,
     handleResetHistory: undoRedoContext.resetHistory,
     setLatestProjectVersion,
+    setTotalDuration,
     setSelectedItem,
     setTimelineAction,
   };

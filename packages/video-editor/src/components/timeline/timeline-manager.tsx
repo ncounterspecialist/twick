@@ -10,25 +10,22 @@ import TimelineView from "./timeline-view";
 
 const TimelineManager = ({
   timelineControls,
-  videoSize,
   trackZoom,
 }: {
   timelineControls?: React.ReactNode;
-  videoSize: { width: number; height: number };
   trackZoom: number;
 }) => {
-  const { selectedItem, setSelectedItem } = useTimelineContext();
+  const { selectedItem, setSelectedItem, totalDuration } = useTimelineContext();
   const editor = useTimelineEditor();
   
   // Get timeline data from editor
   const timelineData = editor.getTimelineData();
-  const duration = 0; // This should be calculated from timeline data
 
   const { setSeekTime, setCurrentTime } = useLivePlayerContext();
 
   const onReorder = (reorderedItems: Timeline[]) => {
     console.log(reorderedItems, timelineData);
-    editor.setTimeline(reorderedItems, (timelineData?.version ?? 0) + 1);
+    editor.setProjectData(reorderedItems, (timelineData?.version ?? 0) + 1);
   };
 
   const handleSeekAction = (time: number) => {
@@ -41,7 +38,7 @@ const TimelineManager = ({
       timelineControls={timelineControls}
       timeline={timelineData?.tracks?.map(track => track.toJSON()) ?? []}
       zoomLevel={trackZoom}
-      duration={duration}
+      duration={totalDuration}
       selectedItem={selectedItem}
       onDeletion={() => {}}
       onReorder={onReorder}
@@ -59,7 +56,7 @@ const TimelineManager = ({
       }}
       seekTrack={
         <SeekControl
-          duration={duration}
+          duration={totalDuration}
           zoom={trackZoom}
           onSeek={handleSeekAction}
           timelineCount={timelineData?.tracks?.length ?? 0}

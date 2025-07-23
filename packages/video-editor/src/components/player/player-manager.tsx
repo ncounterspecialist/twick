@@ -1,6 +1,8 @@
+
 import { CANVAS_OPERATIONS, useTwickCanvas } from "@twick/canvas";
 import {
   LivePlayer,
+  PLAYER_STATE,
   useLivePlayerContext,
 } from "@twick/live-player";
 import {
@@ -21,17 +23,20 @@ export const PlayerManager = ({
 }) => {
   const [projectData, setProjectData] = useState<any>(null);
   const {
+    present,
     timelineAction,
+    setTimelineAction,
+    latestProjectVersion,
     setSelectedItem,
   } = useTimelineContext();
   const editor = useTimelineEditor();
+  const durationRef = useRef<number>(0);
   const {
     playerState,
     playerVolume,
     seekTime,
     setPlayerState,
     setCurrentTime,
-    setTotalDuration,
   } = useLivePlayerContext();
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -47,13 +52,8 @@ export const PlayerManager = ({
         setSelectedItem(data);
         break;
       case CANVAS_OPERATIONS.ITEM_UPDATED:
-        editor.updateElement({
-          timelineId: data.timelineId,
-          elementId: data.id,
-          updates: data,
-          forceUpdate: true,
-          noSelection: true,
-        });
+       //handle item edit
+       console.log(editor);
         break;
       default:
         break;
@@ -66,37 +66,116 @@ export const PlayerManager = ({
   });
 
   useEffect(() => {
-    if (timelineAction.type === TIMELINE_ACTION.SET_PROJECT_DATA) {
-      setProjectData(timelineAction.payload);
+    const container = containerRef.current;
+    const canvasSize = {
+      width: container?.clientWidth,
+      height: container?.clientHeight,
+    };
+    buildCanvas({
+      videoSize: {
+        width: videoProps.width,
+        height: videoProps.height,
+      },
+      canvasSize,
+      canvasRef: canvasRef.current,
+    });
+  }, [videoProps]);
+
+  useEffect(() => {
+    switch (timelineAction.type) {
+      case TIMELINE_ACTION.SET_PROJECT_DATA:
+        if (videoProps) {
+          const _latestProjectData = {
+            input: {
+              properties: videoProps,
+              timeline: timelineAction.payload?.timeline ?? [],
+              version: timelineAction.payload?.version ?? 0,
+            },
+          };
+          setProjectData(_latestProjectData);
+        }
+        break;
+      case TIMELINE_ACTION.UPDATE_PLAYER_DATA:
+        if (videoProps) {
+          if (latestProjectVersion !== projectData?.input?.version) {
+            const _latestProjectData = {
+              input: {
+                properties: videoProps,
+                timeline: timelineAction.payload?.timeline ?? [],
+                version: timelineAction.payload?.version ?? 0,
+              },
+            };
+            setProjectData(_latestProjectData);
+          } 
+        }
+        setTimelineAction(TIMELINE_ACTION.ON_PLAYER_UPDATED, null);
+        break;
     }
   }, [timelineAction]);
 
   useEffect(() => {
-    if (projectData && videoProps) {
-      const timelineData = editor.getTimelineData();
-      if (timelineData) {
-        const elements = getCurrentElements(0, timelineData.tracks.map(track => track.toJSON()));
-        setCanvasElements(elements);
-      }
+    if (twickCanvas && playerState === PLAYER_STATE.PAUSED) {
+      const elements = getCurrentElements(
+        seekTime,
+        present?.timeline ?? []
+      );
+      setCanvasElements({
+        elements,
+        seekTime,
+        captionProps: {},
+        cleanAndAdd: true,
+      });
     }
-  }, [projectData, videoProps, editor]);
+  }, [playerState, seekTime, twickCanvas, latestProjectVersion]);
+
+  const handleTimeUpdate = (time: number) => {
+    if (time >= durationRef.current) {
+      setCurrentTime(0);
+      setPlayerState(PLAYER_STATE.PAUSED);
+    } else {
+      setCurrentTime(time);
+    }
+  };
 
   return (
-    <div className="twick-player-manager" ref={containerRef}>
+    <div
+      className="twick-editor-container"
+      style={{
+        aspectRatio: `${videoProps.width}/${videoProps.height}`,
+      }}
+    >
       <LivePlayer
-        ref={canvasRef}
-        videoProps={videoProps}
-        projectData={projectData}
-        playerState={playerState}
-        playerVolume={playerVolume}
         seekTime={seekTime}
-        setPlayerState={setPlayerState}
-        setCurrentTime={setCurrentTime}
-        setTotalDuration={setTotalDuration}
-        canvasMode={canvasMode}
-        twickCanvas={twickCanvas}
-        buildCanvas={buildCanvas}
+        projectData={projectData}
+        videoSize={{
+          width: videoProps.width,
+          height: videoProps.height,
+        }}
+        containerStyle={{
+          opacity: canvasMode
+            ? playerState === PLAYER_STATE.PAUSED
+              ? 0
+              : 1
+            : 1,
+        }}
+        onTimeUpdate={handleTimeUpdate}
+        volume={playerVolume}
+        onDurationChange={(duration: number) => {
+          durationRef.current = duration;
+        }}
+        playing={playerState === PLAYER_STATE.PLAYING}
       />
+      {canvasMode && (
+        <div
+          ref={containerRef}
+          className="twick-editor-canvas-container"
+          style={{
+            opacity: playerState === PLAYER_STATE.PAUSED ? 1 : 0,
+          }}
+        >
+          <canvas ref={canvasRef} className="twick-editor-canvas" />
+        </div>
+      )}
     </div>
   );
 };
