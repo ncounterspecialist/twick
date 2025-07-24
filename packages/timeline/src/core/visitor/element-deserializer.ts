@@ -1,4 +1,4 @@
-import { BaseTimelineElement } from "../elements/base.element";
+import { TrackElement } from "../elements/base.element";
 import { VideoElement } from "../elements/video.element";
 import { AudioElement } from "../elements/audio.element";
 import { ImageElement } from "../elements/image.element";
@@ -9,7 +9,7 @@ import { CircleElement } from "../elements/circle.element";
 import { RectElement } from "../elements/rect.element";
 
 export class ElementDeserializer {
-  static fromJSON(json: any): BaseTimelineElement {
+  static fromJSON(json: any): TrackElement {
     const { type } = json;
 
     switch (type) {

@@ -1,10 +1,10 @@
 /**
- * Timeline component that handles the creation and management of different types of timelines
+ * Track component that handles the creation and management of different types of tracks
  * including video, audio, captions, scenes, and elements.
  */
 
 import { Layout, Rect, View2D, Audio } from "@revideo/2d";
-import { VisualizerTimeline } from "../helpers/types";
+import { VisualizerTrack } from "../helpers/types";
 import { all, Color, createRef, ThreadGenerator, waitFor } from "@revideo/core";
 import {
   CAPTION_STYLE,
@@ -15,23 +15,23 @@ import { logger } from "../helpers/log.utils";
 import elementController from "../controllers/element.controller";
 
 /**
- * Creates a video timeline with specified configuration
- * @param {Object} params - Parameters for video timeline creation
+ * Creates a video track with specified configuration
+ * @param {Object} params - Parameters for video track creation
  * @param {View2D} params.view - The 2D view to render the video in
- * @param {VideoTimeline} params.timeline - Video timeline configuration
- * @returns {Generator} Generator function for video timeline animation
+ * @param {VideoTrack} params.track - Video track configuration
+ * @returns {Generator} Generator function for video track animation
  */
-export function* makeVideoTimeline({
+export function* makeVideoTrack({
   view,
-  timeline,
+  track,
 }: {
   view: View2D;
-  timeline: VisualizerTimeline;
+  track: VisualizerTrack;
 }) {
   const frameRef = createRef<any>();
   let prevTime = 0;
   view.add(<Layout size={"100%"} ref={frameRef} layout />);
-  for (const element of timeline.elements || []) {
+  for (const element of track.elements || []) {
     yield* waitFor(element?.s - prevTime);
     yield* elementController.get("video")?.create({
       containerRef: frameRef,
@@ -44,21 +44,21 @@ export function* makeVideoTimeline({
 }
 
 /**
- * Creates an audio timeline with specified configuration
- * @param {Object} params - Parameters for audio timeline creation
+ * Creates an audio track with specified configuration
+ * @param {Object} params - Parameters for audio track creation
  * @param {View2D} params.view - The 2D view to render the audio in
- * @param {AudioTimeline} params.timeline - Audio timeline configuration
- * @returns {Generator} Generator function for audio timeline animation
+ * @param {AudioTrack} params.track - Audio track configuration
+ * @returns {Generator} Generator function for audio track animation
  */
-export function* makeAudioTimeline({
+export function* makeAudioTrack({
   view,
-  timeline,
+  track,
 }: {
   view: View2D;
-  timeline: VisualizerTimeline;
+  track: VisualizerTrack;
 }) {
   let prevTime = 0;
-  for (const audioElement of timeline.elements) {
+  for (const audioElement of track.elements) {
     const audioRef = createRef<any>();
     yield* waitFor(audioElement?.s - prevTime);
     prevTime = audioElement?.e;
@@ -73,29 +73,29 @@ export function* makeAudioTimeline({
 }
 
 /**
- * Creates a caption timeline with specified configuration
- * @param {Object} params - Parameters for caption timeline creation
+ * Creates a caption track with specified configuration
+ * @param {Object} params - Parameters for caption track creation
  * @param {View2D} params.view - The 2D view to render the caption in
- * @param {CaptionTimeline} params.timeline - Caption timeline configuration
- * @returns {Generator} Generator function for caption timeline animation
+ * @param {CaptionTrack} params.track - Caption track configuration
+ * @returns {Generator} Generator function for caption track animation
  */
-export function* makeCaptionTimeline({
+export function* makeCaptionTrack({
   view,
-  timeline,
+  track,
 }: {
   view: View2D;
-  timeline: VisualizerTimeline;
+  track: VisualizerTrack;
 }) {
   let prevTime = 0;
-  const captionTimelineRef = createRef<any>();
-  view.add(<Layout size={"100%"} ref={captionTimelineRef} />);
+  const captionTrackRef = createRef<any>();
+  view.add(<Layout size={"100%"} ref={captionTrackRef} />);
 
-  const tProps = timeline?.props;
+  const tProps = track?.props;
 
-  const timelineDefaultProps =
+  const trackDefaultProps =
     (CAPTION_STYLE[tProps?.capStyle ?? ""] || {}).word || {};
 
-  for (const element of timeline.elements) {
+  for (const element of track.elements) {
     const eProps = element.props;
     const rectStyle =
       (CAPTION_STYLE[eProps?.capStyle ?? tProps?.capStyle ?? ""] || {}).rect ||
@@ -107,7 +107,7 @@ export function* makeCaptionTimeline({
       alignItems: rectStyle.alignItems as any,
     };
     const phraseProps = {
-      ...timelineDefaultProps,
+      ...trackDefaultProps,
       colors: {
         text:
           eProps?.colors?.text ??
@@ -144,7 +144,7 @@ export function* makeCaptionTimeline({
 
     yield* waitFor(element?.s - prevTime);
     const phraseRef = createRef<any>();
-    captionTimelineRef().add(
+    captionTrackRef().add(
       <Rect
         ref={phraseRef}
         key={element.id}
@@ -175,22 +175,22 @@ export function* makeCaptionTimeline({
 }
 
 /**
- * Creates a scene timeline with specified configuration
- * @param {Object} params - Parameters for scene timeline creation
+ * Creates a scene track with specified configuration
+ * @param {Object} params - Parameters for scene track creation
  * @param {View2D} params.view - The 2D view to render the scene in
- * @param {SceneTimeline} params.timeline - Scene timeline configuration
- * @returns {Generator} Generator function for scene timeline animation
+ * @param {SceneTrack} params.track - Scene track configuration
+ * @returns {Generator} Generator function for scene track animation
  */
-export function* makeSceneTimeline({
+export function* makeSceneTrack({
   view,
-  timeline,
+  track,
 }: {
   view: View2D;
-  timeline: VisualizerTimeline;
+  track: VisualizerTrack;
 }) {
   const frameRef = createRef<any>();
   view.add(<Layout size={"100%"} ref={frameRef} layout />);
-  for (const sceneElement of timeline.elements || []) {
+  for (const sceneElement of track.elements || []) {
     yield* elementController.get("scene")?.create({
       containerRef: frameRef,
       element: sceneElement,
@@ -201,32 +201,32 @@ export function* makeSceneTimeline({
 }
 
 /**
- * Creates an element timeline with specified configuration
- * @param {Object} params - Parameters for element timeline creation
+ * Creates an element track with specified configuration
+ * @param {Object} params - Parameters for element track creation
  * @param {View2D} params.view - The 2D view to render the element in
- * @param {ElementTimeline} params.timeline - Element timeline configuration
- * @returns {Generator} Generator function for element timeline animation
+ * @param {ElementTrack} params.track - Element track configuration
+ * @returns {Generator} Generator function for element track animation
  */
-export function* makeElementTimeline({
+export function* makeElementTrack({
   view,
-  timeline,
+  track,
 }: {
   view: View2D;
-  timeline: VisualizerTimeline;
+  track: VisualizerTrack;
 }) {
-  const elementTimelineRef = createRef<any>();
-  view.add(<Layout size={"100%"} ref={elementTimelineRef} />);
+  const elementTrackRef = createRef<any>();
+  view.add(<Layout size={"100%"} ref={elementTrackRef} />);
 
   const sequence: ThreadGenerator[] = [];
-  for (const element of timeline.elements) {
+  for (const element of track.elements) {
     sequence.push(
       elementController.get(element.type)?.create({
-        containerRef: elementTimelineRef,
+        containerRef: elementTrackRef,
         element,
         view,
       })
     );
   }
   yield* all(...sequence);
-  yield elementTimelineRef().remove();
+  yield elementTrackRef().remove();
 }

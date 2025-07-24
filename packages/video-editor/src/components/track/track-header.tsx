@@ -1,20 +1,20 @@
 import React from "react";
-import { Timeline } from "@twick/timeline";
+import { Track } from "@twick/timeline";
 import { GripVertical, Lock } from "lucide-react";
 import "../../styles/timeline.css";
 
 interface TrackHeaderProps {
-  timeline: Timeline;
-  selectedItem: Timeline | null;
-  onDeletion: (timeline: Timeline) => void;
-  onSelect: (timeline: Timeline) => void;
-  onDragStart: (e: React.DragEvent, timeline: Timeline) => void;
+  track: Track;
+  selectedItem: Track | null;
+  onDeletion: (track: Track) => void;
+  onSelect: (timeline: Track) => void;
+  onDragStart: (e: React.DragEvent, track: Track) => void;
   onDragOver: (e: React.DragEvent) => void;
-  onDrop: (e: React.DragEvent, timeline: Timeline) => void;
+  onDrop: (e: React.DragEvent, track: Track) => void;
 }
 
 const TrackHeader = ({
-  timeline,
+  track,
   selectedItem,
   onDragStart,
   onDragOver,
@@ -24,17 +24,17 @@ const TrackHeader = ({
   return (
     <div
       className={`twick-track-header ${
-        selectedItem?.id?.startsWith("t-") && selectedItem.id === timeline.id
+        (selectedItem instanceof Track) && selectedItem.getId() === track.getId()
           ? "twick-track-header-selected"
           : "twick-track-header-default"
       }`}
       draggable
-      onClick={() => onSelect(timeline)}
-      onDragStart={(e) => onDragStart(e, timeline)}
+      onClick={() => onSelect(track)}
+      onDragStart={(e) => onDragStart(e, track)}
       onDragOver={onDragOver}
-      onDrop={(e) => onDrop(e, timeline)}
+      onDrop={(e) => onDrop(e, track)}
     >
-      {timeline?.type === "scene" ? (
+      {track?.getType() === "scene" ? (
         <Lock className="twick-track-header-lock" />
       ) : null}
 

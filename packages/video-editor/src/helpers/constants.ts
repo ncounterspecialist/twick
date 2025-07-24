@@ -1,7 +1,7 @@
 import { ElementColors } from "./types";
 
 export const INITIAL_TIMELINE_DATA =    {
-    timeline: [
+    tracks: [
       {
         type: "element",
         id: "t-sample",
@@ -9,7 +9,7 @@ export const INITIAL_TIMELINE_DATA =    {
         elements: [
           {
             id: "e-sample",
-            timelineId: "t-sample",
+            trackId: "t-sample",
             name: "sample",
             type: "text",
             s: 0,
@@ -22,7 +22,7 @@ export const INITIAL_TIMELINE_DATA =    {
         ],
       },
     ],
-    version: 0,
+    version: 1,
   }
 
   export const MIN_DURATION = 0.1;

@@ -23,7 +23,6 @@ export const PlayerManager = ({
 }) => {
   const [projectData, setProjectData] = useState<any>(null);
   const {
-    present,
     timelineAction,
     setTimelineAction,
     latestProjectVersion,
@@ -88,7 +87,7 @@ export const PlayerManager = ({
           const _latestProjectData = {
             input: {
               properties: videoProps,
-              timeline: timelineAction.payload?.timeline ?? [],
+              tracks: timelineAction.payload?.tracks ?? [],
               version: timelineAction.payload?.version ?? 0,
             },
           };
@@ -101,7 +100,7 @@ export const PlayerManager = ({
             const _latestProjectData = {
               input: {
                 properties: videoProps,
-                timeline: timelineAction.payload?.timeline ?? [],
+                tracks: timelineAction.payload?.tracks ?? [],
                 version: timelineAction.payload?.version ?? 0,
               },
             };
@@ -117,7 +116,7 @@ export const PlayerManager = ({
     if (twickCanvas && playerState === PLAYER_STATE.PAUSED) {
       const elements = getCurrentElements(
         seekTime,
-        present?.timeline ?? []
+        editor.getTimelineData()?.tracks ?? []
       );
       setCanvasElements({
         elements,

@@ -35,7 +35,7 @@ export const FRAME_SHAPE = {
 /**
  * Timeline types for different media elements
  */
-export const TIMELINE_TYPES = {
+export const TRACK_TYPES = {
   VIDEO: "video",
   AUDIO: "audio",
   CAPTION: "caption",

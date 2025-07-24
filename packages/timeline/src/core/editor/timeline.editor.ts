@@ -1,18 +1,18 @@
-import { ServiceResult, TimelineData } from "../../types";
 import {
   generateShortUuid,
   getTotalDuration,
-  isTimelineId,
 } from "../../utils/timeline.utils";
-import { TimelineTrack } from "../track/timeline-track";
+import { Track } from "../track/track";
 import {
   timelineContextStore,
   TimelineTrackData,
 } from "../../services/data.service";
-import { BaseTimelineElement } from "../elements/base.element";
-import { TimelineElement, Timeline } from "../../types";
 import { PLAYER_STATE, TIMELINE_ACTION } from "../../utils/constants";
-import { isTimelineElementId } from "../../utils/element.utils";
+import { ElementAdder } from "../visitor/element-adder";
+import { ElementRemover } from "../visitor/element-remover";
+import { ElementUpdater } from "../visitor/element-updater";
+import { TrackElement } from "../elements/base.element";
+import { ProjectJSON, TrackJSON } from "../../types";
 
 /**
  * Type for timeline operation context
@@ -20,14 +20,12 @@ import { isTimelineElementId } from "../../utils/element.utils";
 export interface TimelineOperationContext {
   contextId: string;
   setTotalDuration: (duration: number) => void;
-  setPresent: (data: TimelineData) => void;
+  setPresent: (data: ProjectJSON) => void;
   handleUndo: () => void;
   handleRedo: () => void;
   handleResetHistory: () => void;
   setLatestProjectVersion: (version: number) => void;
-  setTimelineOperationResult: (result: ServiceResult<any> | null) => void;
-  setSelectedItem?: (item: TimelineElement | Timeline | null) => void;
-  setTimelineAction?: (action: string, payload?: any) => void;
+  setTimelineAction?: (action: string, payload?: unknown) => void;
 }
 
 /**
@@ -46,13 +44,7 @@ export class TimelineEditor {
     timelineContextStore.initializeContext(this.context.contextId);
   }
 
-  /**
-   * Cleanup method to be called when the editor is no longer needed
-   */
-  cleanup(): void {
-    // Clear any internal state or subscriptions
-    // This method can be extended as needed
-  }
+
 
   getContext(): TimelineOperationContext {
     return this.context;
@@ -73,7 +65,7 @@ export class TimelineEditor {
   }
 
   setTimelineData(
-    timeline: TimelineTrack[],
+    timeline: Track[],
     version?: number
   ): TimelineTrackData {
     const prevTimelineData = this.getTimelineData();
@@ -91,25 +83,25 @@ export class TimelineEditor {
     return updatedTimelineData as TimelineTrackData;
   }
 
-  addTrack(name: string): TimelineTrack {
+  addTrack(name: string): Track {
     const prevTimelineData = this.getTimelineData();
     const id = `t-${generateShortUuid()}`;
-    const track = new TimelineTrack(name, id);
+    const track = new Track(name, id);
     const updatedTimelines = [...(prevTimelineData?.tracks || []), track];
     this.setTimelineData(updatedTimelines);
     return track;
   }
 
-  getTrackById(id: string): TimelineTrack | null {
+  getTrackById(id: string): Track | null {
     const prevTimelineData = this.getTimelineData();
     const track = prevTimelineData?.tracks.find((t) => t.getId() === id);
-    return track as TimelineTrack | null;
+    return track as Track | null;
   }
 
-  getTrackByName(name: string): TimelineTrack | null {
+  getTrackByName(name: string): Track | null {
     const prevTimelineData = this.getTimelineData();
     const track = prevTimelineData?.tracks.find((t) => t.getName() === name);
-    return track as TimelineTrack | null;
+    return track as Track | null;
   }
 
   removeTrackById(id: string): void {
@@ -119,72 +111,104 @@ export class TimelineEditor {
   }
 
   /**
-   * Add an element to a track and update context/state
+   * Add an element to a specific track using the visitor pattern
+   * @param trackId The ID of the track to add the element to
+   * @param element The element to add
+   * @returns Promise<boolean> true if element was added successfully
    */
-  addElementToTrack(trackId: string, element: BaseTimelineElement): void {
-    const tracks = this.getTimelineData()?.tracks || [];
-    const track = tracks.find((t) => t.getId() === trackId);
-    if (track) {
-      track.addElement(element);
-      this.setTimelineData(tracks);
+  async addElementToTrack(trackId: string, element: TrackElement): Promise<boolean> {
+    const track = this.getTrackById(trackId);
+    if (!track) {
+      return false;
     }
-  }
 
-  /**
-   * Remove an element from a track and update context/state
-   */
-  removeElementFromTrack(trackId: string, elementId: string): void {
-    const tracks = this.getTimelineData()?.tracks || [];
-    const track = tracks.find((t) => t.getId() === trackId);
-    if (track) {
-      const element = track.getElementById(elementId);
-      if (element) {
-        track.removeElement(element);
-        this.setTimelineData(tracks);
-      }
-    }
-  }
-
-  /**
-   * Update an element in a track and update context/state
-   */
-  updateElementInTrack(trackId: string, element: BaseTimelineElement): void {
-    const tracks = this.getTimelineData()?.tracks || [];
-    const track = tracks.find((t) => t.getId() === trackId);
-    if (track) {
-      track.updateElement(element);
-      this.setTimelineData(tracks);
-    }
-  }
-
-  /**
-   * Handle timeline actions from context (undo/redo/project data)
-   */
-  handleTimelineAction(action: string, payload: any): void {
-    switch (action) {
-      case TIMELINE_ACTION.SET_PROJECT_DATA:
-        if (payload?.timeline) {
-          this.loadProject({
-            timeline: payload.timeline,
-            version: payload.version,
-          });
+    try {
+      // Use the visitor pattern to handle different element types
+      const elementAdder = new ElementAdder(track);
+      const result = await element.accept(elementAdder);
+      
+      if (result) {
+        // Update the timeline data to reflect the change
+        const currentData = this.getTimelineData();
+        if (currentData) {
+          this.setTimelineData(currentData.tracks);
         }
-        break;
-      case TIMELINE_ACTION.RESET_HISTORY:
-        // Handle history reset if needed
-        break;
-      default:
-        // Handle other actions if needed
-        break;
+      }
+      
+      return result;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  /**
+   * Remove an element from a specific track using the visitor pattern
+   * @param trackId The ID of the track to remove the element from
+   * @param element The element to remove
+   * @returns boolean true if element was removed successfully
+   */
+  removeElementFromTrack(trackId: string, element: TrackElement): boolean {
+    const track = this.getTrackById(trackId);
+    if (!track) {
+      return false;
+    }
+
+    try {
+      // Use the visitor pattern to handle different element types
+      const elementRemover = new ElementRemover(track);
+      const result = element.accept(elementRemover);
+      
+      if (result) {
+        // Update the timeline data to reflect the change
+        const currentData = this.getTimelineData();
+        if (currentData) {
+          this.setTimelineData(currentData.tracks);
+        }
+      }
+      
+      return result;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  /**
+   * Update an element in a specific track using the visitor pattern
+   * @param trackId The ID of the track to update the element in
+   * @param element The updated element
+   * @returns boolean true if element was updated successfully
+   */
+  updateElementInTrack(trackId: string, element: TrackElement): boolean {
+    const track = this.getTrackById(trackId);
+    if (!track) {
+      return false;
+    }
+
+    try {
+      // Use the visitor pattern to handle different element types
+      const elementUpdater = new ElementUpdater(track);
+      const result = element.accept(elementUpdater);
+      
+      if (result) {
+        // Update the timeline data to reflect the change
+        const currentData = this.getTimelineData();
+        if (currentData) {
+          this.setTimelineData(currentData.tracks);
+        }
+      }
+      
+      return result;
+    } catch (error) {
+      return false;
     }
   }
 
   updateHistory(timelineTrackData: TimelineTrackData): void {
-    const timeline = timelineTrackData.tracks.map((t) => t.toJSON());
-    this.context.setTotalDuration(getTotalDuration(timeline));
+    const tracks = timelineTrackData.tracks.map((t) => t.toJSON());
+    this.context.setTotalDuration(getTotalDuration(tracks));
     const version = timelineTrackData.version;
     this.context.setPresent({
-      timeline,
+      tracks,
       version,
     });
   }
@@ -214,12 +238,12 @@ export class TimelineEditor {
     timeline,
     version,
   }: {
-    timeline: Timeline[];
+    timeline: TrackJSON[];
     version: number;
   }): void {
     this.pauseVideo();
-    // Convert Timeline[] to TimelineTrack[] and set
-    const tracks = timeline.map((t) => TimelineTrack.fromJSON(t));
+    // Convert Timeline[] to Track[] and set
+    const tracks = timeline.map((t) => Track.fromJSON(t));
     this.setTimelineData(tracks, version);
     if (this.context?.setTimelineAction) {
       this.context.setTimelineAction(TIMELINE_ACTION.UPDATE_PLAYER_DATA, {
@@ -229,120 +253,5 @@ export class TimelineEditor {
     }
   }
 
-  addNewTimeline(payload: any): any {
-    this.pauseVideo();
-    const track = this.addTrack(payload?.name || "New Timeline");
-    if (this.context.setSelectedItem) {
-      this.context.setSelectedItem(track.toJSON());
-    }
-    return {
-      timeline: track.toJSON(),
-      version: this.getTimelineData()?.version,
-    };
-  }
 
-  deleteItem(timelineId: string, elementId: string): void {
-    this.pauseVideo();
-
-    if (isTimelineElementId(elementId)) {
-      this.removeElementFromTrack(timelineId, elementId);
-      if (this.context.setSelectedItem) {
-        this.context.setSelectedItem(null);
-      }
-    } else if (isTimelineId(elementId)) {
-      this.removeTrackById(elementId);
-      if (this.context.setSelectedItem) {
-        this.context.setSelectedItem(null);
-      }
-    }
-  }
-
-  async addElement(payload: any): Promise<any> {
-    this.pauseVideo();
-    const { element, timelineId } = payload;
-
-    if (timelineId) {
-      // Create the appropriate element instance based on type
-      const elementInstance = this.createElementInstance(element);
-      if (elementInstance) {
-        this.addElementToTrack(timelineId, elementInstance);
-
-        if (this.context.setSelectedItem) {
-          setTimeout(() => {
-            this.context.setSelectedItem!(
-              elementInstance as unknown as TimelineElement
-            );
-          }, 1000);
-        }
-        return {
-          element: elementInstance,
-          timelineId,
-          version: this.getTimelineData()?.version,
-        };
-      }
-    }
-  }
-
-  updateElement(payload: any): void {
-    this.pauseVideo();
-    const { elementId, timelineId, updates } = payload;
-
-    const track = this.getTrackById(timelineId);
-    if (track) {
-      const element = track.getElementById(elementId);
-      if (element) {
-        // Apply updates to the element
-        Object.assign(element, updates);
-        track.updateElement(element);
-        this.setTimelineData(this.getTimelineData()?.tracks || []);
-      }
-    }
-  }
-
-  splitElement(timelineId: string, elementId: string, splitTime: number): void {
-    this.pauseVideo();
-    // Implementation would depend on the specific element type and split logic
-    // For now, this is a placeholder that maintains the interface
-    if (this.context.setSelectedItem) {
-      this.context.setSelectedItem(null);
-    }
-  }
-
-  setElementAnimation(payload: any): void {
-    this.pauseVideo();
-    // Implementation would set animation on the element
-    // This is a placeholder that maintains the interface
-  }
-
-  setTextEffect(payload: any): void {
-    this.pauseVideo();
-    // Implementation would set text effect on the element
-    // This is a placeholder that maintains the interface
-  }
-
-  async addSoloElement(payload: any): Promise<any> {
-    // Create a new track for the solo element
-    const track = this.addTrack("Solo Element");
-    const elementInstance = this.createElementInstance(payload.element);
-    if (elementInstance) {
-      this.addElementToTrack(track.getId(), elementInstance);
-      if (this.context.setSelectedItem) {
-        this.context.setSelectedItem(
-          elementInstance as unknown as TimelineElement
-        );
-      }
-      return {
-        element: elementInstance,
-        timelineId: track.getId(),
-        version: this.getTimelineData()?.version,
-      };
-    }
-  }
-
-  private createElementInstance(elementData: any): BaseTimelineElement | null {
-    // This would create the appropriate element instance based on type
-    // Implementation depends on your element creation logic
-    // For now, return null as placeholder
-    return null;
-  }
 }

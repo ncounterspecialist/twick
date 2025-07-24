@@ -1,14 +1,14 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Timeline, TimelineElement } from "@twick/timeline";
 import "../../styles/timeline.css";
 import TrackHeader from "../track/track-header";
 import TrackBase from "../track/track-base";
+import { Track, TrackElement } from "@twick/timeline";
 
 function TimelineView({
   zoomLevel,
   selectedItem,
   duration,
-  timeline,
+  tracks,
   seekTrack,
   onReorder,
   onEditElement,
@@ -18,21 +18,21 @@ function TimelineView({
   timelineControls?: React.ReactNode;
   zoomLevel: number;
   duration: number;
-  timeline: Timeline[];
-  selectedItem: TimelineElement | Timeline | null;
+  tracks: Track[];
+  selectedItem: Track | TrackElement | null;
   seekTrack?: React.ReactNode;
-  onReorder: (timeline: Timeline[]) => void;
-  onEditElement: (timelineId: string, elementId: string, updates: any) => void;
+  onReorder: (tracks: Track[]) => void;
+  onEditElement: (trackId: string, elementId: string, updates: any) => void;
   onSeek: (time: number) => void;
-  onSelectionChange: (element: TimelineElement | Timeline) => void;
-  onDeletion: (element: TimelineElement | Timeline) => void;
+  onSelectionChange: (element: TrackElement | Track) => void;
+  onDeletion: (element: TrackElement | Track) => void;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const seekContainerRef = useRef<HTMLDivElement>(null);
   const timelineContentRef = useRef<HTMLDivElement>(null);
   const [, setScrollLeft] = useState(0);
 
-  const [draggedTimeline, setDraggedTimeline] = useState<Timeline | null>(null);
+  const [draggedTimeline, setDraggedTimeline] = useState<Track | null>(null);
 
   const { selectedTimeline, selectedTimelineElement } = useMemo(() => {
     if (selectedItem && "elements" in selectedItem) {
@@ -91,10 +91,10 @@ function TimelineView({
   const labelWidth = 140;
 
   // Track reordering handlers
-  const handleTrackDragStart = (e: React.DragEvent, timeline: Timeline) => {
-    console.log("Drag", timeline);
-    setDraggedTimeline(timeline);
-    e.dataTransfer.setData("application/json", JSON.stringify(timeline));
+  const handleTrackDragStart = (e: React.DragEvent, track: Track) => {
+    console.log("Drag", track);
+    setDraggedTimeline(track);
+    e.dataTransfer.setData("application/json", JSON.stringify(track));
   };
 
   const handleTrackDragOver = (e: React.DragEvent) => {
@@ -102,7 +102,7 @@ function TimelineView({
     e.dataTransfer.dropEffect = "move";
   };
 
-  const handleTrackDrop = (e: React.DragEvent, targetTimeline: Timeline) => {
+  const handleTrackDrop = (e: React.DragEvent, targetTrack: Track) => {
     e.preventDefault();
 
     // Reset opacity
@@ -110,14 +110,14 @@ function TimelineView({
       e.currentTarget.style.opacity = "1";
     }
 
-    if (!draggedTimeline || draggedTimeline.id === targetTimeline.id) return;
+    if (!draggedTimeline || draggedTimeline.getId() === targetTrack.getId()) return;
 
     // Reorder timeline
-    const reordered = [...(timeline || [])];
+    const reordered = [...(tracks || [])];
     const draggedIndex = reordered.findIndex(
-      (t) => t.id === draggedTimeline.id
+      (t) => t.getId() === draggedTimeline.getId()
     );
-    const targetIndex = reordered.findIndex((t) => t.id === targetTimeline.id);
+    const targetIndex = reordered.findIndex((t) => t.getId() === targetTrack.getId());
 
     if (draggedIndex !== -1 && targetIndex !== -1) {
       // Remove the dragged timeline from its position
@@ -135,13 +135,13 @@ function TimelineView({
     setDraggedTimeline(null);
   };
 
-  const handleItemSelection = (element: TimelineElement | Timeline) => {
+  const handleItemSelection = (element: TrackElement | Track) => {
     if (onSelectionChange) {
       onSelectionChange(element);
     }
   };
 
-  const handleItemDeletion = (element: TimelineElement | Timeline) => {
+  const handleItemDeletion = (element: TrackElement | Track) => {
     if (onDeletion) {
       onDeletion(element);
     }
@@ -163,12 +163,12 @@ function TimelineView({
         ) : null}
       </div>
       <div ref={timelineContentRef} style={{ width: timelineWidthPx }}>
-        {(timeline || []).map((timeline: Timeline) => (
-          <div className="twick-timeline-container" key={timeline.id}>
+        {(tracks || []).map((track: Track) => (
+          <div className="twick-timeline-container" key={track.getId()}>
             {/* Track header with drag support */}
             <div className="twick-timeline-header-container">
               <TrackHeader
-                timeline={timeline}
+                track={track}
                 selectedItem={selectedTimeline}
                 onDeletion={handleItemDeletion}
                 onSelect={handleItemSelection}
@@ -180,18 +180,18 @@ function TimelineView({
 
             {/* Track content */}
             <TrackBase
+              track={track}
               duration={duration}
               selectedItem={selectedTimelineElement}
               zoom={zoomLevel}
-              allowOverlap={timeline.allowOverlap}
-              elements={timeline.elements}
+              allowOverlap={false}
               trackWidth={timelineWidth - labelWidth} // Subtract label width for accurate track width
               onItemSelection={handleItemSelection}
               onItemDeletion={handleItemDeletion}
-              updateTrackElement={(elementId, partials) => {
-                if (onEditElement) {
-                  onEditElement(timeline.id, elementId, partials);
-                }
+              updateTrackElement={(_elementId, _partials) => {
+                // if (onEditElement) {
+                //   onEditElement(timeline.id, elementId, partials);
+                // }
               }}
             />
           </div>

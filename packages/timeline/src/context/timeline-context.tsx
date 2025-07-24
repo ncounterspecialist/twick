@@ -1,19 +1,21 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { TIMELINE_ACTION } from "../utils/constants";
-import { Timeline, TimelineData, TimelineElement } from "../types";
 import { UndoRedoProvider, useUndoRedo } from "./undo-redo-context";
+import { Track } from "../core/track/track";
+import { TrackElement } from "../core/elements/base.element";
+import { ProjectJSON, TrackJSON } from "../types";
 
 type TimelineContextType = {
   contextId: string;
-  selectedItem: TimelineElement | Timeline | null;
+  selectedItem: Track | TrackElement | null;
   latestProjectVersion: number;
   timelineAction: {
     type: string;
     payload: any;
   };
   totalDuration: number;
-  present: TimelineData | null;
-  setPresent: (data: TimelineData) => void;
+  present: ProjectJSON | null;
+  setPresent: (data: ProjectJSON) => void;
   canUndo: boolean;
   canRedo: boolean;
   handleUndo: () => void;
@@ -21,7 +23,7 @@ type TimelineContextType = {
   handleResetHistory: () => void;
   setTotalDuration: (duration: number) => void;
   setLatestProjectVersion: (version: number) => void;
-  setSelectedItem: (item: TimelineElement | Timeline | null) => void;
+  setSelectedItem: (item: Track | TrackElement | null) => void;
   setTimelineAction: (type: string, payload: any) => void;
 };
 
@@ -33,7 +35,7 @@ export interface TimelineProviderProps {
   children: React.ReactNode;
   contextId: string;
   initialData?: {
-    timeline: Timeline[];
+    tracks: TrackJSON[];
     version: number;
   };
   undoRedoPersistenceKey?: string;
@@ -55,7 +57,7 @@ const TimelineProviderInner = ({
   });
 
   const [selectedItem, setSelectedItem] = useState<
-    TimelineElement | Timeline | null
+    Track | TrackElement | null
   >(null);
 
   const [totalDuration, setTotalDuration] = useState(0);
@@ -68,7 +70,7 @@ const TimelineProviderInner = ({
     setTimelineActionState({ type, payload });
   };
 
-  const initialize = (data: TimelineData) => {
+  const initialize = (data: ProjectJSON) => {
     const lastPersistedState = undoRedoContext.getLastPersistedState();
     if (lastPersistedState) {
       setTimelineAction(TIMELINE_ACTION.SET_PROJECT_DATA, lastPersistedState);

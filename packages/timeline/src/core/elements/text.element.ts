@@ -1,8 +1,8 @@
 import { TextAlign, TextEffect, TextProps } from "../../types";
-import { BaseTimelineElement } from "./base.element";
+import { TrackElement } from "./base.element";
 import type { ElementVisitor } from "../visitor/element-visitor";
 
-export class TextElement extends BaseTimelineElement{
+export class TextElement extends TrackElement{
     protected textEffect?: TextEffect;
     protected declare props: TextProps;
 
@@ -70,7 +70,7 @@ export class TextElement extends BaseTimelineElement{
         element.props = json.props;
         element.textEffect = json.textEffect;
         if (json.id) element.id = json.id;
-        if (json.timelineId) element.timelineId = json.timelineId;
+        if (json.trackId) element.trackId = json.trackId;
         if (json.s !== undefined) element.s = json.s;
         if (json.e !== undefined) element.e = json.e;
         return element;

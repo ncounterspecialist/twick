@@ -1,4 +1,4 @@
-import { TimelineElement } from "../../types";
+import { ElementJSON } from "../../types";
 import { ElementVisitor } from "./element-visitor";
 import { VideoElement } from "../elements/video.element";
 import { AudioElement } from "../elements/audio.element";
@@ -9,11 +9,11 @@ import { RectElement } from "../elements/rect.element";
 import { CircleElement } from "../elements/circle.element";
 import { IconElement } from "../elements/icon.element";
 
-export class ElementSerializer implements ElementVisitor<TimelineElement> {
-  visitVideoElement(element: VideoElement): TimelineElement {
+export class ElementSerializer implements ElementVisitor<ElementJSON> {
+  visitVideoElement(element: VideoElement): ElementJSON {
     return {
       id: element.getId(),
-      timelineId: element.getTimelineId(),
+      trackId: element.getTrackId(),
       type: element.getType(),
       name: element.getName(),
       s: element.getStart(),
@@ -22,10 +22,10 @@ export class ElementSerializer implements ElementVisitor<TimelineElement> {
     };
   }
 
-  visitAudioElement(element: AudioElement): TimelineElement {
+  visitAudioElement(element: AudioElement): ElementJSON {
     return {
       id: element.getId(),
-      timelineId: element.getTimelineId(),
+      trackId: element.getTrackId(),
       type: element.getType(),
       name: element.getName(),
       s: element.getStart(),
@@ -34,10 +34,10 @@ export class ElementSerializer implements ElementVisitor<TimelineElement> {
     };
   }
 
-  visitImageElement(element: ImageElement): TimelineElement {
+  visitImageElement(element: ImageElement): ElementJSON {
     return {
       id: element.getId(),
-      timelineId: element.getTimelineId(),
+      trackId: element.getTrackId(),
       type: element.getType(),
       name: element.getName(),
       s: element.getStart(),
@@ -46,10 +46,10 @@ export class ElementSerializer implements ElementVisitor<TimelineElement> {
     };
   }
 
-  visitTextElement(element: TextElement): TimelineElement {
+  visitTextElement(element: TextElement): ElementJSON {
     return {
       id: element.getId(),
-      timelineId: element.getTimelineId(),
+      trackId: element.getTrackId(),
       type: element.getType(),
       name: element.getName(),
       s: element.getStart(),
@@ -58,10 +58,10 @@ export class ElementSerializer implements ElementVisitor<TimelineElement> {
     };
   }
 
-  visitCaptionElement(element: CaptionElement): TimelineElement {
+  visitCaptionElement(element: CaptionElement): ElementJSON {
     return {
       id: element.getId(),
-      timelineId: element.getTimelineId(),
+      trackId: element.getTrackId(),
       type: element.getType(),
       name: element.getName(),
       s: element.getStart(),
@@ -70,10 +70,10 @@ export class ElementSerializer implements ElementVisitor<TimelineElement> {
     };
   }
 
-visitIconElement(element: IconElement): TimelineElement {
+visitIconElement(element: IconElement): ElementJSON {
     return {
       id: element.getId(),
-      timelineId: element.getTimelineId(),
+      trackId: element.getTrackId(),
       type: element.getType(),
       name: element.getName(),
       s: element.getStart(),
@@ -82,10 +82,10 @@ visitIconElement(element: IconElement): TimelineElement {
     };
   }
 
-  visitCircleElement(element: CircleElement): TimelineElement {
+  visitCircleElement(element: CircleElement): ElementJSON {
     return {
       id: element.getId(),
-      timelineId: element.getTimelineId(),
+      trackId: element.getTrackId(),
       type: element.getType(),
       name: element.getName(),
       s: element.getStart(),
@@ -94,10 +94,10 @@ visitIconElement(element: IconElement): TimelineElement {
     };
   }
 
-  visitRectElement(element: RectElement): TimelineElement {
+  visitRectElement(element: RectElement): ElementJSON {
     return {
       id: element.getId(),
-      timelineId: element.getTimelineId(),
+      trackId: element.getTrackId(),
       type: element.getType(),
       name: element.getName(),
       s: element.getStart(),

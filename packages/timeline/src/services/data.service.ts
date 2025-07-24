@@ -1,16 +1,16 @@
-import { BaseTimelineElement } from "../core/elements/base.element";
-import { TimelineTrack } from "../core/track/timeline-track";
+import { TrackElement } from "../core/elements/base.element";
+import { Track } from "../core/track/track";
 
 type TimelineStore = {
-  tracks: TimelineTrack[];
+  tracks: Track[];
   version: number;
-  elementMap: Record<string, BaseTimelineElement>;
+  elementMap: Record<string, TrackElement>;
   trackMap: Record<string, any>;
   captionProps: Record<string, any>;
 }
 
 export type TimelineTrackData = {
-    tracks: TimelineTrack[];
+    tracks: Track[];
     version: number;
 }
 
@@ -56,12 +56,12 @@ export class TimelineContextStore {
     return timelineData;
   }
 
-  public getElementMap(contextId: string): Record<string, BaseTimelineElement> {
+  public getElementMap(contextId: string): Record<string, TrackElement> {
     this.ensureContext(contextId);
     return this.storeMap.get(contextId)!.elementMap;
   }
 
-  public setElementMap(contextId: string, elementMap: Record<string, BaseTimelineElement>): void {
+  public setElementMap(contextId: string, elementMap: Record<string, TrackElement>): void {
     this.ensureContext(contextId);
     this.storeMap.get(contextId)!.elementMap = elementMap;
   }

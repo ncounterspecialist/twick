@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import { TimelineData } from "../types";
+import { ProjectJSON } from "../types";
 
 const MAX_HISTORY = 20;
 
@@ -9,22 +9,22 @@ const deepClone = <T,>(obj: T): T => {
 };
 
 interface UndoRedoState {
-  past: TimelineData[];
-  present: TimelineData | null;
-  future: TimelineData[];
+  past: ProjectJSON[];
+  present: ProjectJSON | null;
+  future: ProjectJSON[];
 }
 
 interface UndoRedoContextType {
   // State
   canUndo: boolean;
   canRedo: boolean;
-  present: TimelineData | null;
+  present: ProjectJSON | null;
   // Actions
-  setPresent: (timelineData: TimelineData) => void;
-  undo: () => TimelineData | null;
-  redo: () => TimelineData | null;
+  setPresent: (data: ProjectJSON) => void;
+  undo: () => ProjectJSON | null;
+  redo: () => ProjectJSON | null;
   resetHistory: () => void;
-  getLastPersistedState: () => TimelineData | null;
+  getLastPersistedState: () => ProjectJSON | null;
   // Configuration
   disablePersistence: () => void;
 }
@@ -94,7 +94,7 @@ export const UndoRedoProvider: React.FC<UndoRedoProviderProps> = ({
   };
 
   // When user makes a new change
-  const setPresent = (timelineData: TimelineData) => {
+  const setPresent = (data: ProjectJSON) => {
     setState((prevState) => {
       let newPast = [...prevState.past];
       if (prevState.present) {
@@ -103,7 +103,7 @@ export const UndoRedoProvider: React.FC<UndoRedoProviderProps> = ({
 
       const newState: UndoRedoState = {
         past: newPast,
-        present: deepClone(timelineData),
+        present: deepClone(data),
         future: [], // Clear future because it's a new change
       };
 
@@ -117,8 +117,8 @@ export const UndoRedoProvider: React.FC<UndoRedoProviderProps> = ({
     });
   };
 
-  const undo = (): TimelineData | null => {
-    let undoResult: TimelineData | null = null;
+  const undo = (): ProjectJSON | null => {
+    let undoResult: ProjectJSON | null = null;
 
     setState((prevState) => {
       if (prevState.past.length === 0) return prevState;
@@ -140,8 +140,8 @@ export const UndoRedoProvider: React.FC<UndoRedoProviderProps> = ({
     return undoResult;
   };
 
-  const redo = (): TimelineData | null => {
-    let redoResult: TimelineData | null = null;
+  const redo = (): ProjectJSON | null => {
+    let redoResult: ProjectJSON | null = null;
 
     setState((prevState) => {
       if (prevState.future.length === 0) return prevState;

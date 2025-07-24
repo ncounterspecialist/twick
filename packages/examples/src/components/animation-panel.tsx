@@ -1,4 +1,4 @@
-import { getDecimalNumber, useTimelineContext, useTimelineEditor, type TimelineElement } from "@twick/timeline";
+import {  TrackElement, useTimelineContext } from "@twick/timeline";
 import { ANIMATIONS } from "@twick/video-editor";
 import { useEffect, useState } from "react";
 
@@ -11,48 +11,48 @@ const AnimationPanel = () => {
   const [mode, setMode] = useState("in");
   const [interval, setInterval] = useState(1000);
   const { selectedItem } = useTimelineContext();
-  const editor = useTimelineEditor();
+  // const editor = useTimelineEditor();
 
   const handleAnimate = () => {
     if (!selectedAnimation) return;
-    const element = selectedItem as TimelineElement;
-    editor.setElementAnimation({
-      timelineId: element.timelineId,
-      elementId: element.id,
-      animation: {
-        name: selectedAnimation,
-        animate,
-        direction,
-        mode,
-        interval: getDecimalNumber(interval / 1000),
-      },
-    });
+    // const element = selectedItem as TimelineElement;
+    // editor.setElementAnimation({
+    //   timelineId: element.trackId,
+    //   elementId: element.id,
+    //   animation: {
+    //     name: selectedAnimation,
+    //     animate,
+    //     direction,
+    //     mode,
+    //     interval: getDecimalNumber(interval / 1000),
+    //   },
+    // });
   };
 
   const handleDeleteAnimation = () => {
     if (!selectedAnimation) return;
-    const element = selectedItem as TimelineElement;
-    editor.setElementAnimation({
-      timelineId: element.timelineId,
-      elementId: element.id,
-      animation: null,
-    });
+    // const element = selectedItem as TimelineElement;
+    // editor.setElementAnimation({
+    //   timelineId: element.trackId,
+    //   elementId: element.id,
+    //   animation: null,
+    // });
   };
 
   useEffect(() => {
-    if (selectedItem?.id?.startsWith("e-")) {
-      const element = selectedItem as TimelineElement;
-      if (element.animation) {
-        setSelectedAnimation(element.animation.name);
-        setAnimate(element.animation.animate || "enter");
-        setDirection(element.animation.direction || "up");
-        setMode(element.animation.mode || "in");
-        setInterval((element.animation.interval || 0.5) * 1000);
-      }
+    if (selectedItem instanceof TrackElement) {
+      // const element = selectedItem as TrackElement;
+      // if (element.animation) {
+      //   setSelectedAnimation(element.animation.name);
+      //   setAnimate(element.animation.animate || "enter");
+      //   setDirection(element.animation.direction || "up");
+      //   setMode(element.animation.mode || "in");
+      //   setInterval((element.animation.interval || 0.5) * 1000);
+      // }
     }
   }, [selectedItem]);
 
-  if (!selectedItem?.id?.startsWith("e-")) return null;
+  if (!(selectedItem instanceof TrackElement)) return null;
 
   return (
     <div className="twick-animation-panel">

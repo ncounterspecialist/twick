@@ -1,8 +1,8 @@
-import { CircleProps } from "../../types";
-import { BaseTimelineElement } from "./base.element";
+import { TrackElement } from "./base.element";
 import type { ElementVisitor } from "../visitor/element-visitor";
+import { CircleProps } from "../../types";
 
-export class CircleElement extends BaseTimelineElement {
+export class CircleElement extends TrackElement {
   protected declare props: CircleProps;
   constructor(fill: string, radius: number) {
     super("circle");
@@ -41,7 +41,7 @@ export class CircleElement extends BaseTimelineElement {
     const element = new CircleElement(json.props.fill, json.props.radius);
     element.props = json.props;
     if (json.id) element.id = json.id;
-    if (json.timelineId) element.timelineId = json.timelineId;
+    if (json.trackId) element.trackId = json.trackId;
     if (json.s !== undefined) element.s = json.s;
     if (json.e !== undefined) element.e = json.e;
     return element;

@@ -1,15 +1,10 @@
 import { useMemo, useEffect } from "react";
 import { useTimelineContext } from "../context/timeline-context";
 import { TimelineEditor } from "../core/editor/timeline.editor";
+import { TIMELINE_ACTION } from "../utils/constants";
+import { TrackJSON } from "../types";
  
-const ENABLE_TIMELINE_EDITOR_REGISTRY = true;
-// Global registry to store editor instances per contextId
-const editorRegistry: Map<string, TimelineEditor> =
-  (typeof window !== "undefined" && ENABLE_TIMELINE_EDITOR_REGISTRY) ?
-    (
-      ((window as any).timelineEditorRegistry = (window as any).timelineEditorRegistry || new Map<string, TimelineEditor>())
-    ) :
-    new Map<string, TimelineEditor>();
+const editorRegistry: Map<string, TimelineEditor> = new Map<string, TimelineEditor>();
 
 /**
  * Clean up a specific editor instance
@@ -17,7 +12,6 @@ const editorRegistry: Map<string, TimelineEditor> =
 export const cleanupEditor = (contextId: string): void => {
   const editor = editorRegistry.get(contextId);
   if (editor) {
-    editor.cleanup();
     editorRegistry.delete(contextId);
   }
 };
@@ -26,9 +20,6 @@ export const cleanupEditor = (contextId: string): void => {
  * Clean up all editor instances
  */
 export const cleanupAllEditors = (): void => {
-  editorRegistry.forEach((editor) => {
-    editor.cleanup();
-  });
   editorRegistry.clear();
 };
 
@@ -60,7 +51,6 @@ const useTimelineEditor = () => {
     if (existingEditor) {
       // Update the existing editor's context with new values
       existingEditor.getContext().setLatestProjectVersion = setLatestProjectVersion;
-      existingEditor.getContext().setSelectedItem = setSelectedItem;
       existingEditor.getContext().setTimelineAction = setTimelineAction;
       existingEditor.getContext().handleUndo = handleUndo;
       existingEditor.getContext().handleRedo = handleRedo;
@@ -77,8 +67,6 @@ const useTimelineEditor = () => {
       handleRedo,
       handleResetHistory,
       setLatestProjectVersion,
-      setTimelineOperationResult: () => {}, // No longer needed
-      setSelectedItem,
       setTimelineAction,
     });
 
@@ -87,10 +75,31 @@ const useTimelineEditor = () => {
     return newEditor;
   }, [contextId, setLatestProjectVersion, setSelectedItem, setTimelineAction, handleUndo, handleRedo, handleResetHistory]);
 
-  // Listen to timeline actions and handle them in the editor
+  // Handle timeline actions from context (undo/redo/project data)
+  const handleTimelineAction = (action: string, payload: unknown): void => {
+    switch (action) {
+      case TIMELINE_ACTION.SET_PROJECT_DATA:
+        if (payload && typeof payload === 'object' && 'tracks' in payload) {
+          const projectPayload = payload as { tracks: TrackJSON[]; version: number };
+          editor.loadProject({
+            timeline: projectPayload.tracks,
+            version: projectPayload.version,
+          });
+        }
+        break;
+      case TIMELINE_ACTION.RESET_HISTORY:
+        // Handle history reset if needed
+        break;
+      default:
+        // Handle other actions if needed
+        break;
+    }
+  };
+
+  // Listen to timeline actions and handle them
   useEffect(() => {
     if (timelineAction && timelineAction.type !== 'none') {
-      editor.handleTimelineAction(timelineAction.type, timelineAction.payload);
+      handleTimelineAction(timelineAction.type, timelineAction.payload);
     }
   }, [timelineAction, editor]);
 

@@ -1,4 +1,5 @@
-import { DEFAULT_ELEMENT_COLORS, ElementColors } from "@twick/timeline";
+import { DEFAULT_ELEMENT_COLORS } from "./constants";
+import { ElementColors } from "./types";
 
 export let ELEMENT_COLORS: ElementColors = { ...DEFAULT_ELEMENT_COLORS };
 

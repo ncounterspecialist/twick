@@ -1,12 +1,6 @@
-import {
-  type Timeline,
-  useTimelineEditor,
-  type TimelineElement,
-  useTimelineContext,
-} from "@twick/timeline";
 import SeekControl from "../controls/seek-control";
-import { useLivePlayerContext } from "@twick/live-player";
 import TimelineView from "./timeline-view";
+import { useTimelineManager } from "../../hooks/use-timeline-manger";
 
 const TimelineManager = ({
   timelineControls,
@@ -15,53 +9,26 @@ const TimelineManager = ({
   timelineControls?: React.ReactNode;
   trackZoom: number;
 }) => {
-  const { selectedItem, setSelectedItem, totalDuration } = useTimelineContext();
-  const editor = useTimelineEditor();
   
-  // Get timeline data from editor
-  const timelineData = editor.getTimelineData();
-
-  const { setSeekTime, setCurrentTime } = useLivePlayerContext();
-
-  const onReorder = (reorderedItems: Timeline[]) => {
-    console.log(reorderedItems, timelineData);
-    editor.loadProject({
-      timeline: reorderedItems,
-      version: (timelineData?.version ?? 0) + 1,
-    });
-  };
-
-  const handleSeekAction = (time: number) => {
-    setCurrentTime(time);
-    setSeekTime(time);
-  };
+  const {timelineData, totalDuration, selectedItem, onReorder, onEdit, onSeek, onSelectionChange} = useTimelineManager();
 
   return (
     <TimelineView
       timelineControls={timelineControls}
-      timeline={timelineData?.tracks?.map(track => track.toJSON()) ?? []}
+      tracks={timelineData?.tracks ?? []}
       zoomLevel={trackZoom}
       duration={totalDuration}
       selectedItem={selectedItem}
       onDeletion={() => {}}
       onReorder={onReorder}
-      onEditElement={(timelineId: string, elementId: string, updates: any) => {
-        editor.updateElement({
-          timelineId,
-          elementId,
-          updates,
-          noSelection: true,
-        });
-      }}
-      onSeek={() => {}}
-      onSelectionChange={(selectedItem: TimelineElement | Timeline | null) => {
-        setSelectedItem(selectedItem);
-      }}
+      onEditElement={onEdit}
+      onSeek={onSeek}
+      onSelectionChange={onSelectionChange}
       seekTrack={
         <SeekControl
           duration={totalDuration}
           zoom={trackZoom}
-          onSeek={handleSeekAction}
+          onSeek={onSeek}
           timelineCount={timelineData?.tracks?.length ?? 0}
         />
       }

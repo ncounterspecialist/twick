@@ -1,8 +1,9 @@
 import {
+  isTrackId,
   TIMELINE_ELEMENT_TYPE,
+  TrackElement,
   useTimelineContext,
   useTimelineEditor,
-  type TimelineElement,
 } from "@twick/timeline";
 import { useState } from "react";
 import FileInput from "../shared/file-input";
@@ -89,9 +90,9 @@ const EditorControls = () => {
       alert("Please select a timeline/element to add an element");
       return;
     }
-    return selectedItem.id.startsWith("t-")
-      ? selectedItem.id
-      : (selectedItem as TimelineElement).timelineId;
+    return isTrackId(selectedItem.getId())
+      ? selectedItem.getId()
+      : (selectedItem as TrackElement).getTrackId();
   };
 
   const addMedia = (element: MediaItem) => {

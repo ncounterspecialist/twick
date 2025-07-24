@@ -1,33 +1,3 @@
-export interface ElementColors {
-  fragment: string;
-  video: string;
-  caption: string;
-  image: string;
-  audio: string;
-  text: string;
-  element: string;
-  rect: string;
-  frameEffect: string;
-  filters: string;
-  transition: string;
-  animation: string;
-}
-
-export const DEFAULT_ELEMENT_COLORS: ElementColors = {
-  fragment: "#111111",
-  video: "#4B2E83", // Muted deep violet (primary purple tone)
-  caption: "#5C5470", // Faded violet/blue
-  image: "#805A38", // Earthy brown-orange
-  audio: "#3C665B", // Dark muted teal-green
-  text: "#375A7F", // Dusty steel blue
-  element: "#6B3A5B", // Muted berry purple
-  rect: "#4C3A72", // Desaturated deep indigo
-  frameEffect: "#703C57", // Dusty rose/maroon
-  filters: "#5A4C82", // Muted twilight purple
-  transition: "#7A573A", // Toasted copper
-  animation: "#32645C", // Slate pine green
-};
-
 export const PLAYER_STATE = {
   REFRESH: "Refresh",
   PLAYING: "Playing",
@@ -92,6 +62,8 @@ export const TIMELINE_ELEMENT_TYPE = {
   AUDIO: "audio",
   TEXT: "text",
   RECT: "rect",
+  CIRCLE: "circle",
+  ICON: "icon",
 };
 
 export const PROCESS_STATE = {

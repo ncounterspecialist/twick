@@ -1,9 +1,9 @@
 import { getObjectFitSize, getImageDimensions } from "@twick/media-utils";
 import { Frame, FrameEffect, ImageProps, ObjectFit, Size } from "../../types";
-import { BaseTimelineElement } from "./base.element";
+import { TrackElement } from "./base.element";
 import type { ElementVisitor } from "../visitor/element-visitor";
 
-export class ImageElement extends BaseTimelineElement {
+export class ImageElement extends TrackElement {
   protected baseSize!: Size;
   protected backgroundColor!: string;
   protected parentSize: Size;
@@ -90,7 +90,7 @@ export class ImageElement extends BaseTimelineElement {
     element.frameEffects = json.frameEffects;
     element.backgroundColor = json.backgroundColor;
     if (json.id) element.id = json.id;
-    if (json.timelineId) element.timelineId = json.timelineId;
+    if (json.trackId) element.trackId = json.trackId;
     if (json.s !== undefined) element.s = json.s;
     if (json.e !== undefined) element.e = json.e;
     return element;

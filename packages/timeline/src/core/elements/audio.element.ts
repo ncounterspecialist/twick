@@ -1,9 +1,9 @@
 import { getAudioDuration } from "@twick/media-utils";
-import { BaseTimelineElement } from "./base.element";
-import { AudioProps } from "../../types";
+import { TrackElement } from "./base.element";
 import type { ElementVisitor } from "../visitor/element-visitor";
+import { AudioProps } from "../../types";
 
-export class AudioElement extends BaseTimelineElement {
+export class AudioElement extends TrackElement {
   protected mediaDuration!: number;
   protected declare props: AudioProps;
 

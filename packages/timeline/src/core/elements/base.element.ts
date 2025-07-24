@@ -1,12 +1,12 @@
 import { generateShortUuid } from "../../utils/timeline.utils";
 import type { ElementVisitor } from "../visitor/element-visitor";
 
-export abstract class BaseTimelineElement {
+export abstract class TrackElement {
   protected id: string;
   protected type: string;
   protected s!: number;
   protected e!: number;
-  protected timelineId!: string;
+  protected trackId!: string;
   protected name!: string;
   protected animation?: Animation;
   protected props?: Record<string, any>;
@@ -38,8 +38,8 @@ export abstract class BaseTimelineElement {
     return this.e - this.s;
   }
 
-  getTimelineId(): string {
-    return this.timelineId;
+  getTrackId(): string {
+    return this.trackId;
   }
 
   getProps(): Record<string, any> | undefined {
@@ -75,8 +75,8 @@ export abstract class BaseTimelineElement {
     return this;
   }
 
-  setTimelineId(timelineId: string) {
-    this.timelineId = timelineId;
+  setTrackId(trackId: string) {
+    this.trackId = trackId;
     return this;
   }
 
@@ -96,7 +96,7 @@ export abstract class BaseTimelineElement {
       type: this.type,
       s: this.s,
       e: this.e,
-      timelineId: this.timelineId,
+      trackId: this.trackId,
       name: this.name,
       animation: this.animation,
     };

@@ -2,7 +2,6 @@ import './App.css'
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import ExampleVideo from './pages/example-video';
 import ExampleEditor from './pages/example-editor';
-import ExampleDemo from './pages/example-demo';
 
 function App() {
   return (
@@ -17,7 +16,6 @@ function App() {
         <Routes>
           <Route path="/" element={<ExampleVideo />} />
           <Route path="/editor" element={<ExampleEditor />} />
-          <Route path="/demo" element={<ExampleDemo />} />
         </Routes>
       </div>
     </Router>

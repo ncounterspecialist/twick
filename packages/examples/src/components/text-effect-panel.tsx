@@ -1,4 +1,4 @@
-import { TIMELINE_ELEMENT_TYPE, useTimelineContext, useTimelineEditor, type TimelineElement } from "@twick/timeline";
+import { TrackElement, useTimelineContext } from "@twick/timeline";
 import { TEXT_EFFECTS } from "@twick/video-editor";
 import { useEffect, useState } from "react";
 
@@ -7,44 +7,43 @@ const TextEffectPanel = () => {
     null
   );
   const { selectedItem } = useTimelineContext();
-  const editor = useTimelineEditor();
 
-  const getSelectedEffectData = () => {
-    return TEXT_EFFECTS.find((effect) => effect.name === selectedEffect);
-  };
+  // const getSelectedEffectData = () => {
+  //   return TEXT_EFFECTS.find((effect) => effect.name === selectedEffect);
+  // };
 
   const handleSetTextEffect = () => {
     if (!selectedEffect) return;
-    const element = selectedItem as TimelineElement;
-    editor.setTextEffect({
-      timelineId: element.timelineId,
-      elementId: element.id,
-      textEffect: {
-        ...getSelectedEffectData(),
-      },
-    });
+    // const element = selectedItem as TrackElement;
+    // editor.setTextEffect({
+    //   timelineId: element.trackId,
+    //   elementId: element.id,
+    //   textEffect: {
+    //     ...getSelectedEffectData(),
+    //   },
+    // });
   };
 
   const handleDeleteTextEffect = () => {
     if (!selectedEffect) return;
-    const element = selectedItem as TimelineElement;
-    editor.setTextEffect({
-      timelineId: element.timelineId,
-      elementId: element.id,
-      textEffect: null,
-    });
+    // const element = selectedItem as TimelineElement;
+    // editor.setTextEffect({
+    //   timelineId: element.trackId,
+    //   elementId: element.id,
+    //   textEffect: null,
+    // });
   };
 
   useEffect(() => {
-    if (selectedItem?.id?.startsWith("e-")) {
-      const element = selectedItem as TimelineElement;
-      if (element.textEffect) {
-        setSelectedEffect(element.textEffect.name);
+      if (selectedItem instanceof TrackElement) {
+        // const element = selectedItem as TrackElement;
+        // if (element.textEffect) {
+        //   setSelectedEffect(element.textEffect.name);
+        // }
       }
-    }
   }, [selectedItem]);
 
-  if (!(selectedItem?.id?.startsWith("e-") && selectedItem?.type === TIMELINE_ELEMENT_TYPE.TEXT)) return null;
+  if (!(selectedItem instanceof TrackElement)) return null;
 
   return (
     <div className="twick-text-effect-panel">

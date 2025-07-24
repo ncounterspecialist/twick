@@ -1,8 +1,8 @@
 import { RectProps, Size } from "../../types";
-import { BaseTimelineElement } from "./base.element";
+import { TrackElement } from "./base.element";
 import { ElementVisitor } from "../visitor/element-visitor";
 
-export class RectElement extends BaseTimelineElement{
+export class RectElement extends TrackElement{
     protected declare props: RectProps;
 
     constructor(fill:string, size: Size) {
@@ -36,7 +36,7 @@ export class RectElement extends BaseTimelineElement{
         const element = new RectElement(json.props.fill, { width: json.props.width, height: json.props.height });
         element.props = json.props;
         if (json.id) element.id = json.id;
-        if (json.timelineId) element.timelineId = json.timelineId;
+        if (json.trackId) element.trackId = json.trackId;
         if (json.s !== undefined) element.s = json.s;
         if (json.e !== undefined) element.e = json.e;
         return element;

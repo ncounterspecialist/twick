@@ -1,22 +1,21 @@
 import { useState, useEffect, useRef, useMemo } from "react";
-
 import { useDrag } from "@use-gesture/react";
 import { motion, HTMLMotionProps } from "framer-motion";
-import { TimelineElement, getDecimalNumber, FrameEffect } from "@twick/timeline";
-import "../../styles/timeline.css";
 import { MIN_DURATION, DRAG_TYPE } from "../../helpers/constants";
 import { ELEMENT_COLORS } from "../../helpers/editor.utils";
+import { FrameEffect, getDecimalNumber, TrackElement } from "@twick/timeline";
+import "../../styles/timeline.css";
 
-export const TrackElement: React.FC<{
-  element: TimelineElement;
-  selectedItem: TimelineElement | null;
+export const TrackElementView: React.FC<{
+  element: TrackElement;
+  selectedItem: TrackElement | null;
   parentWidth: number;
   duration: number;
   nextStart: number;
   prevEnd: number;
   allowOverlap: boolean;
-  onSelection: (element: TimelineElement) => void;
-  onDeletion: (element: TimelineElement) => void;
+  onSelection: (element: TrackElement) => void;
+  onDeletion: (element: TrackElement) => void;
   updateTrackElement: (elementId: string, updates: any) => void;
 }> = ({
   element,
@@ -41,13 +40,14 @@ export const TrackElement: React.FC<{
 
   useEffect(() => {
     setPosition({
-      start: element.s,
-      end: element.e,
+      start: element.getStart(),
+      end: element.getEnd(),
     });
   }, [element, parentWidth, duration]);
 
   const isAudioVideo = useMemo(() => {
-    return element?.type === "video" || element?.type === "audio";
+    const elementType = element.getType();
+    return elementType === "video" || elementType === "audio";
   }, [element]);
 
   const bind = useDrag(({ delta: [dx] }) => {
@@ -131,16 +131,17 @@ export const TrackElement: React.FC<{
       lastPosRef.current?.end !== position.end
     ) {
       if (isAudioVideo && dragType.current === DRAG_TYPE.START) {
+        const elementProps = element.getProps();
         const delta =
           position.start -
-          (lastPosRef.current?.start || 0) * (element.props?.playbackRate || 1);
+          (lastPosRef.current?.start || 0) * (elementProps?.playbackRate || 1);
         updates = {
           s: getDecimalNumber(position.start),
           e: getDecimalNumber(position.end),
           props: {
-            ...(element.props || {}),
+            ...(elementProps || {}),
             time: getDecimalNumber(
-              Math.max(0, (element.props?.time || 0) + delta)
+              Math.max(0, (element.getProps()?.time || 0) + delta)
             ),
           },
         };
@@ -150,7 +151,7 @@ export const TrackElement: React.FC<{
           e: getDecimalNumber(position.end),
         };
       }
-      updateTrackElement(element.id, updates);
+      updateTrackElement(element.getId(), updates);
     }
   };
 
@@ -161,11 +162,14 @@ export const TrackElement: React.FC<{
     return ELEMENT_COLORS.element;
   };
 
+  const isSelected = useMemo(() => {
+    return selectedItem?.getId() === element.getId();
+  }, [selectedItem, element]);  
+
   const motionProps: HTMLMotionProps<"div"> = {
     ref,
     className: `twick-track-element ${
-      selectedItem?.id === element.id
-        ? "twick-track-element-selected"
+      isSelected ? "twick-track-element-selected"
         : "twick-track-element-default"
     } ${isDragging ? "twick-track-element-dragging" : ""}`,
     onMouseDown: setLastPos,
@@ -178,7 +182,7 @@ export const TrackElement: React.FC<{
       }
     },
     style: {
-      backgroundColor: getElementColor(element.type),
+      backgroundColor: getElementColor(element.getType()),
       width: `${((position.end - position.start) / duration) * 100}%`,
       left: `${(position.start / duration) * 100}%`,
       touchAction: "none",
@@ -188,7 +192,7 @@ export const TrackElement: React.FC<{
   return (
     <motion.div {...motionProps}>
       <div style={{ touchAction: "none", height: "100%" }} {...bind()}>
-        {selectedItem?.id === element.id ? (
+        {isSelected ? (
           <div
             style={{ touchAction: "none" }}
             {...bindStartHandle()}
@@ -196,16 +200,16 @@ export const TrackElement: React.FC<{
           />
         ) : null}
         <div className="twick-track-element-content">
-          {element.props?.text || element.type}
+          {(element as any).getText ? (element as any).getText() : element.getName() || element.getType()}
         </div>
-        {selectedItem?.id === element.id ? (
+        {isSelected ? (
           <div
             style={{ touchAction: "none" }}
             {...bindEndHandle()}
             className="twick-track-element-handle twick-track-element-handle-end"
           />
         ) : null}
-        {(element?.frameEffects || []).map((frameEffect: FrameEffect) => {
+        {(element as any).getFrameEffects ? (element as any).getFrameEffects().map((frameEffect: FrameEffect) => {
           return (
             <div
               className="twick-track-element-frame-effect"
@@ -213,17 +217,17 @@ export const TrackElement: React.FC<{
               style={{
                 backgroundColor: getElementColor("frameEffect"),
                 width: `${
-                  ((frameEffect.e - frameEffect.s) / (element.e - element.s)) *
+                  ((frameEffect.e - frameEffect.s) / (element.getDuration())) *
                   100
                 }%`,
-                left: `${(frameEffect.s / (element.e - element.s)) * 100}%`,
+                left: `${(frameEffect.s / (element.getDuration())) * 100}%`,
               }}
             ></div>
           );
-        })}
+        }) : null}
       </div>
     </motion.div>
   );
 };
 
-export default TrackElement;
+export default TrackElementView;

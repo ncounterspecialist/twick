@@ -1,25 +1,25 @@
 
 import { useEffect, useRef, useState } from "react";
-import TrackElement from "./track-element";
-import { TimelineElement } from "@twick/timeline";
+import { Track, TrackElement } from "@twick/timeline";
 import "../../styles/timeline.css";
+import TrackElementView from "./track-element";
 
 interface TrackBaseProps {
   duration: number;
   zoom: number;
-  elements: TimelineElement[];
+  track: Track;
   updateTrackElement: (id: string, updates: any) => void;
   trackWidth: number;
-  selectedItem: TimelineElement | null;
+  selectedItem: TrackElement | null;
   allowOverlap?: boolean;
-  onItemDeletion: (element: TimelineElement) => void;
-  onItemSelection: (element: TimelineElement) => void;
+  onItemDeletion: (element: TrackElement) => void;
+  onItemSelection: (element: TrackElement) => void;
 }
 
 const TrackBase = ({
   duration,
   zoom,
-  elements,
+  track,
   updateTrackElement,
   trackWidth,
   selectedItem,
@@ -28,11 +28,12 @@ const TrackBase = ({
   allowOverlap = false,
 }: TrackBaseProps) => {
   const trackRef = useRef<HTMLDivElement>(null);
-  const [localElements, setLocalElements] = useState<TimelineElement[]>(elements);
+  const [localElements, setLocalElements] = useState<TrackElement[]>([]);
 
   useEffect(() => {
-    setLocalElements(elements);
-  }, [elements]);
+    const elements = track.getElements();
+    setLocalElements([...elements]);
+  }, [track]);
 
   const trackWidthStyle = `${Math.max(100, duration * zoom * 100)}px`;
 
@@ -45,8 +46,8 @@ const TrackBase = ({
       }}
     >
       {localElements?.map((element, index) => (
-        <TrackElement
-          key={element.id}
+        <TrackElementView
+          key={element.getId()}
           element={element}
           duration={duration}
           allowOverlap={allowOverlap}
@@ -55,8 +56,8 @@ const TrackBase = ({
           updateTrackElement={updateTrackElement}
           onSelection={onItemSelection}
           onDeletion={onItemDeletion}
-          nextStart={index < localElements.length - 1 ? localElements[index + 1].s : duration}
-          prevEnd={index > 0 ? localElements[index - 1].e : 0}
+          nextStart={index < localElements.length - 1 ? localElements[index + 1].getStart() : duration}
+          prevEnd={index > 0 ? localElements[index - 1].getEnd() : 0}
         />
       ))}
     </div>

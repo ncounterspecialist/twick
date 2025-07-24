@@ -1,9 +1,9 @@
 import { getObjectFitSize, getVideoMeta } from "@twick/media-utils";
 import { Frame, FrameEffect, ObjectFit, Size, VideoProps } from "../../types";
-import { BaseTimelineElement } from "./base.element";
+import { TrackElement } from "./base.element";
 import type { ElementVisitor } from "../visitor/element-visitor";
 
-export class VideoElement extends BaseTimelineElement {
+export class VideoElement extends TrackElement {
   protected mute!: boolean;
   protected baseSize!: Size;
   protected mediaDuration!: number;
@@ -126,7 +126,7 @@ export class VideoElement extends BaseTimelineElement {
     element.frameEffects = json.frameEffects;
     element.backgroundColor = json.backgroundColor;
     if (json.id) element.id = json.id;
-    if (json.timelineId) element.timelineId = json.timelineId;
+    if (json.trackId) element.trackId = json.trackId;
     if (json.s !== undefined) element.s = json.s;
     if (json.e !== undefined) element.e = json.e;
     return element;
