@@ -20,11 +20,7 @@
     "docs": "typedoc --plugin typedoc-plugin-markdown --out docs src/index.ts"
   },
   "dependencies": {
-    "@react-spring/web": "^10.0.1",
-    "@use-gesture/react": "^10.3.0",
-    "@twick/media-utils": "workspace:^0.0.1",
-    "framer-motion": "^11.0.3",
-    "lucide-react": "^0.511.0"
+    "@twick/media-utils": "workspace:^0.0.1"
   },
   "devDependencies": {
     "@types/node": "^20.11.24",
@@ -36,7 +32,6 @@
     "typescript": "^5.4.2",
     "vite": "^5.1.4",
     "vite-plugin-dts": "^3.7.3",
-    "postcss": "^8.4.35",
     "autoprefixer": "^10.4.17"
   }
 }

@@ -1,5 +1,5 @@
 import { useLivePlayerContext } from "@twick/live-player";
-import { SeekTrack } from "@twick/timeline";
+import SeekTrack from "../track/seek-track";
 
 const SeekControl = ({
   duration,

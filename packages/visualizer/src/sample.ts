@@ -26,7 +26,7 @@ export const sample = {
         "orgId": "a251d9971a55"
       },
       "basePath": "carlyn",
-      "timeline": [
+      "tracks": [
         {
           "id": "t-scene",
           "type": "scene",

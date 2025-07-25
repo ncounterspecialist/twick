@@ -1,3 +1,4 @@
+
 import { CANVAS_OPERATIONS, useTwickCanvas } from "@twick/canvas";
 import {
   LivePlayer,
@@ -7,9 +8,8 @@ import {
 import {
   getCurrentElements,
   TIMELINE_ACTION,
-  TIMELINE_OPERATION,
-  timelineService,
   useTimelineContext,
+  useTimelineEditor,
 } from "@twick/timeline";
 import { useEffect, useRef, useState } from "react";
 import "../../styles/video-editor.css";
@@ -24,11 +24,11 @@ export const PlayerManager = ({
   const [projectData, setProjectData] = useState<any>(null);
   const {
     timelineAction,
-    setTimelineOperation,
     setTimelineAction,
     latestProjectVersion,
     setSelectedItem,
   } = useTimelineContext();
+  const editor = useTimelineEditor();
   const durationRef = useRef<number>(0);
   const {
     playerState,
@@ -36,7 +36,6 @@ export const PlayerManager = ({
     seekTime,
     setPlayerState,
     setCurrentTime,
-    setTotalDuration,
   } = useLivePlayerContext();
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -52,13 +51,8 @@ export const PlayerManager = ({
         setSelectedItem(data);
         break;
       case CANVAS_OPERATIONS.ITEM_UPDATED:
-        setTimelineOperation(TIMELINE_OPERATION.UPDATE_ELEMENT, {
-          timelineId: data.timelineId,
-          elementId: data.id,
-          updates: data,
-          forceUpdate: true,
-          noSelection: true,
-        });
+       //handle item edit
+       console.log(editor);
         break;
       default:
         break;
@@ -93,7 +87,7 @@ export const PlayerManager = ({
           const _latestProjectData = {
             input: {
               properties: videoProps,
-              timeline: timelineAction.payload?.timeline ?? [],
+              tracks: timelineAction.payload?.tracks ?? [],
               version: timelineAction.payload?.version ?? 0,
             },
           };
@@ -106,7 +100,7 @@ export const PlayerManager = ({
             const _latestProjectData = {
               input: {
                 properties: videoProps,
-                timeline: timelineAction.payload?.timeline ?? [],
+                tracks: timelineAction.payload?.tracks ?? [],
                 version: timelineAction.payload?.version ?? 0,
               },
             };
@@ -122,7 +116,7 @@ export const PlayerManager = ({
     if (twickCanvas && playerState === PLAYER_STATE.PAUSED) {
       const elements = getCurrentElements(
         seekTime,
-        timelineService.getTimelineData()?.timeline ?? []
+        editor.getTimelineData()?.tracks ?? []
       );
       setCanvasElements({
         elements,
@@ -166,7 +160,6 @@ export const PlayerManager = ({
         onTimeUpdate={handleTimeUpdate}
         volume={playerVolume}
         onDurationChange={(duration: number) => {
-          setTotalDuration(duration);
           durationRef.current = duration;
         }}
         playing={playerState === PLAYER_STATE.PLAYING}

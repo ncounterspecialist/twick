@@ -1,27 +1,98 @@
-import { useTimeline } from "./hooks/use-timeline";
-import { Timeline, TimelineData, TimelineElement } from "./types";
-import SeekTrack from "./components/tracks/seek-track";
-import Track from "./components/tracks/track";
-import TrackHeader from "./components/tracks/track-header";
-import TimelineView from "./components/timeline/timeline-view";
 import { TIMELINE_ELEMENT_TYPE } from "./utils/constants";
-import { TimelineProvider, TimelineProviderProps } from "./context/timeline-context";
-import timelineService from "./services/timeline/timeline.service";
+import { TimelineEditor } from "./core/editor/timeline.editor";
+import {
+  TimelineProvider,
+  TimelineProviderProps,
+} from "./context/timeline-context";
+import useTimelineEditor, {
+  cleanupEditor,
+  cleanupAllEditors,
+  getActiveEditors,
+} from "./hooks/use-timeline-editor";
+import { Track } from "./core/track/track";
+import { ElementDeserializer } from "./core/visitor/element-deserializer";
+import { ElementSerializer } from "./core/visitor/element-serializer";
+import { ElementValidator } from "./core/visitor/element-validator";
+import { ElementAdder } from "./core/visitor/element-adder";
+import { ElementRemover } from "./core/visitor/element-remover";
+import { ElementUpdater } from "./core/visitor/element-updater";
+import { CaptionElement } from "./core/elements/caption.element";
+import { RectElement } from "./core/elements/rect.element";
+import { TextElement } from "./core/elements/text.element";
+import { ImageElement } from "./core/elements/image.element";
+import { AudioElement } from "./core/elements/audio.element";
+import { CircleElement } from "./core/elements/circle.element";
+import { IconElement } from "./core/elements/icon.element";
+import { VideoElement } from "./core/elements/video.element";
+import {
+  generateShortUuid,
+  getTotalDuration,
+  getCurrentElements,
+  isTrackId,
+  isElementId,
+} from "./utils/timeline.utils";
+import { TrackElement } from "./core/elements/base.element";
 
-export { useTimeline, SeekTrack, Track, TrackHeader, TimelineView, TimelineProvider, timelineService };
-export type { Timeline, TimelineData, TimelineElement as TimelineElement, TimelineProviderProps };
+export {
+  TimelineProvider,
+  TimelineEditor,
+  useTimelineEditor,
+  cleanupEditor,
+  cleanupAllEditors,
+  getActiveEditors,
+};
+export type { TimelineProviderProps };
 export { TIMELINE_ELEMENT_TYPE };
 
+export * from "./types";
 export * from "./utils/constants";
 export * from "./utils/timeline.utils";
-export * from "./utils/validation";
-export * from './context/timeline-context';
-export * from './components/timeline/timeline-view';
-export * from './hooks/use-timeline';
-export * from './hooks/timeline-operations';
-export * from './types';
-export * from './utils/timeline-service-error';
-export * from './utils/element.utils';
+export * from "./context/timeline-context";
+export * from "./hooks/use-timeline-editor";
+// Export core components
+export * from "./core/track/track";
+export * from "./core/elements/base.element";
+export * from "./core/visitor/element-visitor";
+export * from "./core/visitor/element-serializer";
+export * from "./core/visitor/element-deserializer";
+export * from "./core/visitor/element-validator";
+export * from "./core/visitor/element-adder";
+export * from "./core/visitor/element-remover";
+export * from "./core/visitor/element-updater";
 
-// Import CSS
-import './styles/timeline.css';
+// Expose classes globally on window object for browser access
+if (typeof window !== "undefined") {
+  // Also expose the main exports
+  (window as any).Twick = {
+    Track: Track,
+    TrackElement,
+    ElementDeserializer,
+    ElementSerializer,
+    ElementValidator,
+    ElementAdder,
+    ElementRemover,
+    ElementUpdater,
+    TimelineEditor,
+    TimelineProvider,
+    TIMELINE_ELEMENT_TYPE,
+    useTimelineEditor,
+    cleanupEditor,
+    cleanupAllEditors,
+    getActiveEditors,
+    // Element types
+    CaptionElement,
+    RectElement,
+    TextElement,
+    ImageElement,
+    AudioElement,
+    CircleElement,
+    IconElement,
+    VideoElement,
+    // Utility functions
+    generateShortUuid,
+    getTotalDuration,
+    getCurrentElements,
+    isTrackId,
+    isElementId,
+  };
+}

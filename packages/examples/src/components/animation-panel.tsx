@@ -1,4 +1,4 @@
-import { getDecimalNumber, TIMELINE_OPERATION, useTimelineContext, type TimelineElement } from "@twick/timeline";
+import {  TrackElement, useTimelineContext } from "@twick/timeline";
 import { ANIMATIONS } from "@twick/video-editor";
 import { useEffect, useState } from "react";
 
@@ -9,206 +9,122 @@ const AnimationPanel = () => {
   const [animate, setAnimate] = useState("enter");
   const [direction, setDirection] = useState("up");
   const [mode, setMode] = useState("in");
-//   const [intensity, setIntensity] = useState(1);
   const [interval, setInterval] = useState(1000);
-  const { selectedItem, setTimelineOperation } = useTimelineContext();
-
-  const [maxInterval, setMaxInterval] = useState(1000);
-
-  const getSelectedAnimationData = () => {
-    return ANIMATIONS.find((anim) => anim.name === selectedAnimation);
-  };
+  const { selectedItem } = useTimelineContext();
+  // const editor = useTimelineEditor();
 
   const handleAnimate = () => {
     if (!selectedAnimation) return;
-    const element = selectedItem as TimelineElement;
-    setTimelineOperation(TIMELINE_OPERATION.SET_ELEMENT_ANIMATION, {
-      timelineId: element.timelineId,
-      elementId: element.id,
-      animation: {
-        name: selectedAnimation,
-        animate,
-        direction,
-        mode,
-        interval: getDecimalNumber(interval / 1000),
-      },
-    });
+    // const element = selectedItem as TimelineElement;
+    // editor.setElementAnimation({
+    //   timelineId: element.trackId,
+    //   elementId: element.id,
+    //   animation: {
+    //     name: selectedAnimation,
+    //     animate,
+    //     direction,
+    //     mode,
+    //     interval: getDecimalNumber(interval / 1000),
+    //   },
+    // });
   };
 
   const handleDeleteAnimation = () => {
     if (!selectedAnimation) return;
-    const element = selectedItem as TimelineElement;
-    setTimelineOperation(TIMELINE_OPERATION.SET_ELEMENT_ANIMATION, {
-      timelineId: element.timelineId,
-      elementId: element.id,
-      animation: null,
-    });
+    // const element = selectedItem as TimelineElement;
+    // editor.setElementAnimation({
+    //   timelineId: element.trackId,
+    //   elementId: element.id,
+    //   animation: null,
+    // });
   };
 
-  const selectedAnimData = getSelectedAnimationData();
-
   useEffect(() => {
-    if (selectedItem?.id?.startsWith("e-")) {
-      const element = selectedItem as TimelineElement;
-      setMaxInterval(element.e - element.s);
-      if (element.animation) {
-        setSelectedAnimation(element.animation.name);
-        setAnimate(element.animation.animate || "enter");
-        setDirection(element.animation.direction || "up");
-        setMode(element.animation.mode || "in");
-        setInterval((element.animation.interval || 0.5) * 1000);
-      }
+    if (selectedItem instanceof TrackElement) {
+      // const element = selectedItem as TrackElement;
+      // if (element.animation) {
+      //   setSelectedAnimation(element.animation.name);
+      //   setAnimate(element.animation.animate || "enter");
+      //   setDirection(element.animation.direction || "up");
+      //   setMode(element.animation.mode || "in");
+      //   setInterval((element.animation.interval || 0.5) * 1000);
+      // }
     }
   }, [selectedItem]);
 
-  if (!selectedItem?.id?.startsWith("e-")) return null;
+  if (!(selectedItem instanceof TrackElement)) return null;
 
   return (
-    <div className="p-3 bg-gray-800 rounded-lg shadow-sm border border-gray-700">
-      <h2 className="text-lg font-semibold mb-2 text-white">Animations</h2>
-
-      {/* Animation Grid */}
-      <div className="grid grid-cols-3 gap-3 mb-2">
-        {ANIMATIONS.map((animation) => (
-          <div
-            key={animation.name}
-            className={`border rounded-lg p-1 cursor-pointer transition-colors ${
-              selectedAnimation === animation.name
-                ? "border-blue-400 bg-blue-900"
-                : "border-gray-600 hover:border-gray-500 bg-gray-700"
-            }`}
-            onClick={() => setSelectedAnimation(animation.name)}
-          >
-            <div className="w-full h-16 bg-gray-600 rounded mb-2 flex items-center justify-center group">
-              <img
-                src={animation.getSample()}
-                alt={`${animation.name} preview`}
-                className="w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-              />
-              <span className="absolute text-xs capitalize text-gray-300 group-hover:opacity-0 transition-opacity duration-200">
-                {animation.name.replace("-", " ")}
-              </span>
-            </div>
-          </div>
-        ))}
+    <div className="twick-animation-panel">
+      <div className="twick-animation-header">
+        <h3>Animation</h3>
       </div>
+      <div className="twick-animation-content">
+        <div className="twick-animation-select">
+          <label>Animation Type:</label>
+          <select
+            value={selectedAnimation || ""}
+            onChange={(e) => setSelectedAnimation(e.target.value)}
+          >
+            <option value="">Select Animation</option>
+            {ANIMATIONS.map((anim) => (
+              <option key={anim.name} value={anim.name}>
+                {anim.name}
+              </option>
+            ))}
+          </select>
+        </div>
 
-      {/* Animation Controls */}
-      {selectedAnimation && (
-        <div className="space-y-4">
-          <div className="border-t border-gray-600 pt-4">
-            <h3 className="text-sm font-medium mb-3 text-white capitalize">
-              {selectedAnimation.replace("-", " ")} Settings
-            </h3>
-
-            {/* Animate */}
-            {selectedAnimData?.options?.animate && (
-              <div className="mb-3">
-                <label className="block text-xs font-medium text-gray-300 mb-1">
-                  Animate
-                </label>
-                <select
-                  value={animate}
-                  onChange={(e) => setAnimate(e.target.value)}
-                  className="w-full text-xs border border-gray-600 rounded px-2 py-1 bg-gray-700 text-white"
-                >
-                  {selectedAnimData.options.animate.map((option: string) => (
-                    <option key={option} value={option}>
-                      {option.charAt(0).toUpperCase() + option.slice(1)}
-                    </option>
-                  ))}
+        {selectedAnimation && (
+          <>
+            <div className="twick-animation-controls">
+              <div className="twick-animation-control">
+                <label>Animate:</label>
+                <select value={animate} onChange={(e) => setAnimate(e.target.value)}>
+                  <option value="enter">Enter</option>
+                  <option value="exit">Exit</option>
                 </select>
               </div>
-            )}
 
-            {/* Direction */}
-            {selectedAnimData?.options?.direction && (
-              <div className="mb-3">
-                <label className="block text-xs font-medium text-gray-300 mb-1">
-                  Direction
-                </label>
-                <select
-                  value={direction}
-                  onChange={(e) => setDirection(e.target.value)}
-                  className="w-full text-xs border border-gray-600 rounded px-2 py-1 bg-gray-700 text-white"
-                >
-                  {selectedAnimData.options.direction.map((option: string) => (
-                    <option key={option} value={option}>
-                      {option.charAt(0).toUpperCase() + option.slice(1)}
-                    </option>
-                  ))}
+              <div className="twick-animation-control">
+                <label>Direction:</label>
+                <select value={direction} onChange={(e) => setDirection(e.target.value)}>
+                  <option value="up">Up</option>
+                  <option value="down">Down</option>
+                  <option value="left">Left</option>
+                  <option value="right">Right</option>
                 </select>
               </div>
-            )}
 
-            {/* Mode */}
-            {selectedAnimData?.options?.mode && (
-              <div className="mb-3">
-                <label className="block text-xs font-medium text-gray-300 mb-1">
-                  Mode
-                </label>
-                <select
-                  value={mode}
-                  onChange={(e) => setMode(e.target.value)}
-                  className="w-full text-xs border border-gray-600 rounded px-2 py-1 bg-gray-700 text-white"
-                >
-                  {selectedAnimData.options.mode.map((option: string) => (
-                    <option key={option} value={option}>
-                      {option.charAt(0).toUpperCase() + option.slice(1)}
-                    </option>
-                  ))}
+              <div className="twick-animation-control">
+                <label>Mode:</label>
+                <select value={mode} onChange={(e) => setMode(e.target.value)}>
+                  <option value="in">In</option>
+                  <option value="out">Out</option>
                 </select>
               </div>
-            )}
 
-            {/* Intensity */}
-            {/* <div className="mb-3">
-              <label className="block text-xs font-medium text-gray-300 mb-1">
-                Intensity: {intensity}
-              </label>
-              <input
-                type="range"
-                min="0.1"
-                max="3"
-                step="0.1"
-                value={intensity}
-                onChange={(e) => setIntensity(parseFloat(e.target.value))}
-                className="w-full"
-              />
-            </div> */}
-
-            {/* Interval */}
-            <div className="mb-4">
-              <label className="block text-xs font-medium text-gray-300 mb-1">
-                Interval (ms): {interval}
-              </label>
-              <input
-                type="range"
-                min={0}
-                max={maxInterval * 1000}
-                step={100}
-                value={interval}
-                onChange={(e) => setInterval(parseInt(e.target.value))}
-                className="w-full"
-              />
+              <div className="twick-animation-control">
+                <label>Interval (seconds):</label>
+                <input
+                  type="range"
+                  min="0.1"
+                  max="5"
+                  step="0.1"
+                  value={interval / 1000}
+                  onChange={(e) => setInterval(parseFloat(e.target.value) * 1000)}
+                />
+                <span>{interval / 1000}s</span>
+              </div>
             </div>
 
-            {/* Animate Button */}
-            <button
-              onClick={handleAnimate}
-              className="w-full bg-blue-600 text-white text-sm font-medium mb-4 py-2 px-4 rounded hover:bg-blue-700 transition-colors"
-            >
-              Set Animation
-            </button>
-            <button
-              onClick={handleDeleteAnimation}
-              className="w-full bg-blue-600 text-white text-sm font-medium py-2 px-4 rounded hover:bg-blue-700 transition-colors"
-            >
-              Delete Animation
-            </button>
-          </div>
-        </div>
-      )}
+            <div className="twick-animation-actions">
+              <button onClick={handleAnimate}>Apply Animation</button>
+              <button onClick={handleDeleteAnimation}>Remove Animation</button>
+            </div>
+          </>
+        )}
+      </div>
     </div>
   );
 };

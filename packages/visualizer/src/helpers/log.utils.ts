@@ -1,7 +1,4 @@
-import { useLogger } from "@revideo/core";
 import { format } from "date-fns";
-
-const loggerInstance = useLogger();
 
 const getCurrentTime = (dateFormat = "mm:ss:SSS") => {
   const now = new Date();

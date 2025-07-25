@@ -1,8 +1,9 @@
 import {
+  isTrackId,
   TIMELINE_ELEMENT_TYPE,
-  TIMELINE_OPERATION,
+  TrackElement,
   useTimelineContext,
-  type TimelineElement,
+  useTimelineEditor,
 } from "@twick/timeline";
 import { useState } from "react";
 import FileInput from "../shared/file-input";
@@ -16,23 +17,24 @@ const EditorControls = () => {
   const [panelType, setPanelType] = useState<
     "media" | "text" | "timeline" | "animation" | "text-effect" | null
   >(null);
-  const { setTimelineOperation, selectedItem } = useTimelineContext();
+  const { selectedItem } = useTimelineContext();
+  const editor = useTimelineEditor();
   const [showColorDialog, setShowColorDialog] = useState(false);
 
-  const addTextElement = (text: string) => {
+  const addTextElement = (_text: string) => {
     const timelineId = getSelectedTimelineId();
     if (!timelineId) {
       return;
     }
-    setTimelineOperation(TIMELINE_OPERATION.ADD_ELEMENT, {
-      timelineId,
-      element: {
-        type: TIMELINE_ELEMENT_TYPE.TEXT,
-        props: {
-          text: text,
-        },
-      },
-    });
+    // setTimelineOperation(TIMELINE_OPERATION.ADD_ELEMENT, {
+    //   timelineId,
+    //   element: {
+    //     type: TIMELINE_ELEMENT_TYPE.TEXT,
+    //     props: {
+    //       text: text,
+    //     },
+    //   },
+    // });
   }
   const loadProject = ({ content }: any) => {
     if (typeof content === "string") {
@@ -44,10 +46,14 @@ const EditorControls = () => {
         projectData = contentData;
       }
       if (projectData?.input) {
-        setTimelineOperation(
-          TIMELINE_OPERATION.LOAD_PROJECT,
-          projectData?.input
-        );
+        editor.loadProject({
+          timeline: projectData?.input?.timeline,
+          version: projectData?.input?.version,
+        });
+        // setTimelineOperation(
+        //   TIMELINE_OPERATION.LOAD_PROJECT,
+        //   projectData?.input
+        // );
       } else {
         alert("Invalid project data");
       }
@@ -55,7 +61,7 @@ const EditorControls = () => {
   };
 
   const addTimeline = () => {
-    setTimelineOperation(TIMELINE_OPERATION.ADD_NEW_TIMELINE, undefined);
+    // setTimelineOperation(TIMELINE_OPERATION.ADD_NEW_TIMELINE, undefined);
   };
 
   const addRectElement = (color: string) => {
@@ -65,17 +71,17 @@ const EditorControls = () => {
     if (!timelineId) {
       return;
     }
-    setTimelineOperation(TIMELINE_OPERATION.ADD_ELEMENT, {
-      timelineId,
-      element: {
-        type: TIMELINE_ELEMENT_TYPE.RECT,
-        props: {
-          fill: color,
-          width: 200,
-          height: 200,
-        },
-      },
-    });
+    // setTimelineOperation(TIMELINE_OPERATION.ADD_ELEMENT, {
+    //   timelineId,
+    //   element: {
+    //     type: TIMELINE_ELEMENT_TYPE.RECT,
+    //     props: {
+    //       fill: color,
+    //       width: 200,
+    //       height: 200,
+    //     },
+    //   },
+    // });
     
   }
 
@@ -84,9 +90,9 @@ const EditorControls = () => {
       alert("Please select a timeline/element to add an element");
       return;
     }
-    return selectedItem.id.startsWith("t-")
-      ? selectedItem.id
-      : (selectedItem as TimelineElement).timelineId;
+    return isTrackId(selectedItem.getId())
+      ? selectedItem.getId()
+      : (selectedItem as TrackElement).getTrackId();
   };
 
   const addMedia = (element: MediaItem) => {
@@ -96,39 +102,39 @@ const EditorControls = () => {
     }
     switch (element?.type) {
       case TIMELINE_ELEMENT_TYPE.IMAGE:
-        setTimelineOperation(TIMELINE_OPERATION.ADD_ELEMENT, {
-          timelineId,
-          element: {
-            type: TIMELINE_ELEMENT_TYPE.IMAGE,
-            objectFit: "contain",
-            props: {
-              src: element.url,
-            },
-          },
-        });
+        // setTimelineOperation(TIMELINE_OPERATION.ADD_ELEMENT, {
+        //   timelineId,
+        //   element: {
+        //     type: TIMELINE_ELEMENT_TYPE.IMAGE,
+        //     objectFit: "contain",
+        //     props: {
+        //       src: element.url,
+        //     },
+        //   },
+        // });
         break;
       case TIMELINE_ELEMENT_TYPE.VIDEO:
-        setTimelineOperation(TIMELINE_OPERATION.ADD_ELEMENT, {
-          timelineId,
-          element: {
-            type: TIMELINE_ELEMENT_TYPE.VIDEO,
-            objectFit: "contain",
-            props: {
-              src: element.url,
-            },
-          },
-        });
+        // setTimelineOperation(TIMELINE_OPERATION.ADD_ELEMENT, {
+        //   timelineId,
+        //   element: {
+        //     type: TIMELINE_ELEMENT_TYPE.VIDEO,
+        //     objectFit: "contain",
+        //     props: {
+        //       src: element.url,
+        //     },
+        //   },
+        // });
         break;
       case TIMELINE_ELEMENT_TYPE.AUDIO:
-          setTimelineOperation(TIMELINE_OPERATION.ADD_ELEMENT, {
-            timelineId,
-            element: {
-              type: TIMELINE_ELEMENT_TYPE.AUDIO,
-              props: {
-                src: element.url,
-              },
-            },
-          });
+          // setTimelineOperation(TIMELINE_OPERATION.ADD_ELEMENT, {
+          //   timelineId,
+          //   element: {
+          //     type: TIMELINE_ELEMENT_TYPE.AUDIO,
+          //     props: {
+          //       src: element.url,
+          //     },
+          //   },
+          // });
           break;
     }
   };

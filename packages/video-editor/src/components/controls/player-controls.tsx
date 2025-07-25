@@ -2,19 +2,22 @@ import React, { useCallback, useMemo } from "react";
 import { PLAYER_STATE } from "@twick/live-player";
 import "../../styles/player-controls.css";
 import { Trash2, Scissors, Play, Pause, Loader2 } from "lucide-react";
-import { canSplitElement, Timeline, TimelineElement } from "@twick/timeline";
 import { UndoRedoControls } from "./undo-redo-controls";
+import { TrackElement, Track } from "@twick/timeline";
 
 interface PlayerControlsProps {
-  selectedItem: TimelineElement | Timeline | null;
+  selectedItem: TrackElement | Track | null;
   currentTime: number;
   duration: number;
+  canUndo: boolean;
+  canRedo: boolean;
   playerState: keyof typeof PLAYER_STATE;
   togglePlayback: () => void;
-  onDelete?: (item: TimelineElement | Timeline) => void;
-  onSplit?: (item: TimelineElement, splitTime: number) => void;
+  onUndo?: () => void;
+  onRedo?: () => void;
+  onDelete?: (item: TrackElement | Track) => void;
+  onSplit?: (item: TrackElement, splitTime: number) => void;
   className?: string;
-  enableUndoRedo?: boolean;
 }
 
 const PlayerControls: React.FC<PlayerControlsProps> = ({
@@ -23,9 +26,12 @@ const PlayerControls: React.FC<PlayerControlsProps> = ({
   currentTime,
   playerState,
   togglePlayback,
+  canUndo = false,
+  canRedo = false,
+  onUndo,
+  onRedo,
   onSplit,
   onDelete,
-  enableUndoRedo = false,
   className = "",
 }) => {
   // Format time to MM:SS format
@@ -37,11 +43,13 @@ const PlayerControls: React.FC<PlayerControlsProps> = ({
       .padStart(2, "0")}`;
   }, []);
 
+  const canSplitElement = (element: TrackElement) => true;
+
   const canSplit = useMemo(() => {
-    return selectedItem && canSplitElement(selectedItem as TimelineElement);
+    return selectedItem && canSplitElement(selectedItem as TrackElement);
   }, [selectedItem]);
 
-  const handleDelete = useCallback(() => {
+  const handleDelete = useCallback(() => {  
     if (selectedItem && onDelete) {
       onDelete(selectedItem);
     }
@@ -51,9 +59,9 @@ const PlayerControls: React.FC<PlayerControlsProps> = ({
     if (
       selectedItem &&
       onSplit &&
-      canSplitElement(selectedItem as TimelineElement)
+      canSplitElement(selectedItem as TrackElement)
     ) {
-      onSplit(selectedItem as TimelineElement, currentTime);
+      onSplit(selectedItem as TrackElement, currentTime);
     }
   }, [selectedItem, onSplit, canSplit, currentTime]);
 
@@ -83,7 +91,7 @@ const PlayerControls: React.FC<PlayerControlsProps> = ({
         >
           <Scissors size={18} strokeWidth={2} />
         </button>
-        {enableUndoRedo ? <UndoRedoControls /> : null}
+        <UndoRedoControls canUndo={canUndo} canRedo={canRedo} onUndo={onUndo} onRedo={onRedo} />
       </div>
 
       {/* Playback Controls */}

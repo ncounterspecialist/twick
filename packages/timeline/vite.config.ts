@@ -32,7 +32,6 @@ export default defineConfig({
           'lucide-react': 'LucideReact'
         },
         assetFileNames: (assetInfo) => {
-          if (assetInfo.name === 'style.css') return 'timeline.css';
           return assetInfo.name;
         },
       },
@@ -45,5 +44,8 @@ export default defineConfig({
       include: ['src'],
       exclude: ['src/**/*.test.ts', 'src/**/*.test.tsx'],
     }),
-  ]
+  ],
+  define: {
+    'process.env.NODE_ENV': '"production"'
+  }
 }); 

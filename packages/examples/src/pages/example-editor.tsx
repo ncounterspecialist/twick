@@ -1,22 +1,20 @@
-import VideoEditor from "@twick/video-editor";
+import VideoEditor, { INITIAL_TIMELINE_DATA } from "@twick/video-editor";
 import "@twick/video-editor/dist/video-editor.css";
-import EditorControls from "../components/editor-controls";
 import { LivePlayerProvider } from "@twick/live-player";
-import { TimelineProvider } from "@twick/timeline";
+import {  TimelineProvider } from "@twick/timeline";
 
 import "./example-editor.css";
+import EditorControls from "../components/editor-controls";
 
 const ExampleEditor = () => {
   return (
     <LivePlayerProvider>
       <TimelineProvider
-        initialData={{
-          timeline: [],
-          version: 0,
-        }}
+        contextId={'editor-demo'}
+        initialData={INITIAL_TIMELINE_DATA}
       >
         <VideoEditor
-          leftPanel={<EditorControls />}
+          leftPanel={<EditorControls/>}
           rightPanel={<div></div>}
           editorConfig={{
             canvasMode: true,

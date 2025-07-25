@@ -1,31 +1,13 @@
-import { Timeline, TimelineElement } from "../types";
-import { DEFAULT_ELEMENT_COLORS, ElementColors } from "./constants";
-
-export let ELEMENT_COLORS: ElementColors = { ...DEFAULT_ELEMENT_COLORS };
-
-export const setElementColors = (colors: Partial<ElementColors>) => {
-  ELEMENT_COLORS = {
-    ...DEFAULT_ELEMENT_COLORS,
-    ...colors,
-  };
-};
-export function formatTime(seconds: number) {
-  const ms = Math.floor((seconds % 1) * 1000)
-    .toString()
-    .padStart(3, "0");
-  const s = Math.floor(seconds % 60)
-    .toString()
-    .padStart(2, "0");
-  const m = Math.floor(seconds / 60).toString();
-  return `${m}:${s}.${ms}`;
-}
+import { TrackElement } from "../core/elements/base.element";
+import { Track } from "../core/track/track";
+import { TrackJSON } from "../types";
 
 export const getDecimalNumber = (num: number, precision = 3) => {
   return Number(num.toFixed(precision));
 };
 
-export function getTotalDuration(timeline: Timeline[]) {
-  return (timeline || []).reduce(
+export function getTotalDuration(tracks: TrackJSON[]) {
+  return (tracks || []).reduce(
     (maxDuration, timeline) =>
       Math.max(
         maxDuration,
@@ -48,21 +30,17 @@ export function generateShortUuid(): string {
 
 export const getCurrentElements = (
   currentTime: number,
-  timeline: Timeline[]
-) => {
-  const currentElements: Array<TimelineElement & { timelineType?: string }> =
-    [];
-  if (timeline?.length) {
-    for (let i = 0; i < timeline.length; i++) {
-      if (timeline[i]) {
-        for (let j = 0; j < timeline[i].elements.length; j++) {
-          const element = timeline[i].elements[j];
-          if ((element.s <= currentTime) && element.e >= currentTime) {
-            currentElements.push({
-              ...element,
-              timelineId: timeline[i].id,
-              timelineType: timeline[i].type,
-            });
+  tracks: Track[]
+): Array<Readonly<TrackElement>>  => {
+  const currentElements: Array<Readonly<TrackElement>> = [];
+  if (tracks?.length) {
+    for (let i = 0; i < tracks.length; i++) {
+      if (tracks[i]) {
+        const elements = tracks[i].getElements();
+        for (let j = 0; j < elements.length; j++) {
+          const element = elements[j];
+          if ((element.getStart() <= currentTime) && element.getEnd()  >= currentTime) {
+            currentElements.push(element);
           }
         }
       }
@@ -71,4 +49,5 @@ export const getCurrentElements = (
   return currentElements;
 }; 
 
-export const isTimelineId = (id: string) => id.startsWith("t-");
+export const isElementId = (id: string) => id.startsWith("e-");
+export const isTrackId = (id: string) => id.startsWith("t-");

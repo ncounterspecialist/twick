@@ -16,6 +16,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "../video-editor/src/components/controls/timeline-zoom.tsx"],
+  "include": ["src", "../video-editor/src/components/controls/timeline-zoom.tsx", "../video-editor/dist/components/tracks"],
   "references": [{ "path": "./tsconfig.node.json" }]
 } 

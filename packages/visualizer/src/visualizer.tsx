@@ -7,16 +7,16 @@ import "./global.css";
 import { Rect, makeScene2D, View2D } from "@revideo/2d";
 import { all, useScene } from "@revideo/core";
 
-import { DEFAULT_BACKGROUND_COLOR, TIMELINE_TYPES } from "./helpers/constants";
+import { DEFAULT_BACKGROUND_COLOR, TRACK_TYPES } from "./helpers/constants";
 import { VideoInput } from "./helpers/types";
 import { logger } from "./helpers/log.utils";
 import {
-  makeAudioTimeline,
-  makeCaptionTimeline,
-  makeElementTimeline,
-  makeSceneTimeline,
-  makeVideoTimeline,
-} from "./components/timeline";
+  makeAudioTrack,
+  makeCaptionTrack,
+  makeElementTrack,
+  makeSceneTrack,
+  makeVideoTrack,
+} from "./components/track";
 
 /**
  * Creates and configures the main scene for video visualization
@@ -39,39 +39,39 @@ export const scene = makeScene2D("scene", function* (view: View2D) {
       />
     );
 
-    // Process timeline elements if present
-    if (input.timeline) {
+    // Process track elements if present
+    if (input.tracks) {
       const movie = [];
       let index = 1;
 
-      // Iterate through each timeline element and create appropriate visualization
-      for (const timeline of input.timeline) {
-        switch (timeline.type) {
-          case TIMELINE_TYPES.VIDEO:
-            movie.push(makeVideoTimeline({ view, timeline }));
+      // Iterate through each track element and create appropriate visualization
+      for (const track of input.tracks) {
+        switch (track.type) {
+          case TRACK_TYPES.VIDEO:
+            movie.push(makeVideoTrack({ view, track }));
             break;
-          case TIMELINE_TYPES.AUDIO:
-            movie.push(makeAudioTimeline({ view, timeline }));
+          case TRACK_TYPES.AUDIO:
+            movie.push(makeAudioTrack({ view, track }));
             break;
-          case TIMELINE_TYPES.CAPTION:
+          case TRACK_TYPES.CAPTION:
             movie.push(
-              makeCaptionTimeline({
+              makeCaptionTrack({
                 view,
-                timeline,
+                track,
               })
             );
             break;
-          case TIMELINE_TYPES.SCENE:
-            movie.push(makeSceneTimeline({ view, timeline }));
+          case TRACK_TYPES.SCENE:
+            movie.push(makeSceneTrack({ view, track }));
             break;
-          case TIMELINE_TYPES.ELEMENT:
-            movie.push(makeElementTimeline({ view, timeline }));
+          case TRACK_TYPES.ELEMENT:
+            movie.push(makeElementTrack({ view, track }));
             break;
         }
         index++;
       }
       
-      // Execute all timeline animations in parallel
+      // Execute all track animations in parallel
       yield* all(...movie);
     }
   }

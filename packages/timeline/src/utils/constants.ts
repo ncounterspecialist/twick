@@ -1,42 +1,3 @@
-export interface ElementColors {
-  fragment: string;
-  video: string;
-  caption: string;
-  image: string;
-  audio: string;
-  text: string;
-  element: string;
-  rect: string;
-  frameEffect: string;
-  filters: string;
-  transition: string;
-  animation: string;
-}
-
-export const DEFAULT_ELEMENT_COLORS: ElementColors = {
-  fragment: "#111111",
-  video: "#4B2E83", // Muted deep violet (primary purple tone)
-  caption: "#5C5470", // Faded violet/blue
-  image: "#805A38", // Earthy brown-orange
-  audio: "#3C665B", // Dark muted teal-green
-  text: "#375A7F", // Dusty steel blue
-  element: "#6B3A5B", // Muted berry purple
-  rect: "#4C3A72", // Desaturated deep indigo
-  frameEffect: "#703C57", // Dusty rose/maroon
-  filters: "#5A4C82", // Muted twilight purple
-  transition: "#7A573A", // Toasted copper
-  animation: "#32645C", // Slate pine green
-};
-
-
-export const MIN_DURATION = 0.1;
-
-export const DRAG_TYPE = {
-  START: "start",
-  MOVE: "move",
-  END: "end",
-};
-
 export const PLAYER_STATE = {
   REFRESH: "Refresh",
   PLAYING: "Playing",
@@ -76,24 +37,6 @@ export const CAPTION_COLOR = {
 
 export const WORDS_PER_PHRASE = 4;
 
-export const TIMELINE_OPERATION = {
-  NONE: "NONE",
-  SET_TIMELINE: "SET_TIMELINE",
-  ADD_NEW_TIMELINE: "ADD_NEW_TIMELINE",
-  UPDATE_CAPTION_TIMELINE: "UPDATE_CAPTION_TIMELINE",
-  ADD_ELEMENT: "ADD_ELEMENT",
-  UPDATE_ELEMENT: "UPDATE_ELEMENT",
-  DELETE_ITEM: "DELETE_ITEM",
-  UPDATE_CAPTION_PROPS: "UPDATE_CAPTION_PROPS",
-  ADD_SOLO_ELEMENT: "ADD_SOLO_ELEMENT",
-  SPLIT_ELEMENT: "SPLIT_ELEMENT",
-  LOAD_PROJECT: "LOAD_PROJECT",
-  SET_PROJECT_SCRIPT: "SET_PROJECT_SCRIPT",
-  UPDATE_CANVAS_ELEMENTS: "UPDATE_CANVAS_ELEMENTS",
-  SET_ELEMENT_ANIMATION: "SET_ELEMENT_ANIMATION",
-  SET_TEXT_EFFECT: "SET_TEXT_EFFECT",
-};
-
 export const TIMELINE_ACTION = {
   NONE: "none",
   SET_SEEK_TIME: "setSeekTime",
@@ -119,6 +62,8 @@ export const TIMELINE_ELEMENT_TYPE = {
   AUDIO: "audio",
   TEXT: "text",
   RECT: "rect",
+  CIRCLE: "circle",
+  ICON: "icon",
 };
 
 export const PROCESS_STATE = {

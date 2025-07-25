@@ -7,7 +7,7 @@ export type VideoInput = {
     width: number;
     height: number;
   };
-  timeline: VisualizerTimeline[];
+  tracks: VisualizerTrack[];
 };
 
 export type MediaType = "video" | "image";
@@ -110,7 +110,7 @@ export type CaptionFont = {
 
 export type VisualizerElement = {
   id: string;
-  timelineId?: string;
+  trackId?: string;
   frame?: any;
   props?: any;
   objectFit?: "contain" | "cover" | "fill";
@@ -126,11 +126,10 @@ export type VisualizerElement = {
   hWords?: any;
 };
 
-export type VisualizerTimeline = {
+export type VisualizerTrack = {
   id: string;
   type: string;
   elements: VisualizerElement[];
-  captions?: Caption[];
   props?: {
     capStyle?: string;
     bgOpacity?: number;

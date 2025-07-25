@@ -1,7 +1,6 @@
 import { useState, useRef } from "react";
 import { LivePlayer } from "@twick/live-player";
 import { sample } from "../helpers/sample-data";
-import "@twick/timeline/dist/timeline.css";
 import "./example-editor.css";
 
 const ExampleVideo = () => {
