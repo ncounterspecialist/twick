@@ -1,5 +1,4 @@
-
-import { useEffect, useRef, useState } from "react";
+  import { useRef } from "react";
 import { Track, TrackElement } from "@twick/timeline";
 import "../../styles/timeline.css";
 import TrackElementView from "./track-element";
@@ -28,15 +27,10 @@ const TrackBase = ({
   allowOverlap = false,
 }: TrackBaseProps) => {
   const trackRef = useRef<HTMLDivElement>(null);
-  const [localElements, setLocalElements] = useState<TrackElement[]>([]);
-
-  useEffect(() => {
-    const elements = track.getElements();
-    setLocalElements([...elements]);
-  }, [track]);
 
   const trackWidthStyle = `${Math.max(100, duration * zoom * 100)}px`;
 
+  const elements = track.getElements();
   return (
     <div
       ref={trackRef}
@@ -45,7 +39,7 @@ const TrackBase = ({
         width: trackWidthStyle
       }}
     >
-      {localElements?.map((element, index) => (
+      {elements?.map((element, index) => (
         <TrackElementView
           key={element.getId()}
           element={element}
@@ -56,8 +50,8 @@ const TrackBase = ({
           updateTrackElement={updateTrackElement}
           onSelection={onItemSelection}
           onDeletion={onItemDeletion}
-          nextStart={index < localElements.length - 1 ? localElements[index + 1].getStart() : duration}
-          prevEnd={index > 0 ? localElements[index - 1].getEnd() : 0}
+          nextStart={index < elements.length - 1 ? elements[index + 1].getStart() : duration}
+          prevEnd={index > 0 ? elements[index - 1].getEnd() : 0}
         />
       ))}
     </div>

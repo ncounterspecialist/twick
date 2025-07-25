@@ -1,13 +1,6 @@
 import { ElementJSON, TrackJSON } from "../../types";
-import { AudioElement } from "../elements/audio.element";
+import { generateShortUuid } from "../../utils/timeline.utils";
 import { TrackElement } from "../elements/base.element";
-import { CaptionElement } from "../elements/caption.element";
-import { CircleElement } from "../elements/circle.element";
-import { IconElement } from "../elements/icon.element";
-import { ImageElement } from "../elements/image.element";
-import { RectElement } from "../elements/rect.element";
-import { TextElement } from "../elements/text.element";
-import { VideoElement } from "../elements/video.element";
 import { ElementDeserializer } from "../visitor/element-deserializer";
 import { ElementSerializer } from "../visitor/element-serializer";
 import {
@@ -22,9 +15,9 @@ export class Track {
   private elements: TrackElement[];
   private validator: ElementValidator;
 
-  constructor(name: string, id: string) {
+  constructor(name: string, id?: string) {
     this.name = name;
-    this.id = id;
+    this.id = id ?? `t-${generateShortUuid}`;
     this.type = "element";
     this.elements = [];
     this.validator = new ElementValidator();
@@ -67,10 +60,11 @@ export class Track {
    * @param skipValidation If true, skips validation (use with caution)
    * @returns true if element was added successfully, throws ValidationError if validation fails
    */
-  protected addElement(
+   addElement(
     element: TrackElement,
     skipValidation: boolean = false
   ): boolean {
+    element.setTrackId(this.id);
     if (skipValidation) {
       this.elements.push(element);
       return true;
@@ -90,89 +84,6 @@ export class Track {
     }
 
     return false;
-  }
-
-  async addVideo(element: VideoElement): Promise<boolean> {
-    await element.updateVideoMeta();
-    const lastEndtime = this.elements?.length
-      ? this.elements[this.elements.length - 1].getEnd()
-      : 0;
-    if (isNaN(element.getStart())) {
-      element.setStart(lastEndtime);
-    }
-    return this.addElement(element);
-  }
-
-  async addImage(element: ImageElement): Promise<boolean> {
-    await element.updateImageMeta();
-    const lastEndtime = this.elements?.length
-      ? this.elements[this.elements.length - 1].getEnd()
-      : 0;
-    if (isNaN(element.getStart())) {
-      element.setStart(lastEndtime);
-    }
-    return this.addElement(element);
-  }
-
-  async addAudio(element: AudioElement): Promise<boolean> {
-    await element.updateAudioMeta();
-    const lastEndtime = this.elements?.length
-      ? this.elements[this.elements.length - 1].getEnd()
-      : 0;
-    if (isNaN(element.getStart())) {
-      element.setStart(lastEndtime);
-    }
-    return this.addElement(element);
-  }
-
-  addText(element: TextElement): boolean {
-    const lastEndtime = this.elements?.length
-      ? this.elements[this.elements.length - 1].getEnd()
-      : 0;
-    if (isNaN(element.getStart())) {
-      element.setStart(lastEndtime);
-    }
-    return this.addElement(element);
-  }
-
-  addCaption(element: CaptionElement): boolean {
-    const lastEndtime = this.elements?.length
-      ? this.elements[this.elements.length - 1].getEnd()
-      : 0;
-    if (isNaN(element.getStart())) {
-      element.setStart(lastEndtime);
-    }
-    return this.addElement(element);
-  }
-
-  addRect(element: RectElement): boolean {
-    const lastEndtime = this.elements?.length
-      ? this.elements[this.elements.length - 1].getEnd()
-      : 0;
-    if (isNaN(element.getStart())) {
-      element.setStart(lastEndtime);
-    }
-    return this.addElement(element);
-  }
-
-  addCircle(element: CircleElement): boolean {
-    const lastEndtime = this.elements?.length
-      ? this.elements[this.elements.length - 1].getEnd()
-      : 0;
-    if (isNaN(element.getStart())) {
-      element.setStart(lastEndtime);
-    }
-    return this.addElement(element);
-  }
-
-  addIcon(element: IconElement): boolean {
-    const lastEndtime = this.elements?.length
-      ? this.elements[this.elements.length - 1].getEnd()
-      : 0;
-    if (isNaN(element.getStart())) {
-      element.setStart(lastEndtime);
-    }
-    return this.addElement(element);
   }
 
   removeElement(element: TrackElement): void {
@@ -256,7 +167,7 @@ export class Track {
     return { isValid: validResult, results };
   }
 
-  toJSON(): TrackJSON {
+  serialize(): TrackJSON {
     const serializer = new ElementSerializer();
     return {
       id: this.id,

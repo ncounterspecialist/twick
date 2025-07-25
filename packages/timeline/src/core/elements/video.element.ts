@@ -32,6 +32,26 @@ export class VideoElement extends TrackElement {
     return this.parentSize;
   }
 
+  getFrame() {
+    return this.frame;
+  }
+
+  getFrameEffects() {
+    return this.frameEffects;
+  }
+
+  getBackgroundColor() {
+    return this.backgroundColor;
+  }
+
+  getObjectFit() {
+    return this.objectFit;
+  }
+
+  getMediaDuration() {
+    return this.mediaDuration;
+  }
+
   async updateVideoMeta() {
     const meta = await getVideoMeta(this.props.src);
     const baseSize = getObjectFitSize(
@@ -44,6 +64,11 @@ export class VideoElement extends TrackElement {
         ...this.frame,
     }
     this.mediaDuration = meta.duration;
+  }
+
+  setMediaDuration(mediaDuration: number) {
+    this.mediaDuration = mediaDuration;
+    return this;
   }
 
   override setStart(s: number) {
@@ -102,6 +127,11 @@ export class VideoElement extends TrackElement {
     return this;
   }
 
+  setFrameEffects(frameEffects?: FrameEffect[]) {
+    this.frameEffects = frameEffects;
+    return this;
+  }
+
   addFrameEffect(frameEffect: FrameEffect) {
     this.frameEffects?.push(frameEffect);
     return this;
@@ -110,35 +140,5 @@ export class VideoElement extends TrackElement {
   accept<T>(visitor: ElementVisitor<T>): T {
     return visitor.visitVideoElement(this);
   }
-
-  override toJSON() {
-    return {
-      ...super.toJSON(),
-      objectFit: this.objectFit,
-      frame: this.frame,
-      props: this.props,
-      frameEffects: this.frameEffects,
-      backgroundColor: this.backgroundColor,
-      mediaDuration: this.mediaDuration,
-    };
-  }
-
-  static fromJSON(json: any): VideoElement {
-    // You may want to adjust this to match your constructor signature
-    const parentSize = json.frame && json.frame.size ? { width: json.frame.size[0], height: json.frame.size[1] } : { width: 0, height: 0 };
-    const element = new VideoElement(json.props.src, parentSize);
-    element.props = json.props;
-    element.mediaDuration = json.mediaDuration;
-    element.objectFit = json.objectFit;
-    element.frame = json.frame;
-    element.frameEffects = json.frameEffects;
-    element.backgroundColor = json.backgroundColor;
-    if (json.id) element.id = json.id;
-    if (json.trackId) element.trackId = json.trackId;
-    if (json.s !== undefined) element.s = json.s;
-    if (json.e !== undefined) element.e = json.e;
-    return element;
-  }
-
 
 }

@@ -25,23 +25,6 @@ export class RectElement extends TrackElement{
         return this;
     }
 
-    override toJSON() {
-        return {
-            ...super.toJSON(),
-            props: this.props,
-        };
-    }
-
-    static fromJSON(json: any): RectElement {
-        const element = new RectElement(json.props.fill, { width: json.props.width, height: json.props.height });
-        element.props = json.props;
-        if (json.id) element.id = json.id;
-        if (json.trackId) element.trackId = json.trackId;
-        if (json.s !== undefined) element.s = json.s;
-        if (json.e !== undefined) element.e = json.e;
-        return element;
-    }
-
     accept<T>(visitor: ElementVisitor<T>): T {
         return visitor.visitRectElement(this);
     }

@@ -36,6 +36,19 @@ import {
 import { TrackElement } from "./core/elements/base.element";
 
 export {
+  TrackElement,
+  Track,
+  CaptionElement,
+  RectElement,
+  TextElement,
+  ImageElement,
+  IconElement,
+  AudioElement,
+  CircleElement,
+  VideoElement,
+};
+
+export {
   TimelineProvider,
   TimelineEditor,
   useTimelineEditor,

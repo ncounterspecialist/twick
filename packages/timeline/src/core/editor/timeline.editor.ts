@@ -249,12 +249,11 @@ export class TimelineEditor {
   /**
    * Clone an element using the visitor pattern
    * @param element The element to clone
-   * @param generateNewId Whether to generate a new ID for the cloned element
    * @returns TrackElement | null - the cloned element or null if cloning failed
    */
-  cloneElement(element: TrackElement, generateNewId: boolean = true): TrackElement | null {
+  cloneElement(element: TrackElement): TrackElement | null {
     try {
-      const elementCloner = new ElementCloner(generateNewId);
+      const elementCloner = new ElementCloner();
       return element.accept(elementCloner);
     } catch (error) {
       return null;
@@ -262,7 +261,7 @@ export class TimelineEditor {
   }
 
   updateHistory(timelineTrackData: TimelineTrackData): void {
-    const tracks = timelineTrackData.tracks.map((t) => t.toJSON());
+    const tracks = timelineTrackData.tracks.map((t) => t.serialize());
     this.context.setTotalDuration(getTotalDuration(tracks));
     const version = timelineTrackData.version;
     this.context.setPresent({

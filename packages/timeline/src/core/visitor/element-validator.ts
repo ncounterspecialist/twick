@@ -55,8 +55,8 @@ export class ElementValidator implements ElementVisitor<boolean> {
       warnings.push("Element should have a name for better identification");
     }
 
-    if (!element.getTimelineId()) {
-      warnings.push("Element should have a timeline ID");
+    if (!element.getTrackId()) {
+      warnings.push("Element should have a track Id");
     }
 
     return { errors, warnings };

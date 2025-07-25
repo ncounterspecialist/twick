@@ -136,7 +136,7 @@ export type ElementJSON = {
   type: string;
   s: number;
   e: number;
-  videoDuration?: number;
+  t?: string;
   trackId: string;
   name: string;
   trackType?: string;
@@ -144,6 +144,8 @@ export type ElementJSON = {
   frameEffects?: FrameEffect[];
   animation?: Animation;
   textEffect?: TextEffect;
+  objectFit?: ObjectFit;
+  mediaDuration?: number;
   props?: {
     playbackRate?: number;
     capStyle?: string;

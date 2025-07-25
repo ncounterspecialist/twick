@@ -1,3 +1,4 @@
+import { Animation } from "../../types";
 import { generateShortUuid } from "../../utils/timeline.utils";
 import type { ElementVisitor } from "../visitor/element-visitor";
 
@@ -9,11 +10,12 @@ export abstract class TrackElement {
   protected trackId!: string;
   protected name!: string;
   protected animation?: Animation;
-  protected props?: Record<string, any>;
+  protected props: Record<string, any>;
 
   constructor(type: string, id?: string) {
-    this.id = id || `e-${generateShortUuid()}`;
+    this.id = id ?? `e-${generateShortUuid()}`;
     this.type = type;
+    this.props = {};
   }
 
   abstract accept<T>(visitor: ElementVisitor<T>): T;
@@ -42,7 +44,7 @@ export abstract class TrackElement {
     return this.trackId;
   }
 
-  getProps(): Record<string, any> | undefined {
+  getProps(): Record<string, any> {
     return this.props;
   }
 
@@ -90,15 +92,9 @@ export abstract class TrackElement {
     return this;
   }
 
-  toJSON() {
-    return {
-      id: this.id,
-      type: this.type,
-      s: this.s,
-      e: this.e,
-      trackId: this.trackId,
-      name: this.name,
-      animation: this.animation,
-    };
+  setProps(props: Record<string, any>) {
+    this.props = props;
+    return this;
   }
+
 }
