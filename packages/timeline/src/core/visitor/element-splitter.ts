@@ -25,7 +25,7 @@ export class ElementSplitter implements ElementVisitor<SplitResult> {
   }
 
   visitVideoElement(element: VideoElement): SplitResult {
-    if (canSplitElement(element)) {
+    if (!canSplitElement(element, this.splitTime)) {
       return { firstElement: null, secondElement: null, success: false };
     }
 
@@ -47,7 +47,7 @@ export class ElementSplitter implements ElementVisitor<SplitResult> {
   }
 
   visitAudioElement(element: AudioElement): SplitResult {
-    if (canSplitElement(element)) {
+    if (!canSplitElement(element, this.splitTime)) {
       return { firstElement: null, secondElement: null, success: false };
     }
     const firstElement = this.elementCloner.visitAudioElement(
@@ -68,7 +68,7 @@ export class ElementSplitter implements ElementVisitor<SplitResult> {
   }
 
   visitImageElement(element: ImageElement): SplitResult {
-    if (canSplitElement(element)) {
+    if (!canSplitElement(element, this.splitTime)) {
       return { firstElement: null, secondElement: null, success: false };
     }
     const firstElement = this.elementCloner.visitImageElement(
@@ -83,7 +83,7 @@ export class ElementSplitter implements ElementVisitor<SplitResult> {
   }
 
   visitTextElement(element: TextElement): SplitResult {
-    if (canSplitElement(element)) {
+    if (!canSplitElement(element, this.splitTime)) {
       return { firstElement: null, secondElement: null, success: false };
     }
     const originalText = element.getText() || "";
@@ -115,7 +115,7 @@ export class ElementSplitter implements ElementVisitor<SplitResult> {
   }
 
   visitCaptionElement(element: CaptionElement): SplitResult {
-    if (canSplitElement(element)) {
+    if (!canSplitElement(element, this.splitTime)) {
       return { firstElement: null, secondElement: null, success: false };
     }
     const originalText = element.getText() || "";
@@ -147,7 +147,7 @@ export class ElementSplitter implements ElementVisitor<SplitResult> {
   }
 
   visitRectElement(element: RectElement): SplitResult {
-    if (canSplitElement(element)) {
+    if (!canSplitElement(element, this.splitTime)) {
       return { firstElement: null, secondElement: null, success: false };
     }
     const firstElement = this.elementCloner.visitRectElement(
@@ -162,7 +162,7 @@ export class ElementSplitter implements ElementVisitor<SplitResult> {
   }
 
   visitCircleElement(element: CircleElement): SplitResult {
-    if (canSplitElement(element)) {
+    if (!canSplitElement(element, this.splitTime)) {
       return { firstElement: null, secondElement: null, success: false };
     }
     const firstElement = this.elementCloner.visitCircleElement(element);
@@ -173,7 +173,7 @@ export class ElementSplitter implements ElementVisitor<SplitResult> {
   }
 
   visitIconElement(element: IconElement): SplitResult {
-    if (canSplitElement(element)) {
+    if (!canSplitElement(element, this.splitTime)) {
       return { firstElement: null, secondElement: null, success: false };
     }
     const firstElement = this.elementCloner.visitIconElement(element);

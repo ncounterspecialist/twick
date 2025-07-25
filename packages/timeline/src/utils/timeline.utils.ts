@@ -50,7 +50,7 @@ export const getCurrentElements = (
 }; 
 
 
-export const canSplitItem = (element: TrackElement, currentTime: number) => {
+export const canSplitElement = (element: TrackElement, currentTime: number) => {
   return element.getStart() <= currentTime && element.getEnd() >= currentTime;
 }
 
