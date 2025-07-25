@@ -11,11 +11,11 @@ export class CaptionElement extends TrackElement {
     this.e = end;
   }
 
-  getCaption(): string {
+  getText(): string {
     return this.t;
   }
 
-  setCaption(t: string) {
+  setText(t: string) {
     this.t = t;
   }
   

@@ -49,5 +49,10 @@ export const getCurrentElements = (
   return currentElements;
 }; 
 
+
+export const canSplitItem = (element: TrackElement, currentTime: number) => {
+  return element.getStart() <= currentTime && element.getEnd() >= currentTime;
+}
+
 export const isElementId = (id: string) => id.startsWith("e-");
 export const isTrackId = (id: string) => id.startsWith("t-");

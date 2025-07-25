@@ -97,7 +97,9 @@ export class Track {
     const lastEndtime = this.elements?.length
       ? this.elements[this.elements.length - 1].getEnd()
       : 0;
-    element.setStart(lastEndtime);
+    if (isNaN(element.getStart())) {
+      element.setStart(lastEndtime);
+    }
     return this.addElement(element);
   }
 
@@ -106,7 +108,9 @@ export class Track {
     const lastEndtime = this.elements?.length
       ? this.elements[this.elements.length - 1].getEnd()
       : 0;
-    element.setStart(lastEndtime);
+    if (isNaN(element.getStart())) {
+      element.setStart(lastEndtime);
+    }
     return this.addElement(element);
   }
 
@@ -115,7 +119,9 @@ export class Track {
     const lastEndtime = this.elements?.length
       ? this.elements[this.elements.length - 1].getEnd()
       : 0;
-    element.setStart(lastEndtime);
+    if (isNaN(element.getStart())) {
+      element.setStart(lastEndtime);
+    }
     return this.addElement(element);
   }
 
@@ -123,7 +129,9 @@ export class Track {
     const lastEndtime = this.elements?.length
       ? this.elements[this.elements.length - 1].getEnd()
       : 0;
-    element.setStart(lastEndtime);
+    if (isNaN(element.getStart())) {
+      element.setStart(lastEndtime);
+    }
     return this.addElement(element);
   }
 
@@ -131,7 +139,9 @@ export class Track {
     const lastEndtime = this.elements?.length
       ? this.elements[this.elements.length - 1].getEnd()
       : 0;
-    element.setStart(lastEndtime);
+    if (isNaN(element.getStart())) {
+      element.setStart(lastEndtime);
+    }
     return this.addElement(element);
   }
 
@@ -139,7 +149,9 @@ export class Track {
     const lastEndtime = this.elements?.length
       ? this.elements[this.elements.length - 1].getEnd()
       : 0;
-    element.setStart(lastEndtime);
+    if (isNaN(element.getStart())) {
+      element.setStart(lastEndtime);
+    }
     return this.addElement(element);
   }
 
@@ -147,7 +159,9 @@ export class Track {
     const lastEndtime = this.elements?.length
       ? this.elements[this.elements.length - 1].getEnd()
       : 0;
-    element.setStart(lastEndtime);
+    if (isNaN(element.getStart())) {
+      element.setStart(lastEndtime);
+    }
     return this.addElement(element);
   }
 
@@ -155,7 +169,9 @@ export class Track {
     const lastEndtime = this.elements?.length
       ? this.elements[this.elements.length - 1].getEnd()
       : 0;
-    element.setStart(lastEndtime);
+    if (isNaN(element.getStart())) {
+      element.setStart(lastEndtime);
+    }
     return this.addElement(element);
   }
 

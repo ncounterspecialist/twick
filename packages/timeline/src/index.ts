@@ -16,6 +16,8 @@ import { ElementValidator } from "./core/visitor/element-validator";
 import { ElementAdder } from "./core/visitor/element-adder";
 import { ElementRemover } from "./core/visitor/element-remover";
 import { ElementUpdater } from "./core/visitor/element-updater";
+import { ElementSplitter } from "./core/visitor/element-splitter";
+import { ElementCloner } from "./core/visitor/element-cloner";
 import { CaptionElement } from "./core/elements/caption.element";
 import { RectElement } from "./core/elements/rect.element";
 import { TextElement } from "./core/elements/text.element";
@@ -59,6 +61,8 @@ export * from "./core/visitor/element-validator";
 export * from "./core/visitor/element-adder";
 export * from "./core/visitor/element-remover";
 export * from "./core/visitor/element-updater";
+export * from "./core/visitor/element-splitter";
+export * from "./core/visitor/element-cloner";
 
 // Expose classes globally on window object for browser access
 if (typeof window !== "undefined") {
@@ -72,6 +76,8 @@ if (typeof window !== "undefined") {
     ElementAdder,
     ElementRemover,
     ElementUpdater,
+    ElementSplitter,
+    ElementCloner,
     TimelineEditor,
     TimelineProvider,
     TIMELINE_ELEMENT_TYPE,

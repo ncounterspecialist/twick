@@ -11,6 +11,8 @@ export class AudioElement extends TrackElement {
     super("audio");
     this.props = {
       src,
+      time: 0,
+      playbackRate: 1,
       volume: 1,
       loop: false,
     };
@@ -28,6 +30,16 @@ export class AudioElement extends TrackElement {
 
   setLoop(loop: boolean) {
     this.props.loop = loop;
+    return this;
+  }
+
+  setStartAt(time: number) {
+    this.props.time = time;
+    return this;
+  }
+
+  setPlaybackRate(playbackRate: number) {
+    this.props.playbackRate = playbackRate;
     return this;
   }
 
