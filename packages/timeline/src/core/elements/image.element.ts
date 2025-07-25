@@ -4,7 +4,6 @@ import { TrackElement } from "./base.element";
 import type { ElementVisitor } from "../visitor/element-visitor";
 
 export class ImageElement extends TrackElement {
-  protected baseSize!: Size;
   protected backgroundColor!: string;
   protected parentSize: Size;
   protected objectFit: ObjectFit;
@@ -23,15 +22,19 @@ export class ImageElement extends TrackElement {
     };
   }
 
+  getParentSize() {
+    return this.parentSize;
+  }
+
   async updateImageMeta() {
     const meta = await getImageDimensions(this.props.src);
-    this.baseSize = getObjectFitSize(
+    const baseSize = getObjectFitSize(
       "contain",
       { width: meta.width, height: meta.height },
       this.parentSize
     );
     this.frame = {
-        size: [this.baseSize.width, this.baseSize.height],
+        size: [baseSize.width, baseSize.height],
         ...this.frame,
     }
   }
@@ -43,6 +46,11 @@ export class ImageElement extends TrackElement {
 
   setFrame(frame: Frame) {
     this.frame = frame;
+    return this;
+  }
+
+  setParentSize(parentSize: Size) {
+    this.parentSize = parentSize;
     return this;
   }
 

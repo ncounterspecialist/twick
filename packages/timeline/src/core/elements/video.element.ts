@@ -4,11 +4,10 @@ import { TrackElement } from "./base.element";
 import type { ElementVisitor } from "../visitor/element-visitor";
 
 export class VideoElement extends TrackElement {
-  protected mute!: boolean;
   protected baseSize!: Size;
   protected mediaDuration!: number;
-  protected backgroundColor!: string;
   protected parentSize: Size;
+  protected backgroundColor!: string;
   protected objectFit: ObjectFit;
   protected frameEffects?: FrameEffect[];
   protected frame!: Frame;
@@ -16,9 +15,9 @@ export class VideoElement extends TrackElement {
 
   constructor(src: string, parentSize: Size) {
     super("video");
-    this.parentSize = parentSize;
     this.objectFit = "cover";
     this.frameEffects = [];
+    this.parentSize = parentSize;
     this.props = {
       src,
       play: true,
@@ -29,23 +28,32 @@ export class VideoElement extends TrackElement {
     };
   }
 
+  getParentSize() {
+    return this.parentSize;
+  }
+
   async updateVideoMeta() {
     const meta = await getVideoMeta(this.props.src);
-    this.mediaDuration = meta.duration;
-    this.baseSize = getObjectFitSize(
+    const baseSize = getObjectFitSize(
       "contain",
       { width: meta.width, height: meta.height },
       this.parentSize
     );
     this.frame = {
-        size: [this.baseSize.width, this.baseSize.height],
+        size: [baseSize.width, baseSize.height],
         ...this.frame,
     }
+    this.mediaDuration = meta.duration;
   }
 
   override setStart(s: number) {
     this.s = s;
     this.e = this.s + (this.mediaDuration ?? 1);
+    return this;
+  }
+
+  setParentSize(parentSize: Size) {
+    this.parentSize = parentSize;
     return this;
   }
 

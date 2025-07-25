@@ -60,6 +60,8 @@ export type AudioProps = {
   src: string;
   volume?: number;
   loop?: boolean;
+  playbackRate?: number;
+  time?: number;
 };
 
 export type CaptionProps = {

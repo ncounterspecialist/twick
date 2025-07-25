@@ -11,6 +11,8 @@ import { PLAYER_STATE, TIMELINE_ACTION } from "../../utils/constants";
 import { ElementAdder } from "../visitor/element-adder";
 import { ElementRemover } from "../visitor/element-remover";
 import { ElementUpdater } from "../visitor/element-updater";
+import { ElementSplitter, SplitResult } from "../visitor/element-splitter";
+import { ElementCloner } from "../visitor/element-cloner";
 import { TrackElement } from "../elements/base.element";
 import { ProjectJSON, TrackJSON } from "../../types";
 
@@ -200,6 +202,62 @@ export class TimelineEditor {
       return result;
     } catch (error) {
       return false;
+    }
+  }
+
+  /**
+   * Split an element at a specific time point using the visitor pattern
+   * @param trackId The ID of the track containing the element
+   * @param element The element to split
+   * @param splitTime The time point to split at
+   * @returns SplitResult with first element, second element, and success status
+   */
+  splitElementInTrack(trackId: string, element: TrackElement, splitTime: number): SplitResult {
+    const track = this.getTrackById(trackId);
+    if (!track) {
+      return { firstElement: element, secondElement: null, success: false };
+    }
+
+    try {
+      // Use the visitor pattern to handle different element types
+      const elementSplitter = new ElementSplitter(splitTime);
+      const result = element.accept(elementSplitter);
+      
+      if (result.success) {
+        const elementRemover  = new ElementRemover(track);
+        // Remove the original element from the track
+        element.accept(elementRemover);
+
+        // Add the first split element to the track
+        const elementAdder = new ElementAdder(track);
+        result.firstElement.accept(elementAdder);
+        result.secondElement.accept(elementAdder);
+        
+        // Update the timeline data to reflect the change
+        const currentData = this.getTimelineData();
+        if (currentData) {
+          this.setTimelineData(currentData.tracks);
+        }
+      }
+      
+      return result;
+    } catch (error) {
+      return { firstElement: element, secondElement: null, success: false };
+    }
+  }
+
+  /**
+   * Clone an element using the visitor pattern
+   * @param element The element to clone
+   * @param generateNewId Whether to generate a new ID for the cloned element
+   * @returns TrackElement | null - the cloned element or null if cloning failed
+   */
+  cloneElement(element: TrackElement, generateNewId: boolean = true): TrackElement | null {
+    try {
+      const elementCloner = new ElementCloner(generateNewId);
+      return element.accept(elementCloner);
+    } catch (error) {
+      return null;
     }
   }
 
