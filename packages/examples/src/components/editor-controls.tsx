@@ -1,19 +1,29 @@
 import {
-  isTrackId,
+  ImageElement,
+  VideoElement,
+  RectElement,
   TIMELINE_ELEMENT_TYPE,
-  TrackElement,
+  Track,
   useTimelineContext,
   useTimelineEditor,
+  AudioElement,
 } from "@twick/timeline";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import FileInput from "../shared/file-input";
 import { type MediaItem } from "@twick/video-editor";
 import { MediaPanel } from "./media-panel";
 import ColorInputDialog from "../shared/color-input";
 import AnimationPanel from "./animation-panel";
 import TextEffectPanel from "./text-effect-panel";
+import { TextElement } from "@twick/timeline";
+
+const videoSize = {
+  width: 720,
+  height: 1280,
+};
 
 const EditorControls = () => {
+  let trackCount = useRef(0);
   const [panelType, setPanelType] = useState<
     "media" | "text" | "timeline" | "animation" | "text-effect" | null
   >(null);
@@ -22,20 +32,13 @@ const EditorControls = () => {
   const [showColorDialog, setShowColorDialog] = useState(false);
 
   const addTextElement = (_text: string) => {
-    const timelineId = getSelectedTimelineId();
-    if (!timelineId) {
+    if (!(selectedItem instanceof Track)) {
       return;
     }
-    // setTimelineOperation(TIMELINE_OPERATION.ADD_ELEMENT, {
-    //   timelineId,
-    //   element: {
-    //     type: TIMELINE_ELEMENT_TYPE.TEXT,
-    //     props: {
-    //       text: text,
-    //     },
-    //   },
-    // });
-  }
+    const textElement = new TextElement(_text);
+    editor.addElementToTrack(selectedItem.getId(), textElement);
+  };
+
   const loadProject = ({ content }: any) => {
     if (typeof content === "string") {
       const contentData = JSON.parse(content);
@@ -50,10 +53,6 @@ const EditorControls = () => {
           timeline: projectData?.input?.timeline,
           version: projectData?.input?.version,
         });
-        // setTimelineOperation(
-        //   TIMELINE_OPERATION.LOAD_PROJECT,
-        //   projectData?.input
-        // );
       } else {
         alert("Invalid project data");
       }
@@ -61,81 +60,37 @@ const EditorControls = () => {
   };
 
   const addTimeline = () => {
-    // setTimelineOperation(TIMELINE_OPERATION.ADD_NEW_TIMELINE, undefined);
+    trackCount.current = trackCount.current + 1;
+    editor.addTrack(`Track_${trackCount.current}`);
   };
 
   const addRectElement = (color: string) => {
     console.log("color", color);
     setShowColorDialog(false);
-    const timelineId = getSelectedTimelineId();
-    if (!timelineId) {
+    if (!(selectedItem instanceof Track)) {
       return;
     }
-    // setTimelineOperation(TIMELINE_OPERATION.ADD_ELEMENT, {
-    //   timelineId,
-    //   element: {
-    //     type: TIMELINE_ELEMENT_TYPE.RECT,
-    //     props: {
-    //       fill: color,
-    //       width: 200,
-    //       height: 200,
-    //     },
-    //   },
-    // });
-    
-  }
-
-  const getSelectedTimelineId = () => {
-    if (!selectedItem) {
-      alert("Please select a timeline/element to add an element");
-      return;
-    }
-    return isTrackId(selectedItem.getId())
-      ? selectedItem.getId()
-      : (selectedItem as TrackElement).getTrackId();
+    const rect = new RectElement(color, { width: 200, height: 200 });
+    editor.addElementToTrack(selectedItem.getId(), rect);
   };
 
-  const addMedia = (element: MediaItem) => {
-    const timelineId = getSelectedTimelineId();
-    if (!timelineId) {
+  const addMedia = async (element: MediaItem) => {
+    if (!(selectedItem instanceof Track)) {
       return;
     }
     switch (element?.type) {
       case TIMELINE_ELEMENT_TYPE.IMAGE:
-        // setTimelineOperation(TIMELINE_OPERATION.ADD_ELEMENT, {
-        //   timelineId,
-        //   element: {
-        //     type: TIMELINE_ELEMENT_TYPE.IMAGE,
-        //     objectFit: "contain",
-        //     props: {
-        //       src: element.url,
-        //     },
-        //   },
-        // });
+        const image = new ImageElement(element.url, videoSize);
+        await editor.addElementToTrack(selectedItem.getId(), image);
         break;
       case TIMELINE_ELEMENT_TYPE.VIDEO:
-        // setTimelineOperation(TIMELINE_OPERATION.ADD_ELEMENT, {
-        //   timelineId,
-        //   element: {
-        //     type: TIMELINE_ELEMENT_TYPE.VIDEO,
-        //     objectFit: "contain",
-        //     props: {
-        //       src: element.url,
-        //     },
-        //   },
-        // });
+        const video = new VideoElement(element.url, videoSize);
+        await editor.addElementToTrack(selectedItem.getId(), video);
         break;
       case TIMELINE_ELEMENT_TYPE.AUDIO:
-          // setTimelineOperation(TIMELINE_OPERATION.ADD_ELEMENT, {
-          //   timelineId,
-          //   element: {
-          //     type: TIMELINE_ELEMENT_TYPE.AUDIO,
-          //     props: {
-          //       src: element.url,
-          //     },
-          //   },
-          // });
-          break;
+        const audio = new AudioElement(element.url);
+        await editor.addElementToTrack(selectedItem.getId(), audio);
+        break;
     }
   };
 
@@ -149,8 +104,11 @@ const EditorControls = () => {
           buttonText="Load"
         />
 
-        <div className="controls-button" onClick={() => setPanelType("media")}>Media</div>
-        <div className="controls-button"
+        <div className="controls-button" onClick={() => setPanelType("media")}>
+          Media
+        </div>
+        <div
+          className="controls-button"
           onClick={() => {
             const text = prompt("Enter text:");
             if (text) {
@@ -161,7 +119,8 @@ const EditorControls = () => {
           Text
         </div>
 
-        <div className="controls-button"
+        <div
+          className="controls-button"
           onClick={() => {
             setShowColorDialog(true);
           }}
@@ -169,17 +128,33 @@ const EditorControls = () => {
           Rect
         </div>
 
-        <div className="controls-button" onClick={() => setPanelType("text-effect")}>Text Effect</div>
+        <div
+          className="controls-button"
+          onClick={() => setPanelType("text-effect")}
+        >
+          Text Effect
+        </div>
 
-        <div className="controls-button" onClick={() => setPanelType("animation")}>Animation</div>
+        <div
+          className="controls-button"
+          onClick={() => setPanelType("animation")}
+        >
+          Animation
+        </div>
 
-        <div className="controls-button" onClick={() => addTimeline()}>Timeline</div>
-
+        <div className="controls-button" onClick={() => addTimeline()}>
+          Timeline
+        </div>
       </div>
       {panelType === "media" && <MediaPanel onSelect={addMedia} />}
       {panelType === "animation" && <AnimationPanel />}
       {panelType === "text-effect" && <TextEffectPanel />}
-      {showColorDialog && <ColorInputDialog onColorSelect={addRectElement} onCancel={() => setShowColorDialog(false)} />}
+      {showColorDialog && (
+        <ColorInputDialog
+          onColorSelect={addRectElement}
+          onCancel={() => setShowColorDialog(false)}
+        />
+      )}
     </div>
   );
 };

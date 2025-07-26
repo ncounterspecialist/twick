@@ -7,9 +7,12 @@ import {
 const useTimelineControl = () => {
   const editor = useTimelineEditor();
 
-  const deleteItem = (_item: Track | TrackElement) => {
-    // const timelineId = (item as TrackElement)?.timelineId;
-    // editor.deleteItem(timelineId || item.id, item.id);
+  const deleteItem = (item: Track | TrackElement) => {
+    if(item instanceof Track) {
+      editor.removeTrackById(item.getId());
+    } else if(item instanceof TrackElement) {
+      editor.removeElementFromTrack(item.getTrackId(), item);
+    }
   };
   
   const splitElement = (_element: TrackElement, _currentTime: number) => {

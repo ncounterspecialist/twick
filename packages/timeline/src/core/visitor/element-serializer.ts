@@ -8,9 +8,10 @@ import { CaptionElement } from "../elements/caption.element";
 import { RectElement } from "../elements/rect.element";
 import { CircleElement } from "../elements/circle.element";
 import { IconElement } from "../elements/icon.element";
+import { TrackElement } from "../elements/base.element";
 
 export class ElementSerializer implements ElementVisitor<ElementJSON> {
-  visitVideoElement(element: VideoElement): ElementJSON {
+  serializeElement(element: TrackElement): ElementJSON {
     return {
       id: element.getId(),
       trackId: element.getTrackId(),
@@ -19,90 +20,66 @@ export class ElementSerializer implements ElementVisitor<ElementJSON> {
       s: element.getStart(),
       e: element.getEnd(),
       props: element.getProps(),
+      animation: element.getAnimation(),
+    };
+  }
+  visitVideoElement(element: VideoElement): ElementJSON {
+    return {
+      ...this.serializeElement(element),
+      frame: element.getFrame(),
+      frameEffects: element.getFrameEffects(),
+      backgroundColor: element.getBackgroundColor(),
+      objectFit: element.getObjectFit(),
+      mediaDuration: element.getMediaDuration(),
     };
   }
 
   visitAudioElement(element: AudioElement): ElementJSON {
     return {
-      id: element.getId(),
-      trackId: element.getTrackId(),
-      type: element.getType(),
-      name: element.getName(),
-      s: element.getStart(),
-      e: element.getEnd(),
-      props: element.getProps(),
+      ...this.serializeElement(element),
+      mediaDuration: element.getMediaDuration(),
     };
   }
 
   visitImageElement(element: ImageElement): ElementJSON {
     return {
-      id: element.getId(),
-      trackId: element.getTrackId(),
-      type: element.getType(),
-      name: element.getName(),
-      s: element.getStart(),
-      e: element.getEnd(),
-      props: element.getProps(),
+      ...this.serializeElement(element),
+      frame: element.getFrame(),
+      frameEffects: element.getFrameEffects(),
+      backgroundColor: element.getBackgroundColor(),
+      objectFit: element.getObjectFit(),
     };
   }
 
   visitTextElement(element: TextElement): ElementJSON {
     return {
-      id: element.getId(),
-      trackId: element.getTrackId(),
-      type: element.getType(),
-      name: element.getName(),
-      s: element.getStart(),
-      e: element.getEnd(),
-      props: element.getProps(),
+      ...this.serializeElement(element),
+      textEffect: element.getTextEffect(),
     };
   }
 
   visitCaptionElement(element: CaptionElement): ElementJSON {
     return {
-      id: element.getId(),
-      trackId: element.getTrackId(),
-      type: element.getType(),
-      name: element.getName(),
-      s: element.getStart(),
-      e: element.getEnd(),
-      props: element.getProps(),
+      ...this.serializeElement(element),
+      t: element.getText(),
     };
   }
 
-visitIconElement(element: IconElement): ElementJSON {
+  visitIconElement(element: IconElement): ElementJSON {
     return {
-      id: element.getId(),
-      trackId: element.getTrackId(),
-      type: element.getType(),
-      name: element.getName(),
-      s: element.getStart(),
-      e: element.getEnd(),
-      props: element.getProps(),
+      ...this.serializeElement(element),
     };
   }
 
   visitCircleElement(element: CircleElement): ElementJSON {
     return {
-      id: element.getId(),
-      trackId: element.getTrackId(),
-      type: element.getType(),
-      name: element.getName(),
-      s: element.getStart(),
-      e: element.getEnd(),
-      props: element.getProps(),
+      ...this.serializeElement(element),
     };
   }
 
   visitRectElement(element: RectElement): ElementJSON {
     return {
-      id: element.getId(),
-      trackId: element.getTrackId(),
-      type: element.getType(),
-      name: element.getName(),
-      s: element.getStart(),
-      e: element.getEnd(),
-      props: element.getProps(),
+      ...this.serializeElement(element),
     };
   }
-} 
+}

@@ -29,23 +29,7 @@ export class CircleElement extends TrackElement {
     this.props.radius = radius;
     return this;
   }
-
-  override toJSON() {
-    return {
-      ...super.toJSON(),
-      props: this.props,
-    };
-  }
-
-  static fromJSON(json: any): CircleElement {
-    const element = new CircleElement(json.props.fill, json.props.radius);
-    element.props = json.props;
-    if (json.id) element.id = json.id;
-    if (json.trackId) element.trackId = json.trackId;
-    if (json.s !== undefined) element.s = json.s;
-    if (json.e !== undefined) element.e = json.e;
-    return element;
-  }
+  
 
   accept<T>(visitor: ElementVisitor<T>): T {
     return visitor.visitCircleElement(this);

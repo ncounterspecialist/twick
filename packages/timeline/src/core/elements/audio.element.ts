@@ -18,9 +18,18 @@ export class AudioElement extends TrackElement {
     };
   }
 
+  getMediaDuration() {
+    return this.mediaDuration;
+  }
+
   async updateAudioMeta() {
     const meta = await getAudioDuration(this.props.src);
     this.mediaDuration = meta.duration;
+  }
+
+  setMediaDuration(mediaDuration: number) {
+    this.mediaDuration = mediaDuration;
+    return this;
   }
 
   setVolume(volume: number) {
@@ -41,21 +50,6 @@ export class AudioElement extends TrackElement {
   setPlaybackRate(playbackRate: number) {
     this.props.playbackRate = playbackRate;
     return this;
-  }
-
-  override toJSON() {
-    return {
-      ...super.toJSON(),
-      props: this.props,
-      mediaDuration: this.mediaDuration,
-    };
-  }
-
-  static fromJSON(json: any): AudioElement {
-    const element = new AudioElement(json.props.src);
-    element.mediaDuration = json.mediaDuration;
-    element.props = json.props;
-    return element;
   }
 
   accept<T>(visitor: ElementVisitor<T>): T {

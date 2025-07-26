@@ -18,23 +18,9 @@ export class CaptionElement extends TrackElement {
   setText(t: string) {
     this.t = t;
   }
-  
-  override toJSON() {
-    return {
-      ...super.toJSON(),
-      t: this.t,
-    };
-  }
 
   accept<T>(visitor: ElementVisitor<T>): T {
     return visitor.visitCaptionElement(this);
   }
 
-  static fromJSON(json: any): CaptionElement {
-    const element = new CaptionElement(json.t, json.s, json.e);
-    element.props = json.props || {};
-    if (json.id) element.id = json.id;
-    if (json.trackId) element.trackId = json.trackId;
-    return element;
-  }
 }

@@ -8,48 +8,97 @@ import { RectElement } from "../elements/rect.element";
 import { CircleElement } from "../elements/circle.element";
 import { IconElement } from "../elements/icon.element";
 import { TrackElement } from "../elements/base.element";
-import { generateShortUuid } from "../../utils/timeline.utils";
 
 export class ElementCloner implements ElementVisitor<TrackElement> {
-  private generateNewId: boolean;
-
-  constructor(generateNewId: boolean = true) {
-    this.generateNewId = generateNewId;
+  cloneElementProperties(srcElement: TrackElement, destElement: TrackElement) {
+    return destElement
+      .setId(srcElement.getId())
+      .setName(srcElement.getName())
+      .setType(srcElement.getType())
+      .setStart(srcElement.getStart())
+      .setEnd(srcElement.getEnd())
+      .setProps(srcElement.getProps())
+      .setAnimation(srcElement.getAnimation());
   }
 
   visitVideoElement(element: VideoElement): TrackElement {
-    const clonedElement = VideoElement.fromJSON({...element.toJSON(), id: this.generateNewId ? `e-${generateShortUuid()}` : element.getId()});
-    clonedElement.setParentSize(element.getParentSize());
+    const props = element.getProps();
+    const clonedElement = new VideoElement(props!.src, element.getParentSize());
+    this.cloneElementProperties(element, clonedElement);
+    clonedElement
+      .setParentSize(element.getParentSize())
+      .setMediaDuration(element.getMediaDuration())
+      .setFrame(element.getFrame())
+      .setFrameEffects(element.getFrameEffects() ?? [])
+      .setBackgroundColor(element.getBackgroundColor())
+      .setObjectFit(element.getObjectFit())
     return clonedElement;
   }
 
   visitAudioElement(element: AudioElement): TrackElement {
-    return AudioElement.fromJSON({...element.toJSON(), id: this.generateNewId ? `e-${generateShortUuid()}` : element.getId()});
+    const clonedElement = new AudioElement(element.getProps()!.src);
+    this.cloneElementProperties(element, clonedElement);
+    clonedElement.setMediaDuration(element.getMediaDuration());
+    return clonedElement;
   }
 
   visitImageElement(element: ImageElement): TrackElement {
-    const clonedElement = ImageElement.fromJSON({...element.toJSON(), id: this.generateNewId ? `e-${generateShortUuid()}` : element.getId()});
-    clonedElement.setParentSize(element.getParentSize());
+    const clonedElement = new ImageElement(
+      element.getProps()!.src,
+      element.getParentSize()
+    );
+    this.cloneElementProperties(element, clonedElement);
+    clonedElement
+      .setParentSize(element.getParentSize())
+      .setFrame(element.getFrame())
+      .setFrameEffects(element.getFrameEffects())
+      .setBackgroundColor(element.getBackgroundColor())
+      .setObjectFit(element.getObjectFit())
+
     return clonedElement;
   }
 
   visitTextElement(element: TextElement): TrackElement {
-    return TextElement.fromJSON({...element.toJSON(), id: this.generateNewId ? `e-${generateShortUuid()}` : element.getId()});
+    const clonedElement = new TextElement(element.getProps()!.text);
+    this.cloneElementProperties(element, clonedElement);
+    clonedElement.setTextEffect(element.getTextEffect());
+    return clonedElement;
   }
 
   visitCaptionElement(element: CaptionElement): TrackElement {
-    return CaptionElement.fromJSON({...element.toJSON(), id: this.generateNewId ? `e-${generateShortUuid()}` : element.getId()});
+    const clonedElement = new CaptionElement(
+      element.getProps()!.text,
+      element.getStart(),
+      element.getEnd()
+    );
+    this.cloneElementProperties(element, clonedElement);
+    return clonedElement;
   }
 
   visitRectElement(element: RectElement): TrackElement {
-    return RectElement.fromJSON({...element.toJSON(), id: this.generateNewId ? `e-${generateShortUuid()}` : element.getId()});
+    const clonedElement = new RectElement(
+      element.getProps()!.fill,
+      element.getProps()!.size
+    );
+    this.cloneElementProperties(element, clonedElement);
+    return clonedElement;
   }
 
   visitCircleElement(element: CircleElement): TrackElement {
-    return CircleElement.fromJSON({...element.toJSON(), id: this.generateNewId ? `e-${generateShortUuid()}` : element.getId()});
+    const clonedElement = new CircleElement(
+      element.getProps()!.fill,
+      element.getProps()!.radius
+    );
+    this.cloneElementProperties(element, clonedElement);
+    return clonedElement;
   }
 
   visitIconElement(element: IconElement): TrackElement {
-    return IconElement.fromJSON({...element.toJSON(), id: this.generateNewId ? `e-${generateShortUuid()}` : element.getId()});
+    const clonedElement = new IconElement(
+      element.getProps()!.src,
+      element.getProps()!.size
+    );
+    this.cloneElementProperties(element, clonedElement);
+    return clonedElement;
   }
-} 
+}

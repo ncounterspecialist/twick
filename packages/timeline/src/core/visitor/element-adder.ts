@@ -20,35 +20,94 @@ export class ElementAdder implements ElementVisitor<Promise<boolean>> {
     this.track = track;
   }
 
-  visitVideoElement(element: VideoElement): Promise<boolean> {
-    return this.track.addVideo(element);
+  async visitVideoElement(element: VideoElement): Promise<boolean> {
+    await element.updateVideoMeta();
+    const elements = this.track.getElements();
+    const lastEndtime = elements?.length
+      ? elements[elements.length - 1].getEnd()
+      : 0;
+    if (isNaN(element.getStart())) {
+      element.setStart(lastEndtime);
+    }
+    return this.track.addElement(element);
   }
 
-  visitAudioElement(element: AudioElement): Promise<boolean> {
-    return this.track.addAudio(element);
+  async visitAudioElement(element: AudioElement): Promise<boolean> {
+    await element.updateAudioMeta();
+    const elements = this.track.getElements();
+    const lastEndtime = elements?.length
+      ? elements[elements.length - 1].getEnd()
+      : 0;
+    if (isNaN(element.getStart())) {
+      element.setStart(lastEndtime);
+    }
+    return this.track.addElement(element);
   }
 
-  visitImageElement(element: ImageElement): Promise<boolean> {
-    return this.track.addImage(element);
+  async visitImageElement(element: ImageElement): Promise<boolean> {
+    await element.updateImageMeta();
+    const elements = this.track.getElements();
+    const lastEndtime = elements?.length
+      ? elements[elements.length - 1].getEnd()
+      : 0;
+    if (isNaN(element.getStart())) {
+      element.setStart(lastEndtime);
+    }
+    return this.track.addElement(element);
   }
 
-  visitTextElement(element: TextElement): Promise<boolean> {
-    return Promise.resolve(this.track.addText(element));
+  async visitTextElement(element: TextElement): Promise<boolean> {
+    const elements = this.track.getElements();
+    const lastEndtime = elements?.length
+      ? elements[elements.length - 1].getEnd()
+      : 0;
+    if (isNaN(element.getStart())) {
+      element.setStart(lastEndtime);
+    }
+    return this.track.addElement(element);
   }
 
-  visitCaptionElement(element: CaptionElement): Promise<boolean> {
-    return Promise.resolve(this.track.addCaption(element));
+  async visitCaptionElement(element: CaptionElement): Promise<boolean> {
+    const elements = this.track.getElements();
+    const lastEndtime = elements?.length
+      ? elements[elements.length - 1].getEnd()
+      : 0;
+    if (isNaN(element.getStart())) {
+      element.setStart(lastEndtime);
+    }
+    return this.track.addElement(element);
   }
 
-  visitIconElement(element: IconElement): Promise<boolean> {
-    return Promise.resolve(this.track.addIcon(element));
+  async visitIconElement(element: IconElement): Promise<boolean> {
+    const elements = this.track.getElements();
+    const lastEndtime = elements?.length
+      ? elements[elements.length - 1].getEnd()
+      : 0;
+    if (isNaN(element.getStart())) {
+      element.setStart(lastEndtime);
+    }
+    return this.track.addElement(element);
   }
 
-  visitCircleElement(element: CircleElement): Promise<boolean> {
-    return Promise.resolve(this.track.addCircle(element));
+  async visitCircleElement(element: CircleElement): Promise<boolean> {
+    const elements = this.track.getElements();
+    const lastEndtime = elements?.length
+      ? elements[elements.length - 1].getEnd()
+      : 0;
+    if (isNaN(element.getStart())) {
+      element.setStart(lastEndtime);
+    }
+    return this.track.addElement(element);
   }
 
-  visitRectElement(element: RectElement): Promise<boolean> {
-    return Promise.resolve(this.track.addRect(element));
+  async visitRectElement(element: RectElement): Promise<boolean> {
+    const elements = this.track.getElements();
+    const lastEndtime = elements?.length
+      ? elements[elements.length - 1].getEnd()
+      : 0;
+    if (isNaN(element.getStart())) {
+      element.setStart(lastEndtime);
+    }
+    return this.track.addElement(element);
   }
-} 
+}
