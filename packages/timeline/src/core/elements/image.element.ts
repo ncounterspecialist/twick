@@ -42,17 +42,25 @@ export class ImageElement extends TrackElement {
     return this.objectFit;
   }
 
-  async updateImageMeta() {
+  async updateImageMeta(updateFrame: boolean = true) {
     const meta = await getImageDimensions(this.props.src);
-    const baseSize = getObjectFitSize(
-      "contain",
-      { width: meta.width, height: meta.height },
-      this.parentSize
-    );
-    this.frame = {
+    if (updateFrame) {
+      const baseSize = getObjectFitSize(
+        "contain",
+        { width: meta.width, height: meta.height },
+        this.parentSize
+      );
+      this.frame = {
         size: [baseSize.width, baseSize.height],
         ...this.frame,
+      }
     }
+  }
+
+  async setSrc(src: string) {
+    this.props.src = src;
+    await this.updateImageMeta();
+    return this;
   }
 
   setObjectFit(objectFit: ObjectFit) {
@@ -61,12 +69,12 @@ export class ImageElement extends TrackElement {
   }
 
   setFrame(frame: Frame) {
-    this.frame = frame;
+    this.frame = structuredClone(frame);
     return this;
   }
 
   setParentSize(parentSize: Size) {
-    this.parentSize = parentSize;
+    this.parentSize = structuredClone(parentSize);
     return this;
   }
 
@@ -80,18 +88,18 @@ export class ImageElement extends TrackElement {
     return this;
   }
 
-  setProps(props: Omit<any, "src">) {
-    this.props = { ...this.props, ...props };
+  override setProps(props: Omit<any, "src">) {
+    this.props = {...structuredClone(props), src: this.props.src};
     return this;
   }
 
   setFrameEffects(frameEffects? : FrameEffect[]) {
-    this.frameEffects = frameEffects;
+    this.frameEffects = frameEffects?.map(frameEffect => structuredClone(frameEffect));
     return this;
   }
 
   addFrameEffect(frameEffect: FrameEffect) {
-    this.frameEffects?.push(frameEffect);
+    this.frameEffects?.push(structuredClone(frameEffect));
     return this;
   }
 

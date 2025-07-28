@@ -23,8 +23,7 @@ export class AudioElement extends TrackElement {
   }
 
   async updateAudioMeta() {
-    const meta = await getAudioDuration(this.props.src);
-    this.mediaDuration = meta.duration;
+    this.mediaDuration = await getAudioDuration(this.props.src);
   }
 
   setMediaDuration(mediaDuration: number) {
@@ -49,6 +48,11 @@ export class AudioElement extends TrackElement {
 
   setPlaybackRate(playbackRate: number) {
     this.props.playbackRate = playbackRate;
+    return this;
+  }
+
+  override setProps(props: Omit<any, "src">) {
+    this.props = {...structuredClone(props), src: this.props.src};
     return this;
   }
 

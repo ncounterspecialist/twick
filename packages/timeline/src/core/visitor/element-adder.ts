@@ -29,6 +29,10 @@ export class ElementAdder implements ElementVisitor<Promise<boolean>> {
     if (isNaN(element.getStart())) {
       element.setStart(lastEndtime);
     }
+    if (isNaN(element.getEnd())) {
+      element.setEnd(element.getStart() + element.getMediaDuration());
+    }
+
     return this.track.addElement(element);
   }
 
@@ -40,6 +44,9 @@ export class ElementAdder implements ElementVisitor<Promise<boolean>> {
       : 0;
     if (isNaN(element.getStart())) {
       element.setStart(lastEndtime);
+    }
+    if (isNaN(element.getEnd())) {
+      element.setEnd(element.getStart() + element.getMediaDuration());
     }
     return this.track.addElement(element);
   }
@@ -53,6 +60,9 @@ export class ElementAdder implements ElementVisitor<Promise<boolean>> {
     if (isNaN(element.getStart())) {
       element.setStart(lastEndtime);
     }
+    if (isNaN(element.getEnd())) {
+      element.setEnd(element.getStart() + 1);
+    }
     return this.track.addElement(element);
   }
 
@@ -63,6 +73,9 @@ export class ElementAdder implements ElementVisitor<Promise<boolean>> {
       : 0;
     if (isNaN(element.getStart())) {
       element.setStart(lastEndtime);
+    }
+    if (isNaN(element.getEnd())) {
+      element.setEnd(element.getStart() + 1);
     }
     return this.track.addElement(element);
   }
@@ -75,6 +88,9 @@ export class ElementAdder implements ElementVisitor<Promise<boolean>> {
     if (isNaN(element.getStart())) {
       element.setStart(lastEndtime);
     }
+    if (isNaN(element.getEnd())) {
+      element.setEnd(element.getStart() + 1);
+    }
     return this.track.addElement(element);
   }
 
@@ -85,6 +101,9 @@ export class ElementAdder implements ElementVisitor<Promise<boolean>> {
       : 0;
     if (isNaN(element.getStart())) {
       element.setStart(lastEndtime);
+    }
+    if (isNaN(element.getEnd())) {
+      element.setEnd(element.getStart() + 1);
     }
     return this.track.addElement(element);
   }
@@ -97,6 +116,9 @@ export class ElementAdder implements ElementVisitor<Promise<boolean>> {
     if (isNaN(element.getStart())) {
       element.setStart(lastEndtime);
     }
+    if (isNaN(element.getEnd())) {
+      element.setEnd(element.getStart() + 1);
+    }
     return this.track.addElement(element);
   }
 
@@ -107,6 +129,9 @@ export class ElementAdder implements ElementVisitor<Promise<boolean>> {
       : 0;
     if (isNaN(element.getStart())) {
       element.setStart(lastEndtime);
+    }
+    if (isNaN(element.getEnd())) {
+      element.setEnd(element.getStart() + 1);
     }
     return this.track.addElement(element);
   }

@@ -15,8 +15,8 @@ const useTimelineControl = () => {
     }
   };
   
-  const splitElement = (_element: TrackElement, _currentTime: number) => {
-    // editor.splitElement(element.trackId, element.id, splitTime);
+  const splitElement = (element: TrackElement, currentTime: number) => {
+    editor.splitElementInTrack(element.getTrackId(), element, currentTime);
   };
 
   const handleUndo = () => {

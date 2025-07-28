@@ -52,18 +52,27 @@ export class VideoElement extends TrackElement {
     return this.mediaDuration;
   }
 
-  async updateVideoMeta() {
+  async updateVideoMeta(updateFrame: boolean = true) {
     const meta = await getVideoMeta(this.props.src);
-    const baseSize = getObjectFitSize(
-      "contain",
-      { width: meta.width, height: meta.height },
-      this.parentSize
-    );
-    this.frame = {
-        size: [baseSize.width, baseSize.height],
+    
+    if (updateFrame) {
+      const baseSize = getObjectFitSize(
+        "contain",
+        { width: meta.width, height: meta.height },
+        this.parentSize
+      );
+      this.frame = {
         ...this.frame,
+        size: [baseSize.width, baseSize.height],
+      }
     }
     this.mediaDuration = meta.duration;
+  }
+
+  async setSrc(src: string) {
+    this.props.src = src;
+    await this.updateVideoMeta();
+    return this;
   }
 
   setMediaDuration(mediaDuration: number) {
@@ -71,14 +80,8 @@ export class VideoElement extends TrackElement {
     return this;
   }
 
-  override setStart(s: number) {
-    this.s = s;
-    this.e = this.s + (this.mediaDuration ?? 1);
-    return this;
-  }
-
   setParentSize(parentSize: Size) {
-    this.parentSize = parentSize;
+    this.parentSize = structuredClone(parentSize);
     return this;
   }
 
@@ -88,7 +91,7 @@ export class VideoElement extends TrackElement {
   }
 
   setFrame(frame: Frame) {
-    this.frame = frame;
+    this.frame = structuredClone(frame);
     return this;
   }
 
@@ -122,18 +125,18 @@ export class VideoElement extends TrackElement {
     return this;
   }
 
-  setProps(props: Omit<any, "src">) {
-    this.props = { ...this.props, ...props };
+   override setProps(props: Omit<any, "src">) {
+    this.props = {...structuredClone(props), src: this.props.src};
     return this;
   }
 
   setFrameEffects(frameEffects?: FrameEffect[]) {
-    this.frameEffects = frameEffects;
+    this.frameEffects = frameEffects?.map(frameEffect => structuredClone(frameEffect));
     return this;
   }
 
   addFrameEffect(frameEffect: FrameEffect) {
-    this.frameEffects?.push(frameEffect);
+    this.frameEffects?.push(structuredClone(frameEffect));
     return this;
   }
 

@@ -12,7 +12,6 @@ import { TrackElement } from "../elements/base.element";
 export class ElementCloner implements ElementVisitor<TrackElement> {
   cloneElementProperties(srcElement: TrackElement, destElement: TrackElement) {
     return destElement
-      .setId(srcElement.getId())
       .setName(srcElement.getName())
       .setType(srcElement.getType())
       .setStart(srcElement.getStart())

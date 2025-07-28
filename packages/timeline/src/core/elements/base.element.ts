@@ -68,7 +68,6 @@ export abstract class TrackElement {
 
   setStart(s: number) {
     this.s = s;
-    this.e = s + 1;
     return this;
   }
 
@@ -88,12 +87,12 @@ export abstract class TrackElement {
   }
 
   setAnimation(animation?: Animation) {
-    this.animation = animation;
+    this.animation = animation ? structuredClone(animation) : undefined;
     return this;
   }
 
   setProps(props: Record<string, any>) {
-    this.props = props;
+    this.props = structuredClone(props);
     return this;
   }
 
