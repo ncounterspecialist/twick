@@ -1,78 +1,107 @@
-import { TrackElement, useTimelineContext } from "@twick/timeline";
+import { TextElement, TimelineEditor, Track, TrackElement, type TextEffect } from "@twick/timeline";
 import { TEXT_EFFECTS } from "@twick/video-editor";
 import { useEffect, useState } from "react";
 
-const TextEffectPanel = () => {
+const TextEffectPanel = ({editor, selectedItem}: {editor: TimelineEditor, selectedItem: Track | TrackElement | null}) => {
   const [selectedEffect, setSelectedEffect] = useState<string | null>(
     null
   );
-  const { selectedItem } = useTimelineContext();
 
-  // const getSelectedEffectData = () => {
-  //   return TEXT_EFFECTS.find((effect) => effect.name === selectedEffect);
-  // };
+  const getSelectedEffectData = () => {
+    return TEXT_EFFECTS.find((effect) => effect.name === selectedEffect);
+  };
 
   const handleSetTextEffect = () => {
     if (!selectedEffect) return;
-    // const element = selectedItem as TrackElement;
-    // editor.setTextEffect({
-    //   timelineId: element.trackId,
-    //   elementId: element.id,
-    //   textEffect: {
-    //     ...getSelectedEffectData(),
-    //   },
-    // });
+    if(selectedItem instanceof TextElement) {
+      const element = selectedItem as TextElement;
+      const textEffect: TextEffect = {
+        name: selectedEffect,
+        delay: selectedEffectData?.delay,
+        duration: Math.min(element?.getDuration() ?? 0, 1),
+        bufferTime: selectedEffectData?.bufferTime
+      }
+      element.setTextEffect(textEffect);
+      editor.updateElementInTrack(element.getTrackId(), element);
+    }
   };
 
   const handleDeleteTextEffect = () => {
     if (!selectedEffect) return;
-    // const element = selectedItem as TimelineElement;
-    // editor.setTextEffect({
-    //   timelineId: element.trackId,
-    //   elementId: element.id,
-    //   textEffect: null,
-    // });
+    if(selectedItem instanceof TextElement) {
+      const element = selectedItem as TextElement;
+      element.setTextEffect(undefined);
+      editor.updateElementInTrack(element.getTrackId(), element);
+    }
   };
 
+  const selectedEffectData = getSelectedEffectData();
+
   useEffect(() => {
-      if (selectedItem instanceof TrackElement) {
-        // const element = selectedItem as TrackElement;
-        // if (element.textEffect) {
-        //   setSelectedEffect(element.textEffect.name);
-        // }
+    if (selectedItem instanceof TextElement) {
+      const element = selectedItem as TextElement;
+      const textEffect = element.getTextEffect();
+      if (textEffect) {
+        setSelectedEffect(textEffect.name);
       }
+    }
   }, [selectedItem]);
 
-  if (!(selectedItem instanceof TrackElement)) return null;
+  if (!(selectedItem instanceof TextElement)) return null;
 
   return (
-    <div className="twick-text-effect-panel">
-      <div className="twick-text-effect-header">
-        <h3>Text Effects</h3>
-      </div>
-      <div className="twick-text-effect-content">
-        <div className="twick-text-effect-select">
-          <label>Text Effect:</label>
-          <select
-            value={selectedEffect || ""}
-            onChange={(e) => setSelectedEffect(e.target.value)}
-          >
-            <option value="">Select Effect</option>
-            {TEXT_EFFECTS.map((effect) => (
-              <option key={effect.name} value={effect.name}>
-                {effect.name}
-              </option>
-            ))}
-          </select>
-        </div>
+    <div className="p-3 bg-gray-800 rounded-lg shadow-sm border border-gray-700">
+      <h2 className="text-lg font-semibold mb-2 text-white">Animations</h2>
 
-        {selectedEffect && (
-          <div className="twick-text-effect-actions">
-            <button onClick={handleSetTextEffect}>Apply Effect</button>
-            <button onClick={handleDeleteTextEffect}>Remove Effect</button>
+      {/* Animation Grid */}
+      <div className="grid grid-cols-2 gap-3 mb-2">
+        {TEXT_EFFECTS.map((effect) => (
+          <div
+            key={effect.name}
+            className={`border rounded-lg p-1 cursor-pointer transition-colors ${
+              selectedEffect === effect.name
+                ? "border-blue-400 bg-blue-900"
+                : "border-gray-600 hover:border-gray-500 bg-gray-700"
+            }`}
+            onClick={() => setSelectedEffect(effect.name)}
+          >
+            <div className="w-full h-16 bg-gray-600 rounded mb-2 flex items-center justify-center group">
+              <img
+                src={effect.getSample()}
+                alt={`${effect.name} preview`}
+                className="w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+              />
+              <span className="absolute text-xs capitalize text-gray-300 group-hover:opacity-0 transition-opacity duration-200">
+                {effect.name.replace("-", " ")}
+              </span>
+            </div>
           </div>
-        )}
+        ))}
       </div>
+
+      {/* Animation Controls */}
+      {selectedEffect && (
+        <div className="space-y-4">
+          <div className="border-t border-gray-600 pt-4">
+            <h3 className="text-sm font-medium mb-3 text-white capitalize">
+              {selectedEffect.replace("-", " ")} Settings
+            </h3>
+            {/* Animate Button */}
+            <button
+              onClick={handleSetTextEffect}
+              className="w-full bg-blue-600 text-white text-sm font-medium mb-4 py-2 px-4 rounded hover:bg-blue-700 transition-colors"
+            >
+              Set Text Effect
+            </button>
+            <button
+              onClick={handleDeleteTextEffect}
+              className="w-full bg-blue-600 text-white text-sm font-medium py-2 px-4 rounded hover:bg-blue-700 transition-colors"
+            >
+              Delete Text Effect
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

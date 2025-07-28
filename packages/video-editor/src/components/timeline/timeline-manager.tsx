@@ -1,6 +1,6 @@
 import SeekControl from "../controls/seek-control";
 import TimelineView from "./timeline-view";
-import { useTimelineManager } from "../../hooks/use-timeline-manger";
+import { useTimelineManager } from "../../hooks/use-timeline-manager";
 
 const TimelineManager = ({
   timelineControls,
@@ -10,7 +10,7 @@ const TimelineManager = ({
   trackZoom: number;
 }) => {
   
-  const {timelineData, totalDuration, selectedItem, onReorder, onEdit, onSeek, onSelectionChange} = useTimelineManager();
+  const {timelineData, totalDuration, selectedItem, onReorder, onElementDrag, onSeek, onSelectionChange} = useTimelineManager();
 
   return (
     <TimelineView
@@ -21,7 +21,7 @@ const TimelineManager = ({
       selectedItem={selectedItem}
       onDeletion={() => {}}
       onReorder={onReorder}
-      onEditElement={onEdit}
+      onElementDrag={onElementDrag}
       onSeek={onSeek}
       onSelectionChange={onSelectionChange}
       seekTrack={

@@ -147,8 +147,8 @@ const EditorControls = () => {
         </div>
       </div>
       {panelType === "media" && <MediaPanel onSelect={addMedia} />}
-      {panelType === "animation" && <AnimationPanel />}
-      {panelType === "text-effect" && <TextEffectPanel />}
+      {panelType === "animation" && <AnimationPanel editor={editor} selectedItem={selectedItem}/>}
+      {panelType === "text-effect" && <TextEffectPanel editor={editor} selectedItem={selectedItem}/>}
       {showColorDialog && (
         <ColorInputDialog
           onColorSelect={addRectElement}

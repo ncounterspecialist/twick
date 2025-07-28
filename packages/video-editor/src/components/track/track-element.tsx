@@ -15,8 +15,15 @@ export const TrackElementView: React.FC<{
   prevEnd: number;
   allowOverlap: boolean;
   onSelection: (element: TrackElement) => void;
-  onDeletion: (element: TrackElement) => void;
-  updateTrackElement: (elementId: string, updates: any) => void;
+  onDrag: ({
+    element,
+    dragType,
+    updates,
+  }: {
+    element: TrackElement;
+    dragType: string;
+    updates: { start: number; end: number };
+  }) => void;
 }> = ({
   element,
   parentWidth,
@@ -25,7 +32,7 @@ export const TrackElementView: React.FC<{
   prevEnd,
   selectedItem,
   onSelection,
-  updateTrackElement,
+  onDrag,
   allowOverlap = false,
 }) => {
   const ref = useRef<HTMLDivElement>(null);
@@ -44,11 +51,6 @@ export const TrackElementView: React.FC<{
       end: element.getEnd(),
     });
   }, [element, parentWidth, duration]);
-
-  const isAudioVideo = useMemo(() => {
-    const elementType = element.getType();
-    return elementType === "video" || elementType === "audio";
-  }, [element]);
 
   const bind = useDrag(({ delta: [dx] }) => {
     if (!parentWidth) return;
@@ -125,33 +127,18 @@ export const TrackElementView: React.FC<{
 
   const sendUpdate = () => {
     setIsDragging(false);
-    let updates = {};
     if (
       lastPosRef.current?.start !== position.start ||
       lastPosRef.current?.end !== position.end
     ) {
-      if (isAudioVideo && dragType.current === DRAG_TYPE.START) {
-        const elementProps = element.getProps();
-        const delta =
-          position.start -
-          (lastPosRef.current?.start || 0) * (elementProps?.playbackRate || 1);
-        updates = {
-          s: getDecimalNumber(position.start),
-          e: getDecimalNumber(position.end),
-          props: {
-            ...(elementProps || {}),
-            time: getDecimalNumber(
-              Math.max(0, (element.getProps()?.time || 0) + delta)
-            ),
-          },
-        };
-      } else {
-        updates = {
-          s: getDecimalNumber(position.start),
-          e: getDecimalNumber(position.end),
-        };
-      }
-      updateTrackElement(element.getId(), updates);
+      onDrag({
+        element,
+        updates: {
+          start: getDecimalNumber(position.start),
+          end: getDecimalNumber(position.end),
+        },
+        dragType: dragType.current || "",
+      });
     }
   };
 
@@ -164,12 +151,13 @@ export const TrackElementView: React.FC<{
 
   const isSelected = useMemo(() => {
     return selectedItem?.getId() === element.getId();
-  }, [selectedItem, element]);  
+  }, [selectedItem, element]);
 
   const motionProps: HTMLMotionProps<"div"> = {
     ref,
     className: `twick-track-element ${
-      isSelected ? "twick-track-element-selected"
+      isSelected
+        ? "twick-track-element-selected"
         : "twick-track-element-default"
     } ${isDragging ? "twick-track-element-dragging" : ""}`,
     onMouseDown: setLastPos,
@@ -200,7 +188,9 @@ export const TrackElementView: React.FC<{
           />
         ) : null}
         <div className="twick-track-element-content">
-          {(element as any).getText ? (element as any).getText() : element.getName() || element.getType()}
+          {(element as any).getText
+            ? (element as any).getText()
+            : element.getName() || element.getType()}
         </div>
         {isSelected ? (
           <div
@@ -209,22 +199,27 @@ export const TrackElementView: React.FC<{
             className="twick-track-element-handle twick-track-element-handle-end"
           />
         ) : null}
-        {(element as any).getFrameEffects ? (element as any).getFrameEffects().map((frameEffect: FrameEffect) => {
-          return (
-            <div
-              className="twick-track-element-frame-effect"
-              key={frameEffect.s + frameEffect.e}
-              style={{
-                backgroundColor: getElementColor("frameEffect"),
-                width: `${
-                  ((frameEffect.e - frameEffect.s) / (element.getDuration())) *
-                  100
-                }%`,
-                left: `${(frameEffect.s / (element.getDuration())) * 100}%`,
-              }}
-            ></div>
-          );
-        }) : null}
+        {(element as any).getFrameEffects
+          ? (element as any)
+              .getFrameEffects()
+              .map((frameEffect: FrameEffect) => {
+                return (
+                  <div
+                    className="twick-track-element-frame-effect"
+                    key={frameEffect.s + frameEffect.e}
+                    style={{
+                      backgroundColor: getElementColor("frameEffect"),
+                      width: `${
+                        ((frameEffect.e - frameEffect.s) /
+                          element.getDuration()) *
+                        100
+                      }%`,
+                      left: `${(frameEffect.s / element.getDuration()) * 100}%`,
+                    }}
+                  ></div>
+                );
+              })
+          : null}
       </div>
     </motion.div>
   );

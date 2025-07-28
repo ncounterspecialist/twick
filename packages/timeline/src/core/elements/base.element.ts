@@ -67,13 +67,12 @@ export abstract class TrackElement {
   }
 
   setStart(s: number) {
-    this.s = s;
-    this.e = s + 1;
+    this.s = Math.max(0, s);
     return this;
   }
 
   setEnd(e: number) {
-    this.e = e;
+    this.e = Math.max(this.s ?? 0, e);
     return this;
   }
 
@@ -88,13 +87,12 @@ export abstract class TrackElement {
   }
 
   setAnimation(animation?: Animation) {
-    this.animation = animation;
+    this.animation = animation ? structuredClone(animation) : undefined;
     return this;
   }
 
   setProps(props: Record<string, any>) {
-    this.props = props;
+    this.props = structuredClone(props);
     return this;
   }
-
 }

@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback } from "react";
 import { PLAYER_STATE } from "@twick/live-player";
 import "../../styles/player-controls.css";
 import { Trash2, Scissors, Play, Pause, Loader2 } from "lucide-react";
@@ -43,27 +43,17 @@ const PlayerControls: React.FC<PlayerControlsProps> = ({
       .padStart(2, "0")}`;
   }, []);
 
-  const canSplitElement = (element: TrackElement) => true;
-
-  const canSplit = useMemo(() => {
-    return selectedItem && canSplitElement(selectedItem as TrackElement);
-  }, [selectedItem]);
-
-  const handleDelete = useCallback(() => {  
+  const handleDelete = useCallback(() => {
     if (selectedItem && onDelete) {
       onDelete(selectedItem);
     }
   }, [selectedItem, onDelete]);
 
   const handleSplit = useCallback(() => {
-    if (
-      selectedItem &&
-      onSplit &&
-      canSplitElement(selectedItem as TrackElement)
-    ) {
+    if (selectedItem instanceof TrackElement && onSplit) {
       onSplit(selectedItem as TrackElement, currentTime);
     }
-  }, [selectedItem, onSplit, canSplit, currentTime]);
+  }, [selectedItem, onSplit, currentTime]);
 
   return (
     <div
@@ -84,14 +74,19 @@ const PlayerControls: React.FC<PlayerControlsProps> = ({
 
         <button
           className={`control-btn split-btn player-controls-split-btn${
-            canSplit ? " active" : " btn-disabled"
+            selectedItem instanceof TrackElement ? " active" : " btn-disabled"
           }`}
           onClick={handleSplit}
           title="Split"
         >
           <Scissors size={18} strokeWidth={2} />
         </button>
-        <UndoRedoControls canUndo={canUndo} canRedo={canRedo} onUndo={onUndo} onRedo={onRedo} />
+        <UndoRedoControls
+          canUndo={canUndo}
+          canRedo={canRedo}
+          onUndo={onUndo}
+          onRedo={onRedo}
+        />
       </div>
 
       {/* Playback Controls */}

@@ -19,15 +19,15 @@ export class ElementSerializer implements ElementVisitor<ElementJSON> {
       name: element.getName(),
       s: element.getStart(),
       e: element.getEnd(),
-      props: element.getProps(),
-      animation: element.getAnimation(),
+      props: structuredClone(element.getProps()),
+      animation: structuredClone(element.getAnimation()),
     };
   }
   visitVideoElement(element: VideoElement): ElementJSON {
     return {
       ...this.serializeElement(element),
-      frame: element.getFrame(),
-      frameEffects: element.getFrameEffects(),
+      frame: structuredClone(element.getFrame()),
+      frameEffects: structuredClone(element.getFrameEffects()),
       backgroundColor: element.getBackgroundColor(),
       objectFit: element.getObjectFit(),
       mediaDuration: element.getMediaDuration(),
@@ -44,8 +44,8 @@ export class ElementSerializer implements ElementVisitor<ElementJSON> {
   visitImageElement(element: ImageElement): ElementJSON {
     return {
       ...this.serializeElement(element),
-      frame: element.getFrame(),
-      frameEffects: element.getFrameEffects(),
+      frame: structuredClone(element.getFrame()),
+      frameEffects: structuredClone(element.getFrameEffects()),
       backgroundColor: element.getBackgroundColor(),
       objectFit: element.getObjectFit(),
     };
@@ -54,14 +54,14 @@ export class ElementSerializer implements ElementVisitor<ElementJSON> {
   visitTextElement(element: TextElement): ElementJSON {
     return {
       ...this.serializeElement(element),
-      textEffect: element.getTextEffect(),
+      textEffect: structuredClone(element.getTextEffect()),
     };
   }
 
   visitCaptionElement(element: CaptionElement): ElementJSON {
     return {
       ...this.serializeElement(element),
-      t: element.getText(),
+      t: structuredClone(element.getText()),
     };
   }
 

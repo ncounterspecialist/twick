@@ -12,6 +12,7 @@ export class AudioElement extends TrackElement {
     this.props = {
       src,
       time: 0,
+      play: true,
       playbackRate: 1,
       volume: 1,
       loop: false,
@@ -22,9 +23,18 @@ export class AudioElement extends TrackElement {
     return this.mediaDuration;
   }
 
+  getStartAt(): number {
+    return this.props.time || 0;
+  }
+
   async updateAudioMeta() {
-    const meta = await getAudioDuration(this.props.src);
-    this.mediaDuration = meta.duration;
+    this.mediaDuration = await getAudioDuration(this.props.src);
+  }
+
+  async setSrc(src: string) {
+    this.props.src = src;
+    await this.updateAudioMeta();
+    return this;
   }
 
   setMediaDuration(mediaDuration: number) {
@@ -43,7 +53,7 @@ export class AudioElement extends TrackElement {
   }
 
   setStartAt(time: number) {
-    this.props.time = time;
+    this.props.time = Math.max(0, time);
     return this;
   }
 
@@ -52,8 +62,16 @@ export class AudioElement extends TrackElement {
     return this;
   }
 
+  override setProps(props: Omit<any, "src">) {
+    this.props = {
+      play: this.props.play,
+      ...structuredClone(props),
+      src: this.props.src,
+    };
+    return this;
+  }
+
   accept<T>(visitor: ElementVisitor<T>): T {
     return visitor.visitAudioElement(this);
   }
-  
 }
