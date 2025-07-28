@@ -147,7 +147,7 @@ const EditorControls = () => {
         </div>
       </div>
       {panelType === "media" && <MediaPanel onSelect={addMedia} />}
-      {panelType === "animation" && <AnimationPanel />}
+      {panelType === "animation" && <AnimationPanel editor={editor}/>}
       {panelType === "text-effect" && <TextEffectPanel />}
       {showColorDialog && (
         <ColorInputDialog
