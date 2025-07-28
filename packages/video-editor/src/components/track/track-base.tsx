@@ -1,4 +1,4 @@
-  import { useRef } from "react";
+import { useRef } from "react";
 import { Track, TrackElement } from "@twick/timeline";
 import "../../styles/timeline.css";
 import TrackElementView from "./track-element";
@@ -7,23 +7,29 @@ interface TrackBaseProps {
   duration: number;
   zoom: number;
   track: Track;
-  updateTrackElement: (id: string, updates: any) => void;
   trackWidth: number;
   selectedItem: TrackElement | null;
   allowOverlap?: boolean;
-  onItemDeletion: (element: TrackElement) => void;
   onItemSelection: (element: TrackElement) => void;
+  onDrag: ({
+    element,
+    dragType,
+    updates,
+  }: {
+    element: TrackElement;
+    dragType: string;
+    updates: { start: number; end: number };
+  }) => void;
 }
 
 const TrackBase = ({
   duration,
   zoom,
   track,
-  updateTrackElement,
   trackWidth,
   selectedItem,
-  onItemDeletion,
   onItemSelection,
+  onDrag,
   allowOverlap = false,
 }: TrackBaseProps) => {
   const trackRef = useRef<HTMLDivElement>(null);
@@ -36,7 +42,7 @@ const TrackBase = ({
       ref={trackRef}
       className={"twick-track"}
       style={{
-        width: trackWidthStyle
+        width: trackWidthStyle,
       }}
     >
       {elements?.map((element, index) => (
@@ -47,10 +53,13 @@ const TrackBase = ({
           allowOverlap={allowOverlap}
           parentWidth={trackWidth}
           selectedItem={selectedItem}
-          updateTrackElement={updateTrackElement}
           onSelection={onItemSelection}
-          onDeletion={onItemDeletion}
-          nextStart={index < elements.length - 1 ? elements[index + 1].getStart() : duration}
+          onDrag={onDrag}
+          nextStart={
+            index < elements.length - 1
+              ? elements[index + 1].getStart()
+              : duration
+          }
           prevEnd={index > 0 ? elements[index - 1].getEnd() : 0}
         />
       ))}

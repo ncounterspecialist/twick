@@ -58,6 +58,7 @@ export type TextAlign = "left" | "center" | "right";
 
 export type AudioProps = {
   src: string;
+  play: boolean;
   volume?: number;
   loop?: boolean;
   playbackRate?: number;
@@ -115,7 +116,7 @@ export type TextProps = {
 
 export type VideoProps = {
   src: string;
-  play?: boolean;
+  play: boolean;
   playbackRate?: number;
   time?: number;
   mediaFilter?: string;

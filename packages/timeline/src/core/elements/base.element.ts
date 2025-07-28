@@ -67,12 +67,12 @@ export abstract class TrackElement {
   }
 
   setStart(s: number) {
-    this.s = s;
+    this.s = Math.max(0, s);
     return this;
   }
 
   setEnd(e: number) {
-    this.e = e;
+    this.e = Math.max(this.s ?? 0, e);
     return this;
   }
 
@@ -95,5 +95,4 @@ export abstract class TrackElement {
     this.props = structuredClone(props);
     return this;
   }
-
 }

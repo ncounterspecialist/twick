@@ -11,9 +11,8 @@ function TimelineView({
   tracks,
   seekTrack,
   onReorder,
-  onEditElement,
   onSelectionChange,
-  onDeletion,
+  onElementDrag,
 }: {
   timelineControls?: React.ReactNode;
   zoomLevel: number;
@@ -22,7 +21,15 @@ function TimelineView({
   selectedItem: Track | TrackElement | null;
   seekTrack?: React.ReactNode;
   onReorder: (tracks: Track[]) => void;
-  onEditElement: (trackId: string, elementId: string, updates: any) => void;
+  onElementDrag: ({
+    element,
+    dragType,
+    updates,
+  }: {
+    element: TrackElement;
+    dragType: string;
+    updates: { start: number; end: number };
+  }) => void;
   onSeek: (time: number) => void;
   onSelectionChange: (element: TrackElement | Track) => void;
   onDeletion: (element: TrackElement | Track) => void;
@@ -110,14 +117,17 @@ function TimelineView({
       e.currentTarget.style.opacity = "1";
     }
 
-    if (!draggedTimeline || draggedTimeline.getId() === targetTrack.getId()) return;
+    if (!draggedTimeline || draggedTimeline.getId() === targetTrack.getId())
+      return;
 
     // Reorder timeline
     const reordered = [...(tracks || [])];
     const draggedIndex = reordered.findIndex(
       (t) => t.getId() === draggedTimeline.getId()
     );
-    const targetIndex = reordered.findIndex((t) => t.getId() === targetTrack.getId());
+    const targetIndex = reordered.findIndex(
+      (t) => t.getId() === targetTrack.getId()
+    );
 
     if (draggedIndex !== -1 && targetIndex !== -1) {
       // Remove the dragged timeline from its position
@@ -141,11 +151,6 @@ function TimelineView({
     }
   };
 
-  const handleItemDeletion = (element: TrackElement | Track) => {
-    if (onDeletion) {
-      onDeletion(element);
-    }
-  };
 
   return (
     <div
@@ -156,8 +161,7 @@ function TimelineView({
       <div style={{ width: timelineWidthPx }}>
         {seekTrack ? (
           <div style={{ display: "flex", position: "relative" }}>
-            <div className="twick-seek-track-empty-space">
-            </div>
+            <div className="twick-seek-track-empty-space"></div>
             <div style={{ flexGrow: 1 }}>{seekTrack}</div>
           </div>
         ) : null}
@@ -170,7 +174,6 @@ function TimelineView({
               <TrackHeader
                 track={track}
                 selectedItem={selectedTimeline}
-                onDeletion={handleItemDeletion}
                 onSelect={handleItemSelection}
                 onDragStart={handleTrackDragStart}
                 onDragOver={handleTrackDragOver}
@@ -187,12 +190,7 @@ function TimelineView({
               allowOverlap={false}
               trackWidth={timelineWidth - labelWidth} // Subtract label width for accurate track width
               onItemSelection={handleItemSelection}
-              onItemDeletion={handleItemDeletion}
-              updateTrackElement={(_elementId, _partials) => {
-                // if (onEditElement) {
-                //   onEditElement(timeline.id, elementId, partials);
-                // }
-              }}
+              onDrag={onElementDrag}
             />
           </div>
         ))}

@@ -1,18 +1,12 @@
-
-import { CANVAS_OPERATIONS, useTwickCanvas } from "@twick/canvas";
 import {
   LivePlayer,
   PLAYER_STATE,
   useLivePlayerContext,
 } from "@twick/live-player";
-import {
-  getCurrentElements,
-  TIMELINE_ACTION,
-  useTimelineContext,
-  useTimelineEditor,
-} from "@twick/timeline";
-import { useEffect, useRef, useState } from "react";
+import { useTimelineContext } from "@twick/timeline";
+import { useEffect, useRef } from "react";
 import "../../styles/video-editor.css";
+import { usePlayerManager } from "../../hooks/use-player-manager";
 
 export const PlayerManager = ({
   videoProps,
@@ -21,14 +15,9 @@ export const PlayerManager = ({
   videoProps: { width: number; height: number };
   canvasMode: boolean;
 }) => {
-  const [projectData, setProjectData] = useState<any>(null);
-  const {
-    timelineAction,
-    setTimelineAction,
-    latestProjectVersion,
-    setSelectedItem,
-  } = useTimelineContext();
-  const editor = useTimelineEditor();
+  const { latestProjectVersion } = useTimelineContext();
+  const { twickCanvas, projectData, updateCanvas, buildCanvas } =
+    usePlayerManager({ videoProps });
   const durationRef = useRef<number>(0);
   const {
     playerState,
@@ -40,29 +29,6 @@ export const PlayerManager = ({
 
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-
-  const handleCanvasReady = (canvas: any) => {
-    console.log("canvas ready", canvas);
-  };
-
-  const handleCanvasOperation = (operation: string, data: any) => {
-    switch (operation) {
-      case CANVAS_OPERATIONS.ITEM_SELECTED:
-        setSelectedItem(data);
-        break;
-      case CANVAS_OPERATIONS.ITEM_UPDATED:
-       //handle item edit
-       console.log(editor);
-        break;
-      default:
-        break;
-    }
-  };
-
-  const { twickCanvas, buildCanvas, setCanvasElements } = useTwickCanvas({
-    onCanvasReady: handleCanvasReady,
-    onCanvasOperation: handleCanvasOperation,
-  });
 
   useEffect(() => {
     const container = containerRef.current;
@@ -81,51 +47,10 @@ export const PlayerManager = ({
   }, [videoProps]);
 
   useEffect(() => {
-    switch (timelineAction.type) {
-      case TIMELINE_ACTION.SET_PROJECT_DATA:
-        if (videoProps) {
-          const _latestProjectData = {
-            input: {
-              properties: videoProps,
-              tracks: timelineAction.payload?.tracks ?? [],
-              version: timelineAction.payload?.version ?? 0,
-            },
-          };
-          setProjectData(_latestProjectData);
-        }
-        break;
-      case TIMELINE_ACTION.UPDATE_PLAYER_DATA:
-        if (videoProps) {
-          if (latestProjectVersion !== projectData?.input?.version) {
-            const _latestProjectData = {
-              input: {
-                properties: videoProps,
-                tracks: timelineAction.payload?.tracks ?? [],
-                version: timelineAction.payload?.version ?? 0,
-              },
-            };
-            setProjectData(_latestProjectData);
-          } 
-        }
-        setTimelineAction(TIMELINE_ACTION.ON_PLAYER_UPDATED, null);
-        break;
-    }
-  }, [timelineAction]);
-
-  useEffect(() => {
     if (twickCanvas && playerState === PLAYER_STATE.PAUSED) {
-      const elements = getCurrentElements(
-        seekTime,
-        editor.getTimelineData()?.tracks ?? []
-      );
-      setCanvasElements({
-        elements,
-        seekTime,
-        captionProps: {},
-        cleanAndAdd: true,
-      });
+      updateCanvas(seekTime);
     }
-  }, [playerState, seekTime, twickCanvas, latestProjectVersion]);
+  }, [twickCanvas, playerState, seekTime, latestProjectVersion]);
 
   const handleTimeUpdate = (time: number) => {
     if (time >= durationRef.current) {

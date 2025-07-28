@@ -52,9 +52,13 @@ export class VideoElement extends TrackElement {
     return this.mediaDuration;
   }
 
+  getStartAt(): number {
+    return this.props.time || 0;
+  }
+
   async updateVideoMeta(updateFrame: boolean = true) {
     const meta = await getVideoMeta(this.props.src);
-    
+
     if (updateFrame) {
       const baseSize = getObjectFitSize(
         "contain",
@@ -64,7 +68,7 @@ export class VideoElement extends TrackElement {
       this.frame = {
         ...this.frame,
         size: [baseSize.width, baseSize.height],
-      }
+      };
     }
     this.mediaDuration = meta.duration;
   }
@@ -106,9 +110,9 @@ export class VideoElement extends TrackElement {
   }
 
   setStartAt(time: number) {
-    this.props.time = time;
+    this.props.time = Math.max(0, time);
     return this;
-  } 
+  }
 
   setMediaFilter(mediaFilter: string) {
     this.props.mediaFilter = mediaFilter;
@@ -125,13 +129,19 @@ export class VideoElement extends TrackElement {
     return this;
   }
 
-   override setProps(props: Omit<any, "src">) {
-    this.props = {...structuredClone(props), src: this.props.src};
+  override setProps(props: Omit<any, "src">) {
+    this.props = {
+      play: this.props.play,
+      ...structuredClone(props),
+      src: this.props.src,
+    };
     return this;
   }
 
   setFrameEffects(frameEffects?: FrameEffect[]) {
-    this.frameEffects = frameEffects?.map(frameEffect => structuredClone(frameEffect));
+    this.frameEffects = frameEffects?.map((frameEffect) =>
+      structuredClone(frameEffect)
+    );
     return this;
   }
 
@@ -143,5 +153,4 @@ export class VideoElement extends TrackElement {
   accept<T>(visitor: ElementVisitor<T>): T {
     return visitor.visitVideoElement(this);
   }
-
 }

@@ -65,7 +65,7 @@ export class TimelineEditor {
     const contextId = this.context.contextId;
     return timelineContextStore.getTimelineData(contextId);
   }
-
+  
   setTimelineData(
     timeline: Track[],
     version?: number
