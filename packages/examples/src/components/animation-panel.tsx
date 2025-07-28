@@ -2,12 +2,12 @@ import {
   getDecimalNumber,
   TimelineEditor,
   TrackElement,
-  useTimelineContext,
+  Track,
 } from "@twick/timeline";
 import { ANIMATIONS } from "@twick/video-editor";
 import { useEffect, useState } from "react";
 
-const AnimationPanel = ({ editor }: { editor: TimelineEditor }) => {
+const AnimationPanel = ({ editor, selectedItem }: { editor: TimelineEditor, selectedItem: Track | TrackElement | null }) => {
   const [selectedAnimation, setSelectedAnimation] = useState<string | null>(
     null
   );
@@ -16,7 +16,6 @@ const AnimationPanel = ({ editor }: { editor: TimelineEditor }) => {
   const [mode, setMode] = useState("in");
   //   const [intensity, setIntensity] = useState(1);
   const [interval, setInterval] = useState(1000);
-  const { selectedItem } = useTimelineContext();
 
   const [maxInterval, setMaxInterval] = useState(1000);
 
