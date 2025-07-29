@@ -6,7 +6,7 @@ export const getDecimalNumber = (num: number, precision = 3) => {
   return Number(num.toFixed(precision));
 };
 
-export function getTotalDuration(tracks: TrackJSON[]) {
+export const getTotalDuration = (tracks: TrackJSON[]) => {
   return (tracks || []).reduce(
     (maxDuration, timeline) =>
       Math.max(
@@ -18,15 +18,15 @@ export function getTotalDuration(tracks: TrackJSON[]) {
       ),
     0
   );
-}
+};
 
-export function generateShortUuid(): string {
+export const generateShortUuid = (): string => {
   return "xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
     const r = (Math.random() * 16) | 0,
       v = c === "x" ? r : (r & 0x3) | 0x8;
     return v.toString(16);
   });
-}
+};
 
 export const getCurrentElements = (
   currentTime: number,

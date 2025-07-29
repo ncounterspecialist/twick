@@ -5,11 +5,11 @@
  * @param fileName - The name to assign to the resulting File.
  * @returns A Promise that resolves to a File object.
  */
-export async function blobUrlToFile(blobUrl: string, fileName: string): Promise<File> {
+export const blobUrlToFile = async (blobUrl: string, fileName: string): Promise<File> => {
     const response = await fetch(blobUrl);
     const blob = await response.blob();
     return new File([blob], fileName, { type: blob.type });
-  }
+  };
   
   /**
    * Triggers a download of a file from a string or Blob.
@@ -18,7 +18,7 @@ export async function blobUrlToFile(blobUrl: string, fileName: string): Promise<
    * @param type - The MIME type of the content.
    * @param name - The name of the file to be saved.
    */
-  export function saveAsFile(content: string | Blob, type: string, name: string): void {
+  export const saveAsFile = (content: string | Blob, type: string, name: string): void => {
     const blob = typeof content === "string" ? new Blob([content], { type }) : content;
     const url = URL.createObjectURL(blob);
   
@@ -29,7 +29,7 @@ export async function blobUrlToFile(blobUrl: string, fileName: string): Promise<
   
     // Clean up the URL object after download
     URL.revokeObjectURL(url);
-  }
+  };
   
   /**
    * Downloads a file from a given URL and triggers a browser download.
@@ -38,7 +38,7 @@ export async function blobUrlToFile(blobUrl: string, fileName: string): Promise<
    * @param filename - The name of the file to be saved.
    * @returns A Promise that resolves when the download is initiated or rejects if there is an error.
    */
-  export async function downloadFile(url: string, filename: string): Promise<void> {
+  export const downloadFile = async (url: string, filename: string): Promise<void> => {
     try {
       const response = await fetch(url);
       const blob = await response.blob();
@@ -57,5 +57,5 @@ export async function blobUrlToFile(blobUrl: string, fileName: string): Promise<
       console.error("Error downloading file:", error);
       throw error;
     }
-  }
+  };
   

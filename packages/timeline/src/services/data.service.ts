@@ -42,10 +42,10 @@ export class TimelineContextStore {
   }
 
   public getTimelineData(contextId: string): TimelineTrackData | null {
-    const _store = this.storeMap.get(contextId);
-    return _store ? {
-        tracks: _store.tracks,
-        version: _store.version,
+    const timelineStore = this.storeMap.get(contextId);
+    return timelineStore ? {
+        tracks: timelineStore.tracks,
+        version: timelineStore.version,
     } : null;
   }
 

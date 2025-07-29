@@ -8,7 +8,7 @@ import { imageDimensionsCache } from "./cache";
  * @param url - The image URL to load.
  * @returns A Promise that resolves with the image's width and height.
  */
-function loadImageDimensions(url: string): Promise<Dimensions> {
+const loadImageDimensions = (url: string): Promise<Dimensions> => {
   return new Promise((resolve, reject) => {
     if (typeof document === 'undefined') {
       reject(new Error('getImageDimensions() is only available in the browser.'));
@@ -22,7 +22,7 @@ function loadImageDimensions(url: string): Promise<Dimensions> {
     img.onerror = reject;
     img.src = url;
   });
-}
+};
 
 /**
  * Gets the dimensions (width and height) of an image from the given URL.
@@ -32,7 +32,7 @@ function loadImageDimensions(url: string): Promise<Dimensions> {
  * @param url - The URL of the image.
  * @returns A Promise that resolves to an object containing `width` and `height`.
  */
-export function getImageDimensions(url: string): Promise<Dimensions> {
+export const getImageDimensions = (url: string): Promise<Dimensions> => {
   // Return cached dimensions if available
   if (imageDimensionsCache[url]) {
     return Promise.resolve(imageDimensionsCache[url]);
@@ -43,4 +43,4 @@ export function getImageDimensions(url: string): Promise<Dimensions> {
     imageDimensionsCache[url] = dimensions;
     return dimensions;
   });
-}
+};

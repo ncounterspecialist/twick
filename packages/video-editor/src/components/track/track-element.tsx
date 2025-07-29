@@ -50,7 +50,7 @@ export const TrackElementView: React.FC<{
       start: element.getStart(),
       end: element.getEnd(),
     });
-  }, [element, parentWidth, duration]);
+  }, [element.getStart(), element.getEnd(), parentWidth, duration]);
 
   const bind = useDrag(({ delta: [dx] }) => {
     if (!parentWidth) return;

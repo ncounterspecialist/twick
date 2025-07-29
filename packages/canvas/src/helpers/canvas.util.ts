@@ -19,7 +19,7 @@ import { assertBrowser, assertCanvasSupport } from "./browser";
  * @param touchZoomThreshold - Threshold for touch zoom interactions (default: 10).
  * @returns An object containing the initialized canvas and its metadata.
  */
-export function createCanvas({
+export const createCanvas = ({
   videoSize,
   canvasSize,
   canvasRef,
@@ -29,7 +29,7 @@ export function createCanvas({
   uniScaleTransform = true,
   enableRetinaScaling = true,
   touchZoomThreshold = 10,
-}: CanvasProps): { canvas: FabricCanvas; canvasMetadata: CanvasMetadata } {
+}: CanvasProps): { canvas: FabricCanvas; canvasMetadata: CanvasMetadata } => {
   assertBrowser();
   assertCanvasSupport();
 
@@ -73,16 +73,16 @@ export function createCanvas({
     canvas,
     canvasMetadata,
   };
-}
+};
 
 /**
  * Reorders elements on the canvas based on their zIndex property.
  *
  * @param canvas - The Fabric.js canvas instance.
  */
-export function reorderElementsByZIndex(canvas: FabricCanvas) {
+export const reorderElementsByZIndex = (canvas: FabricCanvas) => {
   if (!canvas) return;
-  let backgroundColor = canvas.backgroundColor;
+  const backgroundColor = canvas.backgroundColor;
 
   const objects = canvas.getObjects();
   console.log("objects", objects);
@@ -94,18 +94,18 @@ export function reorderElementsByZIndex(canvas: FabricCanvas) {
 
   objects.forEach((obj) => canvas.add(obj));
   canvas.renderAll();
-}
+};
 
 /**
  * Clears all elements from the canvas and re-renders it.
  *
  * @param canvas - The Fabric.js canvas instance.
  */
-export function clearCanvas(canvas: FabricCanvas) {
+export const clearCanvas = (canvas: FabricCanvas) => {
   if (!canvas) return;
   canvas.clear();
   canvas.renderAll();
-}
+};
 
 /**
  * Converts a position from the video coordinate space to the canvas coordinate space.
@@ -115,16 +115,16 @@ export function clearCanvas(canvas: FabricCanvas) {
  * @param canvasMetadata - Metadata containing canvas scaling and dimensions.
  * @returns The corresponding position in canvas space.
  */
-export function convertToCanvasPosition(
+export const convertToCanvasPosition = (
   x: number,
   y: number,
   canvasMetadata: CanvasMetadata
-): Position {
+): Position => {
   return {
     x: x * canvasMetadata.scaleX + canvasMetadata.width / 2,
     y: y * canvasMetadata.scaleY + canvasMetadata.height / 2,
   };
-}
+};
 
 /**
  * Converts a position from the canvas coordinate space to the video coordinate space.
@@ -135,17 +135,17 @@ export function convertToCanvasPosition(
  * @param videoSize - Dimensions of the video.
  * @returns The corresponding position in video space.
  */
-export function convertToVideoPosition(
+export const convertToVideoPosition = (
   x: number,
   y: number,
   canvasMetadata: CanvasMetadata,
   videoSize: Dimensions
-): Position {
+): Position => {
   return {
     x: x / canvasMetadata.scaleX - videoSize.width / 2,
     y: y / canvasMetadata.scaleY - videoSize.height / 2,
   };
-}
+};
 
 /**
  * Retrieves the current frame effect for a given seek time.
@@ -154,7 +154,7 @@ export function convertToVideoPosition(
  * @param seekTime - The current time to match against frame effects.
  * @returns The current frame effect active at the given seek time, if any.
  */
-export function getCurrentFrameEffect(item: any, seekTime: number) {
+export const getCurrentFrameEffect = (item: any, seekTime: number) => {
   let currentFrameEffect;
   for (let i = 0; i < item?.frameEffects?.length; i++) {
     if (
@@ -166,4 +166,4 @@ export function getCurrentFrameEffect(item: any, seekTime: number) {
     }
   }
   return currentFrameEffect;
-}
+};

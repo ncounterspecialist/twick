@@ -5,7 +5,7 @@
  * @returns A promise that resolves to 'image', 'video', or 'audio' based on the Content-Type header,
  *          or `null` if the type couldn't be determined or the request fails.
  */
-export async function detectMediaTypeFromUrl(url: string): Promise<'image' | 'video' | 'audio' | null> {
+export const detectMediaTypeFromUrl = async (url: string): Promise<'image' | 'video' | 'audio' | null> => {
     try {
       // Use a HEAD request to fetch only the headers, avoiding download of the full file
       const response = await fetch(url, { method: 'HEAD' });
@@ -26,5 +26,5 @@ export async function detectMediaTypeFromUrl(url: string): Promise<'image' | 'vi
       console.error('Fetch failed:', error);
       return null;
     }
-  }
+  };
   

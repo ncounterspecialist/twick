@@ -78,6 +78,9 @@ const TimelineProviderInner = ({
 
   // Create a single editor instance that's shared across all components
   const editor = useMemo(() => {
+    if (editorRegistry.has(contextId)) {
+      editorRegistry.delete(contextId);
+    }
     const newEditor = new TimelineEditor({
       contextId,
       setTotalDuration,
@@ -95,13 +98,6 @@ const TimelineProviderInner = ({
     editorRegistry.set(contextId, newEditor);
 
     return newEditor;
-  }, [contextId]);
-
-  // Cleanup: Remove editor from registry when context is unmounted
-  useEffect(() => {
-    return () => {
-      editorRegistry.delete(contextId);
-    };
   }, [contextId]);
 
   const setTimelineAction = (type: string, payload: any) => {

@@ -47,9 +47,9 @@ export const useTimelineManager = () => {
 
   // Get timeline data from editor
   const timelineData = useMemo(() => {
-      const _td = editor.getTimelineData();
-      // console.log(changeLog, _td);
-      return _td;
+      const timelineDataFromEditor = editor.getTimelineData();
+      // console.log(changeLog, timelineDataFromEditor);
+      return timelineDataFromEditor;
   }, [changeLog]);
 
   const { setSeekTime, setCurrentTime } = useLivePlayerContext();

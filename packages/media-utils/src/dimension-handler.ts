@@ -10,12 +10,12 @@ import { Dimensions } from "./types";
  * @param maxHeight - The maximum height of the container.
  * @returns An object containing the calculated width and height for the element.
  */
-export function getScaledDimensions(
+export const getScaledDimensions = (
     width: number,  
     height: number,
     maxWidth: number,
     maxHeight: number
-  ): Dimensions {
+  ): Dimensions => {
     // If the original dimensions are smaller than or equal to the max values, return the original dimensions
     if (width <= maxWidth && height <= maxHeight) {
       // Ensure the width and height are even numbers
@@ -49,7 +49,7 @@ export function getScaledDimensions(
       width: Math.min(scaledWidth, maxWidth),
       height: Math.min(scaledHeight, maxHeight),
     };
-  }
+  };
 
 /**
  * Calculates the resized dimensions of an element to fit inside a container
@@ -60,11 +60,11 @@ export function getScaledDimensions(
  * @param containerSize - The size of the container (width and height).
  * @returns An object containing the calculated width and height for the element.
  */
-export function getObjectFitSize(
+export const getObjectFitSize = (
   objectFit: string,
   elementSize: Dimensions,
   containerSize: Dimensions
-): Dimensions {
+): Dimensions => {
   const elementAspectRatio = elementSize.width / elementSize.height;
   const containerAspectRatio = containerSize.width / containerSize.height;
 

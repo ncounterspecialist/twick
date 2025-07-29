@@ -86,8 +86,8 @@ export class TimelineEditor {
       this.context.contextId,
       updatedTimelineData
     );
-    this.context.updateChangeLog();
     this.updateHistory(updatedTimelineData);
+    this.context.updateChangeLog();
     return updatedTimelineData as TimelineTrackData;
   }
 
