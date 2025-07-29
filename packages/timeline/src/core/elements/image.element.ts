@@ -2,6 +2,7 @@ import { getObjectFitSize, getImageDimensions } from "@twick/media-utils";
 import { Frame, FrameEffect, ImageProps, ObjectFit, Size } from "../../types";
 import { TrackElement } from "./base.element";
 import type { ElementVisitor } from "../visitor/element-visitor";
+import { TIMELINE_ELEMENT_TYPE } from "../../utils/constants";
 
 export class ImageElement extends TrackElement {
   protected backgroundColor!: string;
@@ -12,7 +13,7 @@ export class ImageElement extends TrackElement {
   protected declare props: ImageProps;
 
   constructor(src: string, parentSize: Size) {
-    super("image");
+    super(TIMELINE_ELEMENT_TYPE.IMAGE);
     this.parentSize = parentSize;
     this.objectFit = "cover";
     this.frameEffects = [];

@@ -4,11 +4,6 @@ import {
   TimelineProvider,
   TimelineProviderProps,
 } from "./context/timeline-context";
-import useTimelineEditor, {
-  cleanupEditor,
-  cleanupAllEditors,
-  getActiveEditors,
-} from "./hooks/use-timeline-editor";
 import { Track } from "./core/track/track";
 import { ElementDeserializer } from "./core/visitor/element-deserializer";
 import { ElementSerializer } from "./core/visitor/element-serializer";
@@ -51,11 +46,8 @@ export {
 export {
   TimelineProvider,
   TimelineEditor,
-  useTimelineEditor,
-  cleanupEditor,
-  cleanupAllEditors,
-  getActiveEditors,
 };
+
 export type { TimelineProviderProps };
 export { TIMELINE_ELEMENT_TYPE };
 
@@ -63,7 +55,6 @@ export * from "./types";
 export * from "./utils/constants";
 export * from "./utils/timeline.utils";
 export * from "./context/timeline-context";
-export * from "./hooks/use-timeline-editor";
 // Export core components
 export * from "./core/track/track";
 export * from "./core/elements/base.element";
@@ -94,10 +85,6 @@ if (typeof window !== "undefined") {
     TimelineEditor,
     TimelineProvider,
     TIMELINE_ELEMENT_TYPE,
-    useTimelineEditor,
-    cleanupEditor,
-    cleanupAllEditors,
-    getActiveEditors,
     // Element types
     CaptionElement,
     RectElement,

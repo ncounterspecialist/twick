@@ -1,12 +1,13 @@
 import { RectProps, Size } from "../../types";
 import { TrackElement } from "./base.element";
 import { ElementVisitor } from "../visitor/element-visitor";
+import { TIMELINE_ELEMENT_TYPE } from "../../utils/constants";
 
 export class RectElement extends TrackElement{
     protected declare props: RectProps;
 
     constructor(fill:string, size: Size) {
-        super("rect");  
+        super(TIMELINE_ELEMENT_TYPE.RECT);  
         this.props = {
             width: size.width,
             height: size.height,

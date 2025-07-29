@@ -3,7 +3,6 @@ import {
   TrackElement,
   Track,
   useTimelineContext,
-  useTimelineEditor,
   VideoElement,
   AudioElement,
 } from "@twick/timeline";
@@ -11,9 +10,8 @@ import { useMemo } from "react";
 import { DRAG_TYPE } from "../helpers/constants";
 
 export const useTimelineManager = () => {
-  const { selectedItem, latestProjectVersion, setSelectedItem, totalDuration } =
+  const { selectedItem, latestProjectVersion, setSelectedItem, totalDuration, editor } =
     useTimelineContext();
-  const editor = useTimelineEditor();
   const onElementDrag = ({
     element,
     dragType,
@@ -46,12 +44,12 @@ export const useTimelineManager = () => {
     const _td = editor.getTimelineData();
     console.log(latestProjectVersion, _td);
     return _td;
-  }, [latestProjectVersion]);
+  }, [latestProjectVersion, editor]);
 
   const { setSeekTime, setCurrentTime } = useLivePlayerContext();
 
   const onReorder = (reorderedItems: Track[]) => {
-    editor.setTimelineData(reorderedItems);
+    editor.reorderTracks(reorderedItems);
   };
 
   const onSeek = (time: number) => {
@@ -64,11 +62,11 @@ export const useTimelineManager = () => {
   };
 
   return {
-    onSeek,
-    onReorder,
-    onSelectionChange,
-    onElementDrag,
     timelineData,
+    onElementDrag,
+    onReorder,
+    onSeek,
+    onSelectionChange,
     selectedItem,
     totalDuration,
   };

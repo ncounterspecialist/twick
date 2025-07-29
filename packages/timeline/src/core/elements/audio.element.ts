@@ -2,13 +2,14 @@ import { getAudioDuration } from "@twick/media-utils";
 import { TrackElement } from "./base.element";
 import type { ElementVisitor } from "../visitor/element-visitor";
 import { AudioProps } from "../../types";
+import { TIMELINE_ELEMENT_TYPE } from "../../utils/constants";
 
 export class AudioElement extends TrackElement {
   protected mediaDuration!: number;
   protected declare props: AudioProps;
 
   constructor(src: string) {
-    super("audio");
+    super(TIMELINE_ELEMENT_TYPE.AUDIO);
     this.props = {
       src,
       time: 0,

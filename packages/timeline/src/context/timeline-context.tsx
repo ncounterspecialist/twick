@@ -1,12 +1,15 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect, useMemo, useRef } from "react";
 import { TIMELINE_ACTION } from "../utils/constants";
 import { UndoRedoProvider, useUndoRedo } from "./undo-redo-context";
 import { Track } from "../core/track/track";
 import { TrackElement } from "../core/elements/base.element";
 import { ProjectJSON, TrackJSON } from "../types";
+import { TimelineEditor } from "../core/editor/timeline.editor";
+import { editorRegistry } from "../utils/register-editor";
 
-type TimelineContextType = {
+export type TimelineContextType = {
   contextId: string;
+  editor: TimelineEditor;
   selectedItem: Track | TrackElement | null;
   latestProjectVersion: number;
   timelineAction: {
@@ -15,14 +18,8 @@ type TimelineContextType = {
   };
   totalDuration: number;
   present: ProjectJSON | null;
-  setPresent: (data: ProjectJSON) => void;
   canUndo: boolean;
   canRedo: boolean;
-  handleUndo: () => void;
-  handleRedo: () => void;
-  handleResetHistory: () => void;
-  setTotalDuration: (duration: number) => void;
-  setLatestProjectVersion: (version: number) => void;
   setSelectedItem: (item: Track | TrackElement | null) => void;
   setTimelineAction: (type: string, payload: any) => void;
 };
@@ -56,15 +53,51 @@ const TimelineProviderInner = ({
     payload: null,
   });
 
-  const [selectedItem, setSelectedItem] = useState<
-    Track | TrackElement | null
-  >(null);
+  const [selectedItem, setSelectedItem] = useState<Track | TrackElement | null>(
+    null
+  );
 
   const [totalDuration, setTotalDuration] = useState(0);
 
   const [latestProjectVersion, setLatestProjectVersion] = useState(0);
 
   const undoRedoContext = useUndoRedo();
+
+  const dataInitialized = useRef(false);
+
+  // Create a single editor instance that's shared across all components
+  const editor = useMemo(() => {
+    const newEditor = new TimelineEditor({
+      contextId,
+      setTotalDuration,
+      setPresent: undoRedoContext.setPresent,
+      handleUndo: undoRedoContext.undo,
+      handleRedo: undoRedoContext.redo,
+      handleResetHistory: undoRedoContext.resetHistory,
+      setLatestProjectVersion,
+      setTimelineAction: (action: string, payload?: unknown) => {
+        setTimelineActionState({ type: action, payload });
+      },
+    });
+    
+    // Register the editor instance in the global registry
+    editorRegistry.set(contextId, newEditor);
+    
+    return newEditor;
+  }, [
+    contextId,
+    undoRedoContext.setPresent,
+    undoRedoContext.undo,
+    undoRedoContext.redo,
+    undoRedoContext.resetHistory,
+  ]);
+
+  // Cleanup: Remove editor from registry when context is unmounted
+  useEffect(() => {
+    return () => {
+      editorRegistry.delete(contextId);
+    };
+  }, [contextId]);
 
   const setTimelineAction = (type: string, payload: any) => {
     setTimelineActionState({ type, payload });
@@ -73,16 +106,19 @@ const TimelineProviderInner = ({
   const initialize = (data: ProjectJSON) => {
     const lastPersistedState = undoRedoContext.getLastPersistedState();
     if (lastPersistedState) {
-      setTimelineAction(TIMELINE_ACTION.SET_PROJECT_DATA, lastPersistedState);
+      editor.loadProject(lastPersistedState);
       return;
+    } else {
+      editor.loadProject(data);
     }
-    setTimelineAction(TIMELINE_ACTION.SET_PROJECT_DATA, data);
+    
   };
 
   // Initialize timeline data if provided
   useEffect(() => {
-    if (initialData) {
+    if (initialData && !dataInitialized.current) {
       initialize(initialData);
+      dataInitialized.current = true;
     }
   }, [initialData]);
 
@@ -93,16 +129,11 @@ const TimelineProviderInner = ({
     totalDuration,
     latestProjectVersion,
     present: undoRedoContext.present,
-    setPresent: undoRedoContext.setPresent,
     canUndo: undoRedoContext.canUndo,
     canRedo: undoRedoContext.canRedo,
-    handleUndo: undoRedoContext.undo,
-    handleRedo: undoRedoContext.redo,
-    handleResetHistory: undoRedoContext.resetHistory,
-    setLatestProjectVersion,
-    setTotalDuration,
     setSelectedItem,
     setTimelineAction,
+    editor, // Include the editor instance
   };
 
   return (

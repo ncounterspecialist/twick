@@ -2,6 +2,7 @@ import { getObjectFitSize, getVideoMeta } from "@twick/media-utils";
 import { Frame, FrameEffect, ObjectFit, Size, VideoProps } from "../../types";
 import { TrackElement } from "./base.element";
 import type { ElementVisitor } from "../visitor/element-visitor";
+import { TIMELINE_ELEMENT_TYPE } from "../../utils/constants";
 
 export class VideoElement extends TrackElement {
   protected baseSize!: Size;
@@ -14,7 +15,7 @@ export class VideoElement extends TrackElement {
   protected declare props: VideoProps;
 
   constructor(src: string, parentSize: Size) {
-    super("video");
+    super(TIMELINE_ELEMENT_TYPE.VIDEO);
     this.objectFit = "cover";
     this.frameEffects = [];
     this.parentSize = parentSize;

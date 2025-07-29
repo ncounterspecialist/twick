@@ -1,11 +1,12 @@
 import { TrackElement } from "./base.element";
 import type { ElementVisitor } from "../visitor/element-visitor";
 import { CircleProps } from "../../types";
+import { TIMELINE_ELEMENT_TYPE } from "../../utils/constants";
 
 export class CircleElement extends TrackElement {
   protected declare props: CircleProps;
   constructor(fill: string, radius: number) {
-    super("circle");
+    super(TIMELINE_ELEMENT_TYPE.CIRCLE);
     this.props = {
       radius,
       fill,

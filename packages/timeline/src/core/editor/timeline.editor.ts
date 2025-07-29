@@ -23,8 +23,8 @@ export interface TimelineOperationContext {
   contextId: string;
   setTotalDuration: (duration: number) => void;
   setPresent: (data: ProjectJSON) => void;
-  handleUndo: () => void;
-  handleRedo: () => void;
+  handleUndo: () => ProjectJSON | null;
+  handleRedo: () => ProjectJSON | null;
   handleResetHistory: () => void;
   setLatestProjectVersion: (version: number) => void;
   setTimelineAction?: (action: string, payload?: unknown) => void;
@@ -66,14 +66,14 @@ export class TimelineEditor {
     return timelineContextStore.getTimelineData(contextId);
   }
   
-  setTimelineData(
-    timeline: Track[],
+  protected setTimelineData(
+    tracks: Track[],
     version?: number
   ): TimelineTrackData {
     const prevTimelineData = this.getTimelineData();
     const updatedVersion = version ?? (prevTimelineData?.version || 0) + 1;
     const updatedTimelineData = {
-      tracks: timeline,
+      tracks,
       version: updatedVersion,
     };
     timelineContextStore.setTimelineData(
@@ -260,6 +260,10 @@ export class TimelineEditor {
     }
   }
 
+  reorderTracks(tracks: Track[]): void {
+    this.setTimelineData(tracks);
+  }
+
   updateHistory(timelineTrackData: TimelineTrackData): void {
     const tracks = timelineTrackData.tracks.map((t) => t.serialize());
     this.context.setTotalDuration(getTotalDuration(tracks));
@@ -271,41 +275,101 @@ export class TimelineEditor {
   }
 
   /**
-   * Trigger undo operation
+   * Trigger undo operation and update timeline data
    */
   undo(): void {
-    this.context.handleUndo();
+    const result = this.context.handleUndo();
+    if (result && result.tracks) {
+      // Update the timeline data in the editor's store
+      const tracks = result.tracks.map((t: TrackJSON) => Track.fromJSON(t));
+      timelineContextStore.setTimelineData(this.context.contextId, {
+        tracks,
+        version: result.version,
+      });
+      
+      // Update total duration
+      this.context.setTotalDuration(getTotalDuration(result.tracks));
+      this.context.setLatestProjectVersion(result.version);
+      
+      // Trigger timeline action to notify components
+      if (this.context?.setTimelineAction) {
+        this.context.setTimelineAction(TIMELINE_ACTION.UPDATE_PLAYER_DATA, {
+          tracks: result.tracks,
+          version: result.version,
+        });
+      }
+    }
   }
 
   /**
-   * Trigger redo operation
+   * Trigger redo operation and update timeline data
    */
   redo(): void {
-    this.context.handleRedo();
+    const result = this.context.handleRedo();
+    if (result && result.tracks) {
+      // Update the timeline data in the editor's store
+      const tracks = result.tracks.map((t: TrackJSON) => Track.fromJSON(t));
+      timelineContextStore.setTimelineData(this.context.contextId, {
+        tracks,
+        version: result.version,
+      });
+      
+      // Update total duration
+      this.context.setTotalDuration(getTotalDuration(result.tracks));
+      this.context.setLatestProjectVersion(result.version);
+      
+      // Trigger timeline action to notify components
+      if (this.context?.setTimelineAction) {
+        this.context.setTimelineAction(TIMELINE_ACTION.UPDATE_PLAYER_DATA, {
+          tracks: result.tracks,
+          version: result.version,
+        });
+      }
+    }
   }
 
   /**
-   * Reset history
+   * Reset history and clear timeline data
    */
   resetHistory(): void {
     this.context.handleResetHistory();
+    
+    // Clear the timeline data in the editor's store
+    timelineContextStore.setTimelineData(this.context.contextId, {
+      tracks: [],
+      version: 0,
+    });
+    
+    // Reset total duration and version
+    this.context.setTotalDuration(0);
+    this.context.setLatestProjectVersion(0);
+    
+    // Trigger timeline action to notify components
+    if (this.context?.setTimelineAction) {
+      this.context.setTimelineAction(TIMELINE_ACTION.UPDATE_PLAYER_DATA, {
+        tracks: [],
+        version: 0,
+      });
+    }
   }
 
   loadProject({
-    timeline,
+    tracks,
     version,
   }: {
-    timeline: TrackJSON[];
+    tracks: TrackJSON[];
     version: number;
   }): void {
     this.pauseVideo();
+    this.resetHistory();
     // Convert Timeline[] to Track[] and set
-    const tracks = timeline.map((t) => Track.fromJSON(t));
-    this.setTimelineData(tracks, version);
+    const timelineTracks = tracks.map((t) => Track.fromJSON(t));
+    this.setTimelineData(timelineTracks, version);
     if (this.context?.setTimelineAction) {
       this.context.setTimelineAction(TIMELINE_ACTION.UPDATE_PLAYER_DATA, {
-        timeline: timeline,
+        tracks: tracks,
         version: version,
+        forceUpdate: true,
       });
     }
   }

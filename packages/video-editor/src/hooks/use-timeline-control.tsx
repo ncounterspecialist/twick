@@ -1,11 +1,11 @@
 import {
   TrackElement,
   Track,
-  useTimelineEditor,
+  useTimelineContext,
 } from "@twick/timeline";
 
 const useTimelineControl = () => {
-  const editor = useTimelineEditor();
+  const { editor } = useTimelineContext();
 
   const deleteItem = (item: Track | TrackElement) => {
     if(item instanceof Track) {
