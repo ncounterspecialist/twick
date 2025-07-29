@@ -13,7 +13,7 @@ export const usePlayerManager = ({
   videoProps: { width: number; height: number };
 }) => {
   const [projectData, setProjectData] = useState<any>(null);
-  const { timelineAction, setTimelineAction, latestProjectVersion, setSelectedItem, editor } =
+  const { timelineAction, setTimelineAction, setSelectedItem, editor } =
     useTimelineContext();
 
   const handleCanvasReady = (canvas: any) => {
@@ -59,7 +59,7 @@ export const usePlayerManager = ({
     switch (timelineAction.type) {
       case TIMELINE_ACTION.UPDATE_PLAYER_DATA:
         if (videoProps) {
-          if (timelineAction.payload?.forceUpdate || latestProjectVersion !== projectData?.input?.version) {
+          if (timelineAction.payload?.forceUpdate || editor.getLatestVersion() !== projectData?.input?.version) {
             const _latestProjectData = {
               input: {
                 properties: videoProps,

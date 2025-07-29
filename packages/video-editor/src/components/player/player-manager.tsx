@@ -15,7 +15,7 @@ export const PlayerManager = ({
   videoProps: { width: number; height: number };
   canvasMode: boolean;
 }) => {
-  const { latestProjectVersion } = useTimelineContext();
+  const { changeLog } = useTimelineContext();
   const { twickCanvas, projectData, updateCanvas, buildCanvas } =
     usePlayerManager({ videoProps });
   const durationRef = useRef<number>(0);
@@ -50,7 +50,7 @@ export const PlayerManager = ({
     if (twickCanvas && playerState === PLAYER_STATE.PAUSED) {
       updateCanvas(seekTime);
     }
-  }, [twickCanvas, playerState, seekTime, latestProjectVersion]);
+  }, [twickCanvas, playerState, seekTime, changeLog]);
 
   const handleTimeUpdate = (time: number) => {
     if (time >= durationRef.current) {

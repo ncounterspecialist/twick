@@ -26,7 +26,7 @@ export interface TimelineOperationContext {
   handleUndo: () => ProjectJSON | null;
   handleRedo: () => ProjectJSON | null;
   handleResetHistory: () => void;
-  setLatestProjectVersion: (version: number) => void;
+  updateChangeLog: () => void;
   setTimelineAction?: (action: string, payload?: unknown) => void;
 }
 
@@ -65,6 +65,12 @@ export class TimelineEditor {
     const contextId = this.context.contextId;
     return timelineContextStore.getTimelineData(contextId);
   }
+
+  getLatestVersion(): number {
+    const contextId = this.context.contextId;
+    const timelineData = timelineContextStore.getTimelineData(contextId);
+    return timelineData?.version || 0;
+  }
   
   protected setTimelineData(
     tracks: Track[],
@@ -80,7 +86,7 @@ export class TimelineEditor {
       this.context.contextId,
       updatedTimelineData
     );
-    this.context.setLatestProjectVersion(updatedVersion);
+    this.context.updateChangeLog();
     this.updateHistory(updatedTimelineData);
     return updatedTimelineData as TimelineTrackData;
   }
@@ -289,7 +295,7 @@ export class TimelineEditor {
       
       // Update total duration
       this.context.setTotalDuration(getTotalDuration(result.tracks));
-      this.context.setLatestProjectVersion(result.version);
+      this.context.updateChangeLog();
       
       // Trigger timeline action to notify components
       if (this.context?.setTimelineAction) {
@@ -316,7 +322,7 @@ export class TimelineEditor {
       
       // Update total duration
       this.context.setTotalDuration(getTotalDuration(result.tracks));
-      this.context.setLatestProjectVersion(result.version);
+      this.context.updateChangeLog();
       
       // Trigger timeline action to notify components
       if (this.context?.setTimelineAction) {
@@ -342,7 +348,7 @@ export class TimelineEditor {
     
     // Reset total duration and version
     this.context.setTotalDuration(0);
-    this.context.setLatestProjectVersion(0);
+    this.context.updateChangeLog();
     
     // Trigger timeline action to notify components
     if (this.context?.setTimelineAction) {
@@ -361,7 +367,7 @@ export class TimelineEditor {
     version: number;
   }): void {
     this.pauseVideo();
-    this.resetHistory();
+    this.context.handleResetHistory();
     // Convert Timeline[] to Track[] and set
     const timelineTracks = tracks.map((t) => Track.fromJSON(t));
     this.setTimelineData(timelineTracks, version);

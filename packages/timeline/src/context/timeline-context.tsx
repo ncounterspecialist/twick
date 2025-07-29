@@ -1,4 +1,11 @@
-import { createContext, useContext, useState, useEffect, useMemo, useRef } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useMemo,
+  useRef,
+} from "react";
 import { TIMELINE_ACTION } from "../utils/constants";
 import { UndoRedoProvider, useUndoRedo } from "./undo-redo-context";
 import { Track } from "../core/track/track";
@@ -11,7 +18,7 @@ export type TimelineContextType = {
   contextId: string;
   editor: TimelineEditor;
   selectedItem: Track | TrackElement | null;
-  latestProjectVersion: number;
+  changeLog: number;
   timelineAction: {
     type: string;
     payload: any;
@@ -59,11 +66,15 @@ const TimelineProviderInner = ({
 
   const [totalDuration, setTotalDuration] = useState(0);
 
-  const [latestProjectVersion, setLatestProjectVersion] = useState(0);
+  const [changeLog, setChangeLog] = useState(0);
 
   const undoRedoContext = useUndoRedo();
 
   const dataInitialized = useRef(false);
+
+  const updateChangeLog = () => {
+    setChangeLog((prev) => prev + 1);
+  };
 
   // Create a single editor instance that's shared across all components
   const editor = useMemo(() => {
@@ -74,23 +85,17 @@ const TimelineProviderInner = ({
       handleUndo: undoRedoContext.undo,
       handleRedo: undoRedoContext.redo,
       handleResetHistory: undoRedoContext.resetHistory,
-      setLatestProjectVersion,
+      updateChangeLog: updateChangeLog,
       setTimelineAction: (action: string, payload?: unknown) => {
         setTimelineActionState({ type: action, payload });
       },
     });
-    
+
     // Register the editor instance in the global registry
     editorRegistry.set(contextId, newEditor);
-    
+
     return newEditor;
-  }, [
-    contextId,
-    undoRedoContext.setPresent,
-    undoRedoContext.undo,
-    undoRedoContext.redo,
-    undoRedoContext.resetHistory,
-  ]);
+  }, [contextId]);
 
   // Cleanup: Remove editor from registry when context is unmounted
   useEffect(() => {
@@ -111,7 +116,6 @@ const TimelineProviderInner = ({
     } else {
       editor.loadProject(data);
     }
-    
   };
 
   // Initialize timeline data if provided
@@ -127,7 +131,7 @@ const TimelineProviderInner = ({
     selectedItem,
     timelineAction,
     totalDuration,
-    latestProjectVersion,
+    changeLog,
     present: undoRedoContext.present,
     canUndo: undoRedoContext.canUndo,
     canRedo: undoRedoContext.canRedo,
