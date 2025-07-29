@@ -1,13 +1,15 @@
-import { TextAlign, TextEffect, TextProps } from "../../types";
+import { TextAlign, TextProps } from "../../types";
 import { TrackElement } from "./base.element";
 import type { ElementVisitor } from "../visitor/element-visitor";
+import { TIMELINE_ELEMENT_TYPE } from "../../utils/constants";
+import { ElementTextEffect } from "../addOns/text-effect";
 
 export class TextElement extends TrackElement {
-  protected textEffect?: TextEffect;
+  protected textEffect?: ElementTextEffect;
   protected declare props: TextProps;
 
   constructor(text: string) {
-    super("text");
+    super(TIMELINE_ELEMENT_TYPE.TEXT);
     this.props = {
       text,
       fill: "#888888" //default-grey
@@ -55,7 +57,7 @@ export class TextElement extends TrackElement {
     this.props.fontStyle = fontStyle;
   }
 
-  setTextEffect(textEffect?: TextEffect) {
+  setTextEffect(textEffect?: ElementTextEffect) {
     this.textEffect = textEffect;
     return this;
   }

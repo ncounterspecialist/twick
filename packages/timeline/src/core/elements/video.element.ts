@@ -1,7 +1,9 @@
 import { getObjectFitSize, getVideoMeta } from "@twick/media-utils";
-import { Frame, FrameEffect, ObjectFit, Size, VideoProps } from "../../types";
+import { Frame, ObjectFit, Position, Size, VideoProps } from "../../types";
 import { TrackElement } from "./base.element";
 import type { ElementVisitor } from "../visitor/element-visitor";
+import { TIMELINE_ELEMENT_TYPE } from "../../utils/constants";
+import { ElementFrameEffect } from "../addOns/frame-effect";
 
 export class VideoElement extends TrackElement {
   protected baseSize!: Size;
@@ -9,12 +11,12 @@ export class VideoElement extends TrackElement {
   protected parentSize: Size;
   protected backgroundColor!: string;
   protected objectFit: ObjectFit;
-  protected frameEffects?: FrameEffect[];
+  protected frameEffects?: ElementFrameEffect[];
   protected frame!: Frame;
   protected declare props: VideoProps;
 
   constructor(src: string, parentSize: Size) {
-    super("video");
+    super(TIMELINE_ELEMENT_TYPE.VIDEO);
     this.objectFit = "cover";
     this.frameEffects = [];
     this.parentSize = parentSize;
@@ -56,6 +58,13 @@ export class VideoElement extends TrackElement {
     return this.props.time || 0;
   }
 
+  override getPosition(): Position {
+    return {
+      x: this.frame.x ?? 0,
+      y: this.frame.y ?? 0
+    };
+  }
+
   async updateVideoMeta(updateFrame: boolean = true) {
     const meta = await getVideoMeta(this.props.src);
 
@@ -71,6 +80,12 @@ export class VideoElement extends TrackElement {
       };
     }
     this.mediaDuration = meta.duration;
+  }
+
+  override setPosition(position: Position) {
+    this.frame.x = position.x;
+    this.frame.y = position.y;
+    return this;
   }
 
   async setSrc(src: string) {
@@ -138,15 +153,13 @@ export class VideoElement extends TrackElement {
     return this;
   }
 
-  setFrameEffects(frameEffects?: FrameEffect[]) {
-    this.frameEffects = frameEffects?.map((frameEffect) =>
-      structuredClone(frameEffect)
-    );
+  setFrameEffects(frameEffects?: ElementFrameEffect[]) {
+    this.frameEffects = frameEffects;
     return this;
   }
 
-  addFrameEffect(frameEffect: FrameEffect) {
-    this.frameEffects?.push(structuredClone(frameEffect));
+  addFrameEffect(frameEffect: ElementFrameEffect) {
+    this.frameEffects?.push(frameEffect);
     return this;
   }
 

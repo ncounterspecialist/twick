@@ -1,11 +1,12 @@
 import { TrackElement } from "./base.element";
 import type { ElementVisitor } from "../visitor/element-visitor";
 import { IconProps, Size } from "../../types";
+import { TIMELINE_ELEMENT_TYPE } from "../../utils/constants";
 
 export class IconElement extends TrackElement {
     protected declare props: IconProps;
   constructor(src: string, size: Size) {
-    super("icon");
+    super(TIMELINE_ELEMENT_TYPE.ICON);
     this.props = {
       src,
       size,

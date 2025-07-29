@@ -4,7 +4,6 @@ import {
   getCurrentElements,
   TIMELINE_ACTION,
   useTimelineContext,
-  useTimelineEditor,
 } from "@twick/timeline";
 import { useEffect, useState } from "react";
 
@@ -14,9 +13,8 @@ export const usePlayerManager = ({
   videoProps: { width: number; height: number };
 }) => {
   const [projectData, setProjectData] = useState<any>(null);
-  const { timelineAction, setTimelineAction, latestProjectVersion } =
+  const { timelineAction, setTimelineAction, setSelectedItem, editor } =
     useTimelineContext();
-  const editor = useTimelineEditor();
 
   const handleCanvasReady = (canvas: any) => {
     console.log("canvas ready", canvas);
@@ -38,7 +36,7 @@ export const usePlayerManager = ({
     }
   };
 
-  const { twickCanvas, buildCanvas, setCanvasElements, setSelectedItem } =
+  const { twickCanvas, buildCanvas, setCanvasElements } =
     useTwickCanvas({
       onCanvasReady: handleCanvasReady,
       onCanvasOperation: handleCanvasOperation,
@@ -56,23 +54,12 @@ export const usePlayerManager = ({
       cleanAndAdd: true,
     });
   };
+
   useEffect(() => {
     switch (timelineAction.type) {
-      case TIMELINE_ACTION.SET_PROJECT_DATA:
-        if (videoProps) {
-          const _latestProjectData = {
-            input: {
-              properties: videoProps,
-              tracks: timelineAction.payload?.tracks ?? [],
-              version: timelineAction.payload?.version ?? 0,
-            },
-          };
-          setProjectData(_latestProjectData);
-        }
-        break;
       case TIMELINE_ACTION.UPDATE_PLAYER_DATA:
         if (videoProps) {
-          if (latestProjectVersion !== projectData?.input?.version) {
+          if (timelineAction.payload?.forceUpdate || editor.getLatestVersion() !== projectData?.input?.version) {
             const _latestProjectData = {
               input: {
                 properties: videoProps,

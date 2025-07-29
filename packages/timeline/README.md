@@ -153,10 +153,10 @@ isTrackId('t-123456789abc');   // true
 ### React Hook Usage
 
 ```typescript
-import { useTimelineEditor } from '@twick/timeline';
+import { useTimelineContext } from '@twick/timeline';
 
 function MyComponent() {
-  const editor = useTimelineEditor();
+  const { editor } = useTimelineContext();
   
   // Use editor methods
   const track = editor.addTrack('My Track');

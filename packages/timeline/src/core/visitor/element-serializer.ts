@@ -20,14 +20,14 @@ export class ElementSerializer implements ElementVisitor<ElementJSON> {
       s: element.getStart(),
       e: element.getEnd(),
       props: structuredClone(element.getProps()),
-      animation: structuredClone(element.getAnimation()),
+      animation: element.getAnimation()?.toJSON(),
     };
   }
   visitVideoElement(element: VideoElement): ElementJSON {
     return {
       ...this.serializeElement(element),
       frame: structuredClone(element.getFrame()),
-      frameEffects: structuredClone(element.getFrameEffects()),
+      frameEffects: element.getFrameEffects()?.map((frameEffect) => frameEffect.toJSON()),
       backgroundColor: element.getBackgroundColor(),
       objectFit: element.getObjectFit(),
       mediaDuration: element.getMediaDuration(),
@@ -45,7 +45,7 @@ export class ElementSerializer implements ElementVisitor<ElementJSON> {
     return {
       ...this.serializeElement(element),
       frame: structuredClone(element.getFrame()),
-      frameEffects: structuredClone(element.getFrameEffects()),
+      frameEffects: element.getFrameEffects()?.map((frameEffect) => frameEffect.toJSON()),
       backgroundColor: element.getBackgroundColor(),
       objectFit: element.getObjectFit(),
     };
@@ -54,7 +54,7 @@ export class ElementSerializer implements ElementVisitor<ElementJSON> {
   visitTextElement(element: TextElement): ElementJSON {
     return {
       ...this.serializeElement(element),
-      textEffect: structuredClone(element.getTextEffect()),
+      textEffect: element.getTextEffect()?.toJSON(),
     };
   }
 

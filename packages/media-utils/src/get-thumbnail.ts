@@ -10,11 +10,11 @@
  * @param playbackRate - Playback speed for the video. Default is 1.
  * @returns A Promise that resolves to a thumbnail image URL (either a base64 data URL or blob URL).
  */
-export async function getThumbnail(
+export const getThumbnail = async (
     videoUrl: string,
     seekTime = 0.1,
     playbackRate = 1
-  ): Promise<string> {
+  ): Promise<string> => {
     return new Promise((resolve, reject) => {
       const video = document.createElement("video");
       video.crossOrigin = "anonymous";
@@ -122,4 +122,4 @@ export async function getThumbnail(
       video.src = videoUrl;
       document.body.appendChild(video);
     });
-  }
+  };

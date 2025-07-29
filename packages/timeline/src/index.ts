@@ -4,11 +4,6 @@ import {
   TimelineProvider,
   TimelineProviderProps,
 } from "./context/timeline-context";
-import useTimelineEditor, {
-  cleanupEditor,
-  cleanupAllEditors,
-  getActiveEditors,
-} from "./hooks/use-timeline-editor";
 import { Track } from "./core/track/track";
 import { ElementDeserializer } from "./core/visitor/element-deserializer";
 import { ElementSerializer } from "./core/visitor/element-serializer";
@@ -34,6 +29,9 @@ import {
   isElementId,
 } from "./utils/timeline.utils";
 import { TrackElement } from "./core/elements/base.element";
+import { ElementAnimation } from "./core/addOns/animation";
+import { ElementFrameEffect } from "./core/addOns/frame-effect";
+import { ElementTextEffect } from "./core/addOns/text-effect";
 
 export {
   TrackElement,
@@ -46,16 +44,16 @@ export {
   AudioElement,
   CircleElement,
   VideoElement,
+  ElementAnimation,
+  ElementFrameEffect,
+  ElementTextEffect
 };
 
 export {
   TimelineProvider,
   TimelineEditor,
-  useTimelineEditor,
-  cleanupEditor,
-  cleanupAllEditors,
-  getActiveEditors,
 };
+
 export type { TimelineProviderProps };
 export { TIMELINE_ELEMENT_TYPE };
 
@@ -63,7 +61,6 @@ export * from "./types";
 export * from "./utils/constants";
 export * from "./utils/timeline.utils";
 export * from "./context/timeline-context";
-export * from "./hooks/use-timeline-editor";
 // Export core components
 export * from "./core/track/track";
 export * from "./core/elements/base.element";
@@ -94,10 +91,6 @@ if (typeof window !== "undefined") {
     TimelineEditor,
     TimelineProvider,
     TIMELINE_ELEMENT_TYPE,
-    useTimelineEditor,
-    cleanupEditor,
-    cleanupAllEditors,
-    getActiveEditors,
     // Element types
     CaptionElement,
     RectElement,
@@ -107,6 +100,9 @@ if (typeof window !== "undefined") {
     CircleElement,
     IconElement,
     VideoElement,
+    ElementAnimation,
+    ElementFrameEffect,
+    ElementTextEffect,
     // Utility functions
     generateShortUuid,
     getTotalDuration,

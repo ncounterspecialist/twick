@@ -1,6 +1,7 @@
-import { Animation } from "../../types";
 import { generateShortUuid } from "../../utils/timeline.utils";
 import type { ElementVisitor } from "../visitor/element-visitor";
+import { ElementAnimation } from "../addOns/animation";
+import { Position } from "../../types";
 
 export abstract class TrackElement {
   protected id: string;
@@ -9,13 +10,16 @@ export abstract class TrackElement {
   protected e!: number;
   protected trackId!: string;
   protected name!: string;
-  protected animation?: Animation;
+  protected animation?: ElementAnimation;
   protected props: Record<string, any>;
 
   constructor(type: string, id?: string) {
     this.id = id ?? `e-${generateShortUuid()}`;
     this.type = type;
-    this.props = {};
+    this.props = {
+      x: 0,
+      y: 0
+    };
   }
 
   abstract accept<T>(visitor: ElementVisitor<T>): T;
@@ -52,8 +56,15 @@ export abstract class TrackElement {
     return this.name;
   }
 
-  getAnimation(): Animation | undefined {
+  getAnimation(): ElementAnimation | undefined {
     return this.animation;
+  }
+
+  getPosition(): Position {
+    return {
+      x: this.props?.x ?? 0,
+      y: this.props?.y ?? 0
+    };
   }
 
   setId(id: string) {
@@ -86,8 +97,14 @@ export abstract class TrackElement {
     return this;
   }
 
-  setAnimation(animation?: Animation) {
-    this.animation = animation ? structuredClone(animation) : undefined;
+  setAnimation(animation?: ElementAnimation) {
+    this.animation = animation;
+    return this;
+  }
+
+  setPosition(position: Position) {
+    this.props.x = position.x;
+    this.props.y = position.y;
     return this;
   }
 

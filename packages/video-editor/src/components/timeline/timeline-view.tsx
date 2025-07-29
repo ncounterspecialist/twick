@@ -41,11 +41,11 @@ function TimelineView({
 
   const [draggedTimeline, setDraggedTimeline] = useState<Track | null>(null);
 
-  const { selectedTimeline, selectedTimelineElement } = useMemo(() => {
+  const { selectedTrack, selectedTrackElement } = useMemo(() => {
     if (selectedItem && "elements" in selectedItem) {
-      return { selectedTimeline: selectedItem, selectedTimelineElement: null };
+      return { selectedTrack: selectedItem, selectedTrackElement: null };
     }
-    return { selectedTimeline: null, selectedTimelineElement: selectedItem };
+    return { selectedTrack: null, selectedTrackElement: selectedItem };
   }, [selectedItem]);
 
   // Calculate track width - using the same calculation for all tracks
@@ -173,7 +173,7 @@ function TimelineView({
             <div className="twick-timeline-header-container">
               <TrackHeader
                 track={track}
-                selectedItem={selectedTimeline}
+                selectedItem={selectedTrack}
                 onSelect={handleItemSelection}
                 onDragStart={handleTrackDragStart}
                 onDragOver={handleTrackDragOver}
@@ -185,7 +185,7 @@ function TimelineView({
             <TrackBase
               track={track}
               duration={duration}
-              selectedItem={selectedTimelineElement}
+              selectedItem={selectedTrackElement}
               zoom={zoomLevel}
               allowOverlap={false}
               trackWidth={timelineWidth - labelWidth} // Subtract label width for accurate track width

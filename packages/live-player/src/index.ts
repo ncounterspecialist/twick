@@ -1,4 +1,11 @@
-export { LivePlayer } from "./components/live-player";
+// Constants
 export { PLAYER_STATE } from "./helpers/constants";
-export { LivePlayerProvider, useLivePlayerContext } from "./context/live-player-context";
+
+// Utility functions
 export { getBaseProject } from "./helpers/player.utils";
+
+// Components
+export { LivePlayer } from "./components/live-player";
+
+// Hooks and Context
+export { LivePlayerProvider, useLivePlayerContext } from "./context/live-player-context";

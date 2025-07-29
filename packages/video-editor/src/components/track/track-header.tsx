@@ -6,7 +6,7 @@ import "../../styles/timeline.css";
 interface TrackHeaderProps {
   track: Track;
   selectedItem: Track | null;
-  onSelect: (timeline: Track) => void;
+  onSelect: (track: Track) => void;
   onDragStart: (e: React.DragEvent, track: Track) => void;
   onDragOver: (e: React.DragEvent) => void;
   onDrop: (e: React.DragEvent, track: Track) => void;

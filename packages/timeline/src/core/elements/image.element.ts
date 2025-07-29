@@ -1,18 +1,20 @@
 import { getObjectFitSize, getImageDimensions } from "@twick/media-utils";
-import { Frame, FrameEffect, ImageProps, ObjectFit, Size } from "../../types";
+import { Frame, ImageProps, ObjectFit, Position, Size } from "../../types";
 import { TrackElement } from "./base.element";
 import type { ElementVisitor } from "../visitor/element-visitor";
+import { TIMELINE_ELEMENT_TYPE } from "../../utils/constants";
+import { ElementFrameEffect } from "../addOns/frame-effect";
 
 export class ImageElement extends TrackElement {
   protected backgroundColor!: string;
   protected parentSize: Size;
   protected objectFit: ObjectFit;
-  frameEffects?: FrameEffect[];
+  frameEffects?: ElementFrameEffect[];
   frame!: Frame;
   protected declare props: ImageProps;
 
   constructor(src: string, parentSize: Size) {
-    super("image");
+    super(TIMELINE_ELEMENT_TYPE.IMAGE);
     this.parentSize = parentSize;
     this.objectFit = "cover";
     this.frameEffects = [];
@@ -20,6 +22,10 @@ export class ImageElement extends TrackElement {
       src,
       mediaFilter: "none",
     };
+    this.frame = {
+      x: 0,
+      y: 0
+    }
   }
 
   getParentSize() {
@@ -42,6 +48,13 @@ export class ImageElement extends TrackElement {
     return this.objectFit;
   }
 
+  override getPosition(): Position {
+    return {
+      x: this.frame.x ?? 0,
+      y: this.frame.y ?? 0
+    };
+  }
+
   async updateImageMeta(updateFrame: boolean = true) {
     const meta = await getImageDimensions(this.props.src);
     if (updateFrame) {
@@ -55,6 +68,12 @@ export class ImageElement extends TrackElement {
         ...this.frame,
       }
     }
+  }
+
+  override setPosition(position: Position) {
+    this.frame.x = position.x;
+    this.frame.y = position.y;
+    return this;
   }
 
   async setSrc(src: string) {
@@ -72,6 +91,7 @@ export class ImageElement extends TrackElement {
     this.frame = structuredClone(frame);
     return this;
   }
+
 
   setParentSize(parentSize: Size) {
     this.parentSize = structuredClone(parentSize);
@@ -93,13 +113,13 @@ export class ImageElement extends TrackElement {
     return this;
   }
 
-  setFrameEffects(frameEffects? : FrameEffect[]) {
-    this.frameEffects = frameEffects?.map(frameEffect => structuredClone(frameEffect));
+  setFrameEffects(frameEffects? : ElementFrameEffect[]) {
+    this.frameEffects = frameEffects;
     return this;
   }
 
-  addFrameEffect(frameEffect: FrameEffect) {
-    this.frameEffects?.push(structuredClone(frameEffect));
+  addFrameEffect(frameEffect: ElementFrameEffect) {
+    this.frameEffects?.push(frameEffect);
     return this;
   }
 

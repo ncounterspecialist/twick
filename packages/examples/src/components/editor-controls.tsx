@@ -5,7 +5,6 @@ import {
   TIMELINE_ELEMENT_TYPE,
   Track,
   useTimelineContext,
-  useTimelineEditor,
   AudioElement,
 } from "@twick/timeline";
 import { useRef, useState } from "react";
@@ -27,8 +26,7 @@ const EditorControls = () => {
   const [panelType, setPanelType] = useState<
     "media" | "text" | "timeline" | "animation" | "text-effect" | null
   >(null);
-  const { selectedItem } = useTimelineContext();
-  const editor = useTimelineEditor();
+  const { editor, selectedItem } = useTimelineContext();
   const [showColorDialog, setShowColorDialog] = useState(false);
 
   const addTextElement = (_text: string) => {
@@ -50,7 +48,7 @@ const EditorControls = () => {
       }
       if (projectData?.input) {
         editor.loadProject({
-          timeline: projectData?.input?.timeline,
+          tracks:  projectData?.input?.tracks || [],
           version: projectData?.input?.version,
         });
       } else {

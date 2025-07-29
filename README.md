@@ -1,5 +1,15 @@
 # Twick
 
+A comprehensive video editing toolkit built with modern web technologies.
+
+## Style Guide
+
+This project follows a comprehensive style guide for naming conventions and code style across all packages. Please refer to [STYLE_GUIDE.md](./STYLE_GUIDE.md) for detailed standards.
+
+## Overview
+
+Twick is a monorepo containing multiple packages for video editing functionality:
+
 [![CI](https://github.com/ncounterspecialist/twick/actions/workflows/ci.yml/badge.svg)](https://github.com/ncounterspecialist/twick/actions/workflows/ci.yml)
 [![Deploy Documentation](https://github.com/ncounterspecialist/twick/actions/workflows/deploy-docs.yml/badge.svg?branch=main)](https://github.com/ncounterspecialist/twick/actions/workflows/deploy-docs.yml)
 
