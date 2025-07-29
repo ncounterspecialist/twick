@@ -2,7 +2,7 @@
 
 ## Overview
 
-Twick is a modular React SDK for building timeline-based video editing applications. It follows a modern, scalable architecture with clear separation of concerns across multiple packages. The system is designed around three core patterns: **Context Pattern** for state management, **Command Pattern** for operations, and **Observer Pattern** for event handling.
+Twick is a comprehensive React SDK for building timeline-based video editing applications. It follows a modern, modular architecture with clear separation of concerns across specialized packages. The system is built around **Context Pattern** for state management, **Visitor Pattern** for element operations, and **Observer Pattern** for event handling.
 
 ## Package Structure
 
@@ -17,7 +17,8 @@ twick/
 │   ├── live-player/         # Video playback and control
 │   ├── video-editor/        # High-level video editor component
 │   ├── visualizer/          # Video visualization and animation
-│   └── examples/            # Implementation examples
+│   ├── examples/            # Implementation examples
+│   └── documentation/       # Documentation site
 ```
 
 ### Package Dependencies
@@ -31,6 +32,10 @@ graph TD
     C --> E
     D --> F[visualizer]
     F --> E
+    G[examples] --> A
+    G --> B
+    G --> C
+    G --> D
 ```
 
 ## Core Architecture Patterns
@@ -41,7 +46,7 @@ The system uses **nested React Context providers** to manage application-wide st
 
 #### Timeline Context
 ```typescript
-<TimelineProvider initialData={{ timeline: [], version: 0 }}>
+<TimelineProvider contextId="editor-demo" initialData={INITIAL_TIMELINE_DATA}>
   <LivePlayerProvider>
     <VideoEditor />
   </LivePlayerProvider>
@@ -49,10 +54,10 @@ The system uses **nested React Context providers** to manage application-wide st
 ```
 
 **`TimelineProvider`** manages:
-- Timeline data and operations
+- Timeline data and operations through `TimelineEditor`
 - Selected items and project versions
-- Operation results and error handling
-- Command dispatching through `setTimelineOperation`
+- Undo/redo functionality
+- Change tracking and state synchronization
 
 **`LivePlayerProvider`** manages:
 - Player state (playing, paused, seeking)
@@ -66,76 +71,87 @@ The system uses **nested React Context providers** to manage application-wide st
 sequenceDiagram
     participant UI as UI Component
     participant TC as TimelineContext
-    participant TH as Timeline Hook
-    participant TS as Timeline Service
+    participant TE as TimelineEditor
+    participant TS as TimelineStore
     participant LC as LivePlayerContext
     
-    UI->>TC: setTimelineOperation(ADD_ELEMENT, payload)
-    TC->>TH: timelineOperation updated
-    TH->>TS: executeOperation via handler
-    TS->>TC: onTimelineUpdate callback
-    TC->>LC: setTimelineAction(UPDATE_DATA)
+    UI->>TC: setTimelineAction(type, payload)
+    TC->>TE: Execute operation
+    TE->>TS: Update timeline data
+    TS->>TC: State updated
+    TC->>LC: Player state sync
     LC->>UI: Re-render with updated state
 ```
 
-### 2. Command Pattern
+### 2. Visitor Pattern
 
-Timeline operations follow the **Command Pattern** with dedicated operation handlers for each command type.
+Timeline operations follow the **Visitor Pattern** with dedicated visitors for each operation type.
 
-#### Operation Handler System
+#### Element Visitor System
 
 ```typescript
-interface TimelineOperationHandler {
-  execute(payload: any, context: TimelineOperationContext): void | Promise<void>;
+interface ElementVisitor {
+  visit(element: TrackElement): void | Promise<void>;
 }
 
-const OperationHandlers: Record<string, TimelineOperationHandler> = {
-  [TIMELINE_OPERATION.ADD_ELEMENT]: new AddElementHandler(),
-  [TIMELINE_OPERATION.UPDATE_ELEMENT]: new UpdateElementHandler(),
-  [TIMELINE_OPERATION.DELETE_ITEM]: new DeleteItemHandler(),
-  [TIMELINE_OPERATION.SPLIT_ELEMENT]: new SplitElementHandler(),
-  // ... more handlers
-};
+class ElementAdder implements ElementVisitor {
+  async visit(element: TrackElement): Promise<void> {
+    // Add element logic
+  }
+}
+
+class ElementRemover implements ElementVisitor {
+  async visit(element: TrackElement): Promise<void> {
+    // Remove element logic
+  }
+}
+
+class ElementUpdater implements ElementVisitor {
+  async visit(element: TrackElement): Promise<void> {
+    // Update element logic
+  }
+}
 ```
 
-#### Command Execution Flow
+#### Visitor Operation Flow
 
 ```mermaid
 graph LR
-    A[UI Action] --> B[setTimelineOperation]
-    B --> C[Operation Context]
-    C --> D[Handler Registry]
-    D --> E[Specific Handler]
-    E --> F[Timeline Service]
-    F --> G[State Update]
-    G --> H[UI Re-render]
+    A[UI Action] --> B[TimelineEditor]
+    B --> C[Element Visitor]
+    C --> D[Track Management]
+    D --> E[State Update]
+    E --> F[UI Re-render]
 ```
 
-**Key Commands:**
-- `ADD_ELEMENT` - Add media/text elements to timeline
-- `UPDATE_ELEMENT` - Modify element properties
-- `SPLIT_ELEMENT` - Split audio/video at specific time
-- `DELETE_ITEM` - Remove elements or timelines
-- `LOAD_PROJECT` - Import complete project data
+**Key Visitors:**
+- `ElementAdder` - Add media/text elements to timeline
+- `ElementUpdater` - Modify element properties
+- `ElementSplitter` - Split audio/video at specific time
+- `ElementRemover` - Remove elements from timeline
+- `ElementCloner` - Clone existing elements
+- `ElementSerializer` - Serialize elements for storage
+- `ElementDeserializer` - Deserialize elements from storage
+- `ElementValidator` - Validate element data
 
 ### 3. Observer Pattern
 
 The system uses **callbacks and event listeners** to observe state changes and coordinate between components.
 
-#### Service-Level Observers
+#### Editor-Level Observers
 
 ```typescript
-timelineService.initialize({
-  videoSize: { width: 1920, height: 1080 },
-  onTimelineUpdate: (timelineData) => {
-    // Observer: React to timeline changes
-    setTimelineData(timelineData);
-    setTimelineAction(TIMELINE_ACTION.SET_PRESENT, timelineData);
+const editor = new TimelineEditor({
+  contextId,
+  setTotalDuration,
+  setPresent: undoRedoContext.setPresent,
+  handleUndo: undoRedoContext.undo,
+  handleRedo: undoRedoContext.redo,
+  handleResetHistory: undoRedoContext.resetHistory,
+  updateChangeLog: updateChangeLog,
+  setTimelineAction: (action: string, payload?: unknown) => {
+    setTimelineActionState({ type: action, payload });
   },
-  onSelectionChange: (item) => {
-    // Observer: React to selection changes
-    setSelectedItem(item);
-  }
 });
 ```
 
@@ -148,13 +164,94 @@ const handleCanvasOperation = (operation, data) => {
       setSelectedItem(data); // Propagate selection
       break;
     case CANVAS_OPERATIONS.ITEM_UPDATED:
-      setTimelineOperation(TIMELINE_OPERATION.UPDATE_ELEMENT, {
-        // Convert canvas changes to timeline operations
+      setTimelineAction(TIMELINE_ACTION.UPDATE_ELEMENT, {
         updates: data
       });
       break;
   }
 };
+```
+
+## Timeline Architecture
+
+### TimelineEditor (Core Orchestrator)
+
+The `TimelineEditor` class serves as the central orchestrator for all timeline operations:
+
+```typescript
+export class TimelineEditor {
+  private context: TimelineOperationContext;
+
+  constructor(context: TimelineOperationContext) {
+    this.context = context;
+    timelineContextStore.initializeContext(this.context.contextId);
+  }
+
+  // Track Management
+  addTrack(name: string): Track
+  removeTrackById(id: string): void
+  getTrackById(id: string): Track | null
+  reorderTracks(tracks: Track[]): void
+
+  // Element Management
+  async addElementToTrack(trackId: string, element: TrackElement): Promise<boolean>
+  removeElementFromTrack(trackId: string, element: TrackElement): boolean
+  updateElementInTrack(trackId: string, element: TrackElement): boolean
+  splitElementInTrack(trackId: string, element: TrackElement, splitTime: number): SplitResult
+  cloneElement(element: TrackElement): TrackElement | null
+
+  // History Management
+  undo(): void
+  redo(): void
+  resetHistory(): void
+
+  // Project Management
+  loadProject(data: { tracks: TrackJSON[]; version: number }): void
+}
+```
+
+### Track-Based Architecture
+
+Timeline data is organized around **Tracks** that contain **TrackElements**:
+
+```typescript
+class Track {
+  private elements: TrackElement[] = [];
+  private name: string;
+  private id: string;
+
+  addElement(element: TrackElement): void
+  removeElement(element: TrackElement): boolean
+  updateElement(element: TrackElement): boolean
+  getElements(): TrackElement[]
+  getElementById(id: string): TrackElement | null
+}
+```
+
+### Element Types
+
+The system supports multiple element types through inheritance:
+
+```typescript
+abstract class TrackElement {
+  id: string;
+  type: string;
+  s: number; // Start time
+  e: number; // End time
+  timelineId: string;
+  props: ElementProps;
+  frame?: FrameProps;
+}
+
+// Concrete implementations
+class VideoElement extends TrackElement
+class AudioElement extends TrackElement
+class ImageElement extends TrackElement
+class TextElement extends TrackElement
+class CaptionElement extends TrackElement
+class RectElement extends TrackElement
+class CircleElement extends TrackElement
+class IconElement extends TrackElement
 ```
 
 ## Canvas Architecture
@@ -198,7 +295,7 @@ const addElementToCanvas = async ({
 graph TB
     A[Canvas Interaction] --> B[Mouse/Touch Events]
     B --> C[Canvas Event Handler]
-    C --> D[Convert to Timeline Operation]
+    C --> D[Convert to Timeline Action]
     D --> E[Timeline State Update]
     E --> F[Canvas Re-render]
     
@@ -214,116 +311,153 @@ graph TB
 - **Z-Index Management**: Proper layering and element ordering
 - **Frame Effects**: Support for animations and visual effects
 
-### Canvas Element Lifecycle
+## Video Editor Architecture
+
+### Component Composition
+
+The `VideoEditor` component follows a **composition over inheritance** approach:
 
 ```typescript
-// Element creation and management
-class CanvasElementManager {
-  private elementMap = new Map<string, FabricObject>();
-  
-  async addElement(element: CanvasElement) {
-    // Validate element
-    ValidationHelper.validateCanvasElement(element);
-    
-    // Create fabric object based on type
-    const fabricObject = await this.createFabricObject(element);
-    
-    // Configure object properties
-    this.configureFabricObject(fabricObject, element);
-    
-    // Add to canvas and track
-    this.canvas.add(fabricObject);
-    this.elementMap.set(element.id, fabricObject);
-    
-    // Setup event listeners
-    this.setupElementEvents(fabricObject, element);
-  }
-  
-  private setupElementEvents(object: FabricObject, element: CanvasElement) {
-    object.on('modified', () => {
-      const updates = this.extractUpdates(object, element);
-      this.onElementUpdate(element.id, updates);
-    });
-    
-    object.on('selected', () => {
-      this.onElementSelect(element);
-    });
-  }
+interface VideoEditorProps {
+  leftPanel?: React.ReactNode;
+  rightPanel?: React.ReactNode;
+  bottomPanel?: React.ReactNode;
+  playControls?: React.ReactNode;
+  defaultPlayControls?: boolean;
+  editorConfig: {
+    videoProps: {
+      width: number;
+      height: number;
+    };
+    canvasMode?: boolean;
+  };
 }
 ```
 
-## Service Layer Architecture
+### Component Structure
 
-### Timeline Service (Singleton)
-
-The `TimelineService` follows the **Composite Pattern**, orchestrating multiple internal services:
-
-```typescript
-export class TimelineService {
-  private dataService: TimelineDataService;      // Data persistence
-  private elementService: ElementService;        // Element CRUD operations
-  private animationService: AnimationService;    // Animation management
-  private captionService: CaptionService;        // Caption handling
-
-  // Facade methods that delegate to appropriate services
-  async addElement(options) {
-    return this.elementService.addElement(options);
-  }
-  
-  editElement(options) {
-    return this.elementService.editElement(options);
-  }
-}
+```mermaid
+graph TD
+    A[VideoEditor] --> B[PlayerManager]
+    A --> C[TimelineManager]
+    A --> D[ControlManager]
+    B --> E[LivePlayer]
+    B --> F[Canvas]
+    C --> G[Track Components]
+    D --> H[Player Controls]
+    D --> I[Timeline Controls]
 ```
 
-### Service Responsibilities
+## Live Player Architecture
 
-#### TimelineDataService
-- **State Management**: Timeline and element data storage
-- **Version Control**: Project versioning and change tracking
-- **Data Validation**: Ensures data integrity
-- **Event Broadcasting**: Notifies observers of changes
+### ReVideo Integration
 
-#### ElementService
-- **Element Lifecycle**: Create, update, delete timeline elements
-- **Validation**: Input validation for all element operations
-- **Type Handling**: Support for video, audio, image, text elements
-- **Error Management**: Comprehensive error handling with typed results
-
-#### AnimationService & CaptionService
-- **Specialized Operations**: Domain-specific functionality
-- **Integration**: Seamless integration with core timeline operations
-
-### Service Communication Pattern
+The live player uses **ReVideo** for high-performance video rendering:
 
 ```typescript
-// Service collaboration example
-class ElementService {
-  constructor(
-    private dataService: TimelineDataService,
-    private getConfig: () => TimelineConfig
-  ) {}
-  
-  async addElement(options: AddElementOptions) {
-    // Validate through ValidationHelper
-    ValidationHelper.validateAddElementOptions(options);
-    
-    // Get configuration from injected function
-    const config = this.getConfig();
-    
-    // Create element using factory pattern
-    const element = await this.createElement(options, config);
-    
-    // Persist through data service
-    const result = this.dataService.addElementToTimeline(
-      options.timelineId, 
-      element
-    );
-    
-    // Return structured result
-    return result;
+// Player initialization
+const { LivePlayer } = useLivePlayerContext();
+
+// Player state management
+const playerState = {
+  isPlaying: boolean;
+  currentTime: number;
+  duration: number;
+  volume: number;
+  isMuted: boolean;
+};
+```
+
+### Player-Timeline Synchronization
+
+```typescript
+// Time synchronization
+useEffect(() => {
+  if (playerState.currentTime !== timelineTime) {
+    setTimelineTime(playerState.currentTime);
   }
-}
+}, [playerState.currentTime]);
+
+// Playback synchronization
+useEffect(() => {
+  if (timelineAction.type === TIMELINE_ACTION.SET_PLAYER_STATE) {
+    if (timelineAction.payload === PLAYER_STATE.PLAYING) {
+      playerRef.current?.play();
+    } else if (timelineAction.payload === PLAYER_STATE.PAUSED) {
+      playerRef.current?.pause();
+    }
+  }
+}, [timelineAction]);
+```
+
+## Visualizer Architecture
+
+### ReVideo Scene Management
+
+The visualizer package uses **ReVideo** for advanced video composition:
+
+```typescript
+// Scene creation
+const scene = makeScene2D(() => {
+  // Scene setup
+  const video = createSignal(0);
+  const image = createSignal(0);
+  
+  // Element composition
+  const videoElement = createVideoElement(video);
+  const imageElement = createImageElement(image);
+  
+  // Animation and effects
+  videoElement.addEffect(blurEffect);
+  imageElement.addEffect(fadeEffect);
+});
+```
+
+### Animation System
+
+```typescript
+// Animation types
+const ANIMATIONS = {
+  BLUR: 'blur',
+  BREATHE: 'breathe',
+  FADE: 'fade',
+  RISE: 'rise',
+  SUCCESSION: 'succession'
+};
+
+// Text effects
+const TEXT_EFFECTS = {
+  ELASTIC: 'elastic',
+  ERASE: 'erase',
+  STREAM_WORD: 'stream-word',
+  TYPEWRITER: 'typewriter'
+};
+```
+
+## Media Utils Architecture
+
+### Core Utilities
+
+The media-utils package provides essential media manipulation functions:
+
+```typescript
+// Media metadata
+export const getAudioDuration = (file: File): Promise<number>
+export const getImageDimensions = (file: File): Promise<Dimensions>
+export const getVideoMeta = (file: File): Promise<VideoMeta>
+export const getThumbnail = (file: File): Promise<string>
+
+// Dimension handling
+export const getObjectFitSize = (container: Dimensions, media: Dimensions): Dimensions
+export const getScaledDimensions = (original: Dimensions, maxSize: Dimensions): Dimensions
+
+// File operations
+export const downloadFile = (blob: Blob, filename: string): void
+export const saveAsFile = (blob: Blob, filename: string): void
+export const blobUrlToFile = (blobUrl: string): Promise<File>
+
+// URL utilities
+export const detectMediaTypeFromUrl = (url: string): MediaType
 ```
 
 ## Data Flow Architecture
@@ -334,28 +468,28 @@ class ElementService {
 graph TD
     A[User Interaction] --> B[UI Component]
     B --> C[Context Action]
-    C --> D[Operation Handler]
-    D --> E[Service Layer]
-    E --> F[Data Layer]
-    F --> G[Observer Callbacks]
-    G --> H[Context Update]
-    H --> I[Component Re-render]
+    C --> D[TimelineEditor]
+    D --> E[Element Visitor]
+    E --> F[Track Update]
+    F --> G[State Store]
+    G --> H[Observer Callbacks]
+    H --> I[Context Update]
+    I --> J[Component Re-render]
 ```
 
 ### State Management
 
 **Timeline State:**
 ```typescript
-interface TimelineData {
-  timeline: Timeline[];      // Array of timeline tracks
-  version: number;          // For optimistic updates
-  elements: TimelineElement[]; // All timeline elements
+interface TimelineTrackData {
+  tracks: Track[];
+  version: number;
 }
 ```
 
 **Element State:**
 ```typescript
-interface TimelineElement {
+interface TrackElement {
   id: string;               // Unique identifier
   type: string;             // Element type (video, audio, image, text)
   s: number;                // Start time
@@ -366,66 +500,7 @@ interface TimelineElement {
 }
 ```
 
-### State Synchronization Strategies
-
-```typescript
-// Optimistic updates with rollback capability
-class StateManager {
-  private currentState: TimelineData;
-  private pendingOperations = new Map<string, PendingOperation>();
-  
-  async executeOperation(operation: TimelineOperation) {
-    const operationId = generateId();
-    
-    // Store pending operation for potential rollback
-    this.pendingOperations.set(operationId, {
-      operation,
-      previousState: this.cloneState(this.currentState)
-    });
-    
-    try {
-      // Apply optimistic update
-      const optimisticState = this.applyOptimisticUpdate(operation);
-      this.updateUI(optimisticState);
-      
-      // Execute actual operation
-      const result = await this.executeRemoteOperation(operation);
-      
-      // Confirm or rollback based on result
-      if (result.success) {
-        this.confirmOperation(operationId, result.data);
-      } else {
-        this.rollbackOperation(operationId);
-      }
-    } catch (error) {
-      this.rollbackOperation(operationId);
-      throw error;
-    }
-  }
-}
-```
-
 ## Integration Architecture
-
-### Component Composition
-
-The system follows a **composition over inheritance** approach:
-
-```typescript
-// High-level composition
-<LivePlayerProvider>
-  <TimelineProvider>
-    <VideoEditor
-      leftPanel={<EditorControls />}
-      rightPanel={<MediaPanel />}
-      editorConfig={{
-        videoProps: { width: 720, height: 1280 },
-        canvasMode: true
-      }}
-    />
-  </TimelineProvider>
-</LivePlayerProvider>
-```
 
 ### Cross-Package Communication
 
@@ -439,7 +514,7 @@ graph LR
     B -->|Visualization| F[visualizer]
 ```
 
-### Inter-Package API Design
+### Package API Design
 
 ```typescript
 // Standardized interface for cross-package communication
@@ -475,19 +550,23 @@ export const timelineAPI: PackageInterface = {
 ### Comprehensive Validation System
 
 ```typescript
-class ValidationHelper {
-  // Element creation validation
-  static validateCreateImageElement(params) {
-    this.validateCreateElementParams(params);
-    this.validateVideoSize(params.videoSize);
-    this.validateImageElementProps(params.props);
+class ElementValidator implements ElementVisitor {
+  visit(element: TrackElement): void {
+    this.validateElementId(element.id);
+    this.validateElementType(element.type);
+    this.validateElementTiming(element.s, element.e);
+    this.validateElementProps(element.props);
   }
   
-  // Operation validation
-  static validateSplitOperation(elementId, splitTime, element) {
-    this.validateElementId(elementId);
-    if (!canSplitElement(element)) {
-      throw new TimelineServiceError('Split not supported for this element type');
+  private validateElementId(id: string): void {
+    if (!id || typeof id !== 'string') {
+      throw new ValidationError('Invalid element ID');
+    }
+  }
+  
+  private validateElementTiming(start: number, end: number): void {
+    if (start < 0 || end < 0 || start >= end) {
+      throw new ValidationError('Invalid element timing');
     }
   }
 }
@@ -502,39 +581,6 @@ interface ServiceResult<T> {
   error?: string;
   code?: ServiceErrorCode;
   operation?: string;
-}
-```
-
-### Error Boundary Implementation
-
-```typescript
-class TwickErrorBoundary extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { hasError: false, error: null };
-  }
-  
-  static getDerivedStateFromError(error) {
-    return { hasError: true, error };
-  }
-  
-  componentDidCatch(error, errorInfo) {
-    // Log error to monitoring service
-    ErrorReporting.logError(error, errorInfo);
-    
-    // Attempt recovery
-    this.attemptRecovery(error);
-  }
-  
-  attemptRecovery(error) {
-    if (error instanceof TimelineServiceError) {
-      // Timeline-specific recovery
-      timelineService.reset();
-    } else if (error instanceof CanvasError) {
-      // Canvas-specific recovery
-      canvasService.reinitialize();
-    }
-  }
 }
 ```
 
@@ -578,28 +624,12 @@ class PerformanceMonitor {
     }
   }
 }
-
-// Usage in timeline operations
-const performanceMonitor = new PerformanceMonitor();
-
-class AddElementHandler {
-  async execute(payload, context) {
-    performanceMonitor.startOperation('add-element');
-    
-    try {
-      const result = await this.addElement(payload);
-      return result;
-    } finally {
-      performanceMonitor.endOperation('add-element');
-    }
-  }
-}
 ```
 
 ## Extensibility
 
 ### Plugin Architecture
-- **Operation Handlers**: Easy addition of new timeline operations
+- **Element Visitors**: Easy addition of new timeline operations
 - **Element Types**: Support for custom element types
 - **Validation Rules**: Extensible validation system
 - **Canvas Controls**: Custom Fabric.js controls and interactions
@@ -647,136 +677,6 @@ class PluginManager {
     }
   }
 }
-
-// Example plugin
-class CustomElementPlugin implements TwickPlugin {
-  name = "custom-element-plugin";
-  version = "1.0.0";
-  
-  async initialize(api: TwickAPI) {
-    // Register custom element type
-    api.timeline.registerElementType('custom', {
-      create: this.createElement,
-      validate: this.validateElement,
-      render: this.renderElement
-    });
-    
-    // Register custom canvas controls
-    api.canvas.registerControls('custom', CustomControls);
-  }
-  
-  destroy() {
-    // Cleanup plugin resources
-  }
-}
-```
-
-## Testing Architecture
-
-### Testing Strategy
-
-```typescript
-// Unit test structure for services
-describe('ElementService', () => {
-  let elementService: ElementService;
-  let mockDataService: jest.Mocked<TimelineDataService>;
-  
-  beforeEach(() => {
-    mockDataService = createMockDataService();
-    elementService = new ElementService(mockDataService, () => mockConfig);
-  });
-  
-  describe('addElement', () => {
-    it('should validate input before creating element', async () => {
-      const options = createValidAddElementOptions();
-      
-      await elementService.addElement(options);
-      
-      expect(ValidationHelper.validateAddElementOptions).toHaveBeenCalledWith(options);
-    });
-    
-    it('should throw validation error for invalid input', async () => {
-      const invalidOptions = createInvalidAddElementOptions();
-      
-      await expect(elementService.addElement(invalidOptions))
-        .rejects.toThrow(TimelineServiceError);
-    });
-  });
-});
-
-// Integration test for timeline operations
-describe('Timeline Operations Integration', () => {
-  let timelineService: TimelineService;
-  let operationContext: TimelineOperationContext;
-  
-  beforeEach(async () => {
-    timelineService = new TimelineService();
-    await timelineService.initialize(testConfig);
-    operationContext = createTestOperationContext();
-  });
-  
-  it('should execute add element operation end-to-end', async () => {
-    const operation = {
-      type: TIMELINE_OPERATION.ADD_ELEMENT,
-      payload: createElementPayload()
-    };
-    
-    await executeTimelineOperation(operation, operationContext);
-    
-    const timeline = timelineService.getTimelineData();
-    expect(timeline.elements).toHaveLength(1);
-  });
-});
-```
-
-### Test Utilities
-
-```typescript
-// Test factory functions
-export const TestFactories = {
-  createTimelineElement(overrides?: Partial<TimelineElement>): TimelineElement {
-    return {
-      id: 'e-test-id',
-      type: 'image',
-      s: 0,
-      e: 5,
-      timelineId: 't-test-timeline',
-      props: { src: 'test.jpg' },
-      ...overrides
-    };
-  },
-  
-  createTimeline(overrides?: Partial<Timeline>): Timeline {
-    return {
-      id: 't-test-timeline',
-      type: 'video',
-      name: 'Test Timeline',
-      elements: [],
-      ...overrides
-    };
-  },
-  
-  createCanvasElement(overrides?: Partial<CanvasElement>): CanvasElement {
-    return {
-      id: 'e-canvas-test',
-      type: 'image',
-      props: { src: 'test.jpg', x: 0, y: 0 },
-      ...overrides
-    };
-  }
-};
-
-// Mock implementations
-export const createMockTimelineService = (): jest.Mocked<TimelineService> => {
-  return {
-    initialize: jest.fn(),
-    addElement: jest.fn(),
-    editElement: jest.fn(),
-    deleteElement: jest.fn(),
-    getTimelineData: jest.fn(),
-    getTotalDuration: jest.fn()
-  };
-};
 ```
 
 ## Development Workflow
@@ -815,10 +715,10 @@ pnpm preview
 git checkout -b feature/new-timeline-operation
 
 // 2. Implement feature in appropriate package
-// packages/timeline/src/operations/new-operation.ts
+// packages/timeline/src/visitors/new-element-visitor.ts
 
 // 3. Add tests
-// packages/timeline/tests/operations/new-operation.test.ts
+// packages/timeline/tests/visitors/new-element-visitor.test.ts
 
 // 4. Update examples if needed
 // packages/examples/src/components/new-feature-demo.tsx
@@ -840,73 +740,71 @@ timeline/
 │   │   ├── timeline/        # Timeline-specific components
 │   │   └── controls/        # Control components
 │   ├── hooks/               # Custom React hooks
-│   ├── services/            # Business logic services
-│   │   ├── timeline/        # Timeline service
-│   │   ├── element/         # Element service
-│   │   └── animation/       # Animation service
+│   ├── core/                # Core business logic
+│   │   ├── editor/          # Timeline editor
+│   │   ├── elements/        # Element implementations
+│   │   ├── track/           # Track management
+│   │   └── visitor/         # Element visitors
+│   ├── context/             # React contexts
+│   ├── services/            # Data services
 │   ├── types/               # TypeScript type definitions
-│   │   ├── component.types.ts
-│   │   ├── service.types.ts
-│   │   └── result.types.ts
 │   ├── utils/               # Utility functions
-│   │   ├── validation.ts
-│   │   ├── constants.ts
-│   │   └── timeline.utils.ts
 │   └── index.ts             # Public API exports
 ```
 
-### API Design Guidelines
+## Testing Architecture
+
+### Testing Strategy
 
 ```typescript
-// 1. Consistent naming patterns
-interface ServiceInterface {
-  // Verbs for actions
-  addElement(options: AddElementOptions): Promise<ServiceResult<TimelineElement>>;
-  updateElement(id: string, updates: Partial<TimelineElement>): ServiceResult<TimelineElement>;
-  deleteElement(id: string): ServiceResult<void>;
+// Unit test structure for visitors
+describe('ElementAdder', () => {
+  let elementAdder: ElementAdder;
+  let mockTrack: jest.Mocked<Track>;
   
-  // Get prefix for data retrieval
-  getElement(id: string): TimelineElement | undefined;
-  getTimeline(id: string): Timeline | undefined;
+  beforeEach(() => {
+    mockTrack = createMockTrack();
+    elementAdder = new ElementAdder(mockTrack);
+  });
   
-  // Is/Has prefix for boolean checks
-  isElementSelected(id: string): boolean;
-  hasUnsavedChanges(): boolean;
-}
+  describe('visit', () => {
+    it('should add element to track', async () => {
+      const element = createTestElement();
+      
+      await elementAdder.visit(element);
+      
+      expect(mockTrack.addElement).toHaveBeenCalledWith(element);
+    });
+    
+    it('should throw error for invalid element', async () => {
+      const invalidElement = createInvalidElement();
+      
+      await expect(elementAdder.visit(invalidElement))
+        .rejects.toThrow(ValidationError);
+    });
+  });
+});
 
-// 2. Consistent error handling
-class ServiceMethod {
-  async execute(): Promise<ServiceResult<T>> {
-    try {
-      const result = await this.performOperation();
-      return serviceResultSuccess({ data: result });
-    } catch (error) {
-      if (error instanceof ValidationError) {
-        return serviceResultError({
-          error: error.message,
-          code: ServiceErrorCode.VALIDATION_FAILED
-        });
-      }
-      throw error; // Re-throw unexpected errors
-    }
-  }
-}
-
-// 3. Type-safe configurations
-interface PackageConfig {
-  readonly required: RequiredConfig;
-  readonly optional?: OptionalConfig;
-}
-
-interface RequiredConfig {
-  videoSize: { width: number; height: number };
-}
-
-interface OptionalConfig {
-  backgroundColor?: string;
-  autoSave?: boolean;
-  maxUndoSteps?: number;
-}
+// Integration test for timeline operations
+describe('TimelineEditor Integration', () => {
+  let timelineEditor: TimelineEditor;
+  let mockContext: TimelineOperationContext;
+  
+  beforeEach(async () => {
+    mockContext = createMockContext();
+    timelineEditor = new TimelineEditor(mockContext);
+  });
+  
+  it('should execute add element operation end-to-end', async () => {
+    const track = timelineEditor.addTrack('Test Track');
+    const element = createTestElement();
+    
+    const result = await timelineEditor.addElementToTrack(track.id, element);
+    
+    expect(result).toBe(true);
+    expect(track.getElements()).toHaveLength(1);
+  });
+});
 ```
 
 ## Deployment & Production
@@ -954,36 +852,13 @@ class ProductionOptimizations {
   // Performance monitoring
   static enablePerformanceTracking() {
     if (process.env.NODE_ENV === 'production') {
-      // Enable production performance tracking
       PerformanceMonitor.initialize({
         endpoint: '/api/metrics',
         sampleRate: 0.1 // Sample 10% of operations
       });
     }
   }
-  
-  // Error reporting
-  static enableErrorReporting() {
-    window.addEventListener('unhandledrejection', (event) => {
-      ErrorReporting.logError(event.reason);
-    });
-    
-    window.addEventListener('error', (event) => {
-      ErrorReporting.logError(event.error);
-    });
-  }
 }
-```
-
-### Bundle Analysis
-
-```bash
-# Analyze bundle sizes
-pnpm build
-pnpm run analyze-bundle
-
-# Example webpack-bundle-analyzer output
-npx webpack-bundle-analyzer packages/video-editor/dist/stats.json
 ```
 
 ## Troubleshooting & Debugging
@@ -1016,10 +891,10 @@ const debugCanvas = () => {
 const debugTimelineOperation = (operation) => {
   console.log('Operation dispatched:', operation);
   
-  // Check handler registry
-  const handler = OperationHandlers[operation.type];
-  if (!handler) {
-    console.error(`No handler found for operation: ${operation.type}`);
+  // Check visitor registry
+  const visitor = getVisitorForOperation(operation.type);
+  if (!visitor) {
+    console.error(`No visitor found for operation: ${operation.type}`);
     return;
   }
   
@@ -1033,67 +908,6 @@ const debugTimelineOperation = (operation) => {
   } catch (error) {
     console.error('Payload validation failed:', error);
   }
-};
-```
-
-#### Performance Issues
-```typescript
-// Performance debugging
-const debugPerformance = () => {
-  // Monitor React re-renders
-  const renderCount = useRef(0);
-  renderCount.current++;
-  console.log(`Component rendered ${renderCount.current} times`);
-  
-  // Monitor timeline operation performance
-  useEffect(() => {
-    const startTime = performance.now();
-    return () => {
-      const endTime = performance.now();
-      console.log(`Effect took ${endTime - startTime}ms`);
-    };
-  }, [dependency]);
-  
-  // Monitor canvas performance
-  canvas.on('after:render', () => {
-    console.log('Canvas render completed');
-  });
-};
-```
-
-### Debug Utilities
-
-```typescript
-// Debug panel component for development
-const DebugPanel: React.FC = () => {
-  const { timelineData } = useTimelineContext();
-  const { playerState } = useLivePlayerContext();
-  const [showDebug, setShowDebug] = useState(false);
-  
-  if (process.env.NODE_ENV !== 'development') {
-    return null;
-  }
-  
-  return (
-    <div className="debug-panel">
-      <button onClick={() => setShowDebug(!showDebug)}>
-        Toggle Debug
-      </button>
-      
-      {showDebug && (
-        <div className="debug-content">
-          <h3>Timeline State</h3>
-          <pre>{JSON.stringify(timelineData, null, 2)}</pre>
-          
-          <h3>Player State</h3>
-          <pre>{JSON.stringify(playerState, null, 2)}</pre>
-          
-          <h3>Performance Metrics</h3>
-          <PerformanceMetrics />
-        </div>
-      )}
-    </div>
-  );
 };
 ```
 
@@ -1125,42 +939,6 @@ class CompatibilityChecker {
 }
 ```
 
-### Breaking Changes Handling
-
-```typescript
-// Migration utilities for breaking changes
-class MigrationHelper {
-  static migrateTimelineData(oldData: any, fromVersion: string): TimelineData {
-    const migrations = [
-      { version: '2.0.0', migrate: this.migrateToV2 },
-      { version: '2.1.0', migrate: this.migrateToV2_1 }
-    ];
-    
-    let data = oldData;
-    for (const migration of migrations) {
-      if (semver.gt(migration.version, fromVersion)) {
-        data = migration.migrate(data);
-      }
-    }
-    
-    return data;
-  }
-  
-  private static migrateToV2(data: any): any {
-    // Example: Rename 'timing' to 's' and 'e' properties
-    return {
-      ...data,
-      elements: data.elements.map(element => ({
-        ...element,
-        s: element.timing?.s || element.s,
-        e: element.timing?.e || element.e,
-        timing: undefined
-      }))
-    };
-  }
-}
-```
-
 ## Contributing Guidelines
 
 ### Code Standards
@@ -1179,8 +957,7 @@ module.exports = {
       'error',
       {
         selector: 'interface',
-        format: ['PascalCase'],
-        prefix: ['I'] // Optional: require 'I' prefix for interfaces
+        format: ['PascalCase']
       },
       {
         selector: 'typeAlias',
@@ -1255,7 +1032,7 @@ pnpm changeset publish
 Twick's architecture provides:
 
 1. **Modularity**: Clear package boundaries with specific responsibilities
-2. **Scalability**: Context + Command + Observer patterns for complex state management
+2. **Scalability**: Context + Visitor + Observer patterns for complex state management
 3. **Flexibility**: Canvas-based editing with timeline synchronization
 4. **Reliability**: Comprehensive validation and error handling
 5. **Performance**: Optimized rendering and efficient state updates
@@ -1263,4 +1040,4 @@ Twick's architecture provides:
 7. **Production Ready**: Performance monitoring, error reporting, and debugging tools
 8. **Maintainable**: Comprehensive testing, documentation, and migration strategies
 
-The architecture successfully separates presentation (Canvas, UI), business logic (Services, Operations), and state management (Context, Observers), creating a maintainable and scalable video editing platform that can be extended and customized for various use cases. 
+The architecture successfully separates presentation (Canvas, UI), business logic (Editor, Visitors), and state management (Context, Observers), creating a maintainable and scalable video editing platform that can be extended and customized for various use cases. 
