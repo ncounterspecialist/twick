@@ -1,4 +1,4 @@
-import { TextElement, TimelineEditor, Track, TrackElement, type TextEffect } from "@twick/timeline";
+import { ElementTextEffect, TextElement, TimelineEditor, Track, TrackElement } from "@twick/timeline";
 import { TEXT_EFFECTS } from "@twick/video-editor";
 import { useEffect, useState } from "react";
 
@@ -15,12 +15,11 @@ const TextEffectPanel = ({editor, selectedItem}: {editor: TimelineEditor, select
     if (!selectedEffect) return;
     if(selectedItem instanceof TextElement) {
       const element = selectedItem as TextElement;
-      const textEffect: TextEffect = {
+      const textEffect = ElementTextEffect.fromJSON({
         name: selectedEffect,
         delay: selectedEffectData?.delay,
-        duration: Math.min(element?.getDuration() ?? 0, 1),
-        bufferTime: selectedEffectData?.bufferTime
-      }
+        duration: Math.min(element?.getDuration() ?? 0, 1)
+      })
       element.setTextEffect(textEffect);
       editor.updateElementInTrack(element.getTrackId(), element);
     }
@@ -42,7 +41,7 @@ const TextEffectPanel = ({editor, selectedItem}: {editor: TimelineEditor, select
       const element = selectedItem as TextElement;
       const textEffect = element.getTextEffect();
       if (textEffect) {
-        setSelectedEffect(textEffect.name);
+        setSelectedEffect(textEffect.getName());
       }
     }
   }, [selectedItem]);

@@ -28,6 +28,8 @@ export type Size = {
   height: number;
 };
 
+export type SizeArray = [number, number];
+
 export type Frame = {
   size?: [number, number];
   x?: number;
@@ -37,19 +39,20 @@ export type Frame = {
   strokeWidth?: number;
 };
 
+export type FrameEffectProps = {
+  frameSize: SizeArray;
+  frameShape: "circle" | "rect";
+  framePosition: Position;
+  radius?: number;
+  objectFit?: ObjectFit;
+  transitionDuration?: number;
+  transitionEasing?: string;
+  elementPosition?: Position;
+};
 export type FrameEffect = {
   s: number;
   e: number;
-  props: {
-    shape?: "circle" | "rect";
-    radius?: number;
-    rotation?: number;
-    framePosition?: {
-      x: number;
-      y: number;
-    };
-    frameSize?: [number, number];
-  };
+  props: FrameEffectProps;
 };
 
 export type ObjectFit = "cover" | "contain" | "fill" | "none";

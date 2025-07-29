@@ -29,6 +29,9 @@ import {
   isElementId,
 } from "./utils/timeline.utils";
 import { TrackElement } from "./core/elements/base.element";
+import { ElementAnimation } from "./core/addOns/animation";
+import { ElementFrameEffect } from "./core/addOns/frame-effect";
+import { ElementTextEffect } from "./core/addOns/text-effect";
 
 export {
   TrackElement,
@@ -41,6 +44,9 @@ export {
   AudioElement,
   CircleElement,
   VideoElement,
+  ElementAnimation,
+  ElementFrameEffect,
+  ElementTextEffect
 };
 
 export {
@@ -94,6 +100,9 @@ if (typeof window !== "undefined") {
     CircleElement,
     IconElement,
     VideoElement,
+    ElementAnimation,
+    ElementFrameEffect,
+    ElementTextEffect,
     // Utility functions
     generateShortUuid,
     getTotalDuration,

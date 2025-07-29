@@ -3,11 +3,18 @@ import {
   TimelineEditor,
   TrackElement,
   Track,
+  ElementAnimation,
 } from "@twick/timeline";
 import { ANIMATIONS } from "@twick/video-editor";
 import { useEffect, useState } from "react";
 
-const AnimationPanel = ({ editor, selectedItem }: { editor: TimelineEditor, selectedItem: Track | TrackElement | null }) => {
+const AnimationPanel = ({
+  editor,
+  selectedItem,
+}: {
+  editor: TimelineEditor;
+  selectedItem: Track | TrackElement | null;
+}) => {
   const [selectedAnimation, setSelectedAnimation] = useState<string | null>(
     null
   );
@@ -27,13 +34,14 @@ const AnimationPanel = ({ editor, selectedItem }: { editor: TimelineEditor, sele
     if (!selectedAnimation) return;
     if (selectedItem instanceof TrackElement) {
       const element = selectedItem as TrackElement;
-      element.setAnimation({
+      const animation = ElementAnimation.fromJSON({
         name: selectedAnimation,
         animate: animate as "enter" | "exit" | "both",
         direction: direction as "up" | "down" | "left" | "right" | "center",
         mode: mode as "in" | "out",
         interval: getDecimalNumber(interval / 1000),
       });
+      element.setAnimation(animation);
       editor.updateElementInTrack(element.getTrackId(), element);
     }
   };
@@ -55,11 +63,11 @@ const AnimationPanel = ({ editor, selectedItem }: { editor: TimelineEditor, sele
       setMaxInterval(element.getDuration());
       const animation = element.getAnimation();
       if (animation) {
-        setSelectedAnimation(animation.name);
-        setAnimate(animation.animate || "enter");
-        setDirection(animation.direction || "up");
-        setMode(animation.mode || "in");
-        setInterval((animation.interval || 0.5) * 1000);
+        setSelectedAnimation(animation.getName());
+        setAnimate(animation.getAnimate() || "enter");
+        setDirection(animation.getDirection() || "up");
+        setMode(animation.getMode() || "in");
+        setInterval((animation.getInterval() || 0.5) * 1000);
       }
     }
   }, [selectedItem]);

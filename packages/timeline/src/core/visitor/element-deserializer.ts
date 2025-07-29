@@ -8,6 +8,9 @@ import { IconElement } from "../elements/icon.element";
 import { CircleElement } from "../elements/circle.element";
 import { RectElement } from "../elements/rect.element";
 import { TrackElement } from "../elements/base.element";
+import { ElementAnimation } from "../addOns/animation";
+import { ElementFrameEffect } from "../addOns/frame-effect";
+import { ElementTextEffect } from "../addOns/text-effect";
 
 export class ElementDeserializer {
   private static deserializeBaseElement(element: TrackElement, json: ElementJSON): void {
@@ -16,7 +19,7 @@ export class ElementDeserializer {
     if (json.s !== undefined) element.setStart(json.s);
     if (json.e !== undefined) element.setEnd(json.e);
     if (json.props) element.setProps(json.props);
-    if (json.animation) element.setAnimation(json.animation);
+    if (json.animation) element.setAnimation(ElementAnimation.fromJSON(json.animation));
   }
 
   static deserializeVideoElement(json: ElementJSON): VideoElement {
@@ -30,7 +33,7 @@ export class ElementDeserializer {
     if (json.mediaDuration !== undefined) videoElement.setMediaDuration(json.mediaDuration);
     if (json.objectFit) videoElement.setObjectFit(json.objectFit);
     if (json.frame) videoElement.setFrame(json.frame);
-    if (json.frameEffects) videoElement.setFrameEffects(json.frameEffects);
+    if (json.frameEffects) videoElement.setFrameEffects(json.frameEffects.map((frameEffect) => ElementFrameEffect.fromJSON(frameEffect)));
     if (json.backgroundColor) videoElement.setBackgroundColor(json.backgroundColor);
     
     return videoElement;
@@ -55,7 +58,7 @@ export class ElementDeserializer {
     
     if (json.objectFit) imageElement.setObjectFit(json.objectFit);
     if (json.frame) imageElement.setFrame(json.frame);
-    if (json.frameEffects) imageElement.setFrameEffects(json.frameEffects);
+    if (json.frameEffects) imageElement.setFrameEffects(json.frameEffects.map((frameEffect) => ElementFrameEffect.fromJSON(frameEffect)));
     if (json.backgroundColor) imageElement.setBackgroundColor(json.backgroundColor);
     
     return imageElement;
@@ -65,7 +68,7 @@ export class ElementDeserializer {
     const textElement = new TextElement(json.props?.text || "");
     ElementDeserializer.deserializeBaseElement(textElement, json);
     
-    if (json.textEffect) textElement.setTextEffect(json.textEffect);
+    if (json.textEffect) textElement.setTextEffect(ElementTextEffect.fromJSON(json.textEffect));
     
     return textElement;
   }
