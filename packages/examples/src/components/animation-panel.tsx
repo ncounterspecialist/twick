@@ -42,7 +42,7 @@ const AnimationPanel = ({
         interval: getDecimalNumber(interval / 1000),
       });
       element.setAnimation(animation);
-      editor.updateElementInTrack(element.getTrackId(), element);
+      editor.updateElement(element);
     }
   };
 
@@ -51,7 +51,7 @@ const AnimationPanel = ({
     if (selectedItem instanceof TrackElement) {
       const element = selectedItem as TrackElement;
       element.setAnimation(undefined);
-      editor.updateElementInTrack(element.getTrackId(), element);
+      editor.updateElement(element);
     }
   };
 

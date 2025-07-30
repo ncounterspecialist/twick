@@ -34,7 +34,7 @@ const EditorControls = () => {
       return;
     }
     const textElement = new TextElement(_text);
-    editor.addElementToTrack(selectedItem.getId(), textElement);
+    editor.addElementToTrack(selectedItem, textElement);
   };
 
   const loadProject = ({ content }: any) => {
@@ -69,7 +69,7 @@ const EditorControls = () => {
       return;
     }
     const rect = new RectElement(color, { width: 200, height: 200 });
-    editor.addElementToTrack(selectedItem.getId(), rect);
+    editor.addElementToTrack(selectedItem, rect);
   };
 
   const addMedia = async (element: MediaItem) => {
@@ -79,15 +79,15 @@ const EditorControls = () => {
     switch (element?.type) {
       case TIMELINE_ELEMENT_TYPE.IMAGE:
         const image = new ImageElement(element.url, videoSize);
-        await editor.addElementToTrack(selectedItem.getId(), image);
+        await editor.addElementToTrack(selectedItem, image);
         break;
       case TIMELINE_ELEMENT_TYPE.VIDEO:
         const video = new VideoElement(element.url, videoSize);
-        await editor.addElementToTrack(selectedItem.getId(), video);
+        await editor.addElementToTrack(selectedItem, video);
         break;
       case TIMELINE_ELEMENT_TYPE.AUDIO:
         const audio = new AudioElement(element.url);
-        await editor.addElementToTrack(selectedItem.getId(), audio);
+        await editor.addElementToTrack(selectedItem, audio);
         break;
     }
   };

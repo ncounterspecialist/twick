@@ -8,16 +8,20 @@ import { IconElement } from "../elements/icon.element";
 import { CircleElement } from "../elements/circle.element";
 import { RectElement } from "../elements/rect.element";
 import { Track } from "../track/track";
+import { TrackFriend } from "../track/track.friend";
 
 /**
  * ElementAdder visitor for adding elements to tracks
  * Uses the visitor pattern to handle different element types
+ * Implements the Friend Class Pattern for explicit access control
  */
 export class ElementAdder implements ElementVisitor<Promise<boolean>> {
   private track: Track;
+  private trackFriend: TrackFriend;
 
   constructor(track: Track) {
     this.track = track;
+    this.trackFriend = track.createFriend();
   }
 
   async visitVideoElement(element: VideoElement): Promise<boolean> {
@@ -33,7 +37,7 @@ export class ElementAdder implements ElementVisitor<Promise<boolean>> {
       element.setEnd(element.getStart() + element.getMediaDuration());
     }
 
-    return this.track.addElement(element);
+    return this.trackFriend.addElement(element);
   }
 
   async visitAudioElement(element: AudioElement): Promise<boolean> {
@@ -48,7 +52,8 @@ export class ElementAdder implements ElementVisitor<Promise<boolean>> {
     if (isNaN(element.getEnd())) {
       element.setEnd(element.getStart() + element.getMediaDuration());
     }
-    return this.track.addElement(element);
+    
+    return this.trackFriend.addElement(element);
   }
 
   async visitImageElement(element: ImageElement): Promise<boolean> {
@@ -63,7 +68,8 @@ export class ElementAdder implements ElementVisitor<Promise<boolean>> {
     if (isNaN(element.getEnd())) {
       element.setEnd(element.getStart() + 1);
     }
-    return this.track.addElement(element);
+    
+    return this.trackFriend.addElement(element);
   }
 
   async visitTextElement(element: TextElement): Promise<boolean> {
@@ -77,7 +83,8 @@ export class ElementAdder implements ElementVisitor<Promise<boolean>> {
     if (isNaN(element.getEnd())) {
       element.setEnd(element.getStart() + 1);
     }
-    return this.track.addElement(element);
+    
+    return this.trackFriend.addElement(element);
   }
 
   async visitCaptionElement(element: CaptionElement): Promise<boolean> {
@@ -91,7 +98,8 @@ export class ElementAdder implements ElementVisitor<Promise<boolean>> {
     if (isNaN(element.getEnd())) {
       element.setEnd(element.getStart() + 1);
     }
-    return this.track.addElement(element);
+    
+    return this.trackFriend.addElement(element);
   }
 
   async visitIconElement(element: IconElement): Promise<boolean> {
@@ -105,7 +113,8 @@ export class ElementAdder implements ElementVisitor<Promise<boolean>> {
     if (isNaN(element.getEnd())) {
       element.setEnd(element.getStart() + 1);
     }
-    return this.track.addElement(element);
+    
+    return this.trackFriend.addElement(element);
   }
 
   async visitCircleElement(element: CircleElement): Promise<boolean> {
@@ -119,7 +128,8 @@ export class ElementAdder implements ElementVisitor<Promise<boolean>> {
     if (isNaN(element.getEnd())) {
       element.setEnd(element.getStart() + 1);
     }
-    return this.track.addElement(element);
+    
+    return this.trackFriend.addElement(element);
   }
 
   async visitRectElement(element: RectElement): Promise<boolean> {
@@ -133,6 +143,7 @@ export class ElementAdder implements ElementVisitor<Promise<boolean>> {
     if (isNaN(element.getEnd())) {
       element.setEnd(element.getStart() + 1);
     }
-    return this.track.addElement(element);
+    
+    return this.trackFriend.addElement(element);
   }
 }

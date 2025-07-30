@@ -46,8 +46,6 @@ export class TimelineEditor {
     timelineContextStore.initializeContext(this.context.contextId);
   }
 
-
-
   getContext(): TimelineOperationContext {
     return this.context;
   }
@@ -71,7 +69,7 @@ export class TimelineEditor {
     const timelineData = timelineContextStore.getTimelineData(contextId);
     return timelineData?.version || 0;
   }
-  
+
   protected setTimelineData(
     tracks: Track[],
     version?: number
@@ -118,18 +116,35 @@ export class TimelineEditor {
     this.setTimelineData(updatedTracks);
   }
 
+  removeTrack(track: Track): void {
+    const tracks = this.getTimelineData()?.tracks || [];
+    const updatedTracks = tracks.filter((t) => t.getId() !== track.getId());
+    this.setTimelineData(updatedTracks);
+  }
+
+  /**
+   * Refresh the timeline data
+   */
+  refresh(): void {
+    const currentData = this.getTimelineData();
+    if (currentData) {
+      this.setTimelineData(currentData.tracks);
+    }
+  }
+
   /**
    * Add an element to a specific track using the visitor pattern
-   * @param trackId The ID of the track to add the element to
+   * @param track The track to add the element to
    * @param element The element to add
    * @returns Promise<boolean> true if element was added successfully
    */
-  async addElementToTrack(trackId: string, element: TrackElement): Promise<boolean> {
-    const track = this.getTrackById(trackId);
+  async addElementToTrack(
+    track: Track,
+    element: TrackElement
+  ): Promise<boolean> {
     if (!track) {
       return false;
     }
-
     try {
       // Use the visitor pattern to handle different element types
       const elementAdder = new ElementAdder(track);
@@ -142,7 +157,6 @@ export class TimelineEditor {
           this.setTimelineData(currentData.tracks);
         }
       }
-      
       return result;
     } catch (error) {
       return false;
@@ -151,12 +165,11 @@ export class TimelineEditor {
 
   /**
    * Remove an element from a specific track using the visitor pattern
-   * @param trackId The ID of the track to remove the element from
    * @param element The element to remove
    * @returns boolean true if element was removed successfully
    */
-  removeElementFromTrack(trackId: string, element: TrackElement): boolean {
-    const track = this.getTrackById(trackId);
+  removeElement(element: TrackElement): boolean {
+    const track = this.getTrackById(element.getTrackId());
     if (!track) {
       return false;
     }
@@ -173,7 +186,7 @@ export class TimelineEditor {
           this.setTimelineData(currentData.tracks);
         }
       }
-      
+
       return result;
     } catch (error) {
       return false;
@@ -182,12 +195,11 @@ export class TimelineEditor {
 
   /**
    * Update an element in a specific track using the visitor pattern
-   * @param trackId The ID of the track to update the element in
    * @param element The updated element
    * @returns boolean true if element was updated successfully
    */
-  updateElementInTrack(trackId: string, element: TrackElement): boolean {
-    const track = this.getTrackById(trackId);
+  updateElement(element: TrackElement): boolean {
+    const track = this.getTrackById(element.getTrackId());
     if (!track) {
       return false;
     }
@@ -204,7 +216,7 @@ export class TimelineEditor {
           this.setTimelineData(currentData.tracks);
         }
       }
-      
+
       return result;
     } catch (error) {
       return false;
@@ -213,13 +225,12 @@ export class TimelineEditor {
 
   /**
    * Split an element at a specific time point using the visitor pattern
-   * @param trackId The ID of the track containing the element
    * @param element The element to split
    * @param splitTime The time point to split at
    * @returns SplitResult with first element, second element, and success status
    */
-  splitElementInTrack(trackId: string, element: TrackElement, splitTime: number): SplitResult {
-    const track = this.getTrackById(trackId);
+  async splitElement(element: TrackElement, splitTime: number): Promise<SplitResult> {
+    const track = this.getTrackById(element.getTrackId());
     if (!track) {
       return { firstElement: element, secondElement: null, success: false };
     }
@@ -245,7 +256,6 @@ export class TimelineEditor {
           this.setTimelineData(currentData.tracks);
         }
       }
-      
       return result;
     } catch (error) {
       return { firstElement: element, secondElement: null, success: false };
@@ -292,11 +302,11 @@ export class TimelineEditor {
         tracks,
         version: result.version,
       });
-      
+
       // Update total duration
       this.context.setTotalDuration(getTotalDuration(result.tracks));
       this.context.updateChangeLog();
-      
+
       // Trigger timeline action to notify components
       if (this.context?.setTimelineAction) {
         this.context.setTimelineAction(TIMELINE_ACTION.UPDATE_PLAYER_DATA, {
@@ -319,11 +329,11 @@ export class TimelineEditor {
         tracks,
         version: result.version,
       });
-      
+
       // Update total duration
       this.context.setTotalDuration(getTotalDuration(result.tracks));
       this.context.updateChangeLog();
-      
+
       // Trigger timeline action to notify components
       if (this.context?.setTimelineAction) {
         this.context.setTimelineAction(TIMELINE_ACTION.UPDATE_PLAYER_DATA, {
@@ -339,17 +349,17 @@ export class TimelineEditor {
    */
   resetHistory(): void {
     this.context.handleResetHistory();
-    
+
     // Clear the timeline data in the editor's store
     timelineContextStore.setTimelineData(this.context.contextId, {
       tracks: [],
       version: 0,
     });
-    
+
     // Reset total duration and version
     this.context.setTotalDuration(0);
     this.context.updateChangeLog();
-    
+
     // Trigger timeline action to notify components
     if (this.context?.setTimelineAction) {
       this.context.setTimelineAction(TIMELINE_ACTION.UPDATE_PLAYER_DATA, {
@@ -379,6 +389,4 @@ export class TimelineEditor {
       });
     }
   }
-
-
 }

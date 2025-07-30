@@ -42,7 +42,7 @@ export const useTimelineManager = () => {
     }
     element.setStart(updates.start);
     element.setEnd(updates.end);
-    editor.updateElementInTrack(element.getTrackId(), element);
+    editor.updateElement(element);
   };
 
   // Get timeline data from editor
