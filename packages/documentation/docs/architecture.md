@@ -46,16 +46,24 @@ The system uses **nested React Context providers** to manage application-wide st
 
 #### Timeline Context
 ```typescript
-<TimelineProvider contextId="editor-demo" initialData={INITIAL_TIMELINE_DATA}>
+<TimelineProvider contextId="twick-context-id" initialData={INITIAL_TIMELINE_DATA}>
   <LivePlayerProvider>
-    <VideoEditor />
+    <VideoEditor
+          editorConfig={{
+            canvasMode: true,
+            videoProps: {
+              width: 720,
+              height: 1280,
+            },
+          }}
+        />
   </LivePlayerProvider>
 </TimelineProvider>
 ```
 
 **`TimelineProvider`** manages:
 - Timeline data and operations through `TimelineEditor`
-- Selected items and project versions
+- Selected items and changeLog version 
 - Undo/redo functionality
 - Change tracking and state synchronization
 
@@ -75,11 +83,11 @@ sequenceDiagram
     participant TS as TimelineStore
     participant LC as LivePlayerContext
     
-    UI->>TC: setTimelineAction(type, payload)
-    TC->>TE: Execute operation
-    TE->>TS: Update timeline data
-    TS->>TC: State updated
-    TC->>LC: Player state sync
+    UI->>TE: Execute editor operation
+    TE->>TS: Update timeline store
+    TE->>TC: Timeline state updated
+    TE->>LC: Update Live Player state
+    TE->>LC: Player state sync
     LC->>UI: Re-render with updated state
 ```
 
@@ -90,25 +98,60 @@ Timeline operations follow the **Visitor Pattern** with dedicated visitors for e
 #### Element Visitor System
 
 ```typescript
+// Base visitor interface
 interface ElementVisitor {
-  visit(element: TrackElement): void | Promise<void>;
+  visit(element: TrackElement): boolean | Promise<boolean> | SplitResult;
 }
 
-class ElementAdder implements ElementVisitor {
-  async visit(element: TrackElement): Promise<void> {
-    // Add element logic
+class ElementAdder extends ElementVisitor {
+  constructor(private track: Track) {
+    this.track = track;
+    this.trackFriend = track.createFriend();
+  }
+  
+  async visit(element: TrackElement): Promise<boolean> {
+    // Use friend class to access protected methods
+    return trackFriend.addElement(element);
   }
 }
 
-class ElementRemover implements ElementVisitor {
-  async visit(element: TrackElement): Promise<void> {
-    // Remove element logic
+class ElementRemover extends TrackVisitor {
+  constructor(private track: Track) {
+    this.track = track;
+    this.trackFriend = track.createFriend();
+  }
+  
+  visit(element: TrackElement): boolean {
+    // Use friend class to access protected methods
+    return trackFriend.removeElement(element);
   }
 }
 
-class ElementUpdater implements ElementVisitor {
-  async visit(element: TrackElement): Promise<void> {
-    // Update element logic
+class ElementUpdater extends TrackVisitor {
+  constructor(private track: Track) {
+    this.track = track;
+    this.trackFriend = track.createFriend();
+  }
+  
+  visit(element: TrackElement): boolean {
+    // Use friend class to access protected methods
+    return trackFriend.updateElement(element);
+  }
+}
+
+class ElementSplitter implements ElementVisitor {
+  constructor(private splitTime: number) {}
+  
+  visit(element: TrackElement): SplitResult {
+    // Split element at specific time logic
+    return element.split(splitTime);
+  }
+}
+
+class ElementCloner implements ElementVisitor {
+  visit(element: TrackElement): TrackElement | null {
+    // Clone element logic
+    return element.clone();
   }
 }
 ```
@@ -138,7 +181,7 @@ graph LR
 
 The system uses **callbacks and event listeners** to observe state changes and coordinate between components.
 
-#### Editor-Level Observers
+#### Editor-Level context
 
 ```typescript
 const editor = new TimelineEditor({
@@ -176,7 +219,7 @@ const handleCanvasOperation = (operation, data) => {
 
 ### TimelineEditor (Core Orchestrator)
 
-The `TimelineEditor` class serves as the central orchestrator for all timeline operations:
+The `TimelineEditor` class serves as the central orchestrator for all timeline operations using the Visitor Pattern:
 
 ```typescript
 export class TimelineEditor {
@@ -187,17 +230,26 @@ export class TimelineEditor {
     timelineContextStore.initializeContext(this.context.contextId);
   }
 
+  // Context and State Management
+  getContext(): TimelineOperationContext
+  getTimelineData(): TimelineTrackData | null
+  getLatestVersion(): number
+  pauseVideo(): void
+  refresh(): void
+
   // Track Management
   addTrack(name: string): Track
-  removeTrackById(id: string): void
   getTrackById(id: string): Track | null
+  getTrackByName(name: string): Track | null
+  removeTrackById(id: string): void
+  removeTrack(track: Track): void
   reorderTracks(tracks: Track[]): void
 
-  // Element Management
-  async addElementToTrack(trackId: string, element: TrackElement): Promise<boolean>
-  removeElementFromTrack(trackId: string, element: TrackElement): boolean
-  updateElementInTrack(trackId: string, element: TrackElement): boolean
-  splitElementInTrack(trackId: string, element: TrackElement, splitTime: number): SplitResult
+  // Element Management (Visitor Pattern)
+  async addElementToTrack(track: Track, element: TrackElement): Promise<boolean>
+  removeElement(element: TrackElement): boolean
+  updateElement(element: TrackElement): boolean
+  async splitElement(element: TrackElement, splitTime: number): Promise<SplitResult>
   cloneElement(element: TrackElement): TrackElement | null
 
   // History Management
@@ -207,24 +259,140 @@ export class TimelineEditor {
 
   // Project Management
   loadProject(data: { tracks: TrackJSON[]; version: number }): void
+
+  // Internal Methods
+  protected setTimelineData(tracks: Track[], version?: number): TimelineTrackData
+  updateHistory(timelineTrackData: TimelineTrackData): void
 }
 ```
 
 ### Track-Based Architecture
 
-Timeline data is organized around **Tracks** that contain **TrackElements**:
+Timeline data is organized around **Tracks** that contain **TrackElements**. The Track class enforces the Visitor Pattern by making element manipulation methods protected:
 
 ```typescript
+class TrackFriend {
+  constructor(private track: Track) {}
+  
+  addElement(element: TrackElement): boolean {
+    return this.track.addElement(element);
+  }
+  
+  removeElement(element: TrackElement): boolean {
+    return this.track.removeElement(element);
+  }
+  
+  updateElement(element: TrackElement): boolean {
+    return this.track.updateElement(element);
+  }
+}
+
 class Track {
   private elements: TrackElement[] = [];
   private name: string;
   private id: string;
 
-  addElement(element: TrackElement): void
-  removeElement(element: TrackElement): boolean
-  updateElement(element: TrackElement): boolean
-  getElements(): TrackElement[]
-  getElementById(id: string): TrackElement | null
+  // Public getter methods - safe to call directly
+  getElements(): TrackElement[] {
+    return [...this.elements]; // Return copy to prevent direct modification
+  }
+  
+  getElementById(id: string): TrackElement | null {
+    return this.elements.find(el => el.id === id) || null;
+  }
+  
+  getName(): string {
+    return this.name;
+  }
+  
+  getId(): string {
+    return this.id;
+  }
+
+  // Protected methods - only accessible by TrackFriend
+  protected addElement(element: TrackElement): boolean {
+    // Validation logic
+    if (!this.validateElement(element)) {
+      return false;
+    }
+    
+    // Business logic
+    this.elements.push(element);
+    return true;
+  }
+  
+  protected removeElement(element: TrackElement): boolean {
+    const index = this.elements.findIndex(el => el.id === element.id);
+    if (index === -1) return false;
+    
+    this.elements.splice(index, 1);
+    return true;
+  }
+  
+  protected updateElement(element: TrackElement): boolean {
+    const index = this.elements.findIndex(el => el.id === element.id);
+    if (index === -1) return false;
+    
+    this.elements[index] = element;
+    return true;
+  }
+```
+
+#### Undo/Redo Operations
+
+The TimelineEditor provides comprehensive undo/redo functionality:
+
+```typescript
+undo(): void {
+  const result = this.context.handleUndo();
+  if (result && result.tracks) {
+    // Convert JSON back to Track objects
+    const tracks = result.tracks.map((t: TrackJSON) => Track.fromJSON(t));
+    
+    // Update store
+    timelineContextStore.setTimelineData(this.context.contextId, {
+      tracks,
+      version: result.version,
+    });
+
+    // Update duration and notify components
+    this.context.setTotalDuration(getTotalDuration(result.tracks));
+    this.context.updateChangeLog();
+
+    // Trigger timeline action
+    if (this.context?.setTimelineAction) {
+      this.context.setTimelineAction(TIMELINE_ACTION.UPDATE_PLAYER_DATA, {
+        tracks: result.tracks,
+        version: result.version,
+      });
+    }
+  }
+}
+
+redo(): void {
+  const result = this.context.handleRedo();
+  if (result && result.tracks) {
+    // Convert JSON back to Track objects
+    const tracks = result.tracks.map((t: TrackJSON) => Track.fromJSON(t));
+    
+    // Update store
+    timelineContextStore.setTimelineData(this.context.contextId, {
+      tracks,
+      version: result.version,
+    });
+
+    // Update duration and notify components
+    this.context.setTotalDuration(getTotalDuration(result.tracks));
+    this.context.updateChangeLog();
+
+    // Trigger timeline action
+    if (this.context?.setTimelineAction) {
+      this.context.setTimelineAction(TIMELINE_ACTION.UPDATE_PLAYER_DATA, {
+        tracks: result.tracks,
+        version: result.version,
+      });
+    }
+  }
 }
 ```
 
@@ -698,9 +866,6 @@ pnpm dev:timeline
 pnpm dev:canvas
 pnpm dev:video-editor
 
-# Run tests
-pnpm test
-
 # Run linting
 pnpm lint
 
@@ -771,17 +936,58 @@ describe('ElementAdder', () => {
     it('should add element to track', async () => {
       const element = createTestElement();
       
-      await elementAdder.visit(element);
+      const result = await elementAdder.visit(element);
       
       expect(mockTrack.addElement).toHaveBeenCalledWith(element);
+      expect(result).toBe(true);
     });
     
-    it('should throw error for invalid element', async () => {
+    it('should return false for invalid element', async () => {
       const invalidElement = createInvalidElement();
+      mockTrack.addElement.mockReturnValue(false);
       
-      await expect(elementAdder.visit(invalidElement))
-        .rejects.toThrow(ValidationError);
+      const result = await elementAdder.visit(invalidElement);
+      
+      expect(result).toBe(false);
     });
+  });
+});
+
+// TimelineEditor integration tests
+describe('TimelineEditor Integration', () => {
+  let timelineEditor: TimelineEditor;
+  let mockContext: TimelineOperationContext;
+  
+  beforeEach(async () => {
+    mockContext = createMockContext();
+    timelineEditor = new TimelineEditor(mockContext);
+  });
+  
+  it('should execute add element operation end-to-end', async () => {
+    const track = timelineEditor.addTrack('Test Track');
+    const element = createTestElement();
+    
+    const result = await timelineEditor.addElementToTrack(track, element);
+    
+    expect(result).toBe(true);
+    expect(track.getElements()).toHaveLength(1);
+  });
+  
+  it('should handle undo/redo operations', () => {
+    const track = timelineEditor.addTrack('Test Track');
+    const element = createTestElement();
+    
+    // Add element
+    timelineEditor.addElementToTrack(track, element);
+    expect(track.getElements()).toHaveLength(1);
+    
+    // Undo
+    timelineEditor.undo();
+    expect(track.getElements()).toHaveLength(0);
+    
+    // Redo
+    timelineEditor.redo();
+    expect(track.getElements()).toHaveLength(1);
   });
 });
 

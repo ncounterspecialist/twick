@@ -21,7 +21,7 @@ const TextEffectPanel = ({editor, selectedItem}: {editor: TimelineEditor, select
         duration: Math.min(element?.getDuration() ?? 0, 1)
       })
       element.setTextEffect(textEffect);
-      editor.updateElementInTrack(element.getTrackId(), element);
+      editor.updateElement(element);
     }
   };
 
@@ -30,7 +30,7 @@ const TextEffectPanel = ({editor, selectedItem}: {editor: TimelineEditor, select
     if(selectedItem instanceof TextElement) {
       const element = selectedItem as TextElement;
       element.setTextEffect(undefined);
-      editor.updateElementInTrack(element.getTrackId(), element);
+      editor.updateElement(element);
     }
   };
 

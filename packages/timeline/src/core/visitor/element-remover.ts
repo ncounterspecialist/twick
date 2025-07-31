@@ -8,55 +8,57 @@ import { IconElement } from "../elements/icon.element";
 import { CircleElement } from "../elements/circle.element";
 import { RectElement } from "../elements/rect.element";
 import { Track } from "../track/track";
+import { TrackFriend } from "../track/track.friend";
 
 /**
  * ElementRemover visitor for removing elements from tracks
  * Uses the visitor pattern to handle different element types
+ * Implements the Friend Class Pattern for explicit access control
  */
 export class ElementRemover implements ElementVisitor<boolean> {
-  private track: Track;
+  private trackFriend: TrackFriend;
 
   constructor(track: Track) {
-    this.track = track;
+    this.trackFriend = track.createFriend();
   }
 
   visitVideoElement(element: VideoElement): boolean {
-    this.track.removeElement(element);
+    this.trackFriend.removeElement(element);
     return true;
   }
 
   visitAudioElement(element: AudioElement): boolean {
-    this.track.removeElement(element);
+    this.trackFriend.removeElement(element);
     return true;
   }
 
   visitImageElement(element: ImageElement): boolean {
-    this.track.removeElement(element);
+    this.trackFriend.removeElement(element);
     return true;
   }
 
   visitTextElement(element: TextElement): boolean {
-    this.track.removeElement(element);
+    this.trackFriend.removeElement(element);
     return true;
   }
 
   visitCaptionElement(element: CaptionElement): boolean {
-    this.track.removeElement(element);
+    this.trackFriend.removeElement(element);
     return true;
   }
 
   visitIconElement(element: IconElement): boolean {
-    this.track.removeElement(element);
+    this.trackFriend.removeElement(element);
     return true;
   }
 
   visitCircleElement(element: CircleElement): boolean {
-    this.track.removeElement(element);
+    this.trackFriend.removeElement(element);
     return true;
   }
 
   visitRectElement(element: RectElement): boolean {
-    this.track.removeElement(element);
+    this.trackFriend.removeElement(element);
     return true;
   }
 } 

@@ -28,7 +28,7 @@ export const usePlayerManager = ({
         break;
       case CANVAS_OPERATIONS.ITEM_UPDATED:
         if (element) {
-          editor.updateElementInTrack(element.getTrackId(), element);
+          editor.updateElement(element);
         }
         break;
       default:

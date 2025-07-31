@@ -9,14 +9,14 @@ const useTimelineControl = () => {
 
   const deleteItem = (item: Track | TrackElement) => {
     if(item instanceof Track) {
-      editor.removeTrackById(item.getId());
+      editor.removeTrack(item);
     } else if(item instanceof TrackElement) {
-      editor.removeElementFromTrack(item.getTrackId(), item);
+      editor.removeElement(item);
     }
   };
   
   const splitElement = (element: TrackElement, currentTime: number) => {
-    editor.splitElementInTrack(element.getTrackId(), element, currentTime);
+    editor.splitElement(element, currentTime);
   };
 
   const handleUndo = () => {

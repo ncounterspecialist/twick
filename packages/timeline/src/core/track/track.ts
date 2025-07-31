@@ -7,6 +7,7 @@ import {
   ElementValidator,
   ValidationError,
 } from "../visitor/element-validator";
+import { TrackFriend } from "./track.friend";
 
 export class Track {
   private id: string;
@@ -21,6 +22,45 @@ export class Track {
     this.type = "element";
     this.elements = [];
     this.validator = new ElementValidator();
+  }
+
+  /**
+   * Create a friend instance for explicit access to protected methods
+   * This implements the Friend Class Pattern
+   * @returns TrackFriend instance
+   */
+  createFriend(): TrackFriend {
+    return new TrackFriend(this);
+  }
+
+  /**
+   * Friend method to add element (called by TrackFriend)
+   * @param element The element to add
+   * @param skipValidation If true, skips validation
+   * @returns true if element was added successfully
+   */
+  addElementViaFriend(
+    element: TrackElement,
+    skipValidation: boolean = false
+  ): boolean {
+    return this.addElement(element, skipValidation);
+  }
+
+  /**
+   * Friend method to remove element (called by TrackFriend)
+   * @param element The element to remove
+   */
+  removeElementViaFriend(element: TrackElement): void {
+    this.removeElement(element);
+  }
+
+  /**
+   * Friend method to update element (called by TrackFriend)
+   * @param element The element to update
+   * @returns true if element was updated successfully
+   */
+  updateElementViaFriend(element: TrackElement): boolean {
+    return this.updateElement(element);
   }
 
   getId(): string {
@@ -60,7 +100,7 @@ export class Track {
    * @param skipValidation If true, skips validation (use with caution)
    * @returns true if element was added successfully, throws ValidationError if validation fails
    */
-   addElement(
+  protected addElement(
     element: TrackElement,
     skipValidation: boolean = false
   ): boolean {
@@ -86,7 +126,7 @@ export class Track {
     return false;
   }
 
-  removeElement(element: TrackElement): void {
+  protected removeElement(element: TrackElement): void {
     const index = this.elements.findIndex((e) => e.getId() === element.getId());
     if (index !== -1) {
       this.elements.splice(index, 1);
@@ -98,7 +138,7 @@ export class Track {
    * @param element The element to update
    * @returns true if element was updated successfully, throws ValidationError if validation fails
    */
-  updateElement(element: TrackElement): boolean {
+  protected updateElement(element: TrackElement): boolean {
     try {
       const isValid = this.validateElement(element);
       if (isValid) {

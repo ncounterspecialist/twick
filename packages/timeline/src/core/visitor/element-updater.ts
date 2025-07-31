@@ -8,47 +8,49 @@ import { IconElement } from "../elements/icon.element";
 import { CircleElement } from "../elements/circle.element";
 import { RectElement } from "../elements/rect.element";
 import { Track } from "../track/track";
+import { TrackFriend } from "../track/track.friend";
 
 /**
  * ElementUpdater visitor for updating elements in tracks
  * Uses the visitor pattern to handle different element types
+ * Implements the Friend Class Pattern for explicit access control
  */
 export class ElementUpdater implements ElementVisitor<boolean> {
-  private track: Track;
+  private trackFriend: TrackFriend;
 
   constructor(track: Track) {
-    this.track = track;
+    this.trackFriend = track.createFriend();
   }
 
   visitVideoElement(element: VideoElement): boolean {
-    return this.track.updateElement(element);
+    return this.trackFriend.updateElement(element);
   }
 
   visitAudioElement(element: AudioElement): boolean {
-    return this.track.updateElement(element);
+    return this.trackFriend.updateElement(element);
   }
 
   visitImageElement(element: ImageElement): boolean {
-    return this.track.updateElement(element);
+    return this.trackFriend.updateElement(element);
   }
 
   visitTextElement(element: TextElement): boolean {
-    return this.track.updateElement(element);
+    return this.trackFriend.updateElement(element);
   }
 
   visitCaptionElement(element: CaptionElement): boolean {
-    return this.track.updateElement(element);
+    return this.trackFriend.updateElement(element);
   }
 
   visitIconElement(element: IconElement): boolean {
-    return this.track.updateElement(element);
+    return this.trackFriend.updateElement(element);
   }
 
   visitCircleElement(element: CircleElement): boolean {
-    return this.track.updateElement(element);
+    return this.trackFriend.updateElement(element);
   }
 
   visitRectElement(element: RectElement): boolean {
-    return this.track.updateElement(element);
+    return this.trackFriend.updateElement(element);
   }
 } 
