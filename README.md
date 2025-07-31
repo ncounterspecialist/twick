@@ -105,7 +105,7 @@ Join our Discord community to:
 - Get help and share your experiences
 - Stay updated with the latest developments
 
-[Join our Discord Server](https://discord.gg/u7useVAY)
+[Join our Discord Server](https://discord.gg/Ak6NRJnY)
 
 ## 🛡 License
 
