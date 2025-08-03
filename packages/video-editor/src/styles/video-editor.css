@@ -1,3 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200..1000;1,200..1000&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Mulish:ital,wght@0,200..1000;1,200..1000&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bangers&family=Birthstone&family=Corinthia:wght@400;700&family=Imperial+Script&family=Kumar+One+Outline&family=Londrina+Outline&family=Marck+Script&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Pattaya&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.cdnfonts.com/css/peralta');
+@import url('https://fonts.cdnfonts.com/css/impact');
+@import url('https://fonts.cdnfonts.com/css/lumanosimo');
+@import url('https://fonts.cdnfonts.com/css/kapakana');
+@import url('https://fonts.cdnfonts.com/css/handyrush');
+@import url('https://fonts.cdnfonts.com/css/dasher');
+@import url('https://fonts.cdnfonts.com/css/brittany-signature');
+
 .twick-editor-main-container {
   display: flex;
   flex-direction: column;
