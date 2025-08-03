@@ -49,3 +49,31 @@ export const DEFAULT_ELEMENT_COLORS: ElementColors = {
   transition: "#7A573A", // Toasted copper
   animation: "#32645C", // Slate pine green
 };
+
+export const AVAILABLE_TEXT_FONTS = {
+  // Google Fonts
+  RUBIK: "Rubik",
+  MULISH: "Mulish",
+  LUCKIEST_GUY: "Luckiest Guy",
+  PLAYFAIR_DISPLAY: "Playfair Display",
+  ROBOTO: "Roboto",
+  POPPINS: "Poppins",
+  // Display and Decorative Fonts
+  BANGERS: "Bangers",
+  BIRTHSTONE: "Birthstone",
+  CORINTHIA: "Corinthia",
+  IMPERIAL_SCRIPT: "Imperial Script",
+  KUMAR_ONE_OUTLINE: "Kumar One Outline",
+  LONDRI_OUTLINE: "Londrina Outline",
+  MARCK_SCRIPT: "Marck Script",
+  MONTSERRAT: "Montserrat",
+  PATTAYA: "Pattaya",
+  // CDN Fonts
+  PERALTA: "Peralta",
+  IMPACT: "Impact",
+  LUMANOSIMO: "Lumanosimo",
+  KAPAKANA: "Kapakana",
+  HANDYRUSH: "HandyRush",
+  DASHER: "Dasher",
+  BRITTANY_SIGNATURE: "Brittany Signature"
+}
