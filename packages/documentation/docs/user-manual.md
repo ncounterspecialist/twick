@@ -1,663 +1,1631 @@
-# Twick User Manual
+# Twick Video Editor SDK - Complete User Manual
 
-Welcome to the comprehensive usage guide for the Twick Video Editor SDK. This document will walk you through integrating Twick into your project, using the editor, managing tracks and elements, adding add-ons like text effects and frame effects, and performing CRUD operations.
-
----
-
-## 📋 Index
-
-1. [Getting Started](#getting-started)
-2. [Basic Editor Setup](#basic-editor-setup)
-3. [Timeline Context & LivePlayer Context](#timeline-context--liveplayer-context)
-    - [TimelineEditor Instance](#314-timelineeditor-instance)
-    - [Automatic History Management](#315-automatic-history-management)
-    - [Persistence Options](#316-persistence-options)
-    - [Manual History Control](#317-manual-history-control)
-    - [Timeline Actions](#317-timeline-actions)
-    - [Change Detection](#318-change-detection)
-    - [LivePlayerProvider Setup](#liveplayerprovider-setup)
-    - [LivePlayerContext Features](#liveplayercontext-features)
-        - [Player State Management](#321-player-state-management)
-        - [Time Management](#322-time-management)
-        - [Volume Control](#323-volume-control)
-        - [Complete Context Interface](#complete-context-interface)
-4. [Timeline Editor API Reference](#4-timeline-editor)
-    - [Track Management](#41-track-management)
-    - [Timeline Data Access](#42-timeline-data-access)
-    - [Element Management](#43-element-management)
-    - [Player Control Methods](#46-player-control-methods)
-    - [Internal Methods](#47-internal-methods)
-5. [Timeline Structure: Tracks & Elements](#5-timeline-structure-tracks--elements)
-6. [Add-ons: Animations, Text Effects, Frame Effects](#6-add-ons-animations-text-effects-frame-effects)
-    - [Adding Text Effects](#adding-text-effects)
-    - [Adding Frame Effects](#adding-frame-effects)
-7. [Example: Full Workflow](#7-example-full-workflow)
-8. [Best Practices & Tips](#8-best-practices--tips)
-9. [Troubleshooting & FAQ](#9-troubleshooting--faq)
+> **Professional Video Editing Made Simple**  
+> A comprehensive guide to integrating and using the Twick Video Editor SDK in your applications.
 
 ---
 
-## 1. Getting Started
+## 📋 Table of Contents
 
-### Installation of Twick Packages
+1. [Quick Start](#quick-start)
+2. [Core Concepts](#core-concepts)
+3. [Installation & Setup](#installation--setup)
+4. [Basic Integration](#basic-integration)
+5. [Timeline Management](#timeline-management)
+6. [Element Types](#element-types)
+7. [Effects & Animations](#effects--animations)
+8. [Advanced Features](#advanced-features)
+9. [API Reference](#api-reference)
+10. [Examples & Workflows](#examples--workflows)
+11. [Best Practices](#best-practices)
+12. [Troubleshooting](#troubleshooting)
 
-Twick is organized as a monorepo using pnpm workspaces. To install Twick packages in your project:
+---
 
-#### Option 1: Using pnpm (Recommended)
-```bash
-# Install individual packages
-pnpm add @twick/video-editor @twick/timeline @twick/live-player @twick/canvas
+## Quick Start
 
-#### Option 2: Using npm
-```bash
-npm install @twick/video-editor @twick/timeline @twick/live-player @twick/canvas
-```
+Get up and running with Twick in under 5 minutes! This section will walk you through creating your first video editor application step by step.
 
-#### Option 3: Using yarn
-```bash
-yarn add @twick/video-editor @twick/timeline @twick/live-player @twick/canvas
-```
+### **What is Twick?**
 
-## 2. Basic Editor Setup
+Twick is a powerful React-based video editing SDK that lets you create professional video editing applications. Think of it like having the core features of Adobe Premiere Pro or Final Cut Pro, but built specifically for web applications. You can add text overlays, video clips, images, audio tracks, and apply various effects and animations - all programmatically or through a user interface.
 
-### Basic Example
+### **Why Choose Twick?**
+
+- **React Native**: Built specifically for React applications
+- **Professional Features**: Timeline editing, undo/redo, multiple tracks
+- **Rich Effects**: Text animations, frame effects, motion graphics
+- **Flexible**: Customizable UI and programmatic control
+- **Performance**: Optimized for smooth video editing experience
+
+### **Your First Video Editor**
+
+Here's the complete code to create a fully functional video editor:
 
 ```typescript
+import React from 'react';
 import VideoEditor, { INITIAL_TIMELINE_DATA } from "@twick/video-editor";
 import "@twick/video-editor/dist/video-editor.css";
 import { LivePlayerProvider } from "@twick/live-player";
-import { TimelineProvider, useTimelineContext } from "@twick/timeline";
+import { TimelineProvider } from "@twick/timeline";
 
-const MyVideoEditor = () => {
-  const { editor } = useTimelineContext();
+function App() {
   return (
     <LivePlayerProvider>
       <TimelineProvider
-        contextId={'my-editor'}
+        contextId="my-video-project"
         initialData={INITIAL_TIMELINE_DATA}
       >
         <VideoEditor
-          leftPanel={}
-          rightPanel={}
+          editorConfig={{
+            canvasMode: true,
+            videoProps: { width: 1920, height: 1080 }
+          }}
+        />
+      </TimelineProvider>
+    </LivePlayerProvider>
+  );
+}
+
+export default App;
+```
+
+### **What This Code Does:**
+
+Let's break down what each part of this code accomplishes:
+
+1. **LivePlayerProvider**: This is like a manager for your video player. It handles play/pause, current time, volume, and other playback controls. Think of it as the "remote control" for your video.
+
+2. **TimelineProvider**: This manages your editing timeline - the tracks, elements, and all the editing history. It's like the "project manager" that keeps track of everything you're editing and allows you to undo/redo changes.
+
+3. **VideoEditor**: This is the main interface where users will actually edit videos. It provides the visual timeline, canvas, and all the editing tools.
+
+4. **editorConfig**: This tells the editor how to behave - in this case, we're setting up a 1920x1080 (Full HD) canvas for editing.
+
+### **What You Get:**
+
+When you run this code, you'll have a complete video editor with:
+- **Timeline Interface**: A visual timeline where you can arrange video clips, text, and other elements
+- **Canvas Preview**: A preview area showing how your video will look
+- **Undo/Redo**: Built-in history management so users can undo mistakes
+- **Playback Controls**: Play, pause, and seek through your video
+- **Drag & Drop**: Users can drag elements around the timeline
+- **Real-time Preview**: See changes as they happen
+
+### **Next Steps:**
+
+Once you have this basic setup working, you can:
+- Add custom control panels
+- Create programmatic video editing workflows
+- Integrate with your existing application
+- Add custom styling and branding
+
+The beauty of Twick is that this simple setup gives you a professional-grade video editor that you can customize and extend however you need!
+
+---
+
+## Core Concepts
+
+Before diving into the code, let's understand the fundamental concepts that make Twick work. Think of video editing like building a layered cake - each layer (track) can contain different ingredients (elements), and you can arrange them in time to create the final masterpiece.
+
+### **Timeline Structure**
+
+The timeline is the heart of any video editor. In Twick, it's organized like a professional video editing software:
+
+```
+Timeline
+├── Track 1 (Main Video)
+│   ├── Video Element (0-10s)
+│   └── Image Element (5-15s)
+├── Track 2 (Text Overlays)
+│   ├── Title Text (1-5s)
+│   └── Subtitle Text (3-8s)
+└── Track 3 (Audio)
+    └── Background Music (0-20s)
+```
+
+**Understanding the Structure:**
+- **Timeline**: The entire editing workspace where your video comes together
+- **Tracks**: Like layers in Photoshop, each track can hold different types of content
+- **Elements**: The actual content (video, text, images, etc.) that appears on your tracks
+- **Time**: Everything is positioned in time (seconds) to create the final sequence
+
+**Why This Matters:**
+This structure allows you to have multiple elements playing at the same time. For example, you can have background music playing while text appears over a video, creating a professional multi-layered video.
+
+### **Key Components**
+
+Twick is built around four main components that work together to create the video editing experience:
+
+| Component | Purpose | Required | What It Does |
+|-----------|---------|----------|--------------|
+| `LivePlayerProvider` | Manages video playback state | ✅ | Controls play/pause, time, volume - like a remote control |
+| `TimelineProvider` | Manages timeline and undo/redo | ✅ | Keeps track of all your edits and allows undoing mistakes |
+| `VideoEditor` | Main editor interface | ✅ | The visual interface where users actually edit videos |
+| `TimelineEditor` | Programmatic timeline control | Optional | Lets you control the timeline with code instead of UI |
+
+**How They Work Together:**
+1. **LivePlayerProvider** handles the "playing" part - making videos play, pause, and seek
+2. **TimelineProvider** handles the "editing" part - managing what's on the timeline and keeping history
+3. **VideoEditor** provides the visual interface where users can see and interact with everything
+4. **TimelineEditor** gives you programmatic control for automation and custom workflows
+
+### **Element Types**
+
+Elements are the building blocks of your video. Each element type serves a specific purpose and has its own set of properties:
+
+| Type | Description | Properties | Common Uses |
+|------|-------------|------------|-------------|
+| `TextElement` | Text overlays | Font, size, color, position | Titles, captions, credits |
+| `VideoElement` | Video clips | Source, duration, volume | Main video content, clips |
+| `ImageElement` | Static images | Source, dimensions, position | Photos, graphics, logos |
+| `AudioElement` | Audio tracks | Source, volume, playback rate | Background music, sound effects |
+| `CaptionElement` | Subtitles | Text, timing, style | Subtitles, accessibility |
+| `RectElement` | Rectangles | Color, size, position | Backgrounds, overlays, graphics |
+| `CircleElement` | Circles | Color, radius, position | Highlights, decorative elements |
+| `IconElement` | Icons | Icon type, size, color | UI elements, symbols, buttons |
+
+**Element Lifecycle:**
+Every element has a lifecycle in your video:
+1. **Start Time**: When the element begins to appear
+2. **Duration**: How long the element stays visible
+3. **End Time**: When the element disappears
+4. **Properties**: How the element looks and behaves during its time
+
+**Why This Matters:**
+Understanding element types helps you choose the right tool for the job. Want to add a title? Use TextElement. Need background music? Use AudioElement. Want to highlight something? Use RectElement or CircleElement.
+
+---
+
+## Installation & Setup
+
+Setting up Twick in your project is straightforward. This section will guide you through the installation process and help you get everything configured properly.
+
+### **Prerequisites**
+
+Before installing Twick, make sure you have:
+- **Node.js** (version 16 or higher)
+- **React** (version 16.8 or higher for hooks support)
+- **TypeScript** (recommended for better development experience)
+- A **package manager** (npm, yarn, or pnpm)
+
+### **Step 1: Install Packages**
+
+Twick is organized as a modular system, so you can install only the packages you need. Here are the installation commands for different package managers:
+
+```bash
+# Using pnpm (recommended)
+pnpm add @twick/video-editor @twick/timeline @twick/live-player @twick/canvas
+
+# Using npm
+npm install @twick/video-editor @twick/timeline @twick/live-player @twick/canvas
+
+# Using yarn
+yarn add @twick/video-editor @twick/timeline @twick/live-player @twick/canvas
+```
+
+**What Each Package Does:**
+- **@twick/video-editor**: The main editor component and UI
+- **@twick/timeline**: Timeline management and element handling
+- **@twick/live-player**: Video playback and player controls
+- **@twick/canvas**: Canvas rendering and visual effects
+
+**Optional Packages:**
+If you need additional features, you can also install:
+- **@twick/media-utils**: Utilities for handling media files
+- **@twick/visualizer**: Advanced visualization components
+
+### **Step 2: Import Styles**
+
+Twick comes with pre-built styles that provide a professional look and feel. You need to import these styles to get the proper appearance:
+
+```typescript
+// Import the default styles
+import "@twick/video-editor/dist/video-editor.css";
+```
+
+**Why This Matters:**
+The CSS file provides:
+- Professional timeline styling
+- Proper element positioning
+- Responsive design
+- Consistent visual appearance
+- Hover effects and interactions
+
+**Custom Styling:**
+You can override these styles with your own CSS if you want to customize the appearance to match your application's design.
+
+### **Step 3: Verify Installation**
+
+After installation, you can verify everything is working by checking your package.json file. You should see the Twick packages listed in your dependencies:
+
+```json
+{
+  "dependencies": {
+    "@twick/video-editor": "^0.0.1",
+    "@twick/timeline": "^0.0.1",
+    "@twick/live-player": "^0.0.1",
+    "@twick/canvas": "^0.0.1"
+  }
+}
+```
+
+### **Common Installation Issues**
+
+**If you encounter any issues:**
+
+1. **Version Conflicts**: Make sure all Twick packages are the same version
+2. **Peer Dependencies**: Ensure React and React-DOM are properly installed
+3. **TypeScript Errors**: Install TypeScript types if you're using TypeScript
+4. **Build Errors**: Clear your node_modules and reinstall if needed
+
+**Troubleshooting Commands:**
+```bash
+# Clear cache and reinstall
+rm -rf node_modules package-lock.json
+npm install
+
+# Or with pnpm
+pnpm store prune
+pnpm install
+```
+
+### **Step 3: Basic Setup**
+
+```typescript
+import React from 'react';
+import VideoEditor, { INITIAL_TIMELINE_DATA } from "@twick/video-editor";
+import "@twick/video-editor/dist/video-editor.css";
+import { LivePlayerProvider } from "@twick/live-player";
+import { TimelineProvider } from "@twick/timeline";
+
+function VideoEditorApp() {
+  return (
+    <LivePlayerProvider>
+      <TimelineProvider
+        contextId="my-project"
+        initialData={INITIAL_TIMELINE_DATA}
+        undoRedoPersistenceKey="my-project-history"
+        maxHistorySize={50}
+      >
+        <VideoEditor
           editorConfig={{
             canvasMode: true,
             videoProps: {
-              width: 720,
-              height: 1280,
+              width: 1920,
+              height: 1080,
             },
           }}
         />
       </TimelineProvider>
     </LivePlayerProvider>
   );
-};
-```
-
-### Key concepts
-
-### **2.1 LivePlayerProvider** 
-This is a React context provider that manages the state of the video player, such as play/pause, current time, and volume. It should wrap your editor to enable playback features.
-
-### **2.2 TimelineProvider**
-This provider manages the timeline state, including tracks, elements, and undo/redo functionality. It should wrap the `VideoEditor` to provide timeline editing capabilities.
-
-### **2.3 initialData** 
-This prop sets the initial timeline structure for your editor. In the example, `INITIAL_TIMELINE_DATA` is used to define the default tracks and elements that appear when the editor loads.
-
-##### INITIAL_TIMELINE_DATA
-```typescript
-
-// This is the default timeline data structure used by Twick's video editor. 
-// It describes a timeline with a single track containing one text element.
-//
-// - `tracks`: An array of track objects. Each track can hold multiple elements.
-//   - `type`: The type of track. Here, "element" means it's a standard track for timeline elements.
-//   - `id`: Unique identifier for the track.
-//   - `name`: Human-readable name for the track.
-//   - `elements`: Array of elements (such as text, images, videos) on this track.
-//     - Each element has:
-//       - `id`: Unique identifier for the element.
-//       - `trackId`: The ID of the track this element belongs to.
-//       - `name`: Name of the element.
-//       - `type`: The type of element. Here, "text" means it's a text overlay.
-//       - `s`: Start time (in seconds) for when this element appears.
-//       - `e`: End time (in seconds) for when this element disappears.
-//       - `props`: Properties specific to the element type. For text, this includes:
-//         - `text`: The string to display.
-//         - `fill`: The color of the text (in hex).
-// - `version`: The version of the timeline data format.
-
-{
-  tracks: [
-    {
-      type: "element",
-      id: "t-sample",
-      name: "sample",
-      elements: [
-        {
-          id: "e-sample",
-          trackId: "t-sample",
-          name: "sample",
-          type: "text",
-          s: 0,
-          e: 5,
-          props: {
-            text: "Twick Video Editor",
-            fill: "#FFFFFF",
-          },
-        },
-      ],
-    },
-  ],
-  version: 1,
 }
 ```
-
-### **2.4 VideoEditor** 
-The main editor component that provides the user interface for editing videos, tracks, and elements.
-
-### **2.5 leftPanel** and **rightPanel**
-These are optional props that allow you to inject custom React components into the left and right side panels of the editor UI, enabling further customization.
-
-### **2.6 editorConfig**
-This prop allows you to configure the editor’s behavior and appearance, such as enabling canvas mode or setting the video’s width and height.
-
-### **2.6 editor**
-The `editor` prop is a reference to the underlying editor instance. By accessing this prop, you can programmatically control the editor, invoke methods, or listen to events. This is useful for advanced integrations, automation, or when you need to trigger editor actions from outside the component tree.
-
-
-## 3. Providers
-
-### 3.1 TimeLine Context
-
-#### Accessing and Using Timeline Context
-
-The `TimelineProvider` and `useTimelineContext` hook expose a comprehensive set of features for managing timeline state, undo/redo operations, and timeline editing. Here's a complete breakdown of all available features:
-
-#### TimelineProvider Configuration
-
-```typescript
-<TimelineProvider
-  contextId={'my-editor'}           // Unique identifier for this timeline instance
-  initialData={{                    // Optional initial timeline data
-    tracks: TrackJSON[],
-    version: number
-  }}
-  undoRedoPersistenceKey={'my-key'} 
-  maxHistorySize={20}               
->
-  {children}
-</TimelineProvider>
-```
-- **contextId**: A unique string identifier for this timeline context instance. 
-
-- **initialData**: The initial timeline data to load into the editor. This should be an object containing the tracks and version, typically matching your application's timeline data structure.
-
-- **undoRedoPersistenceKey**: An optional string key used to persist the undo/redo history in local storage or another persistence layer. This allows users to retain their editing history across page reloads or sessions.
-
-- **maxHistorySize**: The maximum number of undo/redo steps to keep in memory. This helps control memory usage and limits how far back users can undo or redo actions.
-
-
-#### TimelineContext Features
-
-When you use `useTimelineContext()`, you get access to the following features:
-
-#### 3.1.1 **Core State Properties**
-```typescript
-const {
-  contextId,        
-  selectedItem,    
-  totalDuration,    
-  changeLog,      
-  present,          
-  timelineAction, 
-} = useTimelineContext();
-```
-
-- `contextId`: The unique identifier for this timeline context instance. It denotes the unique identifier of timeline context.
-
-- `selectedItem`: The currently selected item in the timeline, which could be a track, an element, or `null` if nothing is selected.
-
-- `totalDuration`: The total duration (in seconds) of the timeline, automatically calculated based on the tracks and elements.
-
-- `changeLog`: A counter that increments every time the timeline is modified. You can use this to detect when changes occur and trigger effects or updates.
-
-- `present`: The current state of the timeline data (tracks, elements, etc.) as a plain object. This is useful for reading or exporting the current timeline structure.
-
-- `timelineAction`: The most recent action performed on the timeline (such as 'add', 'remove', 'update'), which can be used to trigger custom logic or UI updates.
-
-#### 3.1.2 **Undo/Redo State**
-```typescript
-const {
-  canUndo,          
-  canRedo,         
-} = useTimelineContext();
-```
-- `canUndo`: A boolean value indicating whether there are actions in the history that can be undone.
-- `canRedo`: A boolean value indicating whether there are actions in the history that can be redone.
-
-#### 3.1.3 **State Management Functions**
-```typescript
-const {
-  setSelectedItem,  
-  setTimelineAction, 
-} = useTimelineContext();
-```
-- `setSelectedItem`: A function to update the currently selected item in the timeline. You can use this to select tracks, elements, or clear the selection by passing null.
-
-- `setTimelineAction`: A function to manually set the most recent timeline action (such as 'add', 'remove', or 'update'). This can be useful for triggering custom logic or UI updates in response to specific actions.
-
-
-#### 3.1.4 **TimelineEditor Instance**
-```typescript
-const { editor } = useTimelineContext();
-```
-
-The `editor` instance provides all timeline manipulation methods, features of editor are explained in editor section
-
-The TimelineProvider includes built-in undo/redo functionality with persistence:
-
-#### 3.1.5 **Automatic History Management**
-- Every timeline change is automatically recorded
-- Configurable history size (default: 20 operations)
-- Automatic cleanup of old history entries
-
-#### 3.1.6 **Persistence Options**
-```typescript
-// Enable persistence with a unique key
-<TimelineProvider
-  undoRedoPersistenceKey="my-project-123"
-  maxHistorySize={50}
->
-  {children}
-</TimelineProvider>
-```
-
-#### 3.1.7 **Manual History Control**
-```typescript
-const { editor } = useTimelineContext();
-
-// Manual undo/redo
-editor.undo();        // Undo last operation
-editor.redo();        // Redo last operation
-editor.resetHistory(); // Clear all history
-```
-
-#### 3.1.7 **Timeline Actions**
-
-The `setTimelineAction` function allows you to trigger specific timeline operations:
-
-```typescript
-const { setTimelineAction } = useTimelineContext();
-
-// Available action types (from TIMELINE_ACTION enum):
-setTimelineAction('SET_PLAYER_STATE', 'PAUSED');
-setTimelineAction('UPDATE_PLAYER_DATA', { tracks: [], version: 1 });
-setTimelineAction('NONE', null);
-```
-
-#### 3.1.8 **Change Detection**
-
-The `changeLog` property increments every time the timeline is modified, making it useful for detecting changes:
-
-```typescript
-const { changeLog } = useTimelineContext();
-
-useEffect(() => {
-  // This will run whenever the timeline changes
-  console.log('Timeline changed:', changeLog);
-}, [changeLog]);
-```
-
-### 3.2 LivePlayer Context
-
-The `LivePlayerProvider` and `useLivePlayerContext` hook provide a centralized state management system for video player controls and playback state. This context manages all player-related state including playback status, timing, volume, and seeking functionality.
-
-#### **LivePlayerProvider Setup**
-
-```typescript
-import { LivePlayerProvider } from "@twick/live-player";
-
-const MyApp = () => {
-  return (
-    <LivePlayerProvider>
-      <VideoEditor />
-    </LivePlayerProvider>
-  );
-};
-```
-
-#### **LivePlayerContext Features**
-
-When you use `useLivePlayerContext()`, you get access to the following features:
-
-#### 3.2.1 **Player State Management**
-
-```typescript
-const {
-  playerState,       
-  setPlayerState,     
-} = useLivePlayerContext();
-```
-- `playerState`: A string representing the current state of the player (e.g., "Playing", "Paused", "Refresh")
-
-- `setPlayerState`: A function to update the player's state 
-
-
-**Available Player States:**
-```typescript
-import { PLAYER_STATE } from "@twick/live-player";
-
-// Available states:
-PLAYER_STATE.PLAYING   // "Playing" - Video is currently playing
-PLAYER_STATE.PAUSED    // "Paused" - Video is paused
-PLAYER_STATE.REFRESH   // "Refresh" - Player is refreshing/updating
-```
-
-#### 3.2.2 **Time Management**
-
-```typescript
-const {
-  currentTime,        // number: Current playback time in seconds
-  seekTime,          // number: Target seek time in seconds
-  setCurrentTime,    // (time: number) => void: Update current time
-  setSeekTime,       // (time: number) => void: Set seek target time
-} = useLivePlayerContext();
-```
-
-- `currentTime`: The current playback position of the video, in seconds.
-- `seekTime`: The time (in seconds) you want to jump to in the video.
-- `setCurrentTime`: Function to update the current playback time.
-- `setSeekTime`: Function to set a new seek target time.
-
-##### 3.2.3 **Volume Control**
-
-```typescript
-const {
-  playerVolume,      // number: Current volume (0.0 to 1.0)
-  setPlayerVolume,   // (volume: number) => void: Update volume
-} = useLivePlayerContext();
-```
-
-- `playerVolume`: A number between 0.0 and 1.0 representing the current volume level of the player.
-- `setPlayerVolume`: A function that allows you to update the player's volume by passing a new value (between 0.0 and 1.0).
-
-#### **Complete Context Interface**
-
-```typescript
-type LivePlayerContextType = {
-  // State
-  playerState: string;           // Current player state
-  currentTime: number;           // Current playback time
-  seekTime: number;              // Target seek time
-  playerVolume: number;          // Current volume (0.0-1.0)
-  
-  // Actions
-  setSeekTime: (time: number) => void;           // Set seek time
-  setPlayerState: (state: string) => void;       // Update player state
-  setCurrentTime: (time: number) => void;        // Update current time
-  setPlayerVolume: (volume: number) => void;     // Update volume
-};
-```
-
-
-
-## 4. Timeline Editor
-
-### Detailed TimelineEditor API Reference
-
-The TimelineEditor provides a comprehensive API for managing timeline operations. All methods use the visitor pattern for element operations and automatically handle undo/redo history.
-
-#### 4.1 **Track Management**
-
-##### `addTrack(name: string): Track`
-Creates a new track with a unique ID and adds it to the timeline.
-```typescript
-const newTrack = editor.addTrack("My Track");
-console.log(newTrack.getId()); // "t-abc123..."
-console.log(newTrack.getName()); // "My Track"
-```
-
-##### `getTrackById(id: string): Track | null`
-Finds a track by its unique identifier.
-```typescript
-const track = editor.getTrackById("t-abc123");
-if (track) {
-  console.log("Found track:", track.getName());
-}
-```
-
-##### `getTrackByName(name: string): Track | null`
-Finds a track by its display name.
-```typescript
-const track = editor.getTrackByName("My Track");
-if (track) {
-  console.log("Found track ID:", track.getId());
-}
-```
-
-##### `removeTrack(track: Track): void`
-Removes a track and all its elements from the timeline.
-```typescript
-const track = editor.getTrackByName("My Track");
-if (track) {
-  editor.removeTrack(track);
-}
-```
-
-##### `removeTrackById(id: string): void`
-Removes a track by its ID.
-```typescript
-editor.removeTrackById("t-abc123");
-```
-
-##### `reorderTracks(tracks: Track[]): void`
-Reorders tracks in the timeline. The array order determines the new track order.
-```typescript
-const currentTracks = editor.getTimelineData()?.tracks || [];
-const reorderedTracks = [currentTracks[2], currentTracks[0], currentTracks[1]];
-editor.reorderTracks(reorderedTracks);
-```
-
-#### 4.2 **Timeline Data Access**
-
-##### `getTimelineData(): TimelineTrackData | null`
-Returns the current timeline state including all tracks and version.
-```typescript
-const timelineData = editor.getTimelineData();
-if (timelineData) {
-  console.log("Version:", timelineData.version);
-  console.log("Track count:", timelineData.tracks.length);
-  console.log("Total duration:", timelineData.tracks.reduce((max, track) => 
-    Math.max(max, track.getDuration()), 0));
-}
-```
-
-##### `getLatestVersion(): number`
-Returns the current version number of the timeline.
-```typescript
-const version = editor.getLatestVersion();
-console.log("Current timeline version:", version);
-```
-
-##### `refresh(): void`
-Refreshes the timeline data by re-saving the current state. Useful for triggering updates.
-```typescript
-// After making external changes to tracks
-editor.refresh();
-```
-
-#### 4.3 **Element Management**
-
-##### `addElementToTrack(track: Track, element: TrackElement): Promise<boolean>`
-Adds an element to a specific track using the visitor pattern.
-```typescript
-const track = editor.getTrackByName("My Track");
-if (track) {
-  const textElement = new TextElement("Hello World");
-  const success = await editor.addElementToTrack(track, textElement);
-  if (success) {
-    console.log("Element added successfully");
-  }
-}
-```
-
-##### `removeElement(element: TrackElement): boolean`
-Removes an element from its track using the visitor pattern.
-```typescript
-const element = track.getElements()[0]; // Get first element
-const success = editor.removeElement(element);
-if (success) {
-  console.log("Element removed successfully");
-}
-```
-
-##### `updateElement(element: TrackElement): boolean`
-Updates an existing element in its track using the visitor pattern.
-```typescript
-const textElement = track.getElements()[0] as TextElement;
-textElement.setText("Updated text");
-const success = editor.updateElement(textElement);
-if (success) {
-  console.log("Element updated successfully");
-}
-```
-
-##### `splitElement(element: TrackElement, splitTime: number): Promise<SplitResult>`
-Splits an element at a specific time point, creating two separate elements.
-```typescript
-const element = track.getElements()[0];
-const splitResult = await editor.splitElement(element, 2.5); // Split at 2.5 seconds
-if (splitResult.success) {
-  console.log("Element split into two parts");
-  console.log("First element:", splitResult.firstElement);
-  console.log("Second element:", splitResult.secondElement);
-}
-```
-
-##### `cloneElement(element: TrackElement): TrackElement | null`
-Creates a copy of an element with a new ID but same properties.
-```typescript
-const originalElement = track.getElements()[0];
-const clonedElement = editor.cloneElement(originalElement);
-if (clonedElement) {
-  // Add the cloned element to the same or different track
-  await editor.addElementToTrack(track, clonedElement);
-}
-```
-
-#### 4.4 **Project Management**
-
-##### `loadProject({ tracks: TrackJSON[], version: number }): void`
-Loads a complete project, replacing the current timeline state.
-```typescript
-const projectData = {
-  tracks: [
-    {
-      id: "t-1",
-      name: "Track 1",
-      type: "element",
-      elements: [
-        {
-          id: "e-1",
-          type: "text",
-          s: 0,
-          e: 5,
-          props: { text: "Hello", fontSize: 24 }
-        }
-      ]
-    }
-  ],
-  version: 1
-};
-
-editor.loadProject(projectData);
-```
-
-##### `getContext(): TimelineOperationContext`
-Returns the internal context object used by the editor.
-```typescript
-const context = editor.getContext();
-console.log("Context ID:", context.contextId);
-```
-
-#### 4.5 **History Management**
-
-##### `undo(): void`
-Reverts the last operation, restoring the previous timeline state.
-```typescript
-if (editor.getTimelineData()?.tracks.length > 0) {
-  editor.undo(); // Reverts the last change
-}
-```
-
-##### `redo(): void`
-Reapplies the last undone operation.
-```typescript
-editor.redo(); // Reapplies the last undone change
-```
-
-##### `resetHistory(): void`
-Clears all undo/redo history and resets the timeline to empty state.
-```typescript
-editor.resetHistory(); // Clears all history and timeline
-```
-
-#### 4.6 **Player Control**
-
-##### `pauseVideo(): void`
-Pauses video playback by triggering a player state change.
-```typescript
-editor.pauseVideo(); // Pauses the video player
-```
-
-#### 4.7 **Internal Methods**
-
-##### `setTimelineData(tracks: Track[], version?: number): TimelineTrackData`
-Protected method that updates the timeline state and triggers history updates.
-```typescript
-// This is called internally by other methods
-// It updates the timeline, increments version, and saves to history
-```
-
-##### `updateHistory(timelineTrackData: TimelineTrackData): void`
-Protected method that saves the current state to undo/redo history.
-```typescript
-// This is called internally when timeline data changes
-// It serializes tracks and updates the present state
-```
-
-## 5. Timeline Structure: Tracks & Elements
-
-- Understanding tracks, elements, and their relationships
-- Supported element types (text, image, video, etc.)
-
-## 6. Add-ons: Animations, Text Effects, Frame Effects
-
-### Adding Text Effects
-
-- Overview of text effect add-ons
-- How to apply, update, and remove text effects
-
-### Adding Frame Effects
-
-- Overview of frame effect add-ons
-- How to apply, update, and remove frame effects
-
-## 7. Example: Full Workflow
-
-- Step-by-step code example: create a track, add a text element, apply a text effect, and perform CRUD operations
-
-## 8. Best Practices & Tips
-
-- Recommended patterns for state management
-- Customizing the editor UI
-
-## 9. Troubleshooting & FAQ
-
-- Common issues and solutions
-- Where to get help
 
 ---
 
-_Next: [Getting Started](#getting-started)_
+## Basic Integration
+
+Now that you have Twick installed, let's learn how to integrate it into your application. This section covers the essential components and how to configure them properly.
+
+### **Understanding the Integration Pattern**
+
+Twick uses a provider pattern similar to React Context. This means you wrap your video editor components with providers that manage different aspects of the video editing experience. Think of it like setting up the foundation for a house - you need to establish the basic structure before you can build on top of it.
+
+### **Provider Configuration**
+
+The providers are the backbone of Twick. They manage state, handle user interactions, and coordinate between different parts of the system.
+
+#### **LivePlayerProvider**
+
+This provider manages everything related to video playback - like a smart remote control for your video.
+
+```typescript
+<LivePlayerProvider>
+  {/* Your video editor components */}
+</LivePlayerProvider>
+```
+
+**What LivePlayerProvider Does:**
+- **Playback Control**: Manages play, pause, and seek operations
+- **Time Management**: Tracks current playback time and duration
+- **Volume Control**: Handles audio volume and mute states
+- **State Synchronization**: Keeps all components in sync with playback state
+
+**Why You Need It:**
+Without LivePlayerProvider, you won't be able to play videos or control playback. It's essential for any video editing application.
+
+#### **TimelineProvider**
+
+This provider manages the timeline itself - the tracks, elements, and all the editing history.
+
+```typescript
+<TimelineProvider
+  contextId="unique-project-id"           // Required: Unique identifier
+  initialData={timelineData}              // Optional: Initial timeline
+  undoRedoPersistenceKey="project-key"    // Optional: Persist history
+  maxHistorySize={50}                     // Optional: History limit
+>
+  {/* Video editor components */}
+</TimelineProvider>
+```
+
+**What TimelineProvider Does:**
+- **Timeline Management**: Handles tracks, elements, and their relationships
+- **Undo/Redo**: Manages editing history so users can undo mistakes
+- **State Persistence**: Can save and restore editing sessions
+- **Change Tracking**: Monitors when things change and updates the UI
+
+**Configuration Options Explained:**
+
+| Property | Type | Required | Default | Description | Why It Matters |
+|----------|------|----------|---------|-------------|----------------|
+| `contextId` | `string` | ✅ | - | Unique identifier for this timeline | Prevents conflicts if you have multiple editors |
+| `initialData` | `TimelineData` | ❌ | `INITIAL_TIMELINE_DATA` | Initial timeline structure | Gives users a starting point |
+| `undoRedoPersistenceKey` | `string` | ❌ | - | Key for persisting undo/redo history | Saves user's work across sessions |
+| `maxHistorySize` | `number` | ❌ | `20` | Maximum undo/redo steps | Controls memory usage and performance |
+
+**Real-World Example:**
+```typescript
+// For a social media app with multiple video editors
+<TimelineProvider contextId="user-123-story-editor">
+  {/* User's story editor */}
+</TimelineProvider>
+
+<TimelineProvider contextId="user-123-post-editor">
+  {/* User's post editor */}
+</TimelineProvider>
+```
+
+### **VideoEditor Configuration**
+
+The VideoEditor component is the main interface where users will interact with your video editor.
+
+```typescript
+<VideoEditor
+  leftPanel={<CustomLeftPanel />}        // Optional: Custom left panel
+  rightPanel={<CustomRightPanel />}      // Optional: Custom right panel
+  editorConfig={{
+    canvasMode: true,                     // Enable canvas mode
+    videoProps: {
+      width: 1920,                       // Video width
+      height: 1080,                      // Video height
+    },
+  }}
+/>
+```
+
+**What VideoEditor Provides:**
+- **Timeline Interface**: Visual timeline where users arrange elements
+- **Canvas Preview**: Real-time preview of the video being edited
+- **Element Controls**: Tools for adding, editing, and removing elements
+- **Playback Controls**: Play, pause, and seek functionality
+
+**Editor Config Options Explained:**
+
+| Property | Type | Default | Description | Use Case |
+|----------|------|---------|-------------|----------|
+| `canvasMode` | `boolean` | `false` | Enable canvas rendering mode | For high-quality previews |
+| `videoProps.width` | `number` | `720` | Output video width | Set your desired video resolution |
+| `videoProps.height` | `number` | `1280` | Output video height | Set your desired video resolution |
+
+**Custom Panels:**
+The `leftPanel` and `rightPanel` props let you add custom controls and information panels:
+
+```typescript
+// Custom left panel with tools
+const CustomLeftPanel = () => (
+  <div className="tools-panel">
+    <button>Add Text</button>
+    <button>Add Image</button>
+    <button>Add Video</button>
+  </div>
+);
+
+// Custom right panel with properties
+const CustomRightPanel = () => (
+  <div className="properties-panel">
+    <h3>Element Properties</h3>
+    {/* Property controls */}
+  </div>
+);
+```
+
+### **Complete Integration Example**
+
+Here's how everything comes together in a real application:
+
+```typescript
+import React from 'react';
+import VideoEditor, { INITIAL_TIMELINE_DATA } from "@twick/video-editor";
+import "@twick/video-editor/dist/video-editor.css";
+import { LivePlayerProvider } from "@twick/live-player";
+import { TimelineProvider } from "@twick/timeline";
+
+function MyVideoApp() {
+  return (
+    <div className="video-app">
+      <header>
+        <h1>My Video Editor</h1>
+      </header>
+      
+      <main>
+        <LivePlayerProvider>
+          <TimelineProvider
+            contextId="my-video-project"
+            initialData={INITIAL_TIMELINE_DATA}
+            undoRedoPersistenceKey="my-project-history"
+            maxHistorySize={50}
+          >
+            <VideoEditor
+              leftPanel={<CustomToolsPanel />}
+              rightPanel={<CustomPropertiesPanel />}
+              editorConfig={{
+                canvasMode: true,
+                videoProps: {
+                  width: 1920,
+                  height: 1080,
+                },
+              }}
+            />
+          </TimelineProvider>
+        </LivePlayerProvider>
+      </main>
+    </div>
+  );
+}
+```
+
+**What This Gives You:**
+- A complete video editing application
+- Custom tool panels for your specific needs
+- Persistent editing history
+- Professional video preview
+- All the features of a commercial video editor
+
+### **Best Practices for Integration**
+
+1. **Unique Context IDs**: Always use unique context IDs if you have multiple editors
+2. **Appropriate History Size**: Set maxHistorySize based on your app's needs (20-50 is usually good)
+3. **Custom Panels**: Use custom panels to add your app's specific functionality
+4. **Error Handling**: Wrap your editor in error boundaries for production apps
+5. **Performance**: Consider lazy loading the editor for better initial page load
+
+---
+
+## 🎬 Timeline Management
+
+### **Accessing Timeline Context**
+
+```typescript
+import { useTimelineContext } from "@twick/timeline";
+
+function MyComponent() {
+  const {
+    editor,              // TimelineEditor instance
+    selectedItem,        // Currently selected track/element
+    totalDuration,       // Total timeline duration
+    changeLog,           // Change counter
+    present,             // Current timeline state
+    canUndo,            // Can undo operation
+    canRedo,            // Can redo operation
+    setSelectedItem,     // Set selected item
+    setTimelineAction    // Trigger timeline action
+  } = useTimelineContext();
+
+  // Your component logic
+}
+```
+
+### **TimelineEditor API**
+
+The `TimelineEditor` provides programmatic control over the timeline:
+
+```typescript
+const { editor } = useTimelineContext();
+
+// Track Management
+const track = editor.addTrack("My Track");
+const trackById = editor.getTrackById("track-id");
+editor.removeTrack(track);
+editor.reorderTracks([track1, track2, track3]);
+
+// Element Management
+await editor.addElementToTrack(track, element);
+editor.removeElement(element);
+editor.updateElement(element);
+const splitResult = await editor.splitElement(element, 5.0);
+const clonedElement = editor.cloneElement(element);
+
+// Project Management
+editor.loadProject(projectData);
+const timelineData = editor.getTimelineData();
+
+// History Management
+editor.undo();
+editor.redo();
+editor.resetHistory();
+
+// Player Control
+editor.pauseVideo();
+```
+
+### **Creating and Managing Tracks**
+
+```typescript
+// Create a new track
+const videoTrack = editor.addTrack("Main Video");
+const textTrack = editor.addTrack("Text Overlays");
+const audioTrack = editor.addTrack("Background Audio");
+
+// Get track by ID
+const track = editor.getTrackById("track-id");
+
+// Remove track
+editor.removeTrack(track);
+
+// Reorder tracks
+editor.reorderTracks([track1, track2, track3]);
+```
+
+### **Track Properties**
+
+```typescript
+// Track information
+const trackName = track.getName();
+const trackId = track.getId();
+const trackElements = track.getElements();
+const trackElementCount = track.getElementCount();
+const trackDuration = track.getDuration();
+
+// Track operations
+track.addElement(element);
+track.removeElement(element);
+track.getElementById("element-id");
+track.getElementsInTimeRange(0, 10);
+```
+
+---
+
+## Element Types
+
+### **TextElement**
+
+Create text overlays with rich formatting:
+
+```typescript
+import { TextElement } from "@twick/timeline";
+import { AVAILABLE_TEXT_FONTS } from "@twick/video-editor";
+
+const textElement = new TextElement("Hello World!");
+textElement
+  .setStart(0)                    // Start time (seconds)
+  .setEnd(5)                      // End time (seconds)
+  .setPosition({ x: 100, y: 100 }) // Position on canvas
+  .setFontSize(48)                // Font size
+  .setFontFamily(AVAILABLE_TEXT_FONTS.ROBOTO) // Font family
+  .setFill("#FFFFFF")             // Text color
+  .setTextAlign("center")         // Text alignment
+  .setFontWeight(700)             // Font weight
+  .setRotation(0)                 // Rotation (degrees)
+  .setOpacity(1.0);               // Opacity (0-1)
+```
+
+**Available Fonts:**
+- Google Fonts: Roboto, Poppins, Playfair Display, etc.
+- Display Fonts: Bangers, Birthstone, Corinthia, etc.
+- CDN Fonts: Peralta, Impact, Lumanosimo, etc.
+
+### **VideoElement**
+
+Add video clips to your timeline:
+
+```typescript
+import { VideoElement } from "@twick/timeline";
+
+const videoElement = new VideoElement("https://example.com/video.mp4", {
+  width: 1920,
+  height: 1080
+});
+videoElement
+  .setStart(0)                    // Start time
+  .setEnd(15)                     // End time
+  .setPosition({ x: 0, y: 0 })    // Position
+  .setPlay(true)                  // Auto-play
+  .setVolume(0.8)                 // Volume (0-1)
+  .setPlaybackRate(1.0)           // Playback speed
+  .setObjectFit("cover")          // Object fit mode
+  .setOpacity(1.0);               // Opacity
+```
+
+### **ImageElement**
+
+Add static images to your timeline:
+
+```typescript
+import { ImageElement } from "@twick/timeline";
+
+const imageElement = new ImageElement("https://example.com/image.jpg", {
+  width: 1920,
+  height: 1080
+});
+imageElement
+  .setStart(0)
+  .setEnd(10)
+  .setPosition({ x: 0, y: 0 })
+  .setObjectFit("contain")
+  .setOpacity(1.0);
+```
+
+### **AudioElement**
+
+Add audio tracks:
+
+```typescript
+import { AudioElement } from "@twick/timeline";
+
+const audioElement = new AudioElement("https://example.com/audio.mp3");
+audioElement
+  .setStart(0)
+  .setEnd(30)
+  .setPlay(true)
+  .setVolume(0.5)
+  .setPlaybackRate(1.0);
+```
+
+### **CaptionElement**
+
+Add subtitles with word-by-word timing:
+
+```typescript
+import { CaptionElement } from "@twick/timeline";
+
+const captionElement = new CaptionElement("This is a subtitle");
+captionElement
+  .setStart(0)
+  .setEnd(5)
+  .setPosition({ x: 0, y: 800 })
+  .setCaptionStyle("word_by_word")
+  .setFontSize(40)
+  .setFill("#FFFFFF");
+```
+
+### **Shape Elements**
+
+Add visual elements:
+
+```typescript
+import { RectElement, CircleElement, IconElement } from "@twick/timeline";
+
+// Rectangle
+const rectElement = new RectElement("#FF0000", { width: 200, height: 100 });
+rectElement
+  .setStart(0)
+  .setEnd(5)
+  .setPosition({ x: 100, y: 100 })
+  .setRotation(45);
+
+// Circle
+const circleElement = new CircleElement("#00FF00", 75);
+circleElement
+  .setStart(5)
+  .setEnd(10)
+  .setPosition({ x: 300, y: 300 });
+
+// Icon
+const iconElement = new IconElement("heart", "#FF6B35");
+iconElement
+  .setStart(10)
+  .setEnd(15)
+  .setPosition({ x: 500, y: 100 })
+  .setSize(64);
+```
+
+---
+
+## Effects & Animations
+
+### **Text Effects**
+
+Add dynamic text animations:
+
+```typescript
+import { ElementTextEffect } from "@twick/timeline";
+
+// Typewriter Effect
+const typewriterEffect = new ElementTextEffect("typewriter");
+typewriterEffect
+  .setDuration(2)        // Effect duration (seconds)
+  .setDelay(0.5)         // Delay before effect starts
+  .setBufferTime(0.1);   // Time between characters
+
+textElement.setTextEffect(typewriterEffect);
+
+// Erase Effect
+const eraseEffect = new ElementTextEffect("erase");
+eraseEffect.setDuration(1.5);
+
+// Elastic Effect
+const elasticEffect = new ElementTextEffect("elastic");
+elasticEffect.setDuration(2.0);
+
+// Stream Word Effect
+const streamEffect = new ElementTextEffect("stream-word");
+streamEffect.setDuration(3.0);
+```
+
+**Available Text Effects:**
+- `typewriter`: Characters appear one by one
+- `erase`: Text disappears character by character
+- `elastic`: Text bounces with elastic animation
+- `stream-word`: Words flow in sequence
+
+### **Frame Effects**
+
+Add visual frames around video and image elements:
+
+```typescript
+import { ElementFrameEffect } from "@twick/timeline";
+
+// Rectangle Frame
+const rectFrame = new ElementFrameEffect(0, 5); // Start: 0s, End: 5s
+rectFrame.setProps({
+  frameSize: [800, 600],           // Frame dimensions
+  framePosition: { x: 100, y: 100 }, // Frame position
+  radius: 0,                       // Corner radius
+  transitionDuration: 1,           // Transition duration
+  objectFit: "cover"               // Object fit mode
+});
+
+// Circle Frame
+const circleFrame = new ElementFrameEffect(5, 10); // Start: 5s, End: 10s
+circleFrame.setProps({
+  frameSize: [600, 600],           // Circular frame
+  framePosition: { x: 200, y: 150 },
+  transitionDuration: 1,
+  objectFit: "cover"
+});
+
+// Apply to video/image element
+videoElement.addFrameEffect(rectFrame);
+videoElement.addFrameEffect(circleFrame);
+```
+
+**Important:** Frame effects can only be applied to `VideoElement` and `ImageElement` types.
+
+**Multiple Frame Effects:** You can apply multiple frame effects to the same element, but they must have non-overlapping time ranges.
+
+### **Animations**
+
+Add motion and visual effects to elements:
+
+```typescript
+import { ElementAnimation } from "@twick/timeline";
+
+// Fade Animation
+const fadeAnimation = new ElementAnimation("fade");
+fadeAnimation
+  .setAnimate("enter")     // Animation type: "enter", "exit", "both"
+  .setInterval(0.5);       // Animation duration
+
+// Rise Animation
+const riseAnimation = new ElementAnimation("rise");
+riseAnimation
+  .setAnimate("enter")
+  .setDirection("up")      // Direction: "up", "down"
+  .setIntensity(150);      // Movement distance
+
+// Breathe Animation
+const breatheAnimation = new ElementAnimation("breathe");
+breatheAnimation
+  .setMode("in")           // Mode: "in", "out"
+  .setIntensity(0.7);      // Scale intensity
+
+// Apply to element
+element.setAnimation(fadeAnimation);
+```
+
+**Available Animations:**
+
+| Animation | Description | Properties |
+|-----------|-------------|------------|
+| `fade` | Fade in/out | `animate`, `interval` |
+| `rise` | Move up/down | `animate`, `direction`, `intensity` |
+| `breathe` | Scale in/out | `mode`, `intensity` |
+| `blur` | Blur effect | `animate`, `interval`, `intensity` |
+| `photo-rise` | Photo-specific rise | `mode`, `direction` |
+| `photo-zoom` | Photo zoom | `mode`, `intensity` |
+| `succession` | Sequential animation | `animate`, `interval` |
+
+---
+
+## 🔧 Advanced Features
+
+### **LivePlayer Context**
+
+Manage video playback state:
+
+```typescript
+import { useLivePlayerContext } from "@twick/live-player";
+import { PLAYER_STATE } from "@twick/live-player";
+
+function PlayerControls() {
+  const {
+    playerState,        // Current player state
+    currentTime,        // Current playback time
+    seekTime,          // Target seek time
+    playerVolume,      // Current volume
+    setPlayerState,    // Set player state
+    setCurrentTime,    // Set current time
+    setSeekTime,       // Set seek time
+    setPlayerVolume    // Set volume
+  } = useLivePlayerContext();
+
+  const handlePlay = () => setPlayerState(PLAYER_STATE.PLAYING);
+  const handlePause = () => setPlayerState(PLAYER_STATE.PAUSED);
+  const handleSeek = (time: number) => setSeekTime(time);
+
+  return (
+    <div>
+      <button onClick={handlePlay}>Play</button>
+      <button onClick={handlePause}>Pause</button>
+      <input 
+        type="range" 
+        value={currentTime} 
+        onChange={(e) => handleSeek(Number(e.target.value))}
+      />
+      <span>{currentTime.toFixed(2)}s</span>
+    </div>
+  );
+}
+```
+
+**Player States:**
+- `PLAYER_STATE.PLAYING`: Video is playing
+- `PLAYER_STATE.PAUSED`: Video is paused
+- `PLAYER_STATE.REFRESH`: Video is refreshing
+
+### **Project Management**
+
+Save and load projects:
+
+```typescript
+// Save project
+const saveProject = () => {
+  const timelineData = editor.getTimelineData();
+  if (timelineData) {
+    const projectJSON = {
+      tracks: timelineData.tracks.map(track => track.serialize()),
+      version: timelineData.version,
+      metadata: {
+        totalDuration: timelineData.tracks.reduce((max, track) => 
+          Math.max(max, track.getElements().reduce((trackMax, element) => 
+            Math.max(trackMax, element.getEnd()), 0)), 0),
+        trackCount: timelineData.tracks.length,
+        elementCount: timelineData.tracks.reduce((total, track) => 
+          total + track.getElements().length, 0),
+        createdAt: new Date().toISOString()
+      }
+    };
+    
+    // Save to localStorage
+    localStorage.setItem('twick-project', JSON.stringify(projectJSON));
+    
+    // Or download as file
+    const blob = new Blob([JSON.stringify(projectJSON, null, 2)], { 
+      type: 'application/json' 
+    });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'twick-project.json';
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+};
+
+// Load project
+const loadProject = (projectData: any) => {
+  try {
+    editor.loadProject(projectData);
+    console.log('Project loaded successfully');
+  } catch (error) {
+    console.error('Failed to load project:', error);
+  }
+};
+```
+
+### **Custom UI Components**
+
+Create custom control panels:
+
+```typescript
+function CustomControlPanel() {
+  const { editor, selectedItem } = useTimelineContext();
+  const { playerState, setPlayerState } = useLivePlayerContext();
+
+  const addTextElement = () => {
+    if (selectedItem instanceof Track) {
+      const textElement = new TextElement("New Text");
+      textElement.setStart(0).setEnd(5);
+      editor.addElementToTrack(selectedItem, textElement);
+    }
+  };
+
+  return (
+    <div className="custom-controls">
+      <button onClick={addTextElement}>Add Text</button>
+      <button onClick={() => setPlayerState(PLAYER_STATE.PLAYING)}>
+        Play
+      </button>
+      <button onClick={() => setPlayerState(PLAYER_STATE.PAUSED)}>
+        Pause
+      </button>
+    </div>
+  );
+}
+
+// Use in VideoEditor
+<VideoEditor
+  leftPanel={<CustomControlPanel />}
+  rightPanel={<div>Properties Panel</div>}
+/>
+```
+
+---
+
+## API Reference
+
+### **TimelineEditor Methods**
+
+#### **Track Management**
+```typescript
+// Create track
+addTrack(name: string): Track
+
+// Get track by ID
+getTrackById(id: string): Track | null
+
+// Remove track
+removeTrack(track: Track): void
+
+// Reorder tracks
+reorderTracks(tracks: Track[]): void
+```
+
+#### **Element Management**
+```typescript
+// Add element to track
+addElementToTrack(track: Track, element: TrackElement): Promise<boolean>
+
+// Remove element
+removeElement(element: TrackElement): boolean
+
+// Update element
+updateElement(element: TrackElement): boolean
+
+// Split element at time
+splitElement(element: TrackElement, splitTime: number): Promise<SplitResult>
+
+// Clone element
+cloneElement(element: TrackElement): TrackElement | null
+```
+
+#### **Project Management**
+```typescript
+// Load project data
+loadProject(data: { tracks: TrackJSON[]; version: number }): void
+
+// Get current timeline data
+getTimelineData(): TimelineTrackData | null
+
+// Get latest version
+getLatestVersion(): number
+```
+
+#### **History Management**
+```typescript
+// Undo last action
+undo(): void
+
+// Redo last action
+redo(): void
+
+// Reset history
+resetHistory(): void
+```
+
+### **Element Base Properties**
+
+All elements inherit these base properties:
+
+```typescript
+// Timing
+element.setStart(time: number)     // Start time in seconds
+element.setEnd(time: number)       // End time in seconds
+
+// Position
+element.setPosition(pos: { x: number, y: number })  // Position on canvas
+element.setRotation(angle: number)                  // Rotation in degrees
+element.setOpacity(opacity: number)                 // Opacity (0-1)
+
+// Identification
+element.getId()                    // Get element ID
+element.getName()                  // Get element name
+element.setName(name: string)      // Set element name
+```
+
+### **Track Properties**
+
+```typescript
+// Basic info
+track.getId()                      // Get track ID
+track.getName()                    // Get track name
+track.setName(name: string)        // Set track name
+
+// Element management
+track.getElements()                // Get all elements
+track.getElementCount()            // Get element count
+track.getDuration()                // Get track duration
+track.getElementById(id: string)   // Get element by ID
+track.getElementsInTimeRange(start: number, end: number) // Get elements in time range
+```
+
+---
+
+## Examples & Workflows
+
+### **Complete Video Editor Example**
+
+```typescript
+import React, { useState } from 'react';
+import VideoEditor, { INITIAL_TIMELINE_DATA } from "@twick/video-editor";
+import "@twick/video-editor/dist/video-editor.css";
+import { LivePlayerProvider } from "@twick/live-player";
+import { TimelineProvider, useTimelineContext } from "@twick/timeline";
+import {
+  TextElement,
+  VideoElement,
+  ImageElement,
+  AudioElement,
+  ElementTextEffect,
+  ElementAnimation,
+  ElementFrameEffect,
+  AVAILABLE_TEXT_FONTS
+} from "@twick/timeline";
+
+function CustomVideoEditor() {
+  const { editor, selectedItem, totalDuration, canUndo, canRedo } = useTimelineContext();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const createSampleProject = async () => {
+    setIsLoading(true);
+    
+    try {
+      // Create tracks
+      const mainTrack = editor.addTrack("Main Video");
+      const textTrack = editor.addTrack("Text Overlays");
+      const audioTrack = editor.addTrack("Background Audio");
+
+      // Add video element
+      const videoElement = new VideoElement("https://example.com/video.mp4", {
+        width: 1920,
+        height: 1080
+      });
+      videoElement
+        .setStart(0)
+        .setEnd(15)
+        .setPosition({ x: 0, y: 0 })
+        .setPlay(true)
+        .setVolume(0.8);
+
+      // Add frame effect to video
+      const frameEffect = new ElementFrameEffect(0, 5);
+      frameEffect.setProps({
+        frameSize: [800, 600],
+        framePosition: { x: 100, y: 100 },
+        transitionDuration: 1,
+        objectFit: "cover"
+      });
+      videoElement.addFrameEffect(frameEffect);
+
+      // Add fade animation
+      const fadeAnimation = new ElementAnimation("fade");
+      fadeAnimation.setAnimate("enter").setInterval(0.5);
+      videoElement.setAnimation(fadeAnimation);
+
+      await editor.addElementToTrack(mainTrack, videoElement);
+
+      // Add title text
+      const titleElement = new TextElement("Welcome to Twick!");
+      titleElement
+        .setStart(1)
+        .setEnd(5)
+        .setPosition({ x: 100, y: 100 })
+        .setFontSize(72)
+        .setFontFamily(AVAILABLE_TEXT_FONTS.LUCKIEST_GUY)
+        .setFill("#FF6B35")
+        .setTextAlign("center");
+
+      // Add typewriter effect
+      const typewriterEffect = new ElementTextEffect("typewriter");
+      typewriterEffect.setDuration(2).setDelay(0.5);
+      titleElement.setTextEffect(typewriterEffect);
+
+      // Add rise animation
+      const riseAnimation = new ElementAnimation("rise");
+      riseAnimation.setAnimate("enter").setDirection("up").setIntensity(150);
+      titleElement.setAnimation(riseAnimation);
+
+      await editor.addElementToTrack(textTrack, titleElement);
+
+      // Add background audio
+      const audioElement = new AudioElement("https://example.com/music.mp3");
+      audioElement
+        .setStart(0)
+        .setEnd(15)
+        .setPlay(true)
+        .setVolume(0.3);
+
+      await editor.addElementToTrack(audioTrack, audioElement);
+
+      console.log("Sample project created successfully!");
+      
+    } catch (error) {
+      console.error("Error creating project:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <div className="video-editor-container">
+      <div className="controls">
+        <button onClick={createSampleProject} disabled={isLoading}>
+          {isLoading ? "Creating..." : "Create Sample Project"}
+        </button>
+        <button onClick={() => editor.undo()} disabled={!canUndo}>
+          Undo
+        </button>
+        <button onClick={() => editor.redo()} disabled={!canRedo}>
+          Redo
+        </button>
+      </div>
+      
+      <div className="info">
+        <p>Duration: {totalDuration.toFixed(2)}s</p>
+        <p>Selected: {selectedItem?.getName() || "None"}</p>
+      </div>
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <LivePlayerProvider>
+      <TimelineProvider
+        contextId="my-video-project"
+        initialData={INITIAL_TIMELINE_DATA}
+        undoRedoPersistenceKey="my-project-history"
+        maxHistorySize={50}
+      >
+        <VideoEditor
+          leftPanel={<CustomVideoEditor />}
+          rightPanel={<div>Properties Panel</div>}
+          editorConfig={{
+            canvasMode: true,
+            videoProps: { width: 1920, height: 1080 }
+          }}
+        />
+      </TimelineProvider>
+    </LivePlayerProvider>
+  );
+}
+
+export default App;
+```
+
+### **Common Workflows**
+
+#### **Adding Text with Effects**
+```typescript
+const addTextWithEffects = async (text: string, start: number, end: number) => {
+  const textElement = new TextElement(text);
+  textElement
+    .setStart(start)
+    .setEnd(end)
+    .setPosition({ x: 100, y: 100 })
+    .setFontSize(48)
+    .setFontFamily(AVAILABLE_TEXT_FONTS.ROBOTO)
+    .setFill("#FFFFFF");
+
+  // Add typewriter effect
+  const effect = new ElementTextEffect("typewriter");
+  effect.setDuration(2).setDelay(0.5);
+  textElement.setTextEffect(effect);
+
+  // Add fade animation
+  const animation = new ElementAnimation("fade");
+  animation.setAnimate("enter").setInterval(0.5);
+  textElement.setAnimation(animation);
+
+  const track = editor.getTrackById("text-track");
+  if (track) {
+    await editor.addElementToTrack(track, textElement);
+  }
+};
+```
+
+#### **Creating Video with Multiple Frame Effects**
+```typescript
+const createVideoWithFrameEffects = async (videoUrl: string) => {
+  const videoElement = new VideoElement(videoUrl, { width: 1920, height: 1080 });
+  videoElement.setStart(0).setEnd(20).setPlay(true);
+
+  // Add multiple frame effects with non-overlapping times
+  const effect1 = new ElementFrameEffect(0, 5);
+  effect1.setProps({
+    frameSize: [800, 600],
+    framePosition: { x: 100, y: 100 },
+    transitionDuration: 1
+  });
+
+  const effect2 = new ElementFrameEffect(5, 10);
+  effect2.setProps({
+    frameSize: [600, 600],
+    framePosition: { x: 200, y: 150 },
+    transitionDuration: 1
+  });
+
+  const effect3 = new ElementFrameEffect(10, 15);
+  effect3.setProps({
+    frameSize: [900, 700],
+    framePosition: { x: 50, y: 50 },
+    radius: 25,
+    transitionDuration: 1
+  });
+
+  videoElement.addFrameEffect(effect1);
+  videoElement.addFrameEffect(effect2);
+  videoElement.addFrameEffect(effect3);
+
+  const track = editor.addTrack("Main Video");
+  await editor.addElementToTrack(track, videoElement);
+};
+```
+
+---
+
+## Best Practices
+
+### **Performance Optimization**
+
+```typescript
+// ✅ Good: Memoize expensive operations
+const visibleElements = useMemo(() => {
+  return track.getElements().filter(element => 
+    element.getStart() <= currentTime && element.getEnd() >= currentTime
+  );
+}, [track, currentTime]);
+
+// ✅ Good: Batch operations
+const batchAddElements = async (elements: TrackElement[]) => {
+  const results = await Promise.all(
+    elements.map(element => editor.addElementToTrack(track, element))
+  );
+  return results.every(result => result);
+};
+
+// ❌ Avoid: Individual operations in loops
+elements.forEach(element => {
+  editor.addElementToTrack(track, element); // Don't do this
+});
+```
+
+### **Error Handling**
+
+```typescript
+// ✅ Good: Comprehensive error handling
+const safeElementOperation = async (operation: () => Promise<boolean>) => {
+  try {
+    const result = await operation();
+    if (!result) {
+      throw new Error('Operation failed');
+    }
+    return result;
+  } catch (error) {
+    console.error('Element operation failed:', error);
+    showErrorMessage('Failed to perform operation. Please try again.');
+    return false;
+  }
+};
+
+// ✅ Good: Validate elements before adding
+const validateElement = (element: TrackElement) => {
+  const errors: string[] = [];
+  
+  if (element.getStart() < 0) {
+    errors.push('Start time cannot be negative');
+  }
+  
+  if (element.getEnd() <= element.getStart()) {
+    errors.push('End time must be after start time');
+  }
+  
+  return errors;
+};
+```
+
+### **State Management**
+
+```typescript
+// ✅ Good: Use specific context values
+const { editor, selectedItem, totalDuration } = useTimelineContext();
+const { playerState, currentTime, setPlayerState } = useLivePlayerContext();
+
+// ✅ Good: Proper provider hierarchy
+function App() {
+  return (
+    <LivePlayerProvider>
+      <TimelineProvider contextId="my-project">
+        <VideoEditor />
+      </TimelineProvider>
+    </LivePlayerProvider>
+  );
+}
+```
+
+### **Project Management**
+
+```typescript
+// ✅ Good: Auto-save with debouncing
+const useAutoSave = (editor: TimelineEditor, interval: number = 30000) => {
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      const projectData = saveProject();
+      if (projectData) {
+        console.log('Project auto-saved');
+      }
+    }, interval);
+    
+    return () => clearInterval(intervalId);
+  }, [editor, interval]);
+};
+
+// ✅ Good: Comprehensive project saving
+const saveProject = () => {
+  const timelineData = editor.getTimelineData();
+  if (!timelineData) return null;
+  
+  const projectJSON = {
+    tracks: timelineData.tracks.map(track => track.serialize()),
+    version: timelineData.version,
+    metadata: {
+      totalDuration: timelineData.tracks.reduce((max, track) => 
+        Math.max(max, track.getElements().reduce((trackMax, element) => 
+          Math.max(trackMax, element.getEnd()), 0)), 0),
+      trackCount: timelineData.tracks.length,
+      elementCount: timelineData.tracks.reduce((total, track) => 
+        total + track.getElements().length, 0),
+      createdAt: new Date().toISOString()
+    }
+  };
+  
+  try {
+    localStorage.setItem('twick-project', JSON.stringify(projectJSON));
+    return projectJSON;
+  } catch (error) {
+    console.error('Failed to save project:', error);
+    return null;
+  }
+};
+```
+
+---
+
+## Troubleshooting
+
+### **Common Issues**
+
+#### **Provider Context Issues**
+
+**Problem**: `useTimelineContext` returns undefined
+```typescript
+// ❌ Error: Cannot read properties of undefined
+const { editor } = useTimelineContext(); // editor is undefined
+```
+
+**Solution**: Ensure proper provider hierarchy
+```typescript
+// ✅ Fix: Wrap components with required providers
+function App() {
+  return (
+    <LivePlayerProvider>
+      <TimelineProvider contextId="my-project">
+        <YourComponent />
+      </TimelineProvider>
+    </LivePlayerProvider>
+  );
+}
+```
+
+#### **Element Management Issues**
+
+**Problem**: Element not added to track
+```typescript
+// ❌ Error: Element not appearing in timeline
+const result = await editor.addElementToTrack(track, element);
+console.log(result); // false
+```
+
+**Solution**: Check element validation and track state
+```typescript
+// ✅ Fix: Validate before adding
+const addElementSafely = async (track: Track, element: TrackElement) => {
+  if (!track) {
+    console.error('Track is null or undefined');
+    return false;
+  }
+  
+  const errors = validateElement(element);
+  if (errors.length > 0) {
+    console.error('Element validation failed:', errors);
+    return false;
+  }
+  
+  return await editor.addElementToTrack(track, element);
+};
+```
+
+#### **Frame Effects Issues**
+
+**Problem**: Frame effects not applying to elements
+```typescript
+// ❌ Error: Frame effect not visible
+const textElement = new TextElement("Hello");
+const frameEffect = new ElementFrameEffect(0, 3);
+textElement.addFrameEffect(frameEffect); // Won't work on text
+```
+
+**Solution**: Check element compatibility
+```typescript
+// ✅ Fix: Only apply frame effects to video/image elements
+const applyFrameEffect = (element: TrackElement, effect: ElementFrameEffect) => {
+  if (element instanceof VideoElement || element instanceof ImageElement) {
+    element.addFrameEffect(effect);
+  } else {
+    console.error('Frame effects can only be applied to video and image elements');
+  }
+};
+```
+
+### **Performance Issues**
+
+**Problem**: Slow rendering with many elements
+```typescript
+// ❌ Performance issue: Too many elements rendered
+const elements = track.getElements(); // 1000+ elements
+elements.forEach(element => renderElement(element)); // Slow
+```
+
+**Solution**: Implement virtual scrolling
+```typescript
+// ✅ Fix: Only render visible elements
+const useVirtualTimeline = (elements: TrackElement[], viewportHeight: number) => {
+  const [visibleRange, setVisibleRange] = useState({ start: 0, end: 50 });
+  
+  const visibleElements = useMemo(() => {
+    return elements.slice(visibleRange.start, visibleRange.end);
+  }, [elements, visibleRange]);
+  
+  return visibleElements;
+};
+```
+
+### **Debugging Tips**
+
+```typescript
+// Enable detailed logging in development
+if (process.env.NODE_ENV === 'development') {
+  console.log('Timeline Data:', editor.getTimelineData());
+  console.log('Selected Item:', selectedItem);
+  console.log('Player State:', playerState);
+}
+
+// Check element state
+const debugElement = (element: TrackElement) => {
+  console.log('Element ID:', element.getId());
+  console.log('Element Type:', element.constructor.name);
+  console.log('Start Time:', element.getStart());
+  console.log('End Time:', element.getEnd());
+  console.log('Position:', element.getPosition());
+};
+
+// Validate timeline state
+const validateTimeline = () => {
+  const timelineData = editor.getTimelineData();
+  if (!timelineData) {
+    console.error('No timeline data available');
+    return;
+  }
+  
+  timelineData.tracks.forEach((track, index) => {
+    console.log(`Track ${index}:`, track.getName());
+    console.log('Elements:', track.getElements().length);
+    
+    track.getElements().forEach(element => {
+      if (element.getStart() >= element.getEnd()) {
+        console.warn('Invalid element timing:', element.getId());
+      }
+    });
+  });
+};
+```
+
+### **Getting Help**
+
+1. **Documentation**: This user manual covers all major features
+2. **Code Examples**: Check the `@twick/examples` package for working examples
+3. **TypeScript Types**: Use IDE autocomplete for type information
+4. **Console Logs**: Enable debug logging for detailed information
+5. **GitHub Issues**: Check existing issues or create new ones
+
+When reporting issues, include:
+- Environment: OS, browser, Node.js version
+- Package versions: All Twick package versions
+- Reproduction steps: Clear steps to reproduce the issue
+- Expected vs actual: What you expected vs what happened
+- Console logs: Any error messages or warnings
+- Code example: Minimal code that reproduces the issue
+
+---
+
+## Quick Reference
+
+### **Installation**
+```bash
+pnpm add @twick/video-editor @twick/timeline @twick/live-player @twick/canvas
+```
+
+### **Basic Setup**
+```typescript
+import VideoEditor, { INITIAL_TIMELINE_DATA } from "@twick/video-editor";
+import "@twick/video-editor/dist/video-editor.css";
+import { LivePlayerProvider } from "@twick/live-player";
+import { TimelineProvider } from "@twick/timeline";
+
+<LivePlayerProvider>
+  <TimelineProvider contextId="my-project" initialData={INITIAL_TIMELINE_DATA}>
+    <VideoEditor editorConfig={{ canvasMode: true, videoProps: { width: 1920, height: 1080 } }} />
+  </TimelineProvider>
+</LivePlayerProvider>
+```
+
+### **Element Types**
+- `TextElement`: Text overlays with rich formatting
+- `VideoElement`: Video clips with playback controls
+- `ImageElement`: Static images
+- `AudioElement`: Audio tracks
+- `CaptionElement`: Subtitles with timing
+- `RectElement`: Rectangles
+- `CircleElement`: Circles
+- `IconElement`: Icons
+
+### **Effects**
+- **Text Effects**: `typewriter`, `erase`, `elastic`, `stream-word`
+- **Frame Effects**: Rectangle and circle frames (video/image only)
+- **Animations**: `fade`, `rise`, `breathe`, `blur`, `photo-rise`, `photo-zoom`, `succession`
+
+### **Key Methods**
+- `editor.addTrack(name)`: Create new track
+- `editor.addElementToTrack(track, element)`: Add element to track
+- `editor.undo()` / `editor.redo()`: History management
+- `editor.loadProject(data)`: Load project
+- `editor.getTimelineData()`: Get current timeline
+
+---
+
+**Happy editing with Twick! 🎬**
+
+---
