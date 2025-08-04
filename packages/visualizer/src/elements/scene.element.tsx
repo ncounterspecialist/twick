@@ -1,6 +1,6 @@
 import { ElementParams } from "../helpers/types";
-import { createRef, waitFor } from "@revideo/core";
-import { Rect } from "@revideo/2d";
+import { createRef, waitFor } from "@twick/core";
+import { Rect } from "@twick/2d";
 import { DEFAULT_BACKGROUND_COLOR, ELEMENT_TYPES } from "../helpers/constants";
 import { ImageElement } from "./image.element";
 import { VideoElement } from "./video.element";

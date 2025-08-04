@@ -1,4 +1,4 @@
-# Twick Video Editor SDK - Complete User Manual
+# Twick User Manual
 
 > **Professional Video Editing Made Simple**  
 > A comprehensive guide to integrating and using the Twick Video Editor SDK in your applications.
@@ -242,10 +242,10 @@ After installation, you can verify everything is working by checking your packag
 ```json
 {
   "dependencies": {
-    "@twick/video-editor": "^0.0.1",
-    "@twick/timeline": "^0.0.1",
-    "@twick/live-player": "^0.0.1",
-    "@twick/canvas": "^0.0.1"
+    "@twick/video-editor": "^0.14.0",
+    "@twick/timeline": "^0.14.0",
+    "@twick/live-player": "^0.14.0",
+    "@twick/canvas": "^0.14.0"
   }
 }
 ```
@@ -606,6 +606,8 @@ textElement
   .setFontSize(48)                // Font size
   .setFontFamily(AVAILABLE_TEXT_FONTS.ROBOTO) // Font family
   .setFill("#FFFFFF")             // Text color
+  .setStrokeColor("#000000")      // Stroke/outline color
+  .setLineWidth(2)                // Stroke/outline width
   .setTextAlign("center")         // Text alignment
   .setFontWeight(700)             // Font weight
   .setRotation(0)                 // Rotation (degrees)
@@ -616,6 +618,33 @@ textElement
 - Google Fonts: Roboto, Poppins, Playfair Display, etc.
 - Display Fonts: Bangers, Birthstone, Corinthia, etc.
 - CDN Fonts: Peralta, Impact, Lumanosimo, etc.
+
+**Text Stroke/Outline Properties:**
+- `setStrokeColor(color)`: Sets the color of the text outline/stroke (e.g., "#000000" for black outline)
+- `setLineWidth(width)`: Sets the thickness of the text outline/stroke in pixels
+- `getStrokeColor()`: Returns the current stroke color
+- `getLineWidth()`: Returns the current stroke width
+
+**Stroke Usage Examples:**
+```typescript
+// White text with black outline
+textElement
+  .setFill("#FFFFFF")
+  .setStrokeColor("#000000")
+  .setLineWidth(2);
+
+// Red text with thick white outline
+textElement
+  .setFill("#FF0000")
+  .setStrokeColor("#FFFFFF")
+  .setLineWidth(4);
+
+// Text with no outline (default)
+textElement
+  .setFill("#FFFFFF")
+  .setStrokeColor("")  // or don't set it
+  .setLineWidth(0);    // or don't set it
+```
 
 ### **VideoElement**
 

@@ -32,12 +32,12 @@ const VideoEditor: React.FC<VideoEditorProps> = ({
   return (
     <div className="twick-editor-main-container">
       <div className="twick-editor-view-section">
-        {leftPanel ? leftPanel : null}
+        {leftPanel ? leftPanel : <div/>}
         <PlayerManager
           videoProps={editorConfig.videoProps}
           canvasMode={editorConfig.canvasMode ?? true}
         />
-        {rightPanel ? rightPanel : null}
+        {rightPanel ? rightPanel : <div/>}
       </div>
       {bottomPanel ? bottomPanel : null}
       <div className="twick-editor-timeline-section">

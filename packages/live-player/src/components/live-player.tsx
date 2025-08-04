@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef } from "react";
-import { Player as CorePlayer } from "@revideo/core";
-import { Player } from "@revideo/player-react";
+import { Player as CorePlayer } from "@twick/core";
+import { Player } from "@twick/player-react";
 import { getBaseProject } from "../helpers/player.utils";
 //@ts-ignore
 import project from "@twick/visualizer/dist/project";
@@ -52,7 +52,7 @@ export type LivePlayerProps = {
 };
 
 /**
- * `LivePlayer` is a React component that wraps around the `@revideo/player-react` player.
+ * `LivePlayer` is a React component that wraps around the `@twick/player-react` player.
  *
  * It supports dynamic project variables, external control for playback, time seeking,
  * volume and quality adjustment, and lifecycle callbacks like `onPlayerReady` and `onDurationChange`.
@@ -103,7 +103,7 @@ export const LivePlayer = ({
     playerRef.current = {
       player,
       htmlElement:
-        playerContainerRef.current?.querySelector("revideo-player") || null,
+        playerContainerRef.current?.querySelector("twick-player") || null,
     };
 
     if (!isFirstRender.current) {

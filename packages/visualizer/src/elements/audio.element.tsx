@@ -1,6 +1,6 @@
 import { ElementParams } from "../helpers/types";
-import { createRef, waitFor } from "@revideo/core";
-import { Audio } from "@revideo/2d";
+import { createRef, waitFor } from "@twick/core";
+import { Audio } from "@twick/2d";
 
 export const AudioElement = {
   name: "audio",

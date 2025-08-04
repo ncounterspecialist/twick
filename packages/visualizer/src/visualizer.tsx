@@ -4,8 +4,8 @@
  */
 
 import "./global.css";
-import { Rect, makeScene2D, View2D } from "@revideo/2d";
-import { all, useScene } from "@revideo/core";
+import { Rect, makeScene2D, View2D } from "@twick/2d";
+import { all, useScene } from "@twick/core";
 
 import { DEFAULT_BACKGROUND_COLOR, TRACK_TYPES } from "./helpers/constants";
 import { VideoInput } from "./helpers/types";

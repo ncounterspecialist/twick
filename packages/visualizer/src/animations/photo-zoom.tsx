@@ -1,4 +1,4 @@
-import { Vector2 } from "@revideo/core";
+import { Vector2 } from "@twick/core";
 import { AnimationParams } from "../helpers/types";
 
 /**

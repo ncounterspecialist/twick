@@ -30,7 +30,7 @@ import {
   easeInBounce,
   easeOutBounce,
   easeInOutBounce,
-} from "@revideo/core";
+} from "@twick/core";
 
 /**
  * Timing utilities for the visualizer package.

@@ -518,9 +518,9 @@ graph TD
 
 ## Live Player Architecture
 
-### ReVideo Integration
+### Twick-base Integration
 
-The live player uses **ReVideo** for high-performance video rendering:
+The live player uses **Twick-base** for high-performance video rendering:
 
 ```typescript
 // Player initialization
@@ -560,9 +560,9 @@ useEffect(() => {
 
 ## Visualizer Architecture
 
-### ReVideo Scene Management
+### Twick-base Scene Management
 
-The visualizer package uses **ReVideo** for advanced video composition:
+The visualizer package uses **Twick-base** for advanced video composition:
 
 ```typescript
 // Scene creation

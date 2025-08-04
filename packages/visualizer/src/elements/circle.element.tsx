@@ -1,6 +1,6 @@
 import { ElementParams } from "../helpers/types";
-import { all, createRef, waitFor } from "@revideo/core";
-import { Circle } from "@revideo/2d";
+import { all, createRef, waitFor } from "@twick/core";
+import { Circle } from "@twick/2d";
 import { addAnimation } from "../helpers/element.utils";
 
 export const CircleElement = {

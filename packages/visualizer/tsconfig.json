@@ -1,10 +1,11 @@
 {
-  "extends": "@revideo/2d/tsconfig.project.json",
+  "extends": "@twick/2d/tsconfig.project.json",
   "include": ["src"],
   "compilerOptions": {
     "noEmit": false,
     "outDir": "dist",
     "module": "CommonJS",
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "jsx": "react-jsx"
   }
 }

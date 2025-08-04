@@ -3,7 +3,7 @@
  * to frames and elements in the scene.
  */
 
-import { all, waitFor } from "@revideo/core";
+import { all, waitFor } from "@twick/core";
 import { getTimingFunction } from "../helpers/timing.utils";
 import { fitElement } from "../helpers/element.utils";
 import {

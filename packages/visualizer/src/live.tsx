@@ -1,4 +1,4 @@
-import { makeProject } from "@revideo/core";
+import { makeProject } from "@twick/core";
 import { scene } from "./visualizer";
 import { sample } from "./sample";
 

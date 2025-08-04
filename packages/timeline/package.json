@@ -1,6 +1,6 @@
 {
   "name": "@twick/timeline",
-  "version": "0.0.1",
+  "version": "0.14.0",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -20,7 +20,7 @@
     "docs": "typedoc --plugin typedoc-plugin-markdown --out docs src/index.ts"
   },
   "dependencies": {
-    "@twick/media-utils": "workspace:^0.0.1"
+    "@twick/media-utils": "workspace:^0.14.0"
   },
   "devDependencies": {
     "@types/node": "^20.11.24",

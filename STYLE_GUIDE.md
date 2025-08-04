@@ -215,7 +215,7 @@ export const timelineManager = () => { };
 // 1. External libraries
 import { createContext, useContext, useState } from "react";
 import { Canvas as FabricCanvas } from "fabric";
-import { Rect, makeScene2D, View2D } from "@revideo/2d";
+import { Rect, makeScene2D, View2D } from "@twick/2d";
 
 // 2. Internal packages (with @twick prefix)
 import { TrackElement } from "@twick/timeline";

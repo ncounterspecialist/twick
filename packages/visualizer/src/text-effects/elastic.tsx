@@ -1,4 +1,4 @@
-import { easeOutElastic, waitFor } from "@revideo/core";
+import { easeOutElastic, waitFor } from "@twick/core";
 import { TextEffectParams } from "../helpers/types";
 
 /**

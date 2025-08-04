@@ -1,4 +1,4 @@
-import { all, waitFor, delay } from "@revideo/core";
+import { all, waitFor, delay } from "@twick/core";
 import { AnimationParams } from "../helpers/types";
 
 /**

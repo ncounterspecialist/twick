@@ -18,6 +18,7 @@ export class CaptionElement extends TrackElement {
 
   setText(t: string) {
     this.t = t;
+    return this;
   }
 
   accept<T>(visitor: ElementVisitor<T>): T {

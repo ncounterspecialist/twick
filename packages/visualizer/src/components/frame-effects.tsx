@@ -3,12 +3,12 @@
  * to frames and elements in the scene.
  */
 
-import { all, Reference, waitFor } from "@revideo/core";
+import { all, Reference, waitFor } from "@twick/core";
 import { getTimingFunction } from "../helpers/timing.utils";
 import { fitElement } from "../helpers/element.utils";
 import { DEFAULT_POSITION, DEFAULT_TIMING_FUNCTION, FRAME_SHAPE } from "../helpers/constants";
 import { FrameEffect } from "../helpers/types";
-import { View2D } from "@revideo/2d";
+import { View2D } from "@twick/2d";
 
 /**
  * Applies frame effects to a view or element

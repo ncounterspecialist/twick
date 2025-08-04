@@ -1,4 +1,4 @@
-import { Reference } from "@revideo/core";
+import { Reference } from "@twick/core";
 import { COLOR_FILTERS } from "./constants";
 
 /**

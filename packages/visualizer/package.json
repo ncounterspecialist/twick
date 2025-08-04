@@ -1,27 +1,27 @@
 {
   "name": "@twick/visualizer",
-  "version": "0.0.1",
+  "version": "0.14.0",
   "license": "Apache-2.0",
   "scripts": {
-    "start": "revideo editor --projectFile ./src/live.tsx",
+    "start": "twick editor --projectFile ./src/live.tsx",
     "build": "tsc && vite build",
     "docs": "typedoc --out docs src/index.ts",
     "clean": "rimraf .turbo node_modules dist"
   },
   "dependencies": {
     "@preact/signals": "^1.2.1",
-    "@revideo/2d": "^0.10.4",
-    "@revideo/core": "^0.10.4",
-    "@revideo/renderer": "^0.10.4",
-    "@revideo/vite-plugin": "^0.10.4",
+    "@twick/2d": "^0.14.0",
+    "@twick/core": "^0.14.0",
+    "@twick/renderer": "^0.14.0",
+    "@twick/vite-plugin": "^0.14.0",
     "date-fns": "^4.1.0",
     "preact": "^10.19.2",
     "crelt": "^1.0.6",
-    "@twick/media-utils": "0.0.1"
+    "@twick/media-utils": "0.14.0"
   },
   "devDependencies": {
-    "@revideo/cli": "0.10.4",
-    "@revideo/ui": "0.10.4",
+    "@twick/cli": "0.14.0",
+    "@twick/ui": "0.14.0",
     "typescript": "5.4.2",
     "typedoc": "^0.25.8",
     "typedoc-plugin-markdown": "^3.17.1",

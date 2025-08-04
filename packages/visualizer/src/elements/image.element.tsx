@@ -1,6 +1,6 @@
 import { ElementParams } from "../helpers/types";
-import { all, createRef, waitFor } from "@revideo/core";
-import { Img, Rect } from "@revideo/2d";
+import { all, createRef, waitFor } from "@twick/core";
+import { Img, Rect } from "@twick/2d";
 import { addAnimation, addFrameEffect, fitElement } from "../helpers/element.utils";
 import { logger } from "../helpers/log.utils";
 import { applyColorFilter } from "../helpers/filters";
