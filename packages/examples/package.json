@@ -10,6 +10,9 @@
     "preview": "vite preview",
     "clean": "rimraf .turbo node_modules dist"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "@twick/canvas": "workspace:^0.14.0",
     "@twick/live-player": "workspace:^0.14.0",

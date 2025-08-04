@@ -46,6 +46,7 @@
     "packages/media-utils",
     "packages/visualizer",
     "packages/canvas",
+    "packages/timeline",
     "packages/live-player",
     "packages/video-editor",
     "packages/examples"

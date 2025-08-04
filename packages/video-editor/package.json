@@ -19,6 +19,9 @@
     "clean": "rimraf .turbo node_modules dist",
     "docs": "typedoc --plugin typedoc-plugin-markdown --out docs src/index.ts"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "peerDependencies": {
     "@twick/timeline": "workspace:^0.14.0",
     "@twick/live-player": "workspace:^0.14.0"

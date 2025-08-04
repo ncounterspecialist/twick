@@ -8,6 +8,9 @@
     "docs": "typedoc --out docs src/index.ts",
     "clean": "rimraf .turbo node_modules dist"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "@preact/signals": "^1.2.1",
     "@twick/2d": "^0.14.0",
