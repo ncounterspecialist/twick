@@ -3,9 +3,9 @@
  * including video, audio, captions, scenes, and elements.
  */
 
-import { Layout, Rect, View2D, Audio } from "@revideo/2d";
+import { Layout, Rect, View2D, Audio } from "@twick/2d";
 import { VisualizerTrack } from "../helpers/types";
-import { all, Color, createRef, ThreadGenerator, waitFor } from "@revideo/core";
+import { all, Color, createRef, ThreadGenerator, waitFor } from "@twick/core";
 import {
   CAPTION_STYLE,
   DEFAULT_CAPTION_COLORS,
@@ -13,6 +13,7 @@ import {
 } from "../helpers/constants";
 import { logger } from "../helpers/log.utils";
 import elementController from "../controllers/element.controller";
+import { hexToRGB } from "../helpers/utils";
 
 /**
  * Creates a video track with specified configuration
@@ -155,9 +156,8 @@ export function* makeCaptionTrack({
       />
     );
     if (tProps?.capStyle === "word_by_word_with_bg") {
-      phraseRef().fill(
-        new Color(phraseProps.bgColor).alpha(phraseProps.bgOpacity)
-      );
+      const _color = new Color({...hexToRGB(phraseProps.bgColor), a: phraseProps?.bgOpacity ?? 1});
+      phraseRef().fill(_color);
     }
     yield* elementController.get("caption")?.create({
       containerRef: phraseRef,

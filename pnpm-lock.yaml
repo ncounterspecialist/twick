@@ -36,7 +36,7 @@ importers:
   packages/canvas:
     dependencies:
       '@twick/media-utils':
-        specifier: 0.0.1
+        specifier: 0.14.0
         version: link:../media-utils
       fabric:
         specifier: ^6.6.2
@@ -119,16 +119,16 @@ importers:
   packages/examples:
     dependencies:
       '@twick/canvas':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^0.14.0
         version: link:../canvas
       '@twick/live-player':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^0.14.0
         version: link:../live-player
       '@twick/timeline':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^0.14.0
         version: link:../timeline
       '@twick/video-editor':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^0.14.0
         version: link:../video-editor
       '@types/dompurify':
         specifier: ^3.2.0
@@ -197,14 +197,14 @@ importers:
 
   packages/live-player:
     dependencies:
-      '@revideo/core':
-        specifier: ^0.10.4
-        version: 0.10.4
-      '@revideo/player-react':
-        specifier: ^0.10.4
-        version: 0.10.4
+      '@twick/core':
+        specifier: ^0.14.0
+        version: 0.14.0
+      '@twick/player-react':
+        specifier: ^0.14.0
+        version: 0.14.0
       '@twick/visualizer':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^0.14.0
         version: link:../visualizer
       react:
         specifier: ^18.2.0
@@ -272,7 +272,7 @@ importers:
   packages/timeline:
     dependencies:
       '@twick/media-utils':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^0.14.0
         version: link:../media-utils
     devDependencies:
       '@types/node':
@@ -315,16 +315,16 @@ importers:
         specifier: ^10.0.1
         version: 10.0.1(react-dom@18.3.1)(react@18.3.1)
       '@twick/canvas':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^0.14.0
         version: link:../canvas
       '@twick/live-player':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^0.14.0
         version: link:../live-player
       '@twick/media-utils':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^0.14.0
         version: link:../media-utils
       '@twick/timeline':
-        specifier: workspace:^0.0.1
+        specifier: workspace:^0.14.0
         version: link:../timeline
       '@use-gesture/react':
         specifier: ^10.3.0
@@ -381,21 +381,21 @@ importers:
       '@preact/signals':
         specifier: ^1.2.1
         version: 1.3.2(preact@10.26.7)
-      '@revideo/2d':
-        specifier: ^0.10.4
-        version: 0.10.4
-      '@revideo/core':
-        specifier: ^0.10.4
-        version: 0.10.4
-      '@revideo/renderer':
-        specifier: ^0.10.4
-        version: 0.10.4(typescript@5.8.3)
-      '@revideo/vite-plugin':
-        specifier: ^0.10.4
-        version: 0.10.4
+      '@twick/2d':
+        specifier: ^0.14.0
+        version: 0.14.0
+      '@twick/core':
+        specifier: ^0.14.0
+        version: 0.14.0
       '@twick/media-utils':
-        specifier: 0.0.1
+        specifier: 0.14.0
         version: link:../media-utils
+      '@twick/renderer':
+        specifier: ^0.14.0
+        version: 0.14.0(typescript@5.8.3)
+      '@twick/vite-plugin':
+        specifier: ^0.14.0
+        version: 0.14.0
       crelt:
         specifier: ^1.0.6
         version: 1.0.6
@@ -406,12 +406,12 @@ importers:
         specifier: ^10.19.2
         version: 10.26.7
     devDependencies:
-      '@revideo/cli':
-        specifier: 0.10.4
-        version: 0.10.4(typescript@5.8.3)
-      '@revideo/ui':
-        specifier: 0.10.4
-        version: 0.10.4
+      '@twick/cli':
+        specifier: 0.14.0
+        version: 0.14.0(typescript@5.8.3)
+      '@twick/ui':
+        specifier: 0.14.0
+        version: 0.14.0
       typedoc:
         specifier: ^0.25.8
         version: 0.25.13(typescript@5.8.3)
@@ -4702,126 +4702,6 @@ packages:
       react-dom: 18.3.1(react@18.3.1)
     dev: false
 
-  /@revideo/2d@0.10.4:
-    resolution: {integrity: sha512-Z9/kkwLqHOFv/pQxD06QREB8Z6kpAJdkjEJ4E4nZKk4xJlTyDpChLZKwmMbdNf1iwS1YErdwPMGP23DyvVof6Q==}
-    dependencies:
-      '@codemirror/language': 6.11.0
-      '@lezer/common': 1.2.3
-      '@lezer/highlight': 1.2.1
-      '@revideo/core': 0.10.4
-      '@rive-app/canvas-advanced': 2.7.3
-      code-fns: 0.8.2
-      hls.js: 1.6.2
-      mathjax-full: 3.2.2
-      mp4box: 0.5.4
-      parse-svg-path: 0.1.2
-    dev: false
-
-  /@revideo/cli@0.10.4(typescript@5.8.3):
-    resolution: {integrity: sha512-mxH8wUjpFdC7wkeqPl5A5kL6sLWNa+ePE3TkBRuOuSWQHznI4tYQlV4lSECGoudCfa+WPiFJ9W959H3nZA8+dQ==}
-    hasBin: true
-    dependencies:
-      '@revideo/renderer': 0.10.4(typescript@5.8.3)
-      '@revideo/telemetry': 0.10.4
-      '@revideo/vite-plugin': 0.10.4
-      chokidar: 3.6.0
-      commander: 12.1.0
-      cors: 2.8.5
-      express: 4.21.2
-      uuid: 9.0.1
-    transitivePeerDependencies:
-      - '@types/node'
-      - bare-buffer
-      - bufferutil
-      - debug
-      - less
-      - lightningcss
-      - sass
-      - stylus
-      - sugarss
-      - supports-color
-      - terser
-      - typescript
-      - utf-8-validate
-    dev: true
-
-  /@revideo/core@0.10.4:
-    resolution: {integrity: sha512-RNAKVcTXLwIFXhjBRnWPoQPU0zg23lI0cvhM+pNIai7jvxPQOE5ePHG9wOjeokPVPVVPoXPNgcfbhnGSPURTGA==}
-    dependencies:
-      chroma-js: 2.4.2
-      mp4-wasm: 1.0.6
-
-  /@revideo/ffmpeg@0.10.4:
-    resolution: {integrity: sha512-IRUdDDp8S6YPhxMUy6050wkBdLwNdzZAeIhh28NlRYd83sFv4zLE7zCink1IXRlB0r5W8sKryLxYeKJVlev8sg==}
-    dependencies:
-      '@ffmpeg-installer/ffmpeg': 1.1.0
-      '@ffprobe-installer/ffprobe': 2.1.2
-      '@revideo/core': 0.10.4
-      '@revideo/telemetry': 0.10.4
-      fluent-ffmpeg: 2.1.3
-      uuid: 10.0.0
-    transitivePeerDependencies:
-      - debug
-
-  /@revideo/player-react@0.10.4:
-    resolution: {integrity: sha512-yEbzjAHM6Vk2XjWKy7kaXjoob1ZDAgUWRDBnBaOovyPWTFR+iKEe7AC7qfGNDReVrIcCiGSLm5YY1i8sNljMpg==}
-    dependencies:
-      '@revideo/core': 0.10.4
-      react: 18.3.1
-      react-dom: 18.3.1(react@18.3.1)
-      uuid: 10.0.0
-    dev: false
-
-  /@revideo/renderer@0.10.4(typescript@5.8.3):
-    resolution: {integrity: sha512-hkYBDMFdg7QkCXbDDDIZ7goL93UCz2FWIK+/OGxS6Khi3+ns4M6LFZp6lvHGeDcRmqDoeyMjnijVZh9pVc2UMA==}
-    dependencies:
-      '@revideo/ffmpeg': 0.10.4
-      puppeteer: 23.11.1(typescript@5.8.3)
-      vite: 4.5.2
-    transitivePeerDependencies:
-      - '@types/node'
-      - bare-buffer
-      - bufferutil
-      - debug
-      - less
-      - lightningcss
-      - sass
-      - stylus
-      - sugarss
-      - supports-color
-      - terser
-      - typescript
-      - utf-8-validate
-
-  /@revideo/telemetry@0.10.4:
-    resolution: {integrity: sha512-zlIsiP1ml2Kbse0pvS8YN6nwsWINL5+vYcnmBkj7wMOBXk17SI+8Qs3ySa448Xunwx0jb+NMp6J/Yjnu7ojTcA==}
-    requiresBuild: true
-    dependencies:
-      posthog-node: 4.18.0
-      uuid: 9.0.1
-    transitivePeerDependencies:
-      - debug
-
-  /@revideo/ui@0.10.4:
-    resolution: {integrity: sha512-PRXaEj0gCLvlBWpvzLQBlK7pDs9DQXZrnZWWsmXAx1RP3izKTFNV4ZbucwSqIZRgNC27RTjWUaisYKQgVUa90w==}
-    dependencies:
-      '@preact/signals': 1.3.2(preact@10.26.7)
-      '@revideo/core': 0.10.4
-      preact: 10.26.7
-    dev: true
-
-  /@revideo/vite-plugin@0.10.4:
-    resolution: {integrity: sha512-SQX+Kc9TVv2q3ugYAksPvpszBagViSiUGYsnu8zamCw4rYs3K+xCysqYn26Yr17qp/qldL+qvUiWGTqvC6UrIA==}
-    dependencies:
-      '@revideo/ffmpeg': 0.10.4
-      fast-glob: 3.3.3
-      follow-redirects: 1.15.9
-      formidable: 3.5.4
-      mime-types: 2.1.35
-      source-map: 0.6.1
-    transitivePeerDependencies:
-      - debug
-
   /@rive-app/canvas-advanced@2.7.3:
     resolution: {integrity: sha512-3+zi0CiiTYVZpaBUooTgQ3p0uSBKW+g7UiORUPykt5w5Wue1zxUX/iaGVzEyrXg40KU32juHADxXi6uOhbaPcg==}
     dev: false
@@ -5277,6 +5157,126 @@ packages:
     resolution: {integrity: sha512-L7z9BgrNEcYyUYtF+HaEfiS5ebkh9jXqbszz7pC0hRBPaatV0XjSD3+eHrpqFemQfgwiFF0QPIarnIihIDn7OA==}
     engines: {node: '>=10.13.0'}
     dev: false
+
+  /@twick/2d@0.14.0:
+    resolution: {integrity: sha512-2zvgrt4Pqk/6c1YLO/rm14gWdCScXzChjnZx2bplCkCxq5WyxCPoWFsEp7DVyqglCkRLafeemJfZVTREVs33cw==}
+    dependencies:
+      '@codemirror/language': 6.11.0
+      '@lezer/common': 1.2.3
+      '@lezer/highlight': 1.2.1
+      '@rive-app/canvas-advanced': 2.7.3
+      '@twick/core': 0.14.0
+      code-fns: 0.8.2
+      hls.js: 1.6.2
+      mathjax-full: 3.2.2
+      mp4box: 0.5.4
+      parse-svg-path: 0.1.2
+    dev: false
+
+  /@twick/cli@0.14.0(typescript@5.8.3):
+    resolution: {integrity: sha512-uPUwMQcEIJX6MpTp4ASh2rZ4YniRYwcHUnnn8tmmChiUTE75/Nm97L0OgKAcint+zGgcmXBMWJLBjM5BwGlHCA==}
+    hasBin: true
+    dependencies:
+      '@twick/renderer': 0.14.0(typescript@5.8.3)
+      '@twick/telemetry': 0.14.0
+      '@twick/vite-plugin': 0.14.0
+      chokidar: 3.6.0
+      commander: 12.1.0
+      cors: 2.8.5
+      express: 4.21.2
+      uuid: 9.0.1
+    transitivePeerDependencies:
+      - '@types/node'
+      - bare-buffer
+      - bufferutil
+      - debug
+      - less
+      - lightningcss
+      - sass
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - typescript
+      - utf-8-validate
+    dev: true
+
+  /@twick/core@0.14.0:
+    resolution: {integrity: sha512-p+seAQaKyLJfzp+dW9hPRKdEeNPAoJf5hMgmY/SjUASKwovfw0Ud7YUh+urvwz88jkkTlUrZHz6o+da5Mgq51g==}
+    dependencies:
+      culori: 4.0.2
+      mp4-wasm: 1.0.6
+
+  /@twick/ffmpeg@0.14.0:
+    resolution: {integrity: sha512-zRvXcS+XZrsz8d9XZVW9x5Rzz8xOdwbEwiswDaIGD+Z0BL+TT7AQRWMbmADty2SsH0rcotcrka9qBT6o4um8Fw==}
+    dependencies:
+      '@ffmpeg-installer/ffmpeg': 1.1.0
+      '@ffprobe-installer/ffprobe': 2.1.2
+      '@twick/core': 0.14.0
+      '@twick/telemetry': 0.14.0
+      fluent-ffmpeg: 2.1.3
+      uuid: 10.0.0
+    transitivePeerDependencies:
+      - debug
+
+  /@twick/player-react@0.14.0:
+    resolution: {integrity: sha512-p5RQOkR6ayfS2ceSZZNRBmJrgwI/6taJ2fKU6XmXOAjPAX9OhI8Dy/gBCT00F57vYoOab9dZF7ucOPlg+Iv0kQ==}
+    dependencies:
+      '@twick/core': 0.14.0
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+      uuid: 10.0.0
+    dev: false
+
+  /@twick/renderer@0.14.0(typescript@5.8.3):
+    resolution: {integrity: sha512-dQrtPi+IVnyk+dsmVvZaqeNReEO3VM0SAQAVAzwD1uZxgi/2MTGG8ttGNTCYOi+7FV8RAZG3Kfp9sqe2pVSdBA==}
+    dependencies:
+      '@twick/ffmpeg': 0.14.0
+      puppeteer: 23.11.1(typescript@5.8.3)
+      vite: 4.5.2
+    transitivePeerDependencies:
+      - '@types/node'
+      - bare-buffer
+      - bufferutil
+      - debug
+      - less
+      - lightningcss
+      - sass
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - typescript
+      - utf-8-validate
+
+  /@twick/telemetry@0.14.0:
+    resolution: {integrity: sha512-WQM9KdtNdwohpNbaz9+2/QvrRoQFwL6W0YIRIvCKwrEa0xtl4BOyQllazhhdjKq6bSzn7nNjjbsTlKwvwcPO1w==}
+    requiresBuild: true
+    dependencies:
+      posthog-node: 4.18.0
+      uuid: 9.0.1
+    transitivePeerDependencies:
+      - debug
+
+  /@twick/ui@0.14.0:
+    resolution: {integrity: sha512-aQ5cbpJJgpE4zCgLWK6bb2qDIhs+4CzRirrnUXRGq45Eh+dXm30/16U/XKT/hMjUYEXbF64YMckyU6IvGqw1mg==}
+    dependencies:
+      '@preact/signals': 1.3.2(preact@10.26.7)
+      '@twick/core': 0.14.0
+      preact: 10.26.7
+    dev: true
+
+  /@twick/vite-plugin@0.14.0:
+    resolution: {integrity: sha512-1DgdKSUUs7gC1QRrgseF0YoM61anpFXhgGvj2LSy6o2ju8E3/GOvni4CtDEppYO+DaqBMKc6KjlaZCyD2pcd5w==}
+    dependencies:
+      '@twick/ffmpeg': 0.14.0
+      fast-glob: 3.3.3
+      follow-redirects: 1.15.9
+      formidable: 3.5.4
+      mime-types: 2.1.35
+      source-map: 0.6.1
+    transitivePeerDependencies:
+      - debug
 
   /@types/argparse@1.0.38:
     resolution: {integrity: sha512-ebDJ9b0e702Yr7pWgB0jzm+CX4Srzz8RcXtLJDJB+BSccqMa36uyH/zUsSYao5+BD1ytv3k3rPYCq4mAE1hsXA==}
@@ -6782,9 +6782,6 @@ packages:
     dev: false
     optional: true
 
-  /chroma-js@2.4.2:
-    resolution: {integrity: sha512-U9eDw6+wt7V8z5NncY2jJfZa+hUH8XEj8FQHgFJTrUFnJfXYf4Ml4adI2vXZOjqRDpFWtYVWypDfZwnJ+HIR4A==}
-
   /chrome-trace-event@1.0.4:
     resolution: {integrity: sha512-rNjApaLzuwaOTjCiT8lSDdGN1APCiqkChLMJxJPWLunPAt5fy8xgU9/jNOchV84wfIxrA0lRQB7oCT8jrn/wrQ==}
     engines: {node: '>=6.0'}
@@ -7388,6 +7385,10 @@ packages:
 
   /csstype@3.1.3:
     resolution: {integrity: sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw==}
+
+  /culori@4.0.2:
+    resolution: {integrity: sha512-1+BhOB8ahCn4O0cep0Sh2l9KCOfOdY+BXJnKMHFFzDEouSr/el18QwXEMRlOj9UY5nCeA8UN3a/82rUWRBeyBw==}
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
 
   /data-uri-to-buffer@6.0.2:
     resolution: {integrity: sha512-7hvf7/GW8e86rW0ptuwS3OcBGDjIi6SZva7hCyWC0yYry2cOPmLIjXAUHI6DK2HsnwJd9ifmt57i8eV2n4YNpw==}

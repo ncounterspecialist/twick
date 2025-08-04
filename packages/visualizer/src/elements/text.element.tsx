@@ -1,6 +1,6 @@
 import { ElementParams } from "../helpers/types";
-import { all, createRef, waitFor } from "@revideo/core";
-import { Txt } from "@revideo/2d";
+import { all, createRef, waitFor } from "@twick/core";
+import { Txt } from "@twick/2d";
 import { addAnimation, addTextEffect } from "../helpers/element.utils";
 
 export const TextElement = {

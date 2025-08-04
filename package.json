@@ -1,6 +1,6 @@
 {
   "name": "twick",
-  "version": "0.0.1",
+  "version": "0.14.0",
   "private": true,
   "scripts": {
     "build": "turbo run build --filter=./packages/*",
@@ -46,6 +46,7 @@
     "packages/media-utils",
     "packages/visualizer",
     "packages/canvas",
+    "packages/timeline",
     "packages/live-player",
     "packages/video-editor",
     "packages/examples"

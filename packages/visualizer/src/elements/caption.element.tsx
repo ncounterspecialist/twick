@@ -1,8 +1,9 @@
 import { CaptionProps, ElementParams } from "../helpers/types";
-import { Color, createRef, Reference, waitFor } from "@revideo/core";
-import { Rect, Txt } from "@revideo/2d";
+import { Color, createRef, Reference, waitFor } from "@twick/core";
+import { Rect, Txt } from "@twick/2d";
 import { splitPhraseTiming } from "../helpers/caption.utils";
 import { TRANSPARENT_COLOR } from "../helpers/constants";
+import { hexToRGB } from "../helpers/utils";
 
 export const CaptionElement = {
   name: "caption",
@@ -33,12 +34,11 @@ export const CaptionElement = {
       if (caption.capStyle == "highlight_bg") {
         const bgContainerRef = createRef();
         const childTextRef = createRef();
+        const _color = new Color({...hexToRGB(captionProps.colors.background), a: captionProps?.bgOpacity ?? 1});
         containerRef().add(
           <Rect
             ref={bgContainerRef}
-            fill={new Color(captionProps.colors.background).alpha(
-              captionProps?.bgOpacity ?? 1
-            )}
+            fill={_color}
             width={textRef().width() + (captionProps.bgOffsetWidth ?? 30)}
             height={textRef().height() + (captionProps.bgOffsetHeight ?? 10)}
             margin={captionProps.bgMargin ?? [0, -5]}

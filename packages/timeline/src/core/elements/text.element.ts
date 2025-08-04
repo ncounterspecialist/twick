@@ -24,6 +24,14 @@ export class TextElement extends TrackElement {
     return this.props.text;
   }
 
+  getStrokeColor() {
+    return this.props.stroke;
+  }
+
+  getLineWidth() {
+    return this.props.lineWidth;
+  }
+
   setText(text: string) {
     this.props.text = text;
     return this;
@@ -46,6 +54,7 @@ export class TextElement extends TrackElement {
 
   setFontFamily(fontFamily: string) {
     this.props.fontFamily = fontFamily;
+      return this;
   }
 
   setFontWeight(fontWeight: number) {
@@ -55,6 +64,7 @@ export class TextElement extends TrackElement {
 
   setFontStyle(fontStyle: "normal" | "italic") {
     this.props.fontStyle = fontStyle;
+    return this;
   }
 
   setTextEffect(textEffect?: ElementTextEffect) {
@@ -64,6 +74,16 @@ export class TextElement extends TrackElement {
 
   setTextAlign(textAlign: TextAlign) {
     this.props.textAlign = textAlign;
+    return this;
+  }
+
+  setStrokeColor(stroke: string) {
+    this.props.stroke = stroke;
+    return this;
+  }
+
+  setLineWidth(lineWidth: number) {
+    this.props.lineWidth = lineWidth;
     return this;
   }
 

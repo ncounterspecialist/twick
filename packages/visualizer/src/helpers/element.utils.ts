@@ -1,9 +1,9 @@
-import { all, Reference, waitFor } from "@revideo/core";
+import { all, Reference, waitFor } from "@twick/core";
 import { FrameState, ObjectFit, SizeVector, VisualizerElement } from "./types";
 import { OBJECT_FIT } from "./constants";
 import textEffectController from "../controllers/text-effect.controller";
 import animationController from "../controllers/animation.controller";
-import { View2D } from "@revideo/2d";
+import { View2D } from "@twick/2d";
 import frameEffectController from "../controllers/frame-effect.controller";
 import { logger } from "./log.utils";
 

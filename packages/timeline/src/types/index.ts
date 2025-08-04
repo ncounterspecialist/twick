@@ -115,6 +115,8 @@ export type TextProps = {
   fontWeight?: number;
   fontStyle?: "normal" | "italic";
   textAlign?: TextAlign;
+  stroke?: string;
+  lineWidth?: number;
 };
 
 export type VideoProps = {

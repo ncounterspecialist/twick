@@ -1,6 +1,6 @@
 {
   "name": "@twick/live-player",
-  "version": "0.0.1",
+  "version": "0.14.0",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -10,6 +10,9 @@
   "files": [
     "dist"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "vite build",
     "dev": "vite build --watch",
@@ -18,9 +21,9 @@
     "docs": "typedoc --plugin typedoc-plugin-markdown --out docs src/index.ts"
   },
   "dependencies": {
-    "@revideo/core": "^0.10.4",
-    "@revideo/player-react": "^0.10.4",
-    "@twick/visualizer": "workspace:^0.0.1",
+    "@twick/core": "^0.14.0",
+    "@twick/player-react": "^0.14.0",
+    "@twick/visualizer": "workspace:^0.14.0",
     "react": "^18.2.0"
   },
   "devDependencies": {
