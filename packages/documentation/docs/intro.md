@@ -8,60 +8,55 @@ Twick includes a powerful React-based video editing SDK that makes it easy to ad
 
 The goal is to offer **high-level editing functions** that can be triggered with simple function calls — ideal for building powerful media experiences without reinventing the wheel.
 
-### Modules and Features
+### Core Features
 
-#### Media Utils
+#### Timeline Management
+- **Multi-track timeline support** with drag-and-drop reordering
+- **CRUD operations** for tracks and elements using visitor pattern
+- **Element types**: Text, Video, Image, Audio, Rectangle, Circle, Icon, Caption
+- **Undo/redo support** with history management
+- **Time-based element positioning** and duration control
 
-- Access audio, video, and image metadata  
-- Adjust image and video fit/layout  
-- Extract audio from video  
-- Generate audio visualizers  
+#### Video Editing
+- **Live video preview** with custom controls
+- **Timeline-based editing interface** with zoom and seek controls
+- **Customizable video dimensions** and aspect ratios
+- **High-performance video rendering** with optimized playback
 
-#### Media Parser
+#### Canvas Editing
+- **React-based canvas library** built with Fabric.js
+- **Live edit of media and text elements** with drag-and-drop
+- **Move, resize, and rotate elements** directly on canvas
+- **Coordinate conversion** between video and canvas space
+- **Element reordering** by z-index
 
-- Convert `.mov` and `.webm` to `.mp4`  
-- Compress video files  
+#### Media Utilities
+- **Audio, video, and image metadata** extraction
+- **Image and video dimension handling** with object-fit calculations
+- **Audio duration detection** and thumbnail generation
+- **File download and blob management** utilities
+- **Media type detection** from URLs
 
-#### Lambda
+#### Live Player
+- **Video playback component** with custom controls
+- **Project data support** for complex video configurations
+- **Time tracking and duration management**
+- **Play/pause state management** with React hooks
 
-- Export videos and store them in cloud storage  
-
-#### Timelines
-
-- Arrange and trim media, text, and visual elements on a timeline  
-- Split audio and video  
-
-#### Captions
-
-- Generate captions from videos using AI  
-- Apply predefined caption styles  
-
-#### Video Edit Canvas
-
-- Live edit of media and text elements  
-- Move, resize, and rotate elements directly  
-
-#### UI Visualizer
-
-- Live preview synced with edit mode  
-- Panels for adding and editing content  
-- Internal state management  
-- Undo/redo support  
-
-#### Effects
-
-- Media effects: pop, pulse, flicker, rise, fade, zoom  
-- Text animations: typewriter, elastic, staggered, stream-word  
-- Filters for both images and video 
+#### Visualizer
+- **Interactive visualizations** built on 2D graphics
+- **Animation and effect rendering** for timeline elements
+- **Real-time preview** of video compositions
 
 ## Available Packages
 
-- **@twick/media-utils**: Utilities for handling media files (images, audio, video)
-- **@twick/canvas**: React-based canvas library for video and image editing
-- **@twick/live-player**: React component for video playback and control  
+- **@twick/timeline**: Core timeline management with CRUD operations and visitor pattern
+- **@twick/video-editor**: Complete video editing interface with timeline and controls
+- **@twick/canvas**: React-based canvas library for live element editing
+- **@twick/live-player**: Video playback component with project data support
+- **@twick/media-utils**: Utilities for handling media files and metadata
 - **@twick/visualizer**: Video visualization and animation toolkit
 - **@twick/examples**: Example implementations and usage demonstrations
-- More packages coming soon...
 
 ## Getting Started
 
