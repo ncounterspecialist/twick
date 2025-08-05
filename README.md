@@ -57,7 +57,9 @@ pnpm build:media-utils
 pnpm preview
 ```
 
-Open http://localhost:4173/ in browser
+Open http://localhost:4173/demo in browser
+
+See [Twick Demo guide](https://ncounterspecialist.github.io/twick/docs/in-action) for detailed instructions.
 
 ## Demo Preview
 

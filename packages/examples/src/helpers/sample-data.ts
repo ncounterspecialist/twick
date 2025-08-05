@@ -7,13 +7,14 @@ export const sample = {
       context: {
         requestId: "79e0ebbd-dee6-43d2-b1c0-1febf124cd03",
       },
-      "timeline": [
+      "tracks": [
         {
-          "id": "t-element-1",
+          "id": "t-track-1",
           "type": "element",
           "elements": [
             {
               "id": "e-244f8d5a3baa",
+              "trackId": "t-track-1",
               "type": "rect",
               "s": 0,
               "e": 5,
@@ -27,11 +28,12 @@ export const sample = {
           "name": "element"
         },
         {
-          "id": "t-element-2",
+          "id": "t-track-2",
           "type": "element",
           "elements": [
             {
               "id": "e-244f8d5a3bba",
+              "trackId": "t-track-2",
               "type": "text",
               "s": 0,
               "e": 1,
@@ -43,6 +45,7 @@ export const sample = {
             },
             {
               "id": "e-244f8d5a3bbb",
+              "trackId": "t-track-2",
               "type": "text",
               "s": 1,
               "e": 4,
@@ -57,6 +60,7 @@ export const sample = {
             },
             {
               "id": "e-244f8d5a3bbc",
+              "trackId": "t-track-2",
               "type": "text",
               "s": 4,
               "e": 5,
@@ -70,11 +74,12 @@ export const sample = {
           "name": "element"
         },
         {
-          "id": "t-audio-1",
+          "id": "t-track-3",
           "type": "audio",
           "elements": [
             {
               "id": "e-244f8d5aabaa",
+              "trackId": "t-track-3",
               "type": "audio",
               "s": 0,
               "e": 5,
