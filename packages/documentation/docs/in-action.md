@@ -112,7 +112,7 @@ The Twick SDK exposes a global registry called `twickTimelineEditors` that conta
 
 5. **Add Elements to Tracks**: Place elements on their respective tracks:
    ```javascript
-   await editor.addElementToTrack(track, element);
+   await editor.addElementToTrack(track, element); // wait for the element to be added to the track
    ```
 
 ## Key Concepts
@@ -156,7 +156,7 @@ const video = new Twick.VideoElement(
   { width: 720, height: 1280 }
 );
 video.setStart(0).setEnd(10); // Show for 10 seconds
-await editor.addElementToTrack(videoTrack, video);
+await editor.addElementToTrack(videoTrack, video); // wait for the element to be added to the track
 
 // Create a text track
 const textTrack = editor.addTrack("text");
@@ -170,7 +170,7 @@ const text = new Twick.TextElement("Hello World!")
   .setLineWidth(1)       // Outline thickness
   .setFontSize(48)       // Large text
   .setPosition({x: 0, y: 0}); // Center position
-await editor.addElementToTrack(textTrack, text);
+await editor.addElementToTrack(textTrack, text); // wait for the element to be added to the track
 ```
 
 ## Complete Example
@@ -197,7 +197,7 @@ video1.setStart(0)
 .setEnd(3.689)
 .setStartAt(10.238)
 .setPlaybackRate(1.5);
-await editor.addElementToTrack(t1, video1);
+await editor.addElementToTrack(t1, video1); // wait for the element to be added to the track
 
 const video2 = new Twick.VideoElement(
   vidSrc2,
@@ -206,7 +206,7 @@ const video2 = new Twick.VideoElement(
 .setStart(3.689)
 .setEnd(5.895)
 .setStartAt(1.308);
-await editor.addElementToTrack(t1, video2);
+await editor.addElementToTrack(t1, video2); // wait for the element to be added to the track
 
 const video3 = new Twick.VideoElement(
   vidSrc3,
@@ -215,7 +215,7 @@ const video3 = new Twick.VideoElement(
 .setStart(5.895)
 .setEnd(7.995)
 .setPlaybackRate(1.3);
-await editor.addElementToTrack(t1, video3);
+await editor.addElementToTrack(t1, video3); // wait for the element to be added to the track
 
 video3.setFrame({
   size: [2310.219982189786, 1296.290101117602],
@@ -231,7 +231,7 @@ const video4 = new Twick.VideoElement(
 .setStart(7.995)
 .setEnd(8.626)
 .setStartAt(7.257);
-await editor.addElementToTrack(t1, video4);
+await editor.addElementToTrack(t1, video4); // wait for the element to be added to the track
 
 video4.setFrame({
   size: [2327.7624240371783, 1306.1333601541946],
@@ -247,7 +247,7 @@ const video5 = new Twick.VideoElement(
 .setStart(8.626)
 .setEnd(10.826)
 .setPlaybackRate(1.3);
-await editor.addElementToTrack(t1, video5);
+await editor.addElementToTrack(t1, video5); // wait for the element to be added to the track
 
 video5.setFrame({
   size: [2306.939049473814, 1294.4491333158624],
@@ -263,7 +263,7 @@ const video6 = new Twick.VideoElement(
 .setStart(10.826)
 .setEnd(12.152)
 .setStartAt(7.674);
-await editor.addElementToTrack(t1, video6);
+await editor.addElementToTrack(t1, video6); // wait for the element to be added to the track
 
 video6.setFrame({
   size: [2453.2561179659288, 1376.5492661919934],
@@ -280,7 +280,7 @@ const video7 = new Twick.VideoElement(
 .setEnd(13.25)
 .setStartAt(14.922)
 .setPlaybackRate(1.2);
-await editor.addElementToTrack(t1, video7);
+await editor.addElementToTrack(t1, video7); // wait for the element to be added to the track
 
 video7.setFrame({
   size: [2384.787279090284, 1338.1306399339926],
@@ -296,7 +296,7 @@ const video8 = new Twick.VideoElement(
 .setStart(13.25)
 .setEnd(14.467)
 .setStartAt(22.726);
-await editor.addElementToTrack(t1, video8);
+await editor.addElementToTrack(t1, video8); // wait for the element to be added to the track
 
 video8.setFrame({
   size: [2232.8991871431735, 1252.904543897003],
@@ -312,7 +312,7 @@ const video9 = new Twick.VideoElement(
 .setStart(14.467)
 .setEnd(16.006)
 .setStartAt(24.959);
-await editor.addElementToTrack(t1, video9);
+await editor.addElementToTrack(t1, video9); // wait for the element to be added to the track
 
 video9.setFrame({
   size: [2377.573334179124, 1334.0828152893973],
@@ -334,7 +334,7 @@ const text1 = new Twick.TextElement("GOD WILL BREAK YOU")
 .setFontWeight(700)
 .setFontStyle("italic")
 .setPosition({ x: 6.783908864364548, y: 97.1750927093608 });
-await editor.addElementToTrack(t2, text1);
+await editor.addElementToTrack(t2, text1);  // wait for the element to be added to the track
 
 const text2 = new Twick.TextElement("BREAK YOU AGAIN")
 .setStart(4.001)
@@ -347,7 +347,7 @@ const text2 = new Twick.TextElement("BREAK YOU AGAIN")
 .setFontWeight(700)
 .setFontStyle("normal")
 .setPosition({ x: 0, y: 74.576233939742 });
-await editor.addElementToTrack(t2, text2);
+await editor.addElementToTrack(t2, text2);  // wait for the element to be added to the track
 
 const t3 = editor.addTrack("text2");
 const text3 = new Twick.TextElement("AND THEN")
@@ -361,7 +361,7 @@ const text3 = new Twick.TextElement("AND THEN")
 .setFontWeight(700)
 .setFontStyle("italic")
 .setPosition({ x: 2.261302954788164, y: 146.89258200252198 });
-await editor.addElementToTrack(t3, text3);
+await editor.addElementToTrack(t3, text3); // wait for the element to be added to the track
 
 const text4 = new Twick.TextElement("BREAK YOU ONCE AGAIN")
 .setStart(6.006)
@@ -374,7 +374,7 @@ const text4 = new Twick.TextElement("BREAK YOU ONCE AGAIN")
 .setFontWeight(700)
 .setFontStyle("italic")
 .setPosition({ x: 6.783908864364548, y: 119.7739514789796 });
-await await editor.addElementToTrack(t2, text4);
+await editor.addElementToTrack(t2, text4); // wait for the element to be added to the track
 
 const text5 = new Twick.TextElement("BUT")
 .setStart(8.639)
@@ -386,7 +386,7 @@ const text5 = new Twick.TextElement("BUT")
 .setFontFamily("Impact")
 .setFontWeight(700)
 .setFontStyle("italic");
-await await editor.addElementToTrack(t2, text5);
+await editor.addElementToTrack(t2, text5); // wait for the element to be added to the track
 
 const text6 = new Twick.TextElement("IN THE END")
 .setStart(10.895)
@@ -400,7 +400,7 @@ const text6 = new Twick.TextElement("IN THE END")
 .setFontStyle("italic")
 .setRotation(0)
 .setPosition({ x: 2.2613029547882206, y: 101.69486446328449 });
-await editor.addElementToTrack(t2, text6);
+await editor.addElementToTrack(t2, text6); // wait for the element to be added to the track
 
 const text7 = new Twick.TextElement("HE WILL MAKE YOU")
 .setStart(14.62)
@@ -413,7 +413,7 @@ const text7 = new Twick.TextElement("HE WILL MAKE YOU")
 .setFontWeight(700)
 .setFontStyle("normal")
 .setPosition({ x: 38.44215023139918, y: 74.57623393974211 });
-await editor.addElementToTrack(t2, text7);
+await editor.addElementToTrack(t2, text7); // wait for the element to be added to the track
 
 const text8 = new Twick.TextElement("HAPPY")
 .setStart(14.85)
@@ -427,7 +427,7 @@ const text8 = new Twick.TextElement("HAPPY")
 .setFontStyle("italic")
 .setRotation(0)
 .setPosition({ x: 33.919544321822684, y: 142.37281024859828 });
-await editor.addElementToTrack(t3, text8);
+await editor.addElementToTrack(t3, text8); // wait for the element to be added to the track
 
 const t4 = editor.addTrack("audio");
 const audioElement = new Twick.AudioElement(
@@ -435,7 +435,7 @@ const audioElement = new Twick.AudioElement(
 );
 audioElement.setStart(0);
 audioElement.setEnd(16.055);
-await editor.addElementToTrack(t4, audioElement);
+await editor.addElementToTrack(t4, audioElement); // wait for the element to be added to the track
 ```
 
 ## Troubleshooting
