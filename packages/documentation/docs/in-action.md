@@ -20,11 +20,11 @@ You have two options to try Twick in action:
    ```bash
    cd packages/examples
    pnpm install
-   pnpm dev
+   pnpm build
    ```
 
 3. **Open the Editor:**  
-   In your browser, go to [http://localhost:5173/demo](http://localhost:5173/demo).
+   In your browser, go to [http://localhost:4173/demo](http://localhost:5173/demo).
 
 4. **Open the Browser Console:**  
    Press `F12` or right-click and select "Inspect" to open developer tools, then go to the Console tab.
