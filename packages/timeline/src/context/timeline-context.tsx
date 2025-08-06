@@ -13,6 +13,8 @@ import { TrackElement } from "../core/elements/base.element";
 import { ProjectJSON, TrackJSON } from "../types";
 import { TimelineEditor } from "../core/editor/timeline.editor";
 import { editorRegistry } from "../utils/register-editor";
+import { PostHogProvider } from "posthog-js/react";
+import posthog from "posthog-js";
 
 export type TimelineContextType = {
   contextId: string;
@@ -80,6 +82,10 @@ const TimelineProviderInner = ({
   const editor = useMemo(() => {
     if (editorRegistry.has(contextId)) {
       editorRegistry.delete(contextId);
+    } else {
+      posthog.capture("timeline_editor_created", {
+        contextId,
+      });
     }
     const newEditor = new TimelineEditor({
       contextId,
@@ -152,19 +158,28 @@ export const TimelineProvider = ({
 }: TimelineProviderProps) => {
   // If undo/redo is enabled, wrap with UndoRedoProvider
   return (
-    <UndoRedoProvider
-      persistenceKey={undoRedoPersistenceKey}
-      maxHistorySize={maxHistorySize}
+    <PostHogProvider
+      apiKey="phc_XaPky8YDbZjqm4GkCWBsVmICZTOTgjascrsftSOoJUJ"
+      options={{
+        api_host: "https://us.i.posthog.com",
+        defaults: "2025-05-24",
+        disable_session_recording: true,
+      }}
     >
-      <TimelineProviderInner
-        initialData={initialData}
-        contextId={contextId}
-        undoRedoPersistenceKey={undoRedoPersistenceKey}
+      <UndoRedoProvider
+        persistenceKey={undoRedoPersistenceKey}
         maxHistorySize={maxHistorySize}
       >
-        {children}
-      </TimelineProviderInner>
-    </UndoRedoProvider>
+        <TimelineProviderInner
+          initialData={initialData}
+          contextId={contextId}
+          undoRedoPersistenceKey={undoRedoPersistenceKey}
+          maxHistorySize={maxHistorySize}
+        >
+          {children}
+        </TimelineProviderInner>
+      </UndoRedoProvider>
+    </PostHogProvider>
   );
 };
 
