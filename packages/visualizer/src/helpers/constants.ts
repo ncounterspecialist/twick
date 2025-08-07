@@ -157,3 +157,7 @@ export const COLOR_FILTERS = {
   DRAMATIC: "dramatic",
   FADED: "faded",
 }
+
+export const EVENT_TYPES = {
+  PLAYER_UPDATE: "twick:playerUpdate",
+}

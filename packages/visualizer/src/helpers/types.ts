@@ -2,6 +2,7 @@ import { View2D } from "@twick/2d";
 import { Reference, ThreadGenerator, Vector2 } from "@twick/core";
 
 export type VideoInput = {
+  playerId: string,
   backgroundColor: string;
   properties: {
     width: number;

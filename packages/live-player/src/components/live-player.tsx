@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef } from "react";
 import { Player as CorePlayer } from "@twick/core";
 import { Player } from "@twick/player-react";
-import { getBaseProject } from "../helpers/player.utils";
+import { generateId, getBaseProject } from "../helpers/player.utils";
 //@ts-ignore
 import project from "@twick/visualizer/dist/project";
 
@@ -42,7 +42,7 @@ export type LivePlayerProps = {
   onTimeUpdate?: (currentTime: number) => void;
 
   /** Callback fired when player data is updated */
-  onDataUpdate?: (data: any) => void;
+  onPlayerUpdate?: (event: CustomEvent) => void;
 
   /** Callback fired once the player is ready */
   onPlayerReady?: (player: CorePlayer) => void;
@@ -69,22 +69,24 @@ export const LivePlayer = ({
   volume = 0.25,
   quality = 0.5,
   onTimeUpdate,
-  onDataUpdate,
+  onPlayerUpdate,
   onPlayerReady,
   onDurationChange,
 }: LivePlayerProps) => {
-  const baseProject = useMemo(
-    () => getBaseProject(videoSize || DEFAULT_VIDEO_SIZE),
-    [videoSize]
-  );
+  
 
   const isFirstRender = useRef(false);
 
   const playerRef = useRef<{
+    id: string;
     player: CorePlayer | null;
     htmlElement: HTMLElement | null;
-  }>({ player: null, htmlElement: null });
+  }>({ id: generateId(), player: null, htmlElement: null });
 
+  const baseProject = useMemo(
+    () => getBaseProject(videoSize || DEFAULT_VIDEO_SIZE, playerRef.current.id),
+    [videoSize]
+  );
   const playerContainerRef = useRef<HTMLDivElement | null>(null);
 
   /**
@@ -102,6 +104,7 @@ export const LivePlayer = ({
   const handlePlayerReady = (player: CorePlayer) => {
     playerRef.current = {
       player,
+      id: playerRef.current.id,
       htmlElement:
         playerContainerRef.current?.querySelector("twick-player") || null,
     };
@@ -112,10 +115,6 @@ export const LivePlayer = ({
 
       if (onPlayerReady) {
         onPlayerReady(player);
-      }
-    } else {
-      if (onDataUpdate) {
-        onDataUpdate(player);
       }
     }
   };
@@ -141,8 +140,16 @@ export const LivePlayer = ({
       console.log("setProjectData in live player");
       playerRef.current.htmlElement.setAttribute(
         "variables",
-        JSON.stringify(projectData)
+        JSON.stringify({ ...projectData, playerId: playerRef.current.id })
       );
+    }
+  };
+
+  const handleUpdate = (event: CustomEvent) => {
+    if (event.detail.playerId === playerRef.current.id) {
+      if (onPlayerUpdate) {
+        onPlayerUpdate(event);
+      }
     }
   };
 
@@ -158,6 +165,23 @@ export const LivePlayer = ({
     }
   }, [playing]);
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      window.addEventListener(
+        "twick:playerUpdate",
+        handleUpdate as EventListener
+      );
+    }
+    return () => {
+      if (typeof window !== "undefined") {
+        window.addEventListener(
+          "twick:playerUpdate",
+          handleUpdate as EventListener
+        );
+      }
+    };
+  }, []);
+
   return (
     <div
       ref={playerContainerRef}
@@ -168,7 +192,7 @@ export const LivePlayer = ({
         height: "100%",
         justifyContent: "center",
         alignItems: "center",
-        ...containerStyle || {},
+        ...(containerStyle || {}),
       }}
     >
       <Player
@@ -182,7 +206,9 @@ export const LivePlayer = ({
         onTimeUpdate={onCurrentTimeUpdate}
         onPlayerReady={handlePlayerReady}
         width={baseProject.input?.properties?.width || DEFAULT_VIDEO_SIZE.width}
-        height={baseProject?.input?.properties?.height || DEFAULT_VIDEO_SIZE.height}
+        height={
+          baseProject?.input?.properties?.height || DEFAULT_VIDEO_SIZE.height
+        }
         timeDisplayFormat="MM:SS.mm"
         onDurationChange={(e) => {
           if (onDurationChange) {

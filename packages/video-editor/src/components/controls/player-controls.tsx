@@ -94,20 +94,20 @@ const PlayerControls: React.FC<PlayerControlsProps> = ({
         <button
           className={`control-btn play-pause-btn player-controls-play-pause-btn${
             playerState === PLAYER_STATE.PLAYING ? " playing" : ""
-          }${playerState === PLAYER_STATE.REFRESHING ? " refreshing" : ""}`}
+          }${playerState === PLAYER_STATE.REFRESH ? " refreshing" : ""}`}
           onClick={togglePlayback}
           title={
             playerState === PLAYER_STATE.PLAYING
               ? "Pause"
-              : playerState === PLAYER_STATE.REFRESHING
+              : playerState === PLAYER_STATE.REFRESH
               ? "Refreshing"
               : "Play"
           }
-          disabled={playerState === PLAYER_STATE.REFRESHING}
+          disabled={playerState === PLAYER_STATE.REFRESH}
         >
           {playerState === PLAYER_STATE.PLAYING ? (
             <Pause size={28} strokeWidth={2} />
-          ) : playerState === PLAYER_STATE.REFRESHING ? (
+          ) : playerState === PLAYER_STATE.REFRESH ? (
             <Loader2 size={28} strokeWidth={2} className="refreshing-spinner" />
           ) : (
             <Play size={28} strokeWidth={2} />

@@ -15,8 +15,8 @@ export const usePlayerControl = () => {
       playerStateRef.current = PLAYER_STATE.PAUSED;
       setPlayerState(PLAYER_STATE.PAUSED);
     } else if (playerState === PLAYER_STATE.PAUSED) {
-      playerStateRef.current = PLAYER_STATE.REFRESHING;
-      setPlayerState(PLAYER_STATE.REFRESHING);
+      playerStateRef.current = PLAYER_STATE.REFRESH;
+      setPlayerState(PLAYER_STATE.REFRESH);
       // TODO: get player data from timeline context
       setTimelineAction(TIMELINE_ACTION.UPDATE_PLAYER_DATA, present);
     }
@@ -24,7 +24,7 @@ export const usePlayerControl = () => {
 
   useEffect(() => {
     if (timelineAction.type === TIMELINE_ACTION.ON_PLAYER_UPDATED) {
-      if(playerStateRef.current === PLAYER_STATE.REFRESHING) {
+      if(playerStateRef.current === PLAYER_STATE.REFRESH) {
         playerStateRef.current = PLAYER_STATE.PLAYING;
         setPlayerState(PLAYER_STATE.PLAYING);
       }

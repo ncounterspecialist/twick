@@ -11,6 +11,7 @@ export class ElementFrameEffect {
 
   setProps(props: FrameEffectProps) {
     this.props = props;
+    return this;
   }
 
   getProps() {
@@ -23,6 +24,16 @@ export class ElementFrameEffect {
 
   getEnd() {
     return this.e;
+  }
+
+  setStart(start: number) {
+    this.s = start;
+    return this;
+  }
+
+  setEnd(end: number) {
+    this.e = end;
+    return this;
   }
 
   toJSON(): FrameEffect {

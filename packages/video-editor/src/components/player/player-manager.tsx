@@ -16,7 +16,7 @@ export const PlayerManager = ({
   canvasMode: boolean;
 }) => {
   const { changeLog } = useTimelineContext();
-  const { twickCanvas, projectData, updateCanvas, buildCanvas } =
+  const { twickCanvas, projectData, updateCanvas, playerUpdating, onPlayerUpdate, buildCanvas } =
     usePlayerManager({ videoProps });
   const durationRef = useRef<number>(0);
   const {
@@ -53,7 +53,7 @@ export const PlayerManager = ({
   }, [twickCanvas, playerState, seekTime, changeLog]);
 
   const handleTimeUpdate = (time: number) => {
-    if (time >= durationRef.current) {
+    if (durationRef.current && time >= durationRef.current) {
       setCurrentTime(0);
       setPlayerState(PLAYER_STATE.PAUSED);
     } else {
@@ -68,6 +68,16 @@ export const PlayerManager = ({
         aspectRatio: `${videoProps.width}/${videoProps.height}`,
       }}
     >
+      {
+        <div
+          className="twick-editor-loading-overlay"
+          style={{
+            opacity: playerUpdating ? 1 : 0,
+          }}
+        >
+          {playerUpdating ? <div className="twick-editor-loading-spinner" /> : null}
+        </div>
+      }
       <LivePlayer
         seekTime={seekTime}
         projectData={projectData}
@@ -75,6 +85,7 @@ export const PlayerManager = ({
           width: videoProps.width,
           height: videoProps.height,
         }}
+        onPlayerUpdate={onPlayerUpdate}
         containerStyle={{
           opacity: canvasMode
             ? playerState === PLAYER_STATE.PAUSED

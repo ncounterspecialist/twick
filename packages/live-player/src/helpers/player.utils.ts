@@ -8,17 +8,27 @@
  * @param videoSize - An object containing the width and height of the video.
  * @returns A base project object with the specified video dimensions.
  */
-export const getBaseProject = (videoSize: {
+export const getBaseProject = (
+  videoSize: {
     width: number;
     height: number;
-  }) => {
-    return {
-      input: {
-        properties: {
-          width: videoSize.width,
-          height: videoSize.height,
-        },
+  },
+  playerId: string
+) => {
+  return {
+    playerId,
+    input: {
+      properties: {
+        width: videoSize.width,
+        height: videoSize.height,
       },
-    };
+    },
   };
-  
+};
+
+export const generateId = () => {
+  return (
+    Math.random().toString(36).substring(2, 15) +
+    Math.random().toString(36).substring(2, 15)
+  );
+};
