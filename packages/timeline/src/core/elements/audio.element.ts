@@ -13,7 +13,6 @@ export class AudioElement extends TrackElement {
     this.props = {
       src,
       time: 0,
-      play: true,
       playbackRate: 1,
       volume: 1,
       loop: false,
@@ -65,7 +64,6 @@ export class AudioElement extends TrackElement {
 
   override setProps(props: Omit<any, "src">) {
     this.props = {
-      play: this.props.play,
       ...structuredClone(props),
       src: this.props.src,
     };

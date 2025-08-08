@@ -59,3 +59,29 @@
   width: 100%;
   height: 100%;
 }
+
+.twick-editor-loading-overlay {
+  position: absolute;
+  z-index: 30;
+  background-color: rgba(0, 0, 0, 0.5);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+.twick-editor-loading-spinner {
+  width: 48px;
+  height: 48px;
+  border: 6px solid #444;
+  border-top: 6px solid #fff;
+  border-radius: 50%;
+  animation: twick-editor-spin 1s linear infinite;
+  margin: auto;
+}
+
+@keyframes twick-editor-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

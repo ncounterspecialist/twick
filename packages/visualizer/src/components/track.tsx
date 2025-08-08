@@ -218,15 +218,20 @@ export function* makeElementTrack({
   view.add(<Layout size={"100%"} ref={elementTrackRef} />);
 
   const sequence: ThreadGenerator[] = [];
-  for (const element of track.elements) {
-    sequence.push(
-      elementController.get(element.type)?.create({
-        containerRef: elementTrackRef,
-        element,
-        view,
-      })
-    );
+  try {
+    for (const element of track.elements) {
+      sequence.push(
+        elementController.get(element.type)?.create({
+          containerRef: elementTrackRef,
+          element,
+          view,
+        })
+      );
+    }
+  } catch (error) {
+    logger("Error creating element track", error);
   }
+  
   yield* all(...sequence);
   yield elementTrackRef().remove();
 }

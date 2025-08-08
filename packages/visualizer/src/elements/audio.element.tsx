@@ -8,10 +8,10 @@ export const AudioElement = {
     const elementRef = createRef<any>();
     yield* waitFor(element?.s);
     yield containerRef().add(
-      <Audio ref={elementRef} key={element.id} {...element.props} />
+      <Audio ref={elementRef} key={element.id} play={true} {...element.props} />
     );
     yield* waitFor(Math.max(0, element.e - element.s));
-    yield elementRef().playing(false);
+    yield elementRef().play(false);
     yield elementRef().remove();
   },
 };

@@ -26,20 +26,19 @@ export class ElementTextEffect {
     return this.bufferTime;
   }
 
-  setName(name: string) {
-    this.name = name;
-  }
-
   setDuration(duration?: number) {
     this.duration = duration;
+    return this;
   }
 
   setDelay(delay?: number) {
     this.delay = delay;
+    return this;
   }
 
   setBufferTime(bufferTime?: number) {
     this.bufferTime = bufferTime;
+    return this;
   }
 
   toJSON(): TextEffect {

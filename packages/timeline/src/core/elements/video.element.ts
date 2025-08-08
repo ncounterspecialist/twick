@@ -22,7 +22,6 @@ export class VideoElement extends TrackElement {
     this.parentSize = parentSize;
     this.props = {
       src,
-      play: true,
       playbackRate: 1,
       time: 0,
       mediaFilter: "none",
@@ -114,11 +113,6 @@ export class VideoElement extends TrackElement {
     return this;
   }
 
-  setPlay(play: boolean) {
-    this.props.play = play;
-    return this;
-  }
-
   setPlaybackRate(playbackRate: number) {
     this.props.playbackRate = playbackRate;
     return this;
@@ -146,7 +140,6 @@ export class VideoElement extends TrackElement {
 
   override setProps(props: Omit<any, "src">) {
     this.props = {
-      play: this.props.play,
       ...structuredClone(props),
       src: this.props.src,
     };

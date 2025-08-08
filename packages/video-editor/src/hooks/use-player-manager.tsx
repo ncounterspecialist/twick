@@ -16,6 +16,9 @@ export const usePlayerManager = ({
   const { timelineAction, setTimelineAction, setSelectedItem, editor } =
     useTimelineContext();
 
+  const [playerUpdating, setPlayerUpdating] = useState(false);
+
+
   const handleCanvasReady = (canvas: any) => {
     console.log("canvas ready", canvas);
   };
@@ -55,11 +58,19 @@ export const usePlayerManager = ({
     });
   };
 
+  const onPlayerUpdate = (event: CustomEvent) => {
+    if(event?.detail?.status === 'ready') {
+      setPlayerUpdating(false);
+      setTimelineAction(TIMELINE_ACTION.ON_PLAYER_UPDATED, null); 
+    } 
+  }
+
   useEffect(() => {
     switch (timelineAction.type) {
       case TIMELINE_ACTION.UPDATE_PLAYER_DATA:
         if (videoProps) {
           if (timelineAction.payload?.forceUpdate || editor.getLatestVersion() !== projectData?.input?.version) {
+            setPlayerUpdating(true);
             const _latestProjectData = {
               input: {
                 properties: videoProps,
@@ -68,9 +79,10 @@ export const usePlayerManager = ({
               },
             };
             setProjectData(_latestProjectData);
+          }  else {
+            setTimelineAction(TIMELINE_ACTION.ON_PLAYER_UPDATED, null); 
           }
         }
-        setTimelineAction(TIMELINE_ACTION.ON_PLAYER_UPDATED, null);
         break;
     }
   }, [timelineAction]);
@@ -80,5 +92,7 @@ export const usePlayerManager = ({
     projectData,
     updateCanvas,
     buildCanvas,
+    onPlayerUpdate,
+    playerUpdating,
   };
 };

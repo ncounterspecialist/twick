@@ -38,22 +38,27 @@ export class ElementAnimation {
 
   setInterval(interval?: number) {
     this.interval = interval;
+    return this;
   }
 
   setIntensity(intensity?: number) {
     this.intensity = intensity;
+    return this;
   }
 
   setAnimate(animate?: "enter" | "exit" | "both") {
     this.animate = animate;
+    return this;
   }
 
   setMode(mode?: "in" | "out") {
     this.mode = mode;
+    return this;
   }
 
   setDirection(direction?: "up" | "down" | "left" | "right" | "center") {
     this.direction = direction;
+    return this;
   }
 
   toJSON(): Animation {

@@ -7,7 +7,11 @@ import "./global.css";
 import { Rect, makeScene2D, View2D } from "@twick/2d";
 import { all, useScene } from "@twick/core";
 
-import { DEFAULT_BACKGROUND_COLOR, TRACK_TYPES } from "./helpers/constants";
+import {
+  DEFAULT_BACKGROUND_COLOR,
+  EVENT_TYPES,
+  TRACK_TYPES,
+} from "./helpers/constants";
 import { VideoInput } from "./helpers/types";
 import { logger } from "./helpers/log.utils";
 import {
@@ -17,6 +21,7 @@ import {
   makeSceneTrack,
   makeVideoTrack,
 } from "./components/track";
+import { dispatchWindowEvent } from "./helpers/event.utils";
 
 /**
  * Creates and configures the main scene for video visualization
@@ -27,10 +32,11 @@ import {
 export const scene = makeScene2D("scene", function* (view: View2D) {
   // Get input configuration from scene variables
   const input = useScene().variables.get("input", null)() as VideoInput | null;
-  
+  const playerId = useScene().variables.get("playerId", null)() as
+    | string
+    | null;
   if (input) {
-    logger("Scene updated", input);
-    
+    logger("Scene updated", { playerId, input });
     // Add background rectangle with specified or default color
     yield view.add(
       <Rect
@@ -70,9 +76,23 @@ export const scene = makeScene2D("scene", function* (view: View2D) {
         }
         index++;
       }
-      
       // Execute all track animations in parallel
       yield* all(...movie);
+      dispatchWindowEvent(EVENT_TYPES.PLAYER_UPDATE, {
+        detail: {
+          status: "ready",
+          playerId: playerId,
+          message: "All elements created",
+        },
+      });
+    } else {
+      dispatchWindowEvent(EVENT_TYPES.PLAYER_UPDATE, {
+        detail: {
+          status: "ready",
+          playerId: playerId,
+          message: "No elements to create",
+        },
+      });
     }
   }
 });
