@@ -109,6 +109,8 @@ pnpm start
 node test.js
 ```
 
+> **Note:** This server will work on Linux and macOS only. Windows is not supported.
+
 ## License
 
 Apache-2.0 
