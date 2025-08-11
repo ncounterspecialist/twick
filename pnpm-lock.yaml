@@ -287,7 +287,7 @@ importers:
         specifier: ^0.14.0
         version: 0.14.0
       '@twick/visualizer':
-        specifier: workspace:^0.14.0
+        specifier: ^0.14.0
         version: link:../visualizer
       cors:
         specifier: ^2.8.5
