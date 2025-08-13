@@ -69,6 +69,10 @@ export class VideoElement extends TrackElement {
     return this.props.playbackRate ?? 1;
   }
 
+  getVolume(): number {
+    return this.props.volume ?? 1;
+  } 
+
   override getPosition(): Position {
     return {
       x: this.frame.x ?? 0,
