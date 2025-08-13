@@ -29,6 +29,9 @@
     "typedoc": "^0.25.8",
     "typedoc-plugin-markdown": "^3.17.1"
   },
+  "dependencies": {
+    "lamejs": "^1.2.1"
+  },
   "peerDependencies": {
     "react": "^18.0.0",
     "react-dom": "^18.0.0"

@@ -57,12 +57,29 @@ export class VideoElement extends TrackElement {
     return this.props.time || 0;
   }
 
+  getEndAt(): number {
+    return this.getDuration() * this.getPlaybackRate();
+  }
+
+  getSrc(): string {
+    return this.props.src;
+  }
+
+  getPlaybackRate(): number {
+    return this.props.playbackRate ?? 1;
+  }
+
+  getVolume(): number {
+    return this.props.volume ?? 1;
+  } 
+
   override getPosition(): Position {
     return {
       x: this.frame.x ?? 0,
       y: this.frame.y ?? 0
     };
   }
+
 
   async updateVideoMeta(updateFrame: boolean = true) {
     const meta = await getVideoMeta(this.props.src);

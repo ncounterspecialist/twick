@@ -27,6 +27,22 @@ export class AudioElement extends TrackElement {
     return this.props.time || 0;
   }
 
+  getEndAt(): number {
+    return this.getDuration() * this.getPlaybackRate();
+  }
+
+  getSrc(): string {
+    return this.props.src;
+  }
+
+  getPlaybackRate(): number {
+    return this.props.playbackRate ?? 1;
+  }
+
+  getVolume(): number {
+    return this.props.volume ?? 1;
+  } 
+
   async updateAudioMeta() {
     this.mediaDuration = await getAudioDuration(this.props.src);
   }
