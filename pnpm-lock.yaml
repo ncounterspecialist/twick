@@ -124,6 +124,9 @@ importers:
       '@twick/live-player':
         specifier: workspace:^0.14.0
         version: link:../live-player
+      '@twick/media-utils':
+        specifier: workspace:^0.14.0
+        version: link:../media-utils
       '@twick/timeline':
         specifier: workspace:^0.14.0
         version: link:../timeline
@@ -240,6 +243,9 @@ importers:
 
   packages/media-utils:
     dependencies:
+      lamejs:
+        specifier: ^1.2.1
+        version: 1.2.1
       react:
         specifier: ^18.0.0
         version: 18.3.1
@@ -9864,6 +9870,12 @@ packages:
     resolution: {integrity: sha512-Y+60/zizpJ3HRH8DCss+q95yr6145JXZo46OTpFvDZWLfRCE4qChOyk1b26nMaNpfHHgxagk9dXT5OP0Tfe+dQ==}
     dev: true
 
+  /lamejs@1.2.1:
+    resolution: {integrity: sha512-s7bxvjvYthw6oPLCm5pFxvA84wUROODB8jEO2+CE1adhKgrIvVOlmMgY8zyugxGrvRaDHNJanOiS21/emty6dQ==}
+    dependencies:
+      use-strict: 1.0.1
+    dev: false
+
   /latest-version@7.0.0:
     resolution: {integrity: sha512-KvNT4XqAMzdcL6ka6Tl3i2lYeFDgXNCuIX+xNx6ZMVR1dFq+idXd9FLKNMOIx0t9mJ9/HudyX4oZWXZQ0UJHeg==}
     engines: {node: '>=14.16'}
@@ -14155,6 +14167,10 @@ packages:
       requires-port: 1.0.0
     dev: false
     optional: true
+
+  /use-strict@1.0.1:
+    resolution: {integrity: sha512-IeiWvvEXfW5ltKVMkxq6FvNf2LojMKvB2OCeja6+ct24S1XOmQw2dGr2JyndwACWAGJva9B7yPHwAmeA9QCqAQ==}
+    dev: false
 
   /util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}

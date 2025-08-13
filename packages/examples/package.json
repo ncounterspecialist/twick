@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@twick/canvas": "workspace:^0.14.0",
+    "@twick/media-utils": "workspace:^0.14.0",
     "@twick/live-player": "workspace:^0.14.0",
     "@twick/timeline": "workspace:^0.14.0",
     "@twick/video-editor": "workspace:^0.14.0",
