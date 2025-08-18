@@ -19,6 +19,7 @@
 10. [Examples & Workflows](#examples--workflows)
 11. [Best Practices](#best-practices)
 12. [Troubleshooting](#troubleshooting)
+13. [Quick Reference](#quick-reference)
 
 ---
 
@@ -494,7 +495,7 @@ function MyVideoApp() {
 
 ---
 
-## 🎬 Timeline Management
+## Timeline Management
 
 ### **Accessing Timeline Context**
 
@@ -869,7 +870,7 @@ element.setAnimation(fadeAnimation);
 
 ---
 
-## 🔧 Advanced Features
+## Advanced Features
 
 ### **LivePlayer Context**
 
