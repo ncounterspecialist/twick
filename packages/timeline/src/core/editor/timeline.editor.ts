@@ -1,4 +1,5 @@
 import {
+  extractVideoAudio,
   generateShortUuid,
   getTotalDuration,
 } from "../../utils/timeline.utils";
@@ -39,6 +40,7 @@ export interface TimelineOperationContext {
  */
 export class TimelineEditor {
   private context: TimelineOperationContext;
+  private totalDuration: number = 0;
 
   constructor(context: TimelineOperationContext) {
     this.context = context;
@@ -282,7 +284,8 @@ export class TimelineEditor {
 
   updateHistory(timelineTrackData: TimelineTrackData): void {
     const tracks = timelineTrackData.tracks.map((t) => t.serialize());
-    this.context.setTotalDuration(getTotalDuration(tracks));
+    this.totalDuration = getTotalDuration(tracks);  
+    this.context.setTotalDuration(this.totalDuration);
     const version = timelineTrackData.version;
     this.context.setPresent({
       tracks,
@@ -304,7 +307,8 @@ export class TimelineEditor {
       });
 
       // Update total duration
-      this.context.setTotalDuration(getTotalDuration(result.tracks));
+      this.totalDuration = getTotalDuration(result.tracks);
+      this.context.setTotalDuration(this.totalDuration);
       this.context.updateChangeLog();
 
       // Trigger timeline action to notify components
@@ -331,7 +335,8 @@ export class TimelineEditor {
       });
 
       // Update total duration
-      this.context.setTotalDuration(getTotalDuration(result.tracks));
+      this.totalDuration = getTotalDuration(result.tracks);
+      this.context.setTotalDuration(this.totalDuration);
       this.context.updateChangeLog();
 
       // Trigger timeline action to notify components
@@ -388,5 +393,11 @@ export class TimelineEditor {
         forceUpdate: true,
       });
     }
+  }
+
+  async getVideoAudio(): Promise<string> {
+    const tracks = this.getTimelineData()?.tracks || [];
+    const audioBlobUrl = await extractVideoAudio(tracks, this.totalDuration);
+    return audioBlobUrl;
   }
 }
