@@ -1,6 +1,6 @@
 # @twick/visualizer
 
-A visualization library built on top of [@twick/2d](https://github.com/ncounterspecialist/twick-base) for creating interactive visualizations.
+A visualization library built on top of [@twick/2d](https://github.com/re-video/2d) for creating interactive visualizations.
 
 ## Installation
 ```

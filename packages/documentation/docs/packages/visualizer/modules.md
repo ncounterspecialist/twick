@@ -2,41 +2,90 @@
 
 ## Table of contents
 
+### Interfaces
+
+- [Animation](interfaces/Animation.md)
+- [Element](interfaces/Element.md)
+- [FrameEffectPlugin](interfaces/FrameEffectPlugin.md)
+- [TextEffect](interfaces/TextEffect.md)
+
 ### Type Aliases
 
+- [AnimationParams](modules.md#animationparams)
+- [AnimationProps](modules.md#animationprops)
 - [Caption](modules.md#caption)
 - [CaptionColors](modules.md#captioncolors)
 - [CaptionFont](modules.md#captionfont)
 - [CaptionProps](modules.md#captionprops)
 - [CaptionStyle](modules.md#captionstyle)
+- [ElementParams](modules.md#elementparams)
 - [FrameEffect](modules.md#frameeffect)
+- [FrameEffectParams](modules.md#frameeffectparams)
 - [FrameEffectProps](modules.md#frameeffectprops)
+- [FrameState](modules.md#framestate)
 - [MediaType](modules.md#mediatype)
 - [ObjectFit](modules.md#objectfit)
 - [Position](modules.md#position)
 - [Size](modules.md#size)
 - [SizeArray](modules.md#sizearray)
 - [SizeVector](modules.md#sizevector)
+- [TextEffectParams](modules.md#texteffectparams)
+- [TextEffectProps](modules.md#texteffectprops)
 - [VideoInput](modules.md#videoinput)
 - [VisualizerElement](modules.md#visualizerelement)
-- [VisualizerTimeline](modules.md#visualizertimeline)
+- [VisualizerTrack](modules.md#visualizertrack)
 
 ### Variables
 
 - [scene](modules.md#scene)
 
-### Functions
-
-- [addAudioElement](modules.md#addaudioelement)
-- [addCaptionElement](modules.md#addcaptionelement)
-- [addCircleElement](modules.md#addcircleelement)
-- [addIconElement](modules.md#addiconelement)
-- [addMediaElement](modules.md#addmediaelement)
-- [addRectElement](modules.md#addrectelement)
-- [addTextElement](modules.md#addtextelement)
-- [makeSceneElements](modules.md#makesceneelements)
-
 ## Type Aliases
+
+### AnimationParams
+
+Ƭ **AnimationParams**: `Object`
+
+#### Type declaration
+
+| Name | Type |
+| :------ | :------ |
+| `animate?` | ``"enter"`` \| ``"exit"`` \| ``"both"`` |
+| `containerRef?` | `Reference`\<`any`\> |
+| `direction?` | ``"left"`` \| ``"right"`` \| ``"center"`` \| ``"up"`` \| ``"down"`` |
+| `duration?` | `number` |
+| `elementRef` | `Reference`\<`any`\> |
+| `intensity?` | `number` |
+| `interval?` | `number` |
+| `mode?` | ``"in"`` \| ``"out"`` |
+| `view` | `View2D` |
+
+#### Defined in
+
+[helpers/types.ts:190](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/visualizer/src/helpers/types.ts#L190)
+
+___
+
+### AnimationProps
+
+Ƭ **AnimationProps**: `Object`
+
+#### Type declaration
+
+| Name | Type |
+| :------ | :------ |
+| `animate?` | ``"enter"`` \| ``"exit"`` \| ``"both"`` |
+| `direction?` | ``"left"`` \| ``"right"`` \| ``"center"`` \| ``"up"`` \| ``"down"`` |
+| `duration?` | `number` |
+| `intensity?` | `number` |
+| `interval?` | `number` |
+| `mode?` | ``"in"`` \| ``"out"`` |
+| `name` | `string` |
+
+#### Defined in
+
+[helpers/types.ts:202](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/visualizer/src/helpers/types.ts#L202)
+
+___
 
 ### Caption
 
@@ -46,6 +95,7 @@
 
 | Name | Type |
 | :------ | :------ |
+| `capStyle?` | `string` |
 | `e` | `number` |
 | `props?` | [`CaptionProps`](modules.md#captionprops) |
 | `s` | `number` |
@@ -53,7 +103,7 @@
 
 #### Defined in
 
-[helpers/types.ts:74](https://github.com/ncounterspecialist/twick/blob/68fcb0bdb6e399ce7203b658d7134f1e7881f544/packages/visualizer/src/helpers/types.ts#L74)
+[helpers/types.ts:78](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/visualizer/src/helpers/types.ts#L78)
 
 ___
 
@@ -71,7 +121,7 @@ ___
 
 #### Defined in
 
-[helpers/types.ts:94](https://github.com/ncounterspecialist/twick/blob/68fcb0bdb6e399ce7203b658d7134f1e7881f544/packages/visualizer/src/helpers/types.ts#L94)
+[helpers/types.ts:99](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/visualizer/src/helpers/types.ts#L99)
 
 ___
 
@@ -90,7 +140,7 @@ ___
 
 #### Defined in
 
-[helpers/types.ts:100](https://github.com/ncounterspecialist/twick/blob/68fcb0bdb6e399ce7203b658d7134f1e7881f544/packages/visualizer/src/helpers/types.ts#L100)
+[helpers/types.ts:105](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/visualizer/src/helpers/types.ts#L105)
 
 ___
 
@@ -115,7 +165,7 @@ ___
 
 #### Defined in
 
-[helpers/types.ts:81](https://github.com/ncounterspecialist/twick/blob/68fcb0bdb6e399ce7203b658d7134f1e7881f544/packages/visualizer/src/helpers/types.ts#L81)
+[helpers/types.ts:86](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/visualizer/src/helpers/types.ts#L86)
 
 ___
 
@@ -150,7 +200,27 @@ ___
 
 #### Defined in
 
-[helpers/types.ts:49](https://github.com/ncounterspecialist/twick/blob/68fcb0bdb6e399ce7203b658d7134f1e7881f544/packages/visualizer/src/helpers/types.ts#L49)
+[helpers/types.ts:53](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/visualizer/src/helpers/types.ts#L53)
+
+___
+
+### ElementParams
+
+Ƭ **ElementParams**: `Object`
+
+#### Type declaration
+
+| Name | Type |
+| :------ | :------ |
+| `caption?` | [`Caption`](modules.md#caption) |
+| `containerRef` | `Reference`\<`any`\> |
+| `element?` | [`VisualizerElement`](modules.md#visualizerelement) |
+| `view` | `View2D` |
+| `waitOnStart?` | `boolean` |
+
+#### Defined in
+
+[helpers/types.ts:154](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/visualizer/src/helpers/types.ts#L154)
 
 ___
 
@@ -163,12 +233,32 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `e` | `number` |
+| `name` | `string` |
 | `props` | [`FrameEffectProps`](modules.md#frameeffectprops) |
 | `s` | `number` |
 
 #### Defined in
 
-[helpers/types.ts:31](https://github.com/ncounterspecialist/twick/blob/68fcb0bdb6e399ce7203b658d7134f1e7881f544/packages/visualizer/src/helpers/types.ts#L31)
+[helpers/types.ts:35](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/visualizer/src/helpers/types.ts#L35)
+
+___
+
+### FrameEffectParams
+
+Ƭ **FrameEffectParams**: `Object`
+
+#### Type declaration
+
+| Name | Type |
+| :------ | :------ |
+| `containerRef?` | `Reference`\<`any`\> |
+| `elementRef` | `Reference`\<`any`\> |
+| `frameEffect` | [`FrameEffect`](modules.md#frameeffect) |
+| `initFrameState` | [`FrameState`](modules.md#framestate) |
+
+#### Defined in
+
+[helpers/types.ts:217](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/visualizer/src/helpers/types.ts#L217)
 
 ___
 
@@ -191,7 +281,32 @@ ___
 
 #### Defined in
 
-[helpers/types.ts:38](https://github.com/ncounterspecialist/twick/blob/68fcb0bdb6e399ce7203b658d7134f1e7881f544/packages/visualizer/src/helpers/types.ts#L38)
+[helpers/types.ts:42](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/visualizer/src/helpers/types.ts#L42)
+
+___
+
+### FrameState
+
+Ƭ **FrameState**: `Object`
+
+#### Type declaration
+
+| Name | Type |
+| :------ | :------ |
+| `element` | \{ `pos`: `Vector2` ; `scale`: `Vector2` ; `size`: `Vector2`  } |
+| `element.pos` | `Vector2` |
+| `element.scale` | `Vector2` |
+| `element.size` | `Vector2` |
+| `frame` | \{ `pos`: `Vector2` ; `radius`: `number` ; `rotation`: `number` ; `scale`: `Vector2` ; `size`: `Vector2`  } |
+| `frame.pos` | `Vector2` |
+| `frame.radius` | `number` |
+| `frame.rotation` | `number` |
+| `frame.scale` | `Vector2` |
+| `frame.size` | `Vector2` |
+
+#### Defined in
+
+[helpers/types.ts:229](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/visualizer/src/helpers/types.ts#L229)
 
 ___
 
@@ -201,7 +316,7 @@ ___
 
 #### Defined in
 
-[helpers/types.ts:10](https://github.com/ncounterspecialist/twick/blob/68fcb0bdb6e399ce7203b658d7134f1e7881f544/packages/visualizer/src/helpers/types.ts#L10)
+[helpers/types.ts:14](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/visualizer/src/helpers/types.ts#L14)
 
 ___
 
@@ -211,7 +326,7 @@ ___
 
 #### Defined in
 
-[helpers/types.ts:12](https://github.com/ncounterspecialist/twick/blob/68fcb0bdb6e399ce7203b658d7134f1e7881f544/packages/visualizer/src/helpers/types.ts#L12)
+[helpers/types.ts:16](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/visualizer/src/helpers/types.ts#L16)
 
 ___
 
@@ -228,7 +343,7 @@ ___
 
 #### Defined in
 
-[helpers/types.ts:26](https://github.com/ncounterspecialist/twick/blob/68fcb0bdb6e399ce7203b658d7134f1e7881f544/packages/visualizer/src/helpers/types.ts#L26)
+[helpers/types.ts:30](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/visualizer/src/helpers/types.ts#L30)
 
 ___
 
@@ -245,7 +360,7 @@ ___
 
 #### Defined in
 
-[helpers/types.ts:19](https://github.com/ncounterspecialist/twick/blob/68fcb0bdb6e399ce7203b658d7134f1e7881f544/packages/visualizer/src/helpers/types.ts#L19)
+[helpers/types.ts:23](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/visualizer/src/helpers/types.ts#L23)
 
 ___
 
@@ -255,7 +370,7 @@ ___
 
 #### Defined in
 
-[helpers/types.ts:24](https://github.com/ncounterspecialist/twick/blob/68fcb0bdb6e399ce7203b658d7134f1e7881f544/packages/visualizer/src/helpers/types.ts#L24)
+[helpers/types.ts:28](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/visualizer/src/helpers/types.ts#L28)
 
 ___
 
@@ -272,7 +387,49 @@ ___
 
 #### Defined in
 
-[helpers/types.ts:14](https://github.com/ncounterspecialist/twick/blob/68fcb0bdb6e399ce7203b658d7134f1e7881f544/packages/visualizer/src/helpers/types.ts#L14)
+[helpers/types.ts:18](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/visualizer/src/helpers/types.ts#L18)
+
+___
+
+### TextEffectParams
+
+Ƭ **TextEffectParams**: `Object`
+
+#### Type declaration
+
+| Name | Type |
+| :------ | :------ |
+| `bufferTime?` | `number` |
+| `delay?` | `number` |
+| `direction?` | ``"left"`` \| ``"right"`` \| ``"center"`` |
+| `duration?` | `number` |
+| `elementRef` | `Reference`\<`any`\> |
+| `interval?` | `number` |
+
+#### Defined in
+
+[helpers/types.ts:167](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/visualizer/src/helpers/types.ts#L167)
+
+___
+
+### TextEffectProps
+
+Ƭ **TextEffectProps**: `Object`
+
+#### Type declaration
+
+| Name | Type |
+| :------ | :------ |
+| `bufferTime?` | `number` |
+| `delay?` | `number` |
+| `direction?` | ``"left"`` \| ``"right"`` \| ``"center"`` |
+| `duration?` | `number` |
+| `interval?` | `number` |
+| `name` | `string` |
+
+#### Defined in
+
+[helpers/types.ts:176](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/visualizer/src/helpers/types.ts#L176)
 
 ___
 
@@ -285,14 +442,15 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `backgroundColor` | `string` |
+| `playerId` | `string` |
 | `properties` | \{ `height`: `number` ; `width`: `number`  } |
 | `properties.height` | `number` |
 | `properties.width` | `number` |
-| `timeline` | [`VisualizerTimeline`](modules.md#visualizertimeline)[] |
+| `tracks` | [`VisualizerTrack`](modules.md#visualizertrack)[] |
 
 #### Defined in
 
-[helpers/types.ts:1](https://github.com/ncounterspecialist/twick/blob/68fcb0bdb6e399ce7203b658d7134f1e7881f544/packages/visualizer/src/helpers/types.ts#L1)
+[helpers/types.ts:4](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/visualizer/src/helpers/types.ts#L4)
 
 ___
 
@@ -304,11 +462,11 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `animations?` | `any`[] |
+| `animation?` | [`AnimationProps`](modules.md#animationprops) |
 | `backgroundColor?` | `string` |
 | `e` | `number` |
-| `elements?` | [`VisualizerElement`](modules.md#visualizerelement)[] |
 | `frame?` | `any` |
+| `frameEffects?` | [`FrameEffect`](modules.md#frameeffect)[] |
 | `hWords?` | `any` |
 | `id` | `string` |
 | `objectFit?` | ``"contain"`` \| ``"cover"`` \| ``"fill"`` |
@@ -316,23 +474,24 @@ ___
 | `s` | `number` |
 | `scale?` | `number` |
 | `t?` | `string` |
+| `textEffect` | [`TextEffectProps`](modules.md#texteffectprops) |
+| `trackId?` | `string` |
 | `type?` | `string` |
 
 #### Defined in
 
-[helpers/types.ts:107](https://github.com/ncounterspecialist/twick/blob/68fcb0bdb6e399ce7203b658d7134f1e7881f544/packages/visualizer/src/helpers/types.ts#L107)
+[helpers/types.ts:112](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/visualizer/src/helpers/types.ts#L112)
 
 ___
 
-### VisualizerTimeline
+### VisualizerTrack
 
-Ƭ **VisualizerTimeline**: `Object`
+Ƭ **VisualizerTrack**: `Object`
 
 #### Type declaration
 
 | Name | Type |
 | :------ | :------ |
-| `captions?` | [`Caption`](modules.md#caption)[] |
 | `elements` | [`VisualizerElement`](modules.md#visualizerelement)[] |
 | `id` | `string` |
 | `props?` | \{ `bgOpacity?`: `number` ; `capStyle?`: `string` ; `captionProps?`: [`CaptionProps`](modules.md#captionprops) ; `colors?`: \{ `background?`: `string` ; `highlight?`: `string` ; `text?`: `string`  } ; `font?`: \{ `family?`: `string` ; `size?`: `number` ; `style?`: `string` ; `weight?`: `number`  } ; `x?`: `number` ; `y?`: `number`  } |
@@ -354,7 +513,7 @@ ___
 
 #### Defined in
 
-[helpers/types.ts:123](https://github.com/ncounterspecialist/twick/blob/68fcb0bdb6e399ce7203b658d7134f1e7881f544/packages/visualizer/src/helpers/types.ts#L123)
+[helpers/types.ts:130](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/visualizer/src/helpers/types.ts#L130)
 
 ## Variables
 
@@ -374,184 +533,4 @@ Generator function that handles scene setup and animation
 
 #### Defined in
 
-[visualizer.tsx:27](https://github.com/ncounterspecialist/twick/blob/68fcb0bdb6e399ce7203b658d7134f1e7881f544/packages/visualizer/src/visualizer.tsx#L27)
-
-## Functions
-
-### addAudioElement
-
-▸ **addAudioElement**(`«destructured»`): `Generator`\<`any`, `void`, `any`\>
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `«destructured»` | `Object` |
-| › `containerRef` | `Reference`\<`any`\> |
-| › `element` | [`VisualizerElement`](modules.md#visualizerelement) |
-
-#### Returns
-
-`Generator`\<`any`, `void`, `any`\>
-
-#### Defined in
-
-[components/element.tsx:329](https://github.com/ncounterspecialist/twick/blob/68fcb0bdb6e399ce7203b658d7134f1e7881f544/packages/visualizer/src/components/element.tsx#L329)
-
-___
-
-### addCaptionElement
-
-▸ **addCaptionElement**(`«destructured»`): `Generator`\<`any`, `void`, `any`\>
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `«destructured»` | `Object` |
-| › `capStyle` | `string` |
-| › `caption` | [`Caption`](modules.md#caption) |
-| › `captionProps` | [`CaptionProps`](modules.md#captionprops) |
-| › `containerRef` | `Reference`\<`any`\> |
-
-#### Returns
-
-`Generator`\<`any`, `void`, `any`\>
-
-#### Defined in
-
-[components/element.tsx:93](https://github.com/ncounterspecialist/twick/blob/68fcb0bdb6e399ce7203b658d7134f1e7881f544/packages/visualizer/src/components/element.tsx#L93)
-
-___
-
-### addCircleElement
-
-▸ **addCircleElement**(`«destructured»`): `Generator`\<`any`, `void`, `any`\>
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `«destructured»` | `Object` |
-| › `containerRef` | `Reference`\<`any`\> |
-| › `element` | [`VisualizerElement`](modules.md#visualizerelement) |
-
-#### Returns
-
-`Generator`\<`any`, `void`, `any`\>
-
-#### Defined in
-
-[components/element.tsx:291](https://github.com/ncounterspecialist/twick/blob/68fcb0bdb6e399ce7203b658d7134f1e7881f544/packages/visualizer/src/components/element.tsx#L291)
-
-___
-
-### addIconElement
-
-▸ **addIconElement**(`«destructured»`): `Generator`\<`any`, `void`, `any`\>
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `«destructured»` | `Object` |
-| › `containerRef` | `Reference`\<`any`\> |
-| › `element` | [`VisualizerElement`](modules.md#visualizerelement) |
-
-#### Returns
-
-`Generator`\<`any`, `void`, `any`\>
-
-#### Defined in
-
-[components/element.tsx:310](https://github.com/ncounterspecialist/twick/blob/68fcb0bdb6e399ce7203b658d7134f1e7881f544/packages/visualizer/src/components/element.tsx#L310)
-
-___
-
-### addMediaElement
-
-▸ **addMediaElement**(`«destructured»`): `Generator`\<`any`, `void`, `any`\>
-
-#### Parameters
-
-| Name | Type | Default value |
-| :------ | :------ | :------ |
-| `«destructured»` | `Object` | `undefined` |
-| › `containerRef` | `Reference`\<`any`\> | `undefined` |
-| › `element` | [`VisualizerElement`](modules.md#visualizerelement) | `undefined` |
-| › `mediaType` | `string` | `undefined` |
-| › `waitOnStart?` | `boolean` | `true` |
-
-#### Returns
-
-`Generator`\<`any`, `void`, `any`\>
-
-#### Defined in
-
-[components/element.tsx:22](https://github.com/ncounterspecialist/twick/blob/68fcb0bdb6e399ce7203b658d7134f1e7881f544/packages/visualizer/src/components/element.tsx#L22)
-
-___
-
-### addRectElement
-
-▸ **addRectElement**(`«destructured»`): `Generator`\<`any`, `void`, `any`\>
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `«destructured»` | `Object` |
-| › `containerRef` | `Reference`\<`any`\> |
-| › `element` | [`VisualizerElement`](modules.md#visualizerelement) |
-
-#### Returns
-
-`Generator`\<`any`, `void`, `any`\>
-
-#### Defined in
-
-[components/element.tsx:248](https://github.com/ncounterspecialist/twick/blob/68fcb0bdb6e399ce7203b658d7134f1e7881f544/packages/visualizer/src/components/element.tsx#L248)
-
-___
-
-### addTextElement
-
-▸ **addTextElement**(`«destructured»`): `Generator`\<`any`, `void`, `any`\>
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `«destructured»` | `Object` |
-| › `containerRef` | `Reference`\<`any`\> |
-| › `element` | [`VisualizerElement`](modules.md#visualizerelement) |
-
-#### Returns
-
-`Generator`\<`any`, `void`, `any`\>
-
-#### Defined in
-
-[components/element.tsx:267](https://github.com/ncounterspecialist/twick/blob/68fcb0bdb6e399ce7203b658d7134f1e7881f544/packages/visualizer/src/components/element.tsx#L267)
-
-___
-
-### makeSceneElements
-
-▸ **makeSceneElements**(`«destructured»`): `Generator`\<`any`, `void`, `any`\>
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `«destructured»` | `Object` |
-| › `containerRef` | `Reference`\<`any`\> |
-| › `element` | [`VisualizerElement`](modules.md#visualizerelement) |
-
-#### Returns
-
-`Generator`\<`any`, `void`, `any`\>
-
-#### Defined in
-
-[components/element.tsx:182](https://github.com/ncounterspecialist/twick/blob/68fcb0bdb6e399ce7203b658d7134f1e7881f544/packages/visualizer/src/components/element.tsx#L182)
+[visualizer.tsx:32](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/visualizer/src/visualizer.tsx#L32)

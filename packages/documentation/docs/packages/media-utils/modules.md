@@ -4,6 +4,10 @@
 
 ## Table of contents
 
+### Interfaces
+
+- [AudioSegment](interfaces/AudioSegment.md)
+
 ### Type Aliases
 
 - [Dimensions](modules.md#dimensions)
@@ -15,6 +19,7 @@
 - [blobUrlToFile](modules.md#bloburltofile)
 - [detectMediaTypeFromUrl](modules.md#detectmediatypefromurl)
 - [downloadFile](modules.md#downloadfile)
+- [extractAudio](modules.md#extractaudio)
 - [getAudioDuration](modules.md#getaudioduration)
 - [getImageDimensions](modules.md#getimagedimensions)
 - [getObjectFitSize](modules.md#getobjectfitsize)
@@ -23,6 +28,7 @@
 - [getVideoMeta](modules.md#getvideometa)
 - [limit](modules.md#limit)
 - [saveAsFile](modules.md#saveasfile)
+- [stitchAudio](modules.md#stitchaudio)
 
 ## Type Aliases
 
@@ -39,7 +45,7 @@
 
 #### Defined in
 
-[types.ts:1](https://github.com/ncounterspecialist/twick/blob/322058f5130be7eb0f94cfb23a9e57764d22f682/packages/media-utils/src/types.ts#L1)
+[types.ts:1](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/media-utils/src/types.ts#L1)
 
 ___
 
@@ -56,7 +62,7 @@ ___
 
 #### Defined in
 
-[types.ts:3](https://github.com/ncounterspecialist/twick/blob/322058f5130be7eb0f94cfb23a9e57764d22f682/packages/media-utils/src/types.ts#L3)
+[types.ts:3](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/media-utils/src/types.ts#L3)
 
 ___
 
@@ -66,7 +72,7 @@ ___
 
 #### Defined in
 
-[types.ts:5](https://github.com/ncounterspecialist/twick/blob/322058f5130be7eb0f94cfb23a9e57764d22f682/packages/media-utils/src/types.ts#L5)
+[types.ts:5](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/media-utils/src/types.ts#L5)
 
 ## Functions
 
@@ -91,13 +97,13 @@ A Promise that resolves to a File object.
 
 #### Defined in
 
-[file-helper.ts:8](https://github.com/ncounterspecialist/twick/blob/322058f5130be7eb0f94cfb23a9e57764d22f682/packages/media-utils/src/file-helper.ts#L8)
+[file-helper.ts:8](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/media-utils/src/file-helper.ts#L8)
 
 ___
 
 ### detectMediaTypeFromUrl
 
-▸ **detectMediaTypeFromUrl**(`url`): `Promise`\<``"image"`` \| ``"video"`` \| ``"audio"`` \| ``null``\>
+▸ **detectMediaTypeFromUrl**(`url`): `Promise`\<``null`` \| ``"audio"`` \| ``"video"`` \| ``"image"``\>
 
 Detects the media type (image, video, or audio) of a given URL by sending a HEAD request.
 
@@ -109,14 +115,14 @@ Detects the media type (image, video, or audio) of a given URL by sending a HEAD
 
 #### Returns
 
-`Promise`\<``"image"`` \| ``"video"`` \| ``"audio"`` \| ``null``\>
+`Promise`\<``null`` \| ``"audio"`` \| ``"video"`` \| ``"image"``\>
 
 A promise that resolves to 'image', 'video', or 'audio' based on the Content-Type header,
          or `null` if the type couldn't be determined or the request fails.
 
 #### Defined in
 
-[url-helper.ts:8](https://github.com/ncounterspecialist/twick/blob/322058f5130be7eb0f94cfb23a9e57764d22f682/packages/media-utils/src/url-helper.ts#L8)
+[url-helper.ts:8](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/media-utils/src/url-helper.ts#L8)
 
 ___
 
@@ -141,7 +147,46 @@ A Promise that resolves when the download is initiated or rejects if there is an
 
 #### Defined in
 
-[file-helper.ts:41](https://github.com/ncounterspecialist/twick/blob/322058f5130be7eb0f94cfb23a9e57764d22f682/packages/media-utils/src/file-helper.ts#L41)
+[file-helper.ts:41](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/media-utils/src/file-helper.ts#L41)
+
+___
+
+### extractAudio
+
+▸ **extractAudio**(`«destructured»`): `Promise`\<`string`\>
+
+Extracts an audio segment from a media source (e.g., video) between start and end times,
+rendered at the specified playback rate, and returns a Blob URL to an MP3 file.
+
+The function fetches the source, decodes the audio track using Web Audio API,
+renders the segment offline for speed and determinism, encodes it as MP3 using lamejs,
+and returns an object URL. Callers should revoke the URL when done.
+
+**Example:**
+```typescript
+const url = await extractAudio({ src, start: 3, end: 8, playbackRate: 1.25 });
+const audio = new Audio(url);
+audio.play();
+// later: URL.revokeObjectURL(url);
+```
+
+#### Parameters
+
+| Name | Type | Default value |
+| :------ | :------ | :------ |
+| `«destructured»` | `Object` | `undefined` |
+| › `end?` | `number` | `undefined` |
+| › `playbackRate?` | `number` | `1` |
+| › `src` | `string` | `undefined` |
+| › `start?` | `number` | `0` |
+
+#### Returns
+
+`Promise`\<`string`\>
+
+#### Defined in
+
+[audio-utils.ts:25](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/media-utils/src/audio-utils.ts#L25)
 
 ___
 
@@ -166,7 +211,7 @@ A Promise that resolves to the duration of the audio in seconds.
 
 #### Defined in
 
-[get-audio-duration.ts:10](https://github.com/ncounterspecialist/twick/blob/322058f5130be7eb0f94cfb23a9e57764d22f682/packages/media-utils/src/get-audio-duration.ts#L10)
+[get-audio-duration.ts:10](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/media-utils/src/get-audio-duration.ts#L10)
 
 ___
 
@@ -192,7 +237,7 @@ A Promise that resolves to an object containing `width` and `height`.
 
 #### Defined in
 
-[get-image-dimensions.ts:35](https://github.com/ncounterspecialist/twick/blob/322058f5130be7eb0f94cfb23a9e57764d22f682/packages/media-utils/src/get-image-dimensions.ts#L35)
+[get-image-dimensions.ts:35](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/media-utils/src/get-image-dimensions.ts#L35)
 
 ___
 
@@ -219,7 +264,7 @@ An object containing the calculated width and height for the element.
 
 #### Defined in
 
-[dimension-handler.ts:63](https://github.com/ncounterspecialist/twick/blob/322058f5130be7eb0f94cfb23a9e57764d22f682/packages/media-utils/src/dimension-handler.ts#L63)
+[dimension-handler.ts:63](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/media-utils/src/dimension-handler.ts#L63)
 
 ___
 
@@ -247,7 +292,7 @@ An object containing the calculated width and height for the element.
 
 #### Defined in
 
-[dimension-handler.ts:13](https://github.com/ncounterspecialist/twick/blob/322058f5130be7eb0f94cfb23a9e57764d22f682/packages/media-utils/src/dimension-handler.ts#L13)
+[dimension-handler.ts:13](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/media-utils/src/dimension-handler.ts#L13)
 
 ___
 
@@ -277,7 +322,7 @@ A Promise that resolves to a thumbnail image URL (either a base64 data URL or bl
 
 #### Defined in
 
-[get-thumbnail.ts:13](https://github.com/ncounterspecialist/twick/blob/322058f5130be7eb0f94cfb23a9e57764d22f682/packages/media-utils/src/get-thumbnail.ts#L13)
+[get-thumbnail.ts:13](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/media-utils/src/get-thumbnail.ts#L13)
 
 ___
 
@@ -302,7 +347,7 @@ A Promise that resolves to an object containing video metadata.
 
 #### Defined in
 
-[get-video-metadata.ts:11](https://github.com/ncounterspecialist/twick/blob/322058f5130be7eb0f94cfb23a9e57764d22f682/packages/media-utils/src/get-video-metadata.ts#L11)
+[get-video-metadata.ts:11](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/media-utils/src/get-video-metadata.ts#L11)
 
 ___
 
@@ -333,7 +378,7 @@ Promise that resolves/rejects with fn's result
 
 #### Defined in
 
-[limit.ts:33](https://github.com/ncounterspecialist/twick/blob/322058f5130be7eb0f94cfb23a9e57764d22f682/packages/media-utils/src/limit.ts#L33)
+[limit.ts:33](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/media-utils/src/limit.ts#L33)
 
 ___
 
@@ -357,4 +402,41 @@ Triggers a download of a file from a string or Blob.
 
 #### Defined in
 
-[file-helper.ts:21](https://github.com/ncounterspecialist/twick/blob/322058f5130be7eb0f94cfb23a9e57764d22f682/packages/media-utils/src/file-helper.ts#L21)
+[file-helper.ts:21](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/media-utils/src/file-helper.ts#L21)
+
+___
+
+### stitchAudio
+
+▸ **stitchAudio**(`segments`, `totalDuration?`): `Promise`\<`string`\>
+
+Stitches multiple audio segments into a single MP3 file.
+Creates a timeline where each segment plays at its specified time,
+with silence filling gaps between segments.
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `segments` | [`AudioSegment`](interfaces/AudioSegment.md)[] | Array of audio segments with source, start, and end times |
+| `totalDuration?` | `number` | Total duration of the output audio (optional, auto-calculated if not provided) |
+
+#### Returns
+
+`Promise`\<`string`\>
+
+`Promise<string>` - Blob URL to the stitched MP3 file
+
+**Example:**
+```typescript
+const segments = [
+  { src: "audio1.mp3", s: 0, e: 2, volume: 1.0 },
+  { src: "audio2.mp3", s: 1, e: 4, volume: 0.5 }, // overlaps with audio1
+  { src: "audio3.mp3", s: 4, e: 7, volume: 0 } // muted, won't be included
+];
+const url = await stitchAudio(segments, 7); // 7 second output with overlapping audio
+```
+
+#### Defined in
+
+[audio-utils.ts:86](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/media-utils/src/audio-utils.ts#L86)

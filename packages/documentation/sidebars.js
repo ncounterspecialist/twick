@@ -22,6 +22,11 @@ const sidebars = {
         },
         {
           type: 'doc',
+          label: '@twick/timeline',
+          id: 'packages/timeline/modules'
+        },
+        {
+          type: 'doc',
           label: '@twick/live-player',
           id: 'packages/live-player/modules'
         },
@@ -32,8 +37,8 @@ const sidebars = {
         },
         {
           type: 'doc',
-          label: '@twick/examples',
-          id: 'packages/examples/README'
+          label: '@twick/video-editor',
+          id: 'packages/video-editor/modules'
         },
       ],
     },
