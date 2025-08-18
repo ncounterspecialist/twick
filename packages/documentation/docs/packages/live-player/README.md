@@ -1,90 +1,158 @@
 @twick/live-player / [Exports](modules.md)
 
-# Twick
+# @twick/live-player
 
-[![CI](https://github.com/ncounterspecialist/twick/actions/workflows/ci.yml/badge.svg)](https://github.com/ncounterspecialist/twick/actions/workflows/ci.yml)
+A React component for video playback and control 
 
-This repository contains a collection of packages for video and image manipulation, built with modern web technologies.
+## Features
 
-## Packages
+- 🎥 Video playback with custom controls
+- ⏱️ Time tracking and duration management
+- 📊 Project data support for complex video configurations
+- 🎯 Customizable video dimensions
+- 🔄 Play/pause state management
+- ⚡ High-performance video rendering
 
-- **@twick/media-utils**: Core utilities for media handling and manipulation
-- **@twick/canvas**: React-based canvas library for video and image editing
-- **@twick/visualizer**: Video visualization and animation toolkit
-- **@twick/live-player**: React component for video playback and control
-- **@twick/examples**: Example implementations and usage demonstrations
+## Requirements
 
-## Getting Started
+- React 18 or higher
+- Browser environment with HTML5 Video support
 
-1. Clone the repository:
-```bash
-git clone https://github.com/ncounterspecialist/twick.git
-cd twick
-```
-
-2. Install dependencies:
-```bash
-pnpm install
-```
-
-3. Build all packages:
-```bash
-pnpm build
-```
-
-## Development
-
-Each package can be developed independently:
+## Installation
 
 ```bash
-# Build a specific package
-pnpm build:media-utils
+npm install @twick/live-player
 ```
 
-## How to run example
+## Usage
 
-1. Install Dependencies 
+```tsx
+import React, { useState } from "react";
+import projectData from "./sample";
+import { LivePlayer } from "@twick/live-player";
+
+function VideoPlayerComp() {
+  const [playing, setPlaying] = useState(false);
+
+  return (
+    <div>
+      <button onClick={() => setPlaying((prev) => !prev)}>Toggle playback</button>
+      <LivePlayer
+        projectData={projectData} // Your video project configuration
+        videoSize={{
+          width: 720,
+          height: 1280,
+        }}
+        playing={playing}
+      />
+    </div>
+  );
+}
+
+export default VideoPlayerComp;
 
 ```
-pnpm install
+
+## Sample Project data
 ```
-2. Build packages
-
+{
+    "input": {
+      "properties": {
+        "width": 720,
+        "height": 1280
+      },
+      "timeline": [
+        {
+          "id": "t-element",
+          "type": "element",
+          "elements": [
+            {
+              "id": "e-244f8d5a3baa",
+              "type": "rect",
+              "s": 0,
+              "e": 5,
+              "props": {
+                "width": 720,
+                "height": 1280,
+                "fill": "#FFF000"
+              }
+            }
+          ],
+          "name": "element"
+        },
+        {
+          "id": "t-element",
+          "type": "element",
+          "elements": [
+            {
+              "id": "e-244f8d5a3bba",
+              "type": "text",
+              "s": 0,
+              "e": 1,
+              "props": {
+                "text": "Hello Guys!",
+                "fontSize": 100,
+                "fill": "#FF0000"
+              }
+            },
+            {
+              "id": "e-244f8d5a3bbb",
+              "type": "text",
+              "s": 1,
+              "e": 4,
+              "props": {
+                "text": "Welcome to the world of Twick!",
+                "fontSize": 100,
+                "fill": "#FF0000",
+                "maxWidth": 500,
+                "textAlign": "center",
+                "textWrap": true
+              }
+            }
+          ],
+          "name": "element"
+        }
+      ]
+    },
+    "version": 1
+  }
 ```
-pnpm build
-```
 
-3. Preview examples
+### Required Props
 
-```
-pnpm preview
-```
+- `projectData`: Object containing video project configuration
+- `videoSize`: Object specifying video dimensions
+  ```typescript
+  {
+    width: number;
+    height: number;
+  }
+  ```
 
-Open http://localhost:4173/ in browser
+### Optional Props
 
-## Demo Preview
+- `playing`: Boolean to control play/pause state
+- `onDurationChange`: Callback function when video duration changes
+- `onTimeUpdate`: Callback function for time updates during playback
 
-Here's a glimpse of building a video using the SDK:
+## Exports
 
-https://youtu.be/xuocqJqc9m8?si=h0wobDZlr9aj9XxW
+### Components
 
-## Discord Community
+- `LivePlayer`: Main video player component
 
-Join our Discord community to:
-- Chat with other developers
-- Discuss issues and feature requests
-- Get help and share your experiences
-- Stay updated with the latest developments
+### Types
 
-[Join our Discord Server](https://discord.gg/u7useVAY)
+- `LivePlayerProps`: Props interface for LivePlayer component
+- `VideoSize`: Interface for video dimensions
+- `ProjectData`: Interface for video project configuration
 
-## 🛡 License
+## Browser Support
 
-This project is licensed under the **Apache 2.0 License with additional terms**.
+This library requires a browser environment with support for:
+- HTML5 Video
+- Modern JavaScript features (ES2020+)
 
-- ✅ Free for use in commercial and non-commercial apps
-- ✅ Can be modified and self-hosted
-- ❌ Cannot be sold, rebranded, or distributed as a standalone SDK or developer tool
-- ❌ Cannot be used to offer hosted cloud functions as a paid service
+## License
 
-👉 For resale, or SaaS redistribution please [contact us](mailto:contact@kifferai.com).
+Apache-2.0
