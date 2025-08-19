@@ -423,16 +423,18 @@ with silence filling gaps between segments.
 
 #### Returns
 
-`Promise`\<`string`\>
+```typescript
+Promise<string>
+```
+Blob URL to the stitched MP3 file
 
-`Promise<string>` - Blob URL to the stitched MP3 file
+Example:
 
-**Example:**
 ```typescript
 const segments = [
   { src: "audio1.mp3", s: 0, e: 2, volume: 1.0 },
   { src: "audio2.mp3", s: 1, e: 4, volume: 0.5 },
-  { src: "audio3.mp3", s: 4, e: 7, volume: 0 }
+  { src: "audio3.mp3", s: 4, e: 7, volume: 0.2 }
 ];
 const url = await stitchAudio(segments, 7);
 ```
