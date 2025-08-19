@@ -1,0 +1,215 @@
+name: Publish to NPM
+
+permissions:
+  contents: read
+  id-token: write
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8.15.4
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Extract version from tag
+        id: version
+        run: |
+          # Remove 'v' prefix from tag (e.g., v0.14.0 -> 0.14.0)
+          VERSION=${GITHUB_REF#refs/tags/v}
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Extracted version: $VERSION"
+
+      - name: Update package versions
+        run: |
+          # Update all package.json files in packages directory
+          find packages -name "package.json" -type f | while read file; do
+            echo "Updating version in $file to ${{ steps.version.outputs.version }}"
+            # Use jq to update the version field
+            jq --arg version "${{ steps.version.outputs.version }}" '.version = $version' "$file" > "$file.tmp" && mv "$file.tmp" "$file"
+          done
+          
+          # Also update the root package.json version
+          jq --arg version "${{ steps.version.outputs.version }}" '.version = $version' package.json > package.json.tmp && mv package.json.tmp package.json
+
+      - name: Update internal dependencies
+        run: |
+          # Update internal dependencies to use the new version
+          find packages -name "package.json" -type f | while read file; do
+            echo "Updating internal dependencies in $file"
+            # Update @twick/* dependencies to the new version
+            jq --arg version "${{ steps.version.outputs.version }}" '
+              if .dependencies then
+                .dependencies |= with_entries(
+                  if .key | startswith("@twick/") then
+                    .value = $version
+                  else
+                    .
+                  end
+                )
+              else
+                .
+              end
+            ' "$file" > "$file.tmp" && mv "$file.tmp" "$file"
+          done
+
+      - name: Clean workspace dependencies
+        run: |
+          # Clean workspace: prefixes from dependencies for publishing
+          echo "Cleaning workspace dependencies for publishing..."
+          
+          # Check if the script exists
+          if [ ! -f "scripts/action-for-publish.js" ]; then
+            echo "Error: scripts/action-for-publish.js not found"
+            exit 1
+          fi
+          
+          # Run the workspace dependency cleanup script
+          if ! node scripts/action-for-publish.js; then
+            echo "Error: Failed to clean workspace dependencies"
+            exit 1
+          fi
+
+      - name: Build all packages
+        run: pnpm build
+
+      - name: Verify builds
+        run: |
+          # Check that all packages have dist folders
+          for package in packages/*/; do
+            if [ -f "$package/package.json" ]; then
+              package_name=$(jq -r '.name' "$package/package.json")
+              if [ ! -d "$package/dist" ]; then
+                echo "Error: $package_name is missing dist folder"
+                exit 1
+              fi
+              echo "✓ $package_name built successfully"
+            fi
+          done
+
+      - name: Security validation
+        run: |
+          # Check for potentially dangerous scripts in package.json files
+          echo "Validating package security..."
+          
+          for package in packages/*/; do
+            if [ -f "$package/package.json" ]; then
+              package_name=$(jq -r '.name' "$package/package.json")
+              
+              # Check for postinstall scripts (security risk)
+              if jq -e '.scripts.postinstall' "$package/package.json" > /dev/null 2>&1; then
+                echo "❌ SECURITY WARNING: $package_name has a postinstall script"
+                echo "This is a security risk and will be ignored during publishing"
+              fi
+              
+              # Check for other potentially dangerous scripts
+              DANGEROUS_SCRIPTS=("preinstall" "install" "postinstall" "preuninstall" "uninstall" "postuninstall" "prepublish" "prepublishOnly" "prepack" "postpack")
+              
+              for script in "${DANGEROUS_SCRIPTS[@]}"; do
+                if jq -e ".scripts.$script" "$package/package.json" > /dev/null 2>&1; then
+                  echo "⚠️  WARNING: $package_name has a $script script"
+                fi
+              done
+              
+              echo "✓ $package_name security check completed"
+            fi
+          done
+
+      - name: Determine publish order
+        id: publish-order
+        run: |
+          # Use our custom script to determine dependency-aware publish order
+          echo "Determining publish order based on dependencies..."
+          
+          # Check if the script exists
+          if [ ! -f "scripts/get-publish-order.js" ]; then
+            echo "Error: scripts/get-publish-order.js not found"
+            exit 1
+          fi
+          
+          # Run the dependency analysis script
+          SCRIPT_OUTPUT=$(node scripts/get-publish-order.js 2>&1)
+          if [ $? -ne 0 ]; then
+            echo "Error running get-publish-order.js:"
+            echo "$SCRIPT_OUTPUT"
+            echo "Using fallback order"
+            PUBLISH_ORDER="media-utils canvas timeline live-player visualizer video-editor render-server"
+          else
+            PUBLISH_ORDER=$(echo "$SCRIPT_OUTPUT" | grep "Publish order string:" | cut -d: -f2 | xargs)
+            
+            # Fallback order if script fails to output expected format
+            if [ -z "$PUBLISH_ORDER" ]; then
+              echo "Warning: Could not determine dependency order, using fallback order"
+              PUBLISH_ORDER="media-utils canvas timeline live-player visualizer video-editor render-server"
+            fi
+          fi
+          
+          echo "Publish order: $PUBLISH_ORDER"
+          echo "publish-order=$PUBLISH_ORDER" >> $GITHUB_OUTPUT
+
+      - name: Publish packages to NPM
+        run: |
+          # Publish packages in dependency order with security flags
+          for package in ${{ steps.publish-order.outputs.publish-order }}; do
+            if [ -d "packages/$package" ] && [ -f "packages/$package/package.json" ]; then
+              package_name=$(jq -r '.name' "packages/$package/package.json")
+              echo "Publishing $package_name (from $package)..."
+              cd "packages/$package"
+              
+              # Use --ignore-scripts to prevent malicious postinstall scripts
+              # Use --access public to ensure public access
+              # Use --dry-run first to validate
+              echo "Running dry-run for $package_name..."
+              npm publish --access public --ignore-scripts --dry-run
+              
+              # If dry-run succeeds, publish for real
+              echo "Publishing $package_name..."
+              npm publish --access public --ignore-scripts
+              
+              cd ../..
+              echo "✓ Successfully published $package_name"
+            else
+              echo "Warning: Package $package not found or missing package.json"
+            fi
+          done
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Restore workspace dependencies
+        if: always()
+        run: |
+          # Restore workspace: prefixes in dependencies after publishing
+          echo "Restoring workspace dependencies..."
+          
+          # Check if the script exists
+          if [ ! -f "scripts/action-for-publish.js" ]; then
+            echo "Warning: scripts/action-for-publish.js not found, skipping restore"
+            exit 0
+          fi
+          
+          # Run the workspace dependency restore script
+          if ! node scripts/action-for-publish.js --restore; then
+            echo "Warning: Failed to restore workspace dependencies"
+            # Don't fail the workflow on restore failure
+          fi 
