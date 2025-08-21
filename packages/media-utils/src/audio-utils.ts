@@ -78,10 +78,10 @@ export const extractAudio = async ({
  * Example:
  * const segments = [
  *   { src: "audio1.mp3", s: 0, e: 2, volume: 1.0 },
- *   { src: "audio2.mp3", s: 1, e: 4, volume: 0.5 }, // overlaps with audio1
- *   { src: "audio3.mp3", s: 4, e: 7, volume: 0 } // muted, won't be included
+ *   { src: "audio2.mp3", s: 1, e: 4, volume: 0.5 }
+ *   { src: "audio3.mp3", s: 4, e: 7, volume: 0.2 }
  * ];
- * const url = await stitchAudio(segments, 7); // 7 second output with overlapping audio
+ * const url = await stitchAudio(segments, 7);
  */
 export const stitchAudio = async (
   segments: AudioSegment[],
