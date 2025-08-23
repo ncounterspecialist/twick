@@ -9,18 +9,25 @@ export interface AudioSegment {
 }
 
 /**
- * Extracts an audio segment from a media source (e.g., video) between start and end times,
+ * Extracts an audio segment from a media source between start and end times,
  * rendered at the specified playback rate, and returns a Blob URL to an MP3 file.
- *
  * The function fetches the source, decodes the audio track using Web Audio API,
  * renders the segment offline for speed and determinism, encodes it as MP3 using lamejs,
  * and returns an object URL. Callers should revoke the URL when done.
  *
- * Example:
+ * @param src - The source URL of the media file
+ * @param playbackRate - The playback rate for the extracted segment
+ * @param start - The start time in seconds
+ * @param end - The end time in seconds
+ * @returns Promise resolving to a Blob URL to the extracted MP3 file
+ * 
+ * @example
+ * ```js
  * const url = await extractAudio({ src, start: 3, end: 8, playbackRate: 1.25 });
  * const audio = new Audio(url);
  * audio.play();
  * // later: URL.revokeObjectURL(url);
+ * ```
  */
 export const extractAudio = async ({
   src,
@@ -72,16 +79,18 @@ export const extractAudio = async ({
  * with silence filling gaps between segments.
  * 
  * @param segments - Array of audio segments with source, start, and end times
- * @param totalDuration - Total duration of the output audio (optional, auto-calculated if not provided)
- * @returns Promise<string> - Blob URL to the stitched MP3 file
+ * @param totalDuration - Total duration of the output audio
+ * @returns Promise resolving to a Blob URL to the stitched MP3 file
  * 
- * Example:
+ * @example
+ * ```js
  * const segments = [
- *   { src: "audio1.mp3", s: 0, e: 2, volume: 1.0 },
- *   { src: "audio2.mp3", s: 1, e: 4, volume: 0.5 }
- *   { src: "audio3.mp3", s: 4, e: 7, volume: 0.2 }
+ *   { src: "audio1.mp3", s: 0, e: 5, volume: 1.0 },
+ *   { src: "audio2.mp3", s: 10, e: 15, volume: 0.8 }
  * ];
- * const url = await stitchAudio(segments, 7);
+ * const url = await stitchAudio(segments, 15);
+ * // Creates a 15-second audio file with segments at specified times
+ * ```
  */
 export const stitchAudio = async (
   segments: AudioSegment[],
@@ -105,7 +114,10 @@ export const stitchAudio = async (
 // ===== SHARED UTILITIES =====
 
 /**
- * Fetches and decodes audio from a URL
+ * Fetches and decodes audio from a URL.
+ * 
+ * @param src - The URL of the audio file to fetch and decode
+ * @returns Promise<AudioBuffer> - The decoded audio buffer
  */
 const fetchAndDecodeAudio = async (src: string): Promise<AudioBuffer> => {
   const response = await fetch(src);

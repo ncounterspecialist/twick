@@ -1,9 +1,29 @@
 /**
  * Detects the media type (image, video, or audio) of a given URL by sending a HEAD request.
+ * Uses a lightweight HEAD request to fetch only the headers, avoiding download of the full file.
+ * The function analyzes the Content-Type header to determine the media type category.
  *
- * @param url - The URL of the media file.
- * @returns A promise that resolves to 'image', 'video', or 'audio' based on the Content-Type header,
- *          or `null` if the type couldn't be determined or the request fails.
+ * @param url - The URL of the media file to analyze
+ * @returns Promise resolving to the detected media type or null
+ * 
+ * @example
+ * ```js
+ * // Detect image type
+ * const type = await detectMediaTypeFromUrl("https://example.com/image.jpg");
+ * // type = "image"
+ * 
+ * // Detect video type
+ * const type = await detectMediaTypeFromUrl("https://example.com/video.mp4");
+ * // type = "video"
+ * 
+ * // Detect audio type
+ * const type = await detectMediaTypeFromUrl("https://example.com/audio.mp3");
+ * // type = "audio"
+ * 
+ * // Invalid or inaccessible URL
+ * const type = await detectMediaTypeFromUrl("https://example.com/invalid");
+ * // type = null
+ * ```
  */
 export const detectMediaTypeFromUrl = async (url: string): Promise<'image' | 'video' | 'audio' | null> => {
     try {

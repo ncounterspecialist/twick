@@ -40,10 +40,10 @@ To start building with Twick, check out our quickstart guide and learn how to se
 
 ## Available Packages
 ------------------------------------------------------------------------------------
-- **[@twick/media-utils](/docs/packages/media-utils/)** – Utilities for audio, video, and image metadata extraction, file handling, and media type detection
-- **[@twick/canvas](/docs/packages/canvas/)** – React-based canvas library for live editing of media and text elements with drag-and-drop, resize, and rotation
-- **[@twick/live-player](/docs/packages/live-player/)** – Video playback component with custom controls and project data support
-- **[@twick/timeline](/docs/packages/timeline/)** – Core timeline management with CRUD operations and visitor pattern
-- **[@twick/visualizer](/docs/packages/visualizer/)** – Toolkit for interactive video visualizations, animation, and real-time preview
-- **[@twick/video-editor](/docs/packages/video-editor/)** – Complete video editing interface with timeline, canvas, and playback controls
+- **[@twick/media-utils](/docs/packages/media-utils/modules)** – Utilities for audio, video, and image metadata extraction, file handling, and media type detection
+- **[@twick/canvas](/docs/packages/canvas/modules)** – React-based canvas library for live editing of media and text elements with drag-and-drop, resize, and rotation
+- **[@twick/live-player](/docs/packages/live-player/modules)** – Video playback component with custom controls and project data support
+- **[@twick/timeline](/docs/packages/timeline/modules)** – Core timeline management with CRUD operations and visitor pattern
+- **[@twick/visualizer](/docs/packages/visualizer/modules)** – Toolkit for interactive video visualizations, animation, and real-time preview
+- **[@twick/video-editor](/docs/packages/video-editor/modules)** – Complete video editing interface with timeline, canvas, and playback controls
 
