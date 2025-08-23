@@ -4,9 +4,11 @@ import { imageDimensionsCache } from "./cache";
 
 /**
  * Loads an image from the given URL and resolves with its natural dimensions.
+ * Internal helper function that creates a temporary Image element to extract
+ * the natural width and height of an image without displaying it.
  *
- * @param url - The image URL to load.
- * @returns A Promise that resolves with the image's width and height.
+ * @param url - The image URL to load
+ * @returns Promise resolving with the image's natural width and height
  */
 const loadImageDimensions = (url: string): Promise<Dimensions> => {
   return new Promise((resolve, reject) => {
@@ -26,11 +28,27 @@ const loadImageDimensions = (url: string): Promise<Dimensions> => {
 
 /**
  * Gets the dimensions (width and height) of an image from the given URL.
- * Uses a cache to avoid reloading the image if already fetched.
- * Also uses a concurrency limiter to control resource usage.
+ * Uses a cache to avoid reloading the image if already fetched, and employs
+ * a concurrency limiter to control resource usage and prevent overwhelming
+ * the browser with too many simultaneous image loads.
  *
- * @param url - The URL of the image.
- * @returns A Promise that resolves to an object containing `width` and `height`.
+ * @param url - The URL of the image to analyze
+ * @returns Promise resolving to an object containing width and height
+ * 
+ * @example
+ * ```js
+ * // Get dimensions of a remote image
+ * const dimensions = await getImageDimensions("https://example.com/image.jpg");
+ * // dimensions = { width: 1920, height: 1080 }
+ * 
+ * // Get dimensions of a local blob URL
+ * const dimensions = await getImageDimensions("blob:http://localhost:3000/abc123");
+ * // dimensions = { width: 800, height: 600 }
+ * 
+ * // Subsequent calls for the same URL will use cache
+ * const cachedDimensions = await getImageDimensions("https://example.com/image.jpg");
+ * // Returns immediately from cache without reloading
+ * ```
  */
 export const getImageDimensions = (url: string): Promise<Dimensions> => {
   // Return cached dimensions if available
