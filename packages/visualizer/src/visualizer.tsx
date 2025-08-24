@@ -24,10 +24,20 @@ import {
 import { dispatchWindowEvent } from "./helpers/event.utils";
 
 /**
- * Creates and configures the main scene for video visualization
- * @param {string} name - Name of the scene
- * @param {Function} generator - Generator function that handles scene setup and animation
- * @returns {Scene2D} Configured scene object
+ * Creates and configures the main scene for video visualization.
+ * Sets up a scene with background, processes track elements, and handles
+ * animation generation for video, audio, captions, and other visual elements.
+ *
+ * @param name - Name of the scene
+ * @param generator - Generator function that handles scene setup and animation
+ * @returns Configured scene object
+ * 
+ * @example
+ * ```js
+ * const scene = makeScene2D("scene", function* (view) {
+ *   // Scene setup and animation logic
+ * });
+ * ```
  */
 export const scene = makeScene2D("scene", function* (view: View2D) {
   // Get input configuration from scene variables

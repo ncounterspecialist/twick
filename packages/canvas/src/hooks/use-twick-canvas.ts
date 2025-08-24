@@ -21,10 +21,20 @@ import {
 
 /**
  * Custom hook to manage a Fabric.js canvas and associated operations.
+ * Provides functionality for canvas initialization, element management,
+ * and event handling for interactive canvas operations.
  *
- * @param onCanvasReady - Callback executed when the canvas is ready.
- * @param onCanvasOperation - Callback executed on canvas operations such as item selection or updates.
- * @returns Canvas-related functions and state.
+ * @param onCanvasReady - Callback executed when the canvas is ready
+ * @param onCanvasOperation - Callback executed on canvas operations such as item selection or updates
+ * @returns Object containing canvas-related functions and state
+ * 
+ * @example
+ * ```js
+ * const { twickCanvas, buildCanvas, addElementToCanvas } = useTwickCanvas({
+ *   onCanvasReady: (canvas) => console.log('Canvas ready:', canvas),
+ *   onCanvasOperation: (operation, data) => console.log('Operation:', operation, data)
+ * });
+ * ```
  */
 export const useTwickCanvas = ({
   onCanvasReady,
@@ -48,8 +58,15 @@ export const useTwickCanvas = ({
 
   /**
    * Updates canvas metadata when the video size changes.
+   * Recalculates scale factors based on the new video dimensions
+   * to maintain proper coordinate mapping between canvas and video.
    *
-   * @param videoSize - New video dimensions.
+   * @param videoSize - New video dimensions
+   * 
+   * @example
+   * ```js
+   * onVideoSizeChange({ width: 1920, height: 1080 });
+   * ```
    */
   const onVideoSizeChange = (videoSize: Dimensions) => {
     if (videoSize) {
@@ -63,8 +80,21 @@ export const useTwickCanvas = ({
 
   /**
    * Initializes the Fabric.js canvas with the provided configuration.
+   * Creates a new canvas instance with the specified properties and sets up
+   * event listeners for interactive operations.
    *
-   * @param props - Canvas configuration properties.
+   * @param props - Canvas configuration properties including size, colors, and behavior settings
+   * 
+   * @example
+   * ```js
+   * buildCanvas({
+   *   videoSize: { width: 1920, height: 1080 },
+   *   canvasSize: { width: 800, height: 600 },
+   *   canvasRef: canvasElement,
+   *   backgroundColor: "#000000",
+   *   selectionBorderColor: "#2563eb"
+   * });
+   * ```
    */
   const buildCanvas = ({
     videoSize,
@@ -112,8 +142,10 @@ export const useTwickCanvas = ({
 
   /**
    * Handles mouse up events on the canvas.
+   * Processes user interactions like dragging, scaling, and rotating elements,
+   * updating element properties and triggering appropriate callbacks.
    *
-   * @param event - Event object.
+   * @param event - Mouse event object containing interaction details
    */
   const handleMouseUp = (event: any) => {
     if (event.target) {
@@ -253,8 +285,19 @@ export const useTwickCanvas = ({
 
   /**
    * Sets elements to the canvas.
+   * Adds multiple elements to the canvas with optional cleanup and ordering.
+   * Supports batch operations for efficient element management.
    *
-   * @param options - Object containing elements, seek time, and additional options.
+   * @param options - Object containing elements, seek time, and additional options
+   * 
+   * @example
+   * ```js
+   * await setCanvasElements({
+   *   elements: [element1, element2, element3],
+   *   seekTime: 5.0,
+   *   cleanAndAdd: true
+   * });
+   * ```
    */
   const setCanvasElements = async ({
     elements,
@@ -305,8 +348,20 @@ export const useTwickCanvas = ({
 
   /**
    * Add element to the canvas.
+   * Adds a single element to the canvas based on its type and properties.
+   * Handles different element types (video, image, text, etc.) with appropriate rendering.
    *
-   * @param options - Object containing elements, seek time, and additional options.
+   * @param options - Object containing element data, index, and rendering options
+   * 
+   * @example
+   * ```js
+   * await addElementToCanvas({
+   *   element: videoElement,
+   *   index: 0,
+   *   reorder: true,
+   *   seekTime: 2.5
+   * });
+   * ```
    */
   const addElementToCanvas = async ({
     element,
