@@ -7,17 +7,30 @@ import { assertBrowser, assertCanvasSupport } from "./browser";
 
 /**
  * Creates and initializes a Fabric.js canvas with specified configurations.
+ * Sets up a canvas with proper scaling, background, and interaction settings
+ * based on the provided video and canvas dimensions.
  *
- * @param videoSize - The dimensions of the video.
- * @param canvasSize - The dimensions of the canvas.
- * @param canvasContainer - The HTML container for the canvas.
- * @param backgroundColor - Background color of the canvas (default: black).
- * @param selectionBorderColor - Border color for selected objects (default: blue).
- * @param selectionLineWidth - Width of the selection border (default: 2).
- * @param uniScaleTransform - Ensures uniform scaling of objects (default: true).
- * @param enableRetinaScaling - Enables retina scaling for higher DPI (default: true).
- * @param touchZoomThreshold - Threshold for touch zoom interactions (default: 10).
- * @returns An object containing the initialized canvas and its metadata.
+ * @param videoSize - The dimensions of the video
+ * @param canvasSize - The dimensions of the canvas
+ * @param canvasContainer - The HTML container for the canvas
+ * @param backgroundColor - Background color of the canvas
+ * @param selectionBorderColor - Border color for selected objects
+ * @param selectionLineWidth - Width of the selection border
+ * @param uniScaleTransform - Ensures uniform scaling of objects
+ * @param enableRetinaScaling - Enables retina scaling for higher DPI
+ * @param touchZoomThreshold - Threshold for touch zoom interactions
+ * @returns Object containing the initialized canvas and its metadata
+ * 
+ * @example
+ * ```js
+ * const { canvas, canvasMetadata } = createCanvas({
+ *   videoSize: { width: 1920, height: 1080 },
+ *   canvasSize: { width: 800, height: 600 },
+ *   canvasRef: canvasElement,
+ *   backgroundColor: "#000000",
+ *   selectionBorderColor: "#2563eb"
+ * });
+ * ```
  */
 export const createCanvas = ({
   videoSize,
@@ -77,8 +90,16 @@ export const createCanvas = ({
 
 /**
  * Reorders elements on the canvas based on their zIndex property.
+ * Sorts all canvas objects by their zIndex and re-adds them to maintain
+ * proper layering order for visual elements.
  *
- * @param canvas - The Fabric.js canvas instance.
+ * @param canvas - The Fabric.js canvas instance
+ * 
+ * @example
+ * ```js
+ * reorderElementsByZIndex(canvas);
+ * // Elements are now properly layered based on zIndex
+ * ```
  */
 export const reorderElementsByZIndex = (canvas: FabricCanvas) => {
   if (!canvas) return;
@@ -98,8 +119,16 @@ export const reorderElementsByZIndex = (canvas: FabricCanvas) => {
 
 /**
  * Clears all elements from the canvas and re-renders it.
+ * Removes all objects from the canvas while preserving the background
+ * and triggers a re-render to update the display.
  *
- * @param canvas - The Fabric.js canvas instance.
+ * @param canvas - The Fabric.js canvas instance
+ * 
+ * @example
+ * ```js
+ * clearCanvas(canvas);
+ * // Canvas is now empty and ready for new elements
+ * ```
  */
 export const clearCanvas = (canvas: FabricCanvas) => {
   if (!canvas) return;
@@ -109,11 +138,19 @@ export const clearCanvas = (canvas: FabricCanvas) => {
 
 /**
  * Converts a position from the video coordinate space to the canvas coordinate space.
+ * Applies scaling and centering transformations to map video coordinates
+ * to the corresponding canvas pixel positions.
  *
- * @param x - X-coordinate in video space.
- * @param y - Y-coordinate in video space.
- * @param canvasMetadata - Metadata containing canvas scaling and dimensions.
- * @returns The corresponding position in canvas space.
+ * @param x - X-coordinate in video space
+ * @param y - Y-coordinate in video space
+ * @param canvasMetadata - Metadata containing canvas scaling and dimensions
+ * @returns Object containing the corresponding position in canvas space
+ * 
+ * @example
+ * ```js
+ * const canvasPos = convertToCanvasPosition(100, 200, canvasMetadata);
+ * // canvasPos = { x: 450, y: 500 }
+ * ```
  */
 export const convertToCanvasPosition = (
   x: number,
@@ -128,12 +165,20 @@ export const convertToCanvasPosition = (
 
 /**
  * Converts a position from the canvas coordinate space to the video coordinate space.
+ * Applies inverse scaling and centering transformations to map canvas coordinates
+ * back to the corresponding video coordinate positions.
  *
- * @param x - X-coordinate in canvas space.
- * @param y - Y-coordinate in canvas space.
- * @param canvasMetadata - Metadata containing canvas scaling and dimensions.
- * @param videoSize - Dimensions of the video.
- * @returns The corresponding position in video space.
+ * @param x - X-coordinate in canvas space
+ * @param y - Y-coordinate in canvas space
+ * @param canvasMetadata - Metadata containing canvas scaling and dimensions
+ * @param videoSize - Dimensions of the video
+ * @returns Object containing the corresponding position in video space
+ * 
+ * @example
+ * ```js
+ * const videoPos = convertToVideoPosition(450, 500, canvasMetadata, videoSize);
+ * // videoPos = { x: 100, y: 200 }
+ * ```
  */
 export const convertToVideoPosition = (
   x: number,
@@ -149,10 +194,18 @@ export const convertToVideoPosition = (
 
 /**
  * Retrieves the current frame effect for a given seek time.
+ * Searches through the item's frame effects to find the one that is active
+ * at the specified seek time based on start and end time ranges.
  *
- * @param item - The item containing frame effects.
- * @param seekTime - The current time to match against frame effects.
- * @returns The current frame effect active at the given seek time, if any.
+ * @param item - The item containing frame effects
+ * @param seekTime - The current time to match against frame effects
+ * @returns The current frame effect active at the given seek time, or undefined if none found
+ * 
+ * @example
+ * ```js
+ * const currentEffect = getCurrentFrameEffect(videoElement, 5.5);
+ * // Returns the frame effect active at 5.5 seconds, if any
+ * ```
  */
 export const getCurrentFrameEffect = (item: any, seekTime: number) => {
   let currentFrameEffect;

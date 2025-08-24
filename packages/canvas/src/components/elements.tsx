@@ -21,13 +21,25 @@ import { disabledControl, rotateControl } from "./element-controls";
 import { getObjectFitSize, getThumbnail } from "@twick/media-utils";
 
 /**
- * Add a text element for the canvas.
+ * Add a text element to the canvas.
+ * Creates and configures a Fabric.js text object with specified properties
+ * including position, styling, and interactive controls.
  *
- * @param {Object} params - The parameters for creating the text element.
- * @param {CanvasElement} params.element - The canvas element configuration.
- * @param {number} params.index - The z-index of the element.
- * @param {CanvasMetadata} params.canvasMetadata - Metadata about the canvas, including scale and dimensions.
- * @returns {FabricText} The configured Fabric.js text object.
+ * @param element - The canvas element configuration
+ * @param index - The z-index of the element
+ * @param canvas - The Fabric.js canvas instance
+ * @param canvasMetadata - Metadata about the canvas including scale and dimensions
+ * @returns The configured Fabric.js text object
+ * 
+ * @example
+ * ```js
+ * const textElement = addTextElement({
+ *   element: { id: "text1", props: { text: "Hello", x: 100, y: 100 } },
+ *   index: 1,
+ *   canvas: fabricCanvas,
+ *   canvasMetadata: { scaleX: 1, scaleY: 1, width: 800, height: 600 }
+ * });
+ * ```
  */
 export const addTextElement = ({
   element,
@@ -101,6 +113,26 @@ export const addTextElement = ({
   return text;
 };
 
+/**
+ * Sets image properties for a Fabric.js image object.
+ * Configures position, size, and metadata for image elements
+ * on the canvas with proper scaling and positioning.
+ *
+ * @param img - The Fabric.js image object to configure
+ * @param element - The canvas element configuration
+ * @param index - The z-index of the element
+ * @param canvasMetadata - Metadata about the canvas including scale and dimensions
+ * 
+ * @example
+ * ```js
+ * setImageProps({
+ *   img: fabricImage,
+ *   element: { id: "img1", props: { width: 200, height: 150, x: 50, y: 50 } },
+ *   index: 2,
+ *   canvasMetadata: { scaleX: 1, scaleY: 1, width: 800, height: 600 }
+ * });
+ * ```
+ */
 const setImageProps = ({
   img,
   element,
@@ -135,15 +167,27 @@ const setImageProps = ({
 };
 
 /**
- * Add a caption element for the canvas based on provided props.
+ * Add a caption element to the canvas based on provided props.
+ * Creates a text element with caption-specific styling including
+ * shadows, positioning, and font properties.
  *
- * @param {Object} params - Parameters for creating the caption.
- * @param {CanvasElement} params.element - The canvas element configuration.
- * @param {FabricCanvas} params.canvas - The Fabric.js canvas instance.
- * @param {number} params.index - The z-index of the element.
- * @param {CaptionProps} params.captionProps - Default and user-defined caption properties.
- * @param {CanvasMetadata} params.canvasMetadata - Metadata about the canvas, including scale and dimensions.
- * @returns {FabricText} The configured Fabric.js caption object.
+ * @param element - The canvas element configuration
+ * @param index - The z-index of the element
+ * @param canvas - The Fabric.js canvas instance
+ * @param captionProps - Default and user-defined caption properties
+ * @param canvasMetadata - Metadata about the canvas including scale and dimensions
+ * @returns The configured Fabric.js caption object
+ * 
+ * @example
+ * ```js
+ * const captionElement = addCaptionElement({
+ *   element: { id: "caption1", props: { text: "Caption", pos: { x: 100, y: 100 } } },
+ *   index: 3,
+ *   canvas: fabricCanvas,
+ *   captionProps: { font: { size: 24, family: "Arial" } },
+ *   canvasMetadata: { scaleX: 1, scaleY: 1, width: 800, height: 600 }
+ * });
+ * ```
  */
 export const addCaptionElement = ({
   element,
@@ -266,15 +310,28 @@ export const addVideoElement = async ({
 };
 
 /**
- * Add an image element into a Fabric.js image object and optionally groups it with a frame.
+ * Add an image element to the canvas and optionally group it with a frame.
+ * Loads an image from URL and creates a Fabric.js image object with proper
+ * positioning, scaling, and optional frame effects.
  *
- * @param element - The image element containing properties like source and frame information.
- * @param index - The z-index for ordering the element on the canvas.
- * @param canvas - The Fabric.js canvas instance.
- * @param canvasMetadata - Metadata of the canvas, including dimensions and scale factors.
- * @param currentFrameEffect - Optional frame effect to apply to the image.
- * @param imageUrl - Optional The url of the image to be added to the canvas.
- * @returns A Fabric.js image object or a group with an image and frame.
+ * @param imageUrl - Optional URL of the image to be added to the canvas
+ * @param element - The image element containing properties like source and frame information
+ * @param index - The z-index for ordering the element on the canvas
+ * @param canvas - The Fabric.js canvas instance
+ * @param canvasMetadata - Metadata of the canvas including dimensions and scale factors
+ * @param currentFrameEffect - Optional frame effect to apply to the image
+ * @returns A Fabric.js image object or a group with an image and frame
+ * 
+ * @example
+ * ```js
+ * const imageElement = await addImageElement({
+ *   imageUrl: "https://example.com/image.jpg",
+ *   element: { id: "img1", props: { src: "image.jpg", width: 200, height: 150 } },
+ *   index: 4,
+ *   canvas: fabricCanvas,
+ *   canvasMetadata: { scaleX: 1, scaleY: 1, width: 800, height: 600 }
+ * });
+ * ```
  */
 export const addImageElement = async ({
   imageUrl,
@@ -325,16 +382,28 @@ export const addImageElement = async ({
 };
 
 /**
- * Add a Fabric.js group combining an image and its associated frame,
- * applying styling, positioning, and scaling based on the given properties.
+ * Add a Fabric.js group combining an image and its associated frame.
+ * Applies styling, positioning, and scaling based on the given properties
+ * and creates a grouped element for complex visual effects.
  *
- * @param element - The image element containing properties like frame, position, and styling.
- * @param img - The Fabric.js image object to be included in the group.
- * @param index - The z-index for ordering the group on the canvas.
- * @param canvas - The Fabric.js canvas instance.
- * @param canvasMetadata - Metadata of the canvas, including dimensions and scale factors.
- * @param currentFrameEffect - Optional current frame effect to override default frame properties.
- * @returns A Fabric.js group containing the image and frame with configured properties.
+ * @param element - The image element containing properties like frame, position, and styling
+ * @param img - The Fabric.js image object to be included in the group
+ * @param index - The z-index for ordering the group on the canvas
+ * @param canvas - The Fabric.js canvas instance
+ * @param canvasMetadata - Metadata of the canvas including dimensions and scale factors
+ * @param currentFrameEffect - Optional current frame effect to override default frame properties
+ * @returns A Fabric.js group containing the image and frame with configured properties
+ * 
+ * @example
+ * ```js
+ * const mediaGroup = addMediaGroup({
+ *   element: { id: "group1", frame: { size: [200, 150], x: 100, y: 100 } },
+ *   img: fabricImage,
+ *   index: 5,
+ *   canvas: fabricCanvas,
+ *   canvasMetadata: { scaleX: 1, scaleY: 1, width: 800, height: 600 }
+ * });
+ * ```
  */
 const addMediaGroup = ({
   element,
@@ -461,13 +530,25 @@ const addMediaGroup = ({
 };
 
 /**
- * Add a rectangular Fabric.js element based on the provided canvas element data.
+ * Add a rectangular element to the canvas.
+ * Creates a Fabric.js rectangle with specified properties including
+ * position, size, styling, and interactive controls.
  *
- * @param element - The canvas element containing properties for the rectangle.
- * @param index - The zIndex value used to determine the rendering order.
- * @param canvas - The Fabric.js canvas instance.
- * @param canvasMetadata - Metadata containing canvas scaling and dimensions.
- * @returns A Fabric.js Rect object configured with the specified properties.
+ * @param element - The canvas element containing properties for the rectangle
+ * @param index - The zIndex value used to determine the rendering order
+ * @param canvas - The Fabric.js canvas instance
+ * @param canvasMetadata - Metadata containing canvas scaling and dimensions
+ * @returns A Fabric.js Rect object configured with the specified properties
+ * 
+ * @example
+ * ```js
+ * const rectElement = addRectElement({
+ *   element: { id: "rect1", props: { width: 100, height: 50, x: 200, y: 150 } },
+ *   index: 6,
+ *   canvas: fabricCanvas,
+ *   canvasMetadata: { scaleX: 1, scaleY: 1, width: 800, height: 600 }
+ * });
+ * ```
  */
 export const addRectElement = ({
   element,
@@ -517,12 +598,24 @@ export const addRectElement = ({
 
 /**
  * Add a background color to the canvas.
+ * Creates a full-canvas rectangle with the specified background color
+ * that serves as the base layer for other elements.
  *
- * @param element - The canvas element containing properties for the background.
- * @param index - The zIndex value used to determine the rendering order.
- * @param canvas - The Fabric.js canvas instance.
- * @param canvasMetadata - Metadata containing canvas scaling and dimensions.
- * @returns A Fabric.js Rect object configured with the specified properties.
+ * @param element - The canvas element containing properties for the background
+ * @param index - The zIndex value used to determine the rendering order
+ * @param canvas - The Fabric.js canvas instance
+ * @param canvasMetadata - Metadata containing canvas scaling and dimensions
+ * @returns A Fabric.js Rect object configured with the specified properties
+ * 
+ * @example
+ * ```js
+ * const bgElement = addBackgroundColor({
+ *   element: { id: "bg1", backgoundColor: "#ffffff" },
+ *   index: 0,
+ *   canvas: fabricCanvas,
+ *   canvasMetadata: { scaleX: 1, scaleY: 1, width: 800, height: 600 }
+ * });
+ * ```
  */
 export const addBackgroundColor = ({
   element,

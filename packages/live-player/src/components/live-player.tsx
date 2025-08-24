@@ -11,7 +11,8 @@ const DEFAULT_VIDEO_SIZE = {
 };
 
 /**
- * Props for the `LivePlayer` component.
+ * Props for the LivePlayer component.
+ * Defines the configuration options and callback functions for the live player.
  */
 export type LivePlayerProps = {
   /** Whether the player should be playing or paused */
@@ -20,7 +21,7 @@ export type LivePlayerProps = {
   /** Dynamic project variables to feed into the player */
   projectData: any;
 
-  /** Dimensions of the video player (width x height) */
+  /** Dimensions of the video player */
   videoSize?: {
     width: number;
     height: number;
@@ -32,10 +33,10 @@ export type LivePlayerProps = {
   /** Style for the player container */
   containerStyle?: React.CSSProperties;
 
-  /** Volume of the player (0.0 - 1.0) */
+  /** Volume of the player */
   volume?: number;
 
-  /** Playback quality level (0.0 - 1.0) */
+  /** Playback quality level */
   quality?: number;
 
   /** Callback fired on time update during playback */
@@ -52,13 +53,23 @@ export type LivePlayerProps = {
 };
 
 /**
- * `LivePlayer` is a React component that wraps around the `@twick/player-react` player.
- *
- * It supports dynamic project variables, external control for playback, time seeking,
- * volume and quality adjustment, and lifecycle callbacks like `onPlayerReady` and `onDurationChange`.
+ * LivePlayer is a React component that wraps around the @twick/player-react player.
+ * Supports dynamic project variables, external control for playback, time seeking,
+ * volume and quality adjustment, and lifecycle callbacks.
  *
  * @param props - Props to control the player and respond to its state
  * @returns A configured player UI component
+ * 
+ * @example
+ * ```jsx
+ * <LivePlayer
+ *   playing={true}
+ *   projectData={{ text: "Hello World" }}
+ *   videoSize={{ width: 720, height: 1280 }}
+ *   onTimeUpdate={(time) => console.log('Current time:', time)}
+ *   onPlayerReady={(player) => console.log('Player ready:', player)}
+ * />
+ * ```
  */
 export const LivePlayer = ({
   playing,
@@ -91,6 +102,16 @@ export const LivePlayer = ({
 
   /**
    * Handle time updates from the player and relay to external callback.
+   * Processes time update events and forwards them to the onTimeUpdate prop
+   * if provided.
+   *
+   * @param currentTime - The current playback time in seconds
+   * 
+   * @example
+   * ```js
+   * onCurrentTimeUpdate(5.5);
+   * // Triggers onTimeUpdate callback with 5.5 seconds
+   * ```
    */
   const onCurrentTimeUpdate = (currentTime: number) => {
     if (onTimeUpdate) {
@@ -100,6 +121,16 @@ export const LivePlayer = ({
 
   /**
    * Handle player ready lifecycle and store references.
+   * Called when the player is fully initialized and ready for use.
+   * Stores player references and triggers the onPlayerReady callback.
+   *
+   * @param player - The initialized CorePlayer instance
+   * 
+   * @example
+   * ```js
+   * handlePlayerReady(playerInstance);
+   * // Stores player reference and triggers onPlayerReady callback
+   * ```
    */
   const handlePlayerReady = (player: CorePlayer) => {
     playerRef.current = {
@@ -121,6 +152,14 @@ export const LivePlayer = ({
 
   /**
    * Performs setup only once after the player has rendered for the first time.
+   * Hides unnecessary UI elements and applies initial project data
+   * to ensure proper player initialization.
+   * 
+   * @example
+   * ```js
+   * onFirstRender();
+   * // Hides UI elements and sets initial project data
+   * ```
    */
   const onFirstRender = () => {
     if (playerRef.current?.player && playerRef.current.htmlElement) {
@@ -134,6 +173,16 @@ export const LivePlayer = ({
 
   /**
    * Applies JSON variables to the player element.
+   * Converts project data to JSON and sets it as an attribute
+   * on the player HTML element for dynamic content updates.
+   *
+   * @param projectData - The project data to apply to the player
+   * 
+   * @example
+   * ```js
+   * setProjectData({ text: "Updated content", color: "red" });
+   * // Updates player with new project variables
+   * ```
    */
   const setProjectData = (projectData: any) => {
     if (playerRef.current?.htmlElement && projectData) {

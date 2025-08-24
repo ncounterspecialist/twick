@@ -1,5 +1,23 @@
 import { renderVideo } from "@twick/renderer";
 
+/**
+ * Renders a Twick video with the provided variables and settings.
+ * Processes project variables, merges settings with defaults, and
+ * generates a video file using the Twick renderer.
+ *
+ * @param variables - Project variables containing input configuration
+ * @param settings - Optional render settings to override defaults
+ * @returns Promise resolving to the path of the rendered video file
+ * 
+ * @example
+ * ```js
+ * const videoPath = await renderTwickVideo(
+ *   { input: { properties: { width: 1920, height: 1080 } } },
+ *   { quality: "high", outFile: "my-video.mp4" }
+ * );
+ * // videoPath = "./output/my-video.mp4"
+ * ```
+ */
 const renderTwickVideo = async (variables: any, settings: any) => {
   try {
     const { input } = variables;
