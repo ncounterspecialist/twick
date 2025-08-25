@@ -1,6 +1,43 @@
 /**
+ * @twick/visualizer - Professional Video Visualization Library
+ * 
  * Main visualizer component that renders the scene with video, audio, captions and other elements
- * based on the provided input configuration.
+ * based on the provided input configuration. Creates a complete visualization scene with
+ * background, tracks, animations, and effects for professional video content.
+ * 
+ * ## 🎬 Scene Architecture
+ * 
+ * The visualizer creates a hierarchical scene structure:
+ * ```
+ * Scene
+ * ├── Background Container
+ * ├── Track 1
+ * │   ├── Element 1 (Video/Image/Audio)
+ * │   ├── Element 2 (Text/Caption)
+ * │   └── Element 3 (Shapes/UI)
+ * ├── Track 2
+ * │   └── ...
+ * └── Track N
+ * ```
+ * 
+ * ## 🔧 Core Features
+ * 
+ * - **Multi-Track Support**: Organize elements into logical tracks
+ * - **Animation System**: Rich animation library with enter/exit effects
+ * - **Text Effects**: Character and word-level text animations
+ * - **Frame Effects**: Visual masking and container transformations
+ * - **Media Support**: Video, image, and audio content management
+ * - **Timing Control**: Precise start/end timing for all elements
+ * 
+ * ## 🎯 Use Cases
+ * 
+ * - **Video Presentations**: Professional slideshows with animations
+ * - **Content Creation**: Social media videos with effects
+ * - **Educational Content**: Interactive learning materials
+ * - **Marketing Videos**: Branded content with visual effects
+ * - **Live Streaming**: Real-time visual enhancements
+ * 
+ * @packageDocumentation
  */
 
 import "./global.css";
@@ -24,18 +61,55 @@ import {
 import { dispatchWindowEvent } from "./helpers/event.utils";
 
 /**
- * Creates and configures the main scene for video visualization.
- * Sets up a scene with background, processes track elements, and handles
- * animation generation for video, audio, captions, and other visual elements.
- *
- * @param name - Name of the scene
+ * @category Core
+ * @description Main scene generator for video visualization
+ * 
+ * Creates and configures the main scene for video visualization. Sets up a scene with 
+ * background, processes track elements, and handles animation generation for video, 
+ * audio, captions, and other visual elements.
+ * 
+ * ## 🎬 Scene Lifecycle
+ * 
+ * 1. **Input Processing**: Retrieves video input configuration from scene variables
+ * 2. **Background Setup**: Creates background rectangle with specified color
+ * 3. **Track Processing**: Iterates through tracks and creates appropriate visualizations
+ * 4. **Animation Execution**: Runs all track animations in parallel using `all()`
+ * 5. **Event Dispatch**: Sends player update events for status tracking
+ * 
+ * ## 🔧 Track Types Supported
+ * 
+ * - **VIDEO**: Video content with playback and effects
+ * - **AUDIO**: Audio content with timing and synchronization
+ * - **CAPTION**: Text overlays with styling and animations
+ * - **SCENE**: Scene containers for organization
+ * - **ELEMENT**: Custom elements with animations
+ * 
+ * ## 📊 Performance Features
+ * 
+ * - **Parallel Execution**: All track animations run concurrently
+ * - **Event-Driven**: Real-time status updates via window events
+ * - **Resource Management**: Automatic cleanup and memory optimization
+ * - **Error Handling**: Graceful fallbacks for missing configurations
+ * 
+ * @param name - Name of the scene for identification
  * @param generator - Generator function that handles scene setup and animation
- * @returns Configured scene object
+ * @returns Configured scene object with all track animations
  * 
  * @example
  * ```js
+ * // Basic scene setup
  * const scene = makeScene2D("scene", function* (view) {
  *   // Scene setup and animation logic
+ *   yield* all(...trackAnimations);
+ * });
+ * 
+ * // With video input configuration
+ * const videoScene = makeScene2D("video-scene", function* (view) {
+ *   // Configure scene variables
+ *   useScene().variables.set("input", videoInput);
+ *   useScene().variables.set("playerId", "main-player");
+ *   
+ *   // Scene will automatically process the input
  * });
  * ```
  */

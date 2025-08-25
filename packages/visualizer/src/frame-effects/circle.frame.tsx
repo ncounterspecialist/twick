@@ -1,6 +1,38 @@
 /**
- * Frame effects component that handles the application of various visual effects
- * to frames and elements in the scene.
+ * @group CircleFrameEffect
+ * CircleFrameEffect animates a frame transitioning into a circular shape,
+ * resizing, repositioning, and optionally fitting its content. Creates a 
+ * circular mask around content perfect for profile pictures and artistic presentations.
+ *
+ * Behavior:
+ * - Waits for the specified start time
+ * - Resizes and repositions the frame container smoothly
+ * - Animates the corner radius to create a perfect circle
+ * - Repositions the content element if needed
+ * - Optionally fits the element inside the container based on object-fit
+ *
+ * @param containerRef - Reference to the frame container element
+ * @param elementRef - Reference to the content element inside the frame
+ * @param initFrameState - Initial size and position state of the element
+ * @param frameEffect - Frame transformation configuration and timing
+ * 
+ * @example
+ * ```js
+ * // Basic circular frame
+ * frameEffects: [{
+ *   name: "circle",
+ *   s: 0,
+ *   e: 10,
+ *   props: {
+ *     frameSize: [400, 400],
+ *     frameShape: "circle",
+ *     framePosition: { x: 960, y: 540 },
+ *     radius: 200,
+ *     objectFit: "cover",
+ *     transitionDuration: 1.5
+ *   }
+ * }]
+ * ```
  */
 
 import { all, waitFor } from "@twick/core";
@@ -14,25 +46,58 @@ import { FrameEffectParams } from "../helpers/types";
 
 /**
  * CircleFrameEffect animates a frame transitioning into a circular shape,
- * resizing, repositioning, and optionally fitting its content.
+ * resizing, repositioning, and optionally fitting its content. Creates a 
+ * circular mask around content perfect for profile pictures and artistic presentations.
  *
  * Behavior:
- * - Waits for the specified start time.
- * - Resizes and repositions the frame container smoothly.
- * - Animates the corner radius to create a perfect circle.
- * - Repositions the content element if needed.
- * - Optionally fits the element inside the container based on object-fit.
+ * - Waits for the specified start time
+ * - Resizes and repositions the frame container smoothly
+ * - Animates the corner radius to create a perfect circle
+ * - Repositions the content element if needed
+ * - Optionally fits the element inside the container based on object-fit
  *
- * @param containerRef - Reference to the frame container element.
- * @param elementRef - Reference to the content element inside the frame.
- * @param initFrameState - Initial size and position state of the element.
- * @param frameEffect - Frame transformation configuration and timing.
+ * @param containerRef - Reference to the frame container element
+ * @param elementRef - Reference to the content element inside the frame
+ * @param initFrameState - Initial size and position state of the element
+ * @param frameEffect - Frame transformation configuration and timing
+ * 
+ * @example
+ * ```js
+ * // Basic circular frame
+ * frameEffects: [{
+ *   name: "circle",
+ *   s: 0,
+ *   e: 10,
+ *   props: {
+ *     frameSize: [400, 400],
+ *     frameShape: "circle",
+ *     framePosition: { x: 960, y: 540 },
+ *     radius: 200,
+ *     objectFit: "cover",
+ *     transitionDuration: 1.5
+ *   }
+ * }]
+ * ```
  */
 export const CircleFrameEffect = {
   name: "circle",
 
   /**
    * Generator function controlling the circle frame animation.
+   * Handles frame resizing, positioning, corner radius animation, and content fitting.
+   *
+   * @param params - Frame effect parameters including element references and configuration
+   * @returns Generator that controls the circle frame animation timeline
+   * 
+   * @example
+   * ```js
+   * yield* CircleFrameEffect.run({
+   *   containerRef: frameContainer,
+   *   elementRef: contentElement,
+   *   initFrameState: initialState,
+   *   frameEffect: circleConfig
+   * });
+   * ```
    */
   *run({
     containerRef,

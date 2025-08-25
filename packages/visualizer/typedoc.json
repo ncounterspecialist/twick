@@ -1,6 +1,6 @@
 {
   "$schema": "https://typedoc.org/schema.json",
-  "entryPoints": ["./src/index.ts"],
+  "entryPoints": ["./src/visualizer-grouped.ts"],
   "out": "docs",
   "name": "@twick/visualizer",
   "excludePrivate": true,
@@ -10,6 +10,11 @@
   "readme": "README.md",
   "plugin": ["typedoc-plugin-markdown"],
   "categorizeByGroup": true,
-  "categoryOrder": ["Core", "Utils", "*"],
-  "hideBreadcrumbs": true
+  "categoryOrder": ["Core", "FadeAnimation", "RiseAnimation", "BlurAnimation", "BreatheAnimation", "SuccessionAnimation", "PhotoRiseAnimation", "PhotoZoomAnimation", "VideoElement", "ImageElement", "AudioElement", "TextElement", "CaptionElement", "RectElement", "CircleElement", "IconElement", "SceneElement", "TypewriterEffect", "StreamWordEffect", "ElasticEffect", "EraseEffect", "CircleFrameEffect", "RectFrameEffect", "Types", "Interfaces", "Other"],
+  "hideBreadcrumbs": true,
+  "groupOrder": ["Core", "FadeAnimation", "RiseAnimation", "BlurAnimation", "BreatheAnimation", "SuccessionAnimation", "PhotoRiseAnimation", "PhotoZoomAnimation", "VideoElement", "ImageElement", "AudioElement", "TextElement", "CaptionElement", "RectElement", "CircleElement", "IconElement", "SceneElement", "TypewriterEffect", "StreamWordEffect", "ElasticEffect", "EraseEffect", "CircleFrameEffect", "RectFrameEffect", "Types", "Interfaces", "Other"],
+  "sort": ["source-order"],
+  "defaultCategory": "Other",
+  "hideInPageTOC": false,
+  "includeVersion": true
 } 

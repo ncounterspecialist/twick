@@ -2,24 +2,58 @@ import { waitFor } from "@twick/core";
 import { TextEffectParams } from "../helpers/types";
 
 /**
- * StreamWordEffect animates text appearing word by word,
- * creating a smooth "typing" or "streaming" effect.
+ * @group StreamWordEffect
+ * StreamWordEffect animates text appearing word by word, creating a smooth
+ * "typing" or "streaming" effect. Animates text word by word for natural
+ * reading flow and storytelling content.
  *
  * Behavior:
- * - Optionally waits for a delay before starting.
- * - Clears the text initially and preserves the original size.
- * - Reveals one word at a time with a consistent interval.
+ * - Optionally waits for a delay before starting
+ * - Clears the text initially and preserves the original size
+ * - Reveals one word at a time with a consistent interval
  *
- * @param elementRef - Reference to the text element to animate.
- * @param duration - Total duration of the animation.
- * @param delay - Optional delay before starting.
- * @param bufferTime - Time reserved at the end of animation (default: 0.1).
+ * @param elementRef - Reference to the text element to animate
+ * @param duration - Total duration of the animation in seconds
+ * @param delay - Optional delay before starting in seconds
+ * @param bufferTime - Time reserved at the end of animation in seconds
+ *
+ * @example
+ * ```js
+ * // Basic stream word effect
+ * textEffect: {
+ *   name: "stream-word",
+ *   duration: 2,
+ *   interval: 0.3
+ * }
+ *
+ * // With delay for dramatic effect
+ * textEffect: {
+ *   name: "stream-word",
+ *   duration: 4,
+ *   delay: 1,
+ *   bufferTime: 0.5
+ * }
+ * ```
  */
 export const StreamWordEffect = {
   name: "stream-word",
 
   /**
    * Generator function controlling the word streaming effect.
+   * Handles text clearing, word-by-word revelation, and timing for natural reading flow.
+   *
+   * @param params - Text effect parameters including element reference and timing
+   * @returns Generator that controls the stream word animation timeline
+   *
+   * @example
+   * ```js
+   * yield* StreamWordEffect.run({
+   *   elementRef: textElement,
+   *   duration: 2,
+   *   delay: 0.5,
+   *   bufferTime: 0.1
+   * });
+   * ```
    */
   *run({
     elementRef,

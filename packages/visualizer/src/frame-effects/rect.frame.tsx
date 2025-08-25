@@ -1,6 +1,53 @@
 /**
- * Frame effects component that handles the application of various visual effects
- * to frames and elements in the scene.
+ * @group RectFrameEffect
+ * RectFrameEffect applies frame transformations such as resizing, repositioning, 
+ * rounding corners, and optionally fitting the element within the frame according 
+ * to an object-fit mode. Creates rectangular masks and containers for content 
+ * presentation with smooth transitions.
+ *
+ * Behavior:
+ * - Waits for the specified start time
+ * - Resizes and repositions the container and element smoothly
+ * - Adjusts corner radius if provided
+ * - Optionally fits the element inside the container
+ *
+ * @param containerRef - Reference to the frame container element
+ * @param elementRef - Reference to the content element inside the frame
+ * @param initFrameState - Initial size and position state of the element
+ * @param frameEffect - Frame transformation configuration and timing
+ * 
+ * @example
+ * ```js
+ * // Basic rectangular frame
+ * frameEffects: [{
+ *   name: "rect",
+ *   s: 0,
+ *   e: 10,
+ *   props: {
+ *     frameSize: [600, 400],
+ *     frameShape: "rect",
+ *     framePosition: { x: 960, y: 540 },
+ *     radius: 20,
+ *     objectFit: "cover",
+ *     transitionDuration: 1.5
+ *   }
+ * }]
+ * 
+ * // Rounded rectangle frame
+ * frameEffects: [{
+ *   name: "rect",
+ *   s: 2,
+ *   e: 15,
+ *   props: {
+ *     frameSize: [800, 600],
+ *     frameShape: "rect",
+ *     framePosition: { x: 960, y: 540 },
+ *     radius: 50,
+ *     objectFit: "contain",
+ *     transitionDuration: 2
+ *   }
+ * }]
+ * ```
  */
 
 import { all, waitFor } from "@twick/core";
@@ -13,26 +60,74 @@ import {
 import { FrameEffectParams } from "../helpers/types";
 
 /**
- * RectFrameEffect applies frame transformations such as resizing,
- * repositioning, rounding corners, and optionally fitting the element
- * within the frame according to an object-fit mode.
+ * RectFrameEffect applies frame transformations such as resizing, repositioning, 
+ * rounding corners, and optionally fitting the element within the frame according 
+ * to an object-fit mode. Creates rectangular masks and containers for content 
+ * presentation with smooth transitions.
  *
  * Behavior:
- * - Waits for the specified start time.
- * - Resizes and repositions the container and element smoothly.
- * - Adjusts corner radius if provided.
- * - Optionally fits the element inside the container.
+ * - Waits for the specified start time
+ * - Resizes and repositions the container and element smoothly
+ * - Adjusts corner radius if provided
+ * - Optionally fits the element inside the container
  *
- * @param containerRef - Reference to the frame container element.
- * @param elementRef - Reference to the content element inside the frame.
- * @param initFrameState - Initial size and position state of the element.
- * @param frameEffect - Frame transformation configuration and timing.
+ * @param containerRef - Reference to the frame container element
+ * @param elementRef - Reference to the content element inside the frame
+ * @param initFrameState - Initial size and position state of the element
+ * @param frameEffect - Frame transformation configuration and timing
+ * 
+ * @example
+ * ```js
+ * // Basic rectangular frame
+ * frameEffects: [{
+ *   name: "rect",
+ *   s: 0,
+ *   e: 10,
+ *   props: {
+ *     frameSize: [600, 400],
+ *     frameShape: "rect",
+ *     framePosition: { x: 960, y: 540 },
+ *     radius: 20,
+ *     objectFit: "cover",
+ *     transitionDuration: 1.5
+ *   }
+ * }]
+ * 
+ * // Rounded rectangle frame
+ * frameEffects: [{
+ *   name: "rect",
+ *   s: 2,
+ *   e: 15,
+ *   props: {
+ *     frameSize: [800, 600],
+ *     frameShape: "rect",
+ *     framePosition: { x: 960, y: 540 },
+ *     radius: 50,
+ *     objectFit: "contain",
+ *     transitionDuration: 2
+ *   }
+ * }]
+ * ```
  */
 export const RectFrameEffect = {
   name: "rect",
 
   /**
    * Generator function controlling the frame resizing and positioning animation.
+   * Handles rectangular frame transformations with smooth transitions and content fitting.
+   *
+   * @param params - Frame effect parameters including element references and configuration
+   * @returns Generator that controls the rectangular frame animation timeline
+   * 
+   * @example
+   * ```js
+   * yield* RectFrameEffect.run({
+   *   containerRef: frameContainer,
+   *   elementRef: contentElement,
+   *   initFrameState: initialState,
+   *   frameEffect: rectConfig
+   * });
+   * ```
    */
   *run({
     containerRef,
