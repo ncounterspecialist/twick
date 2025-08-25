@@ -9,17 +9,29 @@ import { logger } from "./log.utils";
 
 /**
  * Element utilities for the visualizer package.
- * Provides functions for handling element positioning, sizing, and transformations.
+ * Provides functions for handling element positioning, sizing, and transformations
+ * to ensure proper content display and visual effects.
  */
 
 /**
- * Fits an element within specified bounds while maintaining aspect ratio
- * @param {Object} params - Parameters for fitting the element
- * @param {Object} params.containerSize - The container size
- * @param {Object} params.elementSize - The element size
- * @param {Object} params.elementRef - The element reference
- * @param {string} [params.objectFit] - The fit mode (contain, cover, fill)
- * @returns {Object} Updated element dimensions
+ * Fits an element within specified bounds while maintaining aspect ratio.
+ * Handles different object-fit modes for proper content scaling and positioning.
+ *
+ * @param containerSize - The container size dimensions
+ * @param elementSize - The element size dimensions
+ * @param elementRef - The element reference to modify
+ * @param objectFit - The fit mode (contain, cover, fill, none)
+ * @returns Generator that controls the element fitting process
+ * 
+ * @example
+ * ```js
+ * yield* fitElement({
+ *   containerSize: { x: 800, y: 600 },
+ *   elementSize: { x: 1920, y: 1080 },
+ *   elementRef: videoElement,
+ *   objectFit: "cover"
+ * });
+ * ```
  */
 export function* fitElement({
   containerSize,
@@ -89,6 +101,28 @@ export function* fitElement({
   }
 }
 
+/**
+ * Adds text effects to an element based on its configuration.
+ * Applies text animations like typewriter, stream word, or elastic effects.
+ *
+ * @param elementRef - Reference to the text element
+ * @param element - Element configuration containing text effect settings
+ * @returns Generator that controls the text effect animation
+ * 
+ * @example
+ * ```js
+ * yield* addTextEffect({
+ *   elementRef: textElement,
+ *   element: {
+ *     textEffect: {
+ *       name: "typewriter",
+ *       duration: 3,
+ *       interval: 0.1
+ *     }
+ *   }
+ * });
+ * ```
+ */
 export function* addTextEffect({
   elementRef,
   element,
@@ -109,6 +143,33 @@ export function* addTextEffect({
   }
 }
 
+/**
+ * Adds animations to an element based on its configuration.
+ * Applies entrance, exit, or transition animations to elements.
+ *
+ * @param elementRef - Reference to the element to animate
+ * @param containerRef - Optional reference to the container element
+ * @param element - Element configuration containing animation settings
+ * @param view - The main scene view for rendering
+ * @returns Generator that controls the animation timeline
+ * 
+ * @example
+ * ```js
+ * yield* addAnimation({
+ *   elementRef: videoElement,
+ *   containerRef: frameContainer,
+ *   element: {
+ *     animation: {
+ *       name: "fade",
+ *       animate: "enter",
+ *       duration: 2,
+ *       direction: "center"
+ *     }
+ *   },
+ *   view: sceneView
+ * });
+ * ```
+ */
 export function* addAnimation({
   elementRef,
   containerRef,
@@ -136,6 +197,37 @@ export function* addAnimation({
 }
 
 
+/**
+ * Adds frame effects to an element based on its configuration.
+ * Applies visual masks and containers like circular or rectangular frames.
+ *
+ * @param containerRef - Reference to the frame container element
+ * @param elementRef - Reference to the content element inside the frame
+ * @param element - Element configuration containing frame effect settings
+ * @returns Generator that controls the frame effect timeline
+ * 
+ * @example
+ * ```js
+ * yield* addFrameEffect({
+ *   containerRef: frameContainer,
+ *   elementRef: contentElement,
+ *   element: {
+ *     frameEffects: [{
+ *       name: "circle",
+ *       s: 0,
+ *       e: 10,
+ *       props: {
+ *         frameSize: [400, 400],
+ *         frameShape: "circle",
+ *         framePosition: { x: 960, y: 540 },
+ *         radius: 200,
+ *         objectFit: "cover"
+ *       }
+ *     }]
+ *   }
+ * });
+ * ```
+ */
 export function* addFrameEffect({
   containerRef,
   elementRef,

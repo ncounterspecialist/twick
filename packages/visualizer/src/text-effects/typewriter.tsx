@@ -2,24 +2,58 @@ import { waitFor } from "@twick/core";
 import { TextEffectParams } from "../helpers/types";
 
 /**
- * TypewriterEffect animates text appearing one character at a time,
- * mimicking the behavior of a classic typewriter.
+ * @group TypewriterEffect
+ * TypewriterEffect animates text appearing one character at a time, mimicking the
+ * behavior of a classic typewriter. Creates a nostalgic, engaging text animation
+ * that draws attention to important content.
  *
  * Behavior:
- * - Optionally waits for a delay before starting.
- * - Clears the text initially and preserves the element's original size.
- * - Reveals one character at a time at a consistent interval.
+ * - Optionally waits for a delay before starting
+ * - Clears the text initially and preserves the element's original size
+ * - Reveals one character at a time at a consistent interval
  *
- * @param elementRef - Reference to the text element to animate.
- * @param duration - Total duration of the animation.
- * @param delay - Optional delay before starting.
- * @param bufferTime - Time reserved at the end of animation (default: 0.1).
+ * @param elementRef - Reference to the text element to animate
+ * @param duration - Total duration of the animation in seconds
+ * @param delay - Optional delay before starting in seconds
+ * @param bufferTime - Time reserved at the end of animation in seconds
+ * 
+ * @example
+ * ```js
+ * // Basic typewriter effect
+ * textEffect: {
+ *   name: "typewriter",
+ *   duration: 3,
+ *   interval: 0.1
+ * }
+ * 
+ * // With delay and buffer time
+ * textEffect: {
+ *   name: "typewriter",
+ *   duration: 5,
+ *   delay: 1,
+ *   bufferTime: 0.5
+ * }
+ * ```
  */
 export const TypewriterEffect = {
   name: "typewriter",
 
   /**
    * Generator function controlling the character-by-character typing animation.
+   * Handles text clearing, character revelation, and timing for the typewriter effect.
+   *
+   * @param params - Text effect parameters including element reference and timing
+   * @returns Generator that controls the typewriter animation timeline
+   * 
+   * @example
+   * ```js
+   * yield* TypewriterEffect.run({
+   *   elementRef: textElement,
+   *   duration: 3,
+   *   delay: 0.5,
+   *   bufferTime: 0.1
+   * });
+   * ```
    */
   *run({
     elementRef,
