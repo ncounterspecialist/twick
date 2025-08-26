@@ -1,7 +1,49 @@
+/**
+ * Checks if the code is running in a browser environment.
+ * Returns true if window object is available, false otherwise.
+ * 
+ * @example
+ * ```js
+ * import { isBrowser } from '@twick/canvas';
+ * 
+ * if (isBrowser) {
+ *   // Browser-specific code
+ *   console.log('Running in browser');
+ * }
+ * ```
+ */
 export const isBrowser = typeof window !== 'undefined';
 
+/**
+ * Checks if the Canvas API is supported in the current environment.
+ * Returns true if HTMLCanvasElement is available, false otherwise.
+ * 
+ * @example
+ * ```js
+ * import { isCanvasSupported } from '@twick/canvas';
+ * 
+ * if (isCanvasSupported) {
+ *   // Canvas operations are safe
+ *   createCanvas();
+ * }
+ * ```
+ */
 export const isCanvasSupported = isBrowser && !!window.HTMLCanvasElement;
 
+/**
+ * Checks if the Video API is supported in the current environment.
+ * Returns true if HTMLVideoElement is available, false otherwise.
+ * 
+ * @example
+ * ```js
+ * import { isVideoSupported } from '@twick/canvas';
+ * 
+ * if (isVideoSupported) {
+ *   // Video operations are safe
+ *   addVideoElement();
+ * }
+ * ```
+ */
 export const isVideoSupported = isBrowser && !!window.HTMLVideoElement;
 
 /**
