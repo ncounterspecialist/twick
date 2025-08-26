@@ -16,20 +16,50 @@ import { editorRegistry } from "../utils/register-editor";
 import { PostHogProvider } from "posthog-js/react";
 import posthog from "posthog-js";
 
+/**
+ * Type definition for the Timeline context.
+ * Contains all the state and functions needed to manage a timeline instance.
+ * Provides access to the timeline editor, selected items, undo/redo functionality,
+ * and timeline actions.
+ * 
+ * @example
+ * ```js
+ * const {
+ *   editor,
+ *   selectedItem,
+ *   totalDuration,
+ *   canUndo,
+ *   canRedo,
+ *   setSelectedItem,
+ *   setTimelineAction
+ * } = useTimelineContext();
+ * ```
+ */
 export type TimelineContextType = {
+  /** Unique identifier for this timeline context */
   contextId: string;
+  /** The timeline editor instance for this context */
   editor: TimelineEditor;
+  /** Currently selected track or element */
   selectedItem: Track | TrackElement | null;
+  /** Change counter for tracking modifications */
   changeLog: number;
+  /** Current timeline action being performed */
   timelineAction: {
     type: string;
     payload: any;
   };
+  /** Total duration of the timeline in seconds */
   totalDuration: number;
+  /** Current project state */
   present: ProjectJSON | null;
+  /** Whether undo operation is available */
   canUndo: boolean;
+  /** Whether redo operation is available */
   canRedo: boolean;
+  /** Function to set the selected item */
   setSelectedItem: (item: Track | TrackElement | null) => void;
+  /** Function to set timeline actions */
   setTimelineAction: (type: string, payload: any) => void;
 };
 
@@ -37,18 +67,56 @@ const TimelineContext = createContext<TimelineContextType | undefined>(
   undefined
 );
 
+/**
+ * Props for the TimelineProvider component.
+ * Defines the configuration options for timeline context initialization.
+ * 
+ * @example
+ * ```jsx
+ * <TimelineProvider
+ *   contextId="my-timeline"
+ *   initialData={{ tracks: [], version: 1 }}
+ *   undoRedoPersistenceKey="timeline-state"
+ *   maxHistorySize={50}
+ * >
+ *   <YourApp />
+ * </TimelineProvider>
+ * ```
+ */
 export interface TimelineProviderProps {
+  /** React children to wrap with timeline context */
   children: React.ReactNode;
+  /** Unique identifier for this timeline context */
   contextId: string;
+  /** Initial timeline data to load */
   initialData?: {
     tracks: TrackJSON[];
     version: number;
   };
+  /** Key for persisting undo/redo state */
   undoRedoPersistenceKey?: string;
+  /** Maximum number of history states to keep */
   maxHistorySize?: number;
 }
 
-// Inner component that uses the UndoRedo context
+/**
+ * Inner component that uses the UndoRedo context.
+ * Manages the timeline state and provides the timeline editor instance.
+ * Handles initialization of timeline data and editor setup.
+ *
+ * @param props - Timeline provider configuration
+ * @returns Timeline context provider with state management
+ * 
+ * @example
+ * ```jsx
+ * <TimelineProviderInner
+ *   contextId="my-timeline"
+ *   initialData={{ tracks: [], version: 1 }}
+ * >
+ *   <YourApp />
+ * </TimelineProviderInner>
+ * ```
+ */
 const TimelineProviderInner = ({
   contextId,
   children,
@@ -74,6 +142,16 @@ const TimelineProviderInner = ({
 
   const dataInitialized = useRef(false);
 
+  /**
+   * Updates the change log counter.
+   * Called whenever the timeline is modified to track changes.
+   * 
+   * @example
+   * ```js
+   * updateChangeLog();
+   * // Increments the change counter
+   * ```
+   */
   const updateChangeLog = () => {
     setChangeLog((prev) => prev + 1);
   };
@@ -106,10 +184,34 @@ const TimelineProviderInner = ({
     return newEditor;
   }, [contextId]);
 
+  /**
+   * Sets a timeline action with optional payload.
+   * Used to trigger timeline state changes and actions.
+   *
+   * @param type - The type of action to perform
+   * @param payload - Optional data for the action
+   * 
+   * @example
+   * ```js
+   * setTimelineAction(TIMELINE_ACTION.SET_PLAYER_STATE, { playing: true });
+   * ```
+   */
   const setTimelineAction = (type: string, payload: any) => {
     setTimelineActionState({ type, payload });
   };
 
+  /**
+   * Initializes the timeline with project data.
+   * Loads either persisted state or initial data into the editor.
+   *
+   * @param data - Project data to initialize with
+   * 
+   * @example
+   * ```js
+   * initialize(projectData);
+   * // Loads project data into the timeline editor
+   * ```
+   */
   const initialize = (data: ProjectJSON) => {
     const lastPersistedState = undoRedoContext.getLastPersistedState();
     if (lastPersistedState) {
@@ -149,6 +251,26 @@ const TimelineProviderInner = ({
   );
 };
 
+/**
+ * Provider component for the Timeline context.
+ * Wraps the timeline functionality with PostHog analytics and undo/redo support.
+ * Manages the global state for timeline instances including tracks, elements,
+ * playback state, and history management.
+ *
+ * @param props - Timeline provider configuration
+ * @returns Context provider with timeline state management
+ * 
+ * @example
+ * ```jsx
+ * <TimelineProvider
+ *   contextId="my-timeline"
+ *   initialData={{ tracks: [], version: 1 }}
+ *   undoRedoPersistenceKey="timeline-state"
+ * >
+ *   <YourApp />
+ * </TimelineProvider>
+ * ```
+ */
 export const TimelineProvider = ({
   contextId,
   children,
@@ -183,6 +305,38 @@ export const TimelineProvider = ({
   );
 };
 
+/**
+ * Hook to access the Timeline context.
+ * Provides access to timeline state, editor instance, and timeline management functions.
+ * Must be used within a TimelineProvider component.
+ *
+ * @returns TimelineContextType object with all timeline state and controls
+ * @throws Error if used outside of TimelineProvider
+ * 
+ * @example
+ * ```js
+ * const {
+ *   editor,
+ *   selectedItem,
+ *   totalDuration,
+ *   canUndo,
+ *   canRedo,
+ *   setSelectedItem,
+ *   setTimelineAction
+ * } = useTimelineContext();
+ * 
+ * // Access the timeline editor
+ * const tracks = editor.getTracks();
+ * 
+ * // Check if undo is available
+ * if (canUndo) {
+ *   editor.undo();
+ * }
+ * 
+ * // Set timeline action
+ * setTimelineAction(TIMELINE_ACTION.SET_PLAYER_STATE, { playing: true });
+ * ```
+ */
 export const useTimelineContext = () => {
   const context = useContext(TimelineContext);
   if (context === undefined) {

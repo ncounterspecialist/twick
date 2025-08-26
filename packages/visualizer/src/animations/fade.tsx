@@ -9,27 +9,27 @@ import { AnimationParams } from "../helpers/types";
  * Creates smooth opacity transitions for elements entering or exiting the scene.
  * Perfect for subtle, professional animations that don't distract from content.
  * 
- * ## 🎬 Animation Modes
+ * ## Animation Modes
  * 
  * - **"enter"**: Starts transparent and fades in to fully opaque
  * - **"exit"**: Waits, then fades out to transparent  
  * - **"both"**: Fades in, waits, then fades out
  * 
- * ## 🎯 Use Cases
+ * ## Use Cases
  * 
  * - **Text overlays**: Smooth introduction of captions and titles
  * - **Background elements**: Subtle scene transitions
  * - **UI components**: Professional interface animations
  * - **Content reveals**: Gentle disclosure of information
  * 
- * ## 🔧 Best Practices
+ * ## Best Practices
  * 
  * - **Duration**: 1-3 seconds for most use cases
  * - **Timing**: Use "enter" for introductions, "exit" for conclusions
  * - **Combination**: Pair with other animations for complex effects
  * - **Performance**: Lightweight and efficient for multiple elements
  * 
- * ## 📚 Integration Examples
+ * ## Integration Examples
  * 
  * ### Basic Text Fade
  * ```js

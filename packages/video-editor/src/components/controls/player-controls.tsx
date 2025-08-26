@@ -5,18 +5,51 @@ import { Trash2, Scissors, Play, Pause, Loader2 } from "lucide-react";
 import { UndoRedoControls } from "./undo-redo-controls";
 import { TrackElement, Track } from "@twick/timeline";
 
-interface PlayerControlsProps {
+/**
+ * Props for the PlayerControls component.
+ * Defines the configuration options and callback functions for player controls.
+ * 
+ * @example
+ * ```jsx
+ * <PlayerControls
+ *   selectedItem={selectedElement}
+ *   currentTime={5.5}
+ *   duration={120}
+ *   canUndo={true}
+ *   canRedo={false}
+ *   playerState={PLAYER_STATE.PLAYING}
+ *   togglePlayback={handleTogglePlayback}
+ *   onUndo={handleUndo}
+ *   onRedo={handleRedo}
+ *   onDelete={handleDelete}
+ *   onSplit={handleSplit}
+ * />
+ * ```
+ */
+export interface PlayerControlsProps {
+  /** Currently selected timeline element or track */
   selectedItem: TrackElement | Track | null;
+  /** Current playback time in seconds */
   currentTime: number;
+  /** Total duration of the timeline in seconds */
   duration: number;
+  /** Whether undo operation is available */
   canUndo: boolean;
+  /** Whether redo operation is available */
   canRedo: boolean;
+  /** Current player state (playing, paused, refresh) */
   playerState: keyof typeof PLAYER_STATE;
+  /** Function to toggle between play and pause */
   togglePlayback: () => void;
+  /** Optional callback for undo operation */
   onUndo?: () => void;
+  /** Optional callback for redo operation */
   onRedo?: () => void;
+  /** Optional callback for delete operation */
   onDelete?: (item: TrackElement | Track) => void;
+  /** Optional callback for split operation */
   onSplit?: (item: TrackElement, splitTime: number) => void;
+  /** Optional CSS class name for styling */
   className?: string;
 }
 

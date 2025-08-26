@@ -1,0 +1,20 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPoints": ["./src/index.ts"],
+  "out": "docs",
+  "name": "@twick/timeline",
+  "excludePrivate": true,
+  "excludeProtected": true,
+  "excludeExternals": true,
+  "theme": "default",
+  "readme": "README.md",
+  "plugin": ["typedoc-plugin-markdown"],
+  "categorizeByGroup": true,
+  "categoryOrder": ["Core", "Timeline Management", "Elements", "Tracks", "Visitors", "Add-ons", "Context", "Utilities", "Constants", "Types", "Interfaces", "Other"],
+  "hideBreadcrumbs": true,
+  "groupOrder": ["Core", "Timeline Management", "Elements", "Tracks", "Visitors", "Add-ons", "Context", "Utilities", "Constants", "Types", "Interfaces", "Other"],
+  "sort": ["source-order"],
+  "defaultCategory": "Other",
+  "hideInPageTOC": false,
+  "includeVersion": true
+}

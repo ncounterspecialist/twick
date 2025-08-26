@@ -1,3 +1,30 @@
+/**
+ * @twick/timeline - Timeline Package
+ * 
+ * A comprehensive timeline management system for the Twick video platform.
+ * Provides track-based video editing capabilities with support for multiple
+ * element types, undo/redo functionality, and real-time timeline manipulation.
+ * 
+ * @example
+ * ```jsx
+ * import { 
+ *   TimelineProvider, 
+ *   TimelineEditor, 
+ *   Track, 
+ *   VideoElement,
+ *   TextElement 
+ * } from '@twick/timeline';
+ * 
+ * function App() {
+ *   return (
+ *     <TimelineProvider contextId="my-timeline">
+ *       <TimelineEditor />
+ *     </TimelineProvider>
+ *   );
+ * }
+ * ```
+ */
+
 import { TIMELINE_ELEMENT_TYPE } from "./utils/constants";
 import { TimelineEditor } from "./core/editor/timeline.editor";
 import {
@@ -33,6 +60,7 @@ import { ElementAnimation } from "./core/addOns/animation";
 import { ElementFrameEffect } from "./core/addOns/frame-effect";
 import { ElementTextEffect } from "./core/addOns/text-effect";
 
+// Core element types
 export {
   TrackElement,
   Track,
@@ -49,19 +77,23 @@ export {
   ElementTextEffect
 };
 
+// Timeline management
 export {
   TimelineProvider,
   TimelineEditor,
 };
 
+// Types and interfaces
 export type { TimelineProviderProps };
 export { TIMELINE_ELEMENT_TYPE };
 
+// Utilities and helpers
 export * from "./types";
 export * from "./utils/constants";
 export * from "./utils/timeline.utils";
 export * from "./context/timeline-context";
-// Export core components
+
+// Core components
 export * from "./core/track/track";
 export * from "./core/elements/base.element";
 export * from "./core/visitor/element-visitor";

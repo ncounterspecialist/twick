@@ -5,7 +5,7 @@
  * based on the provided input configuration. Creates a complete visualization scene with
  * background, tracks, animations, and effects for professional video content.
  * 
- * ## 🎬 Scene Architecture
+ * ## Scene Architecture
  * 
  * The visualizer creates a hierarchical scene structure:
  * ```
@@ -20,7 +20,7 @@
  * └── Track N
  * ```
  * 
- * ## 🔧 Core Features
+ * ## Core Features
  * 
  * - **Multi-Track Support**: Organize elements into logical tracks
  * - **Animation System**: Rich animation library with enter/exit effects
@@ -29,7 +29,7 @@
  * - **Media Support**: Video, image, and audio content management
  * - **Timing Control**: Precise start/end timing for all elements
  * 
- * ## 🎯 Use Cases
+ * ## Use Cases
  * 
  * - **Video Presentations**: Professional slideshows with animations
  * - **Content Creation**: Social media videos with effects
@@ -68,7 +68,7 @@ import { dispatchWindowEvent } from "./helpers/event.utils";
  * background, processes track elements, and handles animation generation for video, 
  * audio, captions, and other visual elements.
  * 
- * ## 🎬 Scene Lifecycle
+ * ## Scene Lifecycle
  * 
  * 1. **Input Processing**: Retrieves video input configuration from scene variables
  * 2. **Background Setup**: Creates background rectangle with specified color
@@ -76,7 +76,7 @@ import { dispatchWindowEvent } from "./helpers/event.utils";
  * 4. **Animation Execution**: Runs all track animations in parallel using `all()`
  * 5. **Event Dispatch**: Sends player update events for status tracking
  * 
- * ## 🔧 Track Types Supported
+ * ## Track Types Supported
  * 
  * - **VIDEO**: Video content with playback and effects
  * - **AUDIO**: Audio content with timing and synchronization

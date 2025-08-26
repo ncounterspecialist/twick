@@ -194,6 +194,20 @@ export const LivePlayer = ({
     }
   };
 
+  /**
+   * Handles player update events from the Twick player.
+   * Filters events by player ID and forwards them to the onPlayerUpdate callback
+   * if provided. This ensures only events for this specific player instance
+   * are processed.
+   *
+   * @param event - Custom event containing player update information
+   * 
+   * @example
+   * ```js
+   * handleUpdate(customEvent);
+   * // Forwards event to onPlayerUpdate if playerId matches
+   * ```
+   */
   const handleUpdate = (event: CustomEvent) => {
     if (event.detail.playerId === playerRef.current.id) {
       if (onPlayerUpdate) {

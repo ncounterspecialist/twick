@@ -13,7 +13,7 @@ import { logger } from "../helpers/log.utils";
  * Handles video playback, frame effects, animations, and content fitting
  * for professional video presentations and content creation.
  * 
- * ## 🎬 Key Features
+ * ## Key Features
  * 
  * - **Video playback** with start/end timing control
  * - **Frame effects** and animations for visual enhancement
@@ -22,7 +22,7 @@ import { logger } from "../helpers/log.utils";
  * - **Automatic cleanup** and resource management
  * - **Synchronization** with other scene elements
  * 
- * ## 🎯 Use Cases
+ * ## Use Cases
  * 
  * - **Main content videos**: Primary video content with effects
  * - **Background videos**: Ambient video backgrounds
@@ -30,7 +30,7 @@ import { logger } from "../helpers/log.utils";
  * - **Video transitions**: Smooth scene-to-scene transitions
  * - **Video effects**: Artistic and creative video manipulation
  * 
- * ## 🔧 Best Practices
+ * ## Best Practices
  * 
  * - **Format**: Use MP4 with H.264 encoding for best compatibility
  * - **Resolution**: Match scene dimensions or use appropriate object-fit
@@ -38,7 +38,7 @@ import { logger } from "../helpers/log.utils";
  * - **Timing**: Set precise start/end times for synchronization
  * - **Effects**: Combine with animations and frame effects for impact
  * 
- * ## 📚 Integration Examples
+ * ## Integration Examples
  * 
  * ### Basic Video Element
  * ```js
