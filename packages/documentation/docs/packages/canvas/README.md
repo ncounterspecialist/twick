@@ -137,4 +137,4 @@ This package is licensed under the **Sustainable Use License (SUL) Version 1.0**
 
 For commercial licensing inquiries, contact: contact@kifferai.com
 
-For full license terms, see [LICENSE.md](../../../../LICENSE.md).
+For full license terms, see the main LICENSE.md file in the project root.
