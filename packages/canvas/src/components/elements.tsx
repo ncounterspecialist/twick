@@ -261,16 +261,34 @@ export const addCaptionElement = ({
   return caption;
 };
 
-/* Add a video frame as element into a Fabric.js image object and optionally groups it with a frame.
-*
-* @param element - The video element containing properties like source and frame information.
-* @param index - The z-index for ordering the element on the canvas.
-* @param canvas - The Fabric.js canvas instance.
-* @param canvasMetadata - Metadata of the canvas, including dimensions and scale factors.
-* @param currentFrameEffect - Optional frame effect to apply to the image.
-* @param snapTime - The time to snap the video frame with respect to full video duration.
-* @returns A Fabric.js image object or a group with an image and frame.
-*/
+/**
+ * Add a video frame as element into a Fabric.js image object and optionally groups it with a frame.
+ * Creates a video element by extracting a frame at the specified time and applying
+ * optional frame effects for enhanced visual presentation.
+ *
+ * @param element - The video element containing properties like source and frame information
+ * @param index - The z-index for ordering the element on the canvas
+ * @param canvas - The Fabric.js canvas instance
+ * @param snapTime - The time to snap the video frame with respect to full video duration
+ * @param canvasMetadata - Metadata of the canvas, including dimensions and scale factors
+ * @param currentFrameEffect - Optional frame effect to apply to the image
+ * @returns A Fabric.js image object or a group with an image and frame
+ * 
+ * @example
+ * ```js
+ * const videoElement = await addVideoElement({
+ *   element: { 
+ *     id: "video1", 
+ *     props: { src: "video.mp4", x: 100, y: 100 } 
+ *   },
+ *   index: 2,
+ *   canvas: fabricCanvas,
+ *   snapTime: 5.0,
+ *   canvasMetadata: { scaleX: 1, scaleY: 1, width: 800, height: 600 },
+ *   currentFrameEffect: { shape: "circle", radius: 50 }
+ * });
+ * ```
+ */
 export const addVideoElement = async ({
   element,
   index,

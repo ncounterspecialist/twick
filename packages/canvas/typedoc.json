@@ -1,0 +1,20 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPoints": ["./src/index.ts"],
+  "out": "docs",
+  "name": "@twick/canvas",
+  "excludePrivate": true,
+  "excludeProtected": true,
+  "excludeExternals": true,
+  "theme": "default",
+  "readme": "README.md",
+  "plugin": ["typedoc-plugin-markdown"],
+  "categorizeByGroup": true,
+  "categoryOrder": ["Core", "Components", "Hooks", "Elements", "Controls", "Utilities", "Constants", "Types", "Interfaces", "Other"],
+  "hideBreadcrumbs": true,
+  "groupOrder": ["Core", "Components", "Hooks", "Elements", "Controls", "Utilities", "Constants", "Types", "Interfaces", "Other"],
+  "sort": ["source-order"],
+  "defaultCategory": "Other",
+  "hideInPageTOC": false,
+  "includeVersion": true
+}

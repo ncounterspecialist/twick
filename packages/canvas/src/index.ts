@@ -1,3 +1,40 @@
+/**
+ * @twick/canvas - Canvas Package
+ * 
+ * A comprehensive React-based canvas component for the Twick platform.
+ * Provides advanced canvas manipulation capabilities with support for multiple
+ * element types, frame effects, and real-time canvas operations.
+ * 
+ * @example
+ * ```jsx
+ * import { 
+ *   useTwickCanvas, 
+ *   addImageElement, 
+ *   addTextElement,
+ *   CANVAS_OPERATIONS 
+ * } from '@twick/canvas';
+ * 
+ * function MyCanvas() {
+ *   const { canvasRef, addElement } = useTwickCanvas({
+ *     width: 1920,
+ *     height: 1080
+ *   });
+ * 
+ *   const handleAddImage = () => {
+ *     addImageElement({
+ *       src: "image.jpg",
+ *       x: 100,
+ *       y: 100
+ *     });
+ *   };
+ * 
+ *   return (
+ *     <canvas ref={canvasRef} />
+ *   );
+ * }
+ * ```
+ */
+
 // Types
 export type {
   CanvasProps,

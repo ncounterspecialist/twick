@@ -18,7 +18,7 @@
     "dev": "vite build --watch",
     "lint": "eslint src/",
     "clean": "rimraf .turbo node_modules dist",
-    "docs": "typedoc --plugin typedoc-plugin-markdown --out docs src/index.ts"  
+    "docs": "typedoc"  
   },
   "dependencies": {
     "@twick/media-utils": "0.14.0",
