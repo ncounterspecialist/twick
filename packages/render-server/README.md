@@ -2,13 +2,19 @@
 
 A simple Node.js server for rendering videos using Twick.
 
+## Overview
+
+This package provides a server-side rendering solution for Twick video projects. It allows you to render video projects on the server and download the resulting video files.
+
 ## Installation
 
 ```bash
-pnpm install @twick/render-server
+npm install @twick/render-server
+# or
+pnpm add @twick/render-server
 ```
 
-## Usage
+## Quick Start
 
 ### Starting the server
 
@@ -23,9 +29,9 @@ pnpm start
 
 The server will start on port 3001 by default. You can change this by setting the `PORT` environment variable.
 
-### API Endpoints
+## API Endpoints
 
-#### POST /api/render-video
+### POST /api/render-video
 
 Renders a video using Twick.
 
@@ -75,11 +81,11 @@ Renders a video using Twick.
 }
 ```
 
-#### GET /download/:outFile
+### GET /download/:outFile
 
 Downloads a rendered video file.
 
-#### GET /health
+### GET /health
 
 Health check endpoint.
 
@@ -111,6 +117,27 @@ node test.js
 
 > **Note:** This server will work on Linux and macOS only. Windows is not supported.
 
+## Browser Support
+
+This package requires a Node.js environment with support for:
+- Node.js 18 or higher
+- Puppeteer for video rendering
+- File system operations
+
+## Documentation
+
+- **API Reference**: [docs/modules.md](../../docs/modules.md) - Complete API documentation
+- **Style Guide**: [STYLE_GUIDE.md](../../STYLE_GUIDE.md) - Coding standards and conventions
+- **Main README**: [README.md](../../README.md) - Project overview and getting started
+
 ## License
 
-Apache-2.0 
+This package is licensed under the **Sustainable Use License (SUL) Version 1.0**.
+
+- Free for use in commercial and non-commercial apps
+- Can be modified and self-hosted
+- Cannot be sold, rebranded, or distributed as a standalone SDK
+
+For commercial licensing inquiries, contact: contact@kifferai.com
+
+For full license terms, see [LICENSE.md](../../LICENSE.md). 

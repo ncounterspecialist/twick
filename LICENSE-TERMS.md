@@ -1,6 +1,6 @@
 # Additional License Terms
 
-This project is licensed under the Apache License 2.0, with the following additional terms that clarify and restrict specific forms of commercial use and redistribution.
+This project is licensed under the Sustainable Use License (SUL) Version 1.0, with the following additional terms that clarify and restrict specific forms of commercial use and redistribution.
 
 ## Permitted Use
 
@@ -19,4 +19,6 @@ This project is licensed under the Apache License 2.0, with the following additi
 ## Need a Commercial License?
 
 To offer the SDK or cloud functions as a hosted product, or for other extended rights, contact: [contact@kifferai.com]
+
+For full license terms, see [LICENSE.md](./LICENSE.md).
 

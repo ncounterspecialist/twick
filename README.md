@@ -135,7 +135,7 @@ Join our Discord community to:
 
 ## License
 
-This project is licensed under the **Apache 2.0 License with additional terms**.
+This project is licensed under the **Sustainable Use License (SUL) Version 1.0**.
 
 - Free for use in commercial and non-commercial apps
 - Can be modified and self-hosted
@@ -143,3 +143,4 @@ This project is licensed under the **Apache 2.0 License with additional terms**.
 
 For resale, or SaaS redistribution please [contact us](mailto:contact@kifferai.com).
 
+For full license terms, see [LICENSE.md](LICENSE.md). 

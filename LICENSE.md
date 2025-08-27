@@ -4,9 +4,9 @@ This software is made available under the Sustainable Use License (SUL) Version 
 
 ## Sustainable Use License v1.0
 
-**Copyright (c) 2024 KifferAI. All rights reserved.**
+**Copyright (c) 2025 KifferAI. All rights reserved.**
 
-This license is based on Apache 2.0 but includes additional restrictions to ensure the long-term sustainability of the project.
+This license is designed to ensure the long-term sustainability of the project while providing clear terms for usage and distribution.
 
 ### 1. Definitions
 
@@ -91,7 +91,3 @@ For questions regarding this license or commercial licensing, contact:
 
 - Email: contact@kifferai.com
 - Website: https://kifferai.com
-
----
-
-**Note:** This Sustainable Use License is a source-available license and is not an OSI-approved open source license. It is designed to make the Software freely available for developers while protecting the sustainability of the project.

@@ -129,4 +129,12 @@ The library will throw appropriate errors if used in an unsupported environment.
 
 ## License
 
-Apache-2.0
+This package is licensed under the **Sustainable Use License (SUL) Version 1.0**.
+
+- Free for use in commercial and non-commercial apps
+- Can be modified and self-hosted
+- Cannot be sold, rebranded, or distributed as a standalone SDK
+
+For commercial licensing inquiries, contact: contact@kifferai.com
+
+For full license terms, see [LICENSE.md](../../../../LICENSE.md).
