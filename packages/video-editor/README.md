@@ -1,15 +1,22 @@
 # @twick/video-editor
 
-A React component for video editing and timeline management
+A React component for video editing and timeline management with advanced features.
+
+## Overview
+
+This package provides a comprehensive video editing interface with timeline management, multi-track support, and real-time preview capabilities. It integrates seamlessly with other Twick packages to create a complete video editing solution.
 
 ## Features
 
-- 🎥 Video preview with custom controls
-- ⏱️ Timeline-based editing interface
-- 📊 Multi-track timeline support
-- 🎯 Customizable video dimensions
-- 🔄 Drag-and-drop timeline reordering
-- ⚡ High-performance video rendering
+- Video preview with custom controls
+- Timeline-based editing interface
+- Multi-track timeline support
+- Customizable video dimensions
+- Drag-and-drop timeline reordering
+- High-performance video rendering
+- Real-time project updates
+- Advanced timeline manipulation
+- Professional editing tools
 
 ## Requirements
 
@@ -17,3 +24,106 @@ A React component for video editing and timeline management
 - Browser environment with HTML5 Video support
 
 ## Installation
+
+```bash
+npm install @twick/video-editor
+# or
+pnpm add @twick/video-editor
+```
+
+## Quick Start
+
+```tsx
+import { VideoEditor } from '@twick/video-editor';
+import { LivePlayerProvider } from '@twick/live-player';
+import { TimelineProvider } from '@twick/timeline';
+
+function App() {
+  return (
+    <LivePlayerProvider>
+      <TimelineProvider
+        initialData={{
+          timeline: [],
+          version: 0,
+        }}
+      >
+        <VideoEditor
+          leftPanel={null}
+          rightPanel={null}
+          editorConfig={{
+            videoProps: {
+              width: 720,
+              height: 1280,
+            },
+          }}
+        />
+      </TimelineProvider>
+    </LivePlayerProvider>
+  );
+}
+```
+
+## Key Features
+
+### Video Preview
+- Real-time video playback with custom controls
+- Frame-accurate timeline scrubbing
+- Multiple preview quality options
+- Responsive video display
+
+### Timeline Management
+- Multi-track timeline interface
+- Drag-and-drop element reordering
+- Visual timeline representation
+- Time-based element positioning
+
+### Editing Tools
+- Text overlay capabilities
+- Image and video element support
+- Audio track management
+- Effect and transition tools
+
+### Performance
+- Optimized rendering pipeline
+- Efficient memory management
+- Smooth playback performance
+- Real-time updates
+
+## API Reference
+
+### Components
+
+- `VideoEditor`: Main video editor component
+
+### Props
+
+- `leftPanel`: Custom left panel component
+- `rightPanel`: Custom right panel component
+- `editorConfig`: Editor configuration object
+- `videoProps`: Video properties configuration
+
+### Types
+
+- `VideoEditorProps`: Props interface for VideoEditor
+- `EditorConfig`: Editor configuration interface
+- `VideoProps`: Video properties interface
+
+For complete API documentation, refer to [docs/modules.md](../../docs/modules.md).
+
+## Browser Support
+
+This package requires a browser environment with support for:
+- HTML5 Video and Audio
+- Canvas API
+- Drag and Drop API
+- Modern JavaScript features (ES2020+)
+
+## Documentation
+
+- **API Reference**: [docs/modules.md](../../docs/modules.md) - Complete API documentation
+- **Style Guide**: [STYLE_GUIDE.md](../../STYLE_GUIDE.md) - Coding standards and conventions
+- **Main README**: [README.md](../../README.md) - Project overview and getting started
+
+## License
+
+Apache-2.0

@@ -1,5 +1,40 @@
 # @twick/timeline
 
+Timeline management and editing capabilities for video projects.
+
+## Overview
+
+This package provides a comprehensive timeline editor with CRUD operations for managing video tracks and elements. It uses the visitor pattern to handle different element types consistently and offers a fluent interface for timeline manipulation.
+
+## Installation
+
+```bash
+npm install @twick/timeline
+# or
+pnpm add @twick/timeline
+```
+
+## Quick Start
+
+```typescript
+import { TimelineEditor, TimelineOperationContext } from '@twick/timeline';
+
+// Create editor with context
+const context: TimelineOperationContext = {
+  contextId: 'my-editor',
+  setTotalDuration: (duration) => console.log('Duration:', duration),
+  setPresent: (data) => console.log('Present:', data),
+  handleUndo: () => console.log('Undo'),
+  handleRedo: () => console.log('Redo'),
+  handleResetHistory: () => console.log('Reset History'),
+  setLatestProjectVersion: (version) => console.log('Version:', version),
+  setTimelineAction: (action, payload) => console.log('Action:', action, payload),
+};
+
+const editor = new TimelineEditor(context);
+const track = editor.addTrack('My Video Track');
+```
+
 ## Timeline Editor CRUD Operations
 
 The TimelineEditor provides a clean interface for managing tracks and elements using the visitor pattern.
@@ -171,5 +206,50 @@ function MyComponent() {
   return <div>Timeline Editor Ready</div>;
 }
 ```
+
+## API Reference
+
+### Core Classes
+
+- `TimelineEditor`: Main timeline editor class
+- `TextElement`: Text element implementation
+- `VideoElement`: Video element implementation
+- `ImageElement`: Image element implementation
+- `AudioElement`: Audio element implementation
+
+### Hooks
+
+- `useTimelineContext`: React hook for timeline context
+
+### Utility Functions
+
+- `getCurrentElements`: Get elements at specific time
+- `getTotalDuration`: Calculate total timeline duration
+- `generateShortUuid`: Generate unique IDs
+- `isElementId`: Check if ID is element type
+- `isTrackId`: Check if ID is track type
+
+### Types
+
+- `TimelineOperationContext`: Context interface for timeline operations
+- `TrackElement`: Base track element interface
+
+For complete API documentation, refer to [docs/modules.md](../../docs/modules.md).
+
+## Browser Support
+
+This package requires a browser environment with support for:
+- Modern JavaScript features (ES2020+)
+- Promise and async/await support
+
+## Documentation
+
+- **API Reference**: [docs/modules.md](../../docs/modules.md) - Complete API documentation
+- **Style Guide**: [STYLE_GUIDE.md](../../STYLE_GUIDE.md) - Coding standards and conventions
+- **Main README**: [README.md](../../README.md) - Project overview and getting started
+
+## License
+
+Apache-2.0
 
 
