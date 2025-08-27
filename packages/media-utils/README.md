@@ -1,22 +1,88 @@
 # @twick/media-utils
 
-Media utilities for the Twick platform.
+Core utilities for media handling and manipulation in the Twick platform.
+
+## Overview
+
+This package provides essential utilities for working with various media types including video, audio, and images. It offers functions for metadata extraction, dimension handling, caching, and file management.
 
 ## Installation
 
 ```bash
+npm install @twick/media-utils
+# or
 pnpm add @twick/media-utils
 ```
 
-## Usage
+## Quick Start
 
 ```typescript
-import { /* your exports */ } from '@twick/media-utils';
+import { 
+  getVideoMetadata, 
+  getImageDimensions, 
+  getAudioDuration,
+  getThumbnail 
+} from '@twick/media-utils';
+
+// Get video metadata
+const videoMeta = await getVideoMetadata('path/to/video.mp4');
+console.log(videoMeta); // { width, height, duration, etc. }
+
+// Get image dimensions
+const dimensions = await getImageDimensions('path/to/image.jpg');
+console.log(dimensions); // { width, height }
+
+// Get audio duration
+const duration = await getAudioDuration('path/to/audio.mp3');
+console.log(duration); // duration in seconds
+
+// Generate thumbnail
+const thumbnail = await getThumbnail('path/to/video.mp4', 5); // 5 seconds
+console.log(thumbnail); // base64 thumbnail
 ```
 
-## API Documentation
+## Key Features
 
-For detailed API documentation, see the generated docs in the `docs` directory.
+- **Video Metadata**: Extract width, height, duration, and other properties
+- **Image Processing**: Get dimensions and generate thumbnails
+- **Audio Utilities**: Extract duration and audio properties
+- **Caching**: Built-in caching for improved performance
+- **File Management**: URL and file path handling utilities
+- **Dimension Handling**: Responsive dimension calculations
+
+## API Reference
+
+### Core Functions
+
+- `getVideoMetadata`: Extract video metadata
+- `getImageDimensions`: Get image dimensions
+- `getAudioDuration`: Extract audio duration
+- `getThumbnail`: Generate video thumbnails
+- `limit`: Apply size and duration limits
+- `urlHelper`: URL manipulation utilities
+
+### Types
+
+- `VideoMetadata`: Video metadata interface
+- `ImageDimensions`: Image dimension interface
+- `AudioMetadata`: Audio metadata interface
+- `ThumbnailOptions`: Thumbnail generation options
+
+For complete API documentation, refer to [docs/modules.md](../../docs/modules.md).
+
+## Browser Support
+
+This package requires a browser environment with support for:
+- HTML5 Video and Audio elements
+- Canvas API
+- File API
+- Modern JavaScript features (ES2020+)
+
+## Documentation
+
+- **API Reference**: [docs/modules.md](../../docs/modules.md) - Complete API documentation
+- **Style Guide**: [STYLE_GUIDE.md](../../STYLE_GUIDE.md) - Coding standards and conventions
+- **Main README**: [README.md](../../README.md) - Project overview and getting started
 
 ## License
 

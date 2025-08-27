@@ -21,8 +21,11 @@ This repository contains a collection of packages for video and image manipulati
 - **@twick/canvas**: React-based canvas library for video and image editing
 - **@twick/visualizer**: Video visualization and animation toolkit
 - **@twick/live-player**: React component for video playback and control
-- **twick/video-editor**: React based video editor
+- **@twick/timeline**: Timeline management and editing capabilities
+- **@twick/video-editor**: React based video editor
 - **@twick/examples**: Example implementations and usage demonstrations
+
+For detailed API documentation and module information, refer to [docs/modules.md](./docs/modules.md).
 
 ## Getting Started
 
@@ -51,15 +54,17 @@ Each package can be developed independently:
 pnpm build:media-utils
 ```
 
-## How to run example
+## Examples
 
-```
+### Running the Demo
+
+```bash
 pnpm preview
 ```
 
-Open http://localhost:4173/demo in browser
+Open http://localhost:4173/demo in your browser to see the video editor in action.
 
-See [Twick Demo guide](https://ncounterspecialist.github.io/twick/docs/in-action) for detailed instructions.
+For detailed examples and tutorials, see the [Twick Demo guide](https://ncounterspecialist.github.io/twick/docs/in-action).
 
 ## Demo Preview
 
@@ -68,16 +73,25 @@ Here's a glimpse of building a video using the SDK:
 https://youtu.be/xuocqJqc9m8?si=h0wobDZlr9aj9XxW
 
 
-## Integrate Video Editor in your project 
+## Integration
+
+### Video Editor Integration
 
 1. Install Dependencies 
 
-```
-npm install --save @twick/canvas @twick/live-player @twick/timeline  @twick/video-editor
+```bash
+npm install --save @twick/canvas @twick/live-player @twick/timeline @twick/video-editor
 ```
 
 2. Add VideoEditor component with LivePlayer and Timeline Context as shown
-```
+
+```tsx
+import { LivePlayerProvider } from '@twick/live-player';
+import { TimelineProvider } from '@twick/timeline';
+import { VideoEditor } from '@twick/video-editor';
+
+function App() {
+  return (
     <LivePlayerProvider>
       <TimelineProvider
         initialData={{
@@ -97,9 +111,19 @@ npm install --save @twick/canvas @twick/live-player @twick/timeline  @twick/vide
         />
       </TimelineProvider>
     </LivePlayerProvider>
+  );
+}
 ```
 
-## Discord Community
+For detailed integration examples and API documentation, refer to [docs/modules.md](./docs/modules.md).
+
+## Documentation
+
+- **API Reference**: [docs/modules.md](./docs/modules.md) - Complete API documentation for all packages
+- **Style Guide**: [STYLE_GUIDE.md](./STYLE_GUIDE.md) - Coding standards and conventions
+- **Demo Guide**: [Twick Demo guide](https://ncounterspecialist.github.io/twick/docs/in-action) - Interactive tutorials and examples
+
+## Community
 
 Join our Discord community to:
 - Chat with other developers
@@ -109,13 +133,13 @@ Join our Discord community to:
 
 [Join our Discord Server](https://discord.gg/vShNGvCy)
 
-## 🛡 License
+## License
 
 This project is licensed under the **Apache 2.0 License with additional terms**.
 
-- ✅ Free for use in commercial and non-commercial apps
-- ✅ Can be modified and self-hosted
-- ❌ Cannot be sold, rebranded, or distributed as a standalone SDK or developer tool
+- Free for use in commercial and non-commercial apps
+- Can be modified and self-hosted
+- Cannot be sold, rebranded, or distributed as a standalone SDK or developer tool
 
-👉 For resale, or SaaS redistribution please [contact us](mailto:contact@kifferai.com).
+For resale, or SaaS redistribution please [contact us](mailto:contact@kifferai.com).
 

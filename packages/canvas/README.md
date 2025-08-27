@@ -2,6 +2,10 @@
 
 A React-based canvas library built with Fabric.js for video and image manipulation.
 
+## Overview
+
+This package provides a comprehensive canvas solution for video and image editing, built on top of Fabric.js with React integration. It offers advanced manipulation capabilities for creating professional video editing applications.
+
 ## Requirements
 
 - Browser environment with Canvas and Video support
@@ -11,10 +15,12 @@ A React-based canvas library built with Fabric.js for video and image manipulati
 ## Installation
 
 ```bash
-pnpm install @twick/canvas
+npm install @twick/canvas
+# or
+pnpm add @twick/canvas
 ```
 
-## Usage
+## Quick Start
 
 ### Basic Canvas Setup
 
@@ -116,6 +122,8 @@ addElementToCanvas({ element: textElement, index: 1 });
 - `CanvasElementProps`: Canvas element props interface
 - `CaptionProps`: Caption configuration props
 
+For complete API documentation, refer to [docs/modules.md](../../docs/modules.md).
+
 ## Browser Support
 
 This library requires a browser environment with support for:
@@ -124,6 +132,12 @@ This library requires a browser environment with support for:
 - Modern JavaScript features (ES2020+)
 
 The library will throw appropriate errors if used in an unsupported environment.
+
+## Documentation
+
+- **API Reference**: [docs/modules.md](../../docs/modules.md) - Complete API documentation
+- **Style Guide**: [STYLE_GUIDE.md](../../STYLE_GUIDE.md) - Coding standards and conventions
+- **Main README**: [README.md](../../README.md) - Project overview and getting started
 
 ## License
 

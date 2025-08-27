@@ -8,7 +8,7 @@ This style guide establishes consistent naming conventions and code style standa
 **Use const arrow functions consistently for all function declarations:**
 
 ```typescript
-// ✅ Correct
+// Correct
 export const getVideoMeta = (videoSrc: string): Promise<VideoMeta> => {
   // implementation
 };
@@ -17,7 +17,7 @@ export const createCanvas = (props: CanvasProps) => {
   // implementation
 };
 
-// ❌ Avoid
+// Avoid
 export function getVideoMeta(videoSrc: string): Promise<VideoMeta> {
   // implementation
 }
@@ -27,14 +27,14 @@ export function getVideoMeta(videoSrc: string): Promise<VideoMeta> {
 **Use PascalCase for class names:**
 
 ```typescript
-// ✅ Correct
+// Correct
 export class TimelineEditor { }
 export class TrackElement { }
 export class ElementValidator { }
 export class BrowserMediaManager { }
 export class BaseMediaManager { }
 
-// ❌ Avoid
+// Avoid
 export class timelineEditor { }
 export class track_element { }
 export class browserMediaManager { }
@@ -44,7 +44,7 @@ export class browserMediaManager { }
 **Use camelCase for method names with consistent getter/setter patterns:**
 
 ```typescript
-// ✅ Correct - Getter methods
+// Correct - Getter methods
 getId(): string { }
 getStart(): number { }
 getEnd(): number { }
@@ -52,7 +52,7 @@ getDuration(): number { }
 getTrackId(): string { }
 getProps(): Record<string, any> { }
 
-// ✅ Correct - Setter methods (fluent interface)
+// Correct - Setter methods (fluent interface)
 setId(id: string) { return this; }
 setStart(startTime: number) { return this; }
 setEnd(endTime: number) { return this; }
@@ -64,7 +64,7 @@ setProps(props: Record<string, any>) { return this; }
 **Use descriptive camelCase names, avoid abbreviations:**
 
 ```typescript
-// ✅ Correct - Descriptive names
+// Correct - Descriptive names
 protected startTime!: number;
 protected endTime!: number;
 protected trackId!: string;
@@ -73,7 +73,7 @@ protected parentSize: Size;
 protected videoWidth: number;
 protected videoHeight: number;
 
-// ❌ Avoid - Abbreviated names
+// Avoid - Abbreviated names
 protected s!: number;
 protected e!: number;
 protected tid!: string;
@@ -87,7 +87,7 @@ protected vh: number;
 **Use descriptive camelCase names, avoid single letters or abbreviations:**
 
 ```typescript
-// ✅ Correct - Descriptive names
+// Correct - Descriptive names
 const timelineData = editor.getTimelineData();
 const timelineStore = this.storeMap.get(contextId);
 const currentElements = getCurrentElements(currentTime, tracks);
@@ -95,7 +95,7 @@ const lastEndTime = elements.length ? elements[elements.length - 1].getEnd() : 0
 const videoMetadata = await getVideoMeta(videoSrc);
 const canvasInstance = createCanvas(canvasProps);
 
-// ❌ Avoid - Abbreviated names
+// Avoid - Abbreviated names
 const _td = editor.getTimelineData();
 const _store = this.storeMap.get(contextId);
 const _elements = getCurrentElements(currentTime, tracks);
@@ -108,7 +108,7 @@ const c = createCanvas(canvasProps);
 **Use UPPER_SNAKE_CASE for constants:**
 
 ```typescript
-// ✅ Correct
+// Correct
 export const TIMELINE_ELEMENT_TYPE = {
   VIDEO: "video",
   AUDIO: "audio",
@@ -126,7 +126,7 @@ export const CANVAS_OPERATIONS = {
   UPDATE: "update",
 };
 
-// ❌ Avoid
+// Avoid
 export const timelineElementType = { };
 export const playerState = { };
 export const canvasOperations = { };
@@ -136,14 +136,14 @@ export const canvasOperations = { };
 **Use PascalCase with descriptive names:**
 
 ```typescript
-// ✅ Correct
+// Correct
 export interface TimelineOperationContext { }
 export interface ElementVisitor<T> { }
 export type TimelineTrackData = { }
 export interface VideoMeta { }
 export interface CanvasProps { }
 
-// ❌ Avoid
+// Avoid
 export interface timelineOperationContext { }
 export interface elementVisitor<T> { }
 export interface videoMeta { }
@@ -153,7 +153,7 @@ export interface videoMeta { }
 **Use kebab-case for file names:**
 
 ```typescript
-// ✅ Correct
+// Correct
 timeline.editor.ts
 element-validator.ts
 base.element.ts
@@ -163,7 +163,7 @@ player-controls.tsx
 media-manager.ts
 get-video-metadata.ts
 
-// ❌ Avoid
+// Avoid
 timelineEditor.ts
 elementValidator.ts
 baseElement.ts
@@ -178,13 +178,13 @@ getVideoMetadata.ts
 **Use camelCase with 'use' prefix:**
 
 ```typescript
-// ✅ Correct
+// Correct
 export const useTimelineContext = () => { };
 export const usePlayerControl = () => { };
 export const useTwickCanvas = () => { };
 export const useLivePlayerContext = () => { };
 
-// ❌ Avoid
+// Avoid
 export const useTimelineContext = () => { };
 export const use_player_control = () => { };
 export const useTwickCanvas = () => { };
@@ -194,13 +194,13 @@ export const useTwickCanvas = () => { };
 **Use PascalCase for React components:**
 
 ```typescript
-// ✅ Correct
+// Correct
 export const VideoEditor = () => { };
 export const PlayerControls = () => { };
 export const TimelineManager = () => { };
 export const LivePlayer = () => { };
 
-// ❌ Avoid
+// Avoid
 export const videoEditor = () => { };
 export const player_controls = () => { };
 export const timelineManager = () => { };
@@ -265,7 +265,7 @@ export class ExampleClass {
 **Use consistent error handling patterns:**
 
 ```typescript
-// ✅ Correct - Specific error types
+// Correct - Specific error types
 try {
   const isValid = this.validateElement(element);
   if (isValid) {
@@ -300,7 +300,7 @@ export const getVideoMeta = (videoSrc: string): Promise<VideoMeta> => {
 **Use strict typing, avoid `any` when possible:**
 
 ```typescript
-// ✅ Correct - Specific types
+// Correct - Specific types
 protected props: VideoProps | AudioProps | TextProps;
 export interface VideoMeta {
   width: number;
@@ -308,7 +308,7 @@ export interface VideoMeta {
   duration: number;
 }
 
-// ❌ Avoid - Generic any
+// Avoid - Generic any
 protected props: Record<string, any>;
 export interface VideoMeta {
   [key: string]: any;
