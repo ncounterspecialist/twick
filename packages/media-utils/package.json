@@ -6,7 +6,7 @@
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "sideEffects": false,
-  "license": "Apache-2.0",
+  "license": "SEE LICENSE IN LICENSE.md",
   "files": [
     "dist"
   ],

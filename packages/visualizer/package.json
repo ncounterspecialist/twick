@@ -1,7 +1,7 @@
 {
   "name": "@twick/visualizer",
   "version": "0.14.0",
-  "license": "Apache-2.0",
+  "license": "SEE LICENSE IN LICENSE.md",
   "scripts": {
     "start": "twick editor --projectFile ./src/live.tsx",
     "build": "tsc && vite build",
