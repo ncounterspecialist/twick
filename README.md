@@ -115,13 +115,11 @@ function App() {
 }
 ```
 
-For detailed integration examples and API documentation, refer to [docs/modules.md](./docs/modules.md).
-
 ## Documentation
 
-- **API Reference**: [docs/modules.md](./docs/modules.md) - Complete API documentation for all packages
-- **Style Guide**: [STYLE_GUIDE.md](./STYLE_GUIDE.md) - Coding standards and conventions
-- **Demo Guide**: [Twick Demo guide](https://ncounterspecialist.github.io/twick/docs/in-action) - Interactive tutorials and examples
+- **Twick Documentation**: [Twick API Documentation](https://ncounterspecialist.github.io/twick) – Comprehensive documentation and API reference for all Twick packages.
+- **Style Guide**: [Style Guide](./STYLE_GUIDE.md) – Guidelines for coding standards and best practices.
+- **Demo Guide**: [Twick Demo Guide](https://ncounterspecialist.github.io/twick/docs/in-action) – Step-by-step tutorials and interactive examples.
 
 ## Community
 
@@ -131,7 +129,7 @@ Join our Discord community to:
 - Get help and share your experiences
 - Stay updated with the latest developments
 
-[Join our Discord Server](https://discord.gg/vShNGvCy)
+[Join our Discord Server](https://discord.gg/ZBhMNaAN)
 
 ## License
 
