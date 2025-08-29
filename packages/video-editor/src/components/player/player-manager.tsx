@@ -72,7 +72,7 @@ export const PlayerManager = ({
         <div
           className="twick-editor-loading-overlay"
           style={{
-            opacity: playerUpdating ? 1 : 0,
+            display: playerUpdating ? 'flex' : 'none',
           }}
         >
           {playerUpdating ? <div className="twick-editor-loading-spinner" /> : null}
