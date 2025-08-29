@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="400" height="600" viewBox="0 0 400 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Gradients -->
+    <linearGradient id="interactionGradient" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3b82f6" stop-opacity="1"/>
+      <stop offset="1" stop-color="#1d4ed8" stop-opacity="1"/>
+    </linearGradient>
+    
+    <linearGradient id="eventGradient" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#10b981" stop-opacity="1"/>
+      <stop offset="1" stop-color="#059669" stop-opacity="1"/>
+    </linearGradient>
+    
+    <linearGradient id="processGradient" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f59e0b" stop-opacity="1"/>
+      <stop offset="1" stop-color="#d97706" stop-opacity="1"/>
+    </linearGradient>
+    
+    <linearGradient id="updateGradient" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8b5cf6" stop-opacity="1"/>
+      <stop offset="1" stop-color="#7c3aed" stop-opacity="1"/>
+    </linearGradient>
+    
+    <linearGradient id="syncGradient" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ef4444" stop-opacity="1"/>
+      <stop offset="1" stop-color="#dc2626" stop-opacity="1"/>
+    </linearGradient>
+    
+    <!-- Drop shadow filter -->
+    <filter id="shadow" x="-0.2" y="-0.2" width="1.4" height="1.4">
+      <feDropShadow dx="2" dy="4" stdDeviation="3" flood-color="#000000" flood-opacity="0.2"/>
+    </filter>
+    
+    <!-- Arrow marker -->
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto" markerUnits="strokeWidth">
+      <polygon points="0,0 10,3.5 0,7" fill="#374151"/>
+    </marker>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="400" height="600" fill="#f8fafc"/>
+  
+  <!-- Title -->
+  <text x="200" y="25" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#1f2937">
+    Canvas-Timeline Synchronization Flow
+  </text>
+  
+  <!-- Left Flow: Canvas to Timeline -->
+  <g transform="translate(50, 50)">
+    <!-- Canvas Interaction -->
+    <rect x="0" y="0" width="300" height="50" rx="8" fill="url(#interactionGradient)" filter="url(#shadow)"/>
+    <text x="150" y="20" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">Canvas Interaction</text>
+    <text x="150" y="35" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">User Input</text>
+  </g>
+  
+  <!-- Arrow 1 -->
+  <line x1="200" y1="100" x2="200" y2="130" stroke="#374151" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Mouse/Touch Events -->
+  <g transform="translate(50, 140)">
+    <rect x="0" y="0" width="300" height="50" rx="8" fill="url(#eventGradient)" filter="url(#shadow)"/>
+    <text x="150" y="20" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">Mouse/Touch Events</text>
+    <text x="150" y="35" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">Event Capture</text>
+  </g>
+  
+  <!-- Arrow 2 -->
+  <line x1="200" y1="190" x2="200" y2="220" stroke="#374151" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Canvas Event Handler -->
+  <g transform="translate(50, 230)">
+    <rect x="0" y="0" width="300" height="50" rx="8" fill="url(#processGradient)" filter="url(#shadow)"/>
+    <text x="150" y="20" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">Canvas Event Handler</text>
+    <text x="150" y="35" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">Event Processing</text>
+  </g>
+  
+  <!-- Arrow 3 -->
+  <line x1="200" y1="280" x2="200" y2="310" stroke="#374151" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Convert to Timeline Action -->
+  <g transform="translate(50, 320)">
+    <rect x="0" y="0" width="300" height="50" rx="8" fill="url(#processGradient)" filter="url(#shadow)"/>
+    <text x="150" y="20" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">Convert to Timeline Action</text>
+    <text x="150" y="35" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">Action Mapping</text>
+  </g>
+  
+  <!-- Arrow 4 -->
+  <line x1="200" y1="370" x2="200" y2="400" stroke="#374151" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Timeline State Update -->
+  <g transform="translate(50, 410)">
+    <rect x="0" y="0" width="300" height="50" rx="8" fill="url(#updateGradient)" filter="url(#shadow)"/>
+    <text x="150" y="20" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">Timeline State Update</text>
+    <text x="150" y="35" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">State Change</text>
+  </g>
+  
+  <!-- Arrow 5 -->
+  <line x1="200" y1="460" x2="200" y2="490" stroke="#374151" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Canvas Re-render -->
+  <g transform="translate(50, 500)">
+    <rect x="0" y="0" width="300" height="50" rx="8" fill="url(#syncGradient)" filter="url(#shadow)"/>
+    <text x="150" y="20" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">Canvas Re-render</text>
+    <text x="150" y="35" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">Visual Update</text>
+  </g>
+  
+</svg>

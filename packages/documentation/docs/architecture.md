@@ -17,26 +17,65 @@ twick/
 │   ├── live-player/         # Video playback and control
 │   ├── video-editor/        # High-level video editor component
 │   ├── visualizer/          # Video visualization and animation
+│   ├── render-server/       # Sample http server for video rendering
 │   ├── examples/            # Implementation examples
 │   └── documentation/       # Documentation site
 ```
 
 ### Package Dependencies
 
-```mermaid
-graph TD
-    A[video-editor] --> B[timeline]
-    A --> C[canvas]
-    A --> D[live-player]
-    B --> E[media-utils]
-    C --> E
-    D --> F[visualizer]
-    F --> E
-    G[examples] --> A
-    G --> B
-    G --> C
-    G --> D
-```
+The following diagram illustrates the complete dependency architecture of the Twick monorepo, showing how packages interact and depend on each other:
+
+![Twick Package Architecture](./architecture-diagram.svg)
+
+#### **Dependency Hierarchy**
+
+**Utility package:**
+- **`media-utils`** - Core utility functions for media processing
+  - **No internal dependencies** - Serves as the foundation layer
+  - Provides: file operations, metadata extraction, dimension calculations, URL utilities
+
+**Core Components:**
+- **`timeline`** - Timeline management and operations
+  - **Depends on:** `media-utils`
+  - Provides: track management, element operations, undo/redo functionality
+
+- **`canvas`** - Fabric.js-based visual editing interface
+  - **Depends on:** `media-utils`
+  - Provides: visual element manipulation, coordinate transformations, canvas controls
+
+- **`live-player`** - Video playback and control system
+  - **Depends on:** `visualizer`, `media-utils`
+  - **External dependencies:** `@twick/core`, `@twick/player-react`
+  - Provides: video playback, time synchronization, player controls
+
+- **`visualizer`** - Video composition and animation engine
+  - **Depends on:** `media-utils`
+  - **External dependencies:** `@twick/2d`, `@twick/core`, `@twick/renderer`, `@twick/vite-plugin`, `@twick/ui`
+  - Provides: scene management, animation effects, video composition
+
+
+**Application Layer:**
+- **`video-editor`** - High-level video editor component
+  - **Depends on:** `timeline`, `canvas`, `live-player`, `media-utils`
+  - Provides: Complete video editing interface, component orchestration
+
+- **`render-server`** - Server-side video rendering
+  - **Depends on:** `visualizer`
+  - **External dependencies:** `@twick/2d`, `@twick/core`, `@twick/ffmpeg`, `@twick/renderer`, `@twick/ui`
+  - Provides: server-side video generation, batch processing
+**Application & Examples:**
+- **`Application`** - Implementation examples and demos
+  - **Depends on:** All workspace packages (`video-editor`, `timeline`, `live-player`, `media-utils`, `render-server`)
+  - Provides: Usage examples, integration demonstrations, sample projects
+
+#### **Architecture Principles**
+
+1. **Layered Design:** Clear separation between foundation utilities, core components, and application layer
+2. **Single Responsibility:** Each package has a specific, well-defined purpose
+3. **Dependency Minimization:** Packages only depend on what they absolutely need
+4. **External Integration:** Strategic use of external Twick packages for specialized functionality
+5. **Composability:** Components can be used independently or together as needed
 
 ## Core Architecture Patterns
 
@@ -75,21 +114,7 @@ The system uses **nested React Context providers** to manage application-wide st
 
 #### Context Communication Flow
 
-```mermaid
-sequenceDiagram
-    participant UI as UI Component
-    participant TC as TimelineContext
-    participant TE as TimelineEditor
-    participant TS as TimelineStore
-    participant LC as LivePlayerContext
-    
-    UI->>TE: Execute editor operation
-    TE->>TS: Update timeline store
-    TE->>TC: Timeline state updated
-    TE->>LC: Update Live Player state
-    TE->>LC: Player state sync
-    LC->>UI: Re-render with updated state
-```
+![Context Communication Flow](./context-communication-flow.svg)
 
 ### 2. Visitor Pattern
 
@@ -158,14 +183,7 @@ class ElementCloner implements ElementVisitor {
 
 #### Visitor Operation Flow
 
-```mermaid
-graph LR
-    A[UI Action] --> B[TimelineEditor]
-    B --> C[Element Visitor]
-    C --> D[Track Management]
-    D --> E[State Update]
-    E --> F[UI Re-render]
-```
+![Visitor Operation Flow](./visitor-operation-flow.svg)
 
 **Key Visitors:**
 - `ElementAdder` - Add media/text elements to timeline
@@ -459,18 +477,7 @@ const addElementToCanvas = async ({
 
 ### Canvas-Timeline Synchronization
 
-```mermaid
-graph TB
-    A[Canvas Interaction] --> B[Mouse/Touch Events]
-    B --> C[Canvas Event Handler]
-    C --> D[Convert to Timeline Action]
-    D --> E[Timeline State Update]
-    E --> F[Canvas Re-render]
-    
-    G[Timeline Change] --> H[Element Update]
-    H --> I[Canvas Element Sync]
-    I --> F
-```
+![Canvas-Timeline Synchronization Flow](./canvas-timeline-sync.svg)
 
 **Key Features:**
 - **Real-time Editing**: Direct manipulation of elements on canvas
@@ -504,17 +511,7 @@ interface VideoEditorProps {
 
 ### Component Structure
 
-```mermaid
-graph TD
-    A[VideoEditor] --> B[PlayerManager]
-    A --> C[TimelineManager]
-    A --> D[ControlManager]
-    B --> E[LivePlayer]
-    B --> F[Canvas]
-    C --> G[Track Components]
-    D --> H[Player Controls]
-    D --> I[Timeline Controls]
-```
+![Video Editor Component Structure](./video-editor-structure.svg)
 
 ## Live Player Architecture
 
@@ -632,18 +629,7 @@ export const detectMediaTypeFromUrl = (url: string): MediaType
 
 ### Unidirectional Data Flow
 
-```mermaid
-graph TD
-    A[User Interaction] --> B[UI Component]
-    B --> C[Context Action]
-    C --> D[TimelineEditor]
-    D --> E[Element Visitor]
-    E --> F[Track Update]
-    F --> G[State Store]
-    G --> H[Observer Callbacks]
-    H --> I[Context Update]
-    I --> J[Component Re-render]
-```
+![Unidirectional Data Flow](./data-flow-diagram.svg)
 
 ### State Management
 
@@ -672,15 +658,7 @@ interface TrackElement {
 
 ### Cross-Package Communication
 
-```mermaid
-graph LR
-    A[video-editor] -->|Player Control| B[live-player]
-    A -->|Canvas Operations| C[canvas]
-    A -->|Timeline Operations| D[timeline]
-    D -->|Media Processing| E[media-utils]
-    C -->|Media Processing| E
-    B -->|Visualization| F[visualizer]
-```
+![Cross-Package Communication](./cross-package-communication.svg)
 
 ### Package API Design
 

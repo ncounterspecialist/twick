@@ -4,14 +4,14 @@ This software is made available under the Sustainable Use License (SUL) Version 
 
 ## Sustainable Use License v1.0
 
-**Copyright (c) 2025 KifferAI. All rights reserved.**
+**Copyright (c) 2025 Kiffer. All rights reserved.**
 
 This license is designed to ensure the long-term sustainability of the project while providing clear terms for usage and distribution.
 
 ### 1. Definitions
 
 - "Software" refers to the source code, documentation, and any associated materials provided under this license
-- "Licensor" refers to KifferAI and its contributors
+- "Licensor" refers to Twick and its contributors
 - "Licensee" refers to any person or entity using the Software
 - "Commercial Use" refers to any use intended for commercial advantage or monetary compensation
 
