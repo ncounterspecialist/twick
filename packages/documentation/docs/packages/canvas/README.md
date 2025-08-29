@@ -1,4 +1,4 @@
-@twick/canvas / [Exports](modules.md)
+@twick/canvas / [Exports](./modules.md)
 
 # @twick/canvas
 

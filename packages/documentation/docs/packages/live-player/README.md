@@ -1,4 +1,4 @@
-@twick/live-player / [Exports](modules.md)
+@twick/live-player / [Exports](./modules.md)
 
 # @twick/live-player
 

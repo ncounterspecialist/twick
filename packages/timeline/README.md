@@ -234,7 +234,7 @@ function MyComponent() {
 - `TimelineOperationContext`: Context interface for timeline operations
 - `TrackElement`: Base track element interface
 
-For complete API documentation, refer to [docs/modules.md](../../docs/modules.md).
+For complete API documentation, refer to the generated documentation.
 
 ## Browser Support
 
@@ -244,9 +244,7 @@ This package requires a browser environment with support for:
 
 ## Documentation
 
-- **API Reference**: [docs/modules.md](../../docs/modules.md) - Complete API documentation
-- **Style Guide**: [STYLE_GUIDE.md](../../STYLE_GUIDE.md) - Coding standards and conventions
-- **Main README**: [README.md](../../README.md) - Project overview and getting started
+For complete documentation, refer to the project documentation site.
 
 ## License
 
@@ -258,6 +256,6 @@ This package is licensed under the **Sustainable Use License (SUL) Version 1.0**
 
 For commercial licensing inquiries, contact: contact@kifferai.com
 
-For full license terms, see [LICENSE.md](../../LICENSE.md).
+For full license terms, see the main LICENSE.md file in the project root.
 
 
