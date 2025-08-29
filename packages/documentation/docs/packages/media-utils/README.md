@@ -1,4 +1,4 @@
-@twick/media-utils / [Exports](modules.md)
+@twick/media-utils / [Exports](./modules.md)
 
 # @twick/media-utils
 
