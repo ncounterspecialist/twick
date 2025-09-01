@@ -1,0 +1,207 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-dark-700;
+  }
+  
+  body {
+    @apply bg-dark-950 text-dark-100 font-sans;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  
+  html {
+    @apply scroll-smooth;
+  }
+}
+
+@layer components {
+  /* Custom scrollbar */
+  .custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: theme('colors.dark.600') theme('colors.dark.800');
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-track {
+    @apply bg-dark-800;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-dark-600 rounded-full;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    @apply bg-dark-500;
+  }
+  
+  /* Glass morphism effect */
+  .glass {
+    @apply bg-dark-800/50 backdrop-blur-md border border-dark-700/50;
+  }
+  
+  /* Button styles */
+  .btn {
+    @apply inline-flex items-center justify-center rounded-lg px-3 py-2 text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-dark-950 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  
+  .btn-primary {
+    @apply btn bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500;
+  }
+  
+  .btn-secondary {
+    @apply btn bg-dark-700 text-dark-100 hover:bg-dark-600 focus:ring-dark-500;
+  }
+  
+  .btn-ghost {
+    @apply btn text-dark-300 hover:text-dark-100 hover:bg-dark-800 focus:ring-dark-500;
+  }
+  
+  .btn-danger {
+    @apply btn bg-error-600 text-white hover:bg-error-700 focus:ring-error-500;
+  }
+  
+  /* Input styles */
+  .input {
+    @apply w-full rounded-lg border border-dark-700 bg-dark-800 px-3 py-2 text-sm text-dark-100 placeholder-dark-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 transition-colors;
+  }
+  
+  /* Card styles */
+  .card {
+    @apply rounded-xl border border-dark-700 bg-dark-800/50 backdrop-blur-sm;
+  }
+  
+  /* Panel styles */
+  .panel {
+    @apply card p-4;
+  }
+  
+  /* Timeline track styles */
+  .timeline-track {
+    @apply relative h-16 bg-dark-800 border border-dark-700 rounded-lg overflow-hidden;
+  }
+  
+  .timeline-element {
+    @apply absolute top-1 bottom-1 rounded-md border border-dark-600 bg-gradient-to-r from-primary-600/20 to-accent-600/20 hover:from-primary-600/30 hover:to-accent-600/30 transition-all duration-200 cursor-pointer;
+  }
+  
+  /* Canvas styles */
+  .canvas-container {
+    @apply relative bg-dark-900 border border-dark-700 rounded-lg overflow-hidden;
+  }
+  
+  /* Toolbar styles */
+  .toolbar {
+    @apply flex items-center gap-2 p-2 bg-dark-800/80 backdrop-blur-sm border-b border-dark-700;
+  }
+  
+  /* Sidebar styles */
+  .sidebar {
+    @apply w-80 bg-dark-900 border-r border-dark-700 flex flex-col;
+  }
+  
+  /* Animation classes */
+  .animate-fade-in {
+    animation: fadeIn 0.3s ease-in-out;
+  }
+  
+  .animate-slide-up {
+    animation: slideUp 0.3s ease-out;
+  }
+  
+  .animate-scale-in {
+    animation: scaleIn 0.2s ease-out;
+  }
+}
+
+@layer utilities {
+  /* Text gradients */
+  .text-gradient {
+    @apply bg-gradient-to-r from-primary-400 to-accent-400 bg-clip-text text-transparent;
+  }
+  
+  /* Glow effects */
+  .glow-primary {
+    box-shadow: 0 0 20px theme('colors.primary.500/20');
+  }
+  
+  .glow-accent {
+    box-shadow: 0 0 20px theme('colors.accent.500/20');
+  }
+  
+  /* Grid layouts */
+  .grid-auto-fit {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+  
+  .grid-auto-fill {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+}
+
+/* Custom styles for the simple video editor */
+.btn {
+  @apply px-3 py-2 rounded-lg transition-all duration-200 font-medium;
+}
+
+.btn-primary {
+  @apply bg-blue-600 hover:bg-blue-700 text-white;
+}
+
+.btn-ghost {
+  @apply bg-transparent hover:bg-gray-700 text-gray-300;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #374151;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #6b7280;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+
+/* Video player customizations */
+video::-webkit-media-controls {
+  display: none;
+}
+
+video::-webkit-media-controls-panel {
+  display: none;
+}
+
+/* Timeline element styling */
+.timeline-element {
+  @apply bg-blue-500 hover:bg-blue-600 cursor-pointer transition-colors;
+}
+
+/* Media library item hover effects */
+.media-item {
+  @apply transition-all duration-200 hover:scale-105;
+}
+
+/* Progress bar styling */
+.progress-bar {
+  @apply transition-all duration-150 ease-out;
+}
+
+/* Button hover effects */
+.btn-hover {
+  @apply transform hover:scale-105 active:scale-95 transition-transform;
+}
