@@ -1,6 +1,6 @@
 
 
-import { SimpleVideoEditor } from './components/SimpleVideoEditor'
+import { VideoEditor } from './components/video-editor'
 import type { Project } from './types'
 
 // Simple sample project
@@ -71,7 +71,7 @@ function App() {
 
   return (
     <div className="h-screen w-screen overflow-hidden bg-gray-900">
-      <SimpleVideoEditor
+      <VideoEditor
         project={sampleProject}
         onSave={handleSave}
         onExport={handleExport}

@@ -16,13 +16,13 @@ import { LivePlayerProvider } from '@twick/live-player'
 import '@twick/video-editor/dist/video-editor.css'
 import type { Project, EditorState, TimelineElement } from '../types'
 
-interface SimpleVideoEditorProps {
+interface VideoEditorProps {
   project: Project
   onSave?: (project: Project) => void
   onExport?: (settings: any) => void
 }
 
-export const SimpleVideoEditor: React.FC<SimpleVideoEditorProps> = ({ 
+export const VideoEditor: React.FC<VideoEditorProps> = ({ 
   project, 
   onSave, 
   onExport 
