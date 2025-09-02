@@ -11,25 +11,62 @@ export interface MediaItem {
   createdAt: Date
 }
 
+export interface TextElement {
+  id: string
+  text: string
+  font: string
+  fontSize: number
+  fontWeight: 'normal' | 'bold'
+  fontStyle: 'normal' | 'italic'
+  textDecoration: 'none' | 'underline' | 'line-through'
+  color: string
+  backgroundColor?: string
+  alignment: 'left' | 'center' | 'right' | 'justify'
+  verticalAlignment: 'top' | 'middle' | 'bottom'
+  position: { x: number; y: number }
+  size: { width: number; height: number }
+  rotation: number
+  borderRadius: { topLeft: number; topRight: number; bottomLeft: number; bottomRight: number }
+  border?: {
+    width: number
+    color: string
+    style: 'solid' | 'dashed' | 'dotted'
+  }
+  shadow?: {
+    x: number
+    y: number
+    blur: number
+    color: string
+  }
+}
+
 export interface TimelineElement {
   id: string
-  type: 'video' | 'image' | 'audio'
+  type: 'video' | 'image' | 'audio' | 'text'
   startTime: number
   endTime: number
-  mediaId: string
+  mediaId?: string
+  textElement?: TextElement
   volume: number
   muted: boolean
+  position: { x: number; y: number }
+  size: { width: number; height: number }
+  rotation: number
+  opacity: number
+  effects: string[]
 }
 
 export interface Track {
   id: string
   name: string
-  type: 'video' | 'audio' | 'text'
+  type: 'video' | 'audio' | 'text' | 'subtitle'
   elements: TimelineElement[]
   locked: boolean
   visible: boolean
   volume: number
   muted: boolean
+  height: number
+  color: string
 }
 
 export interface Timeline {
@@ -75,4 +112,14 @@ export interface EditorState {
   showRulers: boolean
   snapToGrid: boolean
   snapToElements: boolean
+  selectedTool: 'select' | 'text' | 'upload' | 'canvas' | 'video' | 'audio' | 'photo' | 'record' | 'subtitle'
+  viewMode: 'grid' | 'list'
+}
+
+export interface ToolCategory {
+  id: string
+  name: string
+  icon: string
+  description: string
+  shortcut?: string
 }
