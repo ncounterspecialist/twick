@@ -1,9 +1,13 @@
 import React, { useCallback } from "react";
 import { PLAYER_STATE } from "@twick/live-player";
 import "../../styles/player-controls.css";
-import { Trash2, Scissors, Play, Pause, Loader2 } from "lucide-react";
+import { Trash2, Scissors, Play, Pause, Loader2, ZoomIn, ZoomOut } from "lucide-react";
 import { UndoRedoControls } from "./undo-redo-controls";
 import { TrackElement, Track } from "@twick/timeline";
+
+const MAX_ZOOM = 3;
+const MIN_ZOOM = 0.5;
+const ZOOM_STEP = 0.25;
 
 /**
  * Props for the PlayerControls component.
@@ -23,6 +27,8 @@ import { TrackElement, Track } from "@twick/timeline";
  *   onRedo={handleRedo}
  *   onDelete={handleDelete}
  *   onSplit={handleSplit}
+ *   zoomLevel={1.0}
+ *   setZoomLevel={handleZoomChange}
  * />
  * ```
  */
@@ -49,6 +55,10 @@ export interface PlayerControlsProps {
   onDelete?: (item: TrackElement | Track) => void;
   /** Optional callback for split operation */
   onSplit?: (item: TrackElement, splitTime: number) => void;
+  /** Current zoom level for timeline */
+  zoomLevel?: number;
+  /** Function to set zoom level */
+  setZoomLevel?: (zoom: number) => void;
   /** Optional CSS class name for styling */
   className?: string;
 }
@@ -65,6 +75,8 @@ const PlayerControls: React.FC<PlayerControlsProps> = ({
   onRedo,
   onSplit,
   onDelete,
+  zoomLevel = 1,
+  setZoomLevel,
   className = "",
 }) => {
   // Format time to MM:SS format
@@ -88,75 +100,116 @@ const PlayerControls: React.FC<PlayerControlsProps> = ({
     }
   }, [selectedItem, onSplit, currentTime]);
 
+  const handleZoomIn = useCallback(() => {
+    if (setZoomLevel && zoomLevel < MAX_ZOOM) {
+      setZoomLevel(zoomLevel + ZOOM_STEP);
+    }
+  }, [zoomLevel, setZoomLevel]);
+
+  const handleZoomOut = useCallback(() => {
+    if (setZoomLevel && zoomLevel > MIN_ZOOM) {
+      setZoomLevel(zoomLevel - ZOOM_STEP);
+    }
+  }, [zoomLevel, setZoomLevel]);
+
   return (
-    <div
-      className={`player-controls player-controls-card-vertical ${className}`}
-    >
-      {/* Edit Controls */}
-      <div className="edit-controls player-controls-edit-controls">
-        <button
-          className={`control-btn delete-btn player-controls-delete-btn${
-            !!selectedItem ? " active" : " btn-disabled"
-          }`}
-          onClick={handleDelete}
-          disabled={!selectedItem}
-          title="Delete"
-        >
-          <Trash2 size={18} strokeWidth={2} />
-        </button>
+    <div className={`h-16 bg-gray-800 border-t border-gray-700 p-4 ${className}`}>
+      <div className="flex items-center justify-between">
+        {/* Left side - Edit and Playback Controls */}
+        <div className="flex items-center gap-4">
+          {/* Edit Controls */}
+          <div className="flex items-center gap-2">
+            <button
+              onClick={handleDelete}
+              disabled={!selectedItem}
+              title="Delete"
+              className={`btn btn-ghost ${
+                !!selectedItem ? "text-red-400 hover:text-red-300" : "text-gray-500 cursor-not-allowed"
+              }`}
+            >
+              <Trash2 className="w-5 h-5" />
+            </button>
 
-        <button
-          className={`control-btn split-btn player-controls-split-btn${
-            selectedItem instanceof TrackElement ? " active" : " btn-disabled"
-          }`}
-          onClick={handleSplit}
-          title="Split"
-        >
-          <Scissors size={18} strokeWidth={2} />
-        </button>
-        <UndoRedoControls
-          canUndo={canUndo}
-          canRedo={canRedo}
-          onUndo={onUndo}
-          onRedo={onRedo}
-        />
-      </div>
+            <button
+              onClick={handleSplit}
+              disabled={!(selectedItem instanceof TrackElement)}
+              title="Split"
+              className={`btn btn-ghost ${
+                selectedItem instanceof TrackElement ? "text-blue-400 hover:text-blue-300" : "text-gray-500 cursor-not-allowed"
+              }`}
+            >
+              <Scissors className="w-5 h-5" />
+            </button>
+            
+            <UndoRedoControls
+              canUndo={canUndo}
+              canRedo={canRedo}
+              onUndo={onUndo}
+              onRedo={onRedo}
+            />
+          </div>
 
-      {/* Playback Controls */}
-      <div className="playback-controls player-controls-playback-controls">
-        <button
-          className={`control-btn play-pause-btn player-controls-play-pause-btn${
-            playerState === PLAYER_STATE.PLAYING ? " playing" : ""
-          }${playerState === PLAYER_STATE.REFRESH ? " refreshing" : ""}`}
-          onClick={togglePlayback}
-          title={
-            playerState === PLAYER_STATE.PLAYING
-              ? "Pause"
-              : playerState === PLAYER_STATE.REFRESH
-              ? "Refreshing"
-              : "Play"
-          }
-          disabled={playerState === PLAYER_STATE.REFRESH}
-        >
-          {playerState === PLAYER_STATE.PLAYING ? (
-            <Pause size={28} strokeWidth={2} />
-          ) : playerState === PLAYER_STATE.REFRESH ? (
-            <Loader2 size={28} strokeWidth={2} className="refreshing-spinner" />
-          ) : (
-            <Play size={28} strokeWidth={2} />
-          )}
-        </button>
+          {/* Playback Controls */}
+          <button
+            onClick={togglePlayback}
+            disabled={playerState === PLAYER_STATE.REFRESH}
+            title={
+              playerState === PLAYER_STATE.PLAYING
+                ? "Pause"
+                : playerState === PLAYER_STATE.REFRESH
+                ? "Refreshing"
+                : "Play"
+            }
+            className="btn btn-ghost text-white"
+          >
+            {playerState === PLAYER_STATE.PLAYING ? (
+              <Pause className="w-6 h-6" />
+            ) : playerState === PLAYER_STATE.REFRESH ? (
+              <Loader2 className="w-6 h-6 animate-spin" />
+            ) : (
+              <Play className="w-6 h-6" />
+            )}
+          </button>
 
-        {/* Time Display at top */}
-        <div className="time-display player-controls-time-display">
-          <span className="current-time">{formatTime(currentTime)}</span>
-          <span className="time-separator player-controls-time-separator">
-            |
-          </span>
-          <span className="total-time player-controls-total-time">
-            {formatTime(duration)}
-          </span>
+          {/* Time Display */}
+          <div className="flex items-center gap-2 text-gray-300">
+            <span className="text-sm font-medium">{formatTime(currentTime)}</span>
+            <span className="text-gray-500">/</span>
+            <span className="text-sm">{formatTime(duration)}</span>
+          </div>
         </div>
+
+        {/* Right side - Zoom Controls */}
+        {setZoomLevel && (
+          <div className="flex items-center gap-3">
+            <button
+              onClick={handleZoomOut}
+              disabled={zoomLevel <= MIN_ZOOM}
+              title="Zoom Out"
+              className={`btn btn-ghost ${
+                zoomLevel > MIN_ZOOM ? "text-gray-300 hover:text-white" : "text-gray-500 cursor-not-allowed"
+              }`}
+            >
+              <ZoomOut className="w-5 h-5" />
+            </button>
+
+            {/* Zoom Level Display */}
+            <div className="text-sm text-gray-300 font-medium min-w-[3rem] text-center">
+              {Math.round(zoomLevel * 100)}%
+            </div>
+
+            <button
+              onClick={handleZoomIn}
+              disabled={zoomLevel >= MAX_ZOOM}
+              title="Zoom In"
+              className={`btn btn-ghost ${
+                zoomLevel < MAX_ZOOM ? "text-gray-300 hover:text-white" : "text-gray-500 cursor-not-allowed"
+              }`}
+            >
+              <ZoomIn className="w-5 h-5" />
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -104,7 +104,7 @@
   
   /* Sidebar styles */
   .sidebar {
-    @apply w-80 bg-dark-900 border-r border-dark-700 flex flex-col;
+    @apply w-72 bg-dark-900 border-r border-dark-700 flex flex-col;
   }
   
   /* Animation classes */

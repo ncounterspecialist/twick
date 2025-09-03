@@ -2,7 +2,6 @@ import { useLivePlayerContext } from "@twick/live-player";
 import PlayerControls from "./player-controls";
 import { useTimelineContext } from "@twick/timeline";
 import { usePlayerControl } from "../../hooks/use-player-control";
-import TimelineZoom from "./timeline-zoom";
 import useTimelineControl from "../../hooks/use-timeline-control";
 
 const ControlManager = ({
@@ -31,8 +30,9 @@ const ControlManager = ({
         onSplit={splitElement}
         onUndo={handleUndo}
         onRedo={handleRedo}
+        zoomLevel={trackZoom}
+        setZoomLevel={setTrackZoom}
       />
-      <TimelineZoom zoomLevel={trackZoom} setZoomLevel={setTrackZoom} />
     </div>
   );
 };
