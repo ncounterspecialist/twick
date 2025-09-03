@@ -1,10 +1,10 @@
 import React, { createContext, useContext, useMemo, useReducer } from 'react'
-import type { Project, EditorState, TimelineElement, Track } from '../types'
+import type { Project, StudioState, TimelineElement, Track } from '../types'
 
-interface EditorContextValue {
+interface StudioContextValue {
   project: Project
   setProject: (next: Project) => void
-  state: EditorState
+  state: StudioState
   dispatch: React.Dispatch<EditorAction>
   // derived
   duration: number
@@ -18,7 +18,7 @@ type EditorAction =
   | { type: 'add_element'; trackId: string; element: TimelineElement }
   | { type: 'select_tool'; tool: string }
 
-function reducer(state: { project: Project; editor: EditorState }, action: EditorAction) {
+function reducer(state: { project: Project; editor: StudioState }, action: EditorAction) {
   switch (action.type) {
     case 'play_toggle':
       return { ...state, editor: { ...state.editor, isPlaying: !state.editor.isPlaying } }
@@ -45,7 +45,7 @@ function reducer(state: { project: Project; editor: EditorState }, action: Edito
   }
 }
 
-const EditorContext = createContext<EditorContextValue | undefined>(undefined)
+const StudioContext = createContext<StudioContextValue | undefined>(undefined)
 
 export function EditorProvider({ project, children }: { project: Project; children: React.ReactNode }) {
   const initial = useMemo(
@@ -60,16 +60,16 @@ export function EditorProvider({ project, children }: { project: Project; childr
         showRulers: false,
         snapToGrid: false,
         snapToElements: false,
-        selectedTool: 'select',
+        selectedTool: 'video',
         viewMode: 'grid',
-      } as EditorState,
+      } as StudioState,
     }),
     [project]
   )
 
   const [{ project: currentProject, editor }, dispatch] = useReducer(reducer, initial)
 
-  const value: EditorContextValue = {
+  const value: StudioContextValue = {
     project: currentProject,
     setProject: (next) => dispatch({ type: 'set_project', project: next }),
     state: editor,
@@ -77,11 +77,11 @@ export function EditorProvider({ project, children }: { project: Project; childr
     duration: currentProject.timeline.duration,
   }
 
-  return <EditorContext.Provider value={value}>{children}</EditorContext.Provider>
+  return <StudioContext.Provider value={value}>{children}</StudioContext.Provider>
 }
 
-export function useEditorContext() {
-  const ctx = useContext(EditorContext)
-  if (!ctx) throw new Error('useEditorContext must be used within EditorProvider')
+export function useStudioContext() {
+  const ctx = useContext(StudioContext)
+  if (!ctx) throw new Error('useStudioContext must be used within EditorProvider')
   return ctx
 }

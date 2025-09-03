@@ -1,7 +1,7 @@
 
 
 import { EditorShell } from './components/editor-shell'
-import { EditorProvider } from './context/editor-context'
+import { EditorProvider } from './context/studio-context'
 import type { Project } from './types'
 
 // Simple sample project
@@ -241,7 +241,7 @@ const sampleProject: Project = {
 
 function App() {
   return (
-    <div className="h-screen w-screen overflow-hidden bg-gray-900">
+    <div className="h-screen w-screen overflow-hidden bg-neutral-900">
       <EditorProvider project={sampleProject}>
         <EditorShell />
       </EditorProvider>

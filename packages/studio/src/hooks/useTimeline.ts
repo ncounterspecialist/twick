@@ -1,9 +1,9 @@
 import { useCallback } from 'react'
-import { useEditor } from './useEditor'
+import { useStudioContext } from '../context/studio-context'
 import type { TimelineElement } from '../types'
 
 export function useTimeline() {
-  const { project, dispatch } = useEditor()
+  const { project, dispatch } = useStudioContext()
 
   const addElement = useCallback(
     (trackId: string, element: TimelineElement) =>

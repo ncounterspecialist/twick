@@ -103,7 +103,7 @@ export interface ProjectSettings {
   }
 }
 
-export interface EditorState {
+export interface StudioState {
   currentTime: number
   isPlaying: boolean
   selectedElements: string[]
@@ -112,7 +112,7 @@ export interface EditorState {
   showRulers: boolean
   snapToGrid: boolean
   snapToElements: boolean
-  selectedTool: 'select' | 'text' | 'upload' | 'canvas' | 'video' | 'audio' | 'photo' | 'record' | 'subtitle'
+  selectedTool: 'select' | 'text' | 'upload' | 'canvas' | 'video' | 'audio' | 'image' | 'record' | 'subtitle'
   viewMode: 'grid' | 'list'
 }
 
