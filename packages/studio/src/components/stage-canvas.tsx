@@ -3,12 +3,12 @@ import { LivePlayerProvider } from "@twick/live-player";
 import { TimelineProvider } from "@twick/timeline";
 
 import "@twick/video-editor/dist/video-editor.css";
-import { useEditor } from "../hooks/useEditor";
+import { useStudioContext } from "../context/studio-context";
 
 export function StageCanvas() {
-  const { project } = useEditor();
+  const { project } = useStudioContext();
   return (
-    <div className="flex-1 overflow-y-auto p-3 bg-black">
+    <div className="flex-1 overflow-y-auto p-1">
       <div className="canvas-container mx-auto" style={{ maxWidth: 960 }}>
         <LivePlayerProvider>
           <TimelineProvider

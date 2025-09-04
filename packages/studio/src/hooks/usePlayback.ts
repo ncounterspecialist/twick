@@ -1,8 +1,8 @@
 import { useCallback } from 'react'
-import { useEditor } from './useEditor'
+import { useStudioContext } from '../context/studio-context'
 
 export function usePlayback() {
-  const { state, dispatch, duration } = useEditor()
+  const { state, dispatch, duration } = useStudioContext()
 
   const toggle = useCallback(() => dispatch({ type: 'play_toggle' }), [dispatch])
   const seek = useCallback((time: number) => dispatch({ type: 'seek', time }), [dispatch])
