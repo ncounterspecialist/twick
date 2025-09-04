@@ -112,7 +112,7 @@ export interface StudioState {
   showRulers: boolean
   snapToGrid: boolean
   snapToElements: boolean
-  selectedTool: 'select' | 'text' | 'upload' | 'canvas' | 'video' | 'audio' | 'image' | 'record' | 'subtitle'
+  selectedTool: 'select' | 'text' | 'icon' | 'rect' | 'circle' | 'video' | 'audio' | 'image' | 'record' | 'subtitle'
   viewMode: 'grid' | 'list'
 }
 

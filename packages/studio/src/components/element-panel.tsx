@@ -1,10 +1,13 @@
 import { useStudioContext } from "../context/studio-context";
-import { ImageLibrary } from "./image-library";
-import { AudioLibrary } from "./audio-library";
-import { VideoLibrary } from "./video-library";
+import { ImageLibrary } from "./media-library/image-library";
+import { AudioLibrary } from "./media-library/audio-library";
+import { VideoLibrary } from "./media-library/video-library";
 import type { MediaItem } from "@twick/video-editor";
-import { TextPanel } from "./text-panel";
+import { TextPanel } from "./panels/text-panel";
 import { SubtitlesPanel } from "./subtitles-panel";
+import IconPanel from "./panels/icon-panel";
+import { RectPanel } from "./panels/rect-panel";
+import { CirclePanel } from "./panels/circle-panel";
 
 const ElementPanel = () => {
   const { state } = useStudioContext();
@@ -46,6 +49,12 @@ const ElementPanel = () => {
         );
       case "text":
         return <TextPanel />;
+      case "icon":
+        return <IconPanel />;
+      case "rect":
+        return <RectPanel />;
+      case "circle":
+        return <CirclePanel />;
       case "subtitle":
         return <SubtitlesPanel />;
       default:

@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Upload, Search, Wand2, Plus } from "lucide-react";
-import { getMediaManager } from "../shared";
+import { getMediaManager } from "../../shared";
 import type { MediaItem } from "@twick/video-editor";
 
-interface VideoLibraryProps {
+interface ImageLibraryProps {
   onSelect?: (item: MediaItem) => void;
   onAddToTimeline?: (item: MediaItem) => void;
 }
 
-export const VideoLibrary: React.FC<VideoLibraryProps> = ({
+export const ImageLibrary: React.FC<ImageLibraryProps> = ({
   onSelect,
   onAddToTimeline,
 }) => {
@@ -18,7 +18,10 @@ export const VideoLibrary: React.FC<VideoLibraryProps> = ({
 
   useEffect(() => {
     const loadItems = async () => {
-      const results = await mediaManager.search({ query: searchQuery, type: 'video' });
+      const results = await mediaManager.search({
+        query: searchQuery,
+        type: "image",
+      });
       setItems(results);
     };
     loadItems();
@@ -36,7 +39,7 @@ export const VideoLibrary: React.FC<VideoLibraryProps> = ({
     <div className="w-72 bg-neutral-800/80 border-r border-gray-600/50 flex flex-col h-full backdrop-blur-md shadow-lg">
       {/* Header */}
       <div className="p-4 border-b border-gray-600/50 flex-shrink-0">
-        <h3 className="text-lg font-bold text-gray-100 mb-4">Video Library</h3>
+        <h3 className="text-lg font-bold text-gray-100 mb-4">Media Library</h3>
 
         {/* Search */}
         <div className="relative mb-3">
@@ -67,9 +70,9 @@ export const VideoLibrary: React.FC<VideoLibraryProps> = ({
               onDoubleClick={() => handleItemDoubleClick(item)}
               className="media-item-compact group relative cursor-pointer overflow-hidden hover:shadow-lg hover:shadow-purple-500/20 transition-all duration-200"
             >
-              <video
+              <img
                 src={item.url}
-                poster={item.thumbnail}
+                alt=""
                 className="h-full w-full object-cover transition-transform group-hover:scale-105"
               />
 
@@ -91,7 +94,7 @@ export const VideoLibrary: React.FC<VideoLibraryProps> = ({
           <div className="flex items-center justify-center h-24 text-gray-400">
             <div className="text-center">
               <Wand2 className="w-10 h-10 mx-auto mb-2 text-purple-500/50" />
-              <p className="text-sm font-medium">No Video found</p>
+              <p className="text-sm font-medium">No image found</p>
               {searchQuery && (
                 <p className="text-xs text-gray-500 mt-1">
                   Try adjusting your search

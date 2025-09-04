@@ -8,7 +8,7 @@ import {
   Play,
   Pause,
 } from "lucide-react";
-import { getMediaManager } from "../shared";
+import { getMediaManager } from "../../shared";
 import type { MediaItem } from "@twick/video-editor";
 
 interface AudioLibraryProps {
