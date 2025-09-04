@@ -1,90 +1,106 @@
-# Simple Video Editor with Twick
+# Twick Examples
 
-A clean, focused video editing application built with React, TypeScript, and **Twick's video editor**. This project demonstrates how to integrate Twick's powerful video editing capabilities with a simple, maintainable architecture.
+Example implementations and demonstrations of the Twick SDK features.
 
-## Features
+## Overview
 
-- **Twick Video Editor**: Professional video editing powered by Twick
-- **Media Library**: Simple media management and timeline integration
-- **Custom Controls**: Playback controls and timeline management
-- **Project Management**: Save and export functionality
-- **Clean UI**: Modern, responsive design with Tailwind CSS
+This package contains comprehensive examples showcasing the usage of Twick packages including `@twick/live-player`, `@twick/canvas`, `@twick/timeline`, and `@twick/video-editor` with React and React Router.
 
 ## Getting Started
 
-### Prerequisites
-- Node.js 18+ 
-- npm or pnpm
+These steps will help you run the example project locally using [`pnpm`](https://pnpm.io/).
 
 ### Installation
+
 ```bash
-# Clone the repository
-git clone <your-repo-url>
-cd simple-video-editor
-
-# Install dependencies
-npm install
-
-# Start development server
-npm run dev
+pnpm install
 ```
 
-Open your browser and visit `http://localhost:5173`
+### Development Server
+
+```bash
+pnpm dev
+```
+
+### Build for Production
+
+```bash
+pnpm build
+```
+
+### Preview Production Build
+
+```bash
+pnpm preview
+```
+
+## Available Examples
+
+### Basic Video Player
+Demonstrates basic video playback functionality using `@twick/live-player`.
+
+### Timeline Editor
+Shows timeline management and editing capabilities with `@twick/timeline`.
+
+### Canvas Manipulation
+Examples of canvas-based video and image editing using `@twick/canvas`.
+
+### Complete Video Editor
+Full-featured video editor implementation showcasing all Twick packages working together.
+
+### Custom Components
+Examples of custom component integration and extension patterns.
 
 ## Project Structure
 
 ```
 src/
-├── components/
-│   └── VideoEditor.tsx    # Main editor with Twick integration
-├── types/
-│   └── index.ts                 # Simplified TypeScript types
-├── lib/
-│   └── utils.ts                 # Utility functions
-├── App.tsx                      # Main app component
-└── main.tsx                     # Entry point
+├── components/     # Reusable React components
+├── helpers/        # Utility functions and helpers
+├── pages/          # Example pages and demonstrations
+├── samples/        # Sample data and configurations
+└── shared/         # Shared types and constants
 ```
 
-## Core Functionality
+## Key Features Demonstrated
 
-### Twick Integration
-- **Professional Video Editor**: Uses `@twick/video-editor` for core editing
-- **Canvas Mode**: Full-featured video editing canvas
-- **Configurable**: Customizable editor configuration
+- Video playback and control
+- Timeline-based editing
+- Canvas manipulation
+- Multi-track timeline management
+- Real-time project updates
+- Custom component integration
+- Performance optimization techniques
 
-### Custom UI Layer
-- **Media Library**: File management and timeline integration
-- **Timeline View**: Visual representation of project structure
-- **Playback Controls**: Custom controls for video playback
-- **Project Management**: Save, load, and export functionality
+## Browser Support
 
-## Technology Stack
+This package requires a browser environment with support for:
+- HTML5 Video and Audio
+- Canvas API
+- Modern JavaScript features (ES2020+)
+- React 18+
 
-- **React 18** - UI framework
-- **TypeScript** - Type safety
-- **Twick Video Editor** - Professional video editing engine
-- **Tailwind CSS** - Styling
-- **Lucide React** - Icons
-- **Framer Motion** - Animations
+## Documentation
 
-## Why This Approach?
+For complete documentation, refer to the project documentation site.
 
-This project demonstrates the **best of both worlds**:
+## Contributing
 
-1. **Twick's Power**: Professional video editing capabilities
-2. **Simple Architecture**: Clean, maintainable React code
-3. **Custom UI**: Tailored interface for your specific needs
-4. **Easy Extension**: Simple to add new features and customizations
+When adding new examples:
+- Follow the established project structure
+- Include proper TypeScript types
+- Add comprehensive comments
+- Ensure examples are production-ready
+- Test across different browsers
 
-## Responsive Design
+## License
 
-The editor is designed to work on different screen sizes with a clean, modern interface that focuses on usability.
+This package is licensed under the **Sustainable Use License (SUL) Version 1.0**.
 
-## Future Enhancements
+- Free for use in commercial and non-commercial apps
+- Can be modified and self-hosted
+- Cannot be sold, rebranded, or distributed as a standalone SDK
 
-This simplified foundation makes it easy to add features incrementally:
+For commercial licensing inquiries, contact: contact@kifferai.com
 
-- **Phase 1** - Basic Twick integration (current)
-- **Phase 2** - Advanced Twick features, custom plugins
-- **Phase 3** - Enhanced timeline, effects, transitions
-- **Phase 4** - Professional workflows, collaboration
+For full license terms, see the main LICENSE.md file in the project root.

@@ -1,7 +1,6 @@
 import { StageCanvas } from "./stage-canvas";
 import { Toolbar } from "./toolbar";
 import { PropertiesPanel } from "./properties-panel";
-import { Timeline } from "./timeline";
 import ElementPanel from "./element-panel";
 import StudioHeader from "./header";
 
@@ -28,9 +27,6 @@ export function EditorShell() {
         {/* Right Panel - Properties */}
         <PropertiesPanel />
       </div>
-
-      {/* Bottom Timeline */}
-      <Timeline />
     </div>
   );
 }
