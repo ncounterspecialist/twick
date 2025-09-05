@@ -91,10 +91,10 @@ export class TimelineEditor {
     return updatedTimelineData as TimelineTrackData;
   }
 
-  addTrack(name: string): Track {
+  addTrack(name: string, type: string = "element"): Track {
     const prevTimelineData = this.getTimelineData();
     const id = `t-${generateShortUuid()}`;
-    const track = new Track(name, id);
+    const track = new Track(name, type, id);
     const updatedTimelines = [...(prevTimelineData?.tracks || []), track];
     this.setTimelineData(updatedTimelines);
     return track;

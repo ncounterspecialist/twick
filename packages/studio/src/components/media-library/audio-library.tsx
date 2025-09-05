@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Upload,
   Search,
@@ -8,18 +8,17 @@ import {
   Play,
   Pause,
 } from "lucide-react";
-import { getMediaManager } from "../shared";
+import { getMediaManager } from "../../shared";
 import type { MediaItem } from "@twick/video-editor";
+import { AudioElement, TrackElement } from "@twick/timeline";
 
 interface AudioLibraryProps {
-  onSelect?: (item: MediaItem) => void;
-  onAddToTimeline?: (item: MediaItem) => void;
+  onAddToTimeline?: (item: TrackElement) => void;
 }
 
-export const AudioLibrary: React.FC<AudioLibraryProps> = ({
-  onSelect,
+export const AudioLibrary = ({
   onAddToTimeline,
-}) => {
+}: AudioLibraryProps) => {
   const [playingAudio, setPlayingAudio] = useState<string | null>(null);
   const [audioElement, setAudioElement] = useState<HTMLAudioElement | null>(
     null
@@ -40,12 +39,9 @@ export const AudioLibrary: React.FC<AudioLibraryProps> = ({
     loadItems();
   }, [searchQuery]);
 
-  const handleItemClick = (item: MediaItem) => {
-    onSelect?.(item);
-  };
-
-  const handleItemDoubleClick = (item: MediaItem) => {
-    onAddToTimeline?.(item);
+  const handleAddElement = (item: MediaItem) => {
+    const audioElement = new AudioElement(item.url);
+    onAddToTimeline?.(audioElement);
   };
 
   const handlePlayPause = (item: MediaItem) => {
@@ -111,8 +107,7 @@ export const AudioLibrary: React.FC<AudioLibraryProps> = ({
           {items.map((item) => (
             <div
               key={item.id}
-              onClick={() => handleItemClick(item)}
-              onDoubleClick={() => handleItemDoubleClick(item)}
+              onDoubleClick={() => handleAddElement(item)}
               className="audio-item group relative cursor-pointer p-3 bg-neutral-700/50 rounded-lg hover:bg-neutral-700/80 transition-all duration-200 border border-transparent hover:border-purple-500/30"
             >
               {/* Audio Info */}
@@ -148,7 +143,7 @@ export const AudioLibrary: React.FC<AudioLibraryProps> = ({
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
-                    onAddToTimeline?.(item);
+                    handleAddElement?.(item);
                   }}
                   className="w-6 h-6 rounded-full bg-purple-500/60 hover:bg-purple-500 flex items-center justify-center text-white text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex-shrink-0"
                 >

@@ -3,6 +3,9 @@
 import { EditorShell } from './components/editor-shell'
 import { EditorProvider } from './context/studio-context'
 import type { Project } from './types'
+import { LivePlayerProvider } from '@twick/live-player'
+import { TimelineProvider } from '@twick/timeline'
+import { INITIAL_TIMELINE_DATA } from '@twick/video-editor'
 
 // Simple sample project
 const sampleProject: Project = {
@@ -243,7 +246,14 @@ function App() {
   return (
     <div className="h-screen w-screen overflow-hidden bg-neutral-900">
       <EditorProvider project={sampleProject}>
+      <LivePlayerProvider>
+      <TimelineProvider
+        contextId={"twick-studio"}
+        initialData={INITIAL_TIMELINE_DATA}
+      >
         <EditorShell />
+      </TimelineProvider>
+      </LivePlayerProvider>
       </EditorProvider>
     </div>
   )

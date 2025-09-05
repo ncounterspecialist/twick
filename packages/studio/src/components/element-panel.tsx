@@ -1,53 +1,40 @@
 import { useStudioContext } from "../context/studio-context";
-import { ImageLibrary } from "./image-library";
-import { AudioLibrary } from "./audio-library";
-import { VideoLibrary } from "./video-library";
-import type { MediaItem } from "@twick/video-editor";
-import { TextPanel } from "./text-panel";
+import { ImageLibrary } from "./media-library/image-library";
+import { AudioLibrary } from "./media-library/audio-library";
+import { VideoLibrary } from "./media-library/video-library";
+import { TextPanel } from "./panels/text-panel";
 import { SubtitlesPanel } from "./subtitles-panel";
+import IconPanel from "./panels/icon-panel";
+import { RectPanel } from "./panels/rect-panel";
+import { CirclePanel } from "./panels/circle-panel";
+import { TrackElement } from "@twick/timeline";
 
-const ElementPanel = () => {
+interface ElementPanelProps {
+  addElement: (element: TrackElement) => void;
+}
+
+const ElementPanel = ({ addElement }: ElementPanelProps): JSX.Element => {
   const { state } = useStudioContext();
-
-  // Handler functions for media selection and timeline addition
-  const handleMediaSelect = (item: MediaItem) => {
-    // Handle media selection - could update selected media in state
-    console.log("Selected media:", item);
-  };
-
-  const handleAddToTimeline = (item: MediaItem) => {
-    // Handle adding media to timeline - could dispatch an action
-    console.log("Adding to timeline:", item);
-  };
 
   // Render appropriate library based on selected tool
   const renderLibrary = () => {
     switch (state.selectedTool) {
       case "image":
-        return (
-          <ImageLibrary
-            onSelect={handleMediaSelect}
-            onAddToTimeline={handleAddToTimeline}
-          />
-        );
+        return <ImageLibrary onAddToTimeline={addElement} />;
       case "audio":
-        return (
-          <AudioLibrary
-            onSelect={handleMediaSelect}
-            onAddToTimeline={handleAddToTimeline}
-          />
-        );
+        return <AudioLibrary onAddToTimeline={addElement} />;
       case "video":
-        return (
-          <VideoLibrary
-            onSelect={handleMediaSelect}
-            onAddToTimeline={handleAddToTimeline}
-          />
-        );
+        return <VideoLibrary onAddToTimeline={addElement} />;
       case "text":
-        return <TextPanel />;
+        return <TextPanel onAddToTimeline={addElement} />;
+      case "icon":
+        return <IconPanel onAddToTimeline={addElement}/>;
+      case "rect":
+        return <RectPanel onAddToTimeline={addElement}/>;
+      case "circle":
+        return <CirclePanel onAddToTimeline={addElement}/>;
       case "subtitle":
-        return <SubtitlesPanel />;
+        return <SubtitlesPanel/>;
       default:
         return (
           <div className="w-72 bg-neutral-800/80 border-r border-gray-600/50 flex flex-col h-full items-center justify-center">

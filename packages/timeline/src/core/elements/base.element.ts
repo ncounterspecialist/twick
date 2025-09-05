@@ -18,7 +18,9 @@ export abstract class TrackElement {
     this.type = type;
     this.props = {
       x: 0,
-      y: 0
+      y: 0,
+      opacity: 1,
+      rotation: 0
     };
   }
 
@@ -67,6 +69,14 @@ export abstract class TrackElement {
     };
   }
 
+  getRotation(): number {
+    return this.props.rotation ?? 0;
+  }
+
+  getOpacity(): number {
+    return this.props.opacity ?? 1;
+  }
+
   setId(id: string) {
     this.id = id;
     return this;
@@ -105,6 +115,16 @@ export abstract class TrackElement {
   setPosition(position: Position) {
     this.props.x = position.x;
     this.props.y = position.y;
+    return this;
+  }
+
+  setRotation(rotation: number) { 
+    this.props.rotation = rotation;
+    return this;
+  }
+
+  setOpacity(opacity: number) {
+    this.props.opacity = opacity;
     return this;
   }
 

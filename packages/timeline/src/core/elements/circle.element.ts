@@ -10,6 +10,8 @@ export class CircleElement extends TrackElement {
     this.props = {
       radius,
       fill,
+      strokeColor: fill,
+      lineWidth: 1
     };
   }
 
@@ -19,6 +21,14 @@ export class CircleElement extends TrackElement {
 
   getRadius(): number {
     return this.props.radius;
+  }
+
+  getStrokeColor(): string {
+    return this.props.strokeColor;
+  }
+
+  getLineWidth(): number {
+    return this.props.lineWidth;
   }
 
   setFill(fill: string) {
@@ -31,6 +41,16 @@ export class CircleElement extends TrackElement {
     return this;
   }
   
+  setStrokeColor(strokeColor: string) {
+    this.props.strokeColor = strokeColor;
+    return this;
+  }
+
+  setLineWidth(lineWidth: number) {
+    this.props.lineWidth = lineWidth;
+    return this;
+  }     
+
 
   accept<T>(visitor: ElementVisitor<T>): T {
     return visitor.visitCircleElement(this);

@@ -87,6 +87,8 @@ export type CaptionProps = {
 export type CircleProps = {
   radius: number;
   fill: string;
+  strokeColor: string;
+  lineWidth: number;
 };
 
 export type IconProps = {
@@ -103,6 +105,9 @@ export type RectProps = {
   width: number;
   height: number;
   fill: string;
+  radius: number;
+  strokeColor: string;
+  lineWidth: number;
 };
 
 export type TextProps = {

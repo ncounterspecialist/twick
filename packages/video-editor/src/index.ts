@@ -41,6 +41,9 @@ import { animationGifs, getAnimationGif } from "./assets";
 import { ANIMATIONS } from "./helpers/animation-manager";
 import { TEXT_EFFECTS } from "./helpers/text-effects-manager";
 import useTimelineControl from "./hooks/use-timeline-control";
+import { setElementColors } from "./helpers/editor.utils";  
+
+export { setElementColors };
 
 // Types and interfaces
 export type { MediaItem, PaginationOptions, SearchOptions, Animation, TextEffect, ElementColors };

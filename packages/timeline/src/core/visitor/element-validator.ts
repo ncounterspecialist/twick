@@ -166,16 +166,6 @@ export class ElementValidator implements ElementVisitor<boolean> {
     const basicValidation = this.validateBasicProperties(element);
     const errors = [...basicValidation.errors];
     const warnings = [...basicValidation.warnings];
-
-    // Check icon-specific properties
-    const props = element.getProps();
-    if (!props?.icon) {
-      errors.push("Icon element must have an icon name");
-    }
-
-    // Note: frame property is protected, so we can't validate it directly
-    // This would need to be validated through a public method if needed
-
     return { errors, warnings };
   }
 

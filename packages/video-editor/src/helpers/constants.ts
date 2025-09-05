@@ -116,32 +116,35 @@ export const DEFAULT_TIMELINE_ZOOM = 1.5;
  * ```
  */
 export const DEFAULT_ELEMENT_COLORS: ElementColors = {
-  /** Fragment element color */
-  fragment: "#111111",
-  /** Video element color - muted deep violet */
-  video: "#4B2E83",
-  /** Caption element color - faded violet/blue */
-  caption: "#5C5470",
-  /** Image element color - earthy brown-orange */
-  image: "#805A38",
-  /** Audio element color - dark muted teal-green */
-  audio: "#3C665B",
-  /** Text element color - dusty steel blue */
-  text: "#375A7F",
-  /** Generic element color - muted berry purple */
-  element: "#6B3A5B",
-  /** Rectangle element color - desaturated deep indigo */
-  rect: "#4C3A72",
-  /** Frame effect color - dusty rose/maroon */
-  frameEffect: "#703C57",
-  /** Filters color - muted twilight purple */
-  filters: "#5A4C82",
-  /** Transition color - toasted copper */
-  transition: "#7A573A",
-  /** Animation color - slate pine green */
-  animation: "#32645C",
-};
-
+    /** Fragment element color - deep charcoal matching UI background */
+    fragment: "#1A1A1A",
+    /** Video element color - vibrant royal purple */
+    video: "#8B5FBF",
+    /** Caption element color - soft wisteria purple */
+    caption: "#9B8ACE",
+    /** Image element color - warm copper accent */
+    image: "#D4956C",
+    /** Audio element color - deep teal */
+    audio: "#3D8B8B",
+    /** Text element color - medium lavender */
+    text: "#9C82D4",
+    /** Generic element color - muted amethyst */
+    element: "#7B68B8",
+    /** Rectangle element color - deep indigo */
+    rect: "#5B4B99",
+    /** Frame effect color - rich magenta */
+    frameEffect: "#B55B9C",
+    /** Filters color - periwinkle blue */
+    filters: "#7A89D4",
+    /** Transition color - burnished bronze */
+    transition: "#BE8157",
+    /** Animation color - muted emerald */
+    animation: "#4B9B78",
+    /** Icon element color - bright orchid */
+    icon: "#A76CD4",
+    /** Circle element color - deep byzantium */
+    circle: "#703D8B",
+  };
 /**
  * Available text fonts for video editor text elements.
  * Includes Google Fonts, display fonts, and custom CDN fonts.

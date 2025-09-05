@@ -1,12 +1,14 @@
 import { useState, useRef, useEffect } from "react";
 import { Search, Loader2, Download } from "lucide-react";
+import { inputStyles } from "../../styles/input-styles";
+import { IconElement, TrackElement } from "@twick/timeline";
 
 interface Icon {
   name: string;
   svg: string;
 }
 
-const IconPanel = () => {
+const IconPanel = ({onAddToTimeline}: {onAddToTimeline: (element: TrackElement) => void}) => {
   const [icons, setIcons] = useState<Icon[]>([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
@@ -85,8 +87,22 @@ const IconPanel = () => {
   };
 
   const handleAddIcon = (icon: Icon) => {
-    // TODO: Add icon to timeline or canvas
-    console.log("Adding icon:", icon);
+    // Convert SVG to data URL
+    const svgBlob = new Blob([icon.svg], { type: 'image/svg+xml' });
+    const url = URL.createObjectURL(svgBlob);
+    
+    // Create an image element with the SVG
+    const iconElement = new IconElement(url, {
+      width: 100,  // Default size for icons
+      height: 100
+    });
+    iconElement.setName(icon.name);
+
+    // Add to timeline
+    onAddToTimeline(iconElement);
+
+    // Clean up the URL
+    URL.revokeObjectURL(url);
   };
 
   const handleDownloadIcon = (icon: Icon) => {
@@ -103,11 +119,11 @@ const IconPanel = () => {
   };
 
   return (
-    <div className="w-72 bg-neutral-800/80 border-l border-gray-600/50 p-4 overflow-y-auto overflow-x-hidden backdrop-blur-md shadow-lg">
-      <h3 className="text-xl font-bold text-white mb-6">Icon Library</h3>
+    <div className={inputStyles.panel.container}>
+      <h3 className={inputStyles.panel.title}>Icon Library</h3>
 
       {/* Search Section */}
-      <div className="mb-6">
+      <div className={inputStyles.container}>
         <div className="relative mb-3">
           <Search className="absolute left-2.5 top-1/2 transform -translate-y-1/2 w-4 h-4 text-white" color="white"/>
           <input
@@ -115,7 +131,7 @@ const IconPanel = () => {
             placeholder="Search icons..."
             value={searchQuery}
             onChange={(e) => handleSearch(e.target.value)}
-            className="w-full pl-8 pr-3 py-2 bg-neutral-700/80 border border-gray-600 rounded-lg text-gray-100 text-sm placeholder-gray-400 focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500/20 transition-all duration-200 backdrop-blur-sm shadow-sm"
+            className={`${inputStyles.input.base} pl-8`}
           />
         </div>
       </div>
@@ -186,7 +202,7 @@ const IconPanel = () => {
             <button
               onClick={() => fetchIcons(currentQuery.current, false)}
               disabled={loading}
-              className="w-full bg-neutral-700/50 hover:bg-neutral-700/70 border border-gray-600 hover:border-gray-500 text-white font-medium py-2 px-4 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500/20 disabled:opacity-50 disabled:cursor-not-allowed"
+              className={`${inputStyles.button.primary} disabled:opacity-50 disabled:cursor-not-allowed`}
             >
               {loading ? (
                 <div className="flex items-center justify-center gap-2">

@@ -202,4 +202,8 @@ export interface ElementColors {
   transition: string;
   /** Animation color */
   animation: string;
+  /** Icon element color */
+  icon: string;
+  /** Circle element color */
+  circle: string;
 }
