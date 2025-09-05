@@ -1,97 +1,113 @@
-# Twick Examples
+# @twick/studio
 
-Example implementations and demonstrations of the Twick SDK features.
+The main video editing interface for Twick, providing a professional-grade editing experience in the browser.
 
-## Overview
+## Features
 
-This package contains comprehensive examples showcasing the usage of Twick packages including `@twick/live-player`, `@twick/canvas`, `@twick/timeline`, and `@twick/video-editor` with React and React Router.
+- **Modern Interface**: Clean, intuitive dark theme design
+- **Media Management**: Integrated video, audio, and image library
+- **Text Tools**: Advanced text editing with multiple fonts and styles
+- **Timeline Control**: Precise timeline-based editing
+- **Element Library**: Rich set of editing elements (shapes, icons, etc.)
+- **Audio Support**: Audio track management and editing
+- **Effects**: Visual effects and transitions
 
-## Getting Started
-
-These steps will help you run the example project locally using [`pnpm`](https://pnpm.io/).
-
-### Installation
+## Installation
 
 ```bash
-pnpm install
+pnpm add @twick/studio
 ```
 
-### Development Server
+## Quick Start
+
+```tsx
+import { StudioProvider, VideoEditor } from '@twick/studio';
+
+function App() {
+  return (
+    <StudioProvider>
+      <VideoEditor />
+    </StudioProvider>
+  );
+}
+```
+
+## Components
+
+### VideoEditor
+
+The main editor component that combines all editing features.
+
+```tsx
+<VideoEditor
+  config={{
+    canvas: {
+      width: 1920,
+      height: 1080
+    }
+  }}
+/>
+```
+
+### ElementPanel
+
+Panel for managing different types of elements:
+- Videos
+- Images
+- Audio
+- Text
+- Icons
+- Shapes
+- Subtitles
+
+```tsx
+<ElementPanel
+  addElement={handleAddElement}
+/>
+```
+
+### TextPanel
+
+Advanced text editing with features:
+- Font selection
+- Size control
+- Color picker
+- Shadow effects
+- Stroke settings
+
+### IconPanel
+
+Icon library with features:
+- Search functionality
+- Category filtering
+- Color customization
+- Size adjustment
+
+## Development
+
+### Running Locally
 
 ```bash
+# Install dependencies
+pnpm install
+
+# Start development server
 pnpm dev
 ```
 
-### Build for Production
+### Building
 
 ```bash
 pnpm build
 ```
 
-### Preview Production Build
-
-```bash
-pnpm preview
-```
-
-## Available Examples
-
-### Basic Video Player
-Demonstrates basic video playback functionality using `@twick/live-player`.
-
-### Timeline Editor
-Shows timeline management and editing capabilities with `@twick/timeline`.
-
-### Canvas Manipulation
-Examples of canvas-based video and image editing using `@twick/canvas`.
-
-### Complete Video Editor
-Full-featured video editor implementation showcasing all Twick packages working together.
-
-### Custom Components
-Examples of custom component integration and extension patterns.
-
-## Project Structure
-
-```
-src/
-├── components/     # Reusable React components
-├── helpers/        # Utility functions and helpers
-├── pages/          # Example pages and demonstrations
-├── samples/        # Sample data and configurations
-└── shared/         # Shared types and constants
-```
-
-## Key Features Demonstrated
-
-- Video playback and control
-- Timeline-based editing
-- Canvas manipulation
-- Multi-track timeline management
-- Real-time project updates
-- Custom component integration
-- Performance optimization techniques
-
 ## Browser Support
 
-This package requires a browser environment with support for:
-- HTML5 Video and Audio
+Requires modern browsers with support for:
+- WebGL
 - Canvas API
-- Modern JavaScript features (ES2020+)
-- React 18+
-
-## Documentation
-
-For complete documentation, refer to the project documentation site.
-
-## Contributing
-
-When adding new examples:
-- Follow the established project structure
-- Include proper TypeScript types
-- Add comprehensive comments
-- Ensure examples are production-ready
-- Test across different browsers
+- Web Audio API
+- Modern JavaScript (ES2020+)
 
 ## License
 
