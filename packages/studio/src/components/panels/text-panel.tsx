@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { inputStyles } from "../../styles/input-styles";
+import { TextElement, TrackElement } from "@twick/timeline";
+import { AVAILABLE_TEXT_FONTS } from "@twick/video-editor";
 
-export function TextPanel() {
+export function TextPanel({onAddToTimeline}: {onAddToTimeline: (element: TrackElement) => void}) {
   const [textContent, setTextContent] = useState("Sample");
   const [fontSize, setFontSize] = useState(48);
   const [selectedFont, setSelectedFont] = useState("Poppins");
@@ -9,25 +11,37 @@ export function TextPanel() {
   const [isItalic, setIsItalic] = useState(false);
   const [textColor, setTextColor] = useState("#ffffff");
   const [strokeColor, setStrokeColor] = useState("#ffffff");
-  const [applyShadow, setApplyShadow] = useState(true);
+  const [applyShadow, setApplyShadow] = useState(false);
+  const [shadowColor, setShadowColor] = useState("#000000");
   const [strokeWidth, setStrokeWidth] = useState(0);
 
-  const fonts = ["Poppins", "Arial", "Helvetica", "Times New Roman", "Georgia", "Roboto", "Open Sans"];
+  const fonts = Object.values(AVAILABLE_TEXT_FONTS);
 
   const handleApplyChanges = () => {
-    // TODO: Apply text changes to selected text element
-    console.log("Applying text changes:", {
-      textContent,
-      fontSize,
-      selectedFont,
-      isBold,
-      isItalic,
-      textColor,
-      strokeColor,
-      applyShadow,
-      strokeWidth
-    });
-  };
+
+    const textElement = new TextElement(textContent)
+    .setFontSize(fontSize)
+    .setFontFamily(selectedFont)
+    .setFontWeight(isBold ? 700 : 400)
+    .setFontStyle(isItalic ? "italic" : "normal")
+    .setFill(textColor)
+    .setStrokeColor(strokeColor)
+    .setLineWidth(strokeWidth)
+    .setTextAlign("center")
+
+    if(applyShadow) {
+      textElement.setProps(
+        {
+          ...textElement.getProps(),
+          shadowColor,
+          shadowOffset: [0, 0],
+          shadowBlur: 2,
+          shadowOpacity: 1.0
+        }
+      );
+    }
+    onAddToTimeline(textElement);
+  }
 
   return (
     <div className={inputStyles.panel.container}>
@@ -137,7 +151,7 @@ export function TextPanel() {
           {/* Apply Shadow */}
           <div className={inputStyles.radio.container}>
             <input
-              type="radio"
+              type="checkbox"
               id="applyShadow"
               checked={applyShadow}
               onChange={(e) => setApplyShadow(e.target.checked)}
@@ -145,6 +159,27 @@ export function TextPanel() {
             />
             <label htmlFor="applyShadow" className={inputStyles.radio.label}>Apply Shadow</label>
           </div>
+
+          {/* Shadow Color - Only shown when shadow is enabled */}
+          {applyShadow && (
+            <div>
+              <label className={inputStyles.label.small}>Shadow Color</label>
+              <div className={inputStyles.color.container}>
+                <input
+                  type="color"
+                  value={shadowColor}
+                  onChange={(e) => setShadowColor(e.target.value)}
+                  className={inputStyles.color.picker}
+                />
+                <input
+                  type="text"
+                  value={shadowColor}
+                  onChange={(e) => setShadowColor(e.target.value)}
+                  className={inputStyles.input.small}
+                />
+              </div>
+            </div>
+          )}
         </div>
       </div>
 

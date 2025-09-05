@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { inputStyles } from "../../styles/input-styles";
+import { CircleElement, TrackElement } from "@twick/timeline";
 
-export function CirclePanel() {
+export function CirclePanel({onAddToTimeline}: {onAddToTimeline: (element: TrackElement) => void}) {
   const [radius, setRadius] = useState(50);
   const [fillColor, setFillColor] = useState("#3b82f6");
   const [opacity, setOpacity] = useState(100);
@@ -17,6 +18,13 @@ export function CirclePanel() {
       strokeColor,
       lineWidth
     });
+
+    const circleElement = new CircleElement(fillColor, radius)
+    .setOpacity(opacity)
+    .setStrokeColor(strokeColor)
+    .setLineWidth(lineWidth);
+
+    onAddToTimeline(circleElement);
   };
 
   return (

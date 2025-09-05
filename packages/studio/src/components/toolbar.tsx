@@ -22,7 +22,7 @@ const toolCategories: ToolCategory[] = [
   { id: 'circle', name: 'Circle', icon: 'Circle', description: 'Circle Element', shortcut: 'C' },
   { id: 'rect', name: 'Rect', icon: 'Rect', description: 'Rect Element' },
   { id: 'subtitle', name: 'Subtitles', icon: 'MessageSquare', description: 'Manage subtitles', shortcut: 'S' },
-  { id: 'add', name: 'Track', icon: 'Plus', description: 'Add new elements' },
+  { id: 'track', name: 'Track', icon: 'Plus', description: 'Add new elements' },
 ]
 
 const getIcon = (iconName: string) => {

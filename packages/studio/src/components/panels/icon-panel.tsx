@@ -1,13 +1,14 @@
 import { useState, useRef, useEffect } from "react";
 import { Search, Loader2, Download } from "lucide-react";
 import { inputStyles } from "../../styles/input-styles";
+import { IconElement, TrackElement } from "@twick/timeline";
 
 interface Icon {
   name: string;
   svg: string;
 }
 
-const IconPanel = () => {
+const IconPanel = ({onAddToTimeline}: {onAddToTimeline: (element: TrackElement) => void}) => {
   const [icons, setIcons] = useState<Icon[]>([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
@@ -86,8 +87,22 @@ const IconPanel = () => {
   };
 
   const handleAddIcon = (icon: Icon) => {
-    // TODO: Add icon to timeline or canvas
-    console.log("Adding icon:", icon);
+    // Convert SVG to data URL
+    const svgBlob = new Blob([icon.svg], { type: 'image/svg+xml' });
+    const url = URL.createObjectURL(svgBlob);
+    
+    // Create an image element with the SVG
+    const iconElement = new IconElement(url, {
+      width: 100,  // Default size for icons
+      height: 100
+    });
+    iconElement.setName(icon.name);
+
+    // Add to timeline
+    onAddToTimeline(iconElement);
+
+    // Clean up the URL
+    URL.revokeObjectURL(url);
   };
 
   const handleDownloadIcon = (icon: Icon) => {

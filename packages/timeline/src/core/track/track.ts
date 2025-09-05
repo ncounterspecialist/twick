@@ -46,18 +46,19 @@ export class Track {
    * Creates a new Track instance.
    * 
    * @param name - The display name for the track
+   * @param type - The type of the track
    * @param id - Optional unique identifier (auto-generated if not provided)
    * 
    * @example
    * ```js
    * const track = new Track("My Video Track");
-   * const trackWithId = new Track("Audio Track", "audio-track-1");
+   * const trackWithId = new Track("Audio Track", "element", "video-track-1");
    * ```
    */
-  constructor(name: string, id?: string) {
+  constructor(name: string, type: string ="element", id?: string) {
     this.name = name;
     this.id = id ?? `t-${generateShortUuid}`;
-    this.type = "element";
+    this.type = type;
     this.elements = [];
     this.validator = new ElementValidator();
   }
@@ -156,7 +157,7 @@ export class Track {
    * 
    * @example
    * ```js
-   * const track = new Track("My Track", "track-123");
+   * const track = new Track("My Track", "element", "track-123");
    * const id = track.getId(); // "track-123"
    * ```
    */

@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { inputStyles } from "../../styles/input-styles";
+import { RectElement, TrackElement } from "@twick/timeline";
 
-export function RectPanel() {
+export function RectPanel({onAddToTimeline}: {onAddToTimeline: (element: TrackElement) => void}) {
   const [cornerRadius, setCornerRadius] = useState(0);
   const [fillColor, setFillColor] = useState("#3b82f6");
   const [opacity, setOpacity] = useState(100);
@@ -17,6 +18,12 @@ export function RectPanel() {
       strokeColor,
       lineWidth
     });
+    const rectElement = new RectElement(fillColor, { width: 200, height: 200 })
+    .setCornerRadius(cornerRadius)
+    .setOpacity(opacity)
+    .setStrokeColor(strokeColor)
+    .setLineWidth(lineWidth);
+    onAddToTimeline(rectElement);
   };
 
   return (

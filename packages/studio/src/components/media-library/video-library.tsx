@@ -1,35 +1,37 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Upload, Search, Wand2, Plus } from "lucide-react";
 import { getMediaManager } from "../../shared";
 import type { MediaItem } from "@twick/video-editor";
+import { TrackElement, VideoElement } from "@twick/timeline";
 
 interface VideoLibraryProps {
-  onSelect?: (item: MediaItem) => void;
-  onAddToTimeline?: (item: MediaItem) => void;
+  onAddToTimeline?: (item: TrackElement) => void;
 }
 
-export const VideoLibrary: React.FC<VideoLibraryProps> = ({
-  onSelect,
+export const VideoLibrary = ({
   onAddToTimeline,
-}) => {
+}: VideoLibraryProps) => {
   const [items, setItems] = useState<MediaItem[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const mediaManager = getMediaManager();
 
   useEffect(() => {
     const loadItems = async () => {
-      const results = await mediaManager.search({ query: searchQuery, type: 'video' });
+      const results = await mediaManager.search({
+        query: searchQuery,
+        type: "video",
+      });
       setItems(results);
     };
     loadItems();
   }, [searchQuery]);
 
-  const handleItemClick = (item: MediaItem) => {
-    onSelect?.(item);
-  };
-
-  const handleItemDoubleClick = (item: MediaItem) => {
-    onAddToTimeline?.(item);
+  const handleAddElement = (item: MediaItem) => {
+    const videoElement = new VideoElement(item.url, {
+      width: 1280,
+      height: 720,
+    });
+    onAddToTimeline?.(videoElement);
   };
 
   return (
@@ -63,8 +65,7 @@ export const VideoLibrary: React.FC<VideoLibraryProps> = ({
           {items.map((item) => (
             <div
               key={item.id}
-              onClick={() => handleItemClick(item)}
-              onDoubleClick={() => handleItemDoubleClick(item)}
+              onDoubleClick={() => handleAddElement(item)}
               className="media-item-compact group relative cursor-pointer overflow-hidden hover:shadow-lg hover:shadow-purple-500/20 transition-all duration-200"
             >
               <video
@@ -78,7 +79,13 @@ export const VideoLibrary: React.FC<VideoLibraryProps> = ({
 
               {/* Quick Actions */}
               <div className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                <button className="w-5 h-5 rounded-full bg-purple-500/80 hover:bg-purple-500 flex items-center justify-center text-white text-xs">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleAddElement(item);
+                  }}
+                  className="w-5 h-5 rounded-full bg-purple-500/80 hover:bg-purple-500 flex items-center justify-center text-white text-xs"
+                >
                   <Plus className="w-3 h-3" />
                 </button>
               </div>
