@@ -10,7 +10,6 @@ import {
   Plus,
   Square,
 } from 'lucide-react'
-import { useStudioContext } from '../context/studio-context'
 import type { ToolCategory } from '../types'
 
 const toolCategories: ToolCategory[] = [
@@ -22,7 +21,6 @@ const toolCategories: ToolCategory[] = [
   { id: 'circle', name: 'Circle', icon: 'Circle', description: 'Circle Element', shortcut: 'C' },
   { id: 'rect', name: 'Rect', icon: 'Rect', description: 'Rect Element' },
   { id: 'subtitle', name: 'Subtitles', icon: 'MessageSquare', description: 'Manage subtitles', shortcut: 'S' },
-  { id: 'track', name: 'Track', icon: 'Plus', description: 'Add new elements' },
 ]
 
 const getIcon = (iconName: string) => {
@@ -42,11 +40,10 @@ const getIcon = (iconName: string) => {
   }
 }
 
-export function Toolbar() {
-  const { state, dispatch } = useStudioContext()
+export function Toolbar({ selectedTool, setSelectedTool }: { selectedTool: string, setSelectedTool: (tool: string) => void }) {
 
   const handleToolSelect = (toolId: string) => {
-    dispatch({ type: 'select_tool', tool: toolId as any })
+    setSelectedTool(toolId)
   }
 
   return (
@@ -54,7 +51,7 @@ export function Toolbar() {
       {/* Main Tools */}
       {toolCategories.map((tool) => {
         const Icon = getIcon(tool.icon)
-        const isSelected = state.selectedTool === tool.id
+        const isSelected = selectedTool === tool.id
         
         return (
           <button

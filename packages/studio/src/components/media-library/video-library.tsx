@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
-import { Upload, Search, Wand2, Plus } from "lucide-react";
+import { Wand2, Plus } from "lucide-react";
 import { getMediaManager } from "../../shared";
 import type { MediaItem } from "@twick/video-editor";
 import { TrackElement, VideoElement } from "@twick/timeline";
+import FileInput from "../../shared/file-input";
+import SearchInput from "../../shared/search-input";
 
 interface VideoLibraryProps {
   onAddToTimeline?: (item: TrackElement) => void;
@@ -34,29 +36,33 @@ export const VideoLibrary = ({
     onAddToTimeline?.(videoElement);
   };
 
+  const handleFileUpload = async (fileData: {
+    file: File;
+    blobUrl: string;
+  }) => {
+    const arrayBuffer = await fileData.file.arrayBuffer();
+    const newItem = await mediaManager.addItem({
+      url: fileData.blobUrl,
+      type: "video",
+      arrayBuffer,
+      metadata: {
+        name: fileData.file.name,
+        size: fileData.file.size,
+        type: fileData.file.type,
+      },
+    });
+    setItems((prev) => [...prev, newItem]);
+  };
+
   return (
     <div className="w-72 bg-neutral-800/80 border-r border-gray-600/50 flex flex-col h-full backdrop-blur-md shadow-lg">
       {/* Header */}
       <div className="p-4 border-b border-gray-600/50 flex-shrink-0">
         <h3 className="text-lg font-bold text-gray-100 mb-4">Video Library</h3>
-
         {/* Search */}
-        <div className="relative mb-3">
-          <Search className="absolute left-2.5 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-          <input
-            type="text"
-            placeholder="Search media..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-8 pr-3 py-2 bg-neutral-700/80 border border-gray-600 rounded-lg text-gray-100 text-sm placeholder-gray-400 focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500/20 transition-all duration-200 backdrop-blur-sm shadow-sm"
-          />
-        </div>
-
+        <SearchInput searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
         {/* Upload Button */}
-        <button className="w-full btn btn-primary flex items-center justify-center gap-2 py-2">
-          <Upload className="w-4 h-4" />
-          Upload
-        </button>
+        <FileInput id="video-upload" acceptFileTypes={["video/*"]} onFileLoad={handleFileUpload} buttonText="Upload" />
       </div>
 
       {/* Media Grid */}

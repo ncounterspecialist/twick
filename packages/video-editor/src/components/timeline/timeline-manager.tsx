@@ -10,7 +10,7 @@ const TimelineManager = ({
   trackZoom: number;
 }) => {
   
-  const {timelineData, totalDuration, selectedItem, onReorder, onElementDrag, onSeek, onSelectionChange} = useTimelineManager();
+  const {timelineData, totalDuration, selectedItem, onAddTrack, onReorder, onElementDrag, onSeek, onSelectionChange} = useTimelineManager();
 
   return (
     <TimelineView
@@ -20,6 +20,7 @@ const TimelineManager = ({
       duration={totalDuration}
       selectedItem={selectedItem}
       onDeletion={() => {}}
+      onAddTrack={onAddTrack}
       onReorder={onReorder}
       onElementDrag={onElementDrag}
       onSeek={onSeek}

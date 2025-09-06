@@ -5,12 +5,11 @@ import { Toolbar } from "./toolbar";
 import { PropertiesPanel } from "./properties-panel";
 import ElementPanel from "./element-panel";
 import StudioHeader from "./header";
-import { useEffect } from "react";
-import { useStudioContext } from "../context/studio-context";
+import {  useState } from "react";
 
 export function EditorShell() {
   const { editor, selectedItem } = useTimelineContext();
-  const { state } = useStudioContext();
+  const [ selectedTool, setSelectedTool ] = useState<string>("video");
   const addElement = (element: TrackElement) => {
     if (selectedItem instanceof Track) {
       editor.addElementToTrack(selectedItem, element);
@@ -32,11 +31,7 @@ export function EditorShell() {
   //     });
   //   }
   // };
-  useEffect(() => {
-    if (state.selectedTool === "track") {
-      editor.addTrack("Track");
-    }
-  }, [state.selectedTool]);
+
   return (
     <div className="h-screen w-screen overflow-hidden bg-neutral-900 text-gray-100">
       {/* Header */}
@@ -44,13 +39,11 @@ export function EditorShell() {
       {/* Main Content */}
       <div className="flex h-[calc(100vh-56px)]">
         {/* Left Toolbar */}
-        <Toolbar />
+        <Toolbar selectedTool={selectedTool} setSelectedTool={setSelectedTool} />
 
         {/* Left Panel - Media Library */}
         <aside className="border-r border-gray-600/50 backdrop-blur-md shadow-lg">
-          <ElementPanel
-            addElement={addElement}
-          />
+          <ElementPanel selectedTool={selectedTool} addElement={addElement} />
         </aside>
 
         {/* Center - Canvas and Transport */}

@@ -1,24 +1,23 @@
-import { useStudioContext } from "../context/studio-context";
 import { ImageLibrary } from "./media-library/image-library";
 import { AudioLibrary } from "./media-library/audio-library";
 import { VideoLibrary } from "./media-library/video-library";
 import { TextPanel } from "./panels/text-panel";
-import { SubtitlesPanel } from "./subtitles-panel";
+import { SubtitlesPanel } from "./panels/subtitles-panel";
 import IconPanel from "./panels/icon-panel";
 import { RectPanel } from "./panels/rect-panel";
 import { CirclePanel } from "./panels/circle-panel";
 import { TrackElement } from "@twick/timeline";
 
 interface ElementPanelProps {
+  selectedTool: string;
   addElement: (element: TrackElement) => void;
 }
 
-const ElementPanel = ({ addElement }: ElementPanelProps): JSX.Element => {
-  const { state } = useStudioContext();
+const ElementPanel = ({ selectedTool, addElement }: ElementPanelProps): JSX.Element => {
 
   // Render appropriate library based on selected tool
   const renderLibrary = () => {
-    switch (state.selectedTool) {
+    switch (selectedTool) {
       case "image":
         return <ImageLibrary onAddToTimeline={addElement} />;
       case "audio":
