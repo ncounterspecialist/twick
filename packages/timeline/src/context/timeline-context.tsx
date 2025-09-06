@@ -10,7 +10,7 @@ import { TIMELINE_ACTION } from "../utils/constants";
 import { UndoRedoProvider, useUndoRedo } from "./undo-redo-context";
 import { Track } from "../core/track/track";
 import { TrackElement } from "../core/elements/base.element";
-import { ProjectJSON, TrackJSON } from "../types";
+import { ProjectJSON, Size, TrackJSON } from "../types";
 import { TimelineEditor } from "../core/editor/timeline.editor";
 import { editorRegistry } from "../utils/register-editor";
 import { PostHogProvider } from "posthog-js/react";
@@ -49,6 +49,8 @@ export type TimelineContextType = {
     type: string;
     payload: any;
   };
+  /** Resolution of the video */
+  videoResolution: Size;
   /** Total duration of the timeline in seconds */
   totalDuration: number;
   /** Current project state */
@@ -61,6 +63,8 @@ export type TimelineContextType = {
   setSelectedItem: (item: Track | TrackElement | null) => void;
   /** Function to set timeline actions */
   setTimelineAction: (type: string, payload: any) => void;
+  /** Function to set the video resolution */
+  setVideoResolution: (size: Size) => void;
 };
 
 const TimelineContext = createContext<TimelineContextType | undefined>(
@@ -88,6 +92,8 @@ export interface TimelineProviderProps {
   children: React.ReactNode;
   /** Unique identifier for this timeline context */
   contextId: string;
+  /** resolution of the video */
+  resolution: Size;
   /** Initial timeline data to load */
   initialData?: {
     tracks: TrackJSON[];
@@ -111,6 +117,7 @@ export interface TimelineProviderProps {
  * ```jsx
  * <TimelineProviderInner
  *   contextId="my-timeline"
+ *   resolution={{ width: 1920, height: 1080 }}
  *   initialData={{ tracks: [], version: 1 }}
  * >
  *   <YourApp />
@@ -120,6 +127,7 @@ export interface TimelineProviderProps {
 const TimelineProviderInner = ({
   contextId,
   children,
+  resolution,
   initialData,
 }: TimelineProviderProps) => {
   const [timelineAction, setTimelineActionState] = useState<{
@@ -133,6 +141,8 @@ const TimelineProviderInner = ({
   const [selectedItem, setSelectedItem] = useState<Track | TrackElement | null>(
     null
   );
+
+  const [videoResolution, setVideoResolution] = useState<Size>(resolution);
 
   const [totalDuration, setTotalDuration] = useState(0);
 
@@ -236,9 +246,11 @@ const TimelineProviderInner = ({
     timelineAction,
     totalDuration,
     changeLog,
+    videoResolution,
     present: undoRedoContext.present,
     canUndo: undoRedoContext.canUndo,
     canRedo: undoRedoContext.canRedo,
+    setVideoResolution,
     setSelectedItem,
     setTimelineAction,
     editor, // Include the editor instance
@@ -274,6 +286,7 @@ const TimelineProviderInner = ({
 export const TimelineProvider = ({
   contextId,
   children,
+  resolution,
   initialData,
   undoRedoPersistenceKey,
   maxHistorySize,
@@ -293,6 +306,7 @@ export const TimelineProvider = ({
         maxHistorySize={maxHistorySize}
       >
         <TimelineProviderInner
+          resolution={resolution}
           initialData={initialData}
           contextId={contextId}
           undoRedoPersistenceKey={undoRedoPersistenceKey}

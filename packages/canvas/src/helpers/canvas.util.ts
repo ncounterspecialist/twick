@@ -1,6 +1,4 @@
-import {
-  Canvas as FabricCanvas,
-} from "fabric";
+import { Canvas as FabricCanvas } from "fabric";
 import { CanvasMetadata, CanvasProps } from "../types";
 import { Dimensions, Position } from "@twick/media-utils";
 import { assertBrowser, assertCanvasSupport } from "./browser";
@@ -20,7 +18,7 @@ import { assertBrowser, assertCanvasSupport } from "./browser";
  * @param enableRetinaScaling - Enables retina scaling for higher DPI
  * @param touchZoomThreshold - Threshold for touch zoom interactions
  * @returns Object containing the initialized canvas and its metadata
- * 
+ *
  * @example
  * ```js
  * const { canvas, canvasMetadata } = createCanvas({
@@ -94,7 +92,7 @@ export const createCanvas = ({
  * proper layering order for visual elements.
  *
  * @param canvas - The Fabric.js canvas instance
- * 
+ *
  * @example
  * ```js
  * reorderElementsByZIndex(canvas);
@@ -118,22 +116,37 @@ export const reorderElementsByZIndex = (canvas: FabricCanvas) => {
 };
 
 /**
+ * Retrieves the context of a Fabric.js canvas.
+ * 
+ * @param canvas - The Fabric.js canvas instance
+ * @returns The context of the canvas
+ */
+export const getCanvasContext = (canvas: FabricCanvas | null | undefined) => {
+  if (!canvas || !canvas.elements?.lower?.ctx) return;
+  return canvas.elements?.lower?.ctx;
+};
+
+/**
  * Clears all elements from the canvas and re-renders it.
  * Removes all objects from the canvas while preserving the background
  * and triggers a re-render to update the display.
  *
  * @param canvas - The Fabric.js canvas instance
- * 
+ *
  * @example
  * ```js
  * clearCanvas(canvas);
  * // Canvas is now empty and ready for new elements
  * ```
  */
-export const clearCanvas = (canvas: FabricCanvas) => {
-  if (!canvas) return;
-  canvas.clear();
-  canvas.renderAll();
+export const clearCanvas = (canvas: FabricCanvas | null | undefined) => {
+  try {
+  if (!canvas || !getCanvasContext(canvas)) return;
+    canvas.clear();
+    canvas.renderAll();
+  } catch (error) {
+    console.warn("Error clearing canvas:", error);
+  }
 };
 
 /**
@@ -145,7 +158,7 @@ export const clearCanvas = (canvas: FabricCanvas) => {
  * @param y - Y-coordinate in video space
  * @param canvasMetadata - Metadata containing canvas scaling and dimensions
  * @returns Object containing the corresponding position in canvas space
- * 
+ *
  * @example
  * ```js
  * const canvasPos = convertToCanvasPosition(100, 200, canvasMetadata);
@@ -173,7 +186,7 @@ export const convertToCanvasPosition = (
  * @param canvasMetadata - Metadata containing canvas scaling and dimensions
  * @param videoSize - Dimensions of the video
  * @returns Object containing the corresponding position in video space
- * 
+ *
  * @example
  * ```js
  * const videoPos = convertToVideoPosition(450, 500, canvasMetadata, videoSize);
@@ -200,7 +213,7 @@ export const convertToVideoPosition = (
  * @param item - The item containing frame effects
  * @param seekTime - The current time to match against frame effects
  * @returns The current frame effect active at the given seek time, or undefined if none found
- * 
+ *
  * @example
  * ```js
  * const currentEffect = getCurrentFrameEffect(videoElement, 5.5);

@@ -15,26 +15,21 @@ import { DRAG_TYPE } from "../helpers/constants";
  * seeking, and selection changes in the video editor.
  *
  * @returns Object containing timeline management functions and state
- * 
+ *
  * @example
  * ```js
  * const { timelineData, onElementDrag, onSeek, onSelectionChange } = useTimelineManager();
- * 
+ *
  * // Handle element dragging
  * onElementDrag({ element, dragType: "START", updates: { start: 5, end: 10 } });
- * 
+ *
  * // Seek to specific time
  * onSeek(15.5);
  * ```
  */
 export const useTimelineManager = () => {
-  const {
-    selectedItem,
-    changeLog,
-    setSelectedItem,
-    totalDuration,
-    editor,
-  } = useTimelineContext();
+  const { selectedItem, changeLog, setSelectedItem, totalDuration, editor } =
+    useTimelineContext();
   /**
    * Handles element dragging operations on the timeline.
    * Updates element start/end times and handles special cases
@@ -43,7 +38,7 @@ export const useTimelineManager = () => {
    * @param element - The element being dragged
    * @param dragType - The type of drag operation
    * @param updates - Object containing new start and end times
-   * 
+   *
    * @example
    * ```js
    * onElementDrag({
@@ -83,9 +78,9 @@ export const useTimelineManager = () => {
 
   // Get timeline data from editor
   const timelineData = useMemo(() => {
-      const timelineDataFromEditor = editor.getTimelineData();
-      // console.log(changeLog, timelineDataFromEditor);
-      return timelineDataFromEditor;
+    const timelineDataFromEditor = editor.getTimelineData();
+    // console.log(changeLog, timelineDataFromEditor);
+    return timelineDataFromEditor;
   }, [changeLog]);
 
   const { setSeekTime, setCurrentTime } = useLivePlayerContext();
@@ -96,7 +91,7 @@ export const useTimelineManager = () => {
    * new arrangement of tracks.
    *
    * @param reorderedItems - Array of tracks in their new order
-   * 
+   *
    * @example
    * ```js
    * onReorder([track1, track2, track3]);
@@ -112,7 +107,7 @@ export const useTimelineManager = () => {
    * Updates both the current time and seek time in the player.
    *
    * @param time - The time in seconds to seek to
-   * 
+   *
    * @example
    * ```js
    * onSeek(30.5);
@@ -129,12 +124,12 @@ export const useTimelineManager = () => {
    * Updates the selected item in the timeline context.
    *
    * @param selectedItem - The newly selected track or element
-   * 
+   *
    * @example
    * ```js
    * onSelectionChange(videoElement);
    * // Selects the specified video element
-   * 
+   *
    * onSelectionChange(null);
    * // Clears the current selection
    * ```
@@ -143,8 +138,14 @@ export const useTimelineManager = () => {
     setSelectedItem(selectedItem);
   };
 
+  const onAddTrack = () => {
+    const tracks = editor.getTimelineData()?.tracks || [];
+    editor.addTrack(`Track_${tracks.length + 1}`);
+  };
+
   return {
     timelineData,
+    onAddTrack,
     onElementDrag,
     onReorder,
     onSeek,

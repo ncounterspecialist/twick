@@ -1,31 +1,54 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { inputStyles } from "../../styles/input-styles";
-import { CircleElement, TrackElement } from "@twick/timeline";
+import { CircleElement } from "@twick/timeline";
+import type { PanelProps } from "../../types";
 
-export function CirclePanel({onAddToTimeline}: {onAddToTimeline: (element: TrackElement) => void}) {
-  const [radius, setRadius] = useState(50);
-  const [fillColor, setFillColor] = useState("#3b82f6");
-  const [opacity, setOpacity] = useState(100);
-  const [strokeColor, setStrokeColor] = useState("#000000");
-  const [lineWidth, setLineWidth] = useState(0);
+const DEFAULT_CIRCLE_PROPS = {
+  radius: 50,
+  fillColor: "#3b82f6",
+  opacity: 100,
+  strokeColor: "#000000",
+  lineWidth: 0,
+}
+export function CirclePanel({
+  selectedElement,
+  addElement,
+  updateElement,
+}: PanelProps) {
+  const [radius, setRadius] = useState(DEFAULT_CIRCLE_PROPS.radius);
+  const [fillColor, setFillColor] = useState(DEFAULT_CIRCLE_PROPS.fillColor);
+  const [opacity, setOpacity] = useState(DEFAULT_CIRCLE_PROPS.opacity);
+  const [strokeColor, setStrokeColor] = useState(DEFAULT_CIRCLE_PROPS.strokeColor);
+  const [lineWidth, setLineWidth] = useState(DEFAULT_CIRCLE_PROPS.lineWidth);
 
   const handleApplyChanges = () => {
-    // TODO: Apply circle changes to selected circle element
-    console.log("Applying circle changes:", {
-      radius,
-      fillColor,
-      opacity,
-      strokeColor,
-      lineWidth
-    });
-
-    const circleElement = new CircleElement(fillColor, radius)
-    .setOpacity(opacity)
-    .setStrokeColor(strokeColor)
-    .setLineWidth(lineWidth);
-
-    onAddToTimeline(circleElement);
+    let circleElement;
+    if (selectedElement instanceof CircleElement) {
+      circleElement = selectedElement;
+      circleElement.setRadius(radius);
+      circleElement.setFill(fillColor);
+      circleElement.setOpacity(opacity);
+      circleElement.setStrokeColor(strokeColor);
+      circleElement.setLineWidth(lineWidth);
+      updateElement?.(circleElement);
+    } else {
+      circleElement = new CircleElement(fillColor, radius)
+        .setOpacity(opacity)
+        .setStrokeColor(strokeColor)
+        .setLineWidth(lineWidth);
+      addElement?.(circleElement);
+    }
   };
+
+  useEffect(() => {
+    if (selectedElement instanceof CircleElement) {
+      setRadius(selectedElement.getRadius() ?? DEFAULT_CIRCLE_PROPS.radius);
+      setFillColor(selectedElement.getFill() ?? DEFAULT_CIRCLE_PROPS.fillColor);
+      setOpacity(selectedElement.getOpacity() ?? DEFAULT_CIRCLE_PROPS.opacity);
+      setStrokeColor(selectedElement.getStrokeColor() ?? DEFAULT_CIRCLE_PROPS.strokeColor);
+      setLineWidth(selectedElement.getLineWidth() ?? DEFAULT_CIRCLE_PROPS.lineWidth);
+    }
+  }, [selectedElement]);
 
   return (
     <div className={inputStyles.panel.container}>
@@ -38,7 +61,7 @@ export function CirclePanel({onAddToTimeline}: {onAddToTimeline: (element: Track
           <input
             type="range"
             min="10"
-            max="200"
+            max="300"
             value={radius}
             onChange={(e) => setRadius(Number(e.target.value))}
             className={inputStyles.range.base}
@@ -57,7 +80,7 @@ export function CirclePanel({onAddToTimeline}: {onAddToTimeline: (element: Track
             onChange={(e) => setFillColor(e.target.value)}
             className={inputStyles.color.picker}
           />
-          <div 
+          <div
             className={inputStyles.color.preview}
             style={{ backgroundColor: fillColor }}
           />
@@ -90,7 +113,7 @@ export function CirclePanel({onAddToTimeline}: {onAddToTimeline: (element: Track
             onChange={(e) => setStrokeColor(e.target.value)}
             className={inputStyles.color.picker}
           />
-          <div 
+          <div
             className={inputStyles.color.preview}
             style={{ backgroundColor: strokeColor }}
           />

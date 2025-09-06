@@ -6,11 +6,17 @@ import {  TimelineProvider } from "@twick/timeline";
 import "./example-editor.css";
 import EditorControls from "../components/editor-controls";
 
+const videoResolution = {
+  width: 720,
+  height: 1280,
+}
+
 const ExampleEditor = () => {
   return (
     <LivePlayerProvider>
       <TimelineProvider
         contextId={'editor-demo'}
+        resolution={videoResolution}
         initialData={INITIAL_TIMELINE_DATA}
       >
         <VideoEditor
@@ -19,8 +25,8 @@ const ExampleEditor = () => {
           editorConfig={{
             canvasMode: true,
             videoProps: {
-              width: 720,
-              height: 1280,
+              width: videoResolution.width,
+              height: videoResolution.height,
             },
           }}
         />

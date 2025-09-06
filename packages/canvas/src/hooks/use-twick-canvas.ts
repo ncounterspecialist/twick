@@ -6,6 +6,7 @@ import {
   clearCanvas,
   convertToVideoPosition,
   createCanvas,
+  getCanvasContext,
   getCurrentFrameEffect,
   reorderElementsByZIndex,
 } from "../helpers/canvas.util";
@@ -310,15 +311,24 @@ export const useTwickCanvas = ({
     captionProps?: any;
     cleanAndAdd?: boolean;
   }) => {
-    if (!twickCanvas) {
-      console.warn("Canvas not initialized");
+    if (!twickCanvas || !getCanvasContext(twickCanvas)) {
+      console.warn("Canvas not properly initialized");
       return;
     }
 
     try {
-      if (cleanAndAdd) {
+      if (cleanAndAdd && getCanvasContext(twickCanvas)) {
+        // Store background color before clearing
+        const backgroundColor = twickCanvas.backgroundColor;
+        
         // Clear canvas before adding new elements
         clearCanvas(twickCanvas);
+        
+        // Restore background color
+        if (backgroundColor) {
+          twickCanvas.backgroundColor = backgroundColor;
+          twickCanvas.renderAll();
+        }
       }
 
       await Promise.all(

@@ -1,19 +1,21 @@
 import { useEffect, useState } from "react";
-import { Upload, Search, Wand2, Plus } from "lucide-react";
+import { Upload, Wand2, Plus } from "lucide-react";
 import { getMediaManager } from "../../shared";
 import type { MediaItem } from "@twick/video-editor";
-import { ImageElement, type TrackElement } from "@twick/timeline";
+import { ImageElement, useTimelineContext } from "@twick/timeline";
+import SearchInput from "../../shared/search-input";
+import FileInput from "../../shared/file-input";
+import type { PanelProps } from "../../types";
 
-interface ImageLibraryProps {
-  onAddToTimeline?: (item: TrackElement) => void;
-}
-
-export const ImageLibrary = ({
-  onAddToTimeline,
-}: ImageLibraryProps) => {
+export const ImagePanel = ({
+  selectedElement,
+  addElement,
+  updateElement,
+}: PanelProps) => {
   const [items, setItems] = useState<MediaItem[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const mediaManager = getMediaManager();
+  const { videoResolution } = useTimelineContext();
 
   useEffect(() => {
     const loadItems = async () => {
@@ -26,12 +28,37 @@ export const ImageLibrary = ({
     loadItems();
   }, [searchQuery]);
 
-  const handleAddElement = (item: MediaItem) => {
-    const imageElement = new ImageElement(item.url, {
-      width: 1280,
-      height: 720,
+  const handleSelection = (item: MediaItem) => {
+    let imageElement;
+    if (selectedElement instanceof ImageElement) {
+      imageElement = selectedElement;
+      imageElement.setSrc(item.url);
+      updateElement?.(imageElement);
+    } else {
+      imageElement = new ImageElement(item.url, {
+        width: videoResolution.width,
+        height: videoResolution.height,
+      });
+      addElement?.(imageElement);
+    }
+  };
+
+  const handleFileUpload = async (fileData: {
+    file: File;
+    blobUrl: string;
+  }) => {
+    const arrayBuffer = await fileData.file.arrayBuffer();
+    const newItem = await mediaManager.addItem({
+      url: fileData.blobUrl,
+      type: "image",
+      arrayBuffer,
+      metadata: {
+        name: fileData.file.name,
+        size: fileData.file.size,
+        type: fileData.file.type,
+      },
     });
-    onAddToTimeline?.(imageElement);
+    setItems((prev) => [...prev, newItem]);
   };
 
   return (
@@ -42,13 +69,17 @@ export const ImageLibrary = ({
 
         {/* Search */}
         <div className="relative mb-3">
-          <Search className="absolute left-2.5 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-          <input
-            type="text"
-            placeholder="Search media..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-8 pr-3 py-2 bg-neutral-700/80 border border-gray-600 rounded-lg text-gray-100 text-sm placeholder-gray-400 focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500/20 transition-all duration-200 backdrop-blur-sm shadow-sm"
+          {/* Search */}
+          <SearchInput
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+          />
+          {/* Upload Button */}
+          <FileInput
+            id="image-upload"
+            acceptFileTypes={["image/*"]}
+            onFileLoad={handleFileUpload}
+            buttonText="Upload"
           />
         </div>
 
@@ -65,7 +96,7 @@ export const ImageLibrary = ({
           {items.map((item) => (
             <div
               key={item.id}
-              onDoubleClick={() => handleAddElement(item)}
+              onDoubleClick={() => handleSelection(item)}
               className="media-item-compact group relative cursor-pointer overflow-hidden hover:shadow-lg hover:shadow-purple-500/20 transition-all duration-200"
             >
               <img
@@ -79,12 +110,13 @@ export const ImageLibrary = ({
 
               {/* Quick Actions */}
               <div className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                <button 
-                onClick={(e) => { 
-                  e.stopPropagation();
-                  handleAddElement(item);
-                }}
-                className="w-5 h-5 rounded-full bg-purple-500/80 hover:bg-purple-500 flex items-center justify-center text-white text-xs">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleSelection(item);
+                  }}
+                  className="w-5 h-5 rounded-full bg-purple-500/80 hover:bg-purple-500 flex items-center justify-center text-white text-xs"
+                >
                   <Plus className="w-3 h-3" />
                 </button>
               </div>

@@ -3,6 +3,7 @@ import "../../styles/timeline.css";
 import TrackHeader from "../track/track-header";
 import TrackBase from "../track/track-base";
 import { Track, TrackElement } from "@twick/timeline";
+import { Plus } from "lucide-react";
 
 function TimelineView({
   zoomLevel,
@@ -10,6 +11,7 @@ function TimelineView({
   duration,
   tracks,
   seekTrack,
+  onAddTrack,
   onReorder,
   onSelectionChange,
   onElementDrag,
@@ -20,6 +22,7 @@ function TimelineView({
   tracks: Track[];
   selectedItem: Track | TrackElement | null;
   seekTrack?: React.ReactNode;
+  onAddTrack: () => void; 
   onReorder: (tracks: Track[]) => void;
   onElementDrag: ({
     element,
@@ -161,7 +164,9 @@ function TimelineView({
       <div style={{ width: timelineWidthPx }}>
         {seekTrack ? (
           <div style={{ display: "flex", position: "relative" }}>
-            <div className="twick-seek-track-empty-space"></div>
+            <div className="twick-seek-track-empty-space" onClick={onAddTrack}>
+              <Plus color="white" size={20}/>
+            </div>
             <div style={{ flexGrow: 1 }}>{seekTrack}</div>
           </div>
         ) : null}

@@ -1,3 +1,5 @@
+import type { TrackElement } from "@twick/timeline"
+
 export interface MediaItem {
   id: string
   name: string
@@ -9,6 +11,12 @@ export interface MediaItem {
   width?: number
   height?: number
   createdAt: Date
+}
+
+export interface PanelProps {
+  selectedElement?: TrackElement | null;
+  addElement?: (item: TrackElement) => void;
+  updateElement?: (item: TrackElement) => void;
 }
 
 export interface TextElement {

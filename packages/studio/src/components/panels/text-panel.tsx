@@ -1,47 +1,120 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { inputStyles } from "../../styles/input-styles";
-import { TextElement, TrackElement } from "@twick/timeline";
+import { TextElement, TrackElement, type TextAlign } from "@twick/timeline";
 import { AVAILABLE_TEXT_FONTS } from "@twick/video-editor";
 
-export function TextPanel({onAddToTimeline}: {onAddToTimeline: (element: TrackElement) => void}) {
-  const [textContent, setTextContent] = useState("Sample");
-  const [fontSize, setFontSize] = useState(48);
-  const [selectedFont, setSelectedFont] = useState("Poppins");
-  const [isBold, setIsBold] = useState(false);
-  const [isItalic, setIsItalic] = useState(false);
-  const [textColor, setTextColor] = useState("#ffffff");
-  const [strokeColor, setStrokeColor] = useState("#ffffff");
-  const [applyShadow, setApplyShadow] = useState(false);
-  const [shadowColor, setShadowColor] = useState("#000000");
-  const [strokeWidth, setStrokeWidth] = useState(0);
+const DEFAULT_TEXT_PROPS = {
+  text: "Sample",
+  fontSize: 48,
+  fontFamily: "Poppins",
+  fontWeight: 400,
+  fontStyle: "normal",
+  textColor: "#ffffff",
+  strokeColor: "#ffffff",
+  strokeWidth: 0,
+  applyShadow: false,
+  shadowColor: "#000000",
+  textAlign: "center",
+  shadowOffset: [0, 0],
+          shadowBlur: 2,
+          shadowOpacity: 1.0,
+}
+
+export function TextPanel({
+  selectedElement,
+  addElement,
+  updateElement,
+}: {
+  selectedElement: TrackElement | null;
+  addElement: (element: TrackElement) => void;
+  updateElement: (element: TrackElement) => void;
+}) {
+  const [textContent, setTextContent] = useState(DEFAULT_TEXT_PROPS.text);
+  const [fontSize, setFontSize] = useState(DEFAULT_TEXT_PROPS.fontSize);
+  const [selectedFont, setSelectedFont] = useState(DEFAULT_TEXT_PROPS.fontFamily);
+  const [isBold, setIsBold] = useState(DEFAULT_TEXT_PROPS.fontWeight === 700);
+  const [isItalic, setIsItalic] = useState(DEFAULT_TEXT_PROPS.fontStyle === "italic");
+  const [textColor, setTextColor] = useState(DEFAULT_TEXT_PROPS.textColor);
+  const [strokeColor, setStrokeColor] = useState(DEFAULT_TEXT_PROPS.strokeColor);
+  const [applyShadow, setApplyShadow] = useState(DEFAULT_TEXT_PROPS.applyShadow);
+  const [shadowColor, setShadowColor] = useState(DEFAULT_TEXT_PROPS.shadowColor);
+  const [strokeWidth, setStrokeWidth] = useState(DEFAULT_TEXT_PROPS.strokeWidth);
 
   const fonts = Object.values(AVAILABLE_TEXT_FONTS);
 
   const handleApplyChanges = () => {
-
-    const textElement = new TextElement(textContent)
-    .setFontSize(fontSize)
-    .setFontFamily(selectedFont)
-    .setFontWeight(isBold ? 700 : 400)
-    .setFontStyle(isItalic ? "italic" : "normal")
-    .setFill(textColor)
-    .setStrokeColor(strokeColor)
-    .setLineWidth(strokeWidth)
-    .setTextAlign("center")
-
-    if(applyShadow) {
-      textElement.setProps(
-        {
+    let textElement;
+    if (selectedElement instanceof TextElement) {
+      textElement = selectedElement;
+      textElement.setText(textContent);
+      textElement.setFontSize(fontSize);
+      textElement.setFontFamily(selectedFont);
+      textElement.setFontWeight(isBold ? 700 : 400);
+      textElement.setFontStyle(isItalic ? "italic" : "normal");
+      textElement.setFill(textColor);
+      textElement.setStrokeColor(strokeColor);
+      textElement.setLineWidth(strokeWidth);
+        textElement.setTextAlign(DEFAULT_TEXT_PROPS.textAlign as TextAlign);
+      if (applyShadow) {
+        textElement.setProps({
           ...textElement.getProps(),
           shadowColor,
-          shadowOffset: [0, 0],
-          shadowBlur: 2,
-          shadowOpacity: 1.0
-        }
-      );
+          shadowOffset: DEFAULT_TEXT_PROPS.shadowOffset,
+          shadowBlur: DEFAULT_TEXT_PROPS.shadowBlur ,
+          shadowOpacity: DEFAULT_TEXT_PROPS.shadowOpacity,
+        });
+      } else {
+        textElement.setProps({
+          ...textElement.getProps(),
+          shadowColor: undefined,
+          shadowOffset: undefined,
+          shadowBlur: undefined,
+          shadowOpacity: undefined,
+        });
+      }
+      updateElement(textElement);
+    } else {
+      textElement = new TextElement(textContent)
+        .setFontSize(fontSize)
+        .setFontFamily(selectedFont)
+        .setFontWeight(isBold ? 700 : 400)
+        .setFontStyle(isItalic ? "italic" : "normal")
+        .setFill(textColor)
+        .setStrokeColor(strokeColor)
+        .setLineWidth(strokeWidth)
+        .setTextAlign("center");
+
+      if (applyShadow) {
+        textElement.setProps({
+          ...textElement.getProps(),
+          shadowColor,
+          shadowOffset: DEFAULT_TEXT_PROPS.shadowOffset,
+          shadowBlur: DEFAULT_TEXT_PROPS.shadowBlur ,
+          shadowOpacity: DEFAULT_TEXT_PROPS.shadowOpacity,
+        });
+      }
+      addElement(textElement);
     }
-    onAddToTimeline(textElement);
-  }
+  };
+
+  useEffect(() => {
+    if (selectedElement instanceof TextElement) {
+      setTextContent(selectedElement.getText());
+      const textProps = selectedElement.getProps();
+      setSelectedFont(textProps.fontFamily ?? DEFAULT_TEXT_PROPS.fontFamily);
+      setFontSize(textProps.fontSize ?? DEFAULT_TEXT_PROPS.fontSize);
+      setIsBold(textProps.fontWeight === 70);
+      setIsItalic(textProps.fontStyle === "italic");
+      setTextColor(textProps.fill ?? DEFAULT_TEXT_PROPS.textColor);
+      setStrokeColor(textProps.stroke ?? DEFAULT_TEXT_PROPS.strokeColor);
+      setStrokeWidth(textProps.lineWidth ?? DEFAULT_TEXT_PROPS.strokeWidth);
+      let applyShadow = textProps.shadowColor !== undefined;
+      setApplyShadow(applyShadow);
+      if (applyShadow) {
+        setShadowColor(textProps.shadowColor ?? DEFAULT_TEXT_PROPS.shadowColor);
+      }
+    }
+  }, [selectedElement]);
 
   return (
     <div className={inputStyles.panel.container}>
@@ -84,7 +157,9 @@ export function TextPanel({onAddToTimeline}: {onAddToTimeline: (element: TrackEl
             className={inputStyles.input.base}
           >
             {fonts.map((font) => (
-              <option key={font} value={font}>{font}</option>
+              <option key={font} value={font}>
+                {font}
+              </option>
             ))}
           </select>
           <button
@@ -128,7 +203,7 @@ export function TextPanel({onAddToTimeline}: {onAddToTimeline: (element: TrackEl
               />
             </div>
           </div>
-          
+
           {/* Stroke Color */}
           <div>
             <label className={inputStyles.label.small}>Stroke Color</label>
@@ -157,7 +232,9 @@ export function TextPanel({onAddToTimeline}: {onAddToTimeline: (element: TrackEl
               onChange={(e) => setApplyShadow(e.target.checked)}
               className={inputStyles.radio.base}
             />
-            <label htmlFor="applyShadow" className={inputStyles.radio.label}>Apply Shadow</label>
+            <label htmlFor="applyShadow" className={inputStyles.radio.label}>
+              Apply Shadow
+            </label>
           </div>
 
           {/* Shadow Color - Only shown when shadow is enabled */}

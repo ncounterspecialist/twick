@@ -31,6 +31,8 @@
   left: 0;
   z-index: 40;
   display: flex;
+  justify-content: center;
+  align-items: center;
   flex-grow: 0;
   min-width: 40px;
   height: 34px;

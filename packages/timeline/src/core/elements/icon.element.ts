@@ -13,6 +13,15 @@ export class IconElement extends TrackElement {
     };
   }
 
+  getSrc(): string {
+    return this.props.src;
+  } 
+
+  setSrc(src: string) {
+    this.props.src = src;
+    return this;
+  }
+
   accept<T>(visitor: ElementVisitor<T>): T {
       return visitor.visitIconElement(this);
   }

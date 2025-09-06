@@ -1,24 +1,13 @@
 import { useEffect, useState } from "react";
-import {
-  Upload,
-  Search,
-  Wand2,
-  Plus,
-  Volume2,
-  Play,
-  Pause,
-} from "lucide-react";
+import { Upload, Wand2, Plus, Volume2, Play, Pause } from "lucide-react";
 import { getMediaManager } from "../../shared";
 import type { MediaItem } from "@twick/video-editor";
-import { AudioElement, TrackElement } from "@twick/timeline";
+import { AudioElement } from "@twick/timeline";
+import SearchInput from "../../shared/search-input";
+import FileInput from "../../shared/file-input";
+import type { PanelProps } from "../../types";
 
-interface AudioLibraryProps {
-  onAddToTimeline?: (item: TrackElement) => void;
-}
-
-export const AudioLibrary = ({
-  onAddToTimeline,
-}: AudioLibraryProps) => {
+export const AudioPanel = ({ selectedElement, addElement, updateElement }: PanelProps) => {
   const [playingAudio, setPlayingAudio] = useState<string | null>(null);
   const [audioElement, setAudioElement] = useState<HTMLAudioElement | null>(
     null
@@ -39,9 +28,17 @@ export const AudioLibrary = ({
     loadItems();
   }, [searchQuery]);
 
-  const handleAddElement = (item: MediaItem) => {
-    const audioElement = new AudioElement(item.url);
-    onAddToTimeline?.(audioElement);
+  const handleSelection = async (item: MediaItem) => {
+    let audioElement;
+    if(selectedElement instanceof AudioElement) {
+      audioElement = selectedElement;
+      audioElement.setSrc(item.url);
+      await audioElement.updateAudioMeta();
+      updateElement?.(audioElement);
+    } else {
+      audioElement = new AudioElement(item.url);
+      addElement?.(audioElement);
+    }
   };
 
   const handlePlayPause = (item: MediaItem) => {
@@ -74,7 +71,23 @@ export const AudioLibrary = ({
     }
   };
 
-
+  const handleFileUpload = async (fileData: {
+    file: File;
+    blobUrl: string;
+  }) => {
+    const arrayBuffer = await fileData.file.arrayBuffer();
+    const newItem = await mediaManager.addItem({
+      url: fileData.blobUrl,
+      type: "audio",
+      arrayBuffer,
+      metadata: {
+        name: fileData.file.name,
+        size: fileData.file.size,
+        type: fileData.file.type,
+      },
+    });
+    setItems((prev) => [...prev, newItem]);
+  };
 
   return (
     <div className="w-72 bg-neutral-800/80 border-r border-gray-600/50 flex flex-col h-full backdrop-blur-md shadow-lg">
@@ -84,13 +97,17 @@ export const AudioLibrary = ({
 
         {/* Search */}
         <div className="relative mb-3">
-          <Search className="absolute left-2.5 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-          <input
-            type="text"
-            placeholder="Search audio..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-8 pr-3 py-2 bg-neutral-700/80 border border-gray-600 rounded-lg text-gray-100 text-sm placeholder-gray-400 focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500/20 transition-all duration-200 backdrop-blur-sm shadow-sm"
+          {/* Search */}
+          <SearchInput
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+          />
+          {/* Upload Button */}
+          <FileInput
+            id="audio-upload"
+            acceptFileTypes={["audio/*"]}
+            onFileLoad={handleFileUpload}
+            buttonText="Upload"
           />
         </div>
 
@@ -107,7 +124,7 @@ export const AudioLibrary = ({
           {items.map((item) => (
             <div
               key={item.id}
-              onDoubleClick={() => handleAddElement(item)}
+              onDoubleClick={() => handleSelection(item)}
               className="audio-item group relative cursor-pointer p-3 bg-neutral-700/50 rounded-lg hover:bg-neutral-700/80 transition-all duration-200 border border-transparent hover:border-purple-500/30"
             >
               {/* Audio Info */}
@@ -143,7 +160,7 @@ export const AudioLibrary = ({
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
-                    handleAddElement?.(item);
+                    handleSelection(item);
                   }}
                   className="w-6 h-6 rounded-full bg-purple-500/60 hover:bg-purple-500 flex items-center justify-center text-white text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex-shrink-0"
                 >
