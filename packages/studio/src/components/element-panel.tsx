@@ -1,6 +1,6 @@
-import { ImageLibrary } from "./media-library/image-library";
-import { AudioLibrary } from "./media-library/audio-library";
-import { VideoLibrary } from "./media-library/video-library";
+import { ImagePanel } from "./panels/image-panel";
+import { AudioPanel } from "./panels/audio-panel";
+import { VideoPanel } from "./panels/video-panel";
 import { TextPanel } from "./panels/text-panel";
 import { SubtitlesPanel } from "./panels/subtitles-panel";
 import IconPanel from "./panels/icon-panel";
@@ -9,29 +9,31 @@ import { CirclePanel } from "./panels/circle-panel";
 import { TrackElement } from "@twick/timeline";
 
 interface ElementPanelProps {
-  selectedTool: string;
+  selectedTool: string; 
+  selectedElement: TrackElement | null;
   addElement: (element: TrackElement) => void;
+  updateElement: (element: TrackElement) => void;
 }
 
-const ElementPanel = ({ selectedTool, addElement }: ElementPanelProps): JSX.Element => {
+const ElementPanel = ({ selectedTool, selectedElement, addElement, updateElement }: ElementPanelProps): JSX.Element => {
 
   // Render appropriate library based on selected tool
   const renderLibrary = () => {
     switch (selectedTool) {
       case "image":
-        return <ImageLibrary onAddToTimeline={addElement} />;
+        return <ImagePanel selectedElement={selectedElement} addElement={addElement} updateElement={updateElement} />;
       case "audio":
-        return <AudioLibrary onAddToTimeline={addElement} />;
+        return <AudioPanel selectedElement={selectedElement} addElement={addElement} updateElement={updateElement} />;
       case "video":
-        return <VideoLibrary onAddToTimeline={addElement} />;
+        return <VideoPanel selectedElement={selectedElement} addElement={addElement} updateElement={updateElement} />;
       case "text":
-        return <TextPanel onAddToTimeline={addElement} />;
+        return <TextPanel selectedElement={selectedElement} addElement={addElement} updateElement={updateElement} />;
       case "icon":
-        return <IconPanel onAddToTimeline={addElement}/>;
+        return <IconPanel selectedElement={selectedElement} addElement={addElement} updateElement={updateElement}/>;
       case "rect":
-        return <RectPanel onAddToTimeline={addElement}/>;
+        return <RectPanel selectedElement={selectedElement} addElement={addElement} updateElement={updateElement}/>;
       case "circle":
-        return <CirclePanel onAddToTimeline={addElement}/>;
+        return <CirclePanel selectedElement={selectedElement} addElement={addElement} updateElement={updateElement}/>;
       case "subtitle":
         return <SubtitlesPanel/>;
       default:

@@ -1,14 +1,19 @@
 import { useState, useRef, useEffect } from "react";
 import { Search, Loader2, Download } from "lucide-react";
 import { inputStyles } from "../../styles/input-styles";
-import { IconElement, TrackElement } from "@twick/timeline";
+import { IconElement } from "@twick/timeline";
+import type { PanelProps } from "../../types";
 
 interface Icon {
   name: string;
   svg: string;
 }
 
-const IconPanel = ({onAddToTimeline}: {onAddToTimeline: (element: TrackElement) => void}) => {
+const IconPanel = ({
+  selectedElement,
+  addElement,
+  updateElement,
+}: PanelProps) => {
   const [icons, setIcons] = useState<Icon[]>([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
@@ -86,20 +91,25 @@ const IconPanel = ({onAddToTimeline}: {onAddToTimeline: (element: TrackElement) 
     fetchIcons(query, true);
   };
 
-  const handleAddIcon = (icon: Icon) => {
+  const handleSelection = (icon: Icon) => {
     // Convert SVG to data URL
-    const svgBlob = new Blob([icon.svg], { type: 'image/svg+xml' });
+    const svgBlob = new Blob([icon.svg], { type: "image/svg+xml" });
     const url = URL.createObjectURL(svgBlob);
-    
-    // Create an image element with the SVG
-    const iconElement = new IconElement(url, {
-      width: 100,  // Default size for icons
-      height: 100
-    });
-    iconElement.setName(icon.name);
 
-    // Add to timeline
-    onAddToTimeline(iconElement);
+    let iconElement;
+    if (selectedElement instanceof IconElement) {
+      iconElement = selectedElement;
+      iconElement.setSrc(url);
+      iconElement.setName(icon.name);
+      updateElement?.(iconElement);
+    } else {
+      iconElement = new IconElement(url, {
+        width: 100, // Default size for icons
+        height: 100,
+      });
+      iconElement.setName(icon.name);
+      addElement?.(iconElement);
+    }
 
     // Clean up the URL
     URL.revokeObjectURL(url);
@@ -107,9 +117,9 @@ const IconPanel = ({onAddToTimeline}: {onAddToTimeline: (element: TrackElement) 
 
   const handleDownloadIcon = (icon: Icon) => {
     // Create a download link for the SVG
-    const blob = new Blob([icon.svg], { type: 'image/svg+xml' });
+    const blob = new Blob([icon.svg], { type: "image/svg+xml" });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = url;
     a.download = `${icon.name}.svg`;
     document.body.appendChild(a);
@@ -125,7 +135,10 @@ const IconPanel = ({onAddToTimeline}: {onAddToTimeline: (element: TrackElement) 
       {/* Search Section */}
       <div className={inputStyles.container}>
         <div className="relative mb-3">
-          <Search className="absolute left-2.5 top-1/2 transform -translate-y-1/2 w-4 h-4 text-white" color="white"/>
+          <Search
+            className="absolute left-2.5 top-1/2 transform -translate-y-1/2 w-4 h-4 text-white"
+            color="white"
+          />
           <input
             type="text"
             placeholder="Search icons..."
@@ -153,23 +166,20 @@ const IconPanel = ({onAddToTimeline}: {onAddToTimeline: (element: TrackElement) 
           {/* Icons Grid */}
           <div className="grid grid-cols-3 gap-3 mb-2 p-2 overflow-y-auto overflow-x-hidden">
             {icons.map((icon, index) => (
-              <div
-                key={index}
-                className="group relative cursor-pointer"
-              >
+              <div key={index} className="group relative cursor-pointer">
                 <div
-                  onClick={() => handleAddIcon(icon)}
+                  onClick={() => handleSelection(icon)}
                   className="w-16 h-16 flex items-center justify-center bg-neutral-700/50 border border-gray-600 rounded-lg hover:border-purple-500 hover:bg-neutral-700/70 transition-all duration-200 p-2"
                   dangerouslySetInnerHTML={{ __html: icon.svg }}
                 />
-                
+
                 {/* Hover overlay with actions */}
                 <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-200 rounded-lg flex items-center justify-center">
                   <div className="flex gap-2">
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
-                        handleAddIcon(icon);
+                        handleSelection(icon);
                       }}
                       className="p-1.5 bg-purple-600 hover:bg-purple-700 rounded transition-colors duration-200"
                       title="Add to timeline"

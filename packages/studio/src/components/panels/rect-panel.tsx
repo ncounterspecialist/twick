@@ -1,30 +1,50 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { inputStyles } from "../../styles/input-styles";
-import { RectElement, TrackElement } from "@twick/timeline";
+import { RectElement } from "@twick/timeline";
+import type { PanelProps } from "../../types";
 
-export function RectPanel({onAddToTimeline}: {onAddToTimeline: (element: TrackElement) => void}) {
-  const [cornerRadius, setCornerRadius] = useState(0);
-  const [fillColor, setFillColor] = useState("#3b82f6");
-  const [opacity, setOpacity] = useState(100);
-  const [strokeColor, setStrokeColor] = useState("#000000");
-  const [lineWidth, setLineWidth] = useState(0);
+const DEFAULT_RECT_PROPS = {
+  cornerRadius: 0,
+  fillColor: "#3b82f6",
+  opacity: 100,
+  strokeColor: "#000000",
+  lineWidth: 0,
+}     
+export function RectPanel({selectedElement, addElement, updateElement}: PanelProps) {
+  const [cornerRadius, setCornerRadius] = useState(DEFAULT_RECT_PROPS.cornerRadius);
+  const [fillColor, setFillColor] = useState(DEFAULT_RECT_PROPS.fillColor);
+  const [opacity, setOpacity] = useState(DEFAULT_RECT_PROPS.opacity);
+  const [strokeColor, setStrokeColor] = useState(DEFAULT_RECT_PROPS.strokeColor);
+  const [lineWidth, setLineWidth] = useState(DEFAULT_RECT_PROPS.lineWidth);
 
   const handleApplyChanges = () => {
-    // TODO: Apply rectangle changes to selected rectangle element
-    console.log("Applying rectangle changes:", {
-      cornerRadius,
-      fillColor,
-      opacity,
-      strokeColor,
-      lineWidth
-    });
-    const rectElement = new RectElement(fillColor, { width: 200, height: 200 })
+    let rectElement;
+    if(selectedElement instanceof RectElement) {
+      rectElement = selectedElement;
+      rectElement.setCornerRadius(cornerRadius);
+      rectElement.setOpacity(opacity);
+      rectElement.setStrokeColor(strokeColor);
+      rectElement.setLineWidth(lineWidth);
+      updateElement?.(rectElement);
+    } else {
+      rectElement = new RectElement(fillColor, { width: 200, height: 200 })
     .setCornerRadius(cornerRadius)
     .setOpacity(opacity)
     .setStrokeColor(strokeColor)
     .setLineWidth(lineWidth);
-    onAddToTimeline(rectElement);
+    addElement?.(rectElement);
+    }
   };
+
+  useEffect(() => {
+    if(selectedElement instanceof RectElement) {
+      setCornerRadius(selectedElement.getCornerRadius() ?? DEFAULT_RECT_PROPS.cornerRadius);
+      setFillColor(selectedElement.getFill() ?? DEFAULT_RECT_PROPS.fillColor);
+      setOpacity(selectedElement.getOpacity() ?? DEFAULT_RECT_PROPS.opacity);
+      setStrokeColor(selectedElement.getStrokeColor() ?? DEFAULT_RECT_PROPS.strokeColor);
+      setLineWidth(selectedElement.getLineWidth() ?? DEFAULT_RECT_PROPS.lineWidth);
+    }
+  }, [selectedElement]);
 
   return (
     <div className={inputStyles.panel.container}>

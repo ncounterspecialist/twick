@@ -1,8 +1,27 @@
+import { useTimelineContext } from "@twick/timeline";
 import { Save, Download, Clapperboard, RectangleVertical, RectangleHorizontal } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export const StudioHeader = () => {
   const [orientation, setOrientation] = useState<'horizontal' | 'vertical'>('horizontal');
+  const {setVideoResolution} = useTimelineContext();
+  useEffect(() => {
+    const orientation = localStorage.getItem('orientation');
+    if (orientation) {
+      setOrientation(orientation as 'horizontal' | 'vertical');
+    }
+  }, []);
+
+  useEffect(()=> {
+    if(orientation === 'horizontal') {
+      localStorage.setItem('orientation', 'horizontal');
+      setVideoResolution({ width: 1280, height: 720 });
+    } else {
+      localStorage.setItem('orientation', 'vertical');
+      setVideoResolution({ width: 720, height: 1280 });
+    }
+  }, [orientation])
+
   return (
     <header className="h-14 bg-neutral-800/90 border-b border-gray-600/50 flex items-center justify-between px-4 backdrop-blur-md shadow-lg">
         <div className="flex items-center gap-3">

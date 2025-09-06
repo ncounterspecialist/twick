@@ -1,37 +1,19 @@
-import { Track, TrackElement, useTimelineContext } from "@twick/timeline";
-
 import { StageCanvas } from "./stage-canvas";
 import { Toolbar } from "./toolbar";
 import { PropertiesPanel } from "./properties-panel";
 import ElementPanel from "./element-panel";
 import StudioHeader from "./header";
-import {  useState } from "react";
+import useStudioManager from "../hook/use-studio-manager";
 
 export function EditorShell() {
-  const { editor, selectedItem } = useTimelineContext();
-  const [ selectedTool, setSelectedTool ] = useState<string>("video");
-  const addElement = (element: TrackElement) => {
-    if (selectedItem instanceof Track) {
-      editor.addElementToTrack(selectedItem, element);
-    } else {
-      const newTrack = editor.addTrack("Track");
-      editor.addElementToTrack(newTrack, element);
-    }
-  };
-
-  // const addSubtitlesToTimeline = (elements: TrackElement[]) => {
-  //   if (selectedItem instanceof Track && selectedItem.getType() == "caption") {
-  //     elements.forEach((element) => {
-  //       editor.addElementToTrack(selectedItem, element);
-  //     });
-  //   } else {
-  //     const newTrack = editor.addTrack("Track", "caption");
-  //     elements.forEach((element) => {
-  //       editor.addElementToTrack(newTrack, element);
-  //     });
-  //   }
-  // };
-
+  const {
+    selectedTool,
+    setSelectedTool,
+    selectedElement,
+    addElement,
+    updateElement,
+  } = useStudioManager();
+  
   return (
     <div className="h-screen w-screen overflow-hidden bg-neutral-900 text-gray-100">
       {/* Header */}
@@ -39,11 +21,19 @@ export function EditorShell() {
       {/* Main Content */}
       <div className="flex h-[calc(100vh-56px)]">
         {/* Left Toolbar */}
-        <Toolbar selectedTool={selectedTool} setSelectedTool={setSelectedTool} />
+        <Toolbar
+          selectedTool={selectedTool}
+          setSelectedTool={setSelectedTool}
+        />
 
         {/* Left Panel - Media Library */}
         <aside className="border-r border-gray-600/50 backdrop-blur-md shadow-lg">
-          <ElementPanel selectedTool={selectedTool} addElement={addElement} />
+          <ElementPanel
+            selectedTool={selectedTool}
+            selectedElement={selectedElement}
+            addElement={addElement}
+            updateElement={updateElement}
+          />
         </aside>
 
         {/* Center - Canvas and Transport */}

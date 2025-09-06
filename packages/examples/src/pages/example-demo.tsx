@@ -3,18 +3,23 @@ import { LivePlayerProvider } from "@twick/live-player";
 import {  TimelineProvider } from "@twick/timeline";
 import "@twick/video-editor/dist/video-editor.css";
 
+const videoResolution = {
+  width: 720,
+  height: 1280,
+}
 const ExampleDemo = () => {
   return (
     <LivePlayerProvider>
       <TimelineProvider
+        resolution={videoResolution}
         contextId={'my-video-project'}
       >
         <VideoEditor
           editorConfig={{
             canvasMode: true,
             videoProps: {
-              width: 720,
-              height: 1280,
+              width: videoResolution.width,
+              height: videoResolution.height,
             },
           }}
         />
