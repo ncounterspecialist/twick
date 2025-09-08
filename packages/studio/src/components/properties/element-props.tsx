@@ -1,12 +1,21 @@
 import { Settings } from "lucide-react";
 import { AccordionItem } from "../shared/accordion-item";
+import type { PropertiesPanelProps } from "../../types";
 
 interface ElementPropsProps {
   isOpen: boolean;
   onToggle: () => void;
 }
 
-export function ElementProps({ isOpen, onToggle }: ElementPropsProps) {
+export function ElementProps({ selectedElement, isOpen, updateElement, onToggle }: ElementPropsProps & PropertiesPanelProps) {
+  const elementProps = selectedElement?.getProps() || {};
+  const {x, y, opacity, rotation} = elementProps;
+
+  const handleUpdateElement = (props: Record<string, any>) => {
+    if(selectedElement) {
+      updateElement?.(selectedElement?.setProps({...elementProps,...props}));
+    }
+  }
   return (
     <AccordionItem
       title="All Properties"
@@ -26,7 +35,8 @@ export function ElementProps({ isOpen, onToggle }: ElementPropsProps) {
               <label className="block text-xs text-gray-400 mb-1">X</label>
               <input
                 type="number"
-                defaultValue="0"
+                defaultValue={x ?? 0}
+                onBlur={(e) => handleUpdateElement({ x: Number(e.target.value)})}
                 className="w-full bg-neutral-700/60 border border-gray-600/40 rounded-md text-white text-xs px-2 py-1.5 focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500/30 transition-all duration-200"
               />
             </div>
@@ -34,23 +44,8 @@ export function ElementProps({ isOpen, onToggle }: ElementPropsProps) {
               <label className="block text-xs text-gray-400 mb-1">Y</label>
               <input
                 type="number"
-                defaultValue="0"
-                className="w-full bg-neutral-700/60 border border-gray-600/40 rounded-md text-white text-xs px-2 py-1.5 focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500/30 transition-all duration-200"
-              />
-            </div>
-            <div>
-              <label className="block text-xs text-gray-400 mb-1">Width</label>
-              <input
-                type="number"
-                defaultValue="100"
-                className="w-full bg-neutral-700/60 border border-gray-600/40 rounded-md text-white text-xs px-2 py-1.5 focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500/30 transition-all duration-200"
-              />
-            </div>
-            <div>
-              <label className="block text-xs text-gray-400 mb-1">Height</label>
-              <input
-                type="number"
-                defaultValue="100"
+                defaultValue={y ?? 0}
+                onBlur={(e) => handleUpdateElement({ y: Number(e.target.value)})}
                 className="w-full bg-neutral-700/60 border border-gray-600/40 rounded-md text-white text-xs px-2 py-1.5 focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500/30 transition-all duration-200"
               />
             </div>
@@ -67,7 +62,8 @@ export function ElementProps({ isOpen, onToggle }: ElementPropsProps) {
             type="range"
             min="0"
             max="100"
-            defaultValue="100"
+            defaultValue={(opacity ?? 1) * 100}
+            onChange={(e) => handleUpdateElement({ opacity: Number(e.target.value) / 100})}
             className="w-full h-1.5 bg-gradient-to-r from-purple-500/30 to-neutral-600/50 rounded-full appearance-none cursor-pointer slider-thumb"
           />
           <div className="flex justify-between text-xs text-gray-400 mt-1">
@@ -86,7 +82,8 @@ export function ElementProps({ isOpen, onToggle }: ElementPropsProps) {
             type="range"
             min="0"
             max="360"
-            defaultValue="0"
+            defaultValue={rotation ?? 0}
+            onChange={(e) => handleUpdateElement({ rotation: Number(e.target.value)})}
             className="w-full h-1.5 bg-gradient-to-r from-purple-500/30 to-neutral-600/50 rounded-full appearance-none cursor-pointer slider-thumb"
           />
           <div className="flex justify-between text-xs text-gray-400 mt-1">

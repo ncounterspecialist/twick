@@ -19,6 +19,11 @@ export interface PanelProps {
   updateElement?: (item: TrackElement) => void;
 }
 
+export interface PropertiesPanelProps {
+  selectedElement?: TrackElement | null;
+  updateElement?: (element: TrackElement) => void;
+}
+
 export interface TextElement {
   id: string
   text: string

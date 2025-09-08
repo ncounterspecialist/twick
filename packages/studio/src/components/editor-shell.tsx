@@ -44,7 +44,7 @@ export function EditorShell() {
         </main>
 
         {/* Right Panel - Properties */}
-        <PropertiesPanelContainer selectedElement={selectedElement}/>
+        <PropertiesPanelContainer selectedElement={selectedElement} updateElement={updateElement}/>
       </div>
     </div>
   );

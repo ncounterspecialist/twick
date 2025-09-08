@@ -2,7 +2,7 @@ import { Track, TrackElement, useTimelineContext } from "@twick/timeline";
 import { useState } from "react";
 
 const useStudioManager = () => {
-  const { editor, selectedItem } = useTimelineContext();
+  const { editor, selectedItem, setSelectedItem } = useTimelineContext();
 
   const selectedElement = selectedItem instanceof TrackElement ? selectedItem : null;
 
@@ -18,7 +18,9 @@ const useStudioManager = () => {
   };
 
   const updateElement = (element: TrackElement) => {
-    editor.updateElement(element);
+    const updatedElement =editor.updateElement(element);
+    editor.refresh();
+    setSelectedItem(updatedElement)
   };
 
   // const addSubtitlesToTimeline = (elements: TrackElement[]) => {
