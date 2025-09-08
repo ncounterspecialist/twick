@@ -1,133 +1,20 @@
-import { useState, useRef, useEffect } from "react";
 import { Search, Loader2, Download } from "lucide-react";
 import { inputStyles } from "../../styles/input-styles";
-import { IconElement } from "@twick/timeline";
-import type { PanelProps } from "../../types";
+import type { IconPanelState, IconPanelActions, Icon } from "../../hooks/use-icon-panel";
 
-interface Icon {
-  name: string;
-  svg: string;
-}
+export type IconPanelProps = IconPanelState & IconPanelActions;
 
-const IconPanel = ({
-  selectedElement,
-  addElement,
-  updateElement,
-}: PanelProps) => {
-  const [icons, setIcons] = useState<Icon[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(true);
-  const [totalIcons, setTotalIcons] = useState(0);
-  const [searchQuery, setSearchQuery] = useState("");
-  const ICONS_PER_PAGE = 20;
-
-  const currentQuery = useRef("");
-
-  const fetchIcons = async (query: string, reset = false) => {
-    try {
-      setLoading(true);
-      const newPage = reset ? 1 : page;
-      const start = (newPage - 1) * ICONS_PER_PAGE;
-      const url = `https://api.iconify.design/search?query=${query}&limit=${ICONS_PER_PAGE}&offset=${start}`;
-
-      const response = await fetch(url);
-      const data = await response.json();
-
-      // Process icons data
-      const iconData = data.icons || [];
-      const total = data.total || 0;
-      setTotalIcons(total);
-
-      // Format icons
-      const formattedIcons = await Promise.all(
-        iconData.map(async (icon: any) => {
-          const svgUrl = `https://api.iconify.design/${icon}.svg`;
-
-          try {
-            const svgResponse = await fetch(svgUrl);
-            const svg = await svgResponse.text();
-            return {
-              name: icon,
-              svg,
-            };
-          } catch (e) {
-            console.error(`Error fetching SVG for ${icon}:`, e);
-            return null;
-          }
-        })
-      );
-
-      const validIcons = formattedIcons.filter(
-        (icon) => icon !== null
-      ) as Icon[];
-
-      if (reset) {
-        setIcons(validIcons);
-      } else {
-        setIcons([...icons, ...validIcons]);
-      }
-
-      setHasMore(start + validIcons.length < total);
-      if (!reset) {
-        setPage(newPage + 1);
-      } else {
-        setPage(2);
-      }
-    } catch (error) {
-      console.error("Error fetching icons:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchIcons("media", true);
-  }, []);
-
-  const handleSearch = (query: string) => {
-    currentQuery.current = query;
-    setSearchQuery(query);
-    fetchIcons(query, true);
-  };
-
-  const handleSelection = (icon: Icon) => {
-    // Convert SVG to data URL
-    const svgBlob = new Blob([icon.svg], { type: "image/svg+xml" });
-    const url = URL.createObjectURL(svgBlob);
-
-    let iconElement;
-    if (selectedElement instanceof IconElement) {
-      iconElement = selectedElement;
-      iconElement.setSrc(url);
-      iconElement.setName(icon.name);
-      updateElement?.(iconElement);
-    } else {
-      iconElement = new IconElement(url, {
-        width: 100, // Default size for icons
-        height: 100,
-      });
-      iconElement.setName(icon.name);
-      addElement?.(iconElement);
-    }
-
-    // Clean up the URL
-    URL.revokeObjectURL(url);
-  };
-
-  const handleDownloadIcon = (icon: Icon) => {
-    // Create a download link for the SVG
-    const blob = new Blob([icon.svg], { type: "image/svg+xml" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `${icon.name}.svg`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-  };
-
+export function IconPanel({
+  icons,
+  loading,
+  hasMore,
+  totalIcons,
+  searchQuery,
+  handleSearch,
+  handleSelection,
+  handleDownloadIcon,
+  handleLoadMore,
+}: IconPanelProps) {
   return (
     <div className={inputStyles.panel.container}>
       <h3 className={inputStyles.panel.title}>Icon Library</h3>
@@ -136,8 +23,7 @@ const IconPanel = ({
       <div className={inputStyles.container}>
         <div className="relative mb-3">
           <Search
-            className="absolute left-2.5 top-1/2 transform -translate-y-1/2 w-4 h-4 text-white"
-            color="white"
+            className="absolute left-2.5 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400 z-10 pointer-events-none"
           />
           <input
             type="text"
@@ -165,7 +51,7 @@ const IconPanel = ({
 
           {/* Icons Grid */}
           <div className="grid grid-cols-3 gap-3 mb-2 p-2 overflow-y-auto overflow-x-hidden">
-            {icons.map((icon, index) => (
+            {(icons || []).map((icon: Icon, index: number) => (
               <div key={index} className="group relative cursor-pointer">
                 <div
                   onClick={() => handleSelection(icon)}
@@ -210,7 +96,7 @@ const IconPanel = ({
           {/* Load More Button */}
           {hasMore && (
             <button
-              onClick={() => fetchIcons(currentQuery.current, false)}
+              onClick={handleLoadMore}
               disabled={loading}
               className={`${inputStyles.button.primary} disabled:opacity-50 disabled:cursor-not-allowed`}
             >
@@ -236,6 +122,4 @@ const IconPanel = ({
       )}
     </div>
   );
-};
-
-export default IconPanel;
+}

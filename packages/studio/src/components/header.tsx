@@ -1,10 +1,9 @@
-import { useTimelineContext } from "@twick/timeline";
+import type { Size } from "@twick/timeline";
 import { Save, Download, Clapperboard, RectangleVertical, RectangleHorizontal } from "lucide-react";
 import { useEffect, useState } from "react";
 
-export const StudioHeader = () => {
+export const StudioHeader = ({ setVideoResolution }: { setVideoResolution: (resolution: Size) => void }) => {
   const [orientation, setOrientation] = useState<'horizontal' | 'vertical'>('horizontal');
-  const {setVideoResolution} = useTimelineContext();
   useEffect(() => {
     const orientation = localStorage.getItem('orientation');
     if (orientation) {

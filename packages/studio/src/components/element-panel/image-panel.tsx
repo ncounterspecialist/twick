@@ -1,66 +1,18 @@
-import { useEffect, useState } from "react";
-import { Upload, Wand2, Plus } from "lucide-react";
-import { getMediaManager } from "../../shared";
+import { Wand2, Plus } from "lucide-react";
 import type { MediaItem } from "@twick/video-editor";
-import { ImageElement, useTimelineContext } from "@twick/timeline";
-import SearchInput from "../../shared/search-input";
-import FileInput from "../../shared/file-input";
-import type { PanelProps } from "../../types";
+import type { ImagePanelState, ImagePanelActions } from "../../hooks/use-image-panel";
+import SearchInput from "../shared/search-input";
+import FileInput from "../shared/file-input";
 
-export const ImagePanel = ({
-  selectedElement,
-  addElement,
-  updateElement,
-}: PanelProps) => {
-  const [items, setItems] = useState<MediaItem[]>([]);
-  const [searchQuery, setSearchQuery] = useState("");
-  const mediaManager = getMediaManager();
-  const { videoResolution } = useTimelineContext();
+export type ImagePanelProps = ImagePanelState & ImagePanelActions;
 
-  useEffect(() => {
-    const loadItems = async () => {
-      const results = await mediaManager.search({
-        query: searchQuery,
-        type: "image",
-      });
-      setItems(results);
-    };
-    loadItems();
-  }, [searchQuery]);
-
-  const handleSelection = (item: MediaItem) => {
-    let imageElement;
-    if (selectedElement instanceof ImageElement) {
-      imageElement = selectedElement;
-      imageElement.setSrc(item.url);
-      updateElement?.(imageElement);
-    } else {
-      imageElement = new ImageElement(item.url, {
-        width: videoResolution.width,
-        height: videoResolution.height,
-      });
-      addElement?.(imageElement);
-    }
-  };
-
-  const handleFileUpload = async (fileData: {
-    file: File;
-    blobUrl: string;
-  }) => {
-    const arrayBuffer = await fileData.file.arrayBuffer();
-    const newItem = await mediaManager.addItem({
-      url: fileData.blobUrl,
-      type: "image",
-      arrayBuffer,
-      metadata: {
-        name: fileData.file.name,
-        size: fileData.file.size,
-        type: fileData.file.type,
-      },
-    });
-    setItems((prev) => [...prev, newItem]);
-  };
-
+export function ImagePanel({
+  items,
+  searchQuery,
+  setSearchQuery,
+  handleSelection,
+  handleFileUpload,
+}: ImagePanelProps) {
   return (
     <div className="w-72 bg-neutral-800/80 border-r border-gray-600/50 flex flex-col h-full backdrop-blur-md shadow-lg">
       {/* Header */}
@@ -83,17 +35,12 @@ export const ImagePanel = ({
           />
         </div>
 
-        {/* Upload Button */}
-        <button className="w-full btn btn-primary flex items-center justify-center gap-2 py-2">
-          <Upload className="w-4 h-4" />
-          Upload
-        </button>
       </div>
 
       {/* Media Grid */}
       <div className="flex-1 overflow-y-auto p-4">
         <div className="grid grid-cols-2 gap-3 auto-rows-fr">
-          {items.map((item) => (
+          {(items || []).map((item: MediaItem) => (
             <div
               key={item.id}
               onDoubleClick={() => handleSelection(item)}
@@ -141,4 +88,4 @@ export const ImagePanel = ({
       </div>
     </div>
   );
-};
+}
