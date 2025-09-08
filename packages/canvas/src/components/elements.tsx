@@ -72,6 +72,7 @@ export const addTextElement = ({
     fontStyle: element.props?.fontStyle || "normal",
     fontWeight: element.props?.fontWeight || "normal",
     fill: element.props?.fill || DEFAULT_TEXT_PROPS.fill,
+    opacity: element.props?.opacity ?? 1,
     skipWrapping: false,
     textAlign: element.props?.textAlign || "center",
     stroke: element.props?.stroke || DEFAULT_TEXT_PROPS.stroke,
@@ -161,6 +162,7 @@ const setImageProps = ({
   img.set("height", height);
   img.set("left", x);
   img.set("top", y);
+  img.set("opacity", element.props?.opacity ?? 1);
   img.set("selectable", true);
   img.set("hasControls", true);
   img.set("touchAction", "all");
@@ -229,6 +231,7 @@ export const addCaptionElement = ({
       DEFAULT_CAPTION_PROPS.fill,
     fontWeight: DEFAULT_CAPTION_PROPS.fontWeight,
     stroke: element.props?.stroke || DEFAULT_CAPTION_PROPS.stroke,
+    opacity: element.props?.opacity ?? 1,
     shadow: new Shadow({
       offsetX:
         element.props?.shadowOffset?.[0] ||
@@ -504,6 +507,7 @@ const addMediaGroup = ({
     originY: "center",
     scaleX: newSize.width / img.width,
     scaleY: newSize.height / img.height,
+    opacity: element.props?.opacity ?? 1,
   });
 
 

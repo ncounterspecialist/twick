@@ -24,6 +24,8 @@ export interface VideoEditorConfig {
     width: number;
     /** Height of the video in pixels */
     height: number;
+    /** Background color of the video */
+    backgroundColor?: string;
   };
   /** Whether to use canvas mode for rendering */
   canvasMode?: boolean;

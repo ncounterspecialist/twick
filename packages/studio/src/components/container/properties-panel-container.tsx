@@ -20,7 +20,7 @@ export function PropertiesPanelContainer({
   updateElement,
 }: PropertiesPanelContainerProps) {
   const [openSections, setOpenSections] = useState<Set<string>>(
-    new Set(["all"])
+    new Set([])
   );
 
   const toggleSection = (section: string) => {

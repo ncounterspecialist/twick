@@ -36,7 +36,7 @@ export function ElementProps({ selectedElement, isOpen, updateElement, onToggle 
               <input
                 type="number"
                 defaultValue={x ?? 0}
-                onBlur={(e) => handleUpdateElement({ x: Number(e.target.value)})}
+                onChange={(e) => handleUpdateElement({ x: Number(e.target.value)})}
                 className="w-full bg-neutral-700/60 border border-gray-600/40 rounded-md text-white text-xs px-2 py-1.5 focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500/30 transition-all duration-200"
               />
             </div>
@@ -45,7 +45,7 @@ export function ElementProps({ selectedElement, isOpen, updateElement, onToggle 
               <input
                 type="number"
                 defaultValue={y ?? 0}
-                onBlur={(e) => handleUpdateElement({ y: Number(e.target.value)})}
+                onChange={(e) => handleUpdateElement({ y: Number(e.target.value)})}
                 className="w-full bg-neutral-700/60 border border-gray-600/40 rounded-md text-white text-xs px-2 py-1.5 focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500/30 transition-all duration-200"
               />
             </div>

@@ -14,7 +14,7 @@ export function EditorShell() {
     addElement,
     updateElement,
   } = useStudioManager();
-  const { setVideoResolution } = useTimelineContext();
+  const { videoResolution, setVideoResolution } = useTimelineContext();
 
   return (
     <div className="h-screen w-screen overflow-hidden bg-neutral-900 text-gray-100">
@@ -40,7 +40,7 @@ export function EditorShell() {
 
         {/* Center - Canvas and Transport */}
         <main className="flex-1 flex flex-col bg-neutral-700 main-container">
-          <StageCanvas resolution={{ width: 1280, height: 720 }} />
+          <StageCanvas resolution={videoResolution} />
         </main>
 
         {/* Right Panel - Properties */}

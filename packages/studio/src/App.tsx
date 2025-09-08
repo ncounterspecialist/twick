@@ -4,8 +4,8 @@ import { TimelineProvider } from "@twick/timeline";
 import { INITIAL_TIMELINE_DATA } from "@twick/video-editor";
 
 const videoResolution = {
-  width: 1280,
-  height: 720,
+  width: 720,
+  height: 1280,
 };
 
 function App() {
