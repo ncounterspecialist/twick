@@ -1,9 +1,10 @@
 import { StageCanvas } from "./stage-canvas";
 import { Toolbar } from "./toolbar";
-import { PropertiesPanel } from "./properties-panel";
-import ElementPanel from "./element-panel";
+import { PropertiesPanelContainer } from "./container/properties-panel-container";
 import StudioHeader from "./header";
-import useStudioManager from "../hook/use-studio-manager";
+import useStudioManager from "../hooks/use-studio-manager";
+import ElementPanelContainer from "./container/element-panel-container";
+import { useTimelineContext } from "@twick/timeline";
 
 export function EditorShell() {
   const {
@@ -13,11 +14,12 @@ export function EditorShell() {
     addElement,
     updateElement,
   } = useStudioManager();
-  
+  const { videoResolution, setVideoResolution } = useTimelineContext();
+
   return (
     <div className="h-screen w-screen overflow-hidden bg-neutral-900 text-gray-100">
       {/* Header */}
-      <StudioHeader />
+      <StudioHeader setVideoResolution={setVideoResolution} />
       {/* Main Content */}
       <div className="flex h-[calc(100vh-56px)]">
         {/* Left Toolbar */}
@@ -28,7 +30,7 @@ export function EditorShell() {
 
         {/* Left Panel - Media Library */}
         <aside className="border-r border-gray-600/50 backdrop-blur-md shadow-lg">
-          <ElementPanel
+          <ElementPanelContainer
             selectedTool={selectedTool}
             selectedElement={selectedElement}
             addElement={addElement}
@@ -38,11 +40,11 @@ export function EditorShell() {
 
         {/* Center - Canvas and Transport */}
         <main className="flex-1 flex flex-col bg-neutral-700 main-container">
-          <StageCanvas resolution={{ width: 1280, height: 720 }} />
+          <StageCanvas resolution={videoResolution} />
         </main>
 
         {/* Right Panel - Properties */}
-        <PropertiesPanel />
+        <PropertiesPanelContainer selectedElement={selectedElement} updateElement={updateElement}/>
       </div>
     </div>
   );

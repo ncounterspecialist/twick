@@ -12,7 +12,7 @@ export const PlayerManager = ({
   videoProps,
   canvasMode,
 }: {
-  videoProps: { width: number; height: number };
+  videoProps: { width: number; height: number, backgroundColor?: string };
   canvasMode: boolean;
 }) => {
   const { changeLog } = useTimelineContext();
@@ -37,6 +37,7 @@ export const PlayerManager = ({
       height: container?.clientHeight,
     };
     buildCanvas({
+      backgroundColor: videoProps.backgroundColor,
       videoSize: {
         width: videoProps.width,
         height: videoProps.height,

@@ -198,12 +198,12 @@ export class TimelineEditor {
   /**
    * Update an element in a specific track using the visitor pattern
    * @param element The updated element
-   * @returns boolean true if element was updated successfully
+   * @returns TrackElement the updated element
    */
-  updateElement(element: TrackElement): boolean {
+  updateElement(element: TrackElement): TrackElement {
     const track = this.getTrackById(element.getTrackId());
     if (!track) {
-      return false;
+      return element;
     }
 
     try {
@@ -219,9 +219,9 @@ export class TimelineEditor {
         }
       }
 
-      return result;
+      return element;
     } catch (error) {
-      return false;
+      return element;
     }
   }
 

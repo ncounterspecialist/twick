@@ -1,10 +1,9 @@
-import { useTimelineContext } from "@twick/timeline";
-import { Save, Download, Clapperboard, RectangleVertical, RectangleHorizontal } from "lucide-react";
+import type { Size } from "@twick/timeline";
+import { Save, Download, Clapperboard } from "lucide-react";
 import { useEffect, useState } from "react";
 
-export const StudioHeader = () => {
-  const [orientation, setOrientation] = useState<'horizontal' | 'vertical'>('horizontal');
-  const {setVideoResolution} = useTimelineContext();
+export const StudioHeader = ({ setVideoResolution }: { setVideoResolution: (resolution: Size) => void }) => {
+  const [orientation, setOrientation] = useState<'horizontal' | 'vertical'>('vertical');
   useEffect(() => {
     const orientation = localStorage.getItem('orientation');
     if (orientation) {
@@ -32,7 +31,7 @@ export const StudioHeader = () => {
             </h1>
           </div>
         </div>
-        <div className="flex items-center">
+        {/* <div className="flex items-center">
           <div className="flex items-center bg-neutral-700/50 rounded-lg p-1 gap-1">
             <button
               onClick={() => setOrientation('horizontal')}
@@ -57,7 +56,7 @@ export const StudioHeader = () => {
               <RectangleVertical className="w-5 h-5" />
             </button>
           </div>
-        </div>
+        </div> */}
         <div className="flex items-center gap-2">
           <button
             className="btn btn-ghost text-gray-300 hover:text-white"

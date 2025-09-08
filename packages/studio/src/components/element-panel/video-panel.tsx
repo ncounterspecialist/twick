@@ -1,66 +1,18 @@
-import { useEffect, useState } from "react";
 import { Wand2, Plus } from "lucide-react";
-import { getMediaManager } from "../../shared";
 import type { MediaItem } from "@twick/video-editor";
-import { useTimelineContext, VideoElement } from "@twick/timeline";
-import FileInput from "../../shared/file-input";
-import SearchInput from "../../shared/search-input";
-import type { PanelProps } from "../../types";
+import type { VideoPanelState, VideoPanelActions } from "../../hooks/use-video-panel";
+import FileInput from "../shared/file-input";
+import SearchInput from "../shared/search-input";
 
-export const VideoPanel = ({
-  selectedElement,
-  addElement,
-  updateElement,
-}: PanelProps) => {
-  const [items, setItems] = useState<MediaItem[]>([]);
-  const [searchQuery, setSearchQuery] = useState("");
-  const mediaManager = getMediaManager();
-  const { videoResolution } = useTimelineContext();
-  useEffect(() => {
-    const loadItems = async () => {
-      const results = await mediaManager.search({
-        query: searchQuery,
-        type: "video",
-      });
-      setItems(results);
-    };
-    loadItems();
-  }, [searchQuery]);
+export type VideoPanelProps = VideoPanelState & VideoPanelActions;
 
-  const handleSelection = async (item: MediaItem) => {
-    let videoElement;
-    if (selectedElement instanceof VideoElement) {
-      videoElement = selectedElement;
-      videoElement.setSrc(item.url);
-      await videoElement.updateVideoMeta();
-      updateElement?.(videoElement);
-    } else {
-      videoElement = new VideoElement(item.url, {
-        width: videoResolution.width,
-        height: videoResolution.height,
-      });
-      addElement?.(videoElement);
-    }
-  };
-
-  const handleFileUpload = async (fileData: {
-    file: File;
-    blobUrl: string;
-  }) => {
-    const arrayBuffer = await fileData.file.arrayBuffer();
-    const newItem = await mediaManager.addItem({
-      url: fileData.blobUrl,
-      type: "video",
-      arrayBuffer,
-      metadata: {
-        name: fileData.file.name,
-        size: fileData.file.size,
-        type: fileData.file.type,
-      },
-    });
-    setItems((prev) => [...prev, newItem]);
-  };
-
+export function VideoPanel({
+  items,
+  searchQuery,
+  setSearchQuery,
+  handleSelection,
+  handleFileUpload,
+}: VideoPanelProps) {
   return (
     <div className="w-72 bg-neutral-800/80 border-r border-gray-600/50 flex flex-col h-full backdrop-blur-md shadow-lg">
       {/* Header */}
@@ -83,7 +35,7 @@ export const VideoPanel = ({
       {/* Media Grid */}
       <div className="flex-1 overflow-y-auto p-4">
         <div className="grid grid-cols-2 gap-3 auto-rows-fr">
-          {items.map((item) => (
+          {(items || []).map((item: MediaItem) => (
             <div
               key={item.id}
               onDoubleClick={() => handleSelection(item)}
@@ -131,4 +83,4 @@ export const VideoPanel = ({
       </div>
     </div>
   );
-};
+}
