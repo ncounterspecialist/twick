@@ -1,5 +1,5 @@
 import type { PanelProps } from "../../types";
-import { IconPanel } from "../element-panel/icon-panel";
+import { IconPanel } from "../panel/icon-panel";
 import { useIconPanel } from "../../hooks/use-icon-panel";
 
 export function IconPanelContainer(props: PanelProps) {

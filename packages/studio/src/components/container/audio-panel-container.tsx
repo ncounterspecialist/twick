@@ -1,5 +1,5 @@
 import { useAudioPanel } from "../../hooks/use-audio-panel";
-import { AudioPanel } from "../element-panel/audio-panel";
+import { AudioPanel } from "../panel/audio-panel";
 import type { PanelProps } from "../../types";
 
 export const AudioPanelContainer = (props: PanelProps) => {

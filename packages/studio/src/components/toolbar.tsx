@@ -1,3 +1,23 @@
+/**
+ * Toolbar Component
+ * 
+ * A vertical toolbar that provides quick access to different editing tools
+ * and media types. Displays icons with labels and optional keyboard shortcuts.
+ * 
+ * @component
+ * @param {Object} props
+ * @param {string} props.selectedTool - Currently selected tool ID
+ * @param {(tool: string) => void} props.setSelectedTool - Callback to update selected tool
+ * 
+ * @example
+ * ```tsx
+ * <Toolbar
+ *   selectedTool="text"
+ *   setSelectedTool={(tool) => console.log(`Selected ${tool}`)}
+ * />
+ * ```
+ */
+
 import { 
   Type, 
   Upload, 
@@ -47,7 +67,7 @@ export function Toolbar({ selectedTool, setSelectedTool }: { selectedTool: strin
   }
 
   return (
-    <div className="w-16 bg-neutral/80 border-r border-gray-300/50 flex flex-col items-center py-4 space-y-3 backdrop-blur-md shadow-lg">
+    <div className="w-16 bg-neutral/80 border-r border-gray-300/50 flex flex-col items-center py-4 space-y-3 justify-start backdrop-blur-md shadow-lg">
       {/* Main Tools */}
       {toolCategories.map((tool) => {
         const Icon = getIcon(tool.icon)

@@ -40,6 +40,11 @@ const sidebars = {
           label: '@twick/video-editor',
           id: 'packages/video-editor/modules'
         },
+        {
+          type: 'doc',
+          label: '@twick/studio',
+          id: 'packages/studio/modules'
+        },
       ],
     },
   ],

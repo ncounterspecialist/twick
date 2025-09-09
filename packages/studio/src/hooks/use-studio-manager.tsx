@@ -1,7 +1,32 @@
+/**
+ * useStudioManager Hook
+ * 
+ * A custom hook that manages the studio's state and operations.
+ * Handles tool selection, element management, and timeline interactions.
+ * 
+ * @returns {Object} Studio manager methods and state
+ * @property {string} selectedTool - Currently selected tool ID
+ * @property {(tool: string) => void} setSelectedTool - Update selected tool
+ * @property {TrackElement | null} selectedElement - Currently selected timeline element
+ * @property {(element: TrackElement) => void} addElement - Add element to timeline
+ * @property {(element: TrackElement) => void} updateElement - Update existing element
+ * 
+ * @example
+ * ```tsx
+ * const {
+ *   selectedTool,
+ *   setSelectedTool,
+ *   selectedElement,
+ *   addElement,
+ *   updateElement
+ * } = useStudioManager();
+ * ```
+ */
+
 import { Track, TrackElement, useTimelineContext } from "@twick/timeline";
 import { useState } from "react";
 
-const useStudioManager = () => {
+export const useStudioManager = () => {
   const { editor, selectedItem, setSelectedItem } = useTimelineContext();
 
   const selectedElement = selectedItem instanceof TrackElement ? selectedItem : null;
@@ -46,4 +71,3 @@ const useStudioManager = () => {
   };
 };
 
-export default useStudioManager;

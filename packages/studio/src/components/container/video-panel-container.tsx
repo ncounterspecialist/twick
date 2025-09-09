@@ -1,5 +1,5 @@
 import type { PanelProps } from "../../types";
-import { VideoPanel } from "../element-panel/video-panel";
+import { VideoPanel } from "../panel/video-panel";
 import { useVideoPanel } from "../../hooks/use-video-panel";
 
 export function VideoPanelContainer(props: PanelProps) {

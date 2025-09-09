@@ -1,3 +1,30 @@
+/**
+ * ImagePanel Component
+ * 
+ * A panel for managing image elements in the studio. Provides functionality
+ * for searching, uploading, previewing, and adding image files to the timeline.
+ * Features a grid layout with image thumbnails and hover actions.
+ * 
+ * @component
+ * @param {Object} props
+ * @param {MediaItem[]} props.items - List of image items to display
+ * @param {string} props.searchQuery - Current search query
+ * @param {(query: string) => void} props.setSearchQuery - Handle search query changes
+ * @param {(item: MediaItem) => void} props.handleSelection - Handle image item selection
+ * @param {(data: { file: File; blobUrl: string }) => void} props.handleFileUpload - Handle file uploads
+ * 
+ * @example
+ * ```tsx
+ * <ImagePanel
+ *   items={imageItems}
+ *   searchQuery=""
+ *   setSearchQuery={setSearchQuery}
+ *   handleSelection={handleSelect}
+ *   handleFileUpload={handleUpload}
+ * />
+ * ```
+ */
+
 import { Wand2, Plus } from "lucide-react";
 import type { MediaItem } from "@twick/video-editor";
 import type { ImagePanelState, ImagePanelActions } from "../../hooks/use-image-panel";

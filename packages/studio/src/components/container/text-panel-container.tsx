@@ -1,5 +1,5 @@
 import { TrackElement } from "@twick/timeline";
-import { TextPanel } from "../element-panel/text-panel";
+import { TextPanel } from "../panel/text-panel";
 import { useTextPanel } from "../../hooks/use-text-panel";
 
 interface TextPanelContainerProps {

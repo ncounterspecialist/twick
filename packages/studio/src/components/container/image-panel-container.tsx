@@ -1,5 +1,5 @@
 import type { PanelProps } from "../../types";
-import { ImagePanel } from "../element-panel/image-panel";
+import { ImagePanel } from "../panel/image-panel";
 import { useImagePanel } from "../../hooks/use-image-panel";
 
 export function ImagePanelContainer(props: PanelProps) {

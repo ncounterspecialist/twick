@@ -1,12 +1,28 @@
+/**
+ * TwickStudio Component
+ * 
+ * The main studio component that provides a complete video editing interface.
+ * Integrates all major components including canvas, toolbar, media library,
+ * and properties panel into a cohesive editing environment.
+ * 
+ * @component
+ * @example
+ * ```tsx
+ * <TimelineProvider initialData={initialData} videoResolution={resolution}>
+ *   <TwickStudio />
+ * </TimelineProvider>
+ * ```
+ */
+
 import { StageCanvas } from "./stage-canvas";
 import { Toolbar } from "./toolbar";
 import { PropertiesPanelContainer } from "./container/properties-panel-container";
 import StudioHeader from "./header";
-import useStudioManager from "../hooks/use-studio-manager";
+import { useStudioManager } from "../hooks/use-studio-manager";
 import ElementPanelContainer from "./container/element-panel-container";
 import { useTimelineContext } from "@twick/timeline";
 
-export function EditorShell() {
+export function TwickStudio() {
   const {
     selectedTool,
     setSelectedTool,

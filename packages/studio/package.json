@@ -2,46 +2,48 @@
   "name": "@twick/studio",
   "version": "0.14.0",
   "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "license": "SEE LICENSE IN LICENSE.md",
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
-    "docs": "echo 'Studio package - no API docs to generate'",
-    "lint": "eslint .",
-    "preview": "vite preview",
-    "clean": "rimraf .turbo node_modules dist"
+    "build": "vite build",
+    "dev": "vite build --watch",
+    "lint": "eslint src/",
+    "clean": "rimraf .turbo node_modules dist",
+    "docs": "typedoc --options ./typedoc.json"
   },
   "publishConfig": {
     "access": "public"
   },
-  "dependencies": {
-    "@twick/canvas": "workspace:^0.14.0",
-    "@twick/live-player": "workspace:^0.14.0",
-    "@twick/media-utils": "workspace:^0.14.0",
+  "peerDependencies": {
     "@twick/timeline": "workspace:^0.14.0",
-    "@twick/video-editor": "workspace:^0.14.0",
-    "@types/react-router-dom": "^5.3.3",
-    "clsx": "^2.1.0",
-    "dompurify": "^3.2.6",
+    "@twick/video-editor": "workspace:^0.14.0"
+  },
+  "dependencies": {
     "lucide-react": "^0.511.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-router-dom": "^7.6.1",
-    "tailwind-merge": "^3.3.1"
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@eslint/js": "^9.25.0",
+    "@types/node": "^20.11.24",
     "@types/react": "^18.2.55",
     "@types/react-dom": "^18.2.19",
-    "@vitejs/plugin-react": "^4.4.1",
-    "autoprefixer": "^10.4.17",
-    "eslint": "^9.25.0",
-    "eslint-plugin-react-hooks": "^5.2.0",
-    "eslint-plugin-react-refresh": "^0.4.19",
-    "globals": "^16.0.0",
+    "@twick/timeline": "workspace:^0.14.0",
+    "@twick/video-editor": "workspace:^0.14.0",
+    "rimraf": "^5.0.5",
+    "typedoc": "^0.25.8",
+    "typedoc-plugin-markdown": "^3.17.1",
+    "typescript": "^5.4.2",
+    "vite": "^5.1.4",
+    "vite-plugin-dts": "^3.7.3",
     "postcss": "^8.4.35",
-    "tailwindcss": "^3.4.1",
-    "typescript": "~5.8.3",
-    "typescript-eslint": "^8.30.1",
-    "vite": "^6.3.5"
+    "autoprefixer": "^10.4.17"
   }
 }

@@ -1,3 +1,30 @@
+/**
+ * VideoPanel Component
+ * 
+ * A panel for managing video elements in the studio. Provides functionality
+ * for searching, uploading, previewing, and adding video files to the timeline.
+ * Features a grid layout with video thumbnails and hover actions.
+ * 
+ * @component
+ * @param {Object} props
+ * @param {MediaItem[]} props.items - List of video items to display
+ * @param {string} props.searchQuery - Current search query
+ * @param {(query: string) => void} props.setSearchQuery - Handle search query changes
+ * @param {(item: MediaItem) => void} props.handleSelection - Handle video item selection
+ * @param {(data: { file: File; blobUrl: string }) => void} props.handleFileUpload - Handle file uploads
+ * 
+ * @example
+ * ```tsx
+ * <VideoPanel
+ *   items={videoItems}
+ *   searchQuery=""
+ *   setSearchQuery={setSearchQuery}
+ *   handleSelection={handleSelect}
+ *   handleFileUpload={handleUpload}
+ * />
+ * ```
+ */
+
 import { Wand2, Plus } from "lucide-react";
 import type { MediaItem } from "@twick/video-editor";
 import type { VideoPanelState, VideoPanelActions } from "../../hooks/use-video-panel";

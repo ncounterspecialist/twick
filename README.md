@@ -62,7 +62,7 @@ pnpm build:media-utils
 pnpm preview
 ```
 
-Open http://localhost:4173/demo in your browser to see the video editor in action.
+Open http://localhost:4173 in your browser to see the video editor in action.
 
 For detailed examples and tutorials, see the [Twick Demo guide](https://ncounterspecialist.github.io/twick/docs/in-action).
 
@@ -80,35 +80,25 @@ https://youtu.be/xuocqJqc9m8?si=h0wobDZlr9aj9XxW
 1. Install Dependencies 
 
 ```bash
-npm install --save @twick/canvas @twick/live-player @twick/timeline @twick/video-editor
+npm install --save @twick/canvas @twick/live-player @twick/timeline @twick/video-editor @twick/studio
 ```
 
-2. Add VideoEditor component with LivePlayer and Timeline Context as shown
+2. Add Twick Studio component with LivePlayer and Timeline Context as shown
 
 ```tsx
 import { LivePlayerProvider } from '@twick/live-player';
 import { TimelineProvider } from '@twick/timeline';
-import { VideoEditor } from '@twick/video-editor';
+import "@twick/studio/dist/studio.css";
+import { INITIAL_TIMELINE_DATA } from "@twick/video-editor";
 
-function App() {
+export default function ExampleStudio() {
   return (
     <LivePlayerProvider>
       <TimelineProvider
-        initialData={{
-          timeline: [],
-          version: 0,
-        }}
+        initialData={INITIAL_TIMELINE_DATA}
+        contextId={"studio-demo"}
       >
-        <VideoEditor
-          leftPanel={null}
-          rightPanel={null}
-          editorConfig={{
-            videoProps: {
-              width: 720,  // Desired width
-              height: 1280, // Desired height
-            },
-          }}
-        />
+        <TwickStudio />
       </TimelineProvider>
     </LivePlayerProvider>
   );

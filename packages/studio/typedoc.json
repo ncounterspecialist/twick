@@ -1,0 +1,21 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPoints": ["./src/index.ts"],
+  "out": "./docs",
+  "name": "@twick/studio",
+  "includeVersion": true,
+  "plugin": ["typedoc-plugin-markdown"],
+  "readme": "./README.md",
+  "exclude": ["**/node_modules/**", "**/dist/**"],
+  "excludePrivate": true,
+  "excludeProtected": true,
+  "excludeExternals": true,
+  "excludeInternal": true,
+  "categorizeByGroup": true,
+  "categoryOrder": [
+    "Components",
+    "Panels",
+    "Hooks",
+    "*"
+  ]
+}

@@ -1,19 +1,3 @@
 .app-container {
   @apply flex flex-col min-h-screen w-full overflow-x-hidden;
 }
-
-.nav-menu {
-  @apply flex gap-5 p-1.5 px-5 bg-gray-50 shadow-sm;
-}
-
-.nav-menu a {
-  @apply text-gray-700 hover:text-gray-900;
-}
-
-.nav-menu a.active {
-  @apply text-blue-500;
-}
-
-.nav-menu a.active:hover {
-  @apply text-blue-600;
-}

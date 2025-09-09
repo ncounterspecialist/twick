@@ -11,6 +11,7 @@
     "build:live-player": "turbo run build --filter=@twick/live-player",
     "build:visualizer": "turbo run build --filter=@twick/visualizer",
     "build:video-editor": "turbo run build --filter=@twick/video-editor",
+    "build:studio": "turbo run build --filter=@twick/studio",
     "build:render-server": "turbo run build --filter=@twick/render-server",
     "build:examples": "turbo run build --filter=@twick/examples",
     "docs": "turbo run docs",
@@ -22,6 +23,7 @@
     "dev:documentation": "pnpm run docs && pnpm run docs:copy && turbo run dev --filter=@twick/documentation",
     "dev:live-player": "turbo run dev --filter=@twick/live-player",
     "dev:video-editor": "turbo run dev --filter=@twick/video-editor",
+    "dev:studio": "turbo run dev --filter=@twick/studio",
     "dev:render-server": "turbo run dev --filter=@twick/render-server",
     "dev:examples": "turbo run dev --filter=@twick/examples",
     "preview": "cd packages/examples && pnpm run preview",
@@ -51,6 +53,7 @@
     "packages/timeline",
     "packages/live-player",
     "packages/video-editor",
+    "packages/studio",
     "packages/examples"
   ],
   "pnpm": {

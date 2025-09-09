@@ -1,3 +1,41 @@
+/**
+ * CirclePanel Component
+ * 
+ * A panel for creating and editing circle shapes in the studio. Provides controls
+ * for adjusting radius, fill color, opacity, stroke color, and line width.
+ * 
+ * @component
+ * @param {Object} props
+ * @param {number} props.radius - Circle radius in pixels
+ * @param {string} props.fillColor - Fill color in hex format
+ * @param {number} props.opacity - Opacity percentage (0-100)
+ * @param {string} props.strokeColor - Stroke color in hex format
+ * @param {number} props.lineWidth - Stroke width in pixels
+ * @param {(radius: number) => void} props.setRadius - Update circle radius
+ * @param {(color: string) => void} props.setFillColor - Update fill color
+ * @param {(opacity: number) => void} props.setOpacity - Update opacity
+ * @param {(color: string) => void} props.setStrokeColor - Update stroke color
+ * @param {(width: number) => void} props.setLineWidth - Update line width
+ * @param {() => void} props.handleApplyChanges - Apply circle element changes
+ * 
+ * @example
+ * ```tsx
+ * <CirclePanel
+ *   radius={50}
+ *   fillColor="#ff0000"
+ *   opacity={100}
+ *   strokeColor="#000000"
+ *   lineWidth={2}
+ *   setRadius={setRadius}
+ *   setFillColor={setFill}
+ *   setOpacity={setOpacity}
+ *   setStrokeColor={setStroke}
+ *   setLineWidth={setWidth}
+ *   handleApplyChanges={applyChanges}
+ * />
+ * ```
+ */
+
 import { inputStyles } from "../../styles/input-styles";
 import type { CirclePanelState, CirclePanelActions } from "../../hooks/use-circle-panel";
 

@@ -1,3 +1,38 @@
+/**
+ * IconPanel Component
+ * 
+ * A panel for browsing, searching, and adding icons to the studio timeline.
+ * Features a searchable grid of SVG icons with preview, add, and download actions.
+ * Supports infinite scrolling with "Load More" functionality.
+ * 
+ * @component
+ * @param {Object} props
+ * @param {Icon[]} props.icons - List of icons to display
+ * @param {boolean} props.loading - Loading state indicator
+ * @param {boolean} props.hasMore - Whether more icons can be loaded
+ * @param {number} props.totalIcons - Total number of available icons
+ * @param {string} props.searchQuery - Current search query
+ * @param {(query: string) => void} props.handleSearch - Handle search query changes
+ * @param {(icon: Icon) => void} props.handleSelection - Handle icon selection
+ * @param {(icon: Icon) => void} props.handleDownloadIcon - Handle icon download
+ * @param {() => void} props.handleLoadMore - Load more icons
+ * 
+ * @example
+ * ```tsx
+ * <IconPanel
+ *   icons={icons}
+ *   loading={false}
+ *   hasMore={true}
+ *   totalIcons={1000}
+ *   searchQuery=""
+ *   handleSearch={setSearchQuery}
+ *   handleSelection={addIconToTimeline}
+ *   handleDownloadIcon={downloadSvg}
+ *   handleLoadMore={loadNextPage}
+ * />
+ * ```
+ */
+
 import { Search, Loader2, Download } from "lucide-react";
 import { inputStyles } from "../../styles/input-styles";
 import type { IconPanelState, IconPanelActions, Icon } from "../../hooks/use-icon-panel";

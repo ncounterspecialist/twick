@@ -47,52 +47,52 @@
     @apply bg-neutral-800/70 backdrop-blur-md border border-gray-600/50 shadow-lg;
   }
   
-  /* Button styles - Updated to be compact and glossy */
+  /* Button styles */
   .btn {
     @apply inline-flex items-center justify-center rounded-lg px-3 py-2 text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 disabled:opacity-50 disabled:cursor-not-allowed;
   }
   
   .btn-primary {
-    @apply btn bg-gradient-to-r from-purple-600 to-purple-700 text-white hover:from-purple-700 hover:to-purple-800 focus:ring-purple-500 shadow-lg shadow-purple-500/25 hover:shadow-xl hover:shadow-purple-500/30;
+    @apply bg-gradient-to-r from-purple-600 to-purple-700 text-white hover:from-purple-700 hover:to-purple-800 focus:ring-purple-500 shadow-lg shadow-purple-500/25 hover:shadow-xl hover:shadow-purple-500/30;
   }
   
   .btn-secondary {
-    @apply btn bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:from-blue-700 hover:to-blue-800 focus:ring-blue-500 shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/30;
+    @apply bg-gradient-to-r from-purple-200 to-purple-300 text-gray-600 hover:from-purple-200 hover:to-purple-300 focus:ring-purple-100 shadow-lg shadow-purple-100/25 hover:shadow-xl hover:shadow-purple-100/30;
   }
   
   .btn-ghost {
-    @apply btn text-gray-300 hover:text-white hover:bg-neutral-700/50 focus:ring-gray-500;
+    @apply text-gray-300 hover:text-white hover:bg-neutral-700/50 focus:ring-gray-500;
   }
   
   .btn-outline {
-    @apply btn border border-purple-500 text-purple-400 hover:bg-purple-500 hover:text-white focus:ring-purple-500;
+    @apply border border-purple-500 text-purple-400 hover:bg-purple-500 hover:text-white focus:ring-purple-500;
   }
   
   .btn-danger {
-    @apply btn bg-gradient-to-r from-red-600 to-red-700 text-white hover:from-red-700 hover:to-red-800 focus:ring-red-500;
+    @apply bg-gradient-to-r from-red-600 to-red-700 text-white hover:from-red-700 hover:to-red-800 focus:ring-red-500;
   }
   
-  /* Input styles - Updated */
+  /* Input styles */
   .input {
     @apply w-full rounded-lg border border-gray-600 bg-neutral-700/80 px-3 py-2 text-sm text-gray-100 placeholder-gray-400 focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500/20 transition-all duration-200 backdrop-blur-sm shadow-sm;
   }
   
-  /* Card styles - Updated */
+  /* Card styles */
   .card {
     @apply rounded-xl border border-gray-600/50 bg-neutral-800/60 backdrop-blur-md shadow-lg;
   }
   
-  /* Panel styles - Updated */
+  /* Panel styles */
   .panel {
     @apply card p-4;
   }
   
-  /* Sidebar styles - Updated */
+  /* Sidebar styles */
   .sidebar {
     @apply w-16 bg-neutral-800/80 border-r border-gray-600/50 flex flex-col backdrop-blur-md shadow-lg;
   }
   
-  /* Timeline track styles - Updated */
+  /* Timeline track styles */
   .timeline-track {
     @apply relative h-12 bg-neutral-700/50 border border-gray-600/50 rounded-lg overflow-hidden backdrop-blur-sm shadow-md;
   }
@@ -101,37 +101,37 @@
     @apply absolute top-1 bottom-1 rounded-md border border-purple-500/50 bg-gradient-to-r from-purple-600/30 to-blue-600/30 hover:from-purple-600/50 hover:to-blue-600/50 transition-all duration-200 cursor-pointer shadow-lg;
   }
   
-  /* Canvas styles - Updated */
+  /* Canvas styles */
   .canvas-container {
     @apply relative overflow-hidden shadow-xl;
   }
   
-  /* Toolbar styles - Updated */
+  /* Toolbar styles */
   .toolbar {
     @apply flex items-center gap-2 p-3 bg-neutral-800/80 backdrop-blur-md border-b border-gray-600/50 shadow-md;
   }
   
-  /* Header styles - Updated */
+  /* Header styles */
   .header {
     @apply h-14 bg-neutral-800/90 border-b border-gray-600/50 flex items-center justify-between px-4 backdrop-blur-md shadow-lg;
   }
   
-  /* Media library styles - Updated */
+  /* Media library styles */
   .media-item {
     @apply transition-all duration-200 hover:scale-105 hover:shadow-lg hover:shadow-purple-500/20;
   }
   
-  /* Progress bar styling - Updated */
+  /* Progress bar styling */
   .progress-bar {
     @apply transition-all duration-150 ease-out bg-gradient-to-r from-purple-500 to-blue-500;
   }
   
-  /* Button hover effects - Updated */
+  /* Button hover effects */
   .btn-hover {
     @apply transform hover:scale-105 active:scale-95 transition-transform duration-200;
   }
   
-  /* Purple accent elements */
+  /* Accent colors */
   .accent-purple {
     @apply text-purple-400;
   }
@@ -149,7 +149,7 @@
     @apply bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent;
   }
   
-  /* Glow effects - Updated */
+  /* Glow effects */
   .glow-purple {
     box-shadow: 0 0 20px theme('colors.purple.500/20');
   }
@@ -158,7 +158,7 @@
     box-shadow: 0 0 20px theme('colors.blue.500/20');
   }
   
-  /* Aspect ratio buttons */
+  /* Form elements */
   .aspect-ratio-btn {
     @apply px-3 py-1.5 rounded-lg border border-gray-600 text-gray-300 hover:border-purple-500 hover:text-purple-400 transition-all duration-200 text-sm;
   }
@@ -167,7 +167,6 @@
     @apply border-purple-500 bg-purple-500/20 text-purple-400 shadow-md shadow-purple-500/25;
   }
   
-  /* Custom slider styling */
   .slider-thumb {
     @apply appearance-none bg-transparent cursor-pointer;
   }
@@ -188,7 +187,7 @@
     @apply w-full h-1.5 bg-neutral-600/50 rounded-full border-0;
   }
   
-  /* Form control buttons - Compact */
+  /* Form control buttons */
   .form-btn {
     @apply w-8 h-8 bg-gradient-to-br from-gray-700 to-gray-800 hover:from-gray-600 hover:to-gray-700 rounded-lg flex items-center justify-center text-gray-300 hover:text-white transition-all duration-200 shadow-sm hover:shadow-md hover:shadow-purple-500/20;
   }
@@ -197,27 +196,9 @@
     @apply bg-gradient-to-br from-purple-500 to-purple-600 text-white shadow-md shadow-purple-500/25;
   }
   
-  /* Action buttons - Compact */
-  .action-btn {
-    @apply px-3 py-1.5 rounded-lg text-white text-sm transition-all duration-200 shadow-md hover:shadow-lg;
-  }
-  
-  .action-btn-purple {
-    @apply action-btn bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 shadow-purple-500/25 hover:shadow-purple-500/30;
-  }
-  
-  .action-btn-blue {
-    @apply action-btn bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-blue-500/25 hover:shadow-blue-500/30;
-  }
-  
-  /* Compact media items */
-  .media-item-compact {
-    @apply w-full h-20 rounded-lg bg-neutral-700/60 border border-gray-600/50 hover:border-purple-400/50 hover:shadow-lg hover:shadow-purple-500/20 transition-all duration-200 backdrop-blur-sm shadow-sm;
-  }
-  
-  /* Compact toolbar buttons */
+  /* Toolbar buttons */
   .toolbar-btn {
-    @apply w-12 h-12 rounded-lg flex flex-col items-center justify-center transition-all duration-200 shadow-sm hover:shadow-md;
+    @apply w-12 max-h-12 rounded-lg flex flex-col items-center justify-center transition-all duration-200 shadow-sm hover:shadow-md;
   }
   
   .toolbar-btn.active {
@@ -267,21 +248,14 @@
   }
 }
 
-/* Custom styles for the studio */
-.btn {
-  @apply px-3 py-2 rounded-lg transition-all duration-200 font-medium;
+/* Video player customizations */
+video::-webkit-media-controls,
+video::-webkit-media-controls-panel {
+  display: none;
 }
 
-.btn-primary {
-  @apply bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white shadow-lg shadow-purple-500/25;
-}
-
-.btn-secondary {
-  @apply bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg shadow-blue-500/25;
-}
-
-.btn-ghost {
-  @apply bg-transparent hover:bg-neutral-700/50 text-gray-300 hover:text-white border border-gray-600 hover:border-gray-500;
+.main-container {
+  max-width: calc(100% - 634px);
 }
 
 /* Custom scrollbar */
@@ -300,37 +274,4 @@
 
 ::-webkit-scrollbar-thumb:hover {
   background: #a855f7;
-}
-
-/* Video player customizations */
-video::-webkit-media-controls {
-  display: none;
-}
-
-video::-webkit-media-controls-panel {
-  display: none;
-}
-
-/* Timeline element styling - Updated */
-.timeline-element {
-  @apply bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 cursor-pointer transition-colors shadow-lg;
-}
-
-/* Media library item hover effects - Updated */
-.media-item {
-  @apply transition-all duration-200 hover:scale-105 hover:shadow-lg hover:shadow-purple-500/20;
-}
-
-/* Progress bar styling - Updated */
-.progress-bar {
-  @apply transition-all duration-150 ease-out bg-gradient-to-r from-purple-500 to-blue-500;
-}
-
-/* Button hover effects - Updated */
-.btn-hover {
-  @apply transform hover:scale-105 active:scale-95 transition-transform duration-200;
-}
-
-.main-container {
-  max-width: calc(100% - 634px);
 }

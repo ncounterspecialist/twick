@@ -1,3 +1,21 @@
+/**
+ * StageCanvas Component
+ * 
+ * The main editing canvas that displays the video/composition workspace.
+ * Wraps the VideoEditor component in canvas mode with proper sizing and scrolling.
+ * 
+ * @component
+ * @param {Object} props
+ * @param {Object} props.resolution - Canvas resolution settings
+ * @param {number} props.resolution.width - Canvas width in pixels
+ * @param {number} props.resolution.height - Canvas height in pixels
+ * 
+ * @example
+ * ```tsx
+ * <StageCanvas resolution={{ width: 1920, height: 1080 }} />
+ * ```
+ */
+
 import VideoEditor from "@twick/video-editor";
 import "@twick/video-editor/dist/video-editor.css";
   

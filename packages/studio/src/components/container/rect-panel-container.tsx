@@ -1,5 +1,5 @@
 import type { PanelProps } from "../../types";
-import { RectPanel } from "../element-panel/rect-panel";
+import { RectPanel } from "../panel/rect-panel";
 import { useRectPanel } from "../../hooks/use-rect-panel";
 
 export function RectPanelContainer(props: PanelProps) {

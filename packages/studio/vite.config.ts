@@ -1,9 +1,45 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite';
+import dts from 'vite-plugin-dts';
+import { resolve } from 'path';
 
-// https://vite.dev/config/
 export default defineConfig({
-  plugins: [react()],
-  // Removed external dependencies - this is a standalone app, not a library
-  // All dependencies including React will be bundled
-})
+  build: {
+    lib: {
+      entry: resolve(__dirname, 'src/index.ts'),
+      name: 'TwickStudio',
+      fileName: (format) => `index.${format === 'es' ? 'mjs' : 'js'}`,
+    },
+    rollupOptions: {
+      external: [
+        'react',
+        'react-dom',
+        'react/jsx-runtime',
+        'react/jsx-dev-runtime',
+        '@twick/timeline',
+        '@twick/video-editor'
+      ],
+      output: {
+        exports: 'named',
+        globals: {
+          react: 'React',
+          'react-dom': 'ReactDOM',
+          'react/jsx-runtime': 'jsxRuntime',
+          '@twick/timeline': 'TwickTimeline',
+          '@twick/video-editor': 'TwickVideoEditor'
+        },
+        assetFileNames: (assetInfo) => {
+          if (assetInfo.name === 'style.css') return 'studio.css';
+          return assetInfo.name;
+        },
+      },
+    },
+    sourcemap: true,
+    minify: false
+  },
+  plugins: [
+    dts({
+      include: ['src'],
+      exclude: ['src/**/*.test.ts', 'src/**/*.test.tsx'],
+    }),
+  ]
+});

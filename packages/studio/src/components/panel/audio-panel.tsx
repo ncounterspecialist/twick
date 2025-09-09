@@ -1,3 +1,33 @@
+/**
+ * AudioPanel Component
+ * 
+ * A panel for managing audio elements in the studio. Provides functionality
+ * for searching, uploading, previewing, and adding audio files to the timeline.
+ * 
+ * @component
+ * @param {Object} props
+ * @param {MediaItem[]} props.items - List of audio items to display
+ * @param {string} props.searchQuery - Current search query
+ * @param {string | null} props.playingAudio - ID of currently playing audio, if any
+ * @param {(query: string) => void} props.onSearchChange - Handle search query changes
+ * @param {(item: MediaItem) => void} props.onItemSelect - Handle audio item selection
+ * @param {(item: MediaItem) => void} props.onPlayPause - Toggle audio preview playback
+ * @param {(data: { file: File; blobUrl: string }) => void} props.onFileUpload - Handle file uploads
+ * 
+ * @example
+ * ```tsx
+ * <AudioPanel
+ *   items={audioItems}
+ *   searchQuery=""
+ *   playingAudio={null}
+ *   onSearchChange={setSearchQuery}
+ *   onItemSelect={handleSelect}
+ *   onPlayPause={togglePlayback}
+ *   onFileUpload={handleUpload}
+ * />
+ * ```
+ */
+
 import { Wand2, Plus, Volume2, Play, Pause } from "lucide-react";
 import SearchInput from "../shared/search-input";
 import FileInput from "../shared/file-input";
