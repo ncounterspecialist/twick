@@ -1,7 +1,7 @@
 import { Track, TrackElement, useTimelineContext } from "@twick/timeline";
 import { useState } from "react";
 
-const useStudioManager = () => {
+export const useStudioManager = () => {
   const { editor, selectedItem, setSelectedItem } = useTimelineContext();
 
   const selectedElement = selectedItem instanceof TrackElement ? selectedItem : null;
@@ -46,4 +46,3 @@ const useStudioManager = () => {
   };
 };
 
-export default useStudioManager;

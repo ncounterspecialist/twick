@@ -2,11 +2,11 @@ import { StageCanvas } from "./stage-canvas";
 import { Toolbar } from "./toolbar";
 import { PropertiesPanelContainer } from "./container/properties-panel-container";
 import StudioHeader from "./header";
-import useStudioManager from "../hooks/use-studio-manager";
+import { useStudioManager } from "../hooks/use-studio-manager";
 import ElementPanelContainer from "./container/element-panel-container";
 import { useTimelineContext } from "@twick/timeline";
 
-export function EditorShell() {
+export function TwickStudio() {
   const {
     selectedTool,
     setSelectedTool,

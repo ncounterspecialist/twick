@@ -19,6 +19,7 @@
     "@twick/live-player": "workspace:^0.14.0",
     "@twick/timeline": "workspace:^0.14.0",
     "@twick/video-editor": "workspace:^0.14.0",
+    "@twick/studio": "workspace:^0.14.0",
     "@types/dompurify": "^3.2.0",
     "@types/react-router-dom": "^5.3.3",
     "dompurify": "^3.2.6",

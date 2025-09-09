@@ -93,7 +93,7 @@ export interface TimelineProviderProps {
   /** Unique identifier for this timeline context */
   contextId: string;
   /** resolution of the video */
-  resolution: Size;
+  resolution?: Size;
   /** Initial timeline data to load */
   initialData?: {
     tracks: TrackJSON[];
@@ -286,7 +286,7 @@ const TimelineProviderInner = ({
 export const TimelineProvider = ({
   contextId,
   children,
-  resolution,
+  resolution = {width: 720, height: 1280},
   initialData,
   undoRedoPersistenceKey,
   maxHistorySize,

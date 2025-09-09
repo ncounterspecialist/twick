@@ -47,7 +47,7 @@ export function Toolbar({ selectedTool, setSelectedTool }: { selectedTool: strin
   }
 
   return (
-    <div className="w-16 bg-neutral/80 border-r border-gray-300/50 flex flex-col items-center py-4 space-y-3 backdrop-blur-md shadow-lg">
+    <div className="w-16 bg-neutral/80 border-r border-gray-300/50 flex flex-col items-center py-4 space-y-3 justify-start backdrop-blur-md shadow-lg">
       {/* Main Tools */}
       {toolCategories.map((tool) => {
         const Icon = getIcon(tool.icon)

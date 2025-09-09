@@ -51,6 +51,7 @@
     "packages/timeline",
     "packages/live-player",
     "packages/video-editor",
+    "packages/studio",
     "packages/examples"
   ],
   "pnpm": {
