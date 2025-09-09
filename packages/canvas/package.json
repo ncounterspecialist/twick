@@ -33,7 +33,7 @@
     "typescript": "^5.4.2",
     "typedoc": "^0.25.8",
     "typedoc-plugin-markdown": "^3.17.1",
-    "vite": "^5.1.4",
+    "vite": "^5.4.20",
     "vite-plugin-dts": "^3.7.3",
     "rimraf": "^5.0.5"
   }
