@@ -49,6 +49,7 @@ export const useTwickCanvas = ({
   const elementFrameMap = useRef<Record<string, any>>({}); // Maps element IDs to their frame effects
   const twickCanvasRef = useRef<FabricCanvas | null>(null);
   const videoSizeRef = useRef<Dimensions>({ width: 1, height: 1 }); // Stores the video dimensions
+  const canvasResolutionRef = useRef<Dimensions>({ width: 1, height: 1 }); // Stores the canvas dimensions
   const canvasMetadataRef = useRef<CanvasMetadata>({
     width: 0,
     height: 0,
@@ -107,8 +108,13 @@ export const useTwickCanvas = ({
     uniScaleTransform = true,
     enableRetinaScaling = true,
     touchZoomThreshold = 10,
-  }: CanvasProps) => {
+    forceBuild = false,
+  }: CanvasProps & { forceBuild?: boolean }) => {
     if (!canvasRef) return;
+
+    if (!forceBuild && canvasResolutionRef.current.width === canvasSize.width && canvasResolutionRef.current.height === canvasSize.height) {
+      return;
+    }
 
     // Dispose of the old canvas if it exists
     if (twickCanvasRef.current) {
@@ -133,6 +139,7 @@ export const useTwickCanvas = ({
     videoSizeRef.current = videoSize;
     // Attach event listeners
     canvas?.on("mouse:up", handleMouseUp);
+    canvasResolutionRef.current = canvasSize;
     setTwickCanvas(canvas);
     twickCanvasRef.current = canvas;
     // Notify when canvas is ready
