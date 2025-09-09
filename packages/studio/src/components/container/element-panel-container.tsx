@@ -1,4 +1,4 @@
-import { SubtitlesPanel } from "../element-panel/subtitles-panel";
+import { SubtitlesPanel } from "../panel/subtitles-panel";
 import { TrackElement } from "@twick/timeline";
 import { AudioPanelContainer } from "./audio-panel-container";
 import { ImagePanelContainer } from "./image-panel-container";

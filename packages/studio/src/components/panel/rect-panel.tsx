@@ -1,3 +1,41 @@
+/**
+ * RectPanel Component
+ * 
+ * A panel for creating and editing rectangle shapes in the studio. Provides controls
+ * for adjusting corner radius, fill color, opacity, stroke color, and line width.
+ * 
+ * @component
+ * @param {Object} props
+ * @param {number} props.cornerRadius - Corner radius in pixels
+ * @param {string} props.fillColor - Fill color in hex format
+ * @param {number} props.opacity - Opacity percentage (0-100)
+ * @param {string} props.strokeColor - Stroke color in hex format
+ * @param {number} props.lineWidth - Stroke width in pixels
+ * @param {(radius: number) => void} props.setCornerRadius - Update corner radius
+ * @param {(color: string) => void} props.setFillColor - Update fill color
+ * @param {(opacity: number) => void} props.setOpacity - Update opacity
+ * @param {(color: string) => void} props.setStrokeColor - Update stroke color
+ * @param {(width: number) => void} props.setLineWidth - Update line width
+ * @param {() => void} props.handleApplyChanges - Apply rectangle element changes
+ * 
+ * @example
+ * ```tsx
+ * <RectPanel
+ *   cornerRadius={10}
+ *   fillColor="#ff0000"
+ *   opacity={100}
+ *   strokeColor="#000000"
+ *   lineWidth={2}
+ *   setCornerRadius={setRadius}
+ *   setFillColor={setFill}
+ *   setOpacity={setOpacity}
+ *   setStrokeColor={setStroke}
+ *   setLineWidth={setWidth}
+ *   handleApplyChanges={applyChanges}
+ * />
+ * ```
+ */
+
 import { inputStyles } from "../../styles/input-styles";
 import type { RectPanelState, RectPanelActions } from "../../hooks/use-rect-panel";
 

@@ -1,3 +1,21 @@
+/**
+ * StudioHeader Component
+ * 
+ * The top header bar of the studio interface. Contains the studio logo,
+ * orientation controls, and action buttons for saving and exporting.
+ * 
+ * @component
+ * @param {Object} props
+ * @param {(resolution: Size) => void} props.setVideoResolution - Callback to update canvas resolution
+ * 
+ * @example
+ * ```tsx
+ * <StudioHeader
+ *   setVideoResolution={(size) => console.log(`New size: ${size.width}x${size.height}`)}
+ * />
+ * ```
+ */
+
 import type { Size } from "@twick/timeline";
 import { Save, Download, Clapperboard } from "lucide-react";
 import { useEffect, useState } from "react";

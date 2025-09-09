@@ -1,3 +1,55 @@
+/**
+ * TextPanel Component
+ * 
+ * A panel for creating and editing text elements in the studio. Provides comprehensive
+ * text styling options including font selection, size, colors, stroke, and shadow effects.
+ * 
+ * @component
+ * @param {Object} props
+ * @param {string} props.textContent - Text content to display
+ * @param {number} props.fontSize - Font size in pixels
+ * @param {string} props.selectedFont - Selected font family
+ * @param {boolean} props.isBold - Whether text is bold
+ * @param {boolean} props.isItalic - Whether text is italic
+ * @param {string} props.textColor - Text color in hex format
+ * @param {string} props.strokeColor - Stroke color in hex format
+ * @param {boolean} props.applyShadow - Whether to apply shadow effect
+ * @param {string} props.shadowColor - Shadow color in hex format
+ * @param {number} props.strokeWidth - Width of text stroke
+ * @param {string[]} props.fonts - Available font options
+ * @param {(text: string) => void} props.setTextContent - Update text content
+ * @param {(size: number) => void} props.setFontSize - Update font size
+ * @param {(font: string) => void} props.setSelectedFont - Update selected font
+ * @param {(bold: boolean) => void} props.setIsBold - Toggle bold style
+ * @param {(italic: boolean) => void} props.setIsItalic - Toggle italic style
+ * @param {(color: string) => void} props.setTextColor - Update text color
+ * @param {(color: string) => void} props.setStrokeColor - Update stroke color
+ * @param {(apply: boolean) => void} props.setApplyShadow - Toggle shadow effect
+ * @param {(color: string) => void} props.setShadowColor - Update shadow color
+ * @param {(width: number) => void} props.setStrokeWidth - Update stroke width
+ * @param {() => void} props.handleApplyChanges - Apply text element changes
+ * 
+ * @example
+ * ```tsx
+ * <TextPanel
+ *   textContent="Sample Text"
+ *   fontSize={48}
+ *   selectedFont="Arial"
+ *   isBold={false}
+ *   isItalic={false}
+ *   textColor="#000000"
+ *   strokeColor="#ffffff"
+ *   applyShadow={false}
+ *   shadowColor="#000000"
+ *   strokeWidth={0}
+ *   fonts={["Arial", "Times New Roman"]}
+ *   setTextContent={setText}
+ *   setFontSize={setSize}
+ *   // ... other handlers
+ * />
+ * ```
+ */
+
 import { inputStyles } from "../../styles/input-styles";
 import type { TextPanelState, TextPanelActions } from "../../hooks/use-text-panel";
 

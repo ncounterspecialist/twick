@@ -338,12 +338,6 @@ importers:
 
   packages/studio:
     dependencies:
-      '@twick/timeline':
-        specifier: workspace:^0.14.0
-        version: link:../timeline
-      '@twick/video-editor':
-        specifier: workspace:^0.14.0
-        version: link:../video-editor
       lucide-react:
         specifier: ^0.511.0
         version: 0.511.0(react@18.3.1)
@@ -354,6 +348,12 @@ importers:
         specifier: ^18.2.0
         version: 18.3.1(react@18.3.1)
     devDependencies:
+      '@twick/timeline':
+        specifier: workspace:^0.14.0
+        version: link:../timeline
+      '@twick/video-editor':
+        specifier: workspace:^0.14.0
+        version: link:../video-editor
       '@types/node':
         specifier: ^20.11.24
         version: 20.17.52

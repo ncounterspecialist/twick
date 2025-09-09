@@ -1,5 +1,5 @@
 import type { PanelProps } from "../../types";
-import { CirclePanel } from "../element-panel/circle-panel";
+import { CirclePanel } from "../panel/circle-panel";
 import { useCirclePanel } from "../../hooks/use-circle-panel";
 
 export function CirclePanelContainer(props: PanelProps) {

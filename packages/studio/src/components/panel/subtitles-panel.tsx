@@ -1,3 +1,30 @@
+/**
+ * SubtitlesPanel Component
+ * 
+ * A panel for managing video subtitles in the studio. Provides functionality
+ * for creating, editing, and managing subtitle entries with timing and text.
+ * Supports both manual entry and automatic generation (TODO).
+ * 
+ * @component
+ * @example
+ * ```tsx
+ * <SubtitlesPanel />
+ * ```
+ * 
+ * Features:
+ * - Add/delete subtitle entries
+ * - Set start/end times
+ * - Edit subtitle text
+ * - Automatic subtitle generation (planned)
+ * - Save subtitles to timeline
+ * 
+ * Each subtitle entry includes:
+ * - Start time (in seconds)
+ * - End time (in seconds)
+ * - Subtitle text
+ * - Delete and save actions
+ */
+
 import { useState } from "react";
 import { Trash2, Check } from "lucide-react";
 
