@@ -142,7 +142,7 @@ const TimelineProviderInner = ({
     null
   );
 
-  const [videoResolution, setVideoResolution] = useState<Size>(resolution);
+  const [videoResolution, setVideoResolution] = useState<Size>(resolution ?? {width: 720, height: 1280});
 
   const [totalDuration, setTotalDuration] = useState(0);
 

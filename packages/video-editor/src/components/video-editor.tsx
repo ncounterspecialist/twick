@@ -1,14 +1,14 @@
 import { PlayerManager } from "./player/player-manager";
 import TimelineManager from "./timeline/timeline-manager";
 import "../styles/video-editor.css";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import ControlManager from "./controls/control-manager";
 import { DEFAULT_TIMELINE_ZOOM } from "../helpers/constants";
 
 /**
  * Configuration options for the video editor.
  * Defines the video properties and editor behavior settings.
- * 
+ *
  * @example
  * ```js
  * const editorConfig = {
@@ -34,7 +34,7 @@ export interface VideoEditorConfig {
 /**
  * Props for the VideoEditor component.
  * Defines the configuration options and custom panels for the video editor.
- * 
+ *
  * @example
  * ```jsx
  * <VideoEditor
@@ -68,21 +68,21 @@ export interface VideoEditorProps {
  * VideoEditor is the main component for the Twick video editing interface.
  * Provides a complete video editing environment with timeline management,
  * player controls, and customizable panels for media, properties, and effects.
- * 
+ *
  * The editor consists of:
  * - Left panel: Media library and assets
  * - Center: Video player and preview
  * - Right panel: Properties and settings
  * - Bottom: Timeline and track management
  * - Controls: Playback controls and timeline zoom
- * 
+ *
  * @param props - VideoEditor configuration and custom panels
  * @returns Complete video editing interface
- * 
+ *
  * @example
  * ```jsx
  * import VideoEditor from '@twick/video-editor';
- * 
+ *
  * function MyVideoEditor() {
  *   return (
  *     <VideoEditor
@@ -98,7 +98,7 @@ export interface VideoEditorProps {
  *   );
  * }
  * ```
- * 
+ *
  * @example
  * ```jsx
  * // Minimal configuration
@@ -118,16 +118,22 @@ const VideoEditor: React.FC<VideoEditorProps> = ({
   defaultPlayControls = true,
 }) => {
   const [trackZoom, setTrackZoom] = useState(DEFAULT_TIMELINE_ZOOM);
-  
+
+  const useMemoizedPlayerManager = useMemo(
+    () => (
+      <PlayerManager
+        videoProps={editorConfig.videoProps}
+        canvasMode={editorConfig.canvasMode ?? true}
+      />
+    ),
+    [editorConfig]
+  );
   return (
     <div className="twick-editor-main-container">
       <div className="twick-editor-view-section">
-        {leftPanel ? leftPanel : <div/>}
-        <PlayerManager
-          videoProps={editorConfig.videoProps}
-          canvasMode={editorConfig.canvasMode ?? true}
-        />
-        {rightPanel ? rightPanel : <div/>}
+        {leftPanel ? leftPanel : <div />}
+        {useMemoizedPlayerManager}
+        {rightPanel ? rightPanel : <div />}
       </div>
       {bottomPanel ? bottomPanel : null}
       <div className="twick-editor-timeline-section">
@@ -137,9 +143,7 @@ const VideoEditor: React.FC<VideoEditorProps> = ({
           <ControlManager trackZoom={trackZoom} setTrackZoom={setTrackZoom} />
         ) : null}
 
-        <TimelineManager
-          trackZoom={trackZoom}
-        />
+        <TimelineManager trackZoom={trackZoom} />
       </div>
     </div>
   );

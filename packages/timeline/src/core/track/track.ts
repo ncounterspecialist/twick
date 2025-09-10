@@ -526,7 +526,7 @@ export class Track {
    * ```
    */
   static fromJSON(json: any): Track {
-    const track = new Track(json.name, json.id);
+    const track = new Track(json.name, json.type ?? "element", json.id);
     track.type = json.type;
     track.elements = (json.elements || []).map(ElementDeserializer.fromJSON);
     return track;
