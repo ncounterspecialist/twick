@@ -1,12 +1,32 @@
 import type { PanelProps } from "../../types";
 import { VideoPanel } from "../panel/video-panel";
-import { useVideoPanel } from "../../hooks/use-video-panel";
+import { useMediaPanel } from "../../hooks/use-media-panel";
 
 export function VideoPanelContainer(props: PanelProps) {
-  const videoPanelProps = useVideoPanel({
+  const {
+    items,
+    searchQuery,
+    setSearchQuery,
+    handleSelection,
+    handleFileUpload,
+    isLoading,
+    acceptFileTypes,
+  } = useMediaPanel("video", {
     selectedElement: props.selectedElement ?? null,
     addElement: props.addElement!,
     updateElement: props.updateElement!,
-  });
-  return <VideoPanel {...videoPanelProps} />;
+  },
+  props.videoResolution);
+
+  return (
+    <VideoPanel
+      items={items}
+      searchQuery={searchQuery}
+      onSearchChange={setSearchQuery}
+      onItemSelect={handleSelection}
+      onFileUpload={handleFileUpload}
+      isLoading={isLoading}
+      acceptFileTypes={acceptFileTypes}
+    />
+  );
 }

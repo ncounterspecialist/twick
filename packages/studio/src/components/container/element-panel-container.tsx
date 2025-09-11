@@ -1,5 +1,5 @@
 import { SubtitlesPanel } from "../panel/subtitles-panel";
-import { TrackElement } from "@twick/timeline";
+import { Size, TrackElement } from "@twick/timeline";
 import { AudioPanelContainer } from "./audio-panel-container";
 import { ImagePanelContainer } from "./image-panel-container";
 import { VideoPanelContainer } from "./video-panel-container";
@@ -11,6 +11,7 @@ import { CirclePanelContainer } from "./circle-panel-container";
 interface ElementPanelContainerProps {
   selectedTool: string;
   selectedElement: TrackElement | null;
+  videoResolution: Size;
   setSelectedTool: (tool: string) => void;
   addElement: (element: TrackElement) => void;
   updateElement: (element: TrackElement) => void;
@@ -19,17 +20,16 @@ interface ElementPanelContainerProps {
 const ElementPanelContainer = ({
   selectedTool,
   setSelectedTool,
+  videoResolution,
   selectedElement,
   addElement,
   updateElement,
 }: ElementPanelContainerProps): JSX.Element => {
-
   const addNewElement = async (element: TrackElement) => {
     await addElement(element);
-    if(!["image, video, audio"].includes(selectedTool)) {
+    if (!["image", "video", "audio"].includes(selectedTool)) {
       setSelectedTool("none");
     }
-
   };
   // Render appropriate library based on selected tool
   const renderLibrary = () => {
@@ -37,6 +37,7 @@ const ElementPanelContainer = ({
       case "image":
         return (
           <ImagePanelContainer
+            videoResolution={videoResolution}
             selectedElement={selectedElement}
             addElement={addNewElement}
             updateElement={updateElement}
@@ -45,6 +46,7 @@ const ElementPanelContainer = ({
       case "audio":
         return (
           <AudioPanelContainer
+            videoResolution={videoResolution}
             selectedElement={selectedElement}
             addElement={addNewElement}
             updateElement={updateElement}
@@ -53,6 +55,7 @@ const ElementPanelContainer = ({
       case "video":
         return (
           <VideoPanelContainer
+            videoResolution={videoResolution}
             selectedElement={selectedElement}
             addElement={addNewElement}
             updateElement={updateElement}
@@ -69,6 +72,7 @@ const ElementPanelContainer = ({
       case "icon":
         return (
           <IconPanelContainer
+            videoResolution={videoResolution}
             selectedElement={selectedElement}
             addElement={addNewElement}
             updateElement={updateElement}
@@ -77,6 +81,7 @@ const ElementPanelContainer = ({
       case "rect":
         return (
           <RectPanelContainer
+            videoResolution={videoResolution}
             selectedElement={selectedElement}
             addElement={addNewElement}
             updateElement={updateElement}
@@ -85,6 +90,7 @@ const ElementPanelContainer = ({
       case "circle":
         return (
           <CirclePanelContainer
+            videoResolution={videoResolution}
             selectedElement={selectedElement}
             addElement={addNewElement}
             updateElement={updateElement}

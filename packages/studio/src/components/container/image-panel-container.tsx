@@ -1,12 +1,32 @@
 import type { PanelProps } from "../../types";
 import { ImagePanel } from "../panel/image-panel";
-import { useImagePanel } from "../../hooks/use-image-panel";
+import { useMediaPanel } from "../../hooks/use-media-panel";
 
 export function ImagePanelContainer(props: PanelProps) {
-  const imagePanelProps = useImagePanel({
+  const {
+    items,
+    searchQuery,
+    setSearchQuery,
+    handleSelection,
+    handleFileUpload,
+    isLoading,
+    acceptFileTypes,
+  } = useMediaPanel("image", {
     selectedElement: props.selectedElement ?? null,
     addElement: props.addElement!,
     updateElement: props.updateElement!,
-  });
-  return <ImagePanel {...imagePanelProps} />;
+  },
+  props.videoResolution);
+
+  return (
+    <ImagePanel
+      items={items}
+      searchQuery={searchQuery}
+      onSearchChange={setSearchQuery}
+      onItemSelect={handleSelection}
+      onFileUpload={handleFileUpload}
+      isLoading={isLoading}
+      acceptFileTypes={acceptFileTypes}
+    />
+  );
 }

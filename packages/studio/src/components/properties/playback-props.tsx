@@ -9,7 +9,7 @@ interface PlaybackPropsProps {
 
 export function PlaybackPropsPanel({ selectedElement, isOpen, updateElement, onToggle }: PlaybackPropsProps & PropertiesPanelProps) {
   const elementProps = selectedElement?.getProps() || {};
-  const {playbackRate, volume} = elementProps;
+  const { volume} = elementProps;
 
   const handleUpdateElement = (props: Record<string, any>) => {
     if(selectedElement) {
@@ -26,7 +26,7 @@ export function PlaybackPropsPanel({ selectedElement, isOpen, updateElement, onT
       <div className="space-y-3">
 
         {/* Playback Rate */}
-        <div className="bg-neutral-800/40 rounded-lg p-2.5 border border-gray-600/20">
+        {/* <div className="bg-neutral-800/40 rounded-lg p-2.5 border border-gray-600/20">
           <h5 className="text-xs font-semibold text-gray-200 mb-2 flex items-center gap-1.5">
             <div className="w-1.5 h-1.5 bg-purple-400 rounded-full"></div>
             Playback Rate
@@ -44,7 +44,7 @@ export function PlaybackPropsPanel({ selectedElement, isOpen, updateElement, onT
             <span>0.1</span>
             <span>5</span>
           </div>
-        </div>
+        </div> */}
 
         {/* Volume */}
         <div className="bg-neutral-800/40 rounded-lg p-2.5 border border-gray-600/20">

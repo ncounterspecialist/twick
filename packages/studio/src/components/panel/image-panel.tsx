@@ -27,18 +27,18 @@
 
 import { Wand2, Plus } from "lucide-react";
 import type { MediaItem } from "@twick/video-editor";
-import type { ImagePanelState, ImagePanelActions } from "../../hooks/use-image-panel";
+import type { ImagePanelProps } from "../../types/media-panel";
 import SearchInput from "../shared/search-input";
 import FileInput from "../shared/file-input";
 
-export type ImagePanelProps = ImagePanelState & ImagePanelActions;
 
 export function ImagePanel({
   items,
   searchQuery,
-  setSearchQuery,
-  handleSelection,
-  handleFileUpload,
+  onSearchChange,
+  onItemSelect,
+  onFileUpload,
+  acceptFileTypes,
 }: ImagePanelProps) {
   return (
     <div className="w-72 h-full bg-neutral-800/80 border-r border-gray-600/50 flex flex-col backdrop-blur-md shadow-lg">
@@ -51,13 +51,13 @@ export function ImagePanel({
           {/* Search */}
           <SearchInput
             searchQuery={searchQuery}
-            setSearchQuery={setSearchQuery}
+            setSearchQuery={onSearchChange}
           />
           {/* Upload Button */}
           <FileInput
             id="image-upload"
-            acceptFileTypes={["image/*"]}
-            onFileLoad={handleFileUpload}
+            acceptFileTypes={acceptFileTypes}
+            onFileLoad={onFileUpload}
             buttonText="Upload"
           />
         </div>
@@ -70,7 +70,7 @@ export function ImagePanel({
           {(items || []).map((item: MediaItem) => (
             <div
               key={item.id}
-              onDoubleClick={() => handleSelection(item)}
+              onDoubleClick={() => onItemSelect(item)}
               className="media-item-compact group relative cursor-pointer overflow-hidden hover:shadow-lg hover:shadow-purple-500/20 transition-all duration-200"
             >
               <img
@@ -87,7 +87,7 @@ export function ImagePanel({
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
-                    handleSelection(item);
+                    onItemSelect(item);
                   }}
                   className="w-5 h-5 rounded-full bg-purple-500/80 hover:bg-purple-500 flex items-center justify-center text-white text-xs"
                 >

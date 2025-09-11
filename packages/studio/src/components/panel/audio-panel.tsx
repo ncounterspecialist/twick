@@ -28,29 +28,20 @@
  * ```
  */
 
-import { Wand2, Plus, Volume2, Play, Pause } from "lucide-react";
+import { Wand2, Plus, Volume2, Play } from "lucide-react";
 import SearchInput from "../shared/search-input";
 import FileInput from "../shared/file-input";
-import type { MediaItem } from "@twick/video-editor";
 
-export interface AudioPanelProps {
-  items: MediaItem[];
-  searchQuery: string;
-  playingAudio: string | null;
-  onSearchChange: (query: string) => void;
-  onItemSelect: (item: MediaItem) => void;
-  onPlayPause: (item: MediaItem) => void;
-  onFileUpload: (fileData: { file: File; blobUrl: string }) => void;
-}
+import type { AudioPanelProps } from "../../types/media-panel";
+
 
 export const AudioPanel = ({
   items,
   searchQuery,
-  playingAudio,
   onSearchChange,
   onItemSelect,
-  onPlayPause,
   onFileUpload,
+  acceptFileTypes,
 }: AudioPanelProps) => {
   return (
     <div className="w-72 h-full bg-neutral-800/80 border-r border-gray-600/50 flex flex-col backdrop-blur-md shadow-lg">
@@ -66,7 +57,7 @@ export const AudioPanel = ({
           />
           <FileInput
             id="audio-upload"
-            acceptFileTypes={["audio/*"]}
+            acceptFileTypes={acceptFileTypes}
             onFileLoad={onFileUpload}
             buttonText="Upload"
           />
@@ -88,15 +79,11 @@ export const AudioPanel = ({
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
-                    onPlayPause(item);
+                    onItemSelect(item);
                   }}
                   className="w-8 h-8 rounded-full bg-purple-500/80 hover:bg-purple-500 flex items-center justify-center text-white transition-all duration-200 flex-shrink-0"
                 >
-                  {playingAudio === item.id ? (
-                    <Pause className="w-4 h-4" />
-                  ) : (
-                    <Play className="w-4 h-4" />
-                  )}
+                  <Play className="w-4 h-4" />
                 </button>
 
                 {/* Audio Icon */}
