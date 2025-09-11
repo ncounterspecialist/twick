@@ -85,7 +85,7 @@ export function IconPanel({
           )}
 
           {/* Icons Grid */}
-          <div className="grid grid-cols-3 gap-3 mb-2 p-2 overflow-y-auto overflow-x-hidden">
+          <div className="grid grid-cols-3 gap-3 mb-2 p-2">
             {(icons || []).map((icon: Icon, index: number) => (
               <div key={index} className="group relative cursor-pointer">
                 <div

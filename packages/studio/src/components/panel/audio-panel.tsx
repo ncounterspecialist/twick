@@ -31,8 +31,8 @@
 import { Wand2, Plus, Volume2, Play } from "lucide-react";
 import SearchInput from "../shared/search-input";
 import FileInput from "../shared/file-input";
-
 import type { AudioPanelProps } from "../../types/media-panel";
+import { inputStyles } from "../../styles/input-styles";
 
 
 export const AudioPanel = ({
@@ -44,28 +44,29 @@ export const AudioPanel = ({
   acceptFileTypes,
 }: AudioPanelProps) => {
   return (
-    <div className="w-72 h-full bg-neutral-800/80 border-r border-gray-600/50 flex flex-col backdrop-blur-md shadow-lg">
-      {/* Header */}
-      <div className="p-3 border-b border-gray-600/50 flex-shrink-0">
-        <h3 className="text-lg font-bold text-gray-100 mb-4">Audio Library</h3>
+    <div className={inputStyles.panel.container}>
+      <h3 className={inputStyles.panel.title}>Audio Library</h3>
 
-        {/* Search */}
-        <div className="relative mb-3">
-          <SearchInput
-            searchQuery={searchQuery}
-            setSearchQuery={onSearchChange}
-          />
-          <FileInput
-            id="audio-upload"
-            acceptFileTypes={acceptFileTypes}
-            onFileLoad={onFileUpload}
-            buttonText="Upload"
-          />
-        </div>
+      {/* Search */}
+      <div className={inputStyles.container}>
+        <SearchInput
+          searchQuery={searchQuery}
+          setSearchQuery={onSearchChange}
+        />
+      </div>
+
+      {/* Upload */}
+      <div className={`${inputStyles.container} mb-8`}>
+        <FileInput
+          id="audio-upload"
+          acceptFileTypes={acceptFileTypes}
+          onFileLoad={onFileUpload}
+          buttonText="Upload"
+        />
       </div>
 
       {/* Audio List */}
-      <div className="flex-1 overflow-y-auto p-3">
+      <div className="flex-1 overflow-y-auto">
         <div className="space-y-2">
           {(items || []).map((item) => (
             <div
@@ -79,7 +80,7 @@ export const AudioPanel = ({
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
-                    onItemSelect(item);
+                    onItemSelect(item, true);
                   }}
                   className="w-8 h-8 rounded-full bg-purple-500/80 hover:bg-purple-500 flex items-center justify-center text-white transition-all duration-200 flex-shrink-0"
                 >
@@ -115,12 +116,12 @@ export const AudioPanel = ({
 
         {/* Empty state */}
         {items.length === 0 && (
-          <div className="flex items-center justify-center h-24 text-gray-400">
+          <div className={`${inputStyles.container} flex items-center justify-center h-24`}>
             <div className="text-center">
               <Wand2 className="w-10 h-10 mx-auto mb-2 text-purple-500/50" />
-              <p className="text-sm font-medium">No audio files found</p>
+              <p className={inputStyles.label.base}>No audio files found</p>
               {searchQuery && (
-                <p className="text-xs text-gray-500 mt-1">
+                <p className={inputStyles.label.small}>
                   Try adjusting your search
                 </p>
               )}

@@ -30,6 +30,7 @@ import type { MediaItem } from "@twick/video-editor";
 import type { ImagePanelProps } from "../../types/media-panel";
 import SearchInput from "../shared/search-input";
 import FileInput from "../shared/file-input";
+import { inputStyles } from "../../styles/input-styles";
 
 
 export function ImagePanel({
@@ -41,31 +42,29 @@ export function ImagePanel({
   acceptFileTypes,
 }: ImagePanelProps) {
   return (
-    <div className="w-72 h-full bg-neutral-800/80 border-r border-gray-600/50 flex flex-col backdrop-blur-md shadow-lg">
-      {/* Header */}
-      <div className="p-3 border-b border-gray-600/50 flex-shrink-0">
-        <h3 className="text-lg font-bold text-gray-100 mb-4">Media Library</h3>
+    <div className={inputStyles.panel.container}>
+      <h3 className={inputStyles.panel.title}>Image Library</h3>
 
-        {/* Search */}
-        <div className="relative mb-3">
-          {/* Search */}
-          <SearchInput
-            searchQuery={searchQuery}
-            setSearchQuery={onSearchChange}
-          />
-          {/* Upload Button */}
-          <FileInput
-            id="image-upload"
-            acceptFileTypes={acceptFileTypes}
-            onFileLoad={onFileUpload}
-            buttonText="Upload"
-          />
-        </div>
+      {/* Search */}
+      <div className={inputStyles.container}>
+        <SearchInput
+          searchQuery={searchQuery}
+          setSearchQuery={onSearchChange}
+        />
+      </div>
 
+      {/* Upload */}
+      <div className={`${inputStyles.container} mb-8`}>
+        <FileInput
+          id="image-upload"
+          acceptFileTypes={acceptFileTypes}
+          onFileLoad={onFileUpload}
+          buttonText="Upload"
+        />
       </div>
 
       {/* Media Grid */}
-      <div className="flex-1 overflow-y-auto p-3">
+      <div className="flex-1 overflow-y-auto">
         <div className="grid grid-cols-2 gap-3 auto-rows-fr">
           {(items || []).map((item: MediaItem) => (
             <div
@@ -87,7 +86,7 @@ export function ImagePanel({
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
-                    onItemSelect(item);
+                    onItemSelect(item, true);
                   }}
                   className="w-5 h-5 rounded-full bg-purple-500/80 hover:bg-purple-500 flex items-center justify-center text-white text-xs"
                 >
@@ -100,12 +99,12 @@ export function ImagePanel({
 
         {/* Empty state */}
         {items.length === 0 && (
-          <div className="flex items-center justify-center h-24 text-gray-400">
+          <div className={`${inputStyles.container} flex items-center justify-center h-24`}>
             <div className="text-center">
               <Wand2 className="w-10 h-10 mx-auto mb-2 text-purple-500/50" />
-              <p className="text-sm font-medium">No image found</p>
+              <p className={inputStyles.label.base}>No images found</p>
               {searchQuery && (
-                <p className="text-xs text-gray-500 mt-1">
+                <p className={inputStyles.label.small}>
                   Try adjusting your search
                 </p>
               )}

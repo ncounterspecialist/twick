@@ -1,9 +1,9 @@
-import { 
-  TrackElement, 
-  VideoElement, 
-  AudioElement, 
-  ImageElement, 
-  Size
+import {
+  TrackElement,
+  VideoElement,
+  AudioElement,
+  ImageElement,
+  Size,
 } from "@twick/timeline";
 import type { MediaItem } from "@twick/video-editor";
 import { getMediaManager } from "../components/shared";
@@ -18,7 +18,7 @@ export interface MediaPanelState {
 
 export interface MediaPanelActions {
   setSearchQuery: (query: string) => void;
-  handleSelection: (item: MediaItem) => void;
+  handleSelection: (item: MediaItem, forceAdd?: boolean) => void;
   handleFileUpload: (fileData: { file: File; blobUrl: string }) => void;
 }
 
@@ -27,37 +27,36 @@ export type MediaType = "video" | "audio" | "image";
 const mediaConfigs = {
   video: {
     acceptFileTypes: ["video/*"] as string[],
-    createElement: (url: string, parentSize: Size) => 
+    createElement: (url: string, parentSize: Size) =>
       new VideoElement(url, parentSize),
     updateElement: async (element: TrackElement, url: string) => {
       if (element instanceof VideoElement) {
         element.setSrc(url);
         await element.updateVideoMeta();
       }
-    }
+    },
   },
   audio: {
     acceptFileTypes: ["audio/*"] as string[],
-    createElement: (url: string, _parentSize: Size) => 
-      new AudioElement(url),
+    createElement: (url: string, _parentSize: Size) => new AudioElement(url),
     updateElement: async (element: TrackElement, url: string) => {
       if (element instanceof AudioElement) {
         element.setSrc(url);
         await element.updateAudioMeta();
       }
-    }
+    },
   },
   image: {
     acceptFileTypes: ["image/*"] as string[],
-    createElement: (url: string, parentSize: Size) => 
+    createElement: (url: string, parentSize: Size) =>
       new ImageElement(url, parentSize),
     updateElement: async (element: TrackElement, url: string) => {
       if (element instanceof ImageElement) {
         element.setSrc(url);
         await element.updateImageMeta();
       }
-    }
-  }
+    },
+  },
 };
 
 export const useMediaPanel = (
@@ -71,19 +70,25 @@ export const useMediaPanel = (
     addElement: (element: TrackElement) => void;
     updateElement: (element: TrackElement) => void;
   },
-  videoResolution: Size,
+  videoResolution: Size
 ): MediaPanelState & MediaPanelActions => {
-  const { items, searchQuery, setSearchQuery, addItem, isLoading } = useMedia(type);
+  const { items, searchQuery, setSearchQuery, addItem, isLoading } =
+    useMedia(type);
   const mediaManager = getMediaManager();
 
-  const handleSelection = async (item: MediaItem) => {
+  const handleSelection = async (item: MediaItem, forceAdd?: boolean) => {
     const config = mediaConfigs[type];
-    if (selectedElement) {
-      await config.updateElement(selectedElement, item.url);
-      updateElement(selectedElement);
-    } else {
+    if (forceAdd) {
       const element = config.createElement(item.url, videoResolution);
       addElement(element);
+    } else {
+      if (selectedElement) {
+        await config.updateElement(selectedElement, item.url);
+        updateElement(selectedElement);
+      } else {
+        const element = config.createElement(item.url, videoResolution);
+        addElement(element);
+      }
     }
   };
 

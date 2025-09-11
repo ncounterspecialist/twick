@@ -52,7 +52,7 @@ export const inputStyles = {
 
   // Panel container styles
   panel: {
-    container: "w-72 bg-neutral-800/80 border-l border-gray-600/50 p-4 overflow-y-auto overflow-x-hidden backdrop-blur-md shadow-lg",
+    container: "w-72 h-full bg-neutral-800/80 border-l border-gray-600/50 p-4 overflow-y-auto overflow-x-hidden backdrop-blur-md shadow-lg",
     title: "text-xl font-bold text-white mb-6",
   },
 };

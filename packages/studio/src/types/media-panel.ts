@@ -8,7 +8,7 @@ export interface MediaPanelBaseProps {
   isLoading: boolean;
   acceptFileTypes: string[];
   onSearchChange: (query: string) => void;
-  onItemSelect: (item: MediaItem) => void;
+  onItemSelect: (item: MediaItem, forceAdd?: boolean) => void;
   onFileUpload: (fileData: { file: File; blobUrl: string }) => void;
 }
 

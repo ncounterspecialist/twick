@@ -7,6 +7,8 @@ import { TextPanelContainer } from "./text-panel-container";
 import { IconPanelContainer } from "./icon-panel-container";
 import { RectPanelContainer } from "./rect-panel-container";
 import { CirclePanelContainer } from "./circle-panel-container";
+import { inputStyles } from "../../styles/input-styles";
+import { Wand2 } from "lucide-react";
 
 interface ElementPanelContainerProps {
   selectedTool: string;
@@ -31,6 +33,7 @@ const ElementPanelContainer = ({
       setSelectedTool("none");
     }
   };
+
   // Render appropriate library based on selected tool
   const renderLibrary = () => {
     switch (selectedTool) {
@@ -100,10 +103,12 @@ const ElementPanelContainer = ({
         return <SubtitlesPanel />;
       default:
         return (
-          <div className="w-72 h-full bg-neutral-800/80 border-r border-gray-600/50 flex flex-col items-center justify-center">
-            <div className="text-center text-gray-400">
-              <p>Select a tool to view library</p>
-              <p className="text-sm mt-2">Choose photo, audio, or video</p>
+          <div className={inputStyles.panel.container}>
+            <div className="flex-1 flex h-full items-center justify-center">
+              <div className="text-center">
+                <Wand2 className="w-12 h-12 mx-auto mb-4 text-purple-500/50" />
+                <p className={inputStyles.label.base}>Select a Tool to Begin</p>
+              </div>
             </div>
           </div>
         );

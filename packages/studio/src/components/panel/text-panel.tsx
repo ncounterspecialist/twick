@@ -67,6 +67,7 @@ export function TextPanel({
   shadowColor,
   strokeWidth,
   fonts,
+  operation,
   setTextContent,
   setFontSize,
   setSelectedFont,
@@ -230,7 +231,8 @@ export function TextPanel({
           <input
             type="range"
             min="0"
-            max="20"
+            max="2"
+            step={0.1}
             value={strokeWidth}
             onChange={(e) => setStrokeWidth(Number(e.target.value))}
             className={inputStyles.range.base}
@@ -239,10 +241,10 @@ export function TextPanel({
         </div>
       </div>
 
-      {/* Apply Changes Button */}
+      {/* Operation Button */}
       <div className="mt-8">
         <button onClick={handleApplyChanges} className={inputStyles.button.primary}>
-          Apply Changes
+          {operation}
         </button>
       </div>
     </div>
