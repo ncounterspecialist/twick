@@ -53,9 +53,9 @@ export const AudioPanel = ({
   onFileUpload,
 }: AudioPanelProps) => {
   return (
-    <div className="w-72 bg-neutral-800/80 border-r border-gray-600/50 flex flex-col h-full backdrop-blur-md shadow-lg">
+    <div className="w-72 h-full bg-neutral-800/80 border-r border-gray-600/50 flex flex-col backdrop-blur-md shadow-lg">
       {/* Header */}
-      <div className="p-4 border-b border-gray-600/50 flex-shrink-0">
+      <div className="p-3 border-b border-gray-600/50 flex-shrink-0">
         <h3 className="text-lg font-bold text-gray-100 mb-4">Audio Library</h3>
 
         {/* Search */}
@@ -74,7 +74,7 @@ export const AudioPanel = ({
       </div>
 
       {/* Audio List */}
-      <div className="flex-1 overflow-y-auto p-4">
+      <div className="flex-1 overflow-y-auto p-3">
         <div className="space-y-2">
           {(items || []).map((item) => (
             <div

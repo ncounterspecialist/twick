@@ -11,16 +11,26 @@ import { CirclePanelContainer } from "./circle-panel-container";
 interface ElementPanelContainerProps {
   selectedTool: string;
   selectedElement: TrackElement | null;
+  setSelectedTool: (tool: string) => void;
   addElement: (element: TrackElement) => void;
   updateElement: (element: TrackElement) => void;
 }
 
 const ElementPanelContainer = ({
   selectedTool,
+  setSelectedTool,
   selectedElement,
   addElement,
   updateElement,
 }: ElementPanelContainerProps): JSX.Element => {
+
+  const addNewElement = async (element: TrackElement) => {
+    await addElement(element);
+    if(!["image, video, audio"].includes(selectedTool)) {
+      setSelectedTool("none");
+    }
+
+  };
   // Render appropriate library based on selected tool
   const renderLibrary = () => {
     switch (selectedTool) {
@@ -28,7 +38,7 @@ const ElementPanelContainer = ({
         return (
           <ImagePanelContainer
             selectedElement={selectedElement}
-            addElement={addElement}
+            addElement={addNewElement}
             updateElement={updateElement}
           />
         );
@@ -36,7 +46,7 @@ const ElementPanelContainer = ({
         return (
           <AudioPanelContainer
             selectedElement={selectedElement}
-            addElement={addElement}
+            addElement={addNewElement}
             updateElement={updateElement}
           />
         );
@@ -44,7 +54,7 @@ const ElementPanelContainer = ({
         return (
           <VideoPanelContainer
             selectedElement={selectedElement}
-            addElement={addElement}
+            addElement={addNewElement}
             updateElement={updateElement}
           />
         );
@@ -52,7 +62,7 @@ const ElementPanelContainer = ({
         return (
           <TextPanelContainer
             selectedElement={selectedElement}
-            addElement={addElement}
+            addElement={addNewElement}
             updateElement={updateElement}
           />
         );
@@ -60,7 +70,7 @@ const ElementPanelContainer = ({
         return (
           <IconPanelContainer
             selectedElement={selectedElement}
-            addElement={addElement}
+            addElement={addNewElement}
             updateElement={updateElement}
           />
         );
@@ -68,7 +78,7 @@ const ElementPanelContainer = ({
         return (
           <RectPanelContainer
             selectedElement={selectedElement}
-            addElement={addElement}
+            addElement={addNewElement}
             updateElement={updateElement}
           />
         );
@@ -76,7 +86,7 @@ const ElementPanelContainer = ({
         return (
           <CirclePanelContainer
             selectedElement={selectedElement}
-            addElement={addElement}
+            addElement={addNewElement}
             updateElement={updateElement}
           />
         );
@@ -84,7 +94,7 @@ const ElementPanelContainer = ({
         return <SubtitlesPanel />;
       default:
         return (
-          <div className="w-72 bg-neutral-800/80 border-r border-gray-600/50 flex flex-col h-full items-center justify-center">
+          <div className="w-72 h-full bg-neutral-800/80 border-r border-gray-600/50 flex flex-col items-center justify-center">
             <div className="text-center text-gray-400">
               <p>Select a tool to view library</p>
               <p className="text-sm mt-2">Choose photo, audio, or video</p>

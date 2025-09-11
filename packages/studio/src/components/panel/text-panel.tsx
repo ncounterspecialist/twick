@@ -129,7 +129,7 @@ export function TextPanel({
             onClick={() => setIsBold(!isBold)}
             className={`${inputStyles.toggle.base} ${
               isBold ? inputStyles.toggle.active : inputStyles.toggle.inactive
-            }`}
+            } min-w-6`}
           >
             <span className="font-bold">B</span>
           </button>
@@ -137,7 +137,7 @@ export function TextPanel({
             onClick={() => setIsItalic(!isItalic)}
             className={`${inputStyles.toggle.base} ${
               isItalic ? inputStyles.toggle.active : inputStyles.toggle.inactive
-            }`}
+            } min-w-6`}
           >
             <span className="italic">I</span>
           </button>

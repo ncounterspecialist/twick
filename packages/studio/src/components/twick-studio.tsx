@@ -48,6 +48,7 @@ export function TwickStudio() {
         <aside className="border-r border-gray-600/50 backdrop-blur-md shadow-lg">
           <ElementPanelContainer
             selectedTool={selectedTool}
+            setSelectedTool={setSelectedTool}
             selectedElement={selectedElement}
             addElement={addElement}
             updateElement={updateElement}

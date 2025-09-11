@@ -33,7 +33,7 @@ export const inputStyles = {
 
   // Toggle button styles
   toggle: {
-    base: "w-10 h-10 rounded-lg border-2 transition-all duration-200",
+    base: "w-10 h-10 rounded-lg border-2 transition-all duration-200 hover:bg-purple-400 hover:text-white",
     active: "bg-purple-600 border-purple-500 text-white",
     inactive: "bg-transparent border-gray-600 text-gray-400 hover:border-gray-500",
   },
