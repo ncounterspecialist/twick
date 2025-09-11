@@ -135,7 +135,7 @@ const PlayerControls: React.FC<PlayerControlsProps> = ({
               disabled={!(selectedItem instanceof TrackElement)}
               title="Split"
               className={`btn btn-ghost ${
-                selectedItem instanceof TrackElement ? "text-blue-400 hover:text-blue-300" : "text-gray-500 cursor-not-allowed"
+                selectedItem instanceof TrackElement ? "text-purple-400 hover:text-purple-300" : "text-gray-500 cursor-not-allowed"
               }`}
             >
               <Scissors className="w-5 h-5" />

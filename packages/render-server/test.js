@@ -104,10 +104,10 @@ async function testHealth() {
   try {
     const response = await fetch(`${API_URL}/health`);
     const result = await response.json();
-    console.log('✅ Health check passed:', result);
+    console.log('Health check passed:', result);
     return true;
   } catch (error) {
-    console.error('❌ Health check failed:', error.message);
+    console.error('Health check failed:', error.message);
     return false;
   }
 }
@@ -132,15 +132,15 @@ async function testRender() {
     const result = await response.json();
     
     if (result.success) {
-      console.log('✅ Render test passed!');
+      console.log('Render test passed!');
       console.log('📁 Output:', result.downloadUrl);
       return true;
     } else {
-      console.error('❌ Render test failed:', result.error);
+      console.error('Render test failed:', result.error);
       return false;
     }
   } catch (error) {
-    console.error('❌ Render test failed:', error.message);
+    console.error('Render test failed:', error.message);
     return false;
   }
 }
@@ -154,7 +154,7 @@ async function runTests() {
   if (healthPassed) {
     await testRender();
   } else {
-    console.log('❌ Skipping render test due to health check failure');
+    console.log('Skipping render test due to health check failure');
   }
   
   console.log('\n🏁 Tests completed');

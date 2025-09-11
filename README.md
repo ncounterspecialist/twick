@@ -68,9 +68,12 @@ For detailed examples and tutorials, see the [Twick Demo guide](https://ncounter
 
 ## Demo Preview
 
-Here's a glimpse of building a video using the SDK:
+Here is a glimpse of building a video using the Twick Studio:
 
-https://youtu.be/xuocqJqc9m8?si=h0wobDZlr9aj9XxW
+https://youtu.be/EizgeoxwJsk
+
+It is so easy to integrate twick to your existing project
+https://youtu.be/2M6vtOHZnEI
 
 
 ## Integration

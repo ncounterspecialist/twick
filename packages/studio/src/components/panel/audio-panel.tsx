@@ -31,50 +31,44 @@
 import { Wand2, Plus, Volume2, Play, Pause } from "lucide-react";
 import SearchInput from "../shared/search-input";
 import FileInput from "../shared/file-input";
-import type { MediaItem } from "@twick/video-editor";
+import type { AudioPanelProps } from "../../types/media-panel";
+import { inputStyles } from "../../styles/input-styles";
+import { useAudioPreview } from "../../hooks/use-audio-preview";
 
-export interface AudioPanelProps {
-  items: MediaItem[];
-  searchQuery: string;
-  playingAudio: string | null;
-  onSearchChange: (query: string) => void;
-  onItemSelect: (item: MediaItem) => void;
-  onPlayPause: (item: MediaItem) => void;
-  onFileUpload: (fileData: { file: File; blobUrl: string }) => void;
-}
 
 export const AudioPanel = ({
   items,
   searchQuery,
-  playingAudio,
   onSearchChange,
   onItemSelect,
-  onPlayPause,
   onFileUpload,
+  acceptFileTypes,
 }: AudioPanelProps) => {
+  const { playingAudio, togglePlayPause } = useAudioPreview();
   return (
-    <div className="w-72 bg-neutral-800/80 border-r border-gray-600/50 flex flex-col h-full backdrop-blur-md shadow-lg">
-      {/* Header */}
-      <div className="p-4 border-b border-gray-600/50 flex-shrink-0">
-        <h3 className="text-lg font-bold text-gray-100 mb-4">Audio Library</h3>
+    <div className={inputStyles.panel.container}>
+      <h3 className={inputStyles.panel.title}>Audio Library</h3>
 
-        {/* Search */}
-        <div className="relative mb-3">
-          <SearchInput
-            searchQuery={searchQuery}
-            setSearchQuery={onSearchChange}
-          />
-          <FileInput
-            id="audio-upload"
-            acceptFileTypes={["audio/*"]}
-            onFileLoad={onFileUpload}
-            buttonText="Upload"
-          />
-        </div>
+      {/* Search */}
+      <div className={inputStyles.container}>
+        <SearchInput
+          searchQuery={searchQuery}
+          setSearchQuery={onSearchChange}
+        />
+      </div>
+
+      {/* Upload */}
+      <div className={`${inputStyles.container} mb-8`}>
+        <FileInput
+          id="audio-upload"
+          acceptFileTypes={acceptFileTypes}
+          onFileLoad={onFileUpload}
+          buttonText="Upload"
+        />
       </div>
 
       {/* Audio List */}
-      <div className="flex-1 overflow-y-auto p-4">
+      <div className="flex-1 overflow-y-auto">
         <div className="space-y-2">
           {(items || []).map((item) => (
             <div
@@ -88,7 +82,7 @@ export const AudioPanel = ({
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
-                    onPlayPause(item);
+                    togglePlayPause(item);
                   }}
                   className="w-8 h-8 rounded-full bg-purple-500/80 hover:bg-purple-500 flex items-center justify-center text-white transition-all duration-200 flex-shrink-0"
                 >
@@ -100,8 +94,8 @@ export const AudioPanel = ({
                 </button>
 
                 {/* Audio Icon */}
-                <div className="w-10 h-10 rounded-lg bg-purple-500/20 flex items-center justify-center flex-shrink-0">
-                  <Volume2 className="w-5 h-5 text-purple-400" />
+                <div className={`w-10 h-10 rounded-lg ${playingAudio === item.id ? 'bg-purple-500/40' : 'bg-purple-500/20'} flex items-center justify-center flex-shrink-0 transition-colors duration-200`}>
+                  <Volume2 className={`w-5 h-5 ${playingAudio === item.id ? 'text-purple-300' : 'text-purple-400'}`} />
                 </div>
 
                 {/* Audio Details */}
@@ -115,7 +109,7 @@ export const AudioPanel = ({
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
-                    onItemSelect(item);
+                    onItemSelect(item, true);
                   }}
                   className="w-6 h-6 rounded-full bg-purple-500/60 hover:bg-purple-500 flex items-center justify-center text-white text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex-shrink-0"
                 >
@@ -128,12 +122,12 @@ export const AudioPanel = ({
 
         {/* Empty state */}
         {items.length === 0 && (
-          <div className="flex items-center justify-center h-24 text-gray-400">
+          <div className={`${inputStyles.container} flex items-center justify-center h-24`}>
             <div className="text-center">
               <Wand2 className="w-10 h-10 mx-auto mb-2 text-purple-500/50" />
-              <p className="text-sm font-medium">No audio files found</p>
+              <p className={inputStyles.label.base}>No audio files found</p>
               {searchQuery && (
-                <p className="text-xs text-gray-500 mt-1">
+                <p className={inputStyles.label.small}>
                   Try adjusting your search
                 </p>
               )}

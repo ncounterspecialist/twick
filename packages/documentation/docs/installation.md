@@ -61,5 +61,5 @@ setTimelineOperation(TIMELINE_OPERATION.ADD_ELEMENT, {
     });
 ```
 
-✅ Use this hook in any component inside the TimelineProvider to build custom controls, panels, or editing logic based on timeline state.
+Use this hook in any component inside the TimelineProvider to build custom controls, panels, or editing logic based on timeline state.
 

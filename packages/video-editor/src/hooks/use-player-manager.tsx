@@ -72,7 +72,8 @@ export const usePlayerManager = ({
         break;
       case CANVAS_OPERATIONS.ITEM_UPDATED:
         if (element) {
-          editor.updateElement(element);
+          const updatedElement = editor.updateElement(element);
+          setSelectedItem(updatedElement)      
         }
         break;
       default:

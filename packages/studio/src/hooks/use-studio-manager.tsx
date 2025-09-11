@@ -24,14 +24,16 @@
  */
 
 import { Track, TrackElement, useTimelineContext } from "@twick/timeline";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export const useStudioManager = () => {
   const { editor, selectedItem, setSelectedItem } = useTimelineContext();
 
   const selectedElement = selectedItem instanceof TrackElement ? selectedItem : null;
 
-  const [ selectedTool, setSelectedTool ] = useState<string>("video");
+  const [ selectedTool, setSelectedTool ] = useState<string>("none");
+
+  const isToolChanged = useRef(false);
 
   const addElement = (element: TrackElement) => {
     if (selectedItem instanceof Track) {
@@ -60,6 +62,21 @@ export const useStudioManager = () => {
   //     });
   //   }
   // };
+
+  useEffect(() => {
+    if (selectedItem  instanceof TrackElement) {
+      setSelectedTool(selectedItem.getType());
+      isToolChanged.current = true;
+    } else if(selectedItem instanceof Track) {
+      // do-nothing
+    } else {
+      if(isToolChanged.current) {
+        setSelectedTool("none");
+      } else {
+        setSelectedTool("video");
+      }
+    }
+  }, [selectedItem]);
 
 
   return {

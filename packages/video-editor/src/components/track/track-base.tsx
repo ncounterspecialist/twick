@@ -58,7 +58,7 @@ const TrackBase = ({
           nextStart={
             index < elements.length - 1
               ? elements[index + 1].getStart()
-              : duration
+              : null
           }
           prevEnd={index > 0 ? elements[index - 1].getEnd() : 0}
         />

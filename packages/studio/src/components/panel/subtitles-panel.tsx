@@ -71,7 +71,7 @@ export function SubtitlesPanel() {
   };
 
   return (
-    <div className="w-72 bg-neutral-800/80 border-l border-gray-600/50 p-4 overflow-y-auto overflow-x-hidden backdrop-blur-md shadow-lg">
+    <div className="w-72 h-full bg-neutral-800/80 border-l border-gray-600/50 p-3 overflow-y-auto overflow-x-hidden backdrop-blur-md shadow-lg">
       <h3 className="text-xl font-bold text-white mb-6">Subtitles</h3>
 
       {/* Top Bar - Action Buttons */}
@@ -95,7 +95,7 @@ export function SubtitlesPanel() {
         {subtitles.map((subtitle) => (
           <div
             key={subtitle.id}
-            className="bg-neutral-700/50 border border-gray-600 rounded-lg p-4"
+            className="bg-neutral-700/50 border border-gray-600 rounded-lg p-3"
           >
             {/* Time Inputs */}
             <div className="flex gap-3 mb-3">

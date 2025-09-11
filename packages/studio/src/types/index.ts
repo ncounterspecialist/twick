@@ -1,4 +1,4 @@
-import type { TrackElement } from "@twick/timeline"
+import type { Size, TrackElement } from "@twick/timeline"
 
 export interface MediaItem {
   id: string
@@ -15,6 +15,7 @@ export interface MediaItem {
 
 export interface PanelProps {
   selectedElement?: TrackElement | null;
+  videoResolution: Size,
   addElement?: (item: TrackElement) => void;
   updateElement?: (item: TrackElement) => void;
 }

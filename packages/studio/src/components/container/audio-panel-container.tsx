@@ -1,4 +1,4 @@
-import { useAudioPanel } from "../../hooks/use-audio-panel";
+import { useMediaPanel } from "../../hooks/use-media-panel";
 import { AudioPanel } from "../panel/audio-panel";
 import type { PanelProps } from "../../types";
 
@@ -7,21 +7,26 @@ export const AudioPanelContainer = (props: PanelProps) => {
     items,
     searchQuery,
     setSearchQuery,
-    playingAudio,
     handleSelection,
-    handlePlayPause,
     handleFileUpload,
-  } = useAudioPanel(props);
+    isLoading,
+    acceptFileTypes,
+  } = useMediaPanel("audio", {
+    selectedElement: props.selectedElement ?? null,
+    addElement: props.addElement!,
+    updateElement: props.updateElement!,
+  },
+  props.videoResolution);
 
   return (
     <AudioPanel
       items={items}
       searchQuery={searchQuery}
-      playingAudio={playingAudio}
       onSearchChange={setSearchQuery}
       onItemSelect={handleSelection}
-      onPlayPause={handlePlayPause}
       onFileUpload={handleFileUpload}
+      isLoading={isLoading}
+      acceptFileTypes={acceptFileTypes}
     />
   );
 };

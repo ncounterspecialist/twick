@@ -73,7 +73,8 @@ export const useTimelineManager = () => {
     }
     element.setStart(updates.start);
     element.setEnd(updates.end);
-    editor.updateElement(element);
+    const updatedElement = editor.updateElement(element);
+    setSelectedItem(updatedElement);
   };
 
   // Get timeline data from editor

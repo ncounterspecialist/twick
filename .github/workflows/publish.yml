@@ -134,7 +134,7 @@ jobs:
               
               # Check for postinstall scripts (security risk)
               if jq -e '.scripts.postinstall' "$package/package.json" > /dev/null 2>&1; then
-                echo "❌ SECURITY WARNING: $package_name has a postinstall script"
+                echo "SECURITY WARNING: $package_name has a postinstall script"
                 echo "This is a security risk and will be ignored during publishing"
               fi
               

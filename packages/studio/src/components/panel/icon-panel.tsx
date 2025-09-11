@@ -85,7 +85,7 @@ export function IconPanel({
           )}
 
           {/* Icons Grid */}
-          <div className="grid grid-cols-3 gap-3 mb-2 p-2 overflow-y-auto overflow-x-hidden">
+          <div className="grid grid-cols-3 gap-3 mb-2 p-2">
             {(icons || []).map((icon: Icon, index: number) => (
               <div key={index} className="group relative cursor-pointer">
                 <div
@@ -112,7 +112,7 @@ export function IconPanel({
                         e.stopPropagation();
                         handleDownloadIcon(icon);
                       }}
-                      className="p-1.5 bg-blue-600 hover:bg-blue-700 rounded transition-colors duration-200"
+                      className="p-1.5 bg-purple-600 hover:bg-purple-700 rounded transition-colors duration-200"
                       title="Download SVG"
                     >
                       <Download className="w-3 h-3 text-white" />

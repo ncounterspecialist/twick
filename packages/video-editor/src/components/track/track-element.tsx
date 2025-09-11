@@ -11,7 +11,7 @@ export const TrackElementView: React.FC<{
   selectedItem: TrackElement | null;
   parentWidth: number;
   duration: number;
-  nextStart: number;
+  nextStart: number | null;
   prevEnd: number;
   allowOverlap: boolean;
   onSelection: (element: TrackElement) => void;
@@ -61,15 +61,18 @@ export const TrackElementView: React.FC<{
       const span = prev.end - prev.start;
       let newStart = Math.max(0, prev.start + (dx / parentWidth) * duration);
       newStart = Math.min(newStart, prev.end - MIN_DURATION);
-      if (prevEnd !== null && !allowOverlap && newStart < prevEnd) {
-        newStart = prevEnd;
-      } else if (
-        nextStart !== null &&
-        !allowOverlap &&
-        newStart + span > nextStart
-      ) {
-        newStart = nextStart - span;
+      if (!allowOverlap) {
+        if (prevEnd !== null && newStart < prevEnd) {
+          newStart = prevEnd;
+        } else if (
+          nextStart !== null &&
+          !allowOverlap &&
+          newStart + span > nextStart
+        ) {
+          newStart = nextStart - span;
+        }
       }
+
       return {
         start: newStart,
         end: newStart + span,
@@ -111,9 +114,11 @@ export const TrackElementView: React.FC<{
     setPosition((prev) => {
       let newEnd = prev.end + (dx / parentWidth) * duration;
       newEnd = Math.max(newEnd, prev.start + MIN_DURATION);
-      if (nextStart !== null && !allowOverlap && newEnd > nextStart) {
-        newEnd = nextStart;
-      }
+      if(!allowOverlap) {
+        if (nextStart !== null && newEnd > nextStart) {
+          newEnd = nextStart;
+        }
+      } 
       return {
         start: prev.start,
         end: newEnd,
@@ -160,11 +165,19 @@ export const TrackElementView: React.FC<{
         ? "twick-track-element-selected"
         : "twick-track-element-default"
     } ${isDragging ? "twick-track-element-dragging" : ""}`,
-    onMouseDown: setLastPos,
-    onTouchStart: setLastPos,
+    onMouseDown: (e) => {
+      if (e.target === ref.current) {
+        setLastPos();
+      }
+    },
+    onTouchStart: (e) => {
+      if (e.target === ref.current) {
+        setLastPos();
+      }
+    },
     onMouseUp: sendUpdate,
     onTouchEnd: sendUpdate,
-    onDoubleClick: () => {
+    onClick: () => {
       if (onSelection) {
         onSelection(element);
       }
@@ -182,7 +195,7 @@ export const TrackElementView: React.FC<{
       <div style={{ touchAction: "none", height: "100%" }} {...bind()}>
         {isSelected ? (
           <div
-            style={{ touchAction: "none" }}
+            style={{ touchAction: "none" , zIndex: isSelected? 100 : 1}}
             {...bindStartHandle()}
             className="twick-track-element-handle twick-track-element-handle-start"
           />
@@ -194,7 +207,7 @@ export const TrackElementView: React.FC<{
         </div>
         {isSelected ? (
           <div
-            style={{ touchAction: "none" }}
+            style={{ touchAction: "none", zIndex: isSelected? 100 : 1 }}
             {...bindEndHandle()}
             className="twick-track-element-handle twick-track-element-handle-end"
           />

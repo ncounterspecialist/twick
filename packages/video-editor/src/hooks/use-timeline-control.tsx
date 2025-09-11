@@ -23,7 +23,7 @@ import {
  * ```
  */
 const useTimelineControl = () => {
-  const { editor } = useTimelineContext();
+  const { editor, setSelectedItem } = useTimelineContext();
 
   /**
    * Deletes a track or element from the timeline.
@@ -47,6 +47,7 @@ const useTimelineControl = () => {
     } else if(item instanceof TrackElement) {
       editor.removeElement(item);
     }
+    setSelectedItem(null);
   };
   
   /**

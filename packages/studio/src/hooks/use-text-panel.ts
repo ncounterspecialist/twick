@@ -9,7 +9,7 @@ export const DEFAULT_TEXT_PROPS = {
   fontWeight: 400,
   fontStyle: "normal",
   textColor: "#ffffff",
-  strokeColor: "#ffffff",
+  strokeColor: "#4d4d4d",
   strokeWidth: 0,
   applyShadow: false,
   shadowColor: "#000000",
@@ -31,6 +31,7 @@ export interface TextPanelState {
   shadowColor: string;
   strokeWidth: number;
   fonts: string[];
+  operation: string;
 }
 
 export interface TextPanelActions {
@@ -69,7 +70,7 @@ export const useTextPanel = ({
 
   const fonts = Object.values(AVAILABLE_TEXT_FONTS);
 
-  const handleApplyChanges = () => {
+  const handleApplyChanges = async () => {
     let textElement;
     if (selectedElement instanceof TextElement) {
       textElement = selectedElement;
@@ -120,7 +121,7 @@ export const useTextPanel = ({
           shadowOpacity: DEFAULT_TEXT_PROPS.shadowOpacity,
         });
       }
-      addElement(textElement);
+      await addElement(textElement);
     }
   };
 
@@ -140,6 +141,17 @@ export const useTextPanel = ({
       if (hasShadow) {
         setShadowColor(textProps.shadowColor ?? DEFAULT_TEXT_PROPS.shadowColor);
       }
+    } else {
+      setTextContent(DEFAULT_TEXT_PROPS.text);
+      setFontSize(DEFAULT_TEXT_PROPS.fontSize);
+      setSelectedFont(DEFAULT_TEXT_PROPS.fontFamily);
+      setIsBold(DEFAULT_TEXT_PROPS.fontWeight === 700);
+      setIsItalic(DEFAULT_TEXT_PROPS.fontStyle === "italic");
+      setTextColor(DEFAULT_TEXT_PROPS.textColor);
+      setStrokeColor(DEFAULT_TEXT_PROPS.strokeColor);
+      setStrokeWidth(DEFAULT_TEXT_PROPS.strokeWidth);
+      setApplyShadow(DEFAULT_TEXT_PROPS.applyShadow);
+      setShadowColor(DEFAULT_TEXT_PROPS.shadowColor);
     }
   }, [selectedElement]);
 
@@ -155,6 +167,7 @@ export const useTextPanel = ({
     shadowColor,
     strokeWidth,
     fonts,
+    operation: selectedElement instanceof TextElement ? "Apply Changes": "Add Text",
     setTextContent,
     setFontSize,
     setSelectedFont,
