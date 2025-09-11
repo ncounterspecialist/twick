@@ -5,7 +5,7 @@
 
 ---
 
-## 📋 Table of Contents
+## Table of Contents
 
 1. [Quick Start](#quick-start)
 2. [Core Concepts](#core-concepts)
@@ -140,9 +140,9 @@ Twick is built around four main components that work together to create the vide
 
 | Component | Purpose | Required | What It Does |
 |-----------|---------|----------|--------------|
-| `LivePlayerProvider` | Manages video playback state | ✅ | Controls play/pause, time, volume - like a remote control |
-| `TimelineProvider` | Manages timeline and undo/redo | ✅ | Keeps track of all your edits and allows undoing mistakes |
-| `VideoEditor` | Main editor interface | ✅ | The visual interface where users actually edit videos |
+| `LivePlayerProvider` | Manages video playback state | | Controls play/pause, time, volume - like a remote control |
+| `TimelineProvider` | Manages timeline and undo/redo | | Keeps track of all your edits and allows undoing mistakes |
+| `VideoEditor` | Main editor interface | | The visual interface where users actually edit videos |
 | `TimelineEditor` | Programmatic timeline control | Optional | Lets you control the timeline with code instead of UI |
 
 **How They Work Together:**
@@ -362,10 +362,10 @@ This provider manages the timeline itself - the tracks, elements, and all the ed
 
 | Property | Type | Required | Default | Description | Why It Matters |
 |----------|------|----------|---------|-------------|----------------|
-| `contextId` | `string` | ✅ | - | Unique identifier for this timeline | Prevents conflicts if you have multiple editors |
-| `initialData` | `TimelineData` | ❌ | `INITIAL_TIMELINE_DATA` | Initial timeline structure | Gives users a starting point |
-| `undoRedoPersistenceKey` | `string` | ❌ | - | Key for persisting undo/redo history | Saves user's work across sessions |
-| `maxHistorySize` | `number` | ❌ | `20` | Maximum undo/redo steps | Controls memory usage and performance |
+| `contextId` | `string` | | - | Unique identifier for this timeline | Prevents conflicts if you have multiple editors |
+| `initialData` | `TimelineData` | | `INITIAL_TIMELINE_DATA` | Initial timeline structure | Gives users a starting point |
+| `undoRedoPersistenceKey` | `string` | | - | Key for persisting undo/redo history | Saves user's work across sessions |
+| `maxHistorySize` | `number` | | `20` | Maximum undo/redo steps | Controls memory usage and performance |
 
 **Real-World Example:**
 ```typescript
@@ -1332,14 +1332,14 @@ const createVideoWithFrameEffects = async (videoUrl: string) => {
 ### **Performance Optimization**
 
 ```typescript
-// ✅ Good: Memoize expensive operations
+// Good: Memoize expensive operations
 const visibleElements = useMemo(() => {
   return track.getElements().filter(element => 
     element.getStart() <= currentTime && element.getEnd() >= currentTime
   );
 }, [track, currentTime]);
 
-// ✅ Good: Batch operations
+// Good: Batch operations
 const batchAddElements = async (elements: TrackElement[]) => {
   const results = await Promise.all(
     elements.map(element => editor.addElementToTrack(track, element))
@@ -1347,7 +1347,7 @@ const batchAddElements = async (elements: TrackElement[]) => {
   return results.every(result => result);
 };
 
-// ❌ Avoid: Individual operations in loops
+// Avoid: Individual operations in loops
 elements.forEach(element => {
   editor.addElementToTrack(track, element); // Don't do this
 });
@@ -1356,7 +1356,7 @@ elements.forEach(element => {
 ### **Error Handling**
 
 ```typescript
-// ✅ Good: Comprehensive error handling
+// Good: Comprehensive error handling
 const safeElementOperation = async (operation: () => Promise<boolean>) => {
   try {
     const result = await operation();
@@ -1371,7 +1371,7 @@ const safeElementOperation = async (operation: () => Promise<boolean>) => {
   }
 };
 
-// ✅ Good: Validate elements before adding
+// Good: Validate elements before adding
 const validateElement = (element: TrackElement) => {
   const errors: string[] = [];
   
@@ -1390,11 +1390,11 @@ const validateElement = (element: TrackElement) => {
 ### **State Management**
 
 ```typescript
-// ✅ Good: Use specific context values
+// Good: Use specific context values
 const { editor, selectedItem, totalDuration } = useTimelineContext();
 const { playerState, currentTime, setPlayerState } = useLivePlayerContext();
 
-// ✅ Good: Proper provider hierarchy
+// Good: Proper provider hierarchy
 function App() {
   return (
     <LivePlayerProvider>
@@ -1409,7 +1409,7 @@ function App() {
 ### **Project Management**
 
 ```typescript
-// ✅ Good: Auto-save with debouncing
+// Good: Auto-save with debouncing
 const useAutoSave = (editor: TimelineEditor, interval: number = 30000) => {
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -1423,7 +1423,7 @@ const useAutoSave = (editor: TimelineEditor, interval: number = 30000) => {
   }, [editor, interval]);
 };
 
-// ✅ Good: Comprehensive project saving
+// Good: Comprehensive project saving
 const saveProject = () => {
   const timelineData = editor.getTimelineData();
   if (!timelineData) return null;
@@ -1462,13 +1462,13 @@ const saveProject = () => {
 
 **Problem**: `useTimelineContext` returns undefined
 ```typescript
-// ❌ Error: Cannot read properties of undefined
+// Error: Cannot read properties of undefined
 const { editor } = useTimelineContext(); // editor is undefined
 ```
 
 **Solution**: Ensure proper provider hierarchy
 ```typescript
-// ✅ Fix: Wrap components with required providers
+// Fix: Wrap components with required providers
 function App() {
   return (
     <LivePlayerProvider>
@@ -1484,14 +1484,14 @@ function App() {
 
 **Problem**: Element not added to track
 ```typescript
-// ❌ Error: Element not appearing in timeline
+// Error: Element not appearing in timeline
 const result = await editor.addElementToTrack(track, element);
 console.log(result); // false
 ```
 
 **Solution**: Check element validation and track state
 ```typescript
-// ✅ Fix: Validate before adding
+// Fix: Validate before adding
 const addElementSafely = async (track: Track, element: TrackElement) => {
   if (!track) {
     console.error('Track is null or undefined');
@@ -1512,7 +1512,7 @@ const addElementSafely = async (track: Track, element: TrackElement) => {
 
 **Problem**: Frame effects not applying to elements
 ```typescript
-// ❌ Error: Frame effect not visible
+// Error: Frame effect not visible
 const textElement = new TextElement("Hello");
 const frameEffect = new ElementFrameEffect(0, 3);
 textElement.addFrameEffect(frameEffect); // Won't work on text
@@ -1520,7 +1520,7 @@ textElement.addFrameEffect(frameEffect); // Won't work on text
 
 **Solution**: Check element compatibility
 ```typescript
-// ✅ Fix: Only apply frame effects to video/image elements
+// Fix: Only apply frame effects to video/image elements
 const applyFrameEffect = (element: TrackElement, effect: ElementFrameEffect) => {
   if (element instanceof VideoElement || element instanceof ImageElement) {
     element.addFrameEffect(effect);
@@ -1534,14 +1534,14 @@ const applyFrameEffect = (element: TrackElement, effect: ElementFrameEffect) => 
 
 **Problem**: Slow rendering with many elements
 ```typescript
-// ❌ Performance issue: Too many elements rendered
+// Performance issue: Too many elements rendered
 const elements = track.getElements(); // 1000+ elements
 elements.forEach(element => renderElement(element)); // Slow
 ```
 
 **Solution**: Implement virtual scrolling
 ```typescript
-// ✅ Fix: Only render visible elements
+// Fix: Only render visible elements
 const useVirtualTimeline = (elements: TrackElement[], viewportHeight: number) => {
   const [visibleRange, setVisibleRange] = useState({ start: 0, end: 50 });
   
@@ -1656,6 +1656,6 @@ import { TimelineProvider } from "@twick/timeline";
 
 ---
 
-**Happy editing with Twick! 🎬**
+**Happy editing with Twick!**
 
 ---
