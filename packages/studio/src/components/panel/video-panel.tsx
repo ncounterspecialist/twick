@@ -25,12 +25,13 @@
  * ```
  */
 
-import { Wand2, Plus } from "lucide-react";
+import { Wand2, Plus, Play, Pause } from "lucide-react";
 import type { MediaItem } from "@twick/video-editor";
 import type { VideoPanelProps } from "../../types/media-panel";
 import FileInput from "../shared/file-input";
 import SearchInput from "../shared/search-input";
 import { inputStyles } from "../../styles/input-styles";
+import { useVideoPreview } from "../../hooks/use-video-preview";
 
 
 export function VideoPanel({
@@ -41,6 +42,7 @@ export function VideoPanel({
   onFileUpload,
   acceptFileTypes,
 }: VideoPanelProps) {
+  const { playingVideo, togglePlayPause } = useVideoPreview();
   return (
     <div className={inputStyles.panel.container}>
       <h3 className={inputStyles.panel.title}>Video Library</h3>
@@ -75,20 +77,47 @@ export function VideoPanel({
               <video
                 src={item.url}
                 poster={item.thumbnail}
-                className="h-full w-full object-cover transition-transform group-hover:scale-105"
+                className={`h-full w-full object-cover transition-transform ${playingVideo === item.id ? 'scale-105' : 'group-hover:scale-105'}`}
+                ref={(el) => {
+                  // Add ended event listener to handle playback completion
+                  if (el) {
+                    el.addEventListener('ended', () => {
+                      el.currentTime = 0;
+                    }, { once: true });
+                  }
+                }}
               />
 
               {/* Hover overlay */}
-              <div className="absolute inset-0 bg-black bg-opacity-0 transition-opacity group-hover:bg-opacity-20" />
+              <div className={`absolute inset-0 bg-black transition-opacity ${playingVideo === item.id ? 'bg-opacity-30' : 'bg-opacity-0 group-hover:bg-opacity-20'}`} />
 
               {/* Quick Actions */}
-              <div className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+              <div className="absolute top-1 right-1 flex gap-2">
+                {/* Play/Pause Button */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    const videoEl = e.currentTarget.parentElement?.parentElement?.querySelector('video');
+                    if (videoEl) {
+                      togglePlayPause(item, videoEl);
+                    }
+                  }}
+                  className={`w-6 h-6 rounded-full bg-purple-500/80 hover:bg-purple-500 flex items-center justify-center text-white text-xs ${playingVideo === item.id ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'} transition-opacity duration-200`}
+                >
+                  {playingVideo === item.id ? (
+                    <Pause className="w-3 h-3" />
+                  ) : (
+                    <Play className="w-3 h-3" />
+                  )}
+                </button>
+
+                {/* Add Button */}
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
                     onItemSelect(item, true);
                   }}
-                  className="w-5 h-5 rounded-full bg-purple-500/80 hover:bg-purple-500 flex items-center justify-center text-white text-xs"
+                  className="w-6 h-6 rounded-full bg-purple-500/80 hover:bg-purple-500 flex items-center justify-center text-white text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-200"
                 >
                   <Plus className="w-3 h-3" />
                 </button>

@@ -28,11 +28,12 @@
  * ```
  */
 
-import { Wand2, Plus, Volume2, Play } from "lucide-react";
+import { Wand2, Plus, Volume2, Play, Pause } from "lucide-react";
 import SearchInput from "../shared/search-input";
 import FileInput from "../shared/file-input";
 import type { AudioPanelProps } from "../../types/media-panel";
 import { inputStyles } from "../../styles/input-styles";
+import { useAudioPreview } from "../../hooks/use-audio-preview";
 
 
 export const AudioPanel = ({
@@ -43,6 +44,7 @@ export const AudioPanel = ({
   onFileUpload,
   acceptFileTypes,
 }: AudioPanelProps) => {
+  const { playingAudio, togglePlayPause } = useAudioPreview();
   return (
     <div className={inputStyles.panel.container}>
       <h3 className={inputStyles.panel.title}>Audio Library</h3>
@@ -80,16 +82,20 @@ export const AudioPanel = ({
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
-                    onItemSelect(item, true);
+                    togglePlayPause(item);
                   }}
                   className="w-8 h-8 rounded-full bg-purple-500/80 hover:bg-purple-500 flex items-center justify-center text-white transition-all duration-200 flex-shrink-0"
                 >
-                  <Play className="w-4 h-4" />
+                  {playingAudio === item.id ? (
+                    <Pause className="w-4 h-4" />
+                  ) : (
+                    <Play className="w-4 h-4" />
+                  )}
                 </button>
 
                 {/* Audio Icon */}
-                <div className="w-10 h-10 rounded-lg bg-purple-500/20 flex items-center justify-center flex-shrink-0">
-                  <Volume2 className="w-5 h-5 text-purple-400" />
+                <div className={`w-10 h-10 rounded-lg ${playingAudio === item.id ? 'bg-purple-500/40' : 'bg-purple-500/20'} flex items-center justify-center flex-shrink-0 transition-colors duration-200`}>
+                  <Volume2 className={`w-5 h-5 ${playingAudio === item.id ? 'text-purple-300' : 'text-purple-400'}`} />
                 </div>
 
                 {/* Audio Details */}
@@ -103,7 +109,7 @@ export const AudioPanel = ({
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
-                    onItemSelect(item);
+                    onItemSelect(item, true);
                   }}
                   className="w-6 h-6 rounded-full bg-purple-500/60 hover:bg-purple-500 flex items-center justify-center text-white text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex-shrink-0"
                 >
