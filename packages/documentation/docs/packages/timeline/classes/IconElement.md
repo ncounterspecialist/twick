@@ -52,7 +52,7 @@
 
 ### constructor
 
-• **new IconElement**(`src`, `size`): [`IconElement`](IconElement.md)
+• **new IconElement**(`src`, `size`, `fill`): [`IconElement`](IconElement.md)
 
 #### Parameters
 

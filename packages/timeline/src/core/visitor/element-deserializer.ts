@@ -33,7 +33,7 @@ export class ElementDeserializer {
     if (json.mediaDuration !== undefined) videoElement.setMediaDuration(json.mediaDuration);
     if (json.objectFit) videoElement.setObjectFit(json.objectFit);
     if (json.frame) videoElement.setFrame(json.frame);
-    if (json.frameEffects) videoElement.setFrameEffects(json.frameEffects.map((frameEffect) => ElementFrameEffect.fromJSON(frameEffect)));
+    if (json.frameEffects) videoElement.setFrameEffects(json.frameEffects.map((frameEffect: any) => ElementFrameEffect.fromJSON(frameEffect)));
     if (json.backgroundColor) videoElement.setBackgroundColor(json.backgroundColor);
     
     return videoElement;
@@ -58,7 +58,7 @@ export class ElementDeserializer {
     
     if (json.objectFit) imageElement.setObjectFit(json.objectFit);
     if (json.frame) imageElement.setFrame(json.frame);
-    if (json.frameEffects) imageElement.setFrameEffects(json.frameEffects.map((frameEffect) => ElementFrameEffect.fromJSON(frameEffect)));
+    if (json.frameEffects) imageElement.setFrameEffects(json.frameEffects.map((frameEffect: any) => ElementFrameEffect.fromJSON(frameEffect)));
     if (json.backgroundColor) imageElement.setBackgroundColor(json.backgroundColor);
     
     return imageElement;
@@ -85,13 +85,12 @@ export class ElementDeserializer {
   }
 
   static deserializeIconElement(json: ElementJSON): IconElement {
-    const size = json.props?.size 
-      ? { width: json.props.size[0], height: json.props.size[1] }
-      : { width: 0, height: 0 };
+    const size = json.props?.size ?? { width: 100, height: 100 };
     
     const iconElement = new IconElement(
       json.props?.src || "",
-      size
+      size,
+      json.props?.fill
     );
     ElementDeserializer.deserializeBaseElement(iconElement, json);
     

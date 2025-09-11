@@ -36,6 +36,7 @@ export const TEXT_EFFECTS: TextEffect[] = [
   {
     name: "typewriter",
     delay: 0,
+    duration: 1,
     bufferTime: 0.1,
     getSample: () => {
       return "";
@@ -44,6 +45,7 @@ export const TEXT_EFFECTS: TextEffect[] = [
   {
     name: "erase",
     delay: 0,
+    duration: 1,
     bufferTime: 0.1,
     getSample: () => {
       return "";
@@ -52,6 +54,7 @@ export const TEXT_EFFECTS: TextEffect[] = [
   {
     name: "elastic",
     delay: 0,
+    duration: 1,
     bufferTime: 0.1,
     getSample: () => {
       return "";
@@ -60,7 +63,8 @@ export const TEXT_EFFECTS: TextEffect[] = [
   {
     name: "stream-word",
     delay: 0,
-    bufferTime: 0.1,
+    duration: 1,
+    bufferTime: 0.1,    
     getSample: () => {
       return "";
     },

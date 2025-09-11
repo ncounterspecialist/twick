@@ -36,11 +36,11 @@ export class RectElement extends TrackElement {
   }
 
   getStrokeColor(): string {
-    return this.props.strokeColor;
+    return this.props.strokeColor || this.props.fill;
   }
 
   getLineWidth(): number {
-    return this.props.lineWidth;
+    return this.props.lineWidth ?? 0;
   }
 
   setSize(size: Size) {

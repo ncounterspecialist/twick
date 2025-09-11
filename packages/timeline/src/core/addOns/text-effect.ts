@@ -45,7 +45,7 @@ export class ElementTextEffect {
     return {
       name: this.name,
       delay: this.delay,
-      duration: this.duration,
+      duration: this.duration ?? 1,
       bufferTime: this.bufferTime,
     };
   }

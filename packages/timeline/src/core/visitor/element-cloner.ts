@@ -95,7 +95,8 @@ export class ElementCloner implements ElementVisitor<TrackElement> {
   visitIconElement(element: IconElement): TrackElement {
     const clonedElement = new IconElement(
       element.getProps()!.src,
-      element.getProps()!.size
+      element.getProps()!.size,
+      element.getProps()!.fill
     );
     this.cloneElementProperties(element, clonedElement);
     return clonedElement;

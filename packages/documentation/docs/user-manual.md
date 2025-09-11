@@ -744,7 +744,7 @@ circleElement
   .setPosition({ x: 300, y: 300 });
 
 // Icon
-const iconElement = new IconElement("heart", "#FF6B35");
+const iconElement = new IconElement("heart",{ width: 100, height: 100}, "#FF6B35");
 iconElement
   .setStart(10)
   .setEnd(15)

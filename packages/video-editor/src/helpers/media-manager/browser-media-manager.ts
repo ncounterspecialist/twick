@@ -183,7 +183,7 @@ class BrowserMediaManager extends BaseMediaManager {
         request.onsuccess = async () => {
           let items = request.result;
           const filteredItems = items.filter(item => {
-            const matchesQuery = item.url.toLowerCase().includes(options.query.toLowerCase());
+            const matchesQuery = item.url.toLowerCase().includes((options.query || '').toLowerCase());
             const matchesType = !options.type || item.type === options.type;
             const matchesMetadata = !options.metadata || 
               Object.entries(options.metadata).every(([key, value]) => 

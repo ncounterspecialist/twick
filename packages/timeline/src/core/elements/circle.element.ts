@@ -24,11 +24,11 @@ export class CircleElement extends TrackElement {
   }
 
   getStrokeColor(): string {
-    return this.props.strokeColor;
+    return this.props.strokeColor || this.props.fill;
   }
 
   getLineWidth(): number {
-    return this.props.lineWidth;
+    return this.props.lineWidth ?? 0;
   }
 
   setFill(fill: string) {
