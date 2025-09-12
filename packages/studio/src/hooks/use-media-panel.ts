@@ -98,6 +98,7 @@ export const useMediaPanel = (
   }) => {
     const arrayBuffer = await fileData.file.arrayBuffer();
     const newItem = await mediaManager.addItem({
+      name: fileData.file.name,
       url: fileData.blobUrl,
       type,
       arrayBuffer,

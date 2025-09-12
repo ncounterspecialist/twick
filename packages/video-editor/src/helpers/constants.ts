@@ -127,7 +127,7 @@ export const DEFAULT_ELEMENT_COLORS: ElementColors = {
     /** Audio element color - deep teal */
     audio: "#3D8B8B",
     /** Text element color - medium lavender */
-    text: "#9C82D4",
+    text: "#8D74C4",
     /** Generic element color - muted amethyst */
     element: "#7B68B8",
     /** Rectangle element color - deep indigo */
