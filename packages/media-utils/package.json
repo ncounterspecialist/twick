@@ -23,7 +23,7 @@
   "devDependencies": {
     "@types/node": "^20.11.24",
     "typescript": "5.4.2",
-    "vite": "^5.1.4",
+    "vite": "^5.4.20",
     "vite-plugin-dts": "^3.7.3",
     "rimraf": "^5.0.5",
     "typedoc": "^0.25.8",
