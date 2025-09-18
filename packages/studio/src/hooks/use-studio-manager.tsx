@@ -27,6 +27,8 @@ import { Track, TrackElement, useTimelineContext } from "@twick/timeline";
 import { useEffect, useRef, useState } from "react";
 
 export const useStudioManager = () => {
+  const [selectedProp, setSelectedProp] = useState("element-props");
+
   const { editor, selectedItem, setSelectedItem } = useTimelineContext();
 
   const selectedElement = selectedItem instanceof TrackElement ? selectedItem : null;
@@ -80,6 +82,8 @@ export const useStudioManager = () => {
 
 
   return {
+    selectedProp, 
+    setSelectedProp,
     selectedTool, 
     setSelectedTool,
     selectedElement,

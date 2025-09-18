@@ -16,17 +16,20 @@
 
 import { StageCanvas } from "./stage-canvas";
 import { Toolbar } from "./toolbar";
-import { PropertiesPanelContainer } from "./container/properties-panel-container";
 import StudioHeader from "./header";
 import { useStudioManager } from "../hooks/use-studio-manager";
 import ElementPanelContainer from "./container/element-panel-container";
 import { useTimelineContext } from "@twick/timeline";
 import { MediaProvider } from "../context/media-context";
+import { PropsToolbar } from "./props-toolbar";
+import { PropertiesPanelContainer } from "./container/properties-panel-container";
 
 export function TwickStudio() {
   const {
     selectedTool,
     setSelectedTool,
+    selectedProp,
+    setSelectedProp,
     selectedElement,
     addElement,
     updateElement,
@@ -46,7 +49,7 @@ export function TwickStudio() {
             setSelectedTool={setSelectedTool}
           />
 
-          {/* Left Panel - Media Library */}
+          {/* Left Panel */}
           <aside className="border-r border-gray-600/50 backdrop-blur-md shadow-lg">
             <ElementPanelContainer
               videoResolution={videoResolution}
@@ -63,10 +66,21 @@ export function TwickStudio() {
             <StageCanvas resolution={videoResolution} />
           </main>
 
-          {/* Right Panel - Properties */}
-          <PropertiesPanelContainer
+
+          {/* Left Panel */}
+          <aside className="border-r border-gray-600/50 backdrop-blur-md shadow-lg">
+            <PropertiesPanelContainer
+              selectedProp={selectedProp}
+              selectedElement={selectedElement}
+              updateElement={updateElement}
+            />
+          </aside>
+  
+          {/* Right Toolbar */}
+          <PropsToolbar
             selectedElement={selectedElement}
-            updateElement={updateElement}
+            selectedProp={selectedProp}
+            setSelectedProp={setSelectedProp}
           />
         </div>
       </div>

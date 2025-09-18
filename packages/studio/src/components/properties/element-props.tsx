@@ -1,13 +1,6 @@
-import { Settings } from "lucide-react";
-import { AccordionItem } from "../shared/accordion-item";
 import type { PropertiesPanelProps } from "../../types";
 
-interface ElementPropsProps {
-  isOpen: boolean;
-  onToggle: () => void;
-}
-
-export function ElementProps({ selectedElement, isOpen, updateElement, onToggle }: ElementPropsProps & PropertiesPanelProps) {
+export function ElementProps({ selectedElement, updateElement }: PropertiesPanelProps) {
   const elementProps = selectedElement?.getProps() || {};
   const {x, y, opacity, rotation} = elementProps;
 
@@ -17,12 +10,6 @@ export function ElementProps({ selectedElement, isOpen, updateElement, onToggle 
     }
   }
   return (
-    <AccordionItem
-      title="All Properties"
-      icon={<Settings className="w-4 h-4" />}
-      isOpen={isOpen}
-      onToggle={onToggle}
-    >
       <div className="space-y-3">
         {/* Position & Size */}
         <div className="bg-neutral-800/40 rounded-lg p-2.5 border border-gray-600/20">
@@ -92,6 +79,5 @@ export function ElementProps({ selectedElement, isOpen, updateElement, onToggle 
           </div>
         </div>
       </div>
-    </AccordionItem>
   );
 }
