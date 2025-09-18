@@ -208,6 +208,19 @@
   .toolbar-btn:not(.active) {
     @apply text-gray-400 hover:text-white hover:bg-neutral-700/50;
   }
+
+   /* Props Toolbar buttons */
+   .props-toolbar-btn {
+    @apply w-14 max-h-14 rounded-lg flex flex-col items-center justify-center transition-all duration-200 shadow-sm hover:shadow-md;
+  }
+  
+  .props-toolbar-btn.active {
+    @apply bg-gradient-to-br from-purple-500 to-purple-600 text-white shadow-lg shadow-purple-500/25;
+  }
+  
+  .props-toolbar-btn:not(.active) {
+    @apply text-gray-400 hover:text-white hover:bg-neutral-700/50;
+  }
 }
 
 @layer utilities {
