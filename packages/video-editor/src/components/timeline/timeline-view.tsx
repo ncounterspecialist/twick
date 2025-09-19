@@ -16,7 +16,6 @@ function TimelineView({
   onSelectionChange,
   onElementDrag,
 }: {
-  timelineControls?: React.ReactNode;
   zoomLevel: number;
   duration: number;
   tracks: Track[];

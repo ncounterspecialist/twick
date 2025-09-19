@@ -56,8 +56,6 @@ export interface VideoEditorProps {
   rightPanel?: React.ReactNode;
   /** Custom bottom panel component (e.g., effects library) */
   bottomPanel?: React.ReactNode;
-  /** Custom play controls component */
-  playControls?: React.ReactNode;
   /** Whether to show default play controls if no custom controls provided */
   defaultPlayControls?: boolean;
   /** Editor configuration including video properties and mode settings */
@@ -114,7 +112,6 @@ const VideoEditor: React.FC<VideoEditorProps> = ({
   rightPanel,
   bottomPanel,
   editorConfig,
-  playControls,
   defaultPlayControls = true,
 }) => {
   const [trackZoom, setTrackZoom] = useState(DEFAULT_TIMELINE_ZOOM);
@@ -137,9 +134,7 @@ const VideoEditor: React.FC<VideoEditorProps> = ({
       </div>
       {bottomPanel ? bottomPanel : null}
       <div className="twick-editor-timeline-section">
-        {playControls ? (
-          playControls
-        ) : defaultPlayControls ? (
+        {defaultPlayControls ? (
           <ControlManager trackZoom={trackZoom} setTrackZoom={setTrackZoom} />
         ) : null}
 
