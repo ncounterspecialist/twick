@@ -3,10 +3,8 @@ import TimelineView from "./timeline-view";
 import { useTimelineManager } from "../../hooks/use-timeline-manager";
 
 const TimelineManager = ({
-  timelineControls,
   trackZoom,
 }: {
-  timelineControls?: React.ReactNode;
   trackZoom: number;
 }) => {
   
@@ -14,7 +12,6 @@ const TimelineManager = ({
 
   return (
     <TimelineView
-      timelineControls={timelineControls}
       tracks={timelineData?.tracks ?? []}
       zoomLevel={trackZoom}
       duration={totalDuration}
