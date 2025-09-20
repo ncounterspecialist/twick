@@ -10,9 +10,11 @@ import { usePlayerManager } from "../../hooks/use-player-manager";
 
 export const PlayerManager = ({
   videoProps,
+  playerProps,
   canvasMode,
 }: {
   videoProps: { width: number; height: number, backgroundColor?: string };
+  playerProps?: { quality?: number },
   canvasMode: boolean;
 }) => {
   const { changeLog } = useTimelineContext();
@@ -82,6 +84,7 @@ export const PlayerManager = ({
       <LivePlayer
         seekTime={seekTime}
         projectData={projectData}
+        quality={playerProps?.quality}
         videoSize={{
           width: videoProps.width,
           height: videoProps.height,
