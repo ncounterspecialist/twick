@@ -27,6 +27,9 @@ export interface VideoEditorConfig {
     /** Background color of the video */
     backgroundColor?: string;
   };
+  playerProps?: {
+    quality?: number;
+  };
   /** Whether to use canvas mode for rendering */
   canvasMode?: boolean;
 }
@@ -120,6 +123,7 @@ const VideoEditor: React.FC<VideoEditorProps> = ({
     () => (
       <PlayerManager
         videoProps={editorConfig.videoProps}
+        playerProps={editorConfig.playerProps}
         canvasMode={editorConfig.canvasMode ?? true}
       />
     ),
