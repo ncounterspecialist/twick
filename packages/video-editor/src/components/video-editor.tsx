@@ -29,6 +29,8 @@ export interface VideoEditorConfig {
   };
   playerProps?: {
     quality?: number;
+    maxWidth?: number;
+    maxHeight?: number;
   };
   /** Whether to use canvas mode for rendering */
   canvasMode?: boolean;

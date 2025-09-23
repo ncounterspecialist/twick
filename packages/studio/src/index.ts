@@ -37,11 +37,6 @@ import { TwickStudio } from "./components/twick-studio";
 import { Toolbar } from "./components/toolbar";
 
 /**
- * Canvas component for displaying and manipulating visual elements.
- */
-import { StageCanvas } from "./components/stage-canvas";
-
-/**
  * Hook for managing studio state, selected tools, and element manipulation.
  */
 import { useStudioManager } from "./hooks/use-studio-manager";
@@ -99,8 +94,6 @@ export {
   Toolbar,
   /** Studio header with controls */
   StudioHeader,
-  /** Canvas for visual editing */
-  StageCanvas,
 };
 
 // Panels
