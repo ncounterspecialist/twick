@@ -14,7 +14,6 @@
  * ```
  */
 
-import { StageCanvas } from "./stage-canvas";
 import { Toolbar } from "./toolbar";
 import StudioHeader from "./header";
 import { useStudioManager } from "../hooks/use-studio-manager";
@@ -23,8 +22,14 @@ import { useTimelineContext } from "@twick/timeline";
 import { MediaProvider } from "../context/media-context";
 import { PropsToolbar } from "./props-toolbar";
 import { PropertiesPanelContainer } from "./container/properties-panel-container";
+import VideoEditor, { VideoEditorConfig } from "@twick/video-editor";
+import { useMemo } from "react";
 
-export function TwickStudio() {
+export function TwickStudio({
+  editorConfig,
+}: {
+  editorConfig?: VideoEditorConfig;
+}) {
   const {
     selectedTool,
     setSelectedTool,
@@ -35,6 +40,19 @@ export function TwickStudio() {
     updateElement,
   } = useStudioManager();
   const { videoResolution, setVideoResolution } = useTimelineContext();
+
+  const twickEditorConfig: VideoEditorConfig = useMemo(
+    () => ({
+      canvasMode: true,
+      ...(editorConfig || {}),
+      videoProps: {
+        ...(editorConfig?.videoProps || {}),
+        width: videoResolution.width,
+        height: videoResolution.height,
+      },
+    }),
+    [videoResolution, editorConfig]
+  );
 
   return (
     <MediaProvider>
@@ -63,9 +81,17 @@ export function TwickStudio() {
 
           {/* Center - Canvas and Transport */}
           <main className="flex-1 flex flex-col bg-neutral-700 main-container">
-            <StageCanvas resolution={videoResolution} />
+            <div className="flex-1 overflow-y-auto p-1">
+              <div
+                className="canvas-container"
+                style={{
+                  maxWidth: twickEditorConfig.playerProps?.maxWidth ?? 960,
+                }}
+              >
+                <VideoEditor editorConfig={twickEditorConfig} />
+              </div>
+            </div>
           </main>
-
 
           {/* Left Panel */}
           <aside className="border-r border-gray-600/50 backdrop-blur-md shadow-lg">
@@ -75,7 +101,7 @@ export function TwickStudio() {
               updateElement={updateElement}
             />
           </aside>
-  
+
           {/* Right Toolbar */}
           <PropsToolbar
             selectedElement={selectedElement}

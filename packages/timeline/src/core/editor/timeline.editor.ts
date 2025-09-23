@@ -72,10 +72,15 @@ export class TimelineEditor {
     return timelineData?.version || 0;
   }
 
-  protected setTimelineData(
-    tracks: Track[],
-    version?: number
-  ): TimelineTrackData {
+  protected setTimelineData({
+    tracks,
+    version,
+    updatePlayerData,
+  }: {
+    tracks: Track[];
+    version?: number;
+    updatePlayerData?: boolean;
+  }) {
     const prevTimelineData = this.getTimelineData();
     const updatedVersion = version ?? (prevTimelineData?.version || 0) + 1;
     const updatedTimelineData = {
@@ -88,6 +93,12 @@ export class TimelineEditor {
     );
     this.updateHistory(updatedTimelineData);
     this.context.updateChangeLog();
+    if (updatePlayerData) {
+      this.context?.setTimelineAction?.(
+        TIMELINE_ACTION.UPDATE_PLAYER_DATA,
+        updatedTimelineData
+      );
+    }
     return updatedTimelineData as TimelineTrackData;
   }
 
@@ -96,7 +107,7 @@ export class TimelineEditor {
     const id = `t-${generateShortUuid()}`;
     const track = new Track(name, type, id);
     const updatedTimelines = [...(prevTimelineData?.tracks || []), track];
-    this.setTimelineData(updatedTimelines);
+    this.setTimelineData({ tracks: updatedTimelines, updatePlayerData: true });
     return track;
   }
 
@@ -115,13 +126,13 @@ export class TimelineEditor {
   removeTrackById(id: string): void {
     const tracks = this.getTimelineData()?.tracks || [];
     const updatedTracks = tracks.filter((t) => t.getId() !== id);
-    this.setTimelineData(updatedTracks);
+    this.setTimelineData({ tracks: updatedTracks, updatePlayerData: true });
   }
 
   removeTrack(track: Track): void {
     const tracks = this.getTimelineData()?.tracks || [];
     const updatedTracks = tracks.filter((t) => t.getId() !== track.getId());
-    this.setTimelineData(updatedTracks);
+    this.setTimelineData({ tracks: updatedTracks, updatePlayerData: true });
   }
 
   /**
@@ -130,7 +141,7 @@ export class TimelineEditor {
   refresh(): void {
     const currentData = this.getTimelineData();
     if (currentData) {
-      this.setTimelineData(currentData.tracks);
+      this.setTimelineData({ tracks: currentData.tracks, updatePlayerData: true });
     }
   }
 
@@ -151,12 +162,12 @@ export class TimelineEditor {
       // Use the visitor pattern to handle different element types
       const elementAdder = new ElementAdder(track);
       const result = await element.accept(elementAdder);
-      
+
       if (result) {
         // Update the timeline data to reflect the change
         const currentData = this.getTimelineData();
         if (currentData) {
-          this.setTimelineData(currentData.tracks);
+          this.setTimelineData({tracks: currentData.tracks, updatePlayerData: true});
         }
       }
       return result;
@@ -180,12 +191,12 @@ export class TimelineEditor {
       // Use the visitor pattern to handle different element types
       const elementRemover = new ElementRemover(track);
       const result = element.accept(elementRemover);
-      
+
       if (result) {
         // Update the timeline data to reflect the change
         const currentData = this.getTimelineData();
         if (currentData) {
-          this.setTimelineData(currentData.tracks);
+          this.setTimelineData({tracks: currentData.tracks, updatePlayerData: true});
         }
       }
 
@@ -210,12 +221,12 @@ export class TimelineEditor {
       // Use the visitor pattern to handle different element types
       const elementUpdater = new ElementUpdater(track);
       const result = element.accept(elementUpdater);
-      
+
       if (result) {
         // Update the timeline data to reflect the change
         const currentData = this.getTimelineData();
         if (currentData) {
-          this.setTimelineData(currentData.tracks);
+          this.setTimelineData({tracks: currentData.tracks});
         }
       }
 
@@ -231,7 +242,10 @@ export class TimelineEditor {
    * @param splitTime The time point to split at
    * @returns SplitResult with first element, second element, and success status
    */
-  async splitElement(element: TrackElement, splitTime: number): Promise<SplitResult> {
+  async splitElement(
+    element: TrackElement,
+    splitTime: number
+  ): Promise<SplitResult> {
     const track = this.getTrackById(element.getTrackId());
     if (!track) {
       return { firstElement: element, secondElement: null, success: false };
@@ -241,9 +255,9 @@ export class TimelineEditor {
       // Use the visitor pattern to handle different element types
       const elementSplitter = new ElementSplitter(splitTime);
       const result = element.accept(elementSplitter);
-      
+
       if (result.success) {
-        const elementRemover  = new ElementRemover(track);
+        const elementRemover = new ElementRemover(track);
         // Remove the original element from the track
         element.accept(elementRemover);
 
@@ -251,11 +265,11 @@ export class TimelineEditor {
         const elementAdder = new ElementAdder(track);
         result.firstElement.accept(elementAdder);
         result.secondElement.accept(elementAdder);
-        
+
         // Update the timeline data to reflect the change
         const currentData = this.getTimelineData();
         if (currentData) {
-          this.setTimelineData(currentData.tracks);
+          this.setTimelineData({tracks: currentData.tracks, updatePlayerData: true});
         }
       }
       return result;
@@ -279,12 +293,12 @@ export class TimelineEditor {
   }
 
   reorderTracks(tracks: Track[]): void {
-    this.setTimelineData(tracks);
+    this.setTimelineData({tracks, updatePlayerData: true});
   }
 
   updateHistory(timelineTrackData: TimelineTrackData): void {
     const tracks = timelineTrackData.tracks.map((t) => t.serialize());
-    this.totalDuration = getTotalDuration(tracks);  
+    this.totalDuration = getTotalDuration(tracks);
     this.context.setTotalDuration(this.totalDuration);
     const version = timelineTrackData.version;
     this.context.setPresent({
@@ -385,7 +399,7 @@ export class TimelineEditor {
     this.context.handleResetHistory();
     // Convert Timeline[] to Track[] and set
     const timelineTracks = tracks.map((t) => Track.fromJSON(t));
-    this.setTimelineData(timelineTracks, version);
+    this.setTimelineData({tracks: timelineTracks, version, updatePlayerData: true});
     if (this.context?.setTimelineAction) {
       this.context.setTimelineAction(TIMELINE_ACTION.UPDATE_PLAYER_DATA, {
         tracks: tracks,

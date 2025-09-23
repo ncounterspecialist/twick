@@ -5,7 +5,7 @@ import {
   TIMELINE_ACTION,
   useTimelineContext,
 } from "@twick/timeline";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 /**
  * Custom hook to manage player state and canvas interactions.
@@ -28,9 +28,10 @@ export const usePlayerManager = ({
   videoProps: { width: number; height: number };
 }) => {
   const [projectData, setProjectData] = useState<any>(null);
-  const { timelineAction, setTimelineAction, setSelectedItem, editor } =
+  const { timelineAction, setTimelineAction, setSelectedItem, editor, changeLog } =
     useTimelineContext();
 
+  const currentChangeLog = useRef(changeLog);
   const [playerUpdating, setPlayerUpdating] = useState(false);
 
 
@@ -73,6 +74,7 @@ export const usePlayerManager = ({
       case CANVAS_OPERATIONS.ITEM_UPDATED:
         if (element) {
           const updatedElement = editor.updateElement(element);
+          currentChangeLog.current = currentChangeLog.current + 1;
           setSelectedItem(updatedElement)      
         }
         break;
@@ -101,6 +103,9 @@ export const usePlayerManager = ({
    * ```
    */
   const updateCanvas = (seekTime: number) => {
+    if(changeLog === currentChangeLog.current) {
+      return;
+    }
     const elements = getCurrentElements(
       seekTime,
       editor.getTimelineData()?.tracks ?? []
@@ -111,6 +116,7 @@ export const usePlayerManager = ({
       captionProps: {},
       cleanAndAdd: true,
     });
+    currentChangeLog.current = changeLog;
   };
 
   /**
