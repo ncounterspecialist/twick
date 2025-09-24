@@ -58,7 +58,8 @@
   ],
   "pnpm": {
     "overrides": {
-      "typescript": "^5.4.2"
+      "typescript": "^5.4.2",
+      "axios": "^1.12.2"
     }
   }
 }
