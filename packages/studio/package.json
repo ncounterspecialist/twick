@@ -23,6 +23,7 @@
     "access": "public"
   },
   "peerDependencies": {
+    "@twick/media-utils": "workspace:^0.14.0",
     "@twick/timeline": "workspace:^0.14.0",
     "@twick/video-editor": "workspace:^0.14.0"
   },

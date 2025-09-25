@@ -200,8 +200,8 @@ export const convertToVideoPosition = (
   videoSize: Dimensions
 ): Position => {
   return {
-    x: x / canvasMetadata.scaleX - videoSize.width / 2,
-    y: y / canvasMetadata.scaleY - videoSize.height / 2,
+    x: Number((x / canvasMetadata.scaleX - videoSize.width / 2).toFixed(2)),
+    y: Number((y / canvasMetadata.scaleY - videoSize.height / 2).toFixed(2)),
   };
 };
 

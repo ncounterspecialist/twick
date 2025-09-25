@@ -22,14 +22,12 @@ import { useTimelineContext } from "@twick/timeline";
 import { MediaProvider } from "../context/media-context";
 import { PropsToolbar } from "./props-toolbar";
 import { PropertiesPanelContainer } from "./container/properties-panel-container";
-import VideoEditor, { VideoEditorConfig } from "@twick/video-editor";
+import VideoEditor from "@twick/video-editor";
 import { useMemo } from "react";
+import { StudioConfig } from "../types";
+import useStudioOperation from "../hooks/use-studio-operation";
 
-export function TwickStudio({
-  editorConfig,
-}: {
-  editorConfig?: VideoEditorConfig;
-}) {
+export function TwickStudio({ studioConfig }: { studioConfig?: StudioConfig }) {
   const {
     selectedTool,
     setSelectedTool,
@@ -40,25 +38,32 @@ export function TwickStudio({
     updateElement,
   } = useStudioManager();
   const { videoResolution, setVideoResolution } = useTimelineContext();
+  const { onLoadProject, onSaveProject, onExportVideo } =
+    useStudioOperation(studioConfig);
 
-  const twickEditorConfig: VideoEditorConfig = useMemo(
+  const twickStudiConfig: StudioConfig = useMemo(
     () => ({
       canvasMode: true,
-      ...(editorConfig || {}),
+      ...(studioConfig || {}),
       videoProps: {
-        ...(editorConfig?.videoProps || {}),
+        ...(studioConfig?.videoProps || {}),
         width: videoResolution.width,
         height: videoResolution.height,
       },
     }),
-    [videoResolution, editorConfig]
+    [videoResolution, studioConfig]
   );
 
   return (
     <MediaProvider>
       <div className="h-screen w-screen overflow-hidden bg-neutral-900 text-gray-100">
         {/* Header */}
-        <StudioHeader setVideoResolution={setVideoResolution} />
+        <StudioHeader
+          setVideoResolution={setVideoResolution}
+          onLoadProject={onLoadProject}
+          onSaveProject={onSaveProject}
+          onExportVideo={onExportVideo}
+        />
         {/* Main Content */}
         <div className="flex h-[calc(100vh-56px)]">
           {/* Left Toolbar */}
@@ -85,10 +90,10 @@ export function TwickStudio({
               <div
                 className="canvas-container"
                 style={{
-                  maxWidth: twickEditorConfig.playerProps?.maxWidth ?? 960,
+                  maxWidth: twickStudiConfig.playerProps?.maxWidth ?? 960,
                 }}
               >
-                <VideoEditor editorConfig={twickEditorConfig} />
+                <VideoEditor editorConfig={twickStudiConfig} />
               </div>
             </div>
           </main>

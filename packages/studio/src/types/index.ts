@@ -1,4 +1,5 @@
-import type { Size, TrackElement } from "@twick/timeline"
+import type { ProjectJSON, Size, TrackElement } from "@twick/timeline"
+import { VideoEditorConfig } from "@twick/video-editor"
 
 export interface MediaItem {
   id: string
@@ -11,6 +12,27 @@ export interface MediaItem {
   width?: number
   height?: number
   createdAt: Date
+}
+
+export interface VideoSettings {
+  outFile: string;
+  fps: number;
+  resolution: {
+    width: number;
+    height: number;
+  };
+}
+
+export interface Result {
+  status: boolean;
+  message: string;
+  result?: any;
+}
+
+export interface StudioConfig extends VideoEditorConfig {
+  saveProject?: (project: ProjectJSON, fileName: string) => Promise<Result>;
+  loadProject?: () => Promise<ProjectJSON>;
+  exportVideo? : (project: ProjectJSON, videoSettings: VideoSettings) => Promise<Result>;
 }
 
 export interface PanelProps {
@@ -94,40 +116,6 @@ export interface Timeline {
   backgroundColor: string
   createdAt: Date
   updatedAt: Date
-}
-
-export interface Project {
-  id: string
-  name: string
-  timeline: Timeline
-  mediaLibrary: MediaItem[]
-  settings: ProjectSettings
-  createdAt: Date
-  updatedAt: Date
-}
-
-export interface ProjectSettings {
-  autoSave: boolean
-  autoSaveInterval: number
-  defaultDuration: number
-  defaultFps: number
-  defaultResolution: {
-    width: number
-    height: number
-  }
-}
-
-export interface StudioState {
-  currentTime: number
-  isPlaying: boolean
-  selectedElements: string[]
-  zoom: number
-  showGrid: boolean
-  showRulers: boolean
-  snapToGrid: boolean
-  snapToElements: boolean
-  selectedTool: 'select' | 'text' | 'icon' | 'rect' | 'circle' | 'video' | 'audio' | 'image' | 'record' | 'subtitle' | 'track'
-  viewMode: 'grid' | 'list'
 }
 
 export interface ToolCategory {

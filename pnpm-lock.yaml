@@ -339,6 +339,9 @@ importers:
 
   packages/studio:
     dependencies:
+      '@twick/media-utils':
+        specifier: workspace:^0.14.0
+        version: link:../media-utils
       lucide-react:
         specifier: ^0.511.0
         version: 0.511.0(react@18.3.1)

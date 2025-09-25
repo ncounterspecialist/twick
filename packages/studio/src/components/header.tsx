@@ -1,13 +1,13 @@
 /**
  * StudioHeader Component
- * 
+ *
  * The top header bar of the studio interface. Contains the studio logo,
  * orientation controls, and action buttons for saving and exporting.
- * 
+ *
  * @component
  * @param {Object} props
  * @param {(resolution: Size) => void} props.setVideoResolution - Callback to update canvas resolution
- * 
+ *
  * @example
  * ```tsx
  * <StudioHeader
@@ -17,39 +17,53 @@
  */
 
 import type { Size } from "@twick/timeline";
-import { Save, Download, Clapperboard } from "lucide-react";
+import { Save, Download, Clapperboard, File } from "lucide-react";
 import { useEffect, useState } from "react";
 
-export const StudioHeader = ({ setVideoResolution }: { setVideoResolution: (resolution: Size) => void }) => {
-  const [orientation, setOrientation] = useState<'horizontal' | 'vertical'>('vertical');
+interface StudioHeaderProps {
+  setVideoResolution: (resolution: Size) => void;
+  onLoadProject: () => void;
+  onSaveProject: () => void;
+  onExportVideo: () => void;
+}
+export const StudioHeader = ({
+  setVideoResolution,
+  onLoadProject,
+  onSaveProject,
+  onExportVideo,
+}: StudioHeaderProps) => {
+  const [orientation, setOrientation] = useState<"horizontal" | "vertical">(
+    "vertical"
+  );
+
   useEffect(() => {
-    const orientation = localStorage.getItem('orientation');
+    const orientation = localStorage.getItem("orientation");
     if (orientation) {
-      setOrientation(orientation as 'horizontal' | 'vertical');
+      setOrientation(orientation as "horizontal" | "vertical");
     }
   }, []);
 
-  useEffect(()=> {
-    if(orientation === 'horizontal') {
-      localStorage.setItem('orientation', 'horizontal');
+  useEffect(() => {
+    if (orientation === "horizontal") {
+      localStorage.setItem("orientation", "horizontal");
       setVideoResolution({ width: 1280, height: 720 });
     } else {
-      localStorage.setItem('orientation', 'vertical');
+      localStorage.setItem("orientation", "vertical");
       setVideoResolution({ width: 720, height: 1280 });
     }
-  }, [orientation])
+  }, [orientation]);
 
   return (
     <header className="h-14 bg-neutral-800/90 border-b border-gray-600/50 flex items-center justify-between px-4 backdrop-blur-md shadow-lg">
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2">
-            <Clapperboard className="w-8 h-8 text-purple-400" />
-            <h1 className="text-lg font-bold text-gradient-purple">
-              Twick Studio
-            </h1>
-          </div>
+      <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
+          <Clapperboard className="w-8 h-8 text-purple-400" />
+          <h1 className="text-lg font-bold text-gradient-purple">
+            Twick Studio
+          </h1>
         </div>
-        {/* <div className="flex items-center">
+      </div>
+      {/* <div className="flex items-center">
           <div className="flex items-center bg-neutral-700/50 rounded-lg p-1 gap-1">
             <button
               onClick={() => setOrientation('horizontal')}
@@ -75,20 +89,33 @@ export const StudioHeader = ({ setVideoResolution }: { setVideoResolution: (reso
             </button>
           </div>
         </div> */}
-        <div className="flex items-center gap-2">
-          <button
-            className="btn btn-ghost w-32"
-            title="Save Draft"
-          >
-            <Save className="w-4 h-4 mr-2" />
-            Save Draft
-          </button>
-          <button className="btn btn-primary w-32" title="Export">
-            <Download className="w-4 h-4 mr-2" />
-            Export
-          </button>
-        </div>
-      </header>
+      <div className="flex items-center gap-2">
+        <button
+          className="btn btn-ghost w-32"
+          title="Load Project"
+          onClick={onLoadProject}
+        >
+          <File className="w-4 h-4 mr-2" />
+          Load Project
+        </button>
+        <button
+          className="btn btn-ghost w-32"
+          title="Save Draft"
+          onClick={onSaveProject}
+        >
+          <Save className="w-4 h-4 mr-2" />
+          Save Draft
+        </button>
+        <button
+          className="btn btn-primary w-32"
+          title="Export"
+          onClick={onExportVideo}
+        >
+          <Download className="w-4 h-4 mr-2" />
+          Export
+        </button>
+      </div>
+    </header>
   );
 };
 
