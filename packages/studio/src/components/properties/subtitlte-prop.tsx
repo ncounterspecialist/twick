@@ -135,7 +135,7 @@ export function SubtitlePropPanel({
           <input
             ref={subTitleRef}
             type="text"
-            defaultValue={editedText}
+            value={editedText}
             onBlur={(e) => handleUpdateCaption({ text: e.target.value })}
             className="w-full bg-neutral-700/60 border border-gray-600/40 rounded-md text-white text-xs px-2 py-1.5 focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500/30 transition-all duration-200"
           />

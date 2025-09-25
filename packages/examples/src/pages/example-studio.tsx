@@ -11,7 +11,7 @@ export default function ExampleStudio() {
         initialData={INITIAL_TIMELINE_DATA}
         contextId={"studio-demo"}
       >
-        <TwickStudio editorConfig={{
+        <TwickStudio studioConfig={{
           videoProps: {
             width: 720,
             height: 1280,

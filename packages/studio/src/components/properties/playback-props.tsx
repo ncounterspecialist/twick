@@ -24,7 +24,7 @@ export function PlaybackPropsPanel({
             min="0.1"
             max="5"
             step={0.1}
-            defaultValue={(playbackRate ?? 1)}
+            value={(playbackRate ?? 1)}
             onChange={(e) => handleUpdateElement({ playbackRate: Number(e.target.value) / 100})}
             className="w-full h-1.5 bg-gradient-to-r from-purple-500/30 to-neutral-600/50 rounded-full appearance-none cursor-pointer slider-thumb"
           />
@@ -45,7 +45,7 @@ export function PlaybackPropsPanel({
           min="0"
           max="3"
           step={0.1}
-          defaultValue={volume ?? 0}
+          value={volume ?? 0}
           onChange={(e) =>
             handleUpdateElement({ volume: Number(e.target.value) })
           }

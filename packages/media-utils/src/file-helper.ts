@@ -20,6 +20,55 @@ export const blobUrlToFile = async (blobUrl: string, fileName: string): Promise<
   };
   
   /**
+   * Opens a native file picker and resolves with the selected File.
+   * The accepted file types can be specified using the same format as the
+   * input accept attribute (e.g. "application/json", ".png,.jpg", "image/*").
+   *
+   * @param accept - The accept filter string for the file input
+   * @returns Promise resolving to the chosen File
+   * 
+   * @example
+   * ```ts
+   * const file = await loadFile("application/json");
+   * const text = await file.text();
+   * const data = JSON.parse(text);
+   * ```
+   */
+  export const loadFile = (accept: string): Promise<File> => {
+    return new Promise<File>((resolve, reject) => {
+      try {
+        const input = document.createElement("input");
+        input.type = "file";
+        input.accept = accept;
+        input.style.display = "none";
+        document.body.appendChild(input);
+
+        const cleanup = () => {
+          // Clear the value so the same file can be picked again next time
+          input.value = "";
+          document.body.removeChild(input);
+        };
+
+        input.onchange = () => {
+          const file = input.files && input.files[0];
+          cleanup();
+          if (!file) {
+            reject(new Error("No file selected"));
+            return;
+          }
+          resolve(file);
+        };
+
+        // Some browsers need a small timeout to ensure the element is attached
+        // before programmatic click, but generally this works without it.
+        input.click();
+      } catch (error) {
+        reject(error as Error);
+      }
+    });
+  };
+  
+  /**
    * Triggers a download of a file from a string or Blob.
    * Creates a temporary download link and automatically clicks it to initiate the download.
    * The function handles both string content and Blob objects, and automatically cleans up
@@ -90,4 +139,5 @@ export const blobUrlToFile = async (blobUrl: string, fileName: string): Promise<
       throw error;
     }
   };
+  
   
