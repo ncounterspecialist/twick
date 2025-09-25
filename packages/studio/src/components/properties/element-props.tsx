@@ -22,7 +22,7 @@ export function ElementProps({ selectedElement, updateElement }: PropertiesPanel
               <label className="block text-xs text-gray-400 mb-1">X</label>
               <input
                 type="number"
-                defaultValue={x ?? 0}
+                value={x ?? 0}
                 onChange={(e) => handleUpdateElement({ x: Number(e.target.value)})}
                 className="w-full bg-neutral-700/60 border border-gray-600/40 rounded-md text-white text-xs px-2 py-1.5 focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500/30 transition-all duration-200"
               />
@@ -31,7 +31,7 @@ export function ElementProps({ selectedElement, updateElement }: PropertiesPanel
               <label className="block text-xs text-gray-400 mb-1">Y</label>
               <input
                 type="number"
-                defaultValue={y ?? 0}
+                value={y ?? 0}
                 onChange={(e) => handleUpdateElement({ y: Number(e.target.value)})}
                 className="w-full bg-neutral-700/60 border border-gray-600/40 rounded-md text-white text-xs px-2 py-1.5 focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500/30 transition-all duration-200"
               />
@@ -49,7 +49,7 @@ export function ElementProps({ selectedElement, updateElement }: PropertiesPanel
             type="range"
             min="0"
             max="100"
-            defaultValue={(opacity ?? 1) * 100}
+            value={(opacity ?? 1) * 100}
             onChange={(e) => handleUpdateElement({ opacity: Number(e.target.value) / 100})}
             className="w-full h-1.5 bg-gradient-to-r from-purple-500/30 to-neutral-600/50 rounded-full appearance-none cursor-pointer slider-thumb"
           />
@@ -69,7 +69,7 @@ export function ElementProps({ selectedElement, updateElement }: PropertiesPanel
             type="range"
             min="0"
             max="360"
-            defaultValue={rotation ?? 0}
+            value={rotation ?? 0}
             onChange={(e) => handleUpdateElement({ rotation: Number(e.target.value)})}
             className="w-full h-1.5 bg-gradient-to-r from-purple-500/30 to-neutral-600/50 rounded-full appearance-none cursor-pointer slider-thumb"
           />
