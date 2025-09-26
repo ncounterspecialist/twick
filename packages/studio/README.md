@@ -11,77 +11,105 @@ The main video editing interface for Twick, providing a professional-grade editi
 - **Element Library**: Rich set of editing elements (shapes, icons, etc.)
 - **Audio Support**: Audio track management and editing
 - **Effects**: Visual effects and transitions
+- **Project Management**: Save, load, and export video projects
 
 ## Installation
 
 ```bash
-pnpm add @twick/studio
+pnpm add  @twick/timeline @twick/live-player @twick/studio
 ```
 
 ## Quick Start
 
 ```tsx
-import { StudioProvider, VideoEditor } from '@twick/studio';
+import { LivePlayerProvider } from "@twick/live-player";
+import { TwickStudio } from "@twick/studio";
+import { TimelineProvider } from "@twick/timeline";
+import "@twick/studio/dist/studio.css";
+import { INITIAL_TIMELINE_DATA } from "@twick/video-editor";
 
 function App() {
   return (
-    <StudioProvider>
-      <VideoEditor />
-    </StudioProvider>
+    <LivePlayerProvider>
+      <TimelineProvider
+        initialData={INITIAL_TIMELINE_DATA}
+        contextId={"studio-demo"}
+      >
+        <TwickStudio 
+          studioConfig={{
+            videoProps: {
+              width: 720,
+              height: 1280,
+            },
+          }}
+        />
+      </TimelineProvider>
+    </LivePlayerProvider>
   );
 }
 ```
 
 ## Components
 
-### VideoEditor
+### TwickStudio
 
-The main editor component that combines all editing features.
+The main studio component that provides a complete video editing interface.
 
 ```tsx
-<VideoEditor
-  config={{
-    canvas: {
+<TwickStudio 
+  studioConfig={{
+    videoProps: {
       width: 1920,
       height: 1080
+    },
+    saveProject: async (project, fileName) => {
+      // Custom save logic
+      return { status: true, message: "Project saved" };
+    },
+    loadProject: async () => {
+      // Custom load logic
+      return projectData;
+    },
+    exportVideo: async (project, videoSettings) => {
+      // Custom export logic
+      return { status: true, message: "Video exported" };
     }
   }}
 />
 ```
 
-### ElementPanel
+### StudioConfig
 
-Panel for managing different types of elements:
-- Videos
-- Images
-- Audio
-- Text
-- Icons
-- Shapes
-- Subtitles
+Configuration options for the studio:
 
 ```tsx
-<ElementPanel
-  addElement={handleAddElement}
-/>
+interface StudioConfig {
+  videoProps?: {
+    width: number;
+    height: number;
+  };
+  saveProject?: (project: ProjectJSON, fileName: string) => Promise<Result>;
+  loadProject?: () => Promise<ProjectJSON>;
+  exportVideo?: (project: ProjectJSON, videoSettings: VideoSettings) => Promise<Result>;
+}
 ```
 
-### TextPanel
+### Individual Panels
 
-Advanced text editing with features:
-- Font selection
-- Size control
-- Color picker
-- Shadow effects
-- Stroke settings
+The studio includes specialized panels for different element types:
 
-### IconPanel
+- **AudioPanel**: Audio management and library
+- **VideoPanel**: Video management and library  
+- **ImagePanel**: Image management and library
+- **TextPanel**: Text editing with advanced styling
+- **SubtitlesPanel**: Subtitle and caption management
+- **CirclePanel**: Circle shape creation and editing
+- **RectPanel**: Rectangle shape creation and editing
+- **IconPanel**: Icon library with search and customization
 
-Icon library with features:
-- Search functionality
-- Category filtering
-- Color customization
-- Size adjustment
+### Hooks
+
+- **useStudioManager**: Hook for managing studio state, selected tools, and element manipulation
 
 ## Development
 

@@ -9,7 +9,8 @@ const PUBLISHABLE_PACKAGES = [
   'live-player',
   'visualizer',
   'video-editor',
-  'render-server'
+  'render-server',
+  'studio'
 ];
 
 function getPackageDependencies(packagePath) {
