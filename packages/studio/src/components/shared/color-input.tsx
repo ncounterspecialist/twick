@@ -1,29 +1,32 @@
 import { useState } from "react";
+import { inputStyles } from "../../styles/input-styles";
 
 const ColorInputDialog = ({ onColorSelect, onCancel }: { onColorSelect: (color: string) => void; onCancel: () => void }) => {
   const [selectedColor, setSelectedColor] = useState('#ffffff');
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white p-6 rounded-lg shadow-lg">
-        <h3 className="text-lg font-semibold mb-4 text-black">Select Background Color</h3>
-        <div className="flex flex-col gap-4">
-          <input
-            type="color"
-            value={selectedColor}
-            onChange={(e) => setSelectedColor(e.target.value)}
-            className="w-full h-12 border border-gray-300 rounded cursor-pointer"
-          />
-          <div className="flex gap-2 justify-end">
+    <div className="modal-overlay">
+      <div className="modal-content">
+        <div className="modal-title">Select Background Color</div>
+        <div className="properties-group">
+          <div className={inputStyles.color.container}>
+            <input
+              type="color"
+              value={selectedColor}
+              onChange={(e) => setSelectedColor(e.target.value)}
+              className={inputStyles.color.picker}
+            />
+          </div>
+          <div className="flex-container justify-end">
             <button
               onClick={onCancel}
-              className="px-4 py-2 bg-slate-200 text-gray-600 border border-gray-300 rounded hover:bg-gray-50"
+              className="btn-ghost"
             >
               Cancel
             </button>
             <button
               onClick={() => onColorSelect(selectedColor)}
-              className="px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600"
+              className="btn-primary"
             >
               OK
             </button>

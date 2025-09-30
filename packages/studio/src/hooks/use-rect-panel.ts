@@ -15,6 +15,7 @@ export interface RectPanelState {
   opacity: number;
   strokeColor: string;
   lineWidth: number;
+  operation: string;
 }
 
 export interface RectPanelActions {
@@ -76,6 +77,7 @@ export const useRectPanel = ({
     opacity,
     strokeColor,
     lineWidth,
+    operation: selectedElement instanceof RectElement ? "Apply Changes": "Add Rectangle",
     setCornerRadius,
     setFillColor,
     setOpacity,

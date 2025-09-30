@@ -86,17 +86,15 @@ export function Animation({
   };
 
   return (
-    <div className="space-y-3">
+    <div className="panel-container">
+      <div className="panel-title">Animations</div>
       {/* Animation Selection */}
-      <div className="bg-neutral-800/40 rounded-lg p-2.5 border border-gray-600/20">
-        <h5 className="text-xs font-semibold text-gray-200 mb-2 flex items-center gap-1.5">
-          <div className="w-1.5 h-1.5 bg-purple-400 rounded-full"></div>
-          Animation Type
-        </h5>
+      <div className="panel-section">
+        <label className="label-dark">Type</label>
         <select
           value={currentAnimation?.getName() || ""}
           onChange={(e) => handleUpdateAnimation({ name: e.target.value })}
-          className="w-full bg-neutral-700/60 border border-gray-600/40 rounded-md text-white text-xs px-2 py-1.5 focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500/30 transition-all duration-200"
+          className="select-dark w-full"
         >
           <option value="">No Animation</option>
           {ANIMATIONS.map((animation) => (
@@ -109,12 +107,7 @@ export function Animation({
 
       {/* Animation Options */}
       {currentAnimation && (
-        <div className="bg-neutral-800/40 rounded-lg p-2.5 border border-gray-600/20">
-          <h5 className="text-xs font-semibold text-gray-200 mb-2 flex items-center gap-1.5">
-            <div className="w-1.5 h-1.5 bg-purple-400 rounded-full"></div>
-            Animation Options
-          </h5>
-          <div className="space-y-2">
+        <>
             {/* Get current animation definition */}
             {(() => {
               const animationDef = ANIMATIONS.find(
@@ -126,10 +119,8 @@ export function Animation({
                 <>
                   {/* Animate */}
                   {animationDef.options?.animate && (
-                    <div>
-                      <label className="block text-xs text-gray-400 mb-1">
-                        When to Animate
-                      </label>
+                    <div className="panel-section">
+                      <label className="label-dark">When to Animate</label>
                       <select
                         value={currentAnimation.getAnimate()}
                         onChange={(e) =>
@@ -140,7 +131,7 @@ export function Animation({
                               | "both",
                           })
                         }
-                        className="w-full bg-neutral-700/60 border border-gray-600/40 rounded-md text-white text-xs px-2 py-1.5 focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500/30 transition-all duration-200"
+                        className="select-dark w-full"
                       >
                         {animationDef.options?.animate.map((option) => (
                           <option key={option} value={option}>
@@ -153,10 +144,8 @@ export function Animation({
 
                   {/* Direction */}
                   {animationDef.options?.direction && (
-                    <div>
-                      <label className="block text-xs text-gray-400 mb-1">
-                        Direction
-                      </label>
+                    <div className="panel-section">
+                      <label className="label-dark">Direction</label>
                       <select
                         value={currentAnimation.getDirection()}
                         onChange={(e) =>
@@ -169,7 +158,7 @@ export function Animation({
                               | "center",
                           })
                         }
-                        className="w-full bg-neutral-700/60 border border-gray-600/40 rounded-md text-white text-xs px-2 py-1.5 focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500/30 transition-all duration-200"
+                        className="select-dark w-full"
                       >
                         {animationDef.options?.direction.map((option) => (
                           <option key={option} value={option}>
@@ -182,10 +171,8 @@ export function Animation({
 
                   {/* Mode */}
                   {animationDef.options?.mode && (
-                    <div>
-                      <label className="block text-xs text-gray-400 mb-1">
-                        Mode
-                      </label>
+                    <div className="panel-section">
+                      <label className="label-dark">Mode</label>
                       <select
                         value={currentAnimation.getMode()}
                         onChange={(e) =>
@@ -193,7 +180,7 @@ export function Animation({
                             mode: e.target.value as "in" | "out",
                           })
                         }
-                        className="w-full bg-neutral-700/60 border border-gray-600/40 rounded-md text-white text-xs px-2 py-1.5 focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500/30 transition-all duration-200"
+                        className="select-dark w-full"
                       >
                         {animationDef.options?.mode.map((option) => (
                           <option key={option} value={option}>
@@ -206,74 +193,76 @@ export function Animation({
 
                   {/* Duration */}
                   {animationDef.options?.duration && (
-                    <div>
-                      <label className="block text-xs text-gray-400 mb-1">
-                        Duration (seconds)
-                      </label>
-                      <input
-                        type="number"
-                        min={animationDef.options?.duration[0]}
-                        max={animationDef.options?.duration[1]}
-                        step="0.1"
-                        value={currentAnimation.getDuration()}
-                        onChange={(e) =>
-                          handleUpdateAnimation({
-                            duration: Number(e.target.value),
-                          })
-                        }
-                        className="w-full bg-neutral-700/60 border border-gray-600/40 rounded-md text-white text-xs px-2 py-1.5 focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500/30 transition-all duration-200"
-                      />
+                    <div className="panel-section">
+                      <label className="label-dark">Duration (seconds)</label>
+                      <div className="slider-container">
+                        <input
+                          type="range"
+                          min={animationDef.options?.duration[0]}
+                          max={animationDef.options?.duration[1]}
+                          step="0.1"
+                          value={currentAnimation.getDuration()}
+                          onChange={(e) =>
+                            handleUpdateAnimation({
+                              duration: Number(e.target.value),
+                            })
+                          }
+                          className="slider-purple"
+                        />
+                        <span className="slider-value">{currentAnimation.getDuration()}</span>
+                      </div>
                     </div>
                   )}
 
                   {/* Interval */}
                   {animationDef.options?.interval && (
-                    <div>
-                      <label className="block text-xs text-gray-400 mb-1">
-                        Interval (seconds)
-                      </label>
-                      <input
-                        type="number"
-                        min={animationDef.options?.interval[0]}
-                        max={animationDef.options?.interval[1]}
-                        step="0.1"
-                        value={currentAnimation.getInterval()}
-                        onChange={(e) =>
-                          handleUpdateAnimation({
-                            interval: Number(e.target.value),
-                          })
-                        }
-                        className="w-full bg-neutral-700/60 border border-gray-600/40 rounded-md text-white text-xs px-2 py-1.5 focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500/30 transition-all duration-200"
-                      />
+                    <div className="panel-section">
+                      <label className="label-dark">Interval (seconds)</label>
+                      <div className="slider-container">
+                        <input
+                          type="range"
+                          min={animationDef.options?.interval[0]}
+                          max={animationDef.options?.interval[1]}
+                          step="0.1"
+                          value={currentAnimation.getInterval()}
+                          onChange={(e) =>
+                            handleUpdateAnimation({
+                              interval: Number(e.target.value),
+                            })
+                          }
+                          className="slider-purple"
+                        />
+                        <span className="slider-value">{currentAnimation.getInterval()}</span>
+                      </div>
                     </div>
                   )}
 
                   {/* Intensity */}
                   {animationDef.options?.intensity && (
-                    <div>
-                      <label className="block text-xs text-gray-400 mb-1">
-                        Intensity
-                      </label>
-                      <input
-                        type="number"
-                        min={animationDef.options?.intensity[0]}
-                        max={animationDef.options?.intensity[1]}
-                        step="0.1"
-                        value={currentAnimation.getIntensity()}
-                        onChange={(e) =>
-                          handleUpdateAnimation({
-                            intensity: Number(e.target.value),
-                          })
-                        }
-                        className="w-full bg-neutral-700/60 border border-gray-600/40 rounded-md text-white text-xs px-2 py-1.5 focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500/30 transition-all duration-200"
-                      />
+                    <div className="panel-section">
+                      <label className="label-dark">Intensity</label>
+                      <div className="slider-container">
+                        <input
+                          type="range"
+                          min={animationDef.options?.intensity[0]}
+                          max={animationDef.options?.intensity[1]}
+                          step="0.1"
+                          value={currentAnimation.getIntensity()}
+                          onChange={(e) =>
+                            handleUpdateAnimation({
+                              intensity: Number(e.target.value),
+                            })
+                          }
+                          className="slider-purple"
+                        />
+                        <span className="slider-value">{currentAnimation.getIntensity()}</span>
+                      </div>
                     </div>
                   )}
                 </>
               );
             })()}
-          </div>
-        </div>
+        </>
       )}
     </div>
   );

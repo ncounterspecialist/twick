@@ -28,11 +28,10 @@
  * ```
  */
 
-import { Wand2, Plus, Volume2, Play, Pause } from "lucide-react";
+import { Wand2, Plus, Volume2, Play, Pause, Upload } from "lucide-react";
 import SearchInput from "../shared/search-input";
 import FileInput from "../shared/file-input";
 import type { AudioPanelProps } from "../../types/media-panel";
-import { inputStyles } from "../../styles/input-styles";
 import { useAudioPreview } from "../../hooks/use-audio-preview";
 
 
@@ -46,11 +45,11 @@ export const AudioPanel = ({
 }: AudioPanelProps) => {
   const { playingAudio, togglePlayPause } = useAudioPreview();
   return (
-    <div className={inputStyles.panel.container}>
-      <h3 className={inputStyles.panel.title}>Audio Library</h3>
+    <div className="panel-container">
+      <div className="panel-title">Audio Library</div>
 
       {/* Search */}
-      <div className={inputStyles.container}>
+      <div className="flex panel-section">
         <SearchInput
           searchQuery={searchQuery}
           setSearchQuery={onSearchChange}
@@ -58,62 +57,62 @@ export const AudioPanel = ({
       </div>
 
       {/* Upload */}
-      <div className={`${inputStyles.container} mb-8`}>
+      <div className="flex panel-section">
         <FileInput
           id="audio-upload"
           acceptFileTypes={acceptFileTypes}
           onFileLoad={onFileUpload}
-          buttonText="Upload"
+          buttonText="Import media"
+          className="btn-primary w-full"
+          icon={<Upload className="icon-sm" />}
         />
       </div>
 
       {/* Audio List */}
-      <div className="flex-1 overflow-y-auto">
-        <div className="space-y-2">
+      <div className="media-content">
+        <div className="media-list">
           {(items || []).map((item) => (
             <div
               key={item.id}
               onDoubleClick={() => onItemSelect(item)}
-              className="audio-item group relative cursor-pointer p-3 bg-neutral-700/50 rounded-lg hover:bg-neutral-700/80 transition-all duration-200 border border-transparent hover:border-purple-500/30"
+              className="media-list-item"
             >
               {/* Audio Info */}
-              <div className="flex items-center gap-3">
-                {/* Play/Pause Button */}
+              <div className="media-list-content">
+                {/* Play/Pause button */}
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
                     togglePlayPause(item);
                   }}
-                  className="w-8 h-8 rounded-full bg-purple-500/80 hover:bg-purple-500 flex items-center justify-center text-white transition-all duration-200 flex-shrink-0"
+                  className="media-action-btn"
                 >
                   {playingAudio === item.id ? (
-                    <Pause className="w-4 h-4" />
+                    <Pause className="icon-sm" />
                   ) : (
-                    <Play className="w-4 h-4" />
+                    <Play className="icon-sm" />
                   )}
                 </button>
 
                 {/* Audio Icon */}
-                <div className={`w-10 h-10 rounded-lg ${playingAudio === item.id ? 'bg-purple-500/40' : 'bg-purple-500/20'} flex items-center justify-center flex-shrink-0 transition-colors duration-200`}>
-                  <Volume2 className={`w-5 h-5 ${playingAudio === item.id ? 'text-purple-300' : 'text-purple-400'}`} />
+                <div className={`media-list-icon ${playingAudio === item.id ? 'active' : ''}`}>
+                  <Volume2 className="icon-sm" />
                 </div>
 
-                {/* Audio Details */}
-                <div className="flex-1 min-w-0">
-                  <h4 className="text-sm font-medium text-gray-100 truncate">
-                    {item.metadata?.title}
-                  </h4>
+                {/* Audio Title */}
+                <div className="media-list-title">
+                  {item.metadata?.title || item.metadata?.name}
                 </div>
 
-                {/* Quick Add Button */}
+                {/* Quick Add button */}
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
                     onItemSelect(item, true);
                   }}
-                  className="w-6 h-6 rounded-full bg-purple-500/60 hover:bg-purple-500 flex items-center justify-center text-white text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex-shrink-0"
+                  className="media-action-btn"
                 >
-                  <Plus className="w-3 h-3" />
+                  <Plus className="icon-sm" />
                 </button>
               </div>
             </div>
@@ -122,14 +121,12 @@ export const AudioPanel = ({
 
         {/* Empty state */}
         {items.length === 0 && (
-          <div className={`${inputStyles.container} flex items-center justify-center h-24`}>
-            <div className="text-center">
-              <Wand2 className="w-10 h-10 mx-auto mb-2 text-purple-500/50" />
-              <p className={inputStyles.label.base}>No audio files found</p>
+          <div className="empty-state">
+            <div className="empty-state-content">
+              <Wand2 className="empty-state-icon" />
+              <p className="empty-state-text">No audio files found</p>
               {searchQuery && (
-                <p className={inputStyles.label.small}>
-                  Try adjusting your search
-                </p>
+                <p className="empty-state-subtext">Try adjusting your search</p>
               )}
             </div>
           </div>

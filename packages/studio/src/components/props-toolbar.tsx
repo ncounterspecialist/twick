@@ -43,7 +43,7 @@ import {
   TrackElement,
   VideoElement,
 } from "@twick/timeline";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 
 const propsCategories: Map<string, ToolCategory> = new Map([
   [
@@ -169,30 +169,33 @@ export function PropsToolbar({
     return sections;
   }, [selectedElement]);
 
-  if (!selectedElement) {
-    return null;
-  }
+  useEffect(() => {
+    if (availableSections?.length) {
+      if (
+        availableSections.map((section) => section.id).indexOf(selectedProp) ===
+        -1
+      ) {
+        setSelectedProp(availableSections[0].id);
+      }
+    }
+  }, [availableSections]);
+  
   return (
-    <div className="w-16 bg-neutral/80 border-l border-gray-300/50 flex flex-col items-center py-4 space-y-3 justify-start backdrop-blur-md shadow-lg">
+    <div className="sidebar">
       {/* Main Tools */}
       {availableSections.map((tool) => {
         const Icon = getIcon(tool.icon);
         const isSelected = selectedProp === tool.id;
-
         return (
-          <button
+          <div
             key={tool.id}
             onClick={() => setSelectedProp(tool.id)}
-            className={`
-              props-toolbar-btn group ${isSelected ? "active" : ""}
-            `}
+            className={`toolbar-btn ${isSelected ? "active" : ""}`}
             title={`${tool.name}${tool.shortcut ? ` (${tool.shortcut})` : ""}`}
           >
-            <Icon className="w-4 h-4" />
-            <span className="text-[10px] mt-1 transition-opacity duration-200">
-              {tool.name}
-            </span>
-          </button>
+            <Icon className="icon-sm" />
+            <span className="props-toolbar-label">{tool.name}</span>
+          </div>
         );
       })}
     </div>

@@ -25,13 +25,12 @@
  * ```
  */
 
-import { Wand2, Plus, Play, Pause } from "lucide-react";
+import { Wand2, Plus, Play, Pause, Upload } from "lucide-react";
 import type { MediaItem } from "@twick/video-editor";
 import type { VideoPanelProps } from "../../types/media-panel";
+import { useVideoPreview } from "../../hooks/use-video-preview";
 import FileInput from "../shared/file-input";
 import SearchInput from "../shared/search-input";
-import { inputStyles } from "../../styles/input-styles";
-import { useVideoPreview } from "../../hooks/use-video-preview";
 
 
 export function VideoPanel({
@@ -44,42 +43,43 @@ export function VideoPanel({
 }: VideoPanelProps) {
   const { playingVideo, togglePlayPause } = useVideoPreview();
   return (
-    <div className={inputStyles.panel.container}>
-      <h3 className={inputStyles.panel.title}>Video Library</h3>
+    <div className="panel-container">
+      <div className="panel-title">Video Library</div>
 
       {/* Search */}
-      <div className={inputStyles.container}>
+      <div className="flex panel-section">
         <SearchInput
           searchQuery={searchQuery}
           setSearchQuery={onSearchChange}
         />
       </div>
 
-      {/* Upload */}
-      <div className={`${inputStyles.container} mb-8`}>
+      {/* Import Button */}
+      <div className="flex panel-section">
         <FileInput
           id="video-upload"
           acceptFileTypes={acceptFileTypes}
           onFileLoad={onFileUpload}
-          buttonText="Upload"
+          buttonText="Import media"
+          className="btn-primary w-full"
+          icon={<Upload className="icon-sm" />}
         />
       </div>
 
       {/* Media Grid */}
-      <div className="flex-1 overflow-y-auto">
-        <div className="grid grid-cols-2 gap-3 auto-rows-fr">
+      <div className="media-content">
+        <div className="media-grid">
           {(items || []).map((item: MediaItem) => (
             <div
               key={item.id}
               onDoubleClick={() => onItemSelect(item)}
-              className="media-item-compact group relative cursor-pointer overflow-hidden hover:shadow-lg hover:shadow-purple-500/20 transition-all duration-200"
+              className="media-item"
             >
               <video
                 src={item.url}
                 poster={item.thumbnail}
-                className={`h-full w-full object-cover transition-transform ${playingVideo === item.id ? 'scale-105' : 'group-hover:scale-105'}`}
+                className="media-item-content"
                 ref={(el) => {
-                  // Add ended event listener to handle playback completion
                   if (el) {
                     el.addEventListener('ended', () => {
                       el.currentTime = 0;
@@ -88,12 +88,14 @@ export function VideoPanel({
                 }}
               />
 
-              {/* Hover overlay */}
-              <div className={`absolute inset-0 bg-black transition-opacity ${playingVideo === item.id ? 'bg-opacity-30' : 'bg-opacity-0 group-hover:bg-opacity-20'}`} />
+              {/* Duration */}
+              <div className="media-duration">
+                0:13
+              </div>
 
               {/* Quick Actions */}
-              <div className="absolute top-1 right-1 flex gap-2">
-                {/* Play/Pause Button */}
+              <div className="media-actions">
+                {/* Play/Pause button */}
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
@@ -102,24 +104,24 @@ export function VideoPanel({
                       togglePlayPause(item, videoEl);
                     }
                   }}
-                  className={`w-6 h-6 rounded-full bg-purple-500/80 hover:bg-purple-500 flex items-center justify-center text-white text-xs ${playingVideo === item.id ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'} transition-opacity duration-200`}
+                  className="media-action-btn"
                 >
                   {playingVideo === item.id ? (
-                    <Pause className="w-3 h-3" />
+                    <Pause className="icon-sm" />
                   ) : (
-                    <Play className="w-3 h-3" />
+                    <Play className="icon-sm" />
                   )}
                 </button>
 
-                {/* Add Button */}
+                {/* Add button */}
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
                     onItemSelect(item, true);
                   }}
-                  className="w-6 h-6 rounded-full bg-purple-500/80 hover:bg-purple-500 flex items-center justify-center text-white text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                  className="media-action-btn"
                 >
-                  <Plus className="w-3 h-3" />
+                  <Plus className="icon-sm" />
                 </button>
               </div>
             </div>
@@ -128,12 +130,12 @@ export function VideoPanel({
 
         {/* Empty state */}
         {items.length === 0 && (
-          <div className={`${inputStyles.container} flex items-center justify-center h-24`}>
-            <div className="text-center">
-              <Wand2 className="w-10 h-10 mx-auto mb-2 text-purple-500/50" />
-              <p className={inputStyles.label.base}>No videos found</p>
+          <div className="empty-state">
+            <div className="empty-state-content">
+              <Wand2 className="empty-state-icon" />
+              <p className="empty-state-text">No videos found</p>
               {searchQuery && (
-                <p className={inputStyles.label.small}>
+                <p className="empty-state-subtext">
                   Try adjusting your search
                 </p>
               )}

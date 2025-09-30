@@ -1,26 +1,52 @@
+:root {
+  /* Colors */
+  --color-bg-primary: #171717;
+  --color-bg-secondary: #262626;
+  --color-bg-tertiary: #404040;
+  
+  --color-text-primary: #f5f5f5;
+  --color-text-secondary: #a3a3a3;
+  
+  --color-border-primary: #525252;
+  --color-border-secondary: #404040;
+  
+  --color-accent-primary: #9333ea;
+  --color-accent-hover: #a855f7;
+  --color-accent-muted: rgba(147, 51, 234, 0.2);
+  
+  --color-error: #dc2626;
+  --color-error-bg: rgba(220, 38, 38, 0.1);
+  
+  /* Shadows */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
 .json-player {
   display: flex;
   gap: 30px;
   height: calc(100vh - 80px);
   width: 100%;
   padding: 20px;
-  background-color: #f0f2f5;
+  background-color: var(--color-bg-primary);
 }
 
 .controls {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  background: white;
+  background: var(--color-bg-secondary);
   padding: 24px;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--color-border-primary);
+  box-shadow: var(--shadow-sm);
   height: fit-content;
   min-width: 400px;
   width: 50%;
 }
 
 .file-input-container {
+  display: flex;
   position: relative;
   width: 100%;
 }
@@ -37,9 +63,9 @@
 .file-button {
   width: 100%;
   padding: 12px 24px;
-  background-color: #f8f9fa;
-  color: #333;
-  border: 2px dashed #dee2e6;
+  background-color: var(--color-bg-tertiary);
+  color: var(--color-text-primary);
+  border: 2px solid var(--color-border-primary);
   border-radius: 6px;
   cursor: pointer;
   font-size: 14px;
@@ -52,32 +78,32 @@
 }
 
 .file-button:hover {
-  background-color: #e9ecef;
-  border-color: #007bff;
-  color: #007bff;
+  background-color: var(--color-accent-muted);
+  border-color: var(--color-accent-primary);
+  color: var(--color-accent-hover);
 }
 
 .file-button:active {
-  transform: translateY(0);
+  transform: scale(0.98);
 }
 
-textarea {
+.textarea {
   padding: 16px;
-  border: 1px solid #e0e0e0;
+  border: 1px solid var(--color-border-primary);
   border-radius: 6px;
   font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
   font-size: 14px;
   line-height: 1.5;
   resize: vertical;
   min-height: 200px;
-  background: #fafafa;
-  color: #000;
+  background: var(--color-bg-tertiary);
+  color: var(--color-text-primary);
 }
 
-textarea:focus {
+.textarea:focus {
   outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.1);
+  border-color: var(--color-accent-primary);
+  box-shadow: 0 0 0 2px var(--color-accent-muted);
 }
 
 .buttons {
@@ -85,59 +111,31 @@ textarea:focus {
   gap: 12px;
 }
 
-button {
-  padding: 12px 24px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 500;
-  transition: all 0.2s;
-  flex: 1;
-}
-
-button:hover {
-  background-color: #0056b3;
-  transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-button:active {
-  transform: translateY(0);
-}
-
-button:disabled {
-  background-color: #e9ecef;
-  color: #6c757d;
-  cursor: not-allowed;
-}
-
 .info {
-  color: #000;
+  color: var(--color-text-secondary);
   padding: 12px 16px;
   font-size: 14px;
 }
 
 .error {
-  color: #dc3545;
+  color: var(--color-error);
   padding: 12px 16px;
-  border: 1px solid #dc3545;
+  border: 1px solid var(--color-error);
   border-radius: 6px;
-  background-color: #fff5f5;
+  background-color: var(--color-error-bg);
   font-size: 14px;
 }
 
 .player-container {
   width: 40%;
-  background-color: #000;
+  background-color: var(--color-bg-primary);
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--color-border-primary);
+  box-shadow: var(--shadow-lg);
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 0;
-} 
+}
 

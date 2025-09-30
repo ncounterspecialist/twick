@@ -71,95 +71,100 @@ export function SubtitlesPanel() {
   };
 
   return (
-    <div className="w-72 h-full bg-neutral-800/80 border-l border-gray-600/50 p-3 overflow-y-auto overflow-x-hidden backdrop-blur-md shadow-lg">
-      <h3 className="text-xl font-bold text-white mb-6">Subtitles</h3>
+    <div className="panel-container">
+      <h3 className="panel-title">Subtitles</h3>
 
       {/* Top Bar - Action Buttons */}
-      <div className="flex gap-3 mb-6">
-        <button
-          onClick={handleGenerate}
-          className="flex-1 bg-neutral-700 hover:bg-neutral-600 text-white font-medium py-2 px-4 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500/20"
-        >
-          Generate
-        </button>
-        <button
-          onClick={handleAdd}
-          className="flex-1 bg-neutral-700 hover:bg-neutral-600 text-white font-medium py-2 px-4 rounded-lg border-2 border-purple-500 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500/20"
-        >
-          Add
-        </button>
+      <div className="panel-section">
+        <div className="flex-container">
+          <button
+            onClick={handleGenerate}
+            className="btn-primary"
+          >
+            Generate
+          </button>
+          <button
+            onClick={handleAdd}
+            className="btn-primary"
+          >
+            Add
+          </button>
+        </div>
       </div>
 
       {/* Subtitle Entries */}
-      <div className="space-y-4">
-        {subtitles.map((subtitle) => (
-          <div
-            key={subtitle.id}
-            className="bg-neutral-700/50 border border-gray-600 rounded-lg p-3"
-          >
-            {/* Time Inputs */}
-            <div className="flex gap-3 mb-3">
-              <div className="flex-1">
-                <label className="block text-xs text-gray-400 mb-1">Start</label>
-                <input
-                  type="number"
-                  min="0"
-                  step="0.1"
-                  value={subtitle.start}
-                  onChange={(e) => handleUpdateSubtitle(subtitle.id, 'start', Number(e.target.value))}
-                  className="w-full bg-neutral-800/80 border border-gray-600 rounded-lg text-white text-sm px-3 py-2 focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500/20 transition-all duration-200 backdrop-blur-sm"
-                />
-              </div>
-              <div className="flex-1">
-                <label className="block text-xs text-gray-400 mb-1">End</label>
-                <input
-                  type="number"
-                  min="0"
-                  step="0.1"
-                  value={subtitle.end}
-                  onChange={(e) => handleUpdateSubtitle(subtitle.id, 'end', Number(e.target.value))}
-                  className="w-full bg-neutral-800/80 border border-gray-600 rounded-lg text-white text-sm px-3 py-2 focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500/20 transition-all duration-200 backdrop-blur-sm"
-                />
-              </div>
-            </div>
-
-            {/* Subtitle Text Input */}
-            <div className="mb-4">
+      {subtitles.map((subtitle) => (
+        <div
+          key={subtitle.id}
+          className="panel-section"
+        >
+          {/* Time Inputs */}
+          <div className="flex-container">
+            <div>
+              <label className="label-small">Start</label>
               <input
-                type="text"
-                placeholder="subtitle"
-                value={subtitle.text}
-                onChange={(e) => handleUpdateSubtitle(subtitle.id, 'text', e.target.value)}
-                className="w-full bg-neutral-800/80 border border-gray-600 rounded-lg text-white text-sm px-3 py-2 placeholder-gray-400 focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500/20 transition-all duration-200 backdrop-blur-sm"
+                type="number"
+                min="0"
+                step="0.1"
+                value={subtitle.start}
+                onChange={(e) => handleUpdateSubtitle(subtitle.id, 'start', Number(e.target.value))}
+                className="input-dark"
               />
             </div>
-
-            {/* Action Icons */}
-            <div className="flex justify-between items-center">
-              <button
-                onClick={() => handleDelete(subtitle.id)}
-                className="p-2 text-red-400 hover:text-red-300 hover:bg-red-500/20 rounded-lg transition-all duration-200"
-                title="Delete subtitle"
-              >
-                <Trash2 className="w-4 h-4" />
-              </button>
-              <button
-                onClick={() => handleSave(subtitle.id)}
-                className="p-2 text-green-400 hover:text-green-300 hover:bg-green-500/20 rounded-lg transition-all duration-200"
-                title="Save subtitle"
-              >
-                <Check className="w-4 h-4" />
-              </button>
+            <div>
+              <label className="label-small">End</label>
+              <input
+                type="number"
+                min="0"
+                step="0.1"
+                value={subtitle.end}
+                onChange={(e) => handleUpdateSubtitle(subtitle.id, 'end', Number(e.target.value))}
+                className="input-dark"
+              />
             </div>
           </div>
-        ))}
-      </div>
+
+          {/* Subtitle Text Input */}
+          <div>
+            <label className="label-dark">Subtitle Text</label>
+            <input
+              type="text"
+              placeholder="Enter subtitle text"
+              value={subtitle.text}
+              onChange={(e) => handleUpdateSubtitle(subtitle.id, 'text', e.target.value)}
+              className="input-dark"
+            />
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex-container justify-between">
+            <button
+              onClick={() => handleDelete(subtitle.id)}
+              className="btn-danger"
+              title="Delete subtitle"
+            >
+              <Trash2 className="icon-sm" />
+            </button>
+            <button
+              onClick={() => handleSave(subtitle.id)}
+              className="btn-primary"
+              title="Save subtitle"
+            >
+              <Check className="icon-sm" />
+            </button>
+          </div>
+        </div>
+      ))}
 
       {/* Empty State */}
       {subtitles.length === 0 && (
-        <div className="text-center py-8 text-gray-400">
-          <p>No subtitles yet</p>
-          <p className="text-sm mt-2">Click "Add" to create your first subtitle</p>
+        <div className="panel-section">
+          <div className="empty-state">
+            <div className="empty-state-content">
+              <p className="empty-state-text">No subtitles yet</p>
+              <p className="empty-state-subtext">Click "Add" to create your first subtitle</p>
+            </div>
+          </div>
         </div>
       )}
     </div>
