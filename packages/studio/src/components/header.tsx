@@ -2,7 +2,7 @@
  * StudioHeader Component
  *
  * The top header bar of the studio interface. Contains the studio logo,
- * orientation controls, and action buttons for saving and exporting.
+ * orientation controls, and action divs for saving and exporting.
  *
  * @component
  * @param {Object} props
@@ -54,64 +54,38 @@ export const StudioHeader = ({
   }, [orientation]);
 
   return (
-    <header className="h-14 bg-neutral-800/90 border-b border-gray-600/50 flex items-center justify-between px-4 backdrop-blur-md shadow-lg">
-      <div className="flex items-center gap-3">
-        <div className="flex items-center gap-2">
-          <Clapperboard className="w-8 h-8 text-purple-400" />
-          <h1 className="text-lg font-bold text-gradient-purple">
+    <header className="header">
+      <div className="flex-container">
+        <div className="flex-container">
+          <Clapperboard className="icon-lg accent-purple" />
+          <h1 className="text-gradient">
             Twick Studio
           </h1>
         </div>
       </div>
-      {/* <div className="flex items-center">
-          <div className="flex items-center bg-neutral-700/50 rounded-lg p-1 gap-1">
-            <button
-              onClick={() => setOrientation('horizontal')}
-              className={`p-2 rounded transition-colors ${
-                orientation === 'horizontal'
-                  ? 'bg-purple-500/20 text-purple-400'
-                  : 'text-gray-400 hover:text-white hover:bg-neutral-600/50'
-              }`}
-              title="Switch to horizontal layout"
-            >
-              <RectangleHorizontal className="w-5 h-5" />
-            </button>
-            <button
-              onClick={() => setOrientation('vertical')}
-              className={`p-2 rounded transition-colors ${
-                orientation === 'vertical'
-                  ? 'bg-purple-500/20 text-purple-400'
-                  : 'text-gray-400 hover:text-white hover:bg-neutral-600/50'
-              }`}
-              title="Switch to vertical layout"
-            >
-              <RectangleVertical className="w-5 h-5" />
-            </button>
-          </div>
-        </div> */}
-      <div className="flex items-center gap-2">
+      <div className="flex-container">
         <button
-          className="btn btn-ghost w-32"
+          className="btn-ghost"
           title="Load Project"
           onClick={onLoadProject}
         >
-          <File className="w-4 h-4 mr-2" />
+          <File className="icon-sm" />
           Load Project
         </button>
         <button
-          className="btn btn-ghost w-32"
+          className="btn-ghost"
           title="Save Draft"
           onClick={onSaveProject}
         >
-          <Save className="w-4 h-4 mr-2" />
+          <Save className="icon-sm" />
           Save Draft
         </button>
         <button
-          className="btn btn-primary w-32"
+          className="btn-primary"
           title="Export"
           onClick={onExportVideo}
         >
-          <Download className="w-4 h-4 mr-2" />
+          <Download className="icon-sm" />
           Export
         </button>
       </div>

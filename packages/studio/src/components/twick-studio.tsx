@@ -56,7 +56,7 @@ export function TwickStudio({ studioConfig }: { studioConfig?: StudioConfig }) {
 
   return (
     <MediaProvider>
-      <div className="h-screen w-screen overflow-hidden bg-neutral-900 text-gray-100">
+      <div className="studio-container">
         {/* Header */}
         <StudioHeader
           setVideoResolution={setVideoResolution}
@@ -65,7 +65,7 @@ export function TwickStudio({ studioConfig }: { studioConfig?: StudioConfig }) {
           onExportVideo={onExportVideo}
         />
         {/* Main Content */}
-        <div className="flex h-[calc(100vh-56px)]">
+        <div className="studio-content">
           {/* Left Toolbar */}
           <Toolbar
             selectedTool={selectedTool}
@@ -73,20 +73,18 @@ export function TwickStudio({ studioConfig }: { studioConfig?: StudioConfig }) {
           />
 
           {/* Left Panel */}
-          <aside className="border-r border-gray-600/50 backdrop-blur-md shadow-lg">
-            <ElementPanelContainer
-              videoResolution={videoResolution}
-              selectedTool={selectedTool}
-              setSelectedTool={setSelectedTool}
-              selectedElement={selectedElement}
-              addElement={addElement}
-              updateElement={updateElement}
-            />
-          </aside>
+          <ElementPanelContainer
+            videoResolution={videoResolution}
+            selectedTool={selectedTool}
+            setSelectedTool={setSelectedTool}
+            selectedElement={selectedElement}
+            addElement={addElement}
+            updateElement={updateElement}
+          />
 
           {/* Center - Canvas and Transport */}
-          <main className="flex-1 flex flex-col bg-neutral-700 main-container">
-            <div className="flex-1 overflow-y-auto p-1">
+          <main className="main-container">
+            <div className="canvas-wrapper">
               <div
                 className="canvas-container"
                 style={{
@@ -99,13 +97,11 @@ export function TwickStudio({ studioConfig }: { studioConfig?: StudioConfig }) {
           </main>
 
           {/* Left Panel */}
-          <aside className="border-r border-gray-600/50 backdrop-blur-md shadow-lg">
-            <PropertiesPanelContainer
-              selectedProp={selectedProp}
-              selectedElement={selectedElement}
-              updateElement={updateElement}
-            />
-          </aside>
+          <PropertiesPanelContainer
+            selectedProp={selectedProp}
+            selectedElement={selectedElement}
+            updateElement={updateElement}
+          />
 
           {/* Right Toolbar */}
           <PropsToolbar

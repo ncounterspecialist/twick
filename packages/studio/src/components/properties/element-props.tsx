@@ -10,74 +10,63 @@ export function ElementProps({ selectedElement, updateElement }: PropertiesPanel
     }
   }
   return (
-      <div className="space-y-3">
-        {/* Position & Size */}
-        <div className="bg-neutral-800/40 rounded-lg p-2.5 border border-gray-600/20">
-          <h5 className="text-xs font-semibold text-gray-200 mb-2 flex items-center gap-1.5">
-            <div className="w-1.5 h-1.5 bg-purple-400 rounded-full"></div>
-            Position & Size
-          </h5>
-          <div className="grid grid-cols-2 gap-2">
-            <div>
-              <label className="block text-xs text-gray-400 mb-1">X</label>
-              <input
-                type="number"
-                value={x ?? 0}
-                onChange={(e) => handleUpdateElement({ x: Number(e.target.value)})}
-                className="w-full bg-neutral-700/60 border border-gray-600/40 rounded-md text-white text-xs px-2 py-1.5 focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500/30 transition-all duration-200"
-              />
-            </div>
-            <div>
-              <label className="block text-xs text-gray-400 mb-1">Y</label>
-              <input
-                type="number"
-                value={y ?? 0}
-                onChange={(e) => handleUpdateElement({ y: Number(e.target.value)})}
-                className="w-full bg-neutral-700/60 border border-gray-600/40 rounded-md text-white text-xs px-2 py-1.5 focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500/30 transition-all duration-200"
-              />
-            </div>
+    <div className="panel-container">
+      <div className="panel-title">All Properties</div>
+      <div className="panel-section">
+        <label className="label-dark">Position</label>
+        <div className="flex-container">
+          <div>
+            <label className="label-small">X</label>
+            <input
+              type="number"
+              value={x ?? 0}
+              onChange={(e) => handleUpdateElement({ x: Number(e.target.value)})}
+              className="input-dark"
+            />
+          </div>
+          <div>
+            <label className="label-small">Y</label>
+            <input
+              type="number"
+              value={y ?? 0}
+              onChange={(e) => handleUpdateElement({ y: Number(e.target.value)})}
+              className="input-dark"
+            />
           </div>
         </div>
+      </div>
 
-        {/* Opacity */}
-        <div className="bg-neutral-800/40 rounded-lg p-2.5 border border-gray-600/20">
-          <h5 className="text-xs font-semibold text-gray-200 mb-2 flex items-center gap-1.5">
-            <div className="w-1.5 h-1.5 bg-purple-400 rounded-full"></div>
-            Opacity
-          </h5>
+      {/* Opacity */}
+      <div className="panel-section">
+        <label className="label-dark">Opacity</label>
+        <div className="slider-container">
           <input
             type="range"
             min="0"
             max="100"
             value={(opacity ?? 1) * 100}
             onChange={(e) => handleUpdateElement({ opacity: Number(e.target.value) / 100})}
-            className="w-full h-1.5 bg-gradient-to-r from-purple-500/30 to-neutral-600/50 rounded-full appearance-none cursor-pointer slider-thumb"
+            className="slider-purple"
           />
-          <div className="flex justify-between text-xs text-gray-400 mt-1">
-            <span>0%</span>
-            <span>100%</span>
-          </div>
+          <span className="slider-value">{Math.round((opacity ?? 1) * 100)}%</span>
         </div>
+      </div>
 
-        {/* Rotation */}
-        <div className="bg-neutral-800/40 rounded-lg p-2.5 border border-gray-600/20">
-          <h5 className="text-xs font-semibold text-gray-200 mb-2 flex items-center gap-1.5">
-            <div className="w-1.5 h-1.5 bg-purple-400 rounded-full"></div>
-            Rotation
-          </h5>
+      {/* Rotation */}
+      <div className="panel-section">
+        <label className="label-dark">Rotation</label>
+        <div className="slider-container">
           <input
             type="range"
             min="0"
             max="360"
             value={rotation ?? 0}
             onChange={(e) => handleUpdateElement({ rotation: Number(e.target.value)})}
-            className="w-full h-1.5 bg-gradient-to-r from-purple-500/30 to-neutral-600/50 rounded-full appearance-none cursor-pointer slider-thumb"
+            className="slider-purple"
           />
-          <div className="flex justify-between text-xs text-gray-400 mt-1">
-            <span>0°</span>
-            <span>360°</span>
-          </div>
+          <span className="slider-value">{rotation ?? 0}°</span>
         </div>
       </div>
+    </div>
   );
 }

@@ -52,74 +52,68 @@ const ExampleVideo = () => {
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-50 p-6 dark:bg-gray-900">
-      <div className="flex w-full flex-col gap-6 lg:flex-row">
-        <div className="flex w-full flex-col gap-4 lg:w-1/2">
-          <div className="flex flex-col gap-4">
-            <div className="relative">
-              <input
-                type="file"
-                accept=".json"
-                onChange={handleFileChange}
-                ref={fileInputRef}
-                className="hidden"
-              />
-              <button
-                className="btn btn-primary w-full"
-                onClick={() => fileInputRef.current?.click()}
-              >
-                Choose JSON File
-              </button>
-            </div>
-
-            <textarea
-              value={jsonInput}
-              onChange={(e) => setJsonInput(e.target.value)}
-              placeholder="Paste your JSON here..."
-              rows={20}
-              className="w-full rounded-lg border border-gray-300 bg-white p-4 font-mono text-sm dark:border-gray-600 dark:bg-gray-800"
-            />
-
-            <div className="flex gap-4">
-              <button
-                onClick={handleLoadJson}
-                className="btn btn-primary flex-1"
-              >
-                Update Preview
-              </button>
-              <button
-                onClick={handlePlayPause}
-                disabled={!videoDuration}
-                className="btn btn-secondary flex-1 disabled:opacity-50"
-              >
-                {playing ? "Pause" : "Play"}
-              </button>
-            </div>
-            {error && (
-              <div className="rounded-lg bg-red-100 p-4 text-red-700 dark:bg-red-900 dark:text-red-100">
-                {error}
-              </div>
-            )}
-          </div>
+    <div className="json-player">
+      <div className="controls">
+        <div className="file-input-container">
+          <input
+            type="file"
+            accept=".json"
+            onChange={handleFileChange}
+            ref={fileInputRef}
+            className="file-input"
+          />
+          <button
+            className="file-button"
+            onClick={() => fileInputRef.current?.click()}
+          >
+            Choose JSON File
+          </button>
         </div>
 
-        <div className="flex w-full items-center justify-center lg:w-1/2">
-          <div className="aspect-[9/16] w-full max-w-[360px] overflow-hidden rounded-lg bg-gray-100 dark:bg-gray-800">
-            <LivePlayer
-              projectData={playerData}
-              onDurationChange={(duration: number) => {
-                videoDurationRef.current = duration;
-                setVideoDuration(duration);
-              }}
-              videoSize={{
-                width: 720,
-                height: 1280,
-              }}
-              onTimeUpdate={handleTimeUpdate}
-              playing={playing}
-            />
-          </div>
+        <textarea
+          value={jsonInput}
+          onChange={(e) => setJsonInput(e.target.value)}
+          placeholder="Paste your JSON here..."
+          rows={20}
+          className="textarea"
+        />
+
+        <div className="buttons">
+          <button
+            onClick={handleLoadJson}
+            className="file-button"
+          >
+            Update Preview
+          </button>
+          <button
+            onClick={handlePlayPause}
+            disabled={!videoDuration}
+            className="file-button"
+          >
+            {playing ? "Pause" : "Play"}
+          </button>
         </div>
+        {error && (
+          <div className="error">
+            {error}
+          </div>
+        )}
+      </div>
+
+      <div className="player-container">
+        <LivePlayer
+          projectData={playerData}
+          onDurationChange={(duration: number) => {
+            videoDurationRef.current = duration;
+            setVideoDuration(duration);
+          }}
+          videoSize={{
+            width: 720,
+            height: 1280,
+          }}
+          onTimeUpdate={handleTimeUpdate}
+          playing={playing}
+        />
       </div>
     </div>
   );

@@ -5,11 +5,15 @@ const FileInput = ({
   onFileLoad,
   buttonText,
   id,
+  className,
+  icon,
 }: {
   acceptFileTypes: string[];
   onFileLoad: (content: any) => void;
   buttonText: string;
   id: string;
+  className?: string;
+  icon?: React.ReactNode;
 }) => {
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -42,19 +46,19 @@ const FileInput = ({
   };
 
   return (
-    <div className="relative w-full">
+    <div className="file-input-container">
       <input
         type="file"
         accept={acceptFileTypes.join(",")}
-        className="absolute w-0.1 h-0.1 opacity-0 overflow-hidden -z-10"
+        className="file-input-hidden"
         id={id}
         onChange={onFileChange}
       />
       <label
         htmlFor={id}
-        className="w-full btn btn-primary flex items-center justify-center gap-2 py-2"
+        className={className || "btn-primary file-input-label"}
       >
-        <Upload className="w-4 h-4" />
+        {icon || <Upload className="icon-sm" />}
         {buttonText ?? "Upload"}
       </label>
     </div>

@@ -7,7 +7,6 @@ import { TextPanelContainer } from "./text-panel-container";
 import { IconPanelContainer } from "./icon-panel-container";
 import { RectPanelContainer } from "./rect-panel-container";
 import { CirclePanelContainer } from "./circle-panel-container";
-import { inputStyles } from "../../styles/input-styles";
 import { Wand2 } from "lucide-react";
 
 interface ElementPanelContainerProps {
@@ -103,11 +102,11 @@ const ElementPanelContainer = ({
         return <SubtitlesPanel />;
       default:
         return (
-          <div className={inputStyles.panel.container}>
-            <div className="flex-1 flex h-full items-center justify-center">
-              <div className="text-center">
-                <Wand2 className="w-12 h-12 mx-auto mb-4 text-purple-500/50" />
-                <p className={inputStyles.label.base}>Select a Tool to Begin</p>
+          <div className="panel-container">
+            <div className="empty-state">
+              <div className="empty-state-content">
+                <Wand2 className="empty-state-icon" />
+                <p className="empty-state-text">Select a Tool to Begin</p>
               </div>
             </div>
           </div>

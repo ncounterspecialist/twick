@@ -15,6 +15,7 @@ export interface CirclePanelState {
   opacity: number;
   strokeColor: string;
   lineWidth: number;
+  operation: string;
 }
 
 export interface CirclePanelActions {
@@ -76,6 +77,7 @@ export const useCirclePanel = ({
     opacity,
     strokeColor,
     lineWidth,
+    operation: selectedElement instanceof CircleElement ? "Apply Changes": "Add Circle",
     setRadius,
     setFillColor,
     setOpacity,

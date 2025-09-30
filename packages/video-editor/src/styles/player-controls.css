@@ -1,201 +1,150 @@
-.player-controls {
-  background: #474747;
-  padding: 12px 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  user-select: none;
-  max-height: 200px;
-}
 
-.player-controls-top {
+@import url('./twick-utilities.css');
+
+/* Player Controls */
+.player-controls {
+  height: 3rem;
+  background-color: var(--color-neutral-800);
+  border-top: 1px solid var(--color-neutral-600);
+  padding: 0 0.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
-  height: 40px;
 }
 
-/* Edit Controls (Left Section) */
+/* Edit Controls */
 .edit-controls {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 0.5rem;
 }
 
-/* Playback Controls (Center Section) */
 .playback-controls {
   display: flex;
   align-items: center;
-  gap: 24px;
-  flex: 1;
-  justify-content: space-around;
-}
-
-/* Time Display (Right Section) */
-.time-display {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
-  font-size: 14px;
-  color: #fff;
-  min-width: 80px;
-  justify-content: flex-end;
-}
-
-.current-time {
-  color: #fff;
-  font-weight: 500;
-}
-
-.time-separator {
-  color: #666;
-  margin: 0 2px;
-}
-
-.total-time {
-  color: #999;
+  gap: 0.5rem;
 }
 
 /* Control Buttons */
 .control-btn {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 8px 12px;
-  background: #2a2a2a;
-  border: 1px solid #444;
-  border-radius: 6px;
-  color: #fff;
-  font-size: 13px;
-  font-weight: 500;
+  justify-content: center;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.375rem;
+  background: transparent;
+  border: none;
+  color: var(--color-neutral-400);
+  transition: var(--transition-all);
   cursor: pointer;
-  transition: all 0.15s ease;
-  white-space: nowrap;
-  min-height: 36px;
 }
 
 .control-btn:hover {
-  background: #3a3a3a;
-  border-color: #555;
+  color: var(--color-neutral-100);
+  background-color: var(--color-neutral-700);
 }
 
 .control-btn:active {
-  transform: translateY(1px);
-  background: #1a1a1a;
+  transform: scale(0.95);
+  background-color: var(--color-neutral-600);
 }
 
-.control-btn:disabled {
+.control-btn.btn-disabled {
   opacity: 0.5;
   cursor: not-allowed;
   pointer-events: none;
-}
-
-.control-btn svg {
-  flex-shrink: 0;
+  color: var(--color-neutral-600);
 }
 
 /* Specific Button Styles */
-.play-pause-btn {
-  background: #0066cc;
-  border-color: #0066cc;
-  padding: 8px;
-  min-width: 44px;
-  justify-content: center;
-}
-
-.play-pause-btn:hover {
-  background: #0077dd;
-  border-color: #0077dd;
-}
-
 .delete-btn {
-  color: #ff4444;
-  border-color: #ff444440;
+  color: var(--color-red-400);
 }
 
 .delete-btn:hover {
-  background: #ff444420;
-  border-color: #ff4444;
+  color: var(--color-red-300);
 }
 
-.split-btn svg {
-  color: #ffa500;
+.split-btn {
+  color: var(--color-purple-400);
 }
 
-.clone-btn svg {
-  color: #00cc66;
+.split-btn:hover {
+  color: var(--color-purple-300);
 }
 
-.btn-disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  pointer-events: none;
+.play-pause-btn {
+  padding: 0.75rem;
+  color: white;
 }
 
-.prev-btn,
-.next-btn {
-  padding: 8px;
-  min-width: 36px;
-  justify-content: center;
+/* Time Display */
+.time-display {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--color-neutral-400);
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
 }
 
-/* Timeline Controls */
-.timeline-controls {
-  position: relative;
-  background: #2a2a2a;
-  border-radius: 6px;
-  padding: 8px;
-  border: 1px solid #444;
+.current-time {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-neutral-200);
 }
 
+.time-separator {
+  color: var(--color-neutral-600);
+}
 
+.total-time {
+  font-size: 0.875rem;
+  color: var(--color-neutral-500);
+}
+
+/* Zoom Controls */
 .twick-track-zoom-container {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  width: 100%;
-  background-color: #171717;
-  border: 4px;
-  padding: 0 4px;
+  gap: 0.75rem;
 }
 
-.twick-zoom-slider {
-  position: relative;
-  width: 100%;
-  height: 2px;
-  cursor: pointer;
-  background-color: #ffffff55;
-  border-radius: 50%;
+.zoom-level {
+  font-size: 0.875rem;
+  color: var(--color-neutral-400);
+  font-weight: 500;
+  min-width: 3rem;
+  text-align: center;
 }
 
-.twick-zoom-slider-track {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  background-color: #4949d5;
-  border-radius: 50%;
-  transition: all 0.2s ease-in-out;
+/* Icon sizes */
+.icon-md {
+  width: 1.25rem;
+  height: 1.25rem;
 }
 
-.twick-zoom-slider-thumb {
-  position: absolute;
-  top: 50%;
-  width: 16px;
-  height: 16px;
-  background-color: #ffffff;
-  border: 2px solid #4949d5;
-  border-radius: 50%;
-  cursor: grab;
-  transform: translate(-50%, -50%);
-  transition: all 0.2s ease-in-out;
-} 
+.icon-lg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
 
+/* Animation */
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Undo/Redo Controls */
 .undo-redo-controls {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 0.5rem;
 }

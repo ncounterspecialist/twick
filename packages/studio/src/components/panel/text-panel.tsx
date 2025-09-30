@@ -50,7 +50,6 @@
  * ```
  */
 
-import { inputStyles } from "../../styles/input-styles";
 import type { TextPanelState, TextPanelActions } from "../../hooks/use-text-panel";
 
 export type TextPanelProps = TextPanelState & TextPanelActions;
@@ -81,44 +80,43 @@ export function TextPanel({
   handleApplyChanges,
 }: TextPanelProps) {
   return (
-    <div className={inputStyles.panel.container}>
-      <h3 className={inputStyles.panel.title}>Text Element</h3>
-
+    <div className="panel-container">
+      <div className="panel-title">Text</div>
       {/* Text Content */}
-      <div className={inputStyles.container}>
-        <label className={inputStyles.label.base}>Text Content</label>
+      <div className="flex panel-section">
         <input
           type="text"
           value={textContent}
+          placeholder="Sample"
           onChange={(e) => setTextContent(e.target.value)}
-          className={inputStyles.input.base}
+          className="input-dark"
         />
       </div>
 
       {/* Font Size */}
-      <div className={inputStyles.container}>
-        <label className={inputStyles.label.base}>Font Size</label>
-        <div className={inputStyles.range.container}>
+      <div className="panel-section">
+        <label className="label-dark">Font Size</label>
+        <div className="slider-container">
           <input
             type="range"
             min="8"
             max="120"
             value={fontSize}
             onChange={(e) => setFontSize(Number(e.target.value))}
-            className={inputStyles.range.gradient}
+            className="slider-purple"
           />
-          <span className={inputStyles.range.value}>{fontSize}px</span>
+          <span className="slider-value">{fontSize}px</span>
         </div>
       </div>
 
       {/* Font */}
-      <div className={inputStyles.container}>
-        <label className={inputStyles.label.base}>Font</label>
-        <div className="flex items-center gap-2">
+      <div className="panel-section">
+        <label className="label-dark">Font</label>
+        <div className="font-controls">
           <select
             value={selectedFont}
             onChange={(e) => setSelectedFont(e.target.value)}
-            className={inputStyles.input.base}
+            className="select-dark"
           >
             {fonts.map((font) => (
               <option key={font} value={font}>
@@ -128,95 +126,90 @@ export function TextPanel({
           </select>
           <button
             onClick={() => setIsBold(!isBold)}
-            className={`${inputStyles.toggle.base} ${
-              isBold ? inputStyles.toggle.active : inputStyles.toggle.inactive
-            } min-w-6`}
+            className={`btn-icon ${isBold ? 'btn-icon-active' : ''}`}
           >
-            <span className="font-bold">B</span>
+            B
           </button>
           <button
             onClick={() => setIsItalic(!isItalic)}
-            className={`${inputStyles.toggle.base} ${
-              isItalic ? inputStyles.toggle.active : inputStyles.toggle.inactive
-            } min-w-6`}
+            className={`btn-icon ${isItalic ? 'btn-icon-active' : ''}`}
           >
-            <span className="italic">I</span>
+            I
           </button>
         </div>
       </div>
 
       {/* Colors */}
-      <div className={inputStyles.container}>
-        <label className={inputStyles.label.base}>Colors</label>
-        <div className="space-y-3">
+      <div className="panel-section">
+        <label className="label-dark">Colors</label>
+        <div className="color-section">
           {/* Text Color */}
-          <div>
-            <label className={inputStyles.label.small}>Text Color</label>
-            <div className={inputStyles.color.container}>
+          <div className="color-control">
+            <label className="label-small">Text Color</label>
+            <div className="color-inputs">
               <input
                 type="color"
                 value={textColor}
                 onChange={(e) => setTextColor(e.target.value)}
-                className={inputStyles.color.picker}
+                className="color-picker"
               />
               <input
                 type="text"
                 value={textColor}
                 onChange={(e) => setTextColor(e.target.value)}
-                className={inputStyles.input.small}
+                className="color-text"
               />
             </div>
           </div>
 
           {/* Stroke Color */}
-          <div>
-            <label className={inputStyles.label.small}>Stroke Color</label>
-            <div className={inputStyles.color.container}>
+          <div className="color-control">
+            <label className="label-small">Stroke Color</label>
+            <div className="color-inputs">
               <input
                 type="color"
                 value={strokeColor}
                 onChange={(e) => setStrokeColor(e.target.value)}
-                className={inputStyles.color.picker}
+                className="color-picker"
               />
               <input
                 type="text"
                 value={strokeColor}
                 onChange={(e) => setStrokeColor(e.target.value)}
-                className={inputStyles.input.small}
+                className="color-text"
               />
             </div>
           </div>
 
           {/* Apply Shadow */}
-          <div className={inputStyles.radio.container}>
-            <input
-              type="checkbox"
-              id="applyShadow"
-              checked={applyShadow}
-              onChange={(e) => setApplyShadow(e.target.checked)}
-              className={inputStyles.radio.base}
-            />
-            <label htmlFor="applyShadow" className={inputStyles.radio.label}>
+          <div className="checkbox-control">
+            <label className="checkbox-label">
+              <input
+                type="checkbox"
+                checked={applyShadow}
+                onChange={(e) => setApplyShadow(e.target.checked)}
+                className="checkbox-purple"
+              />
               Apply Shadow
             </label>
           </div>
 
           {/* Shadow Color - Only shown when shadow is enabled */}
           {applyShadow && (
-            <div>
-              <label className={inputStyles.label.small}>Shadow Color</label>
-              <div className={inputStyles.color.container}>
+            <div className="color-control">
+              <label className="label-small">Shadow Color</label>
+              <div className="color-inputs">
                 <input
                   type="color"
                   value={shadowColor}
                   onChange={(e) => setShadowColor(e.target.value)}
-                  className={inputStyles.color.picker}
+                  className="color-picker"
                 />
                 <input
                   type="text"
                   value={shadowColor}
                   onChange={(e) => setShadowColor(e.target.value)}
-                  className={inputStyles.input.small}
+                  className="color-text"
                 />
               </div>
             </div>
@@ -225,9 +218,9 @@ export function TextPanel({
       </div>
 
       {/* Stroke Width */}
-      <div className={inputStyles.container}>
-        <label className={inputStyles.label.base}>Stroke Width</label>
-        <div className={inputStyles.range.container}>
+      <div className="panel-section">
+        <label className="label-dark">Stroke Width</label>
+        <div className="slider-container">
           <input
             type="range"
             min="0"
@@ -235,15 +228,15 @@ export function TextPanel({
             step={0.1}
             value={strokeWidth}
             onChange={(e) => setStrokeWidth(Number(e.target.value))}
-            className={inputStyles.range.base}
+            className="slider-purple"
           />
-          <span className={inputStyles.range.value}>{strokeWidth}</span>
+          <span className="slider-value">{strokeWidth}</span>
         </div>
       </div>
 
-      {/* Operation Button */}
-      <div className="mt-8">
-        <button onClick={handleApplyChanges} className={inputStyles.button.primary}>
+      {/* Operation button */}
+      <div className="flex panel-section">
+        <button onClick={handleApplyChanges} className="btn-primary w-full">
           {operation}
         </button>
       </div>
