@@ -1,6 +1,46 @@
 import { ElementColors } from "./types";
 
 /**
+ * Initial timeline data structure for new video editor projects.
+ * Provides a default timeline with a sample text element to get started.
+ * 
+ * @example
+ * ```js
+ * import { INITIAL_TIMELINE_DATA } from '@twick/video-editor';
+ * 
+ * // Use as starting point for new projects
+ * const newProject = {
+ *   ...INITIAL_TIMELINE_DATA,
+ *   tracks: [...INITIAL_TIMELINE_DATA.tracks, newTrack]
+ * };
+ * ```
+ */
+export const INITIAL_TIMELINE_DATA = {
+  tracks: [
+    {
+      type: "element",
+      id: "t-sample",
+      name: "sample",
+      elements: [
+        {
+          id: "e-sample",
+          trackId: "t-sample",
+          name: "sample",
+          type: "text",
+          s: 0,
+          e: 5,
+          props: {
+            text: "Twick Video Editor",
+            fill: "#FFFFFF",
+          },
+        },
+      ],
+    },
+  ],
+  version: 1,
+};
+
+/**
  * Minimum duration for timeline elements in seconds.
  * Used to prevent elements from having zero or negative duration.
  * 
