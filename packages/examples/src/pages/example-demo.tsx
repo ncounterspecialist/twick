@@ -1,7 +1,6 @@
 import VideoEditor from "@twick/video-editor";
 import { LivePlayerProvider } from "@twick/live-player";
 import {  TimelineProvider } from "@twick/timeline";
-import "@twick/video-editor/dist/video-editor.css";
 
 const videoResolution = {
   width: 720,

@@ -24,6 +24,7 @@
  */
 
 import "./studio.css";
+import "@twick/video-editor/dist/video-editor.css";
 
 /**
  * Main studio component that provides the complete editing interface.

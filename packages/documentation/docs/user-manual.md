@@ -45,10 +45,10 @@ Here's the complete code to create a fully functional video editor:
 
 ```typescript
 import React from 'react';
-import VideoEditor, { INITIAL_TIMELINE_DATA } from "@twick/video-editor";
+import VideoEditor from "@twick/video-editor";
 import "@twick/video-editor/dist/video-editor.css";
 import { LivePlayerProvider } from "@twick/live-player";
-import { TimelineProvider } from "@twick/timeline";
+import { TimelineProvider, INITIAL_TIMELINE_DATA } from "@twick/timeline";
 
 function App() {
   return (
@@ -275,10 +275,10 @@ pnpm install
 
 ```typescript
 import React from 'react';
-import VideoEditor, { INITIAL_TIMELINE_DATA } from "@twick/video-editor";
+import VideoEditor from "@twick/video-editor";
 import "@twick/video-editor/dist/video-editor.css";
 import { LivePlayerProvider } from "@twick/live-player";
-import { TimelineProvider } from "@twick/timeline";
+import { TimelineProvider, INITIAL_TIMELINE_DATA } from "@twick/timeline";
 
 function VideoEditorApp() {
   return (
@@ -439,10 +439,10 @@ Here's how everything comes together in a real application:
 
 ```typescript
 import React from 'react';
-import VideoEditor, { INITIAL_TIMELINE_DATA } from "@twick/video-editor";
+import VideoEditor from "@twick/video-editor";
 import "@twick/video-editor/dist/video-editor.css";
 import { LivePlayerProvider } from "@twick/live-player";
-import { TimelineProvider } from "@twick/timeline";
+import { TimelineProvider, INITIAL_TIMELINE_DATA } from "@twick/timeline";
 
 function MyVideoApp() {
   return (
@@ -1620,10 +1620,10 @@ pnpm add @twick/video-editor @twick/timeline @twick/live-player @twick/canvas
 
 ### **Basic Setup**
 ```typescript
-import VideoEditor, { INITIAL_TIMELINE_DATA } from "@twick/video-editor";
+import VideoEditor from "@twick/video-editor";
 import "@twick/video-editor/dist/video-editor.css";
 import { LivePlayerProvider } from "@twick/live-player";
-import { TimelineProvider } from "@twick/timeline";
+import { TimelineProvider, INITIAL_TIMELINE_DATA } from "@twick/timeline";
 
 <LivePlayerProvider>
   <TimelineProvider contextId="my-project" initialData={INITIAL_TIMELINE_DATA}>

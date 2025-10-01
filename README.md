@@ -89,12 +89,12 @@ npm install --save @twick/canvas @twick/live-player @twick/timeline @twick/video
 2. Add Twick Studio component with LivePlayer and Timeline Context as shown
 
 ```tsx
-import { LivePlayerProvider } from '@twick/live-player';
-import { TimelineProvider } from '@twick/timeline';
+import { LivePlayerProvider } from "@twick/live-player";
+import { TwickStudio } from "@twick/studio";
+import { TimelineProvider, INITIAL_TIMELINE_DATA } from "@twick/timeline";
 import "@twick/studio/dist/studio.css";
-import { INITIAL_TIMELINE_DATA } from "@twick/video-editor";
 
-export default function ExampleStudio() {
+export default function App() {
   return (
     <LivePlayerProvider>
       <TimelineProvider
@@ -105,8 +105,8 @@ export default function ExampleStudio() {
           videoProps: {
             width: 720,
             height: 1280,
-          }}
-          }/>
+          },
+        }}/>
       </TimelineProvider>
     </LivePlayerProvider>
   );
