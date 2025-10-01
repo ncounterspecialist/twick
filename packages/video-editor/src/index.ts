@@ -30,6 +30,9 @@
  * ```
  */
 
+// Auto-import CSS styles
+import "./styles/video-editor.css";
+
 import VideoEditor, { VideoEditorProps, VideoEditorConfig } from "./components/video-editor";
 import PlayerControls, { PlayerControlsProps } from "./components/controls/player-controls";
 import TimelineManager from "./components/timeline/timeline-manager";

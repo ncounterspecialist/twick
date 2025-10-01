@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { inputStyles } from "../../styles/input-styles";
 
 const ColorInputDialog = ({ onColorSelect, onCancel }: { onColorSelect: (color: string) => void; onCancel: () => void }) => {
   const [selectedColor, setSelectedColor] = useState('#ffffff');
@@ -9,12 +8,12 @@ const ColorInputDialog = ({ onColorSelect, onCancel }: { onColorSelect: (color: 
       <div className="modal-content">
         <div className="modal-title">Select Background Color</div>
         <div className="properties-group">
-          <div className={inputStyles.color.container}>
+          <div className="color-container">
             <input
               type="color"
               value={selectedColor}
               onChange={(e) => setSelectedColor(e.target.value)}
-              className={inputStyles.color.picker}
+              className="color-picker"
             />
           </div>
           <div className="flex-container justify-end">

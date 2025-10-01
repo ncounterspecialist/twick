@@ -2,7 +2,6 @@ import { useState, useRef } from "react";
 import { LivePlayer } from "@twick/live-player";
 import { sample } from "../helpers/sample-data";
 import "./example-video.css";
-
 const ExampleVideo = () => {
   const [jsonInput, setJsonInput] = useState(JSON.stringify(sample, null, 2));
   const [playerData, setPlayerData] = useState(sample);

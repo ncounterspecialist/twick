@@ -1,4 +1,44 @@
 /**
+ * Initial timeline data structure for new video editor projects.
+ * Provides a default timeline with a sample text element to get started.
+ * 
+ * @example
+ * ```js
+ * import { INITIAL_TIMELINE_DATA } from '@twick/timeline';
+ * 
+ * // Use as starting point for new projects
+ * const newProject = {
+ *   ...INITIAL_TIMELINE_DATA,
+ *   tracks: [...INITIAL_TIMELINE_DATA.tracks, newTrack]
+ * };
+ * ```
+ */
+export const INITIAL_TIMELINE_DATA = {
+  tracks: [
+    {
+      type: "element",
+      id: "t-sample",
+      name: "sample",
+      elements: [
+        {
+          id: "e-sample",
+          trackId: "t-sample",
+          name: "sample",
+          type: "text",
+          s: 0,
+          e: 5,
+          props: {
+            text: "Twick SDK",
+            fill: "#FFFFFF",
+          },
+        },
+      ],
+    },
+  ],
+  version: 1,
+};
+
+/**
  * Player state constants for timeline playback control.
  * Defines the different states that a timeline player can be in during playback.
  * 
