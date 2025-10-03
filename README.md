@@ -127,7 +127,7 @@ Join our Discord community to:
 - Get help and share your experiences
 - Stay updated with the latest developments
 
-[Join our Discord Server](https://discord.gg/ZBhMNaAN)
+[Join our Discord Server](https://discord.gg/W7zfZzsRx5)
 
 ## License
 
