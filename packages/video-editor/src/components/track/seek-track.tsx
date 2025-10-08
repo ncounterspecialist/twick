@@ -1,11 +1,11 @@
-import { useRef, useState, useEffect, useCallback } from "react";
+import { useRef, useState, useEffect, useMemo } from "react";
 import { useDrag } from "@use-gesture/react";
 import "../../styles/timeline.css";
 
 interface SeekTrackProps {
   currentTime: number;
-  duration: number;     // in seconds
-  zoom?: number;        // e.g. 1 = 100px/sec
+  duration: number; // in seconds
+  zoom?: number; // e.g. 1 = 100px/sec
   onSeek: (time: number) => void;
   timelineCount?: number; // number of timeline to calculate pin height
 }
@@ -17,9 +17,7 @@ export default function SeekTrack({
   onSeek,
   timelineCount = 0,
 }: SeekTrackProps) {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const [containerWidth, setContainerWidth] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [seekPosition, setSeekPosition] = useState(0);
 
@@ -36,82 +34,56 @@ export default function SeekTrack({
     }
   }, [currentTime, pixelsPerSecond, isDragging]);
 
-  // Draw the timeline on canvas
-  const drawTimeline = useCallback(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
+  // Tick config (major/minor) based on duration tiers with more density for longer videos
+  const { majorIntervalSec, minorIntervalSec } = useMemo(() => {
+    let major = 1;
+    let minors = 5;
 
-    const ctx = canvas.getContext('2d', { alpha: false });
-    if (!ctx) return;
-
-    // Set canvas dimensions with device pixel ratio for crisp text
-    const dpr = window.devicePixelRatio || 1;
-    const displayWidth = Math.max(totalWidth, containerWidth);
-    canvas.width = displayWidth * dpr;
-    canvas.height = 32 * dpr;
-    canvas.style.width = `${displayWidth}px`;
-    canvas.style.height = '32px';
-    
-    // Scale context according to device pixel ratio
-    ctx.scale(dpr, dpr);
-
-    // Clear canvas with solid background
-    ctx.fillStyle = '#0f0f0f';
-    ctx.fillRect(0, 0, displayWidth, 32);
-
-    // Draw time ticks
-    for (let i = 0; i <= Math.ceil(duration * 10); i++) {
-      const time = i * 0.1; // 100ms per tick
-      const x = Math.floor(time * pixelsPerSecond) + 0.5; // Align to pixel grid for sharpness
-      const isSecond = i % 10 === 0;
-
-      ctx.beginPath();
-      ctx.moveTo(x, 0);
-      ctx.lineTo(x, isSecond ? 24 : 12);
-      ctx.strokeStyle = isSecond ? 'rgba(255, 255, 255, 0.7)' : 'rgba(255, 255, 255, 0.3)';
-      ctx.lineWidth = 1;
-      ctx.stroke();
-
-      // Draw second labels
-      if (isSecond) {
-        ctx.font = 'bold 10px system-ui, sans-serif';
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'bottom';
-        if(time === 0) {
-          // ctx.fillText(`${Math.floor(time)}s`, x, 32);
-        } else {
-          ctx.fillText(`${Math.floor(time)}s`, x, 32);
-        }
-      }
+    if (duration < 10) {
+      major = 1; // 1s major ticks
+      minors = 10; // 0.1s minor ticks
+    } else if (duration < 30) {
+      major = 5; // 5s major ticks
+      minors = 5; // 1s minor ticks
+    } else if (duration < 120) {
+      major = 10; // 10s major ticks
+      minors = 5; // 2s minor ticks
+    } else if (duration < 300) {
+      // < 5 min
+      major = 30; // 30s major ticks
+      minors = 6; // 5s minor ticks
+    } else if (duration < 900) {
+      // < 15 min
+      major = 60; // 1m major ticks
+      minors = 6; // 10s minor ticks
+    } else if (duration < 1800) {
+      // < 30 min
+      major = 120; // 2m major ticks
+      minors = 4; // 30s minor ticks
+    } else if (duration < 3600) {
+      // < 1 hr
+      major = 300; // 5m major ticks
+      minors = 5; // 1m minor ticks
+    } else if (duration < 7200) {
+      // < 2 hr
+      major = 600; // 10m major ticks
+      minors = 10; // 1m minor ticks
+    } else {
+      major = 1800; // 30m major ticks
+      minors = 6; // 5m minor ticks
     }
-  }, [duration, pixelsPerSecond, totalWidth, containerWidth]);
-
-  // Handle window resize and initial setup
-  useEffect(() => {
-    if (containerRef.current) {
-      setContainerWidth(containerRef.current.clientWidth);
-    }
-
-    const handleResize = () => {
-      if (containerRef.current) {
-        setContainerWidth(containerRef.current.clientWidth);
-      }
+    return {
+      majorIntervalSec: major,
+      minorIntervalSec: minors > 0 ? major / (minors + 1) : major,
     };
+  }, [duration]);
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  // Redraw canvas when dependencies change
-  useEffect(() => {
-    drawTimeline();
-  }, [drawTimeline, duration, zoom, containerWidth]);
+  // Container width not needed; tick rendering uses CSS backgrounds sized by totalWidth
 
   const handleSeek = (clientX: number) => {
     if (!containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
-    const x = clientX - rect.left;
+    const x = clientX - rect.left + (containerRef.current.scrollLeft || 0);
     const newTime = Math.max(0, Math.min(duration, x / pixelsPerSecond));
     onSeek(newTime);
   };
@@ -120,14 +92,14 @@ export default function SeekTrack({
     if (event) {
       event.stopPropagation();
     }
-    
+
     setIsDragging(active);
-    
+
     if (!containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
-    const xPos = x - rect.left;
+    const xPos = x - rect.left + (containerRef.current.scrollLeft || 0);
     const newTime = Math.max(0, Math.min(duration, xPos / pixelsPerSecond));
-    
+
     setSeekPosition(xPos);
     onSeek(newTime);
   });
@@ -136,27 +108,100 @@ export default function SeekTrack({
     <div className="twick-seek-track">
       <div
         ref={containerRef}
-        className="twick-seek-track-container"
+        className="twick-seek-track-container-no-scrollbar"
         onClick={(e) => handleSeek(e.clientX)}
+        style={{
+          overflowX: "auto",
+          position: "relative",
+          scrollbarWidth: "none", // Firefox
+          msOverflowStyle: "none", // IE/Edge
+        }}
       >
-        <canvas
-          ref={canvasRef}
-          className="twick-seek-track-canvas"
-          style={{ minWidth: '100%' }}
-        />
-        
+        {/* Ruler with individual tick divs to prevent overlap */}
+        {(() => {
+          const ticks: JSX.Element[] = [];
+          const labels: JSX.Element[] = [];
+          const epsilon = 1e-6;
+          
+          // Generate all tick positions
+          const tickPositions = new Set<number>();
+          
+          // Add minor ticks
+          for (let t = 0; t <= duration + epsilon; t += minorIntervalSec) {
+            tickPositions.add(Math.round(t * 1000) / 1000); // Round to avoid floating point issues
+          }
+          
+          // Draw ticks
+          tickPositions.forEach((t) => {
+            const left = t * pixelsPerSecond;
+            const isMajor = Math.abs((t / majorIntervalSec) - Math.round(t / majorIntervalSec)) < 0.001;
+            
+            ticks.push(
+              <div
+                key={`tick-${t}`}
+                style={{
+                  position: "absolute",
+                  left,
+                  top: 0,
+                  width: "1px",
+                  height: isMajor ? "12px" : "8px",
+                  backgroundColor: isMajor ? "rgba(255,255,255,0.5)" : "rgba(255,255,255,0.2)",
+                  pointerEvents: "none",
+                }}
+              />
+            );
+            
+            // Add labels only for major ticks
+            if (isMajor && t > epsilon) {
+              labels.push(
+                <div
+                  key={`lbl-${t}`}
+                  style={{
+                    position: "absolute",
+                    left,
+                    bottom: "6px",
+                    transform: "translateX(-50%)",
+                    color: "rgba(255,255,255,0.7)",
+                    font: "bold 10px system-ui, sans-serif",
+                    pointerEvents: "none",
+                    textShadow: "1px 1px 2px rgba(0,0,0,0.8)",
+                  }}
+                >
+                  {`${Math.floor(t)}s`}
+                </div>
+              );
+            }
+          });
+          
+          return (
+            <div
+              style={{
+                position: "relative",
+                width: `${Math.max(1, Math.round(totalWidth))}px`,
+                height: "32px",
+                backgroundColor: "#0f0f0f",
+              }}
+            >
+              {ticks}
+              {labels}
+            </div>
+          );
+        })()}
+
         {/* Seek tip (playhead) */}
         <div
           {...bind()}
           className="twick-seek-track-playhead"
-          style={{ 
-            left: seekPosition, 
+          style={{
+            position: "absolute",
+            left: seekPosition,
+            top: 0,
             touchAction: "none",
-            transition: isDragging ? 'none' : 'left 0.1s linear'
+            transition: isDragging ? "none" : "left 0.1s linear",
           }}
         >
           <div className="twick-seek-track-handle"></div>
-          <div 
+          <div
             className="twick-seek-track-pin"
             style={{ height: `${pinHeight}rem` }}
           ></div>

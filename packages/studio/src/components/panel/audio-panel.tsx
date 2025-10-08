@@ -29,7 +29,7 @@
  */
 
 import { Wand2, Plus, Volume2, Play, Pause, Upload } from "lucide-react";
-import SearchInput from "../shared/search-input";
+import UrlInput from "../shared/url-input";
 import FileInput from "../shared/file-input";
 import type { AudioPanelProps } from "../../types/media-panel";
 import { useAudioPreview } from "../../hooks/use-audio-preview";
@@ -42,18 +42,16 @@ export const AudioPanel = ({
   onItemSelect,
   onFileUpload,
   acceptFileTypes,
+  onUrlAdd,
 }: AudioPanelProps) => {
   const { playingAudio, togglePlayPause } = useAudioPreview();
   return (
     <div className="panel-container">
       <div className="panel-title">Audio Library</div>
 
-      {/* Search */}
-      <div className="flex panel-section">
-        <SearchInput
-          searchQuery={searchQuery}
-          setSearchQuery={onSearchChange}
-        />
+      {/* Add by URL */}
+      <div className="panel-section">
+        <UrlInput type="audio" onSubmit={onUrlAdd} />
       </div>
 
       {/* Upload */}

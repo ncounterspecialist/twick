@@ -119,6 +119,9 @@ export default function App() {
 - **Style Guide**: [Style Guide](./STYLE_GUIDE.md) – Guidelines for coding standards and best practices.
 - **Demo Guide**: [Twick Demo Guide](https://ncounterspecialist.github.io/twick/docs/in-action) – Step-by-step tutorials and interactive examples.
 
+## Playground
+Experience Twick Studio in your browser with our live demo: [Twick Studio](https://twick-studio.vercel.app/)
+
 ## Community
 
 Join our Discord community to:
@@ -127,7 +130,7 @@ Join our Discord community to:
 - Get help and share your experiences
 - Stay updated with the latest developments
 
-[Join our Discord Server](https://discord.gg/W7zfZzsRx5)
+[Join our Discord Server](https://discord.gg/DQ4f9TyGW8)
 
 ## License
 

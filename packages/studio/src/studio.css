@@ -1057,6 +1057,11 @@ html {
   cursor: pointer;
 }
 
+.text-error {
+  color: var(--color-error);
+  font-size: 0.875rem;
+}
+
 /* Video player customizations */
 video::-webkit-media-controls,
 video::-webkit-media-controls-panel {

@@ -29,7 +29,7 @@ import { Wand2, Plus, Upload } from "lucide-react";
 import type { MediaItem } from "@twick/video-editor";
 import type { ImagePanelProps } from "../../types/media-panel";
 import FileInput from "../shared/file-input";
-import SearchInput from "../shared/search-input";
+import UrlInput from "../shared/url-input";
 
 export function ImagePanel({
   items,
@@ -38,17 +38,15 @@ export function ImagePanel({
   onItemSelect,
   onFileUpload,
   acceptFileTypes,
+  onUrlAdd,
 }: ImagePanelProps) {
   return (
     <div className="panel-container">
       <div className="panel-title">Image Library</div>
 
-      {/* Search */}
-      <div className="flex panel-section">
-        <SearchInput
-          searchQuery={searchQuery}
-          setSearchQuery={onSearchChange}
-        />
+      {/* Add by URL */}
+      <div className="panel-section">
+        <UrlInput type="image" onSubmit={onUrlAdd} />
       </div>
       {/* Upload */}
       <div className="flex panel-section">
