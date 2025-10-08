@@ -37,8 +37,6 @@ import { useAudioPreview } from "../../hooks/use-audio-preview";
 
 export const AudioPanel = ({
   items,
-  searchQuery,
-  onSearchChange,
   onItemSelect,
   onFileUpload,
   acceptFileTypes,
@@ -123,9 +121,6 @@ export const AudioPanel = ({
             <div className="empty-state-content">
               <Wand2 className="empty-state-icon" />
               <p className="empty-state-text">No audio files found</p>
-              {searchQuery && (
-                <p className="empty-state-subtext">Try adjusting your search</p>
-              )}
             </div>
           </div>
         )}
