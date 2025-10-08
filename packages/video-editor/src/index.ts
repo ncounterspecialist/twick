@@ -33,7 +33,7 @@
 // Auto-import CSS styles
 import "./styles/video-editor.css";
 
-import VideoEditor, { VideoEditorProps, VideoEditorConfig } from "./components/video-editor";
+import VideoEditor, { VideoEditorProps, VideoEditorConfig, TimelineTickConfig, TimelineZoomConfig } from "./components/video-editor";
 import PlayerControls, { PlayerControlsProps } from "./components/controls/player-controls";
 import TimelineManager from "./components/timeline/timeline-manager";
 import { usePlayerControl } from "./hooks/use-player-control";
@@ -50,7 +50,7 @@ export { setElementColors };
 
 // Types and interfaces
 export type { MediaItem, PaginationOptions, SearchOptions, Animation, TextEffect, ElementColors };
-export type { PlayerControlsProps, VideoEditorProps, VideoEditorConfig };
+export type { PlayerControlsProps, VideoEditorProps, VideoEditorConfig, TimelineTickConfig, TimelineZoomConfig };
 
 // Constants and configurations
 export { ANIMATIONS, TEXT_EFFECTS };

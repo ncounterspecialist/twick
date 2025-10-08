@@ -3,7 +3,59 @@ import TimelineManager from "./timeline/timeline-manager";
 import "../styles/video-editor.css";
 import React, { useMemo, useState } from "react";
 import ControlManager from "./controls/control-manager";
-import { DEFAULT_TIMELINE_ZOOM } from "../helpers/constants";
+import {
+  DEFAULT_TIMELINE_ZOOM_CONFIG,
+  DEFAULT_TIMELINE_TICK_CONFIGS,
+  DEFAULT_ELEMENT_COLORS,
+} from "../helpers/constants";
+import { ElementColors } from "../helpers/types";
+
+/**
+ * Configuration for timeline tick marks at specific duration ranges.
+ * Defines major tick interval and number of minor ticks between majors.
+ *
+ * @example
+ * ```js
+ * const tickConfig = {
+ *   durationThreshold: 300, // applies when video < 5 minutes
+ *   majorInterval: 30, // major tick every 30 seconds
+ *   minorTicks: 6 // 6 minor ticks between majors (every 5 seconds)
+ * };
+ * ```
+ */
+export interface TimelineTickConfig {
+  /** Duration threshold in seconds - this config applies when duration < threshold */
+  durationThreshold: number;
+  /** Major tick interval in seconds */
+  majorInterval: number;
+  /** Number of minor ticks between major ticks */
+  minorTicks: number;
+}
+
+/**
+ * Configuration for timeline zoom behavior.
+ * Defines the minimum, maximum, step, and default zoom levels.
+ *
+ * @example
+ * ```js
+ * const zoomConfig = {
+ *   min: 0.5,     // 50% minimum zoom
+ *   max: 2.0,     // 200% maximum zoom
+ *   step: 0.25,   // 25% zoom steps
+ *   default: 1.0  // 100% default zoom
+ * };
+ * ```
+ */
+export interface TimelineZoomConfig {
+  /** Minimum zoom level */
+  min: number;
+  /** Maximum zoom level */
+  max: number;
+  /** Zoom step increment/decrement */
+  step: number;
+  /** Default zoom level */
+  default: number;
+}
 
 /**
  * Configuration options for the video editor.
@@ -13,7 +65,19 @@ import { DEFAULT_TIMELINE_ZOOM } from "../helpers/constants";
  * ```js
  * const editorConfig = {
  *   videoProps: { width: 1920, height: 1080 },
- *   canvasMode: true
+ *   canvasMode: true,
+ *   timelineTickConfigs: [
+ *     { durationThreshold: 30, majorInterval: 5, minorTicks: 5 },
+ *     { durationThreshold: 300, majorInterval: 30, minorTicks: 6 }
+ *   ],
+ *   timelineZoomConfig: {
+ *     min: 0.5, max: 2.0, step: 0.25, default: 1.0
+ *   },
+ *   elementColors: {
+ *     video: "#8B5FBF",
+ *     audio: "#3D8B8B",
+ *     // ... other element colors
+ *   }
  * };
  * ```
  */
@@ -34,6 +98,12 @@ export interface VideoEditorConfig {
   };
   /** Whether to use canvas mode for rendering */
   canvasMode?: boolean;
+  /** Custom timeline tick configurations for different duration ranges */
+  timelineTickConfigs?: TimelineTickConfig[];
+  /** Custom timeline zoom configuration (min, max, step, default) */
+  timelineZoomConfig?: TimelineZoomConfig;
+  /** Custom element colors for timeline elements */
+  elementColors?: ElementColors;
 }
 
 /**
@@ -119,7 +189,19 @@ const VideoEditor: React.FC<VideoEditorProps> = ({
   editorConfig,
   defaultPlayControls = true,
 }) => {
-  const [trackZoom, setTrackZoom] = useState(DEFAULT_TIMELINE_ZOOM);
+  const zoomConfig =
+    editorConfig.timelineZoomConfig ?? DEFAULT_TIMELINE_ZOOM_CONFIG;
+  const timelineTickConfigs =
+    editorConfig?.timelineTickConfigs ?? DEFAULT_TIMELINE_TICK_CONFIGS;
+  const elementColors = useMemo(
+    () => ({
+      ...DEFAULT_ELEMENT_COLORS,
+      ...(editorConfig?.elementColors || {}),
+    }),
+    [editorConfig?.elementColors]
+  );
+
+  const [trackZoom, setTrackZoom] = useState(zoomConfig.default);
 
   const useMemoizedPlayerManager = useMemo(
     () => (
@@ -141,10 +223,18 @@ const VideoEditor: React.FC<VideoEditorProps> = ({
       {bottomPanel ? bottomPanel : null}
       <div className="twick-editor-timeline-section">
         {defaultPlayControls ? (
-          <ControlManager trackZoom={trackZoom} setTrackZoom={setTrackZoom} />
+          <ControlManager
+            trackZoom={trackZoom}
+            setTrackZoom={setTrackZoom}
+            zoomConfig={zoomConfig}
+          />
         ) : null}
 
-        <TimelineManager trackZoom={trackZoom} />
+        <TimelineManager
+          trackZoom={trackZoom}
+          timelineTickConfigs={timelineTickConfigs}
+          elementColors={elementColors}
+        />
       </div>
     </div>
   );

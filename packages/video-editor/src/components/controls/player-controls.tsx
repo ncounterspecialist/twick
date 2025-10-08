@@ -12,10 +12,8 @@ import {
 } from "lucide-react";
 import { UndoRedoControls } from "./undo-redo-controls";
 import { TrackElement, Track } from "@twick/timeline";
-
-const MAX_ZOOM = 3;
-const MIN_ZOOM = 0.10;
-const ZOOM_STEP = 0.1;
+import { TimelineZoomConfig } from "../video-editor";
+import { DEFAULT_TIMELINE_ZOOM_CONFIG } from "../../helpers/constants";
 
 /**
  * Props for the PlayerControls component.
@@ -69,6 +67,8 @@ export interface PlayerControlsProps {
   setZoomLevel?: (zoom: number) => void;
   /** Optional CSS class name for styling */
   className?: string;
+  /** Timeline zoom configuration (min, max, step, default) */
+  zoomConfig?: TimelineZoomConfig;
 }
 
 const PlayerControls: React.FC<PlayerControlsProps> = ({
@@ -86,7 +86,11 @@ const PlayerControls: React.FC<PlayerControlsProps> = ({
   zoomLevel = 1,
   setZoomLevel,
   className = "",
+  zoomConfig = DEFAULT_TIMELINE_ZOOM_CONFIG,
 }) => {
+  const MAX_ZOOM = zoomConfig.max;
+  const MIN_ZOOM = zoomConfig.min;
+  const ZOOM_STEP = zoomConfig.step;
   // Format time to MM:SS format
   const formatTime = useCallback((time: number) => {
     const minutes = Math.floor(time / 60);

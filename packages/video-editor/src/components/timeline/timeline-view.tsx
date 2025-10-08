@@ -4,6 +4,7 @@ import TrackHeader from "../track/track-header";
 import TrackBase from "../track/track-base";
 import { Track, TrackElement } from "@twick/timeline";
 import { Plus } from "lucide-react";
+import { ElementColors } from "../../helpers/types";
 
 function TimelineView({
   zoomLevel,
@@ -15,6 +16,7 @@ function TimelineView({
   onReorder,
   onSelectionChange,
   onElementDrag,
+  elementColors,
 }: {
   zoomLevel: number;
   duration: number;
@@ -35,6 +37,7 @@ function TimelineView({
   onSeek: (time: number) => void;
   onSelectionChange: (element: TrackElement | Track) => void;
   onDeletion: (element: TrackElement | Track) => void;
+  elementColors?: ElementColors;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const seekContainerRef = useRef<HTMLDivElement>(null);
@@ -195,6 +198,7 @@ function TimelineView({
               trackWidth={timelineWidth - labelWidth} // Subtract label width for accurate track width
               onItemSelection={handleItemSelection}
               onDrag={onElementDrag}
+              elementColors={elementColors}
             />
           </div>
         ))}

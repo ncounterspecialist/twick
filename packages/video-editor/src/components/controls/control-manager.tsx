@@ -3,13 +3,16 @@ import PlayerControls from "./player-controls";
 import { useTimelineContext } from "@twick/timeline";
 import { usePlayerControl } from "../../hooks/use-player-control";
 import useTimelineControl from "../../hooks/use-timeline-control";
+import { TimelineZoomConfig } from "../video-editor";
 
 const ControlManager = ({
   trackZoom,
   setTrackZoom,
+  zoomConfig,
 }: {
   trackZoom: number;
   setTrackZoom: (zoom: number) => void;
+  zoomConfig: TimelineZoomConfig;
 }) => {
   const { currentTime, playerState } = useLivePlayerContext();
   const { togglePlayback } = usePlayerControl();
@@ -32,6 +35,7 @@ const ControlManager = ({
         onRedo={handleRedo}
         zoomLevel={trackZoom}
         setZoomLevel={setTrackZoom}
+        zoomConfig={zoomConfig}
       />
     </div>
   );

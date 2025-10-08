@@ -1,4 +1,5 @@
 import { ElementColors } from "./types";
+import { TimelineTickConfig } from "../components/video-editor";
 
 /**
  * Initial timeline data structure for new video editor projects.
@@ -99,6 +100,103 @@ export const DRAG_TYPE = {
  * ```
  */
 export const DEFAULT_TIMELINE_ZOOM = 1.5;
+
+/**
+ * Default timeline zoom configuration including min, max, step, and default values.
+ * Controls the zoom behavior and constraints for the timeline view.
+ * 
+ * @example
+ * ```js
+ * import { DEFAULT_TIMELINE_ZOOM_CONFIG } from '@twick/video-editor';
+ * 
+ * // Use default zoom configuration
+ * <VideoEditor
+ *   editorConfig={{
+ *     videoProps: { width: 1920, height: 1080 },
+ *     timelineZoomConfig: DEFAULT_TIMELINE_ZOOM_CONFIG
+ *   }}
+ * />
+ * ```
+ */
+export const DEFAULT_TIMELINE_ZOOM_CONFIG = {
+  /** Minimum zoom level (10%) */
+  min: 0.1,
+  /** Maximum zoom level (300%) */
+  max: 3.0,
+  /** Zoom step increment/decrement (10%) */
+  step: 0.1,
+  /** Default zoom level (150%) */
+  default: 1.5
+};
+
+/**
+ * Default timeline tick configurations for different duration ranges.
+ * Defines major tick intervals and number of minor ticks between majors
+ * to provide optimal timeline readability at various durations.
+ * 
+ * Each configuration applies when the duration is less than the specified threshold.
+ * Configurations are ordered by duration threshold ascending.
+ * 
+ * @example
+ * ```js
+ * import { DEFAULT_TIMELINE_TICK_CONFIGS } from '@twick/video-editor';
+ * 
+ * // Use default configurations
+ * <VideoEditor
+ *   editorConfig={{
+ *     videoProps: { width: 1920, height: 1080 },
+ *     timelineTickConfigs: DEFAULT_TIMELINE_TICK_CONFIGS
+ *   }}
+ * />
+ * ```
+ */
+export const DEFAULT_TIMELINE_TICK_CONFIGS: TimelineTickConfig[] = [
+  {
+    durationThreshold: 10, // < 10 seconds
+    majorInterval: 1,      // 1s major ticks
+    minorTicks: 10         // 0.1s minor ticks (10 minors between majors)
+  },
+  {
+    durationThreshold: 30, // < 30 seconds
+    majorInterval: 5,      // 5s major ticks
+    minorTicks: 5          // 1s minor ticks (5 minors between majors)
+  },
+  {
+    durationThreshold: 120, // < 2 minutes
+    majorInterval: 10,      // 10s major ticks
+    minorTicks: 5           // 2s minor ticks (5 minors between majors)
+  },
+  {
+    durationThreshold: 300, // < 5 minutes
+    majorInterval: 30,      // 30s major ticks
+    minorTicks: 6           // 5s minor ticks (6 minors between majors)
+  },
+  {
+    durationThreshold: 900, // < 15 minutes
+    majorInterval: 60,      // 1m major ticks
+    minorTicks: 6           // 10s minor ticks (6 minors between majors)
+  },
+  {
+    durationThreshold: 1800, // < 30 minutes
+    majorInterval: 120,      // 2m major ticks
+    minorTicks: 4            // 30s minor ticks (4 minors between majors)
+  },
+  {
+    durationThreshold: 3600, // < 1 hour
+    majorInterval: 300,      // 5m major ticks
+    minorTicks: 5            // 1m minor ticks (5 minors between majors)
+  },
+  {
+    durationThreshold: 7200, // < 2 hours
+    majorInterval: 600,      // 10m major ticks
+    minorTicks: 10           // 1m minor ticks (10 minors between majors)
+  },
+  {
+    durationThreshold: Infinity, // >= 2 hours
+    majorInterval: 1800,         // 30m major ticks
+    minorTicks: 6                // 5m minor ticks (6 minors between majors)
+  }
+];
 
 /**
  * Default color scheme for different element types in the timeline.
