@@ -101,12 +101,14 @@ export default function App() {
         initialData={INITIAL_TIMELINE_DATA}
         contextId={"studio-demo"}
       >
-        <TwickStudio studioConfig={{
-          videoProps: {
-            width: 720,
-            height: 1280,
-          },
-        }}/>
+        <TwickStudio 
+          studioConfig={{
+            videoProps: {
+              width: 720,
+              height: 1280,
+            },
+          }}
+        />
       </TimelineProvider>
     </LivePlayerProvider>
   );

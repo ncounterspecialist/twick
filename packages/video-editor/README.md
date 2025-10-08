@@ -55,6 +55,24 @@ function App() {
               width: 720,
               height: 1280,
             },
+            // Optional: Customize timeline tick marks
+            timelineTickConfigs: [
+              { durationThreshold: 30, majorInterval: 5, minorTicks: 5 },
+              { durationThreshold: 300, majorInterval: 30, minorTicks: 6 }
+            ],
+            // Optional: Customize zoom behavior
+            timelineZoomConfig: {
+              min: 0.5, max: 2.0, step: 0.25, default: 1.0
+            },
+            // Optional: Customize element colors
+            elementColors: {
+              video: "#8B5FBF",
+              audio: "#3D8B8B",
+              image: "#D4956C",
+              text: "#A78EC8",
+              caption: "#9B8ACE",
+              fragment: "#1A1A1A"
+            }
           }}
         />
       </TimelineProvider>
@@ -99,14 +117,140 @@ function App() {
 
 - `leftPanel`: Custom left panel component
 - `rightPanel`: Custom right panel component
+- `bottomPanel`: Custom bottom panel component
 - `editorConfig`: Editor configuration object
-- `videoProps`: Video properties configuration
+- `defaultPlayControls`: Whether to show default playback controls
+
+### Configuration Options
+
+#### `editorConfig`
+
+```typescript
+interface VideoEditorConfig {
+  videoProps: {
+    width: number;
+    height: number;
+    backgroundColor?: string;
+  };
+  playerProps?: {
+    quality?: number;
+    maxWidth?: number;
+    maxHeight?: number;
+  };
+  canvasMode?: boolean;
+  timelineTickConfigs?: TimelineTickConfig[];
+  timelineZoomConfig?: TimelineZoomConfig;
+  elementColors?: ElementColors;
+}
+```
+
+#### Timeline Tick Configuration
+
+Customize timeline tick marks for different duration ranges:
+
+```typescript
+interface TimelineTickConfig {
+  durationThreshold: number; // Applies when duration < threshold
+  majorInterval: number;      // Major tick interval in seconds
+  minorTicks: number;         // Number of minor ticks between majors
+}
+```
+
+**Example:**
+```tsx
+timelineTickConfigs: [
+  { durationThreshold: 30, majorInterval: 5, minorTicks: 5 },    // < 30s
+  { durationThreshold: 300, majorInterval: 30, minorTicks: 6 },  // < 5min
+  { durationThreshold: 3600, majorInterval: 300, minorTicks: 5 } // < 1hr
+]
+```
+
+#### Zoom Configuration
+
+Customize timeline zoom behavior:
+
+```typescript
+interface TimelineZoomConfig {
+  min: number;     // Minimum zoom level
+  max: number;     // Maximum zoom level
+  step: number;    // Zoom step increment/decrement
+  default: number; // Default zoom level
+}
+```
+
+**Example:**
+```tsx
+timelineZoomConfig: {
+  min: 0.5,     // 50% minimum zoom
+  max: 3.0,     // 300% maximum zoom
+  step: 0.25,   // 25% zoom steps
+  default: 1.5  // 150% default zoom
+}
+```
+
+#### Element Colors
+
+Customize timeline element colors:
+
+```typescript
+interface ElementColors {
+  video: string;
+  audio: string;
+  image: string;
+  text: string;
+  caption: string;
+  fragment: string;
+}
+```
+
+**Example:**
+```tsx
+elementColors: {
+  video: "#8B5FBF",
+  audio: "#3D8B8B",
+  image: "#D4956C",
+  text: "#A78EC8",
+  caption: "#9B8ACE",
+  fragment: "#1A1A1A"
+}
+```
+
+### Default Constants
+
+The package exports default configurations that can be used or customized:
+
+```tsx
+import { 
+  DEFAULT_TIMELINE_TICK_CONFIGS,
+  DEFAULT_TIMELINE_ZOOM_CONFIG,
+  DEFAULT_ELEMENT_COLORS
+} from '@twick/video-editor';
+
+// Use defaults
+<VideoEditor
+  editorConfig={{
+    videoProps: { width: 1920, height: 1080 },
+    timelineTickConfigs: DEFAULT_TIMELINE_TICK_CONFIGS,
+    timelineZoomConfig: DEFAULT_TIMELINE_ZOOM_CONFIG,
+    elementColors: DEFAULT_ELEMENT_COLORS
+  }}
+/>
+
+// Or customize based on defaults
+const customColors = {
+  ...DEFAULT_ELEMENT_COLORS,
+  video: "#FF0000",  // Custom red for video
+  audio: "#00FF00"   // Custom green for audio
+};
+```
 
 ### Types
 
 - `VideoEditorProps`: Props interface for VideoEditor
-- `EditorConfig`: Editor configuration interface
-- `VideoProps`: Video properties interface
+- `VideoEditorConfig`: Editor configuration interface
+- `TimelineTickConfig`: Timeline tick configuration interface
+- `TimelineZoomConfig`: Zoom configuration interface
+- `ElementColors`: Element colors interface
 
 For complete API documentation, refer to the generated documentation.
 

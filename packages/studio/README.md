@@ -34,12 +34,32 @@ export default function App() {
         initialData={INITIAL_TIMELINE_DATA}
         contextId={"studio-demo"}
       >
-        <TwickStudio studioConfig={{
-          videoProps: {
-            width: 720,
-            height: 1280,
-          },
-        }}/>
+        <TwickStudio 
+          studioConfig={{
+            videoProps: {
+              width: 720,
+              height: 1280,
+            },
+            // Optional: Customize timeline tick marks
+            timelineTickConfigs: [
+              { durationThreshold: 30, majorInterval: 5, minorTicks: 5 },
+              { durationThreshold: 300, majorInterval: 30, minorTicks: 6 }
+            ],
+            // Optional: Customize zoom behavior
+            timelineZoomConfig: {
+              min: 0.5, max: 2.0, step: 0.25, default: 1.0
+            },
+            // Optional: Customize element colors
+            elementColors: {
+              video: "#8B5FBF",
+              audio: "#3D8B8B",
+              image: "#D4956C",
+              text: "#A78EC8",
+              caption: "#9B8ACE",
+              fragment: "#1A1A1A"
+            }
+          }}
+        />
       </TimelineProvider>
     </LivePlayerProvider>
   );
@@ -58,6 +78,24 @@ The main studio component that provides a complete video editing interface.
     videoProps: {
       width: 1920,
       height: 1080
+    },
+    // Optional: Customize timeline tick marks
+    timelineTickConfigs: [
+      { durationThreshold: 30, majorInterval: 5, minorTicks: 5 },
+      { durationThreshold: 300, majorInterval: 30, minorTicks: 6 }
+    ],
+    // Optional: Customize zoom behavior
+    timelineZoomConfig: {
+      min: 0.5, max: 2.0, step: 0.25, default: 1.0
+    },
+    // Optional: Customize element colors
+    elementColors: {
+      video: "#8B5FBF",
+      audio: "#3D8B8B",
+      image: "#D4956C",
+      text: "#A78EC8",
+      caption: "#9B8ACE",
+      fragment: "#1A1A1A"
     },
     saveProject: async (project, fileName) => {
       // Custom save logic
@@ -85,9 +123,38 @@ interface StudioConfig {
     width: number;
     height: number;
   };
+  // Timeline tick configuration
+  timelineTickConfigs?: TimelineTickConfig[];
+  // Zoom configuration
+  timelineZoomConfig?: TimelineZoomConfig;
+  // Element colors
+  elementColors?: ElementColors;
+  // Project management callbacks
   saveProject?: (project: ProjectJSON, fileName: string) => Promise<Result>;
   loadProject?: () => Promise<ProjectJSON>;
   exportVideo?: (project: ProjectJSON, videoSettings: VideoSettings) => Promise<Result>;
+}
+
+interface TimelineTickConfig {
+  durationThreshold: number; // Applies when duration < threshold
+  majorInterval: number;      // Major tick interval in seconds
+  minorTicks: number;         // Number of minor ticks between majors
+}
+
+interface TimelineZoomConfig {
+  min: number;     // Minimum zoom level
+  max: number;     // Maximum zoom level
+  step: number;    // Zoom step increment/decrement
+  default: number; // Default zoom level
+}
+
+interface ElementColors {
+  video: string;
+  audio: string;
+  image: string;
+  text: string;
+  caption: string;
+  fragment: string;
 }
 ```
 

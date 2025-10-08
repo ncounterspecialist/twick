@@ -3,7 +3,11 @@ import TimelineManager from "./timeline/timeline-manager";
 import "../styles/video-editor.css";
 import React, { useMemo, useState } from "react";
 import ControlManager from "./controls/control-manager";
-import { DEFAULT_TIMELINE_ZOOM_CONFIG, DEFAULT_TIMELINE_TICK_CONFIGS, DEFAULT_ELEMENT_COLORS } from "../helpers/constants";
+import {
+  DEFAULT_TIMELINE_ZOOM_CONFIG,
+  DEFAULT_TIMELINE_TICK_CONFIGS,
+  DEFAULT_ELEMENT_COLORS,
+} from "../helpers/constants";
 import { ElementColors } from "../helpers/types";
 
 /**
@@ -185,10 +189,18 @@ const VideoEditor: React.FC<VideoEditorProps> = ({
   editorConfig,
   defaultPlayControls = true,
 }) => {
-  const zoomConfig = editorConfig.timelineZoomConfig ?? DEFAULT_TIMELINE_ZOOM_CONFIG;
-  const timelineTickConfigs = editorConfig?.timelineTickConfigs ?? DEFAULT_TIMELINE_TICK_CONFIGS;
-  const elementColors = editorConfig?.elementColors ?? DEFAULT_ELEMENT_COLORS;
-  
+  const zoomConfig =
+    editorConfig.timelineZoomConfig ?? DEFAULT_TIMELINE_ZOOM_CONFIG;
+  const timelineTickConfigs =
+    editorConfig?.timelineTickConfigs ?? DEFAULT_TIMELINE_TICK_CONFIGS;
+  const elementColors = useMemo(
+    () => ({
+      ...DEFAULT_ELEMENT_COLORS,
+      ...(editorConfig?.elementColors || {}),
+    }),
+    [editorConfig?.elementColors]
+  );
+
   const [trackZoom, setTrackZoom] = useState(zoomConfig.default);
 
   const useMemoizedPlayerManager = useMemo(
@@ -211,15 +223,15 @@ const VideoEditor: React.FC<VideoEditorProps> = ({
       {bottomPanel ? bottomPanel : null}
       <div className="twick-editor-timeline-section">
         {defaultPlayControls ? (
-          <ControlManager 
-            trackZoom={trackZoom} 
+          <ControlManager
+            trackZoom={trackZoom}
             setTrackZoom={setTrackZoom}
             zoomConfig={zoomConfig}
           />
         ) : null}
 
-        <TimelineManager 
-          trackZoom={trackZoom} 
+        <TimelineManager
+          trackZoom={trackZoom}
           timelineTickConfigs={timelineTickConfigs}
           elementColors={elementColors}
         />
