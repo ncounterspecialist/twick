@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { Track, TrackElement } from "@twick/timeline";
 import "../../styles/timeline.css";
 import TrackElementView from "./track-element";
+import { ElementColors } from "../../helpers/types";
 
 interface TrackBaseProps {
   duration: number;
@@ -20,6 +21,7 @@ interface TrackBaseProps {
     dragType: string;
     updates: { start: number; end: number };
   }) => void;
+  elementColors?: ElementColors;
 }
 
 const TrackBase = ({
@@ -31,6 +33,7 @@ const TrackBase = ({
   onItemSelection,
   onDrag,
   allowOverlap = false,
+  elementColors,
 }: TrackBaseProps) => {
   const trackRef = useRef<HTMLDivElement>(null);
 
@@ -55,6 +58,7 @@ const TrackBase = ({
           selectedItem={selectedItem}
           onSelection={onItemSelection}
           onDrag={onDrag}
+          elementColors={elementColors}
           nextStart={
             index < elements.length - 1
               ? elements[index + 1].getStart()

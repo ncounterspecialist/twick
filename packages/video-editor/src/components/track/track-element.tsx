@@ -4,6 +4,7 @@ import { motion, HTMLMotionProps } from "framer-motion";
 import { MIN_DURATION, DRAG_TYPE } from "../../helpers/constants";
 import { ELEMENT_COLORS } from "../../helpers/editor.utils";
 import { FrameEffect, getDecimalNumber, TrackElement } from "@twick/timeline";
+import { ElementColors } from "../../helpers/types";
 import "../../styles/timeline.css";
 
 export const TrackElementView: React.FC<{
@@ -24,6 +25,7 @@ export const TrackElementView: React.FC<{
     dragType: string;
     updates: { start: number; end: number };
   }) => void;
+  elementColors?: ElementColors;
 }> = ({
   element,
   parentWidth,
@@ -34,6 +36,7 @@ export const TrackElementView: React.FC<{
   onSelection,
   onDrag,
   allowOverlap = false,
+  elementColors,
 }) => {
   const ref = useRef<HTMLDivElement>(null);
   const dragType = useRef<string | null>(null);
@@ -148,8 +151,9 @@ export const TrackElementView: React.FC<{
   };
 
   const getElementColor = (elementType: string) => {
-    if (elementType in ELEMENT_COLORS) {
-      return ELEMENT_COLORS[elementType as keyof typeof ELEMENT_COLORS];
+    const colors = elementColors || ELEMENT_COLORS;
+    if (elementType in colors) {
+      return colors[elementType as keyof typeof colors];
     }
     return ELEMENT_COLORS.element;
   };
