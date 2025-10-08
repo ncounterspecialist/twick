@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect, useMemo } from "react";
 import { useDrag } from "@use-gesture/react";
 import "../../styles/timeline.css";
+import { TimelineTickConfig } from "../video-editor";
 
 interface SeekTrackProps {
   currentTime: number;
@@ -8,6 +9,7 @@ interface SeekTrackProps {
   zoom?: number; // e.g. 1 = 100px/sec
   onSeek: (time: number) => void;
   timelineCount?: number; // number of timeline to calculate pin height
+  timelineTickConfigs?: TimelineTickConfig[]; // custom tick configurations
 }
 
 export default function SeekTrack({
@@ -16,6 +18,7 @@ export default function SeekTrack({
   zoom = 1,
   onSeek,
   timelineCount = 0,
+  timelineTickConfigs,
 }: SeekTrackProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
@@ -36,6 +39,30 @@ export default function SeekTrack({
 
   // Tick config (major/minor) based on duration tiers with more density for longer videos
   const { majorIntervalSec, minorIntervalSec } = useMemo(() => {
+    // Use custom tick configs if provided
+    if (timelineTickConfigs && timelineTickConfigs.length > 0) {
+      // Sort configs by duration threshold ascending
+      const sortedConfigs = [...timelineTickConfigs].sort((a, b) => a.durationThreshold - b.durationThreshold);
+      
+      // Find the first config where duration < threshold
+      for (const config of sortedConfigs) {
+        if (duration < config.durationThreshold) {
+          return {
+            majorIntervalSec: config.majorInterval,
+            minorIntervalSec: config.minorTicks > 0 ? config.majorInterval / (config.minorTicks + 1) : config.majorInterval,
+          };
+        }
+      }
+      
+      // If no threshold matched, use the last config
+      const lastConfig = sortedConfigs[sortedConfigs.length - 1];
+      return {
+        majorIntervalSec: lastConfig.majorInterval,
+        minorIntervalSec: lastConfig.minorTicks > 0 ? lastConfig.majorInterval / (lastConfig.minorTicks + 1) : lastConfig.majorInterval,
+      };
+    }
+
+    // Default tick configuration
     let major = 1;
     let minors = 5;
 
@@ -76,7 +103,7 @@ export default function SeekTrack({
       majorIntervalSec: major,
       minorIntervalSec: minors > 0 ? major / (minors + 1) : major,
     };
-  }, [duration]);
+  }, [duration, timelineTickConfigs]);
 
   // Container width not needed; tick rendering uses CSS backgrounds sized by totalWidth
 
@@ -92,14 +119,14 @@ export default function SeekTrack({
     if (event) {
       event.stopPropagation();
     }
-
+    
     setIsDragging(active);
-
+    
     if (!containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
     const xPos = x - rect.left + (containerRef.current.scrollLeft || 0);
     const newTime = Math.max(0, Math.min(duration, xPos / pixelsPerSecond));
-
+    
     setSeekPosition(xPos);
     onSeek(newTime);
   });
@@ -187,21 +214,21 @@ export default function SeekTrack({
             </div>
           );
         })()}
-
+        
         {/* Seek tip (playhead) */}
         <div
           {...bind()}
           className="twick-seek-track-playhead"
-          style={{
+          style={{ 
             position: "absolute",
-            left: seekPosition,
+            left: seekPosition, 
             top: 0,
             touchAction: "none",
             transition: isDragging ? "none" : "left 0.1s linear",
           }}
         >
           <div className="twick-seek-track-handle"></div>
-          <div
+          <div 
             className="twick-seek-track-pin"
             style={{ height: `${pinHeight}rem` }}
           ></div>
