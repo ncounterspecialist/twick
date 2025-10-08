@@ -1,12 +1,14 @@
 import type { PanelProps } from "../../types";
 import { VideoPanel } from "../panel/video-panel";
 import { useMediaPanel } from "../../hooks/use-media-panel";
+import { useMedia } from "../../context/media-context";
+import { getMediaManager } from "../shared";
 
 export function VideoPanelContainer(props: PanelProps) {
+  const { addItem } = useMedia("video");
+  const mediaManager = getMediaManager();
   const {
     items,
-    searchQuery,
-    setSearchQuery,
     handleSelection,
     handleFileUpload,
     isLoading,
@@ -18,15 +20,34 @@ export function VideoPanelContainer(props: PanelProps) {
   },
   props.videoResolution);
 
+  const onUrlAdd = async (url: string) => {
+    const nameFromUrl = (() => {
+      try {
+        const u = new URL(url);
+        const parts = u.pathname.split("/").filter(Boolean);
+        return decodeURIComponent(parts[parts.length - 1] || url);
+      } catch {
+        return url;
+      }
+    })();
+
+    const newItem = await mediaManager.addItem({
+      name: nameFromUrl,
+      url,
+      type: "video",
+      metadata: { source: "url" },
+    });
+    addItem(newItem);
+  };
+
   return (
     <VideoPanel
       items={items}
-      searchQuery={searchQuery}
-      onSearchChange={setSearchQuery}
       onItemSelect={handleSelection}
       onFileUpload={handleFileUpload}
       isLoading={isLoading}
       acceptFileTypes={acceptFileTypes}
+      onUrlAdd={onUrlAdd}
     />
   );
 }

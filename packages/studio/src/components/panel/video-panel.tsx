@@ -30,28 +30,24 @@ import type { MediaItem } from "@twick/video-editor";
 import type { VideoPanelProps } from "../../types/media-panel";
 import { useVideoPreview } from "../../hooks/use-video-preview";
 import FileInput from "../shared/file-input";
-import SearchInput from "../shared/search-input";
+import UrlInput from "../shared/url-input";
 
 
 export function VideoPanel({
   items,
-  searchQuery,
-  onSearchChange,
   onItemSelect,
   onFileUpload,
   acceptFileTypes,
+  onUrlAdd,
 }: VideoPanelProps) {
   const { playingVideo, togglePlayPause } = useVideoPreview();
   return (
     <div className="panel-container">
       <div className="panel-title">Video Library</div>
 
-      {/* Search */}
+      {/* Add by URL */}
       <div className="flex panel-section">
-        <SearchInput
-          searchQuery={searchQuery}
-          setSearchQuery={onSearchChange}
-        />
+        <UrlInput type="video" onSubmit={onUrlAdd} />
       </div>
 
       {/* Import Button */}
@@ -89,9 +85,9 @@ export function VideoPanel({
               />
 
               {/* Duration */}
-              <div className="media-duration">
+              {/* <div className="media-duration">
                 0:13
-              </div>
+              </div> */}
 
               {/* Quick Actions */}
               <div className="media-actions">
@@ -134,11 +130,6 @@ export function VideoPanel({
             <div className="empty-state-content">
               <Wand2 className="empty-state-icon" />
               <p className="empty-state-text">No videos found</p>
-              {searchQuery && (
-                <p className="empty-state-subtext">
-                  Try adjusting your search
-                </p>
-              )}
             </div>
           </div>
         )}

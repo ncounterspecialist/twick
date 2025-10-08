@@ -14,8 +14,8 @@ import { UndoRedoControls } from "./undo-redo-controls";
 import { TrackElement, Track } from "@twick/timeline";
 
 const MAX_ZOOM = 3;
-const MIN_ZOOM = 0.5;
-const ZOOM_STEP = 0.25;
+const MIN_ZOOM = 0.10;
+const ZOOM_STEP = 0.1;
 
 /**
  * Props for the PlayerControls component.
