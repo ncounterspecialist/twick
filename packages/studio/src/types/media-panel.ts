@@ -19,9 +19,9 @@ export interface VideoPanelProps extends MediaPanelBasePropsCommon {
   onUrlAdd: (url: string) => void;
 }
 
-export interface AudioPanelProps extends MediaPanelBasePropsCommon {
+export interface AudioPanelProps extends MediaPanelBasePropsCommon, SearchablePanelProps {
   onUrlAdd: (url: string) => void;
 }
-export interface ImagePanelProps extends MediaPanelBasePropsCommon {
+export interface ImagePanelProps extends MediaPanelBasePropsCommon, SearchablePanelProps {
   onUrlAdd: (url: string) => void;
 }
