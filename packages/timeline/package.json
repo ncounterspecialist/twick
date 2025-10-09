@@ -16,7 +16,7 @@
     "access": "public"
   },
   "scripts": {
-    "build": "vite build",
+    "build": "tsc --noEmit && vite build",
     "dev": "vite build --watch",
     "lint": "eslint src/",
     "clean": "rimraf .turbo node_modules dist",
