@@ -33,8 +33,6 @@ import UrlInput from "../shared/url-input";
 
 export function ImagePanel({
   items,
-  searchQuery,
-  onSearchChange,
   onItemSelect,
   onFileUpload,
   acceptFileTypes,
@@ -93,9 +91,6 @@ export function ImagePanel({
             <div className="empty-state-content">
               <Wand2 className="empty-state-icon" />
               <p className="empty-state-text">No images found</p>
-              {searchQuery && (
-                <p className="empty-state-subtext">Try adjusting your search</p>
-              )}
             </div>
           </div>
         )}
