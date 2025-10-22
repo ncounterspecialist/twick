@@ -155,6 +155,11 @@ export const usePlayerManager = ({
               },
             };
             setProjectData(_latestProjectData);
+            if(timelineAction.payload?.version === 1) {
+              setTimeout(()=> {
+                setPlayerUpdating(false);
+              })
+            }
           }  else {
             setTimelineAction(TIMELINE_ACTION.ON_PLAYER_UPDATED, null); 
           }
