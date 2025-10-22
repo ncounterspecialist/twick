@@ -8,9 +8,11 @@
  * @component
  * @example
  * ```tsx
- * <TimelineProvider initialData={initialData} videoResolution={resolution}>
- *   <TwickStudio />
- * </TimelineProvider>
+ * <LivePlayerProvider>
+ *   <TimelineProvider initialData={initialData} contextId="studio-demo">
+ *     <TwickStudio />
+ *   </TimelineProvider>
+ * </LivePlayerProvider>
  * ```
  */
 

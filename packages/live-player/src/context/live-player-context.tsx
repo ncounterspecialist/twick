@@ -28,6 +28,8 @@ type LivePlayerContextType = {
   seekTime: number;
   /** Current volume level (0-1) */
   playerVolume: number;
+  /** Function to get the current time */
+  getCurrentTime: () => number;
   /** Function to set the seek time */
   setSeekTime: (time: number) => void;
   /** Function to set the player state */
@@ -57,6 +59,7 @@ const LivePlayerContext = createContext<LivePlayerContextType | undefined>(undef
  * ```
  */
 export const LivePlayerProvider = ({ children }: { children: React.ReactNode }) => {
+  console.log("LivePlayerProvider", children);
   const [playerState, setPlayerState] = useState<string>(PLAYER_STATE.PAUSED);
   const [seekTime, setSeekTime] = useState<number>(0);
   const [currentTime, setCurrentTime] = useState<number>(0);
@@ -69,12 +72,13 @@ export const LivePlayerProvider = ({ children }: { children: React.ReactNode }) 
         playerState,
         currentTime,
         playerVolume,
+        getCurrentTime: () => currentTime,
         setSeekTime,
-        setPlayerState: (state: string) => {
-          if(state === PLAYER_STATE.PAUSED) {
+        setPlayerState: (newState: string) => {
+          if(newState === PLAYER_STATE.PAUSED) {
             setSeekTime(currentTime);
           }
-          setPlayerState(state);
+          setPlayerState(newState);
         },
         setCurrentTime,
         setPlayerVolume,

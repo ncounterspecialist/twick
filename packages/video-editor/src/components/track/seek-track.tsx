@@ -139,6 +139,7 @@ export default function SeekTrack({
         onClick={(e) => handleSeek(e.clientX)}
         style={{
           overflowX: "auto",
+          overflowY: "hidden",
           position: "relative",
           scrollbarWidth: "none", // Firefox
           msOverflowStyle: "none", // IE/Edge
@@ -203,6 +204,7 @@ export default function SeekTrack({
           return (
             <div
               style={{
+                overflow: "hidden",
                 position: "relative",
                 width: `${Math.max(1, Math.round(totalWidth))}px`,
                 height: "32px",

@@ -27,6 +27,9 @@ This repository contains a collection of packages for video and image manipulati
 
 For detailed API documentation and module information, refer to [docs/modules.md](./docs/modules.md).
 
+## Try it
+Experience Twick Studio in your browser with our live demo: [Twick Studio](https://twick-studio.vercel.app/)
+
 ## Getting Started
 
 1. Clone the repository:
@@ -66,7 +69,7 @@ Open http://localhost:4173 in your browser to see the video editor in action.
 
 For detailed examples and tutorials, see the [Twick Demo guide](https://ncounterspecialist.github.io/twick/docs/in-action).
 
-## Demo Preview
+## Preview
 
 Watch how to create a video project step-by-step with Twick Studio:
 
@@ -120,9 +123,6 @@ export default function App() {
 - **Twick Documentation**: [Twick API Documentation](https://ncounterspecialist.github.io/twick) – Comprehensive documentation and API reference for all Twick packages.
 - **Style Guide**: [Style Guide](./STYLE_GUIDE.md) – Guidelines for coding standards and best practices.
 - **Demo Guide**: [Twick Demo Guide](https://ncounterspecialist.github.io/twick/docs/in-action) – Step-by-step tutorials and interactive examples.
-
-## Playground
-Experience Twick Studio in your browser with our live demo: [Twick Studio](https://twick-studio.vercel.app/)
 
 ## Community
 

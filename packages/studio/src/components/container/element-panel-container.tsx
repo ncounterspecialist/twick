@@ -9,6 +9,10 @@ import { RectPanelContainer } from "./rect-panel-container";
 import { CirclePanelContainer } from "./circle-panel-container";
 import { Wand2 } from "lucide-react";
 
+/**
+ * Props interface for the ElementPanelContainer component.
+ * Defines the configuration and callback functions for element management.
+ */
 interface ElementPanelContainerProps {
   selectedTool: string;
   selectedElement: TrackElement | null;
@@ -18,9 +22,29 @@ interface ElementPanelContainerProps {
   updateElement: (element: TrackElement) => void;
 }
 
+/**
+ * ElementPanelContainer component that renders the appropriate element panel
+ * based on the currently selected tool. Provides a unified interface for
+ * managing different types of timeline elements including media, text, shapes,
+ * and subtitles. Shows an empty state when no tool is selected.
+ *
+ * @param props - Component props for element panel configuration
+ * @returns JSX element containing the appropriate element panel or empty state
+ * 
+ * @example
+ * ```tsx
+ * <ElementPanelContainer
+ *   selectedTool="text"
+ *   selectedElement={currentElement}
+ *   videoResolution={{ width: 1920, height: 1080 }}
+ *   setSelectedTool={setTool}
+ *   addElement={addToTimeline}
+ *   updateElement={updateInTimeline}
+ * />
+ * ```
+ */
 const ElementPanelContainer = ({
   selectedTool,
-  setSelectedTool,
   videoResolution,
   selectedElement,
   addElement,
@@ -28,9 +52,6 @@ const ElementPanelContainer = ({
 }: ElementPanelContainerProps): JSX.Element => {
   const addNewElement = async (element: TrackElement) => {
     await addElement(element);
-    if (!["image", "video", "audio"].includes(selectedTool)) {
-      setSelectedTool("none");
-    }
   };
 
   // Render appropriate library based on selected tool
@@ -106,7 +127,7 @@ const ElementPanelContainer = ({
             <div className="empty-state">
               <div className="empty-state-content">
                 <Wand2 className="empty-state-icon" />
-                <p className="empty-state-text">Select a Tool to Begin</p>
+                <p className="empty-state-text">Select an element from toolbar</p>
               </div>
             </div>
           </div>

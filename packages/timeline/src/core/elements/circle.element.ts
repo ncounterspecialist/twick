@@ -9,6 +9,8 @@ export class CircleElement extends TrackElement {
     super(TIMELINE_ELEMENT_TYPE.CIRCLE);
     this.props = {
       radius,
+      height: radius*2,
+      width: radius*2,
       fill,
       strokeColor: fill,
       lineWidth: 1
@@ -38,6 +40,8 @@ export class CircleElement extends TrackElement {
 
   setRadius(radius: number) {
     this.props.radius = radius;
+    this.props.width = radius*2;
+    this.props.height = radius*2;
     return this;
   }
   

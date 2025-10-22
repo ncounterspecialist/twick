@@ -37,6 +37,7 @@ import VideoEditor, { VideoEditorProps, VideoEditorConfig, TimelineTickConfig, T
 import PlayerControls, { PlayerControlsProps } from "./components/controls/player-controls";
 import TimelineManager from "./components/timeline/timeline-manager";
 import { usePlayerControl } from "./hooks/use-player-control";
+import { useEditorManager } from "./hooks/use-editor-manager";
 import BrowserMediaManager from "./helpers/media-manager/browser-media-manager";
 import { MediaItem, PaginationOptions, SearchOptions, Animation, TextEffect, ElementColors } from "./helpers/types";
 import BaseMediaManager from "./helpers/media-manager/base-media-manager";
@@ -58,6 +59,7 @@ export { ANIMATIONS, TEXT_EFFECTS };
 // Components and hooks
 export { 
   usePlayerControl, 
+  useEditorManager,
   BrowserMediaManager, 
   BaseMediaManager, 
   animationGifs, 

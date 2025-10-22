@@ -135,6 +135,8 @@ export const ELEMENT_TYPES = {
   VIDEO: "video",
   /** Rectangle element type */
   RECT: "rect",
+  /** Circle element type */
+  CIRCLE: "circle",
   /** Background color element type */
   BACKGROUND_COLOR: "backgroundColor",
 }

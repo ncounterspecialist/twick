@@ -32,6 +32,7 @@ export const usePlayerManager = ({
     useTimelineContext();
 
   const currentChangeLog = useRef(changeLog);
+  const prevSeekTime = useRef(0)
   const [playerUpdating, setPlayerUpdating] = useState(false);
 
 
@@ -103,9 +104,10 @@ export const usePlayerManager = ({
    * ```
    */
   const updateCanvas = (seekTime: number) => {
-    if(changeLog === currentChangeLog.current) {
+    if(changeLog === currentChangeLog.current && seekTime === prevSeekTime.current) {
       return;
     }
+    prevSeekTime.current = seekTime;
     const elements = getCurrentElements(
       seekTime,
       editor.getTimelineData()?.tracks ?? []
