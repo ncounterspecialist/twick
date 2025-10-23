@@ -16,6 +16,7 @@ import { ElementSplitter, SplitResult } from "../visitor/element-splitter";
 import { ElementCloner } from "../visitor/element-cloner";
 import { TrackElement } from "../elements/base.element";
 import { ProjectJSON, TrackJSON } from "../../types";
+import { ValidationError } from "../visitor/element-validator";
 
 /**
  * Type for timeline operation context
@@ -156,7 +157,7 @@ export class TimelineEditor {
     element: TrackElement
   ): Promise<boolean> {
     if (!track) {
-      return false;
+      throw new Error("TRACK_NOT_FOUND"); 
     }
     try {
       // Use the visitor pattern to handle different element types
@@ -169,10 +170,16 @@ export class TimelineEditor {
         if (currentData) {
           this.setTimelineData({tracks: currentData.tracks, updatePlayerData: true});
         }
+        return true;
+      } else {
+        return false;
       }
-      return result;
     } catch (error) {
-      return false;
+      if(error instanceof ValidationError && error.errors?.length > 0) {
+        throw error;
+      } else {
+        throw new Error("ELEMENT_NOT_ADDED");
+      }
     }
   }
 

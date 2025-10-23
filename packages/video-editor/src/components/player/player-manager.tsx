@@ -8,6 +8,27 @@ import { useEffect, useRef } from "react";
 import "../../styles/video-editor.css";
 import { usePlayerManager } from "../../hooks/use-player-manager";
 
+/**
+ * PlayerManager component that manages video playback and canvas rendering.
+ * Integrates the live player with canvas operations, handling both video playback
+ * and static canvas display modes. Automatically updates canvas when paused and
+ * manages player state transitions.
+ *
+ * @param props - Component configuration props
+ * @param props.videoProps - Video dimensions and background color
+ * @param props.playerProps - Optional player quality settings
+ * @param props.canvasMode - Whether to show canvas overlay when paused
+ * @returns JSX element containing player and canvas components
+ * 
+ * @example
+ * ```tsx
+ * <PlayerManager
+ *   videoProps={{ width: 1920, height: 1080, backgroundColor: '#000' }}
+ *   playerProps={{ quality: 720 }}
+ *   canvasMode={true}
+ * />
+ * ```
+ */
 export const PlayerManager = ({
   videoProps,
   playerProps,

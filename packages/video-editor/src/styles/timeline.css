@@ -73,8 +73,6 @@
   left: 0;
   z-index: 30;
   cursor: ew-resize;
-  width: 100%;
-  height: 100%;
 }
 
 .twick-seek-track-pin {
@@ -83,7 +81,6 @@
   left: 0;
   z-index: 30;
   width: 1.5px;
-  height: 100%;
   background-color: #FFFFFF;
 }
 

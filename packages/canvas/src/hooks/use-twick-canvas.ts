@@ -18,6 +18,7 @@ import {
   addTextElement,
   addCaptionElement,
   addBackgroundColor,
+  addCircleElement,
 } from "../components/elements";
 
 /**
@@ -28,7 +29,7 @@ import {
  * @param onCanvasReady - Callback executed when the canvas is ready
  * @param onCanvasOperation - Callback executed on canvas operations such as item selection or updates
  * @returns Object containing canvas-related functions and state
- * 
+ *
  * @example
  * ```js
  * const { twickCanvas, buildCanvas, addElementToCanvas } = useTwickCanvas({
@@ -64,7 +65,7 @@ export const useTwickCanvas = ({
    * to maintain proper coordinate mapping between canvas and video.
    *
    * @param videoSize - New video dimensions
-   * 
+   *
    * @example
    * ```js
    * onVideoSizeChange({ width: 1920, height: 1080 });
@@ -86,7 +87,7 @@ export const useTwickCanvas = ({
    * event listeners for interactive operations.
    *
    * @param props - Canvas configuration properties including size, colors, and behavior settings
-   * 
+   *
    * @example
    * ```js
    * buildCanvas({
@@ -112,7 +113,11 @@ export const useTwickCanvas = ({
   }: CanvasProps & { forceBuild?: boolean }) => {
     if (!canvasRef) return;
 
-    if (!forceBuild && canvasResolutionRef.current.width === canvasSize.width && canvasResolutionRef.current.height === canvasSize.height) {
+    if (
+      !forceBuild &&
+      canvasResolutionRef.current.width === canvasSize.width &&
+      canvasResolutionRef.current.height === canvasSize.height
+    ) {
       return;
     }
 
@@ -264,6 +269,22 @@ export const useTwickCanvas = ({
                     y,
                   },
                 };
+              } else if (object?.type === "circle") {
+                const radius = Number(
+                  (elementMap.current[elementId].props.radius * object.scaleX).toFixed(2)
+                );
+                elementMap.current[elementId] = {
+                  ...elementMap.current[elementId],
+                  props: {
+                    ...elementMap.current[elementId].props,
+                    rotation: object.angle,
+                    radius: radius,
+                    height: radius*2,
+                    width: radius*2,
+                    x,
+                    y,
+                  },
+                };
               } else {
                 elementMap.current[elementId] = {
                   ...elementMap.current[elementId],
@@ -297,7 +318,7 @@ export const useTwickCanvas = ({
    * Supports batch operations for efficient element management.
    *
    * @param options - Object containing elements, seek time, and additional options
-   * 
+   *
    * @example
    * ```js
    * await setCanvasElements({
@@ -327,10 +348,10 @@ export const useTwickCanvas = ({
       if (cleanAndAdd && getCanvasContext(twickCanvas)) {
         // Store background color before clearing
         const backgroundColor = twickCanvas.backgroundColor;
-        
+
         // Clear canvas before adding new elements
         clearCanvas(twickCanvas);
-        
+
         // Restore background color
         if (backgroundColor) {
           twickCanvas.backgroundColor = backgroundColor;
@@ -369,7 +390,7 @@ export const useTwickCanvas = ({
    * Handles different element types (video, image, text, etc.) with appropriate rendering.
    *
    * @param options - Object containing element data, index, and rendering options
-   * 
+   *
    * @example
    * ```js
    * await addElementToCanvas({
@@ -400,7 +421,10 @@ export const useTwickCanvas = ({
     // Add element based on type
     switch (element.type) {
       case ELEMENT_TYPES.VIDEO:
-        const currentFrameEffect = getCurrentFrameEffect(element, seekTime || 0);
+        const currentFrameEffect = getCurrentFrameEffect(
+          element,
+          seekTime || 0
+        );
         elementFrameMap.current[element.id] = currentFrameEffect;
         const snapTime =
           ((seekTime || 0) - (element?.s || 0)) *
@@ -441,6 +465,14 @@ export const useTwickCanvas = ({
         break;
       case ELEMENT_TYPES.RECT:
         await addRectElement({
+          element,
+          index,
+          canvas: twickCanvas,
+          canvasMetadata: canvasMetadataRef.current,
+        });
+        break;
+      case ELEMENT_TYPES.CIRCLE:
+        await addCircleElement({
           element,
           index,
           canvas: twickCanvas,

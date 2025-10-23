@@ -105,6 +105,8 @@ export interface RectProps {
 export interface CircleProps {
   fill: string;
   radius: number;
+  height: number;
+  width: number;
   strokeColor?: string;
   lineWidth?: number;
 }

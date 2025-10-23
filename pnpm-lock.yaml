@@ -343,6 +343,9 @@ importers:
         specifier: ^18.2.0
         version: 18.3.1(react@18.3.1)
     devDependencies:
+      '@twick/live-player':
+        specifier: workspace:^0.14.0
+        version: link:../live-player
       '@twick/timeline':
         specifier: workspace:^0.14.0
         version: link:../timeline

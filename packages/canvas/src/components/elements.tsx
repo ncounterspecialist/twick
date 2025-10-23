@@ -4,6 +4,7 @@ import {
   Group,
   FabricImage,
   Rect,
+  Circle,
   Shadow,
 } from "fabric";
 import { convertToCanvasPosition } from "../helpers/canvas.util";
@@ -30,7 +31,7 @@ import { getObjectFitSize, getThumbnail } from "@twick/media-utils";
  * @param canvas - The Fabric.js canvas instance
  * @param canvasMetadata - Metadata about the canvas including scale and dimensions
  * @returns The configured Fabric.js text object
- * 
+ *
  * @example
  * ```js
  * const textElement = addTextElement({
@@ -123,7 +124,7 @@ export const addTextElement = ({
  * @param element - The canvas element configuration
  * @param index - The z-index of the element
  * @param canvasMetadata - Metadata about the canvas including scale and dimensions
- * 
+ *
  * @example
  * ```js
  * setImageProps({
@@ -179,7 +180,7 @@ const setImageProps = ({
  * @param captionProps - Default and user-defined caption properties
  * @param canvasMetadata - Metadata about the canvas including scale and dimensions
  * @returns The configured Fabric.js caption object
- * 
+ *
  * @example
  * ```js
  * const captionElement = addCaptionElement({
@@ -210,7 +211,7 @@ export const addCaptionElement = ({
     canvasMetadata
   );
 
-  const caption = new FabricText(element.props?.text || element.t ||"", {
+  const caption = new FabricText(element.props?.text || element.t || "", {
     left: x,
     top: y,
     originX: "center",
@@ -276,13 +277,13 @@ export const addCaptionElement = ({
  * @param canvasMetadata - Metadata of the canvas, including dimensions and scale factors
  * @param currentFrameEffect - Optional frame effect to apply to the image
  * @returns A Fabric.js image object or a group with an image and frame
- * 
+ *
  * @example
  * ```js
  * const videoElement = await addVideoElement({
- *   element: { 
- *     id: "video1", 
- *     props: { src: "video.mp4", x: 100, y: 100 } 
+ *   element: {
+ *     id: "video1",
+ *     props: { src: "video.mp4", x: 100, y: 100 }
  *   },
  *   index: 2,
  *   canvas: fabricCanvas,
@@ -342,7 +343,7 @@ export const addVideoElement = async ({
  * @param canvasMetadata - Metadata of the canvas including dimensions and scale factors
  * @param currentFrameEffect - Optional frame effect to apply to the image
  * @returns A Fabric.js image object or a group with an image and frame
- * 
+ *
  * @example
  * ```js
  * const imageElement = await addImageElement({
@@ -360,7 +361,7 @@ export const addImageElement = async ({
   index,
   canvas,
   canvasMetadata,
-  currentFrameEffect
+  currentFrameEffect,
 }: {
   imageUrl?: string;
   element: CanvasElement;
@@ -371,7 +372,7 @@ export const addImageElement = async ({
 }) => {
   try {
     // Load the image from the provided source URL
-    const img = await FabricImage.fromURL(imageUrl ||element.props.src || "");
+    const img = await FabricImage.fromURL(imageUrl || element.props.src || "");
     img.set({
       originX: "center",
       originY: "center",
@@ -390,7 +391,7 @@ export const addImageElement = async ({
         index,
         canvas,
         canvasMetadata,
-        currentFrameEffect
+        currentFrameEffect,
       });
     } else {
       setImageProps({ img, element, index, canvasMetadata });
@@ -414,7 +415,7 @@ export const addImageElement = async ({
  * @param canvasMetadata - Metadata of the canvas including dimensions and scale factors
  * @param currentFrameEffect - Optional current frame effect to override default frame properties
  * @returns A Fabric.js group containing the image and frame with configured properties
- * 
+ *
  * @example
  * ```js
  * const mediaGroup = addMediaGroup({
@@ -510,7 +511,6 @@ const addMediaGroup = ({
     opacity: element.props?.opacity ?? 1,
   });
 
-
   const { x, y } = convertToCanvasPosition(
     framePosition?.x || 0,
     framePosition?.y || 0,
@@ -561,7 +561,7 @@ const addMediaGroup = ({
  * @param canvas - The Fabric.js canvas instance
  * @param canvasMetadata - Metadata containing canvas scaling and dimensions
  * @returns A Fabric.js Rect object configured with the specified properties
- * 
+ *
  * @example
  * ```js
  * const rectElement = addRectElement({
@@ -618,6 +618,48 @@ export const addRectElement = ({
   return rect;
 };
 
+export const addCircleElement = ({
+  element,
+  index,
+  canvas,
+  canvasMetadata,
+}: {
+  element: CanvasElement;
+  index: number;
+  canvas: FabricCanvas;
+  canvasMetadata: CanvasMetadata;
+}) => {
+  // Convert element's position to canvas coordinates
+  const { x, y } = convertToCanvasPosition(
+    element.props?.x || 0,
+    element.props?.y || 0,
+    canvasMetadata
+  );
+
+  const circle = new Circle({
+    left: x, // X-coordinate on the canvas
+    top: y, // Y-coordinate on the canvas
+    radius: (element.props?.radius || 0) * canvasMetadata.scaleX,
+    fill: element.props?.fill || "#000000",
+    stroke: element.props?.stroke || "#000000",
+    strokeWidth: (element.props?.lineWidth || 0) * canvasMetadata.scaleX,
+    originX: "center",
+    originY: "center",
+  });
+
+  // Set custom control for rotation
+  circle.controls.mt = disabledControl;
+  circle.controls.mb = disabledControl;
+  circle.controls.ml = disabledControl;
+  circle.controls.mr = disabledControl;
+  circle.controls.mtr = disabledControl;
+
+  circle.set("id", element.id);
+  circle.set("zIndex", index);
+  canvas.add(circle);
+  return circle;
+};
+
 /**
  * Add a background color to the canvas.
  * Creates a full-canvas rectangle with the specified background color
@@ -628,7 +670,7 @@ export const addRectElement = ({
  * @param canvas - The Fabric.js canvas instance
  * @param canvasMetadata - Metadata containing canvas scaling and dimensions
  * @returns A Fabric.js Rect object configured with the specified properties
- * 
+ *
  * @example
  * ```js
  * const bgElement = addBackgroundColor({

@@ -9,15 +9,18 @@
  * ```jsx
  * import { TwickStudio, useStudioManager } from '@twick/studio';
  * import { TimelineProvider } from '@twick/timeline';
+ * import { LivePlayerProvider } from '@twick/live-player';
  *
  * function App() {
  *   return (
- *     <TimelineProvider
- *       initialData={{ timeline: [], version: 0 }}
- *       videoResolution={{ width: 1920, height: 1080 }}
- *     >
- *       <TwickStudio />
- *     </TimelineProvider>
+ *     <LivePlayerProvider>
+ *       <TimelineProvider
+ *         initialData={{ timeline: [], version: 0 }}
+ *         contextId="studio-demo"
+ *       >
+ *         <TwickStudio />
+ *       </TimelineProvider>
+ *     </LivePlayerProvider>
  *   );
  * }
  * ```

@@ -296,17 +296,21 @@ export class Track {
     try {
       const isValid = this.validateElement(element);
       if (isValid) {
-        this.elements.push(element);
-        return true;
+        if(this.isElementColliding(element)) {
+          throw new ValidationError("Element is colliding with another element", ["COLLISION_ERROR"]);
+        } else {
+          this.elements.push(element);
+          return true;
+        }
       }
     } catch (error) {
-      if (error instanceof ValidationError) {
-        throw error;
-      }
       throw error;
     }
-
     return false;
+  }
+
+  public isElementColliding(element: TrackElement): boolean {
+    return this.elements.some((e) => e.getStart() < element.getEnd() && e.getEnd() > element.getStart());
   }
 
   /**

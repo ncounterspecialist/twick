@@ -8,6 +8,15 @@ import { IconElement } from "../elements/icon.element";
 import { CircleElement } from "../elements/circle.element";
 import { RectElement } from "../elements/rect.element";
 
+export const VALIDATION_ERROR_CODE = {
+  ELEMENT_NOT_FOUND: "ELEMENT_NOT_FOUND",
+  ELEMENT_NOT_ADDED: "ELEMENT_NOT_ADDED",
+  ELEMENT_NOT_UPDATED: "ELEMENT_NOT_UPDATED",
+  ELEMENT_NOT_REMOVED: "ELEMENT_NOT_REMOVED",
+  COLLISION_ERROR: "COLLISION_ERROR",
+  INVALID_TIMING: "INVALID_TIMING",
+}
+
 export class ValidationError extends Error {
   constructor(
     message: string,
