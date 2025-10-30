@@ -1,0 +1,62 @@
+{
+  "name": "@twick/cloud-export-video",
+  "version": "0.14.0",
+  "description": "Twick cloud function for exporting video with platform-specific templates (AWS Lambda container)",
+  "type": "module",
+  "main": "core/renderer.js",
+  "exports": {
+    ".": "./core/renderer.js",
+    "./aws": "./platform/aws/handler.js",
+    "./platform/aws/*": "./platform/aws/*"
+  },
+  "bin": {
+    "twick-export-video": "bin/twick-export-video.js"
+  },
+  "files": [
+    "core",
+    "platform",
+    "bin",
+    "README.md"
+  ],
+  "scripts": {
+    "verify:aws": "node -e \"require('fs').accessSync('platform/aws/Dockerfile'); require('fs').accessSync('platform/aws/handler.js'); console.log('AWS platform assets present')\"",
+    "pack:aws": "npm run verify:aws && npm pack",
+    "release:aws": "npm run verify:aws && npm publish --access public --tag aws",
+    "prepublishOnly": "npm run verify:aws"
+  },
+  "publishConfig": {
+    "access": "public",
+    "tag": "aws"
+  },
+  "keywords": [
+    "twick",
+    "video",
+    "export",
+    "lambda",
+    "aws",
+    "docker"
+  ],
+  "author": "",
+  "license": "SEE LICENSE IN LICENSE.md",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@sparticuz/chromium": "^129.0.0",
+    "@twick/2d": "*",
+    "@twick/core": "*",
+    "@twick/ffmpeg": "*",
+    "@twick/renderer": "*",
+    "@twick/ui": "*",
+    "@twick/vite-plugin": "*",
+    "@twick/visualizer": "*",
+    "ffmpeg-static": "^5.2.0",
+    "fluent-ffmpeg": "^2.1.3"
+  },
+  "devDependencies": {
+    "typescript": "~5.4.5"
+  },
+  "peerDependencies": {
+    "puppeteer": ">=22"
+  }
+}

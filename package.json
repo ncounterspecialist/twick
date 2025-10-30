@@ -34,7 +34,10 @@
     "clean:packages": "turbo run clean --filter=./packages/*",
     "changeset": "changeset",
     "version": "changeset version",
-    "release": "turbo run build && changeset publish"
+    "release": "turbo run build && changeset publish",
+    "build:cloud-functions": "turbo run build --filter=./packages/cloud-functions/*",
+    "pack:cloud-export-video:aws": "pnpm --filter @twick/cloud-export-video run pack:aws",
+    "release:cloud-export-video:aws": "pnpm --filter @twick/cloud-export-video run release:aws"
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.1",
@@ -54,7 +57,8 @@
     "packages/live-player",
     "packages/video-editor",
     "packages/studio",
-    "packages/examples"
+    "packages/examples",
+    "packages/cloud-functions/*"
   ],
   "pnpm": {
     "overrides": {
