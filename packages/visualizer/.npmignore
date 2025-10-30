@@ -1,0 +1,46 @@
+# Overrides root .gitignore so that dist/ is published
+
+# Node modules (npm excludes this by default, but keep explicit)
+node_modules/
+
+# Build artifacts (do NOT ignore dist here)
+build/
+
+# Tooling caches
+.turbo/
+.docusaurus/
+
+# Misc files
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Local Netlify folder
+.netlify
+
+# IDE specific files
+.idea
+.vscode
+*.swp
+*.swo
+
+# TypeScript
+*.tsbuildinfo
+
+# Cache
+.cache
+.temp
+
+# Tarballs
+*.tgz
+
+# Documentation (keep package docs if any out of publish)
+docs/
