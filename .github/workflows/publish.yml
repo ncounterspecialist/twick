@@ -180,11 +180,6 @@ jobs:
             fi
           fi
           
-          # Ensure cloud-functions/export-video is included at the end (nested package)
-          if [[ ! " $PUBLISH_ORDER " =~ " cloud-functions/export-video " ]]; then
-            PUBLISH_ORDER="$PUBLISH_ORDER cloud-functions/export-video"
-          fi
-          
           echo "Publish order: $PUBLISH_ORDER"
           echo "publish-order=$PUBLISH_ORDER" >> $GITHUB_OUTPUT
 
@@ -196,23 +191,18 @@ jobs:
               package_name=$(jq -r '.name' "packages/$package/package.json")
               echo "Publishing $package_name (from $package)..."
               cd "packages/$package"
-
+              
               # Use --ignore-scripts to prevent malicious postinstall scripts
               # Use --access public to ensure public access
               # Use --dry-run first to validate
-              if [ "$package_name" = "@twick/cloud-export-video" ]; then
-                echo "Running dry-run for $package_name with aws tag..."
-                npm publish --access public --ignore-scripts --tag aws --dry-run
-                echo "Publishing $package_name with aws tag..."
-                npm publish --access public --ignore-scripts --tag aws
-              else
-                echo "Running dry-run for $package_name..."
-                npm publish --access public --ignore-scripts --dry-run
-                echo "Publishing $package_name..."
-                npm publish --access public --ignore-scripts
-              fi
-
-              cd - >/dev/null 2>&1
+              echo "Running dry-run for $package_name..."
+              npm publish --access public --ignore-scripts --dry-run
+              
+              # If dry-run succeeds, publish for real
+              echo "Publishing $package_name..."
+              npm publish --access public --ignore-scripts
+              
+              cd ../..
               echo "✓ Successfully published $package_name"
             else
               echo "Warning: Package $package not found or missing package.json"
