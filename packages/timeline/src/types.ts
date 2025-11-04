@@ -86,9 +86,13 @@ export interface TextProps {
   fontFamily?: string;
   fill?: string;
   stroke?: string;
+  shadowColor?: string;
+  shadowOffset?: number[];
+  shadowBlur?: number;
+  shadowOpacity?: number;
   strokeWidth?: number;
   textAlign?: TextAlign;
-  fontWeight?: number | string;
+  fontWeight?: number;
   lineWidth?: number;
   rotation?: number;
   fontStyle?: string;

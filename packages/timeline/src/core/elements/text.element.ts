@@ -8,11 +8,12 @@ export class TextElement extends TrackElement {
   protected textEffect?: ElementTextEffect;
   protected declare props: TextProps;
 
-  constructor(text: string) {
+  constructor(text: string, props?: Omit<TextProps, 'text'>) {
     super(TIMELINE_ELEMENT_TYPE.TEXT);
     this.props = {
       text,
-      fill: "#888888" //default-grey
+      fill: "#888888", //default-grey,
+      ...(props || {})
     };
   }
 
@@ -30,6 +31,10 @@ export class TextElement extends TrackElement {
 
   getLineWidth() {
     return this.props.lineWidth;
+  }
+
+  getProps(): TextProps {
+    return this.props;
   }
 
   setText(text: string) {
@@ -84,6 +89,11 @@ export class TextElement extends TrackElement {
 
   setLineWidth(lineWidth: number) {
     this.props.lineWidth = lineWidth;
+    return this;
+  }
+
+  setProps(props: TextProps) {
+    this.props = structuredClone(props);
     return this;
   }
 
