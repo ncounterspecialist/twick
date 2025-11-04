@@ -124,6 +124,12 @@ export class TimelineEditor {
     return track as Track | null;
   }
 
+  getSubtiltesTrack(): Track | null {
+    const prevTimelineData = this.getTimelineData();
+    const track = prevTimelineData?.tracks.find((t) => t.getType() === "caption");
+    return track as Track | null;
+  }
+
   removeTrackById(id: string): void {
     const tracks = this.getTimelineData()?.tracks || [];
     const updatedTracks = tracks.filter((t) => t.getId() !== id);

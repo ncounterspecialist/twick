@@ -33,6 +33,7 @@ export interface TrackJSON {
   id: string;
   name: string;
   type?: string; // Added for track serialization
+  props?: Record<string, any>;
   elements: ElementJSON[];
 }
 

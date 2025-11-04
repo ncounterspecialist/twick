@@ -206,8 +206,8 @@ export const addCaptionElement = ({
   canvasMetadata: CanvasMetadata;
 }) => {
   const { x, y } = convertToCanvasPosition(
-    element.props?.pos?.x || captionProps?.pos?.x || 0,
-    element.props?.pos?.y || captionProps?.pos?.y || 0,
+    (captionProps?.applyToAll ? captionProps?.x : element.props?.x) ?? 0,
+    (captionProps?.applyToAll ? captionProps?.y : element.props?.y) ?? 0,
     canvasMetadata
   );
 
@@ -218,32 +218,53 @@ export const addCaptionElement = ({
     originY: "center",
     angle: element.props?.rotation || 0,
     fontSize: Math.round(
-      (element.props?.font?.size ||
-        captionProps.font?.size ||
+      ((captionProps?.applyToAll
+        ? captionProps?.font?.size
+        : element.props?.font?.size ?? captionProps?.font?.size) ??
         DEFAULT_CAPTION_PROPS.size) * canvasMetadata.scaleX
     ),
     fontFamily:
-      element.props?.font?.family ||
-      captionProps.font?.family ||
+      (captionProps?.applyToAll
+        ? captionProps?.font?.family
+        : element.props?.font?.family ?? captionProps?.font?.family) ??
       DEFAULT_CAPTION_PROPS.family,
     fill:
-      element.props?.fill ||
-      captionProps.color?.text ||
+      (captionProps?.applyToAll
+        ? captionProps.color?.text
+        : element.props?.fill ?? captionProps.color?.text) ??
       DEFAULT_CAPTION_PROPS.fill,
-    fontWeight: DEFAULT_CAPTION_PROPS.fontWeight,
-    stroke: element.props?.stroke || DEFAULT_CAPTION_PROPS.stroke,
-    opacity: element.props?.opacity ?? 1,
+    fontWeight: (captionProps?.applyToAll
+      ? captionProps?.font?.weight
+      : element.props?.fontWeight ?? captionProps?.font?.weight) ??
+    DEFAULT_CAPTION_PROPS.fontWeight,
+    stroke: (captionProps?.applyToAll
+      ? captionProps?.stroke
+      : element.props?.stroke ?? captionProps?.stroke) ??
+    DEFAULT_CAPTION_PROPS.stroke,
+    opacity: (captionProps?.applyToAll
+      ? captionProps?.opacity
+      : element.props?.opacity ?? captionProps?.opacity) ?? 1,
     shadow: new Shadow({
       offsetX:
-        element.props?.shadowOffset?.[0] ||
+      (captionProps?.applyToAll
+        ? captionProps?.shadowOffset?.[0]
+        : element.props?.shadowOffset?.[0] ?? captionProps?.shadowOffset?.[0]) ?? 
         DEFAULT_CAPTION_PROPS.shadowOffset?.[0],
       offsetY:
-        element.props?.shadowOffset?.[1] ||
+        (captionProps?.applyToAll
+          ? captionProps?.shadowOffset?.[1]
+          : element.props?.shadowOffset?.[1] ?? captionProps?.shadowOffset?.[1]) ??
         DEFAULT_CAPTION_PROPS.shadowOffset?.[1],
-      blur: element.props?.shadowBlur || DEFAULT_CAPTION_PROPS.shadowBlur,
-      color: element.props?.shadowColor || DEFAULT_CAPTION_PROPS.shadowColor,
+      blur: (captionProps?.applyToAll
+        ? captionProps?.shadowBlur
+        : element.props?.shadowBlur ?? captionProps?.shadowBlur) ?? DEFAULT_CAPTION_PROPS.shadowBlur,
+      color: (captionProps?.applyToAll
+        ? captionProps?.shadowColor
+        : element.props?.shadowColor ?? captionProps?.shadowColor) ?? DEFAULT_CAPTION_PROPS.shadowColor,
     }),
-    strokeWidth: element.props?.lineWidth || DEFAULT_CAPTION_PROPS.lineWidth,
+        strokeWidth: (captionProps?.applyToAll 
+          ? captionProps?.lineWidth
+          : element.props?.lineWidth ?? captionProps?.lineWidth) ?? DEFAULT_CAPTION_PROPS.lineWidth,
   });
 
   // Assign metadata and custom controls

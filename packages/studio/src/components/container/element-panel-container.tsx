@@ -1,4 +1,3 @@
-import { SubtitlesPanel } from "../panel/subtitles-panel";
 import { Size, TrackElement } from "@twick/timeline";
 import { AudioPanelContainer } from "./audio-panel-container";
 import { ImagePanelContainer } from "./image-panel-container";
@@ -8,6 +7,7 @@ import { IconPanelContainer } from "./icon-panel-container";
 import { RectPanelContainer } from "./rect-panel-container";
 import { CirclePanelContainer } from "./circle-panel-container";
 import { Wand2 } from "lucide-react";
+import { SubtitlesPanelContainer } from "./subtitles-panel-container";
 
 /**
  * Props interface for the ElementPanelContainer component.
@@ -120,7 +120,7 @@ const ElementPanelContainer = ({
           />
         );
       case "subtitle":
-        return <SubtitlesPanel />;
+        return <SubtitlesPanelContainer />;
       default:
         return (
           <div className="panel-container">

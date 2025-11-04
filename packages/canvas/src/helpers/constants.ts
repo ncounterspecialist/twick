@@ -107,6 +107,8 @@ export const CANVAS_OPERATIONS = {
   ITEM_GROUPED: "ITEM_GROUPED",
   /** Items have been ungrouped */
   ITEM_UNGROUPED: "ITEM_UNGROUPED",
+  /** Caption properties have been updated */
+  CAPTION_PROPS_UPDATED: "CAPTION_PROPS_UPDATED"
 }
 
 /**

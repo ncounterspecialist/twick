@@ -151,7 +151,7 @@ export type CaptionProps = {
  */
 export type CaptionColors = {
   text?: string;
-  background?: string;
+  bgColor?: string;
   highlight?: string;
 };
 
@@ -214,6 +214,7 @@ export type VisualizerTrack = {
       weight?: number;
       style?: string;
     };
+    applyToAll?: boolean;
     captionProps?: CaptionProps;
   };
 };

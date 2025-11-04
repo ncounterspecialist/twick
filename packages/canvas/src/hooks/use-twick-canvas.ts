@@ -1,7 +1,12 @@
 import { useRef, useState } from "react";
 import { Canvas as FabricCanvas, FabricObject } from "fabric";
 import { Dimensions } from "@twick/media-utils";
-import { CanvasMetadata, CanvasProps, CanvasElement } from "../types";
+import {
+  CanvasMetadata,
+  CanvasProps,
+  CanvasElement,
+  CaptionProps,
+} from "../types";
 import {
   clearCanvas,
   convertToVideoPosition,
@@ -51,6 +56,7 @@ export const useTwickCanvas = ({
   const twickCanvasRef = useRef<FabricCanvas | null>(null);
   const videoSizeRef = useRef<Dimensions>({ width: 1, height: 1 }); // Stores the video dimensions
   const canvasResolutionRef = useRef<Dimensions>({ width: 1, height: 1 }); // Stores the canvas dimensions
+  const captionPropsRef = useRef<CaptionProps | null>(null);
   const canvasMetadataRef = useRef<CanvasMetadata>({
     width: 0,
     height: 0,
@@ -187,20 +193,29 @@ export const useTwickCanvas = ({
             videoSizeRef.current
           );
           if (elementMap.current[elementId].type === "caption") {
-            elementMap.current[elementId] = {
-              ...elementMap.current[elementId],
-              props: {
-                ...elementMap.current[elementId].props,
-                pos: {
+            if (captionPropsRef.current?.applyToAll) {
+              onCanvasOperation?.(CANVAS_OPERATIONS.CAPTION_PROPS_UPDATED, {
+                element: elementMap.current[elementId],
+                props: {
+                  ...captionPropsRef.current,
                   x,
                   y,
                 },
-              },
-            };
-            onCanvasOperation?.(
-              CANVAS_OPERATIONS.ITEM_UPDATED,
-              elementMap.current[elementId]
-            );
+              });
+            } else {
+              elementMap.current[elementId] = {
+                ...elementMap.current[elementId],
+                props: {
+                  ...elementMap.current[elementId].props,
+                  x,
+                  y,
+                },
+              };
+              onCanvasOperation?.(
+                CANVAS_OPERATIONS.ITEM_UPDATED,
+                elementMap.current[elementId]
+              );
+            }
           } else {
             if (object?.type === "group") {
               const currentFrameEffect = elementFrameMap.current[elementId];
@@ -271,7 +286,9 @@ export const useTwickCanvas = ({
                 };
               } else if (object?.type === "circle") {
                 const radius = Number(
-                  (elementMap.current[elementId].props.radius * object.scaleX).toFixed(2)
+                  (
+                    elementMap.current[elementId].props.radius * object.scaleX
+                  ).toFixed(2)
                 );
                 elementMap.current[elementId] = {
                   ...elementMap.current[elementId],
@@ -279,8 +296,8 @@ export const useTwickCanvas = ({
                     ...elementMap.current[elementId].props,
                     rotation: object.angle,
                     radius: radius,
-                    height: radius*2,
-                    width: radius*2,
+                    height: radius * 2,
+                    width: radius * 2,
                     x,
                     y,
                   },
@@ -359,6 +376,7 @@ export const useTwickCanvas = ({
         }
       }
 
+      captionPropsRef.current = captionProps;
       await Promise.all(
         elements.map(async (element, index) => {
           try {

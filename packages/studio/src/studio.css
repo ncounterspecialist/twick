@@ -113,6 +113,7 @@ html {
 .panel-section {
   display: flex;
   flex-direction: column;
+  gap: 8;
   margin-bottom: 0.75rem;
 }
 

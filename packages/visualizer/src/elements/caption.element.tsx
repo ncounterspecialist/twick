@@ -116,7 +116,7 @@ export const CaptionElement = {
       if (caption.capStyle == "highlight_bg") {
         const bgContainerRef = createRef();
         const childTextRef = createRef();
-        const _color = new Color({...hexToRGB(captionProps.colors.background), a: captionProps?.bgOpacity ?? 1});
+        const _color = new Color({...hexToRGB(captionProps.colors.bgColor), a: captionProps?.bgOpacity ?? 1});
         containerRef().add(
           <Rect
             ref={bgContainerRef}

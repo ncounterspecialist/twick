@@ -1,5 +1,6 @@
 import { CANVAS_OPERATIONS, useTwickCanvas } from "@twick/canvas";
 import {
+  CaptionElement,
   ElementDeserializer,
   getCurrentElements,
   TIMELINE_ACTION,
@@ -14,7 +15,7 @@ import { useEffect, useRef, useState } from "react";
  *
  * @param videoProps - Object containing video dimensions
  * @returns Object containing player management functions and state
- * 
+ *
  * @example
  * ```js
  * const { twickCanvas, projectData, updateCanvas } = usePlayerManager({
@@ -28,20 +29,24 @@ export const usePlayerManager = ({
   videoProps: { width: number; height: number };
 }) => {
   const [projectData, setProjectData] = useState<any>(null);
-  const { timelineAction, setTimelineAction, setSelectedItem, editor, changeLog } =
-    useTimelineContext();
+  const {
+    timelineAction,
+    setTimelineAction,
+    setSelectedItem,
+    editor,
+    changeLog,
+  } = useTimelineContext();
 
   const currentChangeLog = useRef(changeLog);
-  const prevSeekTime = useRef(0)
+  const prevSeekTime = useRef(0);
   const [playerUpdating, setPlayerUpdating] = useState(false);
-
 
   /**
    * Handles canvas ready event and logs canvas initialization.
    * Called when the Fabric.js canvas is fully initialized and ready for use.
    *
    * @param canvas - The initialized canvas instance
-   * 
+   *
    * @example
    * ```js
    * handleCanvasReady(canvasInstance);
@@ -59,7 +64,7 @@ export const usePlayerManager = ({
    *
    * @param operation - The type of canvas operation performed
    * @param data - The data associated with the operation
-   * 
+   *
    * @example
    * ```js
    * handleCanvasOperation("ITEM_SELECTED", elementData);
@@ -67,28 +72,34 @@ export const usePlayerManager = ({
    * ```
    */
   const handleCanvasOperation = (operation: string, data: any) => {
-    const element = ElementDeserializer.fromJSON(data);
-    switch (operation) {
-      case CANVAS_OPERATIONS.ITEM_SELECTED:
-        setSelectedItem(element);
-        break;
-      case CANVAS_OPERATIONS.ITEM_UPDATED:
-        if (element) {
-          const updatedElement = editor.updateElement(element);
-          currentChangeLog.current = currentChangeLog.current + 1;
-          setSelectedItem(updatedElement)      
-        }
-        break;
-      default:
-        break;
+    if (operation === CANVAS_OPERATIONS.CAPTION_PROPS_UPDATED) {
+      const subtitlesTrack = editor.getSubtiltesTrack();
+      subtitlesTrack?.setProps(data.props);
+      setSelectedItem(data.element);
+      editor.refresh();
+    } else {
+      const element = ElementDeserializer.fromJSON(data);
+      switch (operation) {
+        case CANVAS_OPERATIONS.ITEM_SELECTED:
+          setSelectedItem(element);
+          break;
+        case CANVAS_OPERATIONS.ITEM_UPDATED:
+          if (element) {
+            const updatedElement = editor.updateElement(element);
+            currentChangeLog.current = currentChangeLog.current + 1;
+            setSelectedItem(updatedElement);
+          }
+          break;
+        default:
+          break;
+      }
     }
   };
 
-  const { twickCanvas, buildCanvas, setCanvasElements } =
-    useTwickCanvas({
-      onCanvasReady: handleCanvasReady,
-      onCanvasOperation: handleCanvasOperation,
-    });
+  const { twickCanvas, buildCanvas, setCanvasElements } = useTwickCanvas({
+    onCanvasReady: handleCanvasReady,
+    onCanvasOperation: handleCanvasOperation,
+  });
 
   /**
    * Updates the canvas with elements active at the specified time.
@@ -96,7 +107,7 @@ export const usePlayerManager = ({
    * on the canvas at the given seek time.
    *
    * @param seekTime - The time in seconds to display on the canvas
-   * 
+   *
    * @example
    * ```js
    * updateCanvas(5.5);
@@ -104,7 +115,10 @@ export const usePlayerManager = ({
    * ```
    */
   const updateCanvas = (seekTime: number) => {
-    if(changeLog === currentChangeLog.current && seekTime === prevSeekTime.current) {
+    if (
+      changeLog === currentChangeLog.current &&
+      seekTime === prevSeekTime.current
+    ) {
       return;
     }
     prevSeekTime.current = seekTime;
@@ -112,10 +126,17 @@ export const usePlayerManager = ({
       seekTime,
       editor.getTimelineData()?.tracks ?? []
     );
+    let captionProps = {};
+    (elements || []).forEach((element) => {
+      if (element instanceof CaptionElement) {
+        const track = editor.getTrackById(element.getTrackId());
+        captionProps = track?.getProps() ?? {};
+      }
+    });
     setCanvasElements({
       elements,
       seekTime,
-      captionProps: {},
+      captionProps,
       cleanAndAdd: true,
     });
     currentChangeLog.current = changeLog;
@@ -127,7 +148,7 @@ export const usePlayerManager = ({
    * the timeline editor state.
    *
    * @param event - Custom event containing player update information
-   * 
+   *
    * @example
    * ```js
    * onPlayerUpdate(customEvent);
@@ -135,17 +156,20 @@ export const usePlayerManager = ({
    * ```
    */
   const onPlayerUpdate = (event: CustomEvent) => {
-    if(event?.detail?.status === 'ready') {
+    if (event?.detail?.status === "ready") {
       setPlayerUpdating(false);
-      setTimelineAction(TIMELINE_ACTION.ON_PLAYER_UPDATED, null); 
-    } 
-  }
+      setTimelineAction(TIMELINE_ACTION.ON_PLAYER_UPDATED, null);
+    }
+  };
 
   useEffect(() => {
     switch (timelineAction.type) {
       case TIMELINE_ACTION.UPDATE_PLAYER_DATA:
         if (videoProps) {
-          if (timelineAction.payload?.forceUpdate || editor.getLatestVersion() !== projectData?.input?.version) {
+          if (
+            timelineAction.payload?.forceUpdate ||
+            editor.getLatestVersion() !== projectData?.input?.version
+          ) {
             setPlayerUpdating(true);
             const _latestProjectData = {
               input: {
@@ -155,13 +179,13 @@ export const usePlayerManager = ({
               },
             };
             setProjectData(_latestProjectData);
-            if(timelineAction.payload?.version === 1) {
-              setTimeout(()=> {
+            if (timelineAction.payload?.version === 1) {
+              setTimeout(() => {
                 setPlayerUpdating(false);
-              })
+              });
             }
-          }  else {
-            setTimelineAction(TIMELINE_ACTION.ON_PLAYER_UPDATED, null); 
+          } else {
+            setTimelineAction(TIMELINE_ACTION.ON_PLAYER_UPDATED, null);
           }
         }
         break;
