@@ -59,7 +59,6 @@ const LivePlayerContext = createContext<LivePlayerContextType | undefined>(undef
  * ```
  */
 export const LivePlayerProvider = ({ children }: { children: React.ReactNode }) => {
-  console.log("LivePlayerProvider", children);
   const [playerState, setPlayerState] = useState<string>(PLAYER_STATE.PAUSED);
   const [seekTime, setSeekTime] = useState<number>(0);
   const [currentTime, setCurrentTime] = useState<number>(0);

@@ -24,6 +24,17 @@ export function PropertiesPanelContainer({
       </div>
     );
   }
+
+  if (selectedElement.getType() === "caption") {
+    return (
+      <div className="panel-container">
+        <div className="properties-header">
+          <h3 className="properties-title">Not available for sub-title</h3>
+        </div>
+      </div>
+    );
+  }
+  
   return (
     <>
       {/* Element Properties */}

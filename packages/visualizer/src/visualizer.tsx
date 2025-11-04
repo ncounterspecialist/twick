@@ -120,7 +120,7 @@ export const scene = makeScene2D("scene", function* (view: View2D) {
     | string
     | null;
   if (input) {
-    logger("Scene updated", { playerId, input });
+    console.log("Scene updated", { playerId, input });
     // Add background rectangle with specified or default color
     yield view.add(
       <Rect

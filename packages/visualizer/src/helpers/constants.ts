@@ -15,7 +15,7 @@ export const DEFAULT_BACKGROUND_COLOR = "#000000";
  */
 export const DEFAULT_POSITION = {
   x: 0,
-  y: 0
+  y: 0,
 };
 
 /**
@@ -29,7 +29,7 @@ export const DEFAULT_TIMING_FUNCTION = "easeInOut";
 export const FRAME_SHAPE = {
   RECTANGLE: "rectangle",
   CIRCLE: "circle",
-  LINE: "line"
+  LINE: "line",
 } as const;
 
 /**
@@ -40,104 +40,104 @@ export const TRACK_TYPES = {
   AUDIO: "audio",
   CAPTION: "caption",
   SCENE: "scene",
-  ELEMENT: "element"
+  ELEMENT: "element",
 } as const;
 
 export const CAPTION_STYLE: Record<string, CaptionStyle> = {
-    highlight_bg: {
-      rect: {
-        alignItems: "center",
-        gap: 2,
-      },
-      word: {
-        lineWidth: 0.35,
-        stroke: "#000000",
-        fontWeight: 700,
-        shadowOffset: [-3, 3],
-        shadowColor: "#000000",
-        fill: "#ffffff",
-        fontFamily: "Bangers",
-        bgColor: "#000000",
-        bgOffsetWidth: 30,
-        bgOffsetHeight: 8,
-        fontSize: 54,
-      },
+  highlight_bg: {
+    rect: {
+      alignItems: "center",
+      gap: 2,
     },
-    word_by_word: {
-      rect: {
-        alignItems: "center",
-        justifyContent: "center",
-        gap: 12,
-      },
-      word: {
-        lineWidth: 0.35,
-        stroke: "#000000",
-        fontWeight: 700,
-        strokeFirst: true,
-        shadowOffset: [-2, 2],
-        shadowColor: "#000000",
-        shadowBlur: 5,
-        fontFamily: "Bangers",
-        fill: "#FFFFFF",
-        bgOffsetWidth: 20,
-        bgOffsetHeight: 10,
-        fontSize: 54,
-      },
+    word: {
+      lineWidth: 0.35,
+      stroke: "#000000",
+      fontWeight: 700,
+      shadowOffset: [-3, 3],
+      shadowColor: "#000000",
+      fill: "#ffffff",
+      fontFamily: "Bangers",
+      bgColor: "#444444",
+      bgOffsetWidth: 30,
+      bgOffsetHeight: 8,
+      fontSize: 50,
     },
-    word_by_word_with_bg: {
-      rect: {
-        alignItems: "center",
-        gap: 12,
-        padding: [10, 20],
-        radius: 10,
-      },
-      word: {
-        lineWidth: 0.35,
-        stroke: "#000000",
-        fontWeight: 700,
-        strokeFirst: true,
-        shadowOffset: [-2, 2],
-        shadowColor: "#000000",
-        shadowBlur: 5,
-        fontFamily: "Bangers",
-        fill: "#FFFFFF",
-        bgOffsetWidth: 20,
-        bgOffsetHeight: 10,
-        fontSize: 54,
-      },
+  },
+  word_by_word: {
+    rect: {
+      alignItems: "center",
+      justifyContent: "center",
+      gap: 8,
     },
-  };
+    word: {
+      lineWidth: 0.35,
+      stroke: "#000000",
+      fontWeight: 700,
+      strokeFirst: true,
+      shadowOffset: [-2, 2],
+      shadowColor: "#000000",
+      shadowBlur: 5,
+      fontFamily: "Bangers",
+      fill: "#FFFFFF",
+      bgOffsetWidth: 20,
+      bgOffsetHeight: 10,
+      fontSize: 50,
+    },
+  },
+  word_by_word_with_bg: {
+    rect: {
+      alignItems: "center",
+      gap: 8,
+      padding: [10, 20],
+      radius: 10,
+    },
+    word: {
+      lineWidth: 0.35,
+      stroke: "#000000",
+      fontWeight: 700,
+      strokeFirst: true,
+      shadowOffset: [-2, 2],
+      shadowColor: "#000000",
+      shadowBlur: 5,
+      fontFamily: "Bangers",
+      fill: "#FFFFFF",
+      bgOffsetWidth: 20,
+      bgOffsetHeight: 10,
+      fontSize: 50,
+    },
+  },
+};
 
-  export const DEFAULT_CAPTION_COLORS = {
-    text: "#000000",
-    background: "#FFFFFF",
-  };
+export const DEFAULT_CAPTION_COLORS = {
+  text: "#000000",
+  bgColor: "#444444",
+};
 
-  export const DEFAULT_CAPTION_FONT = {
-    family: "Poppins",
-    size: 48,
-    weight: 400,
-  };
+export const DEFAULT_CAPTION_FONT = {
+  family: "Poppins",
+  size: 48,
+  weight: 400,
+};
 
-  export const TRANSPARENT_COLOR = "#FFFFFF00";
+export const TRANSPARENT_COLOR = "#FFFFFF00";
 
-  export const ELEMENT_TYPES = {
-    VIDEO: "video",
-    IMAGE: "image",
-    AUDIO: "audio",
-    TEXT: "text",
-    CAPTION: "caption",
-    RECT: "rect",
-    CIRCLE: "circle",
-    ICON: "icon",
-  };
+export const ELEMENT_TYPES = {
+  VIDEO: "video",
+  IMAGE: "image",
+  AUDIO: "audio",
+  TEXT: "text",
+  CAPTION: "caption",
+  RECT: "rect",
+  CIRCLE: "circle",
+  ICON: "icon",
+};
 
 export const OBJECT_FIT = {
   CONTAIN: "contain",
   COVER: "cover",
   FILL: "fill",
   NONE: "none",
-}
+};
 
 export const COLOR_FILTERS = {
   SATURATED: "saturated",
@@ -156,8 +156,8 @@ export const COLOR_FILTERS = {
   VINTAGE: "vintage",
   DRAMATIC: "dramatic",
   FADED: "faded",
-}
+};
 
 export const EVENT_TYPES = {
   PLAYER_UPDATE: "twick:playerUpdate",
-}
+};

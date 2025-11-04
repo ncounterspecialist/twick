@@ -163,8 +163,8 @@ export class ElementValidator implements ElementVisitor<boolean> {
     const warnings = [...basicValidation.warnings];
 
     // Check caption-specific properties
-    const props = element.getProps();
-    if (!props?.text) {
+    const text = element.getText();
+    if (!text || text.trim() === "") {
       errors.push("Caption element must have text content");
     }
 

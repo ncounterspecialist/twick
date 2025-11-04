@@ -39,6 +39,7 @@ export class Track {
   private id: string;
   private name: string;
   private type: string;
+  private props: Record<string, any>;
   private elements: TrackElement[];
   private validator: ElementValidator;
 
@@ -59,6 +60,7 @@ export class Track {
     this.name = name;
     this.id = id ?? `t-${generateShortUuid}`;
     this.type = type;
+    this.props = {};
     this.elements = [];
     this.validator = new ElementValidator();
   }
@@ -214,6 +216,15 @@ export class Track {
    */
   getElements(): ReadonlyArray<TrackElement> {
     return [...this.elements];
+  }
+
+  getProps(): Record<string, any> {
+    return this.props;
+  }
+
+  setProps(props: Record<string, any>) {
+    this.props = structuredClone(props);
+    return this;
   }
 
   /**
@@ -494,6 +505,7 @@ export class Track {
       id: this.id,
       name: this.name,
       type: this.type,
+      props: this.props,
       elements: this.elements.map(
         (element) => element.accept(serializer) as ElementJSON
       ),
@@ -532,6 +544,7 @@ export class Track {
   static fromJSON(json: any): Track {
     const track = new Track(json.name, json.type ?? "element", json.id);
     track.type = json.type;
+    track.props = json.props;
     track.elements = (json.elements || []).map(ElementDeserializer.fromJSON);
     return track;
   }

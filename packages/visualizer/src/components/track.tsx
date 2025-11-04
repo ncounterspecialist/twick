@@ -93,6 +93,8 @@ export function* makeCaptionTrack({
 
   const tProps = track?.props;
 
+  const applyToAll = tProps?.applyToAll ?? false;
+
   const trackDefaultProps =
     (CAPTION_STYLE[tProps?.capStyle ?? ""] || {}).word || {};
 
@@ -107,40 +109,17 @@ export function* makeCaptionTrack({
       justifyContent: rectStyle.justifyContent as any,
       alignItems: rectStyle.alignItems as any,
     };
+
+    const phraseColors = applyToAll ? tProps?.colors : eProps?.colors ?? tProps?.colors ?? DEFAULT_CAPTION_COLORS;
+
     const phraseProps = {
       ...trackDefaultProps,
-      colors: {
-        text:
-          eProps?.colors?.text ??
-          tProps?.colors?.text ??
-          DEFAULT_CAPTION_COLORS.text,
-        background:
-          eProps?.colors?.background ??
-          tProps?.colors?.background ??
-          DEFAULT_CAPTION_COLORS.background,
-      },
-      font: {
-        family:
-          eProps?.font?.family ??
-          tProps?.font?.family ??
-          DEFAULT_CAPTION_FONT.family,
-        size:
-          eProps?.font?.size ?? tProps?.font?.size ?? DEFAULT_CAPTION_FONT.size,
-        weight:
-          eProps?.font?.weight ??
-          tProps?.font?.weight ??
-          DEFAULT_CAPTION_FONT.weight,
-      },
-      fill:
-        eProps?.colors?.text ??
-        tProps?.colors?.text ??
-        DEFAULT_CAPTION_COLORS.text,
-      bgColor:
-        eProps?.colors?.background ??
-        tProps?.colors?.background ??
-        DEFAULT_CAPTION_COLORS.background,
-      bgOpacity: eProps?.bgOpacity ?? tProps?.bgOpacity ?? 1,
       ...(tProps?.captionProps || {}),
+      colors: phraseColors,
+      font: applyToAll ? tProps?.font : eProps?.font ?? tProps?.font ?? DEFAULT_CAPTION_FONT,
+      fill: phraseColors.text,
+      bgColor: phraseColors.bgColor,
+      bgOpacity: tProps?.bgOpacity ?? 1,
     };
 
     yield* waitFor(element?.s - prevTime);
@@ -150,13 +129,16 @@ export function* makeCaptionTrack({
         ref={phraseRef}
         key={element.id}
         {...mappedRectStyle}
-        x={eProps?.x ?? tProps?.x}
-        y={eProps?.y ?? tProps?.y}
+        x={applyToAll ? tProps?.x : eProps?.x ?? tProps?.x}
+        y={applyToAll ? tProps?.y : eProps?.y ?? tProps?.y}
         layout
       />
     );
     if (tProps?.capStyle === "word_by_word_with_bg") {
-      const _color = new Color({...hexToRGB(phraseProps.bgColor), a: phraseProps?.bgOpacity ?? 1});
+      const _color = new Color({
+        ...hexToRGB(phraseProps.bgColor),
+        a: phraseProps?.bgOpacity ?? 1,
+      });
       phraseRef().fill(_color);
     }
     yield* elementController.get("caption")?.create({
@@ -231,7 +213,7 @@ export function* makeElementTrack({
   } catch (error) {
     logger("Error creating element track", error);
   }
-  
+
   yield* all(...sequence);
   yield elementTrackRef().remove();
 }
