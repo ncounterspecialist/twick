@@ -1,4 +1,4 @@
-import renderTwickVideo from '@twick/cloud-export-video/core/renderer.js';
+import renderTwickVideo from '../../core/renderer.js';
 
 /**
  * Handler for processing video project data with files
@@ -21,11 +21,11 @@ import renderTwickVideo from '@twick/cloud-export-video/core/renderer.js';
 export const handler = async (event) => {
   console.log('Video processor function invoked');
   console.log('Event:', JSON.stringify(event));
-  const inputData = event.arguments?.input || {};
+  const projectData = event.arguments?.input || {};
   
   try {
     // Validate required fields
-    if (!inputData.project) {
+    if (!projectData) {
       return {
         statusCode: 400,
         headers: {
@@ -42,8 +42,7 @@ export const handler = async (event) => {
       };
     }
 
-    const videoProject = inputData.project;
-    const mediaFiles = inputData.mediaFiles || [];
+    const mediaFiles = projectData.mediaFiles || [];
     
     // Log each media file
     mediaFiles.forEach((file, index) => {
@@ -62,8 +61,8 @@ export const handler = async (event) => {
     
     try {
       // Render the video
-      renderedVideoPath = await renderTwickVideo(videoProject, {
-        outFile: `video-${videoProject.properties?.id || Date.now()}.mp4`,
+      renderedVideoPath = await renderTwickVideo(projectData, {
+        outFile: `video-${projectData.properties?.id || Date.now()}.mp4`,
       });
 
       // Read the rendered video file
@@ -87,7 +86,7 @@ export const handler = async (event) => {
       // Fallback to text file if rendering fails
       const errorText = `Video Processing Error
 ======================
-Request ID: ${videoProject.properties?.id || 'N/A'}
+Request ID: ${projectData.properties?.id || 'N/A'}
 Timestamp: ${new Date().toISOString()}
 Status: Rendering Failed
 
