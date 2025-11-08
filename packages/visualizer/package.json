@@ -6,8 +6,14 @@
     "start": "twick editor --projectFile ./src/live.tsx",
     "build": "tsc && vite build",
     "docs": "typedoc --out docs src/visualizer-grouped.ts",
-    "clean": "rimraf .turbo node_modules dist"
+    "clean": "rimraf .turbo node_modules dist",
+    "prepublishOnly": "pnpm run build"
   },
+  "files": [
+    "dist",
+    "src",
+    "README.md"
+  ],
   "publishConfig": {
     "access": "public"
   },
