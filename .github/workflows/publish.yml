@@ -191,6 +191,13 @@ jobs:
               package_name=$(jq -r '.name' "packages/$package/package.json")
               echo "Publishing $package_name (from $package)..."
               cd "packages/$package"
+
+              if jq -e '.scripts.build' package.json > /dev/null 2>&1; then
+                echo "Building $package_name to ensure dist artifacts are present..."
+                pnpm run build
+              else
+                echo "No build script found for $package_name, skipping build step."
+              fi
               
               # Use --ignore-scripts to prevent malicious postinstall scripts
               # Use --access public to ensure public access
