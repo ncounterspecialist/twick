@@ -25,17 +25,14 @@
  * ```
  */
 
-import { Wand2, Plus, Upload } from "lucide-react";
+import { Wand2, Plus } from "lucide-react";
 import type { MediaItem } from "@twick/video-editor";
 import type { ImagePanelProps } from "../../types/media-panel";
-import FileInput from "../shared/file-input";
 import UrlInput from "../shared/url-input";
 
 export function ImagePanel({
   items,
   onItemSelect,
-  onFileUpload,
-  acceptFileTypes,
   onUrlAdd,
 }: ImagePanelProps) {
   return (
@@ -47,7 +44,7 @@ export function ImagePanel({
         <UrlInput type="image" onSubmit={onUrlAdd} />
       </div>
       {/* Upload */}
-      <div className="flex panel-section">
+      {/* <div className="flex panel-section">
         <FileInput
           id="image-upload"
           acceptFileTypes={acceptFileTypes}
@@ -56,7 +53,7 @@ export function ImagePanel({
           className="btn-primary w-full"
           icon={<Upload className="icon-sm" />}
         />
-      </div>
+      </div> */}
 
       {/* Media Grid */}
       <div className="media-content">

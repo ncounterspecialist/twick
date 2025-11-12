@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import type { MediaItem } from "@twick/video-editor";
-import { getMediaManager } from "../components/shared";
+import { getMediaManager, initializeDefaultVideos } from "../components/shared";
 
 type MediaType = "video" | "audio" | "image";
 
@@ -66,11 +66,17 @@ export function MediaProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  // Load initial data for each type
+  // Initialize default videos and load initial data for each type
   useEffect(() => {
-    loadItems("video", "");
-    loadItems("audio", "");
-    loadItems("image", "");
+    const initialize = async () => {
+      // Initialize default videos first
+      await initializeDefaultVideos();
+      // Then load all media items
+      loadItems("video", "");
+      loadItems("audio", "");
+      loadItems("image", "");
+    };
+    initialize();
   }, []);
 
   const setSearchQuery = (type: MediaType, query: string) => {
