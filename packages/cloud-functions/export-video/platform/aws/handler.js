@@ -27,12 +27,25 @@ const sanitizeIdentifier = (value) => {
     return 'twick-video';
   }
 
-  return String(value)
+  let sanitized = String(value)
     .trim()
     .toLowerCase()
     .replace(/[^a-z0-9-_]+/g, '-')
-    .replace(/^-+|-+$/g, '')
     .replace(/-{2,}/g, '-');
+  
+  // Remove leading and trailing dashes using string methods (avoids ReDoS)
+  // Find first non-dash character
+  let start = 0;
+  while (start < sanitized.length && sanitized[start] === '-') {
+    start++;
+  }
+  // Find last non-dash character
+  let end = sanitized.length;
+  while (end > start && sanitized[end - 1] === '-') {
+    end--;
+  }
+  
+  return sanitized.slice(start, end);
 };
 
 const buildObjectKey = (projectData, uniqueSuffix) => {
