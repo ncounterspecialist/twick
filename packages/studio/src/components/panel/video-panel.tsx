@@ -25,19 +25,16 @@
  * ```
  */
 
-import { Wand2, Plus, Play, Pause, Upload } from "lucide-react";
+import { Wand2, Plus, Play, Pause } from "lucide-react";
 import type { MediaItem } from "@twick/video-editor";
 import type { VideoPanelProps } from "../../types/media-panel";
 import { useVideoPreview } from "../../hooks/use-video-preview";
-import FileInput from "../shared/file-input";
 import UrlInput from "../shared/url-input";
 
 
 export function VideoPanel({
   items,
   onItemSelect,
-  onFileUpload,
-  acceptFileTypes,
   onUrlAdd,
 }: VideoPanelProps) {
   const { playingVideo, togglePlayPause } = useVideoPreview();
@@ -51,7 +48,7 @@ export function VideoPanel({
       </div>
 
       {/* Import Button */}
-      <div className="flex panel-section">
+      {/* <div className="flex panel-section">
         <FileInput
           id="video-upload"
           acceptFileTypes={acceptFileTypes}
@@ -60,7 +57,7 @@ export function VideoPanel({
           className="btn-primary w-full"
           icon={<Upload className="icon-sm" />}
         />
-      </div>
+      </div> */}
 
       {/* Media Grid */}
       <div className="media-content">

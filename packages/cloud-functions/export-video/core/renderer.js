@@ -37,8 +37,8 @@ const renderTwickVideo = async (variables, settings) => {
           name: "@twick/core/wasm",
         },
         size: {
-          x: variables.properties.width,
-          y: variables.properties.height,
+          x: variables.input.properties.width,
+          y: variables.input.properties.height,
         },
       },
       puppeteer: {

@@ -50,6 +50,7 @@
     "@twick/ui": "*",
     "@twick/vite-plugin": "*",
     "@twick/visualizer": "*",
+    "@aws-sdk/client-s3": "^3.620.0",
     "ffmpeg-static": "^5.2.0",
     "fluent-ffmpeg": "^2.1.3"
   },

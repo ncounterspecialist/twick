@@ -77,7 +77,9 @@ Examples:
     const image = rest[0];
     const dir = rest[1] || 'twick-export-video-aws';
     if (!image) throw new Error('Image name required. e.g., my-repo:latest');
-    await run('docker', ['build', '-t', image, dir]);
+    // Build for linux/amd64 platform to avoid creating multi-arch manifest index
+    // This reduces the number of artifacts pushed to the registry
+    await run('docker', ['build', '--platform', 'linux/amd64', '-t', image, dir]);
     return;
   }
 

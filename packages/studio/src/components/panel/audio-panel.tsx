@@ -28,9 +28,8 @@
  * ```
  */
 
-import { Wand2, Plus, Volume2, Play, Pause, Upload } from "lucide-react";
+import { Wand2, Plus, Volume2, Play, Pause } from "lucide-react";
 import UrlInput from "../shared/url-input";
-import FileInput from "../shared/file-input";
 import type { AudioPanelProps } from "../../types/media-panel";
 import { useAudioPreview } from "../../hooks/use-audio-preview";
 
@@ -38,8 +37,6 @@ import { useAudioPreview } from "../../hooks/use-audio-preview";
 export const AudioPanel = ({
   items,
   onItemSelect,
-  onFileUpload,
-  acceptFileTypes,
   onUrlAdd,
 }: AudioPanelProps) => {
   const { playingAudio, togglePlayPause } = useAudioPreview();
@@ -53,7 +50,7 @@ export const AudioPanel = ({
       </div>
 
       {/* Upload */}
-      <div className="flex panel-section">
+      {/* <div className="flex panel-section">
         <FileInput
           id="audio-upload"
           acceptFileTypes={acceptFileTypes}
@@ -62,7 +59,7 @@ export const AudioPanel = ({
           className="btn-primary w-full"
           icon={<Upload className="icon-sm" />}
         />
-      </div>
+      </div> */}
 
       {/* Audio List */}
       <div className="media-content">
