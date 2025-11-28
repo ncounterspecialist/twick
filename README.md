@@ -28,7 +28,7 @@ This repository contains a collection of packages for video and image manipulati
 For detailed API documentation and module information, refer to [docs/modules.md](./docs/modules.md).
 
 ## Try it
-Experience Twick Studio in your browser with our live demo: [Twick Studio](https://twick-studio.vercel.app/)
+Experience Twick Studio in your browser with our live demo: [Twick Studio](https://development.d1vtsw7m0lx01h.amplifyapp.com/)
 
 ## Getting Started
 
