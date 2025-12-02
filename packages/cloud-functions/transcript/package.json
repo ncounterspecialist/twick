@@ -1,0 +1,53 @@
+{
+  "name": "@twick/cloud-transcript",
+  "version": "0.1.0",
+  "description": "Twick cloud function for generating JSON captions from audio using Google Cloud Speech-to-Text",
+  "type": "module",
+  "main": "core/transcriber.js",
+  "exports": {
+    ".": "./core/transcriber.js",
+    "./aws": "./platform/aws/handler.js",
+    "./platform/aws/*": "./platform/aws/*"
+  },
+  "files": [
+    "core",
+    "platform",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "node --test test/trasriber.test.js",
+    "test:init": "node --test test/init.test.js",
+    "verify:aws": "node -e \"require('fs').accessSync('platform/aws/Dockerfile'); require('fs').accessSync('platform/aws/handler.js'); console.log('AWS transcript function assets present')\"",
+    "pack:aws": "npm run verify:aws && npm pack",
+    "release:aws": "npm run verify:aws && npm publish --access public --tag aws",
+    "prepublishOnly": "npm run verify:aws"
+  },
+  "publishConfig": {
+    "access": "public",
+    "tag": "aws"
+  },
+  "keywords": [
+    "twick",
+    "audio",
+    "transcript",
+    "caption",
+    "lambda",
+    "aws",
+    "docker",
+    "google-cloud-speech"
+  ],
+  "author": "",
+  "license": "SEE LICENSE IN LICENSE.md",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@google/genai": "^1.0.0"
+  },
+  "devDependencies": {
+    "typescript": "~5.4.5",
+    "dotenv": "^16.4.5"
+  }
+}
+
+

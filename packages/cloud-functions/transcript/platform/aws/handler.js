@@ -1,0 +1,92 @@
+import { transcribeAudioUrl } from '../../core/transcriber.js';
+
+const jsonResponse = (statusCode, body) => ({
+  statusCode,
+  headers: {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+  },
+  body: JSON.stringify(body),
+});
+
+/**
+ * AWS Lambda handler for generating captions using Google Cloud Speech-to-Text.
+ *
+ * Expected JSON payload (e.g. via AppSync / Lambda resolver):
+ * {
+ *   "audioUrl": "https://example.com/audio.mp3", // or "gs://bucket/object"
+ *   "languageCode": "en-US", // optional, defaults to "en-US"
+ *   "encoding": "MP3",        // optional
+ *   "sampleRateHertz": 16000  // optional
+ * }
+ *
+ * Environment variables:
+ * - GOOGLE_CLOUD_PROJECT: Explicit Google Cloud project id.
+ * - GOOGLE_CLOUD_LOCATION (optional): Location of the Google Cloud project.  
+ * - GOOGLE_VERTEX_MODEL (optional): Model to use for transcription.
+ *
+ * Returns: JSON payload containing transcript text, caption segments, and word-level timings.
+ */
+export const handler = async (event) => {
+  console.log('Transcript function invoked');
+  console.log('Event:', JSON.stringify(event));
+
+  if (event.httpMethod === 'OPTIONS') {
+    return {
+      statusCode: 204,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Methods': 'POST, OPTIONS',
+      },
+      body: '',
+    };
+  }
+
+  try {
+    const argumentsPayload =
+      event?.arguments ||
+      (event?.body ? JSON.parse(event.body) : {}) ||
+      {};
+
+    const { audioUrl, languageCode, encoding, sampleRateHertz } =
+      argumentsPayload;
+
+    if (!audioUrl) {
+      return jsonResponse(400, {
+        error: 'Missing required field: audioUrl',
+        expectedFormat: {
+          audioUrl:
+            'Publicly reachable audio URL or "gs://bucket/object" for GCS',
+          languageCode: 'Optional BCP-47 language code (default "en-US")',
+          encoding: 'Optional audio encoding (e.g., "MP3", "LINEAR16")',
+          sampleRateHertz: 'Optional sample rate in Hertz',
+        },
+      });
+    }
+
+    const result = await transcribeAudioUrl({
+      audioUrl,
+      languageCode,
+      encoding,
+      sampleRateHertz,
+    });
+
+    console.log('Transcription completed successfully');
+
+    return jsonResponse(200, {
+      ...result,
+    });
+  } catch (error) {
+    console.error('Error generating transcript:', error);
+
+    return jsonResponse(500, {
+      error: 'Internal server error',
+      message: error instanceof Error ? error.message : 'Unknown error',
+    });
+  }
+};
+
+
