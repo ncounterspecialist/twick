@@ -51,7 +51,7 @@ export const handler = async (event) => {
       (event?.body ? JSON.parse(event.body) : {}) ||
       {};
 
-    const { audioUrl, languageCode, encoding, sampleRateHertz } =
+    const { audioUrl, language,languageFont } =
       argumentsPayload;
 
     if (!audioUrl) {
@@ -60,18 +60,16 @@ export const handler = async (event) => {
         expectedFormat: {
           audioUrl:
             'Publicly reachable audio URL or "gs://bucket/object" for GCS',
-          languageCode: 'Optional BCP-47 language code (default "en-US")',
-          encoding: 'Optional audio encoding (e.g., "MP3", "LINEAR16")',
-          sampleRateHertz: 'Optional sample rate in Hertz',
+          language: 'Optional language (e.g., "english", "hindi")',
+          languageFont: 'Optional font/script for captions (e.g., "english")',
         },
       });
     }
 
     const result = await transcribeAudioUrl({
       audioUrl,
-      languageCode,
-      encoding,
-      sampleRateHertz,
+      language,
+      languageFont,
     });
 
     console.log('Transcription completed successfully');

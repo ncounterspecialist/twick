@@ -15,8 +15,7 @@
     "README.md"
   ],
   "scripts": {
-    "test": "node --test test/trasriber.test.js",
-    "test:init": "node --test test/init.test.js",
+    "test": "node --test test/transcriber.test.js",
     "verify:aws": "node -e \"require('fs').accessSync('platform/aws/Dockerfile'); require('fs').accessSync('platform/aws/handler.js'); console.log('AWS transcript function assets present')\"",
     "pack:aws": "npm run verify:aws && npm pack",
     "release:aws": "npm run verify:aws && npm publish --access public --tag aws",
@@ -42,7 +41,8 @@
     "node": ">=18"
   },
   "dependencies": {
-    "@google/genai": "^1.0.0"
+    "@google/genai": "^1.0.0",
+    "@aws-sdk/client-secrets-manager": "^3.679.0"
   },
   "devDependencies": {
     "typescript": "~5.4.5",

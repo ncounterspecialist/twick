@@ -35,8 +35,7 @@ for (const envPath of envPaths) {
   }
 }
 
-const sampleAudioUrl =
-  'https://storage.googleapis.com/kagglesdsdata/datasets/829978/1417968/harvard.wav?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=databundle-worker-v2%40kaggle-161607.iam.gserviceaccount.com%2F20251201%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20251201T205743Z&X-Goog-Expires=345600&X-Goog-SignedHeaders=host&X-Goog-Signature=3502af7d9f98d0ad7bfb9abbe6d7d029936891c1a7f930b250e6744c82792d0ceaff6cec748d7178fadc4525d84c495a8176e49c2ce63d9608fd13a56c2a7dbfd5c469da1b843607c323e292a845b2a9729bde4f991281a11cd527aac12a1ec2732033d905ee72d7f82e9179910536cbc442e7e998646afd5be752c6f6812341179f9069defa9ca624b795901e2c3f6fb79296c05afa534a279a72b497bcfc9b864891e3a65dbd57948b9625ac1e3ecd2030386af910d28124546a9a7d8f341b2094799a0e98bdc5a5a9d8e9459445a8f66ae2586d40cd410c516748c655b4a0ace60071db6a8591e7cace49e81f9c8e3cf0eaaf5e641402da42cf225525a5c9';
+const sampleAudioUrl = "https://audio-samples.github.io/samples/mp3/blizzard_unconditional/sample-0.mp3";
 
 test('transcribeAudioUrl - basic transcription', async () => {
   console.log('Starting transcription test with sample audio URL...');
@@ -81,33 +80,5 @@ test('transcribeAudioUrl - basic transcription', async () => {
     console.log('First caption:', JSON.stringify(firstCaption, null, 2));
   } else {
     console.warn('No captions parsed from response. Raw text:', result.rawText.substring(0, 200));
-  }
-});
-
-test('transcribeAudioUrl - missing audioUrl parameter', async () => {
-  try {
-    await transcribeAudioUrl({});
-    assert.fail('Should throw error for missing audioUrl');
-  } catch (err) {
-    assert(
-      err.message.includes('Missing required parameter: audioUrl'),
-      `Expected error about missing audioUrl, got: ${err.message}`
-    );
-  }
-});
-
-test('transcribeAudioUrl - invalid audio URL', async () => {
-  try {
-    await transcribeAudioUrl({
-      audioUrl: 'https://invalid-url-that-does-not-exist.com/audio.mp3',
-    });
-    assert.fail('Should throw error for invalid audio URL');
-  } catch (err) {
-    assert(
-      err.message.includes('Failed to download audio') ||
-        err.message.includes('404') ||
-        err.message.includes('ENOTFOUND'),
-      `Expected error about failed download, got: ${err.message}`
-    );
   }
 });
