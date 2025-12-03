@@ -1,6 +1,6 @@
 {
   "name": "twick",
-  "version": "0.14.0",
+  "version": "0.14.11",
   "private": true,
   "scripts": {
     "build": "turbo run build --filter=./packages/*",
@@ -63,7 +63,8 @@
   "pnpm": {
     "overrides": {
       "typescript": "^5.4.2",
-      "axios": "^1.12.2"
+      "axios": "^1.12.2",
+      "@twick/core": "0.14.11"
     }
   }
 }

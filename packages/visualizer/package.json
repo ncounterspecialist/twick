@@ -1,6 +1,6 @@
 {
   "name": "@twick/visualizer",
-  "version": "0.14.0",
+  "version": "0.14.11",
   "license": "SEE LICENSE IN LICENSE.md",
   "scripts": {
     "start": "twick editor --projectFile ./src/live.tsx",
@@ -19,18 +19,18 @@
   },
   "dependencies": {
     "@preact/signals": "^1.2.1",
-    "@twick/2d": "^0.14.0",
-    "@twick/core": "^0.14.0",
-    "@twick/renderer": "^0.14.0",
-    "@twick/vite-plugin": "^0.14.0",
+    "@twick/2d": "^0.14.11",
+    "@twick/core": "^0.14.11",
+    "@twick/renderer": "^0.14.11",
+    "@twick/vite-plugin": "^0.14.11",
     "date-fns": "^4.1.0",
     "preact": "^10.19.2",
     "crelt": "^1.0.6",
-    "@twick/media-utils": "0.14.0"
+    "@twick/media-utils": "0.14.11"
   },
   "devDependencies": {
-    "@twick/cli": "0.14.0",
-    "@twick/ui": "0.14.0",
+    "@twick/cli": "0.14.11",
+    "@twick/ui": "0.14.11",
     "typescript": "5.4.2",
     "typedoc": "^0.25.8",
     "typedoc-plugin-markdown": "^3.17.1",

@@ -1,6 +1,6 @@
 {
   "name": "@twick/video-editor",
-  "version": "0.14.0",
+  "version": "0.14.11",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -23,17 +23,17 @@
     "access": "public"
   },
   "peerDependencies": {
-    "@twick/timeline": "workspace:^0.14.0",
-    "@twick/live-player": "workspace:^0.14.0"
+    "@twick/timeline": "workspace:^0.14.11",
+    "@twick/live-player": "workspace:^0.14.11"
   },
   "dependencies": {
     "@emotion/is-prop-valid": "^1.2.2",
-    "@twick/canvas": "workspace:^0.14.0",
-    "@twick/live-player": "workspace:^0.14.0",
-    "@twick/timeline": "workspace:^0.14.0",
+    "@twick/canvas": "workspace:^0.14.11",
+    "@twick/live-player": "workspace:^0.14.11",
+    "@twick/timeline": "workspace:^0.14.11",
     "@react-spring/web": "^10.0.1",
     "@use-gesture/react": "^10.3.0",
-    "@twick/media-utils": "workspace:^0.14.0",
+    "@twick/media-utils": "workspace:^0.14.11",
     "framer-motion": "^11.0.3",
     "lucide-react": "^0.511.0",
     "react": "^18.2.0",
@@ -43,8 +43,8 @@
     "@types/node": "^20.11.24",
     "@types/react": "^18.2.55",
     "@types/react-dom": "^18.2.19",
-    "@twick/live-player": "workspace:^0.14.0",
-    "@twick/timeline": "workspace:^0.14.0",
+    "@twick/live-player": "workspace:^0.14.11",
+    "@twick/timeline": "workspace:^0.14.11",
     "rimraf": "^5.0.5",
     "typedoc": "^0.25.8",
     "typedoc-plugin-markdown": "^3.17.1",

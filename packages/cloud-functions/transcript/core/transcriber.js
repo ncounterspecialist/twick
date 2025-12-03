@@ -64,7 +64,7 @@ const ensureGoogleCredentialsFromSecret = async () => {
     );
   } catch (error) {
     console.error(
-      `Failed to initialize Google credentials from secret "${secretName}":`,
+      `Failed to initialize Google credentials from secret ::`,
       error
     );
     throw error;

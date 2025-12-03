@@ -1,6 +1,6 @@
 {
   "name": "@twick/canvas",
-  "version": "0.14.0",
+  "version": "0.14.11",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -21,7 +21,7 @@
     "docs": "typedoc"  
   },
   "dependencies": {
-    "@twick/media-utils": "0.14.0",
+    "@twick/media-utils": "0.14.11",
     "fabric": "^6.6.2",
     "react": "^18.2.0"
   },
