@@ -1,6 +1,6 @@
 {
   "name": "@twick/render-server",
-  "version": "0.14.0",
+  "version": "0.14.11",
   "license": "SEE LICENSE IN LICENSE.md",
   "type": "module",
   "main": "dist/server.js",
@@ -14,12 +14,12 @@
     "access": "public"
   },
   "dependencies": {
-    "@twick/2d": "^0.14.0",
-    "@twick/core": "^0.14.0",
-    "@twick/ffmpeg": "^0.14.0",
-    "@twick/renderer": "^0.14.0",
-    "@twick/ui": "^0.14.0",
-    "@twick/visualizer": "^0.14.0",
+    "@twick/2d": "^0.14.11",
+    "@twick/core": "^0.14.11",
+    "@twick/ffmpeg": "^0.14.11",
+    "@twick/renderer": "^0.14.11",
+    "@twick/ui": "^0.14.11",
+    "@twick/visualizer": "^0.14.11",
     "@types/express-rate-limit": "^6.0.2",
     "cors": "^2.8.5",
     "express": "^4.18.2",

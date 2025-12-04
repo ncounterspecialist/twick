@@ -1,6 +1,6 @@
 {
   "name": "@twick/examples",
-  "version": "0.14.0",
+  "version": "0.14.11",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -14,12 +14,12 @@
     "access": "public"
   },
   "dependencies": {
-    "@twick/canvas": "workspace:^0.14.0",
-    "@twick/media-utils": "workspace:^0.14.0",
-    "@twick/live-player": "workspace:^0.14.0",
-    "@twick/timeline": "workspace:^0.14.0",
-    "@twick/video-editor": "workspace:^0.14.0",
-    "@twick/studio": "workspace:^0.14.0",
+    "@twick/canvas": "workspace:^0.14.11",
+    "@twick/media-utils": "workspace:^0.14.11",
+    "@twick/live-player": "workspace:^0.14.11",
+    "@twick/timeline": "workspace:^0.14.11",
+    "@twick/video-editor": "workspace:^0.14.11",
+    "@twick/studio": "workspace:^0.14.11",
     "@types/dompurify": "^3.2.0",
     "@types/react-router-dom": "^5.3.3",
     "dompurify": "^3.2.6",

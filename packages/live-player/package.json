@@ -1,6 +1,6 @@
 {
   "name": "@twick/live-player",
-  "version": "0.14.0",
+  "version": "0.14.11",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -21,9 +21,9 @@
     "docs": "typedoc"
   },
   "dependencies": {
-    "@twick/core": "^0.14.0",
-    "@twick/player-react": "^0.14.0",
-    "@twick/visualizer": "workspace:^0.14.0",
+    "@twick/core": "^0.14.11",
+    "@twick/player-react": "^0.14.11",
+    "@twick/visualizer": "workspace:^0.14.11",
     "react": "^18.2.0"
   },
   "devDependencies": {
