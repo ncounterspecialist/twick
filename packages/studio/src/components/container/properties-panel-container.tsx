@@ -1,19 +1,23 @@
 import { ElementProps } from "../properties/element-props";
 import { TextEffects } from "../properties/text-effects";
 import { Animation } from "../properties/animation";
-import { type TrackElement } from "@twick/timeline";
+import { VideoElement, type TrackElement } from "@twick/timeline";
 import { PlaybackPropsPanel } from "../properties/playback-props";
+import { GenerateSubtitlesPanel } from "../properties/generate-subtitles";
 
 interface PropertiesPanelContainerProps {
   selectedProp: string;
   selectedElement: TrackElement | null;
   updateElement: (element: TrackElement) => void;
+  generateSubtitles: (videoElement: VideoElement    
+  ) => void;
 }
 
 export function PropertiesPanelContainer({
   selectedProp,
   selectedElement,
   updateElement,
+  generateSubtitles,
 }: PropertiesPanelContainerProps) {
   if (!selectedElement) {
     return (
@@ -68,6 +72,14 @@ export function PropertiesPanelContainer({
           updateElement={updateElement}
         />
       )}
+      {
+        selectedProp === "generate-subtitles" && (
+          <GenerateSubtitlesPanel
+            selectedElement={selectedElement}
+            generateSubtitles={generateSubtitles}
+          />
+        )
+      }
     </>
   );
 }

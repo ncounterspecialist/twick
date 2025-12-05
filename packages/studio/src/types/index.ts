@@ -1,4 +1,4 @@
-import type { ProjectJSON, Size, TrackElement } from "@twick/timeline"
+import type { ProjectJSON, Size, TrackElement, VideoElement } from "@twick/timeline"
 import { VideoEditorConfig } from "@twick/video-editor"
 
 export interface MediaItem {
@@ -32,6 +32,7 @@ export interface Result {
 export interface StudioConfig extends VideoEditorConfig {
   saveProject?: (project: ProjectJSON, fileName: string) => Promise<Result>;
   loadProject?: () => Promise<ProjectJSON>;
+  generateSubtitles?: (project: ProjectJSON, videoElement: VideoElement) => Promise<Result>;
   exportVideo? : (project: ProjectJSON, videoSettings: VideoSettings) => Promise<Result>;
 }
 

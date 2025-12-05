@@ -27,6 +27,7 @@ import {
   Infinity,
   Zap,
   MessageSquare,
+  Captions,
   Plus,
   Settings,
   SparklesIcon,
@@ -100,6 +101,15 @@ const propsCategories: Map<string, ToolCategory> = new Map([
       description: "Subtitle Style",
     },
   ],
+  [
+    "generate-subtitles",
+    {
+      id: "generate-subtitles",
+      name: "Generate Subtitles",
+      icon: "Subtitles",
+      description: "Generate Subtitles",
+    },
+  ],
 ]);
 
 const getIcon = (iconName: string) => {
@@ -112,6 +122,8 @@ const getIcon = (iconName: string) => {
       return Image;
     case "Music":
       return Music;
+    case "Subtitles":
+      return Captions;
     case "MessageSquare":
       return MessageSquare;
     case "Settings":
@@ -149,6 +161,7 @@ export function PropsToolbar({
       sections.push(propsCategories.get("animations")!);
       sections.push(propsCategories.get("color-effects")!);
       sections.push(propsCategories.get("playback-props")!);
+      sections.push(propsCategories.get("generate-subtitles")!);
     } else if (selectedElement instanceof AudioElement) {
       sections.push(propsCategories.get("element-props")!);
       sections.push(propsCategories.get("playback-props")!);

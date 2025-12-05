@@ -289,6 +289,13 @@
   box-shadow: 0 6px 20px rgba(147, 51, 234, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.1);
+}
+
 .btn-secondary {
   display: inline-flex;
   align-items: center;
@@ -313,6 +320,13 @@
   background: linear-gradient(135deg, var(--color-purple-100), var(--color-purple-200), var(--color-purple-300));
   box-shadow: 0 12px 35px rgba(147, 51, 234, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.4);
   transform: translateY(-2px);
+}
+
+.btn-secondary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.1);
 }
 
 .btn-ghost {
@@ -344,6 +358,13 @@
   transform: translateY(-2px);
 }
 
+.btn-ghost:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.1);
+}
+
 .btn-outline {
   display: inline-flex;
   align-items: center;
@@ -370,6 +391,13 @@
   border-color: var(--color-purple-400);
   box-shadow: 0 12px 35px rgba(147, 51, 234, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
   transform: translateY(-2px);
+}
+
+.btn-outline:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.1);
 }
 
 .btn-danger {
@@ -403,6 +431,13 @@
   box-shadow: 0 6px 20px rgba(239, 68, 68, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
+.btn-danger:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.1);
+}
+
 .btn-primary {
   background: linear-gradient(135deg, var(--color-purple-600), var(--color-purple-700));
   color: white;
@@ -413,6 +448,13 @@
 .btn-primary:hover {
   background: linear-gradient(135deg, var(--color-purple-500), var(--color-purple-600));
   box-shadow: 0 8px 25px rgba(147, 51, 234, 0.35);
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.1);
 }
 
 /* ========================================

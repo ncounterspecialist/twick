@@ -1,4 +1,4 @@
-import { ProjectJSON, useTimelineContext } from "@twick/timeline";
+import { ProjectJSON, useTimelineContext, VideoElement } from "@twick/timeline";
 import { StudioConfig } from "../types";
 import { loadFile, saveAsFile } from "@twick/media-utils";
 import { useState } from "react";
@@ -58,7 +58,15 @@ const useStudioOperation = (studioConfig?: StudioConfig) => {
     }
   };
 
-  return { onLoadProject, onSaveProject, onExportVideo };
+  const onGenerateSubtitles = async (videoElement: VideoElement) => {
+    if (studioConfig?.generateSubtitles && present) {
+      await studioConfig.generateSubtitles(present, videoElement);
+    } else {
+      alert("Generate subtitles not supported in demo mode");
+    }
+  };
+
+  return { onLoadProject, onSaveProject, onExportVideo, onGenerateSubtitles };
 };
 
 export default useStudioOperation;
