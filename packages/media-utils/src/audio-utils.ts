@@ -50,6 +50,16 @@ export const extractAudio = async ({
   // Fetch and decode audio
   const audioBuffer = await fetchAndDecodeAudio(src);
 
+  // Check if audio buffer has no audio content
+  if (audioBuffer.duration === 0 || audioBuffer.length === 0) {
+    throw new Error("No audio track found in the media source");
+  }
+
+  // Check if audio is completely silent
+  if (isAudioSilent(audioBuffer)) {
+    throw new Error("Audio track is silent (no audio content detected)");
+  }
+
   // Normalize time range
   const clampedStart = Math.max(0, start || 0);
   const fullDuration = audioBuffer.duration;
@@ -71,6 +81,52 @@ export const extractAudio = async ({
   // Convert to MP3 and return URL
   const mp3Blob = await audioBufferToMp3(renderedBuffer);
   return URL.createObjectURL(mp3Blob);
+};
+
+/**
+ * Checks if a video or audio file has an audio track with actual sound content.
+ * This function attempts to decode the audio and verifies that it's not empty or silent.
+ * 
+ * @param src - The source URL of the media file to check
+ * @returns Promise resolving to true if the media has audio, false otherwise
+ * 
+ * @example
+ * ```js
+ * // Check if a video has audio
+ * const hasSound = await hasAudio("https://example.com/video.mp4");
+ * if (hasSound) {
+ *   // Extract audio or show audio controls
+ * } else {
+ *   // Handle video without audio
+ * }
+ * ```
+ */
+export const hasAudio = async (src: string): Promise<boolean> => {
+  if (!src) return false;
+
+  // Basic URL safety check
+  const isSafeUrl = /^(https?:|blob:|data:)/i.test(src);
+  if (!isSafeUrl) return false;
+
+  try {
+    // Fetch and decode audio
+    const audioBuffer = await fetchAndDecodeAudio(src);
+
+    // Check if audio buffer has no audio content
+    if (audioBuffer.duration === 0 || audioBuffer.length === 0) {
+      return false;
+    }
+
+    // Check if audio is completely silent
+    if (isAudioSilent(audioBuffer)) {
+      return false;
+    }
+
+    return true;
+  } catch (error) {
+    // If decoding fails, assume no audio
+    return false;
+  }
 };
 
 /**
@@ -141,12 +197,30 @@ const decodeAudioData = async (arrayBuffer: ArrayBuffer): Promise<AudioBuffer> =
       audioContext.decodeAudioData(
         arrayBuffer.slice(0),
         (buf) => resolve(buf),
-        (err) => reject(err || new Error("Failed to decode audio"))
+        (err) => reject(err || new Error("Failed to decode audio: no audio track found or unsupported format"))
       );
     });
   } finally {
     audioContext.close();
   }
+};
+
+/**
+ * Checks if an AudioBuffer contains only silence
+ * Samples a portion of the audio to detect if it's completely silent
+ */
+const isAudioSilent = (buffer: AudioBuffer, threshold: number = 0.001): boolean => {
+  // Check all channels
+  for (let channel = 0; channel < buffer.numberOfChannels; channel++) {
+    const channelData = buffer.getChannelData(channel);
+    // Sample every 100th frame for performance
+    for (let i = 0; i < channelData.length; i += 100) {
+      if (Math.abs(channelData[i]) > threshold) {
+        return false; // Found non-silent audio
+      }
+    }
+  }
+  return true; // All sampled frames are silent
 };
 
 /**

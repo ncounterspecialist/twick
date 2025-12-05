@@ -40,7 +40,7 @@ export function TwickStudio({ studioConfig }: { studioConfig?: StudioConfig }) {
     updateElement,
   } = useStudioManager();
   const { videoResolution, setVideoResolution } = useTimelineContext();
-  const { onLoadProject, onSaveProject, onExportVideo } =
+  const { onLoadProject, onSaveProject, onExportVideo, onGenerateSubtitles } =
     useStudioOperation(studioConfig);
 
   const twickStudiConfig: StudioConfig = useMemo(
@@ -103,6 +103,7 @@ export function TwickStudio({ studioConfig }: { studioConfig?: StudioConfig }) {
             selectedProp={selectedProp}
             selectedElement={selectedElement}
             updateElement={updateElement}
+            generateSubtitles={onGenerateSubtitles}
           />
 
           {/* Right Toolbar */}
