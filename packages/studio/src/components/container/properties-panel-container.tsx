@@ -4,13 +4,15 @@ import { Animation } from "../properties/animation";
 import { VideoElement, type TrackElement } from "@twick/timeline";
 import { PlaybackPropsPanel } from "../properties/playback-props";
 import { GenerateSubtitlesPanel } from "../properties/generate-subtitles";
+import { StudioConfig, SubtitleEntry } from "../../types";
 
 interface PropertiesPanelContainerProps {
   selectedProp: string;
   selectedElement: TrackElement | null;
   updateElement: (element: TrackElement) => void;
-  generateSubtitles: (videoElement: VideoElement    
-  ) => void;
+  generateSubtitles: (videoElement: VideoElement) => Promise<string | null>;
+  addSubtitlesToTimeline: (subtitles: SubtitleEntry[]) => void;
+  studioConfig?: StudioConfig;
 }
 
 export function PropertiesPanelContainer({
@@ -18,6 +20,8 @@ export function PropertiesPanelContainer({
   selectedElement,
   updateElement,
   generateSubtitles,
+  addSubtitlesToTimeline,
+  studioConfig,
 }: PropertiesPanelContainerProps) {
   if (!selectedElement) {
     return (
@@ -77,6 +81,8 @@ export function PropertiesPanelContainer({
           <GenerateSubtitlesPanel
             selectedElement={selectedElement}
             generateSubtitles={generateSubtitles}
+            addSubtitlesToTimeline={addSubtitlesToTimeline}
+            studioConfig={studioConfig}
           />
         )
       }

@@ -29,10 +29,76 @@ export interface Result {
   result?: any;
 }
 
+/**
+ * Subtitle entry format used for timeline integration
+ */
+export interface SubtitleEntry {
+  s: number; // start time in seconds
+  e: number; // end time in seconds
+  t: string; // subtitle text
+}
+
+/**
+ * Response from POST /generate-subtitles
+ */
+export interface GenerateSubtitlesResponse {
+  reqId: string;
+}
+
+export interface RequestStatus {
+  status: "pending" | "completed" | "failed";
+}
+
+/**
+ * Response from GET /request-status when status is pending
+ */
+export interface RequestStatusPending {
+  status: "pending";
+}
+
+/**
+ * Response from GET /request-status when status is ready
+ */
+export interface RequestStatusCompleted {
+  status: "completed";
+  subtitles: SubtitleEntry[];
+}
+
+/**
+ * Union type for request status responses
+ */
+export type RequestStatusResponse = RequestStatusPending | RequestStatusCompleted;
+
+/**
+ * Subtitle generation service interface
+ * Implement this in your application code (not in the library)
+ */
+export interface SubtitleGenerationService {
+  /**
+   * Initiates subtitle generation for a video
+   * Should POST to /generate-subtitles with video data
+   * @param videoUrl - URL of the video to generate subtitles for
+   * @returns Promise resolving to request ID
+   */
+  generateSubtitles: (videoUrl: string) => Promise<GenerateSubtitlesResponse>;
+
+  /**
+   * Polls for subtitle generation status
+   * Should GET /request-status?reqId={reqId}
+   * @param reqId - Request ID from generateSubtitles
+   * @returns Promise resolving to status response
+   */
+  getRequestStatus: (reqId: string) => Promise<RequestStatusResponse>;
+}
+
 export interface StudioConfig extends VideoEditorConfig {
   saveProject?: (project: ProjectJSON, fileName: string) => Promise<Result>;
   loadProject?: () => Promise<ProjectJSON>;
-  generateSubtitles?: (project: ProjectJSON, videoElement: VideoElement) => Promise<Result>;
+  /**
+   * Subtitle generation service for polling-based async subtitle generation
+   * Implement this in your application code to provide API endpoints
+   */
+  subtitleGenerationService?: SubtitleGenerationService;
   exportVideo? : (project: ProjectJSON, videoSettings: VideoSettings) => Promise<Result>;
 }
 
