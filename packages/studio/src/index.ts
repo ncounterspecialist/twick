@@ -126,5 +126,7 @@ export {
   useStudioManager,
 };
 
+export * from "./types";
+
 // Default export
 export default TwickStudio;
