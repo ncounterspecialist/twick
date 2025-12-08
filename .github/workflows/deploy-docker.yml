@@ -36,35 +36,47 @@ jobs:
           set -euo pipefail
           OWNER="${{ github.repository_owner }}"
           VERSION="${{ inputs.version || 'latest' }}"
+          CLOUD_ROOT="packages/cloud-functions"
 
-          echo "Scanning cloud-functions packages..."
-          for dir in packages/cloud-functions/*; do
-            [ -d "$dir" ] || continue
-            if [ -f "$dir/platform/aws/Dockerfile" ]; then
-              pkg_json="$dir/package.json"
-              if [ -f "$pkg_json" ]; then
-                pkg_name=$(jq -r '.name' "$pkg_json")
-                # Derive image repo name from package name (drop scope if present)
-                image_name=$(echo "$pkg_name" | sed -E 's#^@[^/]+/##')
+          echo "Scanning Dockerfiles under $CLOUD_ROOT..."
+          mapfile -t dockerfiles < <(find "$CLOUD_ROOT" -name Dockerfile -type f | sort)
+          if [ "${#dockerfiles[@]}" -eq 0 ]; then
+            echo "No Dockerfiles found under $CLOUD_ROOT; nothing to build"
+            exit 0
+          fi
 
-                # Build context is the package root; Dockerfile is platform/aws/Dockerfile
-                echo "Building $pkg_name → ghcr.io/$OWNER/$image_name:$VERSION"
-
-                docker buildx build \
-                  --file "$dir/platform/aws/Dockerfile" \
-                  --tag "ghcr.io/$OWNER/$image_name:$VERSION" \
-                  --label "org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}" \
-                  --label "org.opencontainers.image.version=$VERSION" \
-                  --label "org.opencontainers.image.revision=${{ github.sha }}" \
-                  --push \
-                  "$dir"
-                
-                echo "✓ Successfully built and pushed $pkg_name"
-              else
-                echo "Warning: Missing package.json in $dir; skipping"
+          for dockerfile in "${dockerfiles[@]}"; do
+            pkg_dir="$(dirname "$dockerfile")"
+            while true; do
+              if [ -f "$pkg_dir/package.json" ]; then
+                break
               fi
-            else
-              echo "No AWS Dockerfile in $dir; skipping"
+              if [ "$pkg_dir" = "$CLOUD_ROOT" ] || [ "$pkg_dir" = "." ] || [ "$pkg_dir" = "/" ]; then
+                break
+              fi
+              pkg_dir="$(dirname "$pkg_dir")"
+            done
+
+            pkg_json="$pkg_dir/package.json"
+            if [ ! -f "$pkg_json" ]; then
+              echo "Warning: package.json not found for $dockerfile; skipping"
+              continue
             fi
+
+            pkg_name=$(jq -r '.name' "$pkg_json")
+            image_name=$(echo "$pkg_name" | sed -E 's#^@[^/]+/##')
+
+            echo "Building $pkg_name from $dockerfile → ghcr.io/$OWNER/$image_name:$VERSION"
+
+            docker buildx build \
+              --file "$dockerfile" \
+              --tag "ghcr.io/$OWNER/$image_name:$VERSION" \
+              --label "org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}" \
+              --label "org.opencontainers.image.version=$VERSION" \
+              --label "org.opencontainers.image.revision=${{ github.sha }}" \
+              --push \
+              "$pkg_dir"
+
+            echo "✓ Successfully built and pushed $pkg_name"
           done
 
