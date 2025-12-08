@@ -69,26 +69,30 @@ export interface RequestStatusCompleted {
  */
 export type RequestStatusResponse = RequestStatusPending | RequestStatusCompleted;
 
-/**
- * Subtitle generation service interface
- * Implement this in your application code (not in the library)
- */
-export interface SubtitleGenerationService {
-  /**
-   * Initiates subtitle generation for a video
-   * Should POST to /generate-subtitles with video data
-   * @param videoUrl - URL of the video to generate subtitles for
-   * @returns Promise resolving to request ID
-   */
-  generateSubtitles: (videoUrl: string) => Promise<GenerateSubtitlesResponse>;
+export interface ISubtitleGenerationPollingResponse {
+  status: "pending" | "completed" | "failed";
+  subtitles?: SubtitleEntry[];
+  error?: string;
+}
 
-  /**
-   * Polls for subtitle generation status
-   * Should GET /request-status?reqId={reqId}
-   * @param reqId - Request ID from generateSubtitles
-   * @returns Promise resolving to status response
-   */
-  getRequestStatus: (reqId: string) => Promise<RequestStatusResponse>;
+export interface ISubtitleGenerationService {
+  generateSubtitles: (
+    videoElement: VideoElement,
+    project: ProjectJSON
+  ) => Promise<string>;
+
+  updateProjectWithSubtitles: (
+    subtitles: SubtitleEntry[]
+  ) => ProjectJSON;
+
+  generateSubtitleVideo?: (
+    videoUrl: string,
+    videoSize?: { width: number; height: number }
+  ) => Promise<string>;
+
+  getRequestStatus: (
+    reqId: string
+  ) => Promise<ISubtitleGenerationPollingResponse>;
 }
 
 export interface StudioConfig extends VideoEditorConfig {
@@ -98,7 +102,7 @@ export interface StudioConfig extends VideoEditorConfig {
    * Subtitle generation service for polling-based async subtitle generation
    * Implement this in your application code to provide API endpoints
    */
-  subtitleGenerationService?: SubtitleGenerationService;
+  subtitleGenerationService?: ISubtitleGenerationService;
   exportVideo? : (project: ProjectJSON, videoSettings: VideoSettings) => Promise<Result>;
 }
 
