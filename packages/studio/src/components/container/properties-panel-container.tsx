@@ -4,24 +4,24 @@ import { Animation } from "../properties/animation";
 import { VideoElement, type TrackElement } from "@twick/timeline";
 import { PlaybackPropsPanel } from "../properties/playback-props";
 import { GenerateSubtitlesPanel } from "../properties/generate-subtitles";
-import { StudioConfig, SubtitleEntry } from "../../types";
+import { ISubtitleGenerationPollingResponse, SubtitleEntry } from "../../types";
 
 interface PropertiesPanelContainerProps {
   selectedProp: string;
   selectedElement: TrackElement | null;
   updateElement: (element: TrackElement) => void;
-  generateSubtitles: (videoElement: VideoElement) => Promise<string | null>;
   addSubtitlesToTimeline: (subtitles: SubtitleEntry[]) => void;
-  studioConfig?: StudioConfig;
+  onGenerateSubtitles: (videoElement: VideoElement) => Promise<string | null>;
+  getSubtitleStatus: (reqId: string) => Promise<ISubtitleGenerationPollingResponse>;
 }
 
 export function PropertiesPanelContainer({
   selectedProp,
   selectedElement,
   updateElement,
-  generateSubtitles,
   addSubtitlesToTimeline,
-  studioConfig,
+  onGenerateSubtitles,
+  getSubtitleStatus,
 }: PropertiesPanelContainerProps) {
   if (!selectedElement) {
     return (
@@ -80,9 +80,9 @@ export function PropertiesPanelContainer({
         selectedProp === "generate-subtitles" && (
           <GenerateSubtitlesPanel
             selectedElement={selectedElement}
-            generateSubtitles={generateSubtitles}
             addSubtitlesToTimeline={addSubtitlesToTimeline}
-            studioConfig={studioConfig}
+            onGenerateSubtitles={onGenerateSubtitles}
+            getSubtitleStatus={getSubtitleStatus}
           />
         )
       }

@@ -2,18 +2,18 @@ import { TrackElement, VideoElement } from "@twick/timeline";
 import { useEffect, useState, useRef } from "react";
 import { hasAudio } from "@twick/media-utils";
 import { Loader2, VolumeX, Volume2, CheckCircle2, XCircle } from "lucide-react";
-import { StudioConfig, SubtitleGenerationService, RequestStatusResponse } from "../../types";
+import { ISubtitleGenerationPollingResponse } from "../../types";
 
 export function GenerateSubtitlesPanel({
   selectedElement,
-  generateSubtitles,
   addSubtitlesToTimeline,
-  studioConfig,
+  onGenerateSubtitles,
+  getSubtitleStatus,
 }: {
   selectedElement: TrackElement;
-  generateSubtitles: (videoElement: VideoElement) => Promise<string | null>;
   addSubtitlesToTimeline: (subtitles: { s: number; e: number; t: string }[]) => void;
-  studioConfig?: StudioConfig;
+  onGenerateSubtitles: (videoElement: VideoElement) => Promise<string | null>;
+  getSubtitleStatus: (reqId: string) => Promise<ISubtitleGenerationPollingResponse>;
 }) {
   const [containsAudio, setContainsAudio] = useState<boolean | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -39,29 +39,39 @@ export function GenerateSubtitlesPanel({
     }
   };
 
-  const startPolling = async (reqId: string, service: SubtitleGenerationService) => {
+  const startPolling = async (reqId: string) => {
+    if (!getSubtitleStatus) {
+      return;
+    }
     setPollingStatus("polling");
     setIsGenerating(true);
     setErrorMessage(null);
 
     const poll = async () => {
       try {
-        const status: RequestStatusResponse = await service.getRequestStatus(reqId);
+        const response = await getSubtitleStatus(reqId);
+
         
-        if (status.status === "completed") {
+        if (response.status === "completed") {
           stopPolling();
           setPollingStatus("success");
           setIsGenerating(false);
           
           // Add subtitles to timeline
-          addSubtitlesToTimeline(status.subtitles);
+          addSubtitlesToTimeline(response.subtitles || []);
           
           // Reset status after 3 seconds
           setTimeout(() => {
             setPollingStatus("idle");
           }, 3000);
-        } else if (status.status === "pending") {
+        } else if (response.status === "pending") {
           // Continue polling - interval will call this again
+        } else if (response.status === "failed") {
+          stopPolling();
+          setPollingStatus("error");
+          setIsGenerating(false);
+          setErrorMessage(response.error || "Failed to generate subtitles");
+          console.error("Error generating subtitles:", response.error);
         }
       } catch (error) {
         stopPolling();
@@ -77,32 +87,25 @@ export function GenerateSubtitlesPanel({
     pollingIntervalRef.current = setInterval(poll, 2000);
   };
 
-  const onGenerateSubtitles = async () => {
+  const handleGenerateSubtitles = async () => {
     if (!(selectedElement instanceof VideoElement)) {
       return;
     }
 
     const videoElement = selectedElement as VideoElement;
     
-    // Check if polling service is available
-    if (!studioConfig?.subtitleGenerationService) {
-      // Fallback to legacy synchronous method
-      try {
-        await generateSubtitles(videoElement);
-      } catch (error) {
-        setErrorMessage(error instanceof Error ? error.message : "Failed to generate subtitles");
-        setPollingStatus("error");
-      }
-      return;
-    }
 
     try {
-      const reqId = await generateSubtitles(videoElement);
-      
-      if (reqId) {
-        currentReqIdRef.current = reqId;
-        await startPolling(reqId, studioConfig.subtitleGenerationService);
+      const reqId = await onGenerateSubtitles(videoElement);
+      if (!reqId) {
+        setPollingStatus("error");
+        setIsGenerating(false);
+        setErrorMessage("Failed to start subtitle generation");
+        console.error("Error generating subtitles: Failed to start subtitle generation");
+        return;
       }
+      currentReqIdRef.current = reqId;
+      await startPolling(reqId);
     } catch (error) {
       setPollingStatus("error");
       setIsGenerating(false);
@@ -222,7 +225,7 @@ export function GenerateSubtitlesPanel({
       {!isLoading && (
         <div className="flex panel-section">
           <button
-            onClick={onGenerateSubtitles}
+            onClick={handleGenerateSubtitles}
             disabled={!containsAudio || isGenerating}
             className="btn-primary w-full"
           >

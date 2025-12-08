@@ -23,6 +23,7 @@ export interface ElementJSON {
   type: string;
   s: number; // start time
   e: number; // end time
+  t?: string; // text
   position?: Position;
   rotation?: number;
   opacity?: number;

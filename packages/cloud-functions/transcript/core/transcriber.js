@@ -240,7 +240,7 @@ export const transcribeAudioUrl = async (params) => {
     .replace(/\s*```$/i, "") // Remove closing ```
     .trim();
 
-  let captions = [];
+  let subtitles = [];
   try {
     // Try to find JSON array in the text (in case there's extra text)
     const jsonMatch = textPart.match(/\[[\s\S]*\]/);
@@ -256,11 +256,11 @@ export const transcribeAudioUrl = async (params) => {
       err
     );
     console.warn("Raw response text:", textPart.substring(0, 500));
-    captions = [];
+    subtitles = [];
   }
 
   return {
-    captions
+    subtitles
   };
 };
 
