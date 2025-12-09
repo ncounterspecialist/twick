@@ -45,13 +45,11 @@ export function TwickStudio({ studioConfig }: { studioConfig?: StudioConfig }) {
     onLoadProject,
     onSaveProject,
     onExportVideo,
-    onGenerateSubtitles,
-    addSubtitlesToTimeline,
-    getSubtitleStatus,
   } = useStudioOperation(studioConfig);
 
   const { onGenerateSubtitles, addSubtitlesToTimeline, getSubtitleStatus } =
     useGenerateSubtitles(studioConfig);
+
   const twickStudiConfig: StudioConfig = useMemo(
     () => ({
       canvasMode: true,
