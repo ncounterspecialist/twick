@@ -156,7 +156,7 @@ Format:
  * @param {string} params.audioUrl - Publicly reachable audio URL.
  * @param {string} [params.language="english"] - Target transcription language (human-readable).
  * @param {string} [params.languageFont="english"] - Target font/script for subtitles.
- * @returns {Promise<{ subtitles: Array<{t: string, s: number, e: number}> }>}
+ * @returns {Promise<{ subtitles: Array<{t: string, s: number, e: number}> }>} Subtitles array with text, start time, and end time.
  * @throws {Error} When audioUrl is missing or downstream calls fail.
  */
 export const transcribeAudioUrl = async (params) => {
