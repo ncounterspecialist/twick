@@ -28,6 +28,7 @@ import VideoEditor from "@twick/video-editor";
 import { useMemo } from "react";
 import { StudioConfig } from "../types";
 import useStudioOperation from "../hooks/use-studio-operation";
+import useGenerateSubtitles from "../hooks/use-generate-subtitles";
 
 export function TwickStudio({ studioConfig }: { studioConfig?: StudioConfig }) {
   const {
@@ -40,15 +41,11 @@ export function TwickStudio({ studioConfig }: { studioConfig?: StudioConfig }) {
     updateElement,
   } = useStudioManager();
   const { videoResolution, setVideoResolution } = useTimelineContext();
-  const {
-    onLoadProject,
-    onSaveProject,
-    onExportVideo,
-    onGenerateSubtitles,
-    addSubtitlesToTimeline,
-    getSubtitleStatus,
-  } = useStudioOperation(studioConfig);
+  const { onLoadProject, onSaveProject, onExportVideo } =
+    useStudioOperation(studioConfig);
 
+  const { onGenerateSubtitles, addSubtitlesToTimeline, getSubtitleStatus } =
+    useGenerateSubtitles(studioConfig);
   const twickStudiConfig: StudioConfig = useMemo(
     () => ({
       canvasMode: true,

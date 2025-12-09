@@ -1,9 +1,8 @@
 /**
  * @twick/studio - Studio Package
  *
- * A comprehensive React-based studio component for the Twick platform.
- * Provides a complete studio interface with timeline management,
- * player controls, media management, and animation capabilities.
+ * React-based studio suite for the Twick platform. 
+ * Offers an integrated interface with timeline editing, player controls, media management, and animation tools.
  *
  * @example
  * ```jsx
@@ -30,103 +29,114 @@ import "./studio.css";
 import "@twick/video-editor/dist/video-editor.css";
 
 /**
- * Main studio component that provides the complete editing interface.
- * Includes timeline, canvas, media panels, and property controls.
+ * Main component: full editing suite with timeline, canvas, media browser, and property panels.
  */
 import { TwickStudio } from "./components/twick-studio";
 
 /**
- * Toolbar component for selecting different editing tools and modes.
+ * Left vertical toolbar for tool and mode selection.
  */
 import { Toolbar } from "./components/toolbar";
 
 /**
- * Hook for managing studio state, selected tools, and element manipulation.
+ * Hook for main studio state: selection, tools, elements.
  */
 import { useStudioManager } from "./hooks/use-studio-manager";
 
 /**
- * Header component with project controls and video resolution settings.
+ * Hook for subtitle generation and polling.
+ */
+import useGenerateSubtitles from "./hooks/use-generate-subtitles";
+
+/**
+ * Top header with project actions and resolution controls.
  */
 import StudioHeader from "./components/header";
 
 /**
- * Panel for managing audio elements and library.
+ * Audio clip browser/editor panel.
  */
 import { AudioPanel } from "./components/panel/audio-panel";
 
 /**
- * Panel for managing video elements and library.
+ * Video clip browser/editor panel.
  */
 import { VideoPanel } from "./components/panel/video-panel";
 
 /**
- * Panel for managing image elements and library.
+ * Image asset browser/editor panel.
  */
 import { ImagePanel } from "./components/panel/image-panel";
 
 /**
- * Panel for creating and editing text elements.
+ * Panel for adding and editing text overlays.
  */
 import { TextPanel } from "./components/panel/text-panel";
 
 /**
- * Panel for creating and editing circle shapes.
+ * Panel for adding and editing circle shapes.
  */
 import { CirclePanel } from "./components/panel/circle-panel";
 
 /**
- * Panel for creating and editing rectangle shapes.
+ * Panel for adding and editing rectangle shapes.
  */
 import { RectPanel } from "./components/panel/rect-panel";
 
 /**
- * Panel for adding and customizing icons.
+ * Panel for browsing and inserting icons.
  */
 import { IconPanel } from "./components/panel/icon-panel";
 
 /**
- * Panel for managing subtitles and captions.
+ * Panel for managing subtitles/captions.
  */
 import { SubtitlesPanel } from "./components/panel/subtitles-panel";
 
-// Components
+// Main exported UI components
 export {
-  /** Main studio component */
+  /** Main studio editing environment */
   TwickStudio,
-  /** Tool selection toolbar */
+  /** Editing tool/mode selector */
   Toolbar,
-  /** Studio header with controls */
+  /** Studio top bar with controls */
   StudioHeader,
 };
 
-// Panels
+// Panel exports for embedding or replacement
 export {
-  /** Audio management panel */
+  /** Panel for audio assets */
   AudioPanel,
-  /** Video management panel */
+  /** Panel for video assets */
   VideoPanel,
-  /** Image management panel */
+  /** Panel for image assets */
   ImagePanel,
-  /** Text editing panel */
+  /** Panel for editing/add text elements */
   TextPanel,
-  /** Subtitles management panel */
+  /** Panel for subtitle/caption management */
   SubtitlesPanel,
-  /** Circle shape panel */
+  /** Panel for adding circles */
   CirclePanel,
-  /** Rectangle shape panel */
+  /** Panel for adding rectangles */
   RectPanel,
-  /** Icon management panel */
+  /** Panel for icon assets */
   IconPanel,
 }
 
-// Hooks
+// Hook exports for external logic integration
 export {
-  /** Studio state management hook */
+  /** Hook for managing studio state and selections */
   useStudioManager,
+  /** Hook for polling-based subtitle generation */
+  useGenerateSubtitles,
 };
 
+// Utilities and types
+export * from "./helpers/generate-subtitles.service";
+export * from "./helpers/constant";
 export * from "./types";
 
-// Default export
+/**
+ * Default export: TwickStudio (full editor component)
+ */
 export default TwickStudio;
