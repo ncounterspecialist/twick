@@ -1,4 +1,5 @@
 import { createProject } from '../../core/create-project.js';
+import { exportProject } from '../../core/export-project.js';
 
 const jsonResponse = (statusCode, body) => ({
   statusCode,
@@ -51,7 +52,7 @@ export const handler = async (event) => {
       (event?.body ? JSON.parse(event.body) : {}) ||
       {};
 
-    const { videoUrl, videoSize, language, languageFont, exportProject } =
+    const { videoUrl, videoSize, language, languageFont, shouldExport } =
       argumentsPayload;
 
     if (!videoUrl) {
@@ -76,7 +77,7 @@ export const handler = async (event) => {
 
     console.log('Subtitle video project created successfully');
 
-    if (exportProject) {
+    if (shouldExport) {
       const project = await exportProject(result);
       return project;
     } else {

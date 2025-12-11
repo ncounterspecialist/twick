@@ -1,6 +1,6 @@
 ## @twick/cloud-subtitle-video
 
-Cloud-function package for generating subtitle-ready subtitles using **Google GenAI (Vertex AI)** and exporting subtitle project JSONs to S3.
+Cloud-function package for generating subtitle video projects from video URLs using **Google GenAI (Vertex AI)**. Transcribes video audio, creates subtitle tracks, and optionally exports project JSONs to S3.
 
 ### Install
 
@@ -14,23 +14,26 @@ This package ships with an AWS Lambda container template (Dockerfile + handler).
 
 #### 1) Build image
 
-In the `packages/cloud-functions/transcript` directory:
+In the `packages/cloud-functions/create-subtitle-video` directory:
 
 ```bash
-docker build -t twick-cloud-transcript .
+docker build -t twick-cloud-subtitle-video -f platform/aws/Dockerfile .
 ```
 
-#### 2) Provide Google Cloud credentials to Docker
+#### 2) Provide Google Cloud credentials
 
 **Required environment variables:**
 - `GOOGLE_CLOUD_PROJECT` (required): Your Google Cloud project ID
 - `GOOGLE_CLOUD_LOCATION` (optional): Vertex AI location (defaults to `"global"`)
 
-You can pass credentials to the container in one of two ways:
+**AWS Lambda with Secrets Manager (recommended):**
+- `GCP_SERVICE_ACCOUNT_SECRET_NAME`: Name of the AWS Secrets Manager secret containing the Google Cloud service account JSON
+- `AWS_REGION` (optional): AWS region for Secrets Manager (defaults to `"ap-south-1"`)
 
-- **File path (recommended)**:
-  - Mount a JSON service account key file in the container and point `GOOGLE_APPLICATION_CREDENTIALS` to it.
-  - Example:
+The handler will automatically fetch the service account JSON from AWS Secrets Manager, write it to `/tmp/gcp-sa-key.json`, and set `GOOGLE_APPLICATION_CREDENTIALS` to point to that file.
+
+**Alternative: File path**
+- Mount a JSON service account key file in the container and point `GOOGLE_APPLICATION_CREDENTIALS` to it:
 
 ```bash
 docker run \
@@ -38,23 +41,8 @@ docker run \
   -e GOOGLE_CLOUD_PROJECT=my-gcp-project-id \
   -e GOOGLE_CLOUD_LOCATION=us-central1 \
   -v /host/path/gcp-key.json:/var/secrets/gcp-key.json:ro \
-  twick-cloud-transcript
+  twick-cloud-subtitle-video
 ```
-
-- **Environment JSON**:
-  - Inject the JSON key directly as an environment variable:
-
-```bash
-docker run \
-  -e GOOGLE_KEY="$(cat gcp-key.json)" \
-  -e GOOGLE_CLOUD_PROJECT=my-gcp-project-id \
-  -e GOOGLE_CLOUD_LOCATION=us-central1 \
-  twick-cloud-transcript
-```
-
-The handler will automatically use:
-- `GOOGLE_KEY` (JSON string), or
-- `GOOGLE_APPLICATION_CREDENTIALS` (path to JSON key file via Application Default Credentials).
 
 #### 3) Lambda handler
 
@@ -68,49 +56,103 @@ Expected payload (e.g. from AppSync / API Gateway):
 
 ```json
 {
-  "audioUrl": "https://example.com/audio.mp3",
+  "videoUrl": "https://example.com/video.mp4",
+  "videoSize": { "width": 1920, "height": 1080 },
   "language": "english",
-  "languageFont": "english"
+  "languageFont": "english",
+  "shouldExport": false
 }
 ```
 
 **Parameters:**
-- `audioUrl` (required): Publicly reachable HTTP(S) URL to the audio file
+- `videoUrl` (required): Publicly reachable HTTP(S) URL to the video file
+- `videoSize` (optional): Video dimensions object with `width` and `height` (defaults to `{ "width": 720, "height": 1280 }`)
 - `language` (optional): Target transcription language (default: `"english"`)
 - `languageFont` (optional): Target font/script for subtitles (default: `"english"`)
+- `shouldExport` (optional): If `true`, exports the project JSON to S3 and returns the S3 URL (default: `false`)
 
-**Note:** The function downloads the audio from the URL, so it must be publicly accessible. Google Cloud Storage URIs (`gs://`) are not directly supported; use a signed URL or public URL instead.
+**Note:** The function downloads the video from the URL, so it must be publicly accessible. Google Cloud Storage URIs (`gs://`) are not directly supported; use a signed URL or public URL instead.
 
 #### Response
 
-On success, the function returns JSON with caption segments:
+On success, the function returns a subtitle video project JSON:
+
+**When `shouldExport` is `false` (default):**
 
 ```json
 {
-  "subtitles": [
+  "properties": {
+    "width": 1920,
+    "height": 1080
+  },
+  "tracks": [
     {
-      "t": "Example phrase 1",
-      "s": 0,
-      "e": 1500
+      "id": "video",
+      "type": "video",
+      "elements": [
+        {
+          "id": "video",
+          "type": "video",
+          "s": 0,
+          "e": 120.5,
+          "props": {
+            "src": "https://example.com/video.mp4",
+            "width": 1920,
+            "height": 1080
+          }
+        }
+      ]
     },
     {
-      "t": "Another short example",
-      "s": 1500,
-      "e": 2800
+      "id": "subtitle",
+      "type": "caption",
+      "elements": [
+        {
+          "id": "subtitle-0",
+          "s": 0,
+          "e": 1.5,
+          "t": "Example phrase 1"
+        },
+        {
+          "id": "subtitle-1",
+          "s": 1.5,
+          "e": 2.8,
+          "t": "Another short example"
+        }
+      ]
     }
   ],
-  "rawText": "Full raw response text from the model..."
+  "version": 1
+}
+```
+
+**When `shouldExport` is `true`:**
+
+```json
+{
+  "statusCode": 200,
+  "headers": {
+    "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Headers": "Content-Type",
+    "Access-Control-Allow-Methods": "POST, OPTIONS"
+  },
+  "body": "{\"url\":\"https://bucket.s3.amazonaws.com/twick-project-1234567890.json\"}"
 }
 ```
 
 **Response fields:**
-- `subtitles` (array): Parsed caption segments with:
-  - `t` (string): Caption text (max 4 words per segment)
-  - `s` (number): Start timestamp in milliseconds
-  - `e` (number): End timestamp in milliseconds
-- `rawText` (string): Raw text response from the model (useful for debugging if parsing fails)
+- `properties`: Project properties with video dimensions
+- `tracks`: Array of tracks including:
+  - `video` track: Contains the video element with source URL and dimensions
+  - `subtitle` track: Contains caption elements with:
+    - `id`: Unique identifier for each subtitle
+    - `s`: Start timestamp in seconds
+    - `e`: End timestamp in seconds
+    - `t`: Caption text (max 4 words per segment)
+- `version`: Project version number
 
-**Note:** subtitles are automatically segmented into phrases with a maximum of 4 words each, with precise millisecond timestamps and non-overlapping segments.
+**Note:** Subtitles are automatically segmented into phrases with a maximum of 4 words each, with precise timestamps and non-overlapping segments.
 
 On error, a JSON error payload is returned:
 
@@ -121,21 +163,37 @@ On error, a JSON error payload is returned:
 }
 ```
 
-### Programmatic usage (transcriber)
+### Programmatic usage
 
-The core transcriber can be used directly:
+The core functions can be used directly:
+
+**Create a subtitle video project:**
+
+```js
+import { createProject } from '@twick/cloud-subtitle-video/core/create-project.js';
+
+const project = await createProject({
+  videoUrl: 'https://example.com/video.mp4',
+  videoSize: { width: 1920, height: 1080 },
+  language: 'english',
+  languageFont: 'english',
+});
+
+console.log(project.tracks); // Array of video and subtitle tracks
+```
+
+**Transcribe audio only:**
 
 ```js
 import { transcribeAudioUrl } from '@twick/cloud-subtitle-video/core/transcriber.js';
 
 const result = await transcribeAudioUrl({
-  audioUrl: 'https://example.com/audio.mp3',
+  audioUrl: 'https://example.com/video.mp4',
   language: 'english',
   languageFont: 'english',
 });
 
 console.log(result.subtitles); // Array of {t, s, e} objects
-console.log(result.rawText);  // Raw model response
 ```
 
 ### Exporting projects
@@ -152,11 +210,19 @@ The package includes `exportProject` (from `core/export-project.js`), which uplo
 **Example usage:**
 
 ```js
+import { createProject } from '@twick/cloud-subtitle-video/core/create-project.js';
 import { exportProject } from '@twick/cloud-subtitle-video/core/export-project.js';
 
-const projectData = await createSubtitleProject({ /* ... */ });
+const projectData = await createProject({
+  videoUrl: 'https://example.com/video.mp4',
+  videoSize: { width: 1920, height: 1080 },
+  language: 'english',
+  languageFont: 'english',
+});
+
 const response = await exportProject(projectData);
-console.log(response.body); // {"url":"https://bucket.s3.amazonaws.com/twick-project-<timestamp>.json"}
+const body = JSON.parse(response.body);
+console.log(body.url); // "https://bucket.s3.amazonaws.com/twick-project-<timestamp>.json"
 ```
 
 `exportProject` throws if mandatory fields are missing or if the upload fails; otherwise it resolves with a 200-style response containing the `url` in the JSON body.
@@ -165,7 +231,7 @@ console.log(response.body); // {"url":"https://bucket.s3.amazonaws.com/twick-pro
 
 You can configure the Gemini model via environment variable:
 
-- `GOOGLE_VERTEX_MODEL` (optional): Model name (default: `"gemini-2.5-flash"`)
+- `GOOGLE_VERTEX_MODEL` (optional): Model name (default: `"gemini-2.5-flash-lite"`)
 
 Example:
 

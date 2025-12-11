@@ -1,11 +1,11 @@
 import fs from "fs";
-import transcribeAudioUrl from "./transcriber";
+import transcribeAudioUrl from "./transcriber.js";
 import ffmpeg from "fluent-ffmpeg";
 import ffprobeInstaller from "@ffprobe-installer/ffprobe";
 
 /**
  * Get video duration in seconds
- * @param {string} videoPathOrUrl - Local file path or remote URL
+ * @param {string} videoUrl file path or remote URL
  * @returns {Promise<number>}
  */
 
@@ -20,7 +20,7 @@ const getVideoDuration = (videoUrl) => {
 
     ffmpeg.setFfprobePath(ffprobePath);
 
-    ffmpeg.ffprobe(videoPathOrUrl, (err, metadata) => {
+    ffmpeg.ffprobe(videoUrl, (err, metadata) => {
       if (err) {
         return reject(
           new Error(`Unable to probe duration for ${videoUrl}: ${err.message}`)
@@ -77,8 +77,30 @@ export const createProject = async (params) => {
         {
           id: "subtitle",
           type: "caption",
+          props: {
+            capStyle: "highlight_bg",
+            font: {
+              size: 50,
+              weight: 700,
+              family: "Bangers",
+            },
+            colors: {
+              text: "#ffffff",
+              highlight: "#ff4081",
+              bgColor: "#444444",
+            },
+            lineWidth: 0.35,
+            stroke: "#000000",
+            fontWeight: 700,
+            shadowOffset: [-3, 3],
+            shadowColor: "#000000",
+            x: 0,
+            y: 200,
+            applyToAll: true,
+          },
           elements: subtitles.map((subtitle, index) => ({
             id: `subtitle-${index}`,
+            type: "caption",
             s: subtitle.s / 1000,
             e: subtitle.e / 1000,
             t: subtitle.t,
