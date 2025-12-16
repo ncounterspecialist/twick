@@ -1,0 +1,61 @@
+{
+  "name": "@twick/mcp-agent",
+  "version": "0.14.11",
+  "description": "MCP server for Claude Desktop that generates video captions using Google Vertex AI and integrates with Twick Studio",
+  "main": "dist/stdio-server.js",
+  "type": "module",
+  "bin": {
+    "twick-mcp-agent": "./dist/stdio-server.js"
+  },
+  "files": [
+    "dist/**/*",
+    "claude_desktop_config.json",
+    "README.md",
+    "install.js"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/stdio-server.js",
+    "dev": "tsc && node dist/stdio-server.js",
+    "install-claude": "node install.js",
+    "prepublishOnly": "pnpm run build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "claude-desktop",
+    "video-transcription",
+    "captions",
+    "subtitle",
+    "google-vertex-ai",
+    "gemini",
+    "twick-studio"
+  ],
+  "author": "",
+  "license": "SEE LICENSE IN LICENSE.md",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.20.0",
+    "@google/genai": "^1.0.0",
+    "@ffmpeg-installer/ffmpeg": "^1.1.0",
+    "@ffprobe-installer/ffprobe": "^2.0.0",
+    "dotenv": "^16.4.5",
+    "express": "^5.1.0",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^24.7.2",
+    "typescript": "^5.9.3"
+  }
+}
