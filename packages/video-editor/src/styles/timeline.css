@@ -119,6 +119,7 @@
 
 .twick-track-element-content {
   display: flex;
+  user-select: none;
   align-items: center;
   width: 100%;
   height: 100%;

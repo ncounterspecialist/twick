@@ -75,6 +75,7 @@ export const useTimelineManager = () => {
     element.setEnd(updates.end);
     const updatedElement = editor.updateElement(element);
     setSelectedItem(updatedElement);
+    editor.refresh();
   };
 
   // Get timeline data from editor
@@ -101,6 +102,7 @@ export const useTimelineManager = () => {
    */
   const onReorder = (reorderedItems: Track[]) => {
     editor.reorderTracks(reorderedItems);
+    editor.refresh();
   };
 
   /**
