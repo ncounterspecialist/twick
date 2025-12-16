@@ -1,0 +1,18 @@
+{
+  "mcpServers": {
+    "twick-mcp-agent": {
+      "command": "node",
+      "args": ["dist/stdio-server.js"],
+      "env": {
+        "GOOGLE_CLOUD_PROJECT": "your-gcp-project-id",
+        "GOOGLE_CLOUD_LOCATION": "global",
+        "GOOGLE_APPLICATION_CREDENTIALS": "gcp-sa-key.json",
+        "GOOGLE_VERTEX_MODEL": "gemini-2.5-flash-lite",
+        "UPLOAD_API_URL": "https://your-upload-api.example.com/upload",
+        "TWICK_STUDIO_URL": "https://development.d1vtsw7m0lx01h.amplifyapp.com?project-file=$project"
+      }
+    }
+  }
+}
+
+

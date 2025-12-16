@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 // Packages that should be published (exclude examples and documentation)
+// Format: directory path relative to packages/
 const PUBLISHABLE_PACKAGES = [
   'media-utils',
   'canvas', 
@@ -10,8 +11,22 @@ const PUBLISHABLE_PACKAGES = [
   'visualizer',
   'video-editor',
   'render-server',
-  'studio'
+  'studio',
+  'agents/mcp-agent'
 ];
+
+// Map from package name (without @twick/) to directory path
+const PACKAGE_NAME_TO_PATH = {
+  'media-utils': 'media-utils',
+  'canvas': 'canvas',
+  'timeline': 'timeline',
+  'live-player': 'live-player',
+  'visualizer': 'visualizer',
+  'video-editor': 'video-editor',
+  'render-server': 'render-server',
+  'studio': 'studio',
+  'mcp-agent': 'agents/mcp-agent'
+};
 
 function getPackageDependencies(packagePath) {
   const pkgJsonPath = path.join(packagePath, 'package.json');
@@ -32,7 +47,12 @@ function getAllInternalDependencies(deps) {
   const internal = [];
   for (const [dep, version] of Object.entries(deps)) {
     if (dep.startsWith('@twick/')) {
-      internal.push(dep.replace('@twick/', ''));
+      const pkgName = dep.replace('@twick/', '');
+      // Map package name to directory path if it exists
+      const pkgPath = PACKAGE_NAME_TO_PATH[pkgName] || pkgName;
+      if (PUBLISHABLE_PACKAGES.includes(pkgPath)) {
+        internal.push(pkgPath);
+      }
     }
   }
   return internal;

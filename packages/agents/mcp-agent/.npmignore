@@ -1,0 +1,39 @@
+# Source files (only ship compiled dist/)
+*.ts
+!*.d.ts
+tsconfig.json
+
+# Development files
+install.js
+.gitignore
+.npmignore
+
+# Environment and credentials
+.env*
+gcp-sa-key.json
+*.json.key
+*-key.json
+service-account*.json
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Test files
+test-client.js
+*.test.ts
+*.test.js
+
+# Documentation (optional - you might want to include README)
+# README.md
+

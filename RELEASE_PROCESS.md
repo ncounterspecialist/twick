@@ -41,6 +41,7 @@ The following packages will be published to npm:
 - `@twick/live-player`
 - `@twick/video-editor`
 - `@twick/visualizer`
+- `@twick/mcp-agent`
 
 ### Prerequisites
 

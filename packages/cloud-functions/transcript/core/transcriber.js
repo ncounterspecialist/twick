@@ -138,11 +138,6 @@ Format:
     "t": "Example phrase 1",
     "s": 0,
     "e": 1500
-  },
-  {
-    "t": "Another short example",
-    "s": 1500,
-    "e": 2800
   }
 ]
 `.trim();

@@ -3,7 +3,7 @@
   "version": "0.14.11",
   "private": true,
   "scripts": {
-    "build": "turbo run build --filter=./packages/*",
+    "build": "turbo run build --filter=./packages/* --filter=./packages/agents/*",
     "build:media-utils": "turbo run build --filter=@twick/media-utils",
     "build:canvas": "turbo run build --filter=@twick/canvas",
     "build:timeline": "turbo run build --filter=@twick/timeline",
@@ -14,10 +14,11 @@
     "build:studio": "turbo run build --filter=@twick/studio",
     "build:render-server": "turbo run build --filter=@twick/render-server",
     "build:examples": "turbo run build --filter=@twick/examples",
+    "build:mcp-agent": "turbo run build --filter=@twick/mcp-agent",
     "docs": "turbo run docs",
     "docs:copy": "./scripts/copy-docs.sh",
     "docs:build": "pnpm run docs && pnpm run docs:copy",
-    "dev": "turbo run dev",
+    "dev": "turbo run dev --filter=./packages/* --filter=./packages/agents/*",
     "dev:media-utils": "turbo run dev --filter=@twick/media-utils",
     "dev:canvas": "turbo run dev --filter=@twick/canvas",
     "dev:documentation": "pnpm run docs && pnpm run docs:copy && turbo run dev --filter=@twick/documentation",
@@ -26,12 +27,13 @@
     "dev:studio": "turbo run dev --filter=@twick/studio",
     "dev:render-server": "turbo run dev --filter=@twick/render-server",
     "dev:examples": "turbo run dev --filter=@twick/examples",
+    "dev:mcp-agent": "turbo run dev --filter=@twick/mcp-agent",
     "preview": "cd packages/examples && pnpm run preview",
     "lint": "turbo run lint",
     "lint:fix": "turbo run lint --fix",
     "test": "turbo run test",
     "clean": "rimraf node_modules .turbo",
-    "clean:packages": "turbo run clean --filter=./packages/*",
+    "clean:packages": "turbo run clean --filter=./packages/* --filter=./packages/agents/*",
     "changeset": "changeset",
     "version": "changeset version",
     "release": "turbo run build && changeset publish",
@@ -58,7 +60,8 @@
     "packages/video-editor",
     "packages/studio",
     "packages/examples",
-    "packages/cloud-functions/*"
+    "packages/cloud-functions/*",
+    "packages/agents/*"
   ],
   "pnpm": {
     "overrides": {
