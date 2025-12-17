@@ -137,10 +137,11 @@ const extractAudioBufferFromVideo = async (videoUrl: string) => {
  * @returns {string} Instruction prompt for the model.
  */
 const buildPrompt = (duration: number, language: string, languageFont: string) => {
+  const durationMs = Math.round(duration * 1000);
   return `You are a professional subtitle and transcription engine.
 
 ## INPUT
-- Audio duration: ${duration} milliseconds
+- Audio duration: ${durationMs} milliseconds
 - Target language: ${language}
 - Subtitle font script: ${languageFont}
 
@@ -163,7 +164,7 @@ If the spoken audio is NOT in ${language}, translate it into ${language} before 
 - Duration of each phrase = 'e - s'
 - Minimum phrase duration: **100 ms**
 - 'e' MUST be greater than 's'
-- 'e' MUST be **less than or equal to ${duration}**
+- 'e' MUST be **less than or equal to ${durationMs}**
 - Subtitles MUST be sequential:
   - 's' of the next phrase MUST be **greater than or equal to** the previous 'e'
   - NO overlapping timestamps

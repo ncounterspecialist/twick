@@ -1,11 +1,26 @@
 import { GoogleGenAI } from "@google/genai";
-import fs from "fs";
-import path from "path";
 import {
   SecretsManagerClient,
   GetSecretValueCommand,
 } from "@aws-sdk/client-secrets-manager";
+import fs from "fs";
+import path, { join } from "path";
+import { mkdtemp, readFile, rm } from "fs/promises";
+import { tmpdir } from "os";
+import { execFile } from "child_process";
+import { promisify } from "util";
+import { Readable, pipeline } from "stream";
 
+// These packages provide prebuilt ffmpeg/ffprobe binaries. Types are not bundled,
+// so we import them as `any` to keep TypeScript satisfied.
+import ffmpeg from "@ffmpeg-installer/ffmpeg";
+import ffprobe from "@ffprobe-installer/ffprobe";
+
+
+const execFileAsync = promisify(execFile);
+const pipelineAsync = promisify(pipeline);
+const ffmpegPath = ffmpeg.path;
+const ffprobePath = ffprobe.path;
 
 /**
  * Read a required environment variable, optionally falling back to a default.
@@ -45,7 +60,7 @@ const ensureGoogleCredentialsFromSecret = async () => {
   }
 
   try {
-   const client = new SecretsManagerClient({
+    const client = new SecretsManagerClient({
       region: process.env.AWS_REGION || "ap-south-1",
     });
 
@@ -91,53 +106,125 @@ const createGenAIClient = async () => {
   return client;
 };
 
-/**
- * Download audio bytes for a URL using Node 18+ global fetch.
- *
- * @param {string} audioUrl - Public URL to download.
- * @returns {Promise<Buffer>} Resolves with the audio bytes.
- * @throws {Error} When the URL cannot be fetched.
- */
-const fetchAudioBytes = async (audioUrl) => {
-  const response = await fetch(audioUrl);
-  if (!response.ok) {
-    throw new Error(
-      `Failed to download audio from URL "${audioUrl}": ${response.status} ${response.statusText}`
-    );
+const extractAudioBufferFromVideo = async (videoUrl) => {
+  const videoResponse = await fetch(videoUrl);
+  if (!videoResponse.ok) {
+    throw new Error(`Failed to download video: ${videoResponse.status} ${videoResponse.statusText}`);
   }
-  const arrayBuffer = await response.arrayBuffer();
-  return Buffer.from(arrayBuffer);
+  const tmpBase = await mkdtemp(join(tmpdir(), 'mcp-'));
+  const inputPath = join(tmpBase, 'input_video');
+  const outputPath = join(tmpBase, 'output_audio.mp3');
+
+  // Stream the video response directly to disk to avoid holding the full video in memory
+  if (!videoResponse.body) {
+    await rm(tmpBase, { recursive: true, force: true });
+    throw new Error("Video response has no body");
+  }
+  const videoStream = Readable.fromWeb(videoResponse.body);
+  const fileWriteStream = fs.createWriteStream(inputPath);
+  await pipelineAsync(videoStream, fileWriteStream);
+
+  // Get duration using bundled ffprobe
+  let duration = 0;
+  try {
+    const { stdout } = await execFileAsync(ffprobePath, [
+      '-v', 'error',
+      '-show_entries', 'format=duration',
+      '-of', 'default=noprint_wrappers=1:nokey=1',
+      inputPath
+    ]);
+    duration = parseFloat(stdout.toString().trim()) || 0;
+  } catch (err) {
+    console.warn('Failed to get duration using ffprobe, duration will be 0');
+  }
+
+  try {
+    await execFileAsync(ffmpegPath, [
+      '-y',
+      '-i', inputPath,
+      '-vn',
+      '-acodec', 'libmp3lame',
+      '-q:a', '2',
+      outputPath
+    ]);
+  } catch (err) {
+    await rm(tmpBase, { recursive: true, force: true });
+    const stderr = err?.stderr?.toString?.().trim?.() || "";
+    const msg = stderr || (err instanceof Error ? err.message : String(err));
+    throw new Error(`ffmpeg execution failed: ${msg}`);
+  }
+
+  const audioBuffer = await readFile(outputPath);
+  await rm(tmpBase, { recursive: true, force: true });
+  return { audioBuffer, duration };
 };
+
 
 /**
  * Build the captioning prompt passed to the Gemini model.
  *
+ * @param {number} duration - Audio duration in seconds.
  * @param {string} language - Human-readable target language.
  * @param {string} languageFont - Desired script/font name.
  * @returns {string} Instruction prompt for the model.
  */
-const buildPrompt = (language, languageFont) => {
-  return `
-##TASKS
-- Transcribe the audio into ${language}.
-- Break subtitles into phrases with a maximum of 4 words per segment.
-- Each phrase must have precise start (s) and end (e) timestamps in milliseconds, where its duration is calculated as e - s.
-- Timestamps of consecutive phrases must not overlap. The end time of one phrase should be equal to or less than the start time of the next.
-- End Timestamp ('e') should be less than the audio duration.
-- Each phrase should have a minimum duration of 500 milliseconds.
-- If the audio is in a different language, translate it into ${language} before transcription.
-- The final caption text (t) should be written in ${languageFont} fonts for accurate visual representation.
+const buildPrompt = (duration, language, languageFont) => {
+  // Convert duration from seconds to milliseconds for the prompt
+  const durationMs = Math.round(duration * 1000);
 
-Ensure precise phrase segmentation according to the word limit, accurate millisecond timestamps adhering to the duration and overlap constraints, and translation to ${language} if necessary, resulting in readable subtitles.
+  return `You are a professional subtitle and transcription engine.
 
-IMPORTANT: Return ONLY a valid JSON array with no markdown, no code fences, no explanations, no additional text. Start directly with [ and end with ].
+## INPUT
+- Audio duration: ${durationMs} milliseconds
+- Target language: ${language}
+- Subtitle font script: ${languageFont}
 
-Format:
+## OBJECTIVE
+Transcribe the audio into clear, readable subtitles.
+
+If the spoken audio is NOT in ${language}, translate it into ${language} before generating subtitles.
+
+## SUBTITLE SEGMENTATION RULES
+- Split speech into short, natural phrases.
+- Each subtitle phrase MUST contain a maximum of 4 words.
+- Do NOT split words across phrases.
+- Avoid breaking phrases mid-sentence unless required by timing constraints.
+
+## TIMING RULES (STRICT — MUST FOLLOW)
+- All timestamps are in **milliseconds**.
+- Each subtitle object MUST include:
+  - 's': start timestamp
+  - 'e': end timestamp
+- Duration of each phrase = 'e - s'
+- Minimum phrase duration: **100 ms**
+- 'e' MUST be greater than 's'
+- 'e' MUST be **less than or equal to ${durationMs}**
+- Subtitles MUST be sequential:
+  - 's' of the next phrase MUST be **greater than or equal to** the previous 'e'
+  - NO overlapping timestamps
+- Prefer aligning timestamps with natural speech pauses.
+
+## TEXT RULES
+- 't' MUST be written using ${languageFont} characters.
+- No emojis.
+- No punctuation-only subtitles.
+- Normalize casing according to the target language's writing system.
+- Remove filler sounds (e.g., “um”, “uh”) unless semantically important.
+
+## OUTPUT FORMAT (CRITICAL)
+Return ONLY a valid JSON array.
+- No markdown
+- No code blocks
+- No explanations
+- No additional text
+- Output MUST start with '[' and end with ']'
+
+## OUTPUT SCHEMA
 [
   {
-    "t": "Example phrase 1",
+    "t": "Subtitle text",
     "s": 0,
-    "e": 1500
+    "e": 1200
   }
 ]
 `.trim();
@@ -148,35 +235,32 @@ Format:
  * mirroring the Python implementation in `playground/vertex/transcript.py`.
  *
  * @param {Object} params
- * @param {string} params.audioUrl - Publicly reachable audio URL.
+ * @param {string} params.videoUrl - Publicly reachable video URL.
  * @param {string} [params.language="english"] - Target transcription language (human-readable).
  * @param {string} [params.languageFont="english"] - Target font/script for subtitles.
- * @returns {Promise<{ subtitles: Array<{t: string, s: number, e: number}> }>}
+ * @returns {Promise<{ subtitles: Array<{t: string, s: number, e: number}> }>} Subtitles array with text, start time, and end time.
  * @throws {Error} When audioUrl is missing or downstream calls fail.
  */
-export const transcribeAudioUrl = async (params) => {
+export const transcribeVideoUrl = async (params) => {
   const {
-    audioUrl,
+    videoUrl,
     language = "english",
     languageFont = "english",
   } = params || {};
 
-  if (!audioUrl) {
-    throw new Error("Missing required parameter: audioUrl");
+  if (!videoUrl) {
+    throw new Error("Missing required parameter: videoUrl");
   }
 
-  const audioBytes = await fetchAudioBytes(audioUrl);
-  const prompt = buildPrompt(language, languageFont);
+  const { audioBuffer, duration } = await extractAudioBufferFromVideo(videoUrl);
+  if (!duration) {
+    throw new Error("Failed to get duration of video");
+  }
+
+  const prompt = buildPrompt(duration, language, languageFont);
 
   const client = await createGenAIClient();
   const modelName = process.env.GOOGLE_VERTEX_MODEL || "gemini-2.5-flash-lite";
-
-  console.log("Starting Google GenAI transcription", client, {
-    model: modelName,
-    language,
-    languageFont,
-    audioUrl,
-  });
 
   const generationConfig = {
     maxOutputTokens: 65535,
@@ -213,7 +297,7 @@ export const transcribeAudioUrl = async (params) => {
         parts: [
           {
             inlineData: {
-              data: audioBytes.toString("base64"),
+              data: audioBuffer.toString("base64"),
               mimeType: "audio/mpeg",
             },
           },
@@ -235,6 +319,7 @@ export const transcribeAudioUrl = async (params) => {
     .replace(/\s*```$/i, "") // Remove closing ```
     .trim();
 
+
   let subtitles = [];
   try {
     // Try to find JSON array in the text (in case there's extra text)
@@ -255,8 +340,8 @@ export const transcribeAudioUrl = async (params) => {
   }
 
   return {
-    subtitles
+    subtitles,
+    duration,
+    videoUrl
   };
 };
-
-export default transcribeAudioUrl;
