@@ -17,6 +17,8 @@ This repository contains a collection of packages for video and image manipulati
 
 ## Packages
 
+### Core Packages
+
 - **@twick/media-utils**: Core utilities for media handling and manipulation
 - **@twick/canvas**: React-based canvas library for video and image editing
 - **@twick/visualizer**: Video visualization and animation toolkit
@@ -25,10 +27,69 @@ This repository contains a collection of packages for video and image manipulati
 - **@twick/video-editor**: React based video editor
 - **@twick/examples**: Example implementations and usage demonstrations
 
+### Cloud Functions
+
+Twick provides serverless cloud functions for AI-powered video processing:
+
+- **@twick/cloud-transcript**: Transcribe audio/video to generate JSON captions using Google GenAI (Vertex AI) with Gemini models. Perfect for extracting text from video content with precise timestamps.
+
+- **@twick/cloud-subtitle-video**: Generate complete subtitle video projects from video URLs. Automatically transcribes audio, creates subtitle tracks with proper timing, and optionally exports project JSONs to S3. Ideal for creating subtitled videos programmatically.
+
+- **@twick/cloud-export-video**: Export Twick video projects to MP4 format. Includes a core renderer and AWS Lambda container templates for serverless video rendering with Chromium and ffmpeg.
+
+All cloud functions are designed to run as AWS Lambda container images and can be easily deployed to your infrastructure. See individual package READMEs for deployment instructions.
+
+### Agents
+
+- **@twick/mcp-agent**: MCP (Model Context Protocol) server for Claude Desktop that generates video captions using Google Vertex AI. Enables AI assistants to transcribe videos and create subtitle projects directly from Claude Desktop, with seamless integration to Twick Studio.
+
 For detailed API documentation and module information, refer to [docs/modules.md](./docs/modules.md).
 
 ## Try it
+
 Experience Twick Studio in your browser with our live demo: [Twick Studio](https://development.d1vtsw7m0lx01h.amplifyapp.com/)
+
+### AI-Powered Subtitle Generation
+
+Create subtitle videos automatically using AI! Simply paste a public video URL and our system will:
+- Transcribe the audio using Google GenAI (Vertex AI)
+- Generate timed subtitle tracks
+- Create a complete Twick Studio project ready for editing
+
+Try it now: [Auto-generate Subtitles](https://development.d1vtsw7m0lx01h.amplifyapp.com/subtitles)
+
+## Cloud Functions & AI Features
+
+Twick's cloud functions and agents enable powerful AI-driven video processing capabilities:
+
+### Use Cases
+
+**Automated Subtitle Generation**
+- Process video content at scale with serverless functions
+- Generate accurate, timed subtitles for accessibility and localization
+- Integrate into your workflow via API calls or Lambda functions
+- Support multiple languages and fonts for global content
+
+**AI-Assisted Video Editing**
+- Use the MCP agent with Claude Desktop to generate subtitles through natural language
+- Seamlessly create Twick Studio projects from video URLs
+- Export projects directly to your Twick Studio instance
+
+**Serverless Video Processing**
+- Deploy transcription and rendering functions as AWS Lambda containers
+- Scale automatically based on demand
+- Process videos without managing infrastructure
+- Export videos programmatically from Twick projects
+
+### Benefits
+
+- **Scalable**: Serverless architecture handles any volume of requests
+- **Cost-Effective**: Pay only for what you use with AWS Lambda
+- **Accurate**: Powered by Google's Gemini models for high-quality transcription
+- **Integrated**: Works seamlessly with Twick Studio and your existing workflows
+- **Flexible**: Deploy to your own infrastructure or use as npm packages
+
+For detailed setup and deployment instructions, see the individual package READMEs in `packages/cloud-functions/` and `packages/agents/`.
 
 ## Getting Started
 
