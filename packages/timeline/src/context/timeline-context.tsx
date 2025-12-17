@@ -14,7 +14,14 @@ import { ProjectJSON, Size, TrackJSON } from "../types";
 import { TimelineEditor } from "../core/editor/timeline.editor";
 import { editorRegistry } from "../utils/register-editor";
 import { PostHogProvider } from "posthog-js/react";
-import posthog from "posthog-js";
+import {
+  AnalyticsConfig,
+  isAnalyticsEnabled,
+  getPostHogApiKey,
+  getPostHogOptions,
+  trackEvent,
+} from "../utils/analytics";
+import { PostHog } from "posthog-js";
 
 /**
  * Type definition for the Timeline context.
@@ -103,6 +110,8 @@ export interface TimelineProviderProps {
   undoRedoPersistenceKey?: string;
   /** Maximum number of history states to keep */
   maxHistorySize?: number;
+  /** Analytics configuration. Set to { enabled: false } to disable tracking */
+  analytics?: AnalyticsConfig;
 }
 
 /**
@@ -149,7 +158,7 @@ const TimelineProviderInner = ({
   const [changeLog, setChangeLog] = useState(0);
 
   const undoRedoContext = useUndoRedo();
-
+  
   const dataInitialized = useRef(false);
 
   /**
@@ -170,10 +179,6 @@ const TimelineProviderInner = ({
   const editor = useMemo(() => {
     if (editorRegistry.has(contextId)) {
       editorRegistry.delete(contextId);
-    } else {
-      posthog.capture("timeline_editor_created", {
-        contextId,
-      });
     }
     const newEditor = new TimelineEditor({
       contextId,
@@ -282,6 +287,17 @@ const TimelineProviderInner = ({
  *   <YourApp />
  * </TimelineProvider>
  * ```
+ * 
+ * @example
+ * Disable analytics:
+ * ```jsx
+ * <TimelineProvider
+ *   contextId="my-timeline"
+ *   analytics={{ enabled: false }}
+ * >
+ *   <YourApp />
+ * </TimelineProvider>
+ * ```
  */
 export const TimelineProvider = ({
   contextId,
@@ -290,16 +306,47 @@ export const TimelineProvider = ({
   initialData,
   undoRedoPersistenceKey,
   maxHistorySize,
+  analytics,
 }: TimelineProviderProps) => {
+  // Determine if analytics is enabled
+  const analyticsEnabled = isAnalyticsEnabled(analytics);
+  const apiKey = getPostHogApiKey(analytics);
+  const onPostHogLoaded = (posthog: PostHog) => {
+    trackEvent(posthog, "timeline_editor_created", {
+      contextId,
+      url: typeof window !== "undefined" ? window.location.href : undefined,
+      timestamp: new Date().toISOString(),
+    });
+  }
+
+  const postHogOptions = getPostHogOptions(analytics, onPostHogLoaded);
+
+  // If analytics is disabled, skip PostHogProvider
+  if (!analyticsEnabled || !apiKey) {
+    return (
+      <UndoRedoProvider
+        persistenceKey={undoRedoPersistenceKey}
+        maxHistorySize={maxHistorySize}
+      >
+        <TimelineProviderInner
+          resolution={resolution}
+          initialData={initialData}
+          contextId={contextId}
+          undoRedoPersistenceKey={undoRedoPersistenceKey}
+          maxHistorySize={maxHistorySize}
+          analytics={analytics}
+        >
+          {children}
+        </TimelineProviderInner>
+      </UndoRedoProvider>
+    );
+  }
+
   // If undo/redo is enabled, wrap with UndoRedoProvider
   return (
     <PostHogProvider
-      apiKey="phc_XaPky8YDbZjqm4GkCWBsVmICZTOTgjascrsftSOoJUJ"
-      options={{
-        api_host: "https://us.i.posthog.com",
-        defaults: "2025-05-24",
-        disable_session_recording: true,
-      }}
+      apiKey={apiKey}
+      options={postHogOptions}
     >
       <UndoRedoProvider
         persistenceKey={undoRedoPersistenceKey}
@@ -311,6 +358,7 @@ export const TimelineProvider = ({
           contextId={contextId}
           undoRedoPersistenceKey={undoRedoPersistenceKey}
           maxHistorySize={maxHistorySize}
+          analytics={analytics}
         >
           {children}
         </TimelineProviderInner>
