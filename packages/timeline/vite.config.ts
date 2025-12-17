@@ -8,6 +8,7 @@ export default defineConfig({
       entry: resolve(__dirname, 'src/index.ts'),
       name: 'TwickTimeline',
       fileName: (format) => `index.${format === 'es' ? 'mjs' : 'js'}`,
+      formats: ['es', 'cjs'],
     },
     rollupOptions: {
       external: [
@@ -18,7 +19,7 @@ export default defineConfig({
         '@react-spring/web',
         '@use-gesture/react',
         'framer-motion',
-        'lucide-react'
+        'lucide-react',
       ],
       output: {
         exports: 'named',
@@ -29,7 +30,7 @@ export default defineConfig({
           '@react-spring/web': 'ReactSpring',
           '@use-gesture/react': 'UseGesture',
           'framer-motion': 'FramerMotion',
-          'lucide-react': 'LucideReact'
+          'lucide-react': 'LucideReact',
         },
         assetFileNames: (assetInfo) => {
           return assetInfo.name;
@@ -37,15 +38,22 @@ export default defineConfig({
       },
     },
     sourcemap: true,
-    minify: false
+    minify: false,
   },
   plugins: [
     dts({
       include: ['src'],
-      exclude: ['src/**/*.test.ts', 'src/**/*.test.tsx'],
+      exclude: ['**/*.test.ts', '**/*.test.tsx'],
+      // Disable type rollup for this package to avoid
+      // API Extractor resolution issues with "./src/index"
+      rollupTypes: false,
+      compilerOptions: {
+        sourceMap: true,
+        declarationMap: true,
+      },
     }),
   ],
   define: {
-    'process.env.NODE_ENV': '"production"'
-  }
-}); 
+    'process.env.NODE_ENV': '"production"',
+  },
+});
