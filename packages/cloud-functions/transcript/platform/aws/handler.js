@@ -1,4 +1,4 @@
-import { transcribeAudioUrl } from '../../core/transcriber.js';
+import { transcribeVideoUrl } from '../../core/transcriber.js';
 
 const jsonResponse = (statusCode, body) => ({
   statusCode,
@@ -16,7 +16,7 @@ const jsonResponse = (statusCode, body) => ({
  *
  * Expected JSON payload (e.g. via AppSync / Lambda resolver):
  * {
- *   "audioUrl": "https://example.com/audio.mp3", // or "gs://bucket/object"
+ *   "videoUrl": "https://example.com/audio.mp3", // or "gs://bucket/object"
  *   "languageCode": "en-US", // optional, defaults to "en-US"
  *   "encoding": "MP3",        // optional
  *   "sampleRateHertz": 16000  // optional
@@ -51,14 +51,14 @@ export const handler = async (event) => {
       (event?.body ? JSON.parse(event.body) : {}) ||
       {};
 
-    const { audioUrl, language,languageFont } =
+    const { videoUrl, language,languageFont } =
       argumentsPayload;
 
-    if (!audioUrl) {
+    if (!videoUrl) {
       return jsonResponse(400, {
-        error: 'Missing required field: audioUrl',
+        error: 'Missing required field: videoUrl',
         expectedFormat: {
-          audioUrl:
+          videoUrl:
             'Publicly reachable audio URL or "gs://bucket/object" for GCS',
           language: 'Optional language (e.g., "english", "hindi")',
           languageFont: 'Optional font/script for captions (e.g., "english")',
@@ -66,8 +66,8 @@ export const handler = async (event) => {
       });
     }
 
-    const result = await transcribeAudioUrl({
-      audioUrl,
+    const result = await transcribeVideoUrl({
+      videoUrl,
       language,
       languageFont,
     });
