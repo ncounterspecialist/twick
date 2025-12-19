@@ -1,6 +1,6 @@
 {
   "name": "@twick/cloud-transcript",
-  "version": "0.14.11",
+  "version": "0.14.16",
   "description": "Twick cloud function for generating JSON captions from audio using Google Cloud Speech-to-Text",
   "type": "module",
   "main": "core/transcriber.js",
@@ -9,9 +9,13 @@
     "./aws": "./platform/aws/handler.js",
     "./platform/aws/*": "./platform/aws/*"
   },
+  "bin": {
+    "twick-transcript": "bin/twick-transcript.js"
+  },
   "files": [
     "core",
     "platform",
+    "bin",
     "README.md"
   ],
   "scripts": {

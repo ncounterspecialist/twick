@@ -9,6 +9,6 @@ RUN npm install
 COPY . ./
 
 # Default Lambda handler
-CMD ["platform/aws/handler.handler"]
+CMD ["handler.handler"]
 
 

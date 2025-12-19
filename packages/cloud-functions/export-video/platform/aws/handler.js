@@ -1,5 +1,5 @@
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
-import renderTwickVideo from '../../core/renderer.js';
+import { renderTwickVideo } from '@twick/cloud-export-video';
 
 const s3Client = new S3Client({
   region: process.env.EXPORT_VIDEO_S3_REGION || process.env.AWS_REGION || 'us-east-1',
@@ -107,10 +107,24 @@ const buildPublicUrl = ({ bucket, key, region, baseUrl }) => {
  * Returns: JSON payload containing the uploaded video URL and metadata
  */
 
-export const handler = async (event) => {
+const handler = async (event) => {
   console.log('Video processor function invoked');
   console.log('Event:', JSON.stringify(event));
   const projectData = event.arguments || {};
+  
+  if(!renderTwickVideo) {
+    return {
+      statusCode: 500,
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+      },
+      body: JSON.stringify({
+        error: 'Failed to load renderTwickVideo',
+        message: 'Failed to load renderTwickVideo',
+      }),
+    };
+  }
   
   try {
     // Validate required fields
@@ -293,3 +307,5 @@ ${mediaFiles.map((file, index) => `  ${index + 1}. ${file.filename} (${file.data
     };
   }
 };
+
+module.exports.handler = handler;

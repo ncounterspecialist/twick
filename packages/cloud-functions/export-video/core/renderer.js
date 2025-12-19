@@ -71,4 +71,4 @@ const renderTwickVideo = async (variables, settings) => {
   }
 };
 
-export default renderTwickVideo;
+export { renderTwickVideo };

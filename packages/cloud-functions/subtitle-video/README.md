@@ -8,6 +8,35 @@ Cloud-function package for generating subtitle video projects from video URLs us
 npm install -D @twick/cloud-subtitle-video
 ```
 
+### CLI
+
+```bash
+npx twick-subtitle-video help
+```
+
+Commands:
+
+- `init [dir]`: Scaffold AWS container template (Dockerfile + handler) into `[dir]` (default `./twick-subtitle-video-aws`). Also writes a minimal `package.json` that depends on this package.
+- `build <image> [dir]`: Build a Docker image from `[dir]` (default `./twick-subtitle-video-aws`).
+- `ecr-login <region> <accountId>`: Log in Docker to your AWS ECR registry.
+- `push <image> <region> <accountId>`: Tag and push the image to ECR. The repository must already exist.
+
+### Typical flow
+
+```bash
+# 1) Scaffold
+npx twick-subtitle-video init
+
+# 2) Build an image
+npx twick-subtitle-video build twick-subtitle-video:latest
+
+# 3) Login to ECR
+npx twick-subtitle-video ecr-login us-east-1 123456789012
+
+# 4) Push (assumes an ECR repo named `twick-subtitle-video` exists)
+npx twick-subtitle-video push twick-subtitle-video:latest us-east-1 123456789012
+```
+
 ### AWS Lambda (container) usage
 
 This package ships with an AWS Lambda container template (Dockerfile + handler).
