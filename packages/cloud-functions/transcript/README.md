@@ -8,6 +8,35 @@ Cloud-function package for generating JSON captions from audio using **Google Ge
 npm install -D @twick/cloud-transcript
 ```
 
+### CLI
+
+```bash
+npx twick-transcript help
+```
+
+Commands:
+
+- `init [dir]`: Scaffold AWS container template (Dockerfile + handler) into `[dir]` (default `./twick-transcript-aws`). Also writes a minimal `package.json` that depends on this package.
+- `build <image> [dir]`: Build a Docker image from `[dir]` (default `./twick-transcript-aws`).
+- `ecr-login <region> <accountId>`: Log in Docker to your AWS ECR registry.
+- `push <image> <region> <accountId>`: Tag and push the image to ECR. The repository must already exist.
+
+### Typical flow
+
+```bash
+# 1) Scaffold
+npx twick-transcript init
+
+# 2) Build an image
+npx twick-transcript build twick-transcript:latest
+
+# 3) Login to ECR
+npx twick-transcript ecr-login us-east-1 123456789012
+
+# 4) Push (assumes an ECR repo named `twick-transcript` exists)
+npx twick-transcript push twick-transcript:latest us-east-1 123456789012
+```
+
 ### AWS Lambda (container) usage
 
 This package ships with an AWS Lambda container template (Dockerfile + handler).

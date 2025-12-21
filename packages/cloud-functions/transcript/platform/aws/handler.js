@@ -1,4 +1,4 @@
-import { transcribeVideoUrl } from '../../core/transcriber.js';
+import { transcribeVideoUrl } from '@twick/cloud-transcript';
 
 const jsonResponse = (statusCode, body) => ({
   statusCode,

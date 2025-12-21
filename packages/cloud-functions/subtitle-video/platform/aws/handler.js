@@ -1,5 +1,4 @@
-import { createProject } from '../../core/create-project.js';
-import { exportProject } from '../../core/export-project.js';
+import { createProject, exportProject } from '@twick/cloud-subtitle-video';
 
 const jsonResponse = (statusCode, body) => ({
   statusCode,
