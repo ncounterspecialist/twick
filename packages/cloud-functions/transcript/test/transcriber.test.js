@@ -35,14 +35,14 @@ for (const envPath of envPaths) {
   }
 }
 
-const sampleAudioUrl = "https://audio-samples.github.io/samples/mp3/blizzard_unconditional/sample-0.mp3";
+const sampleVideoUrl = "https://firebasestorage.googleapis.com/v0/b/baatcheet-prod.firebasestorage.app/o/ME-VS-ME.mp4?alt=media&token=c53dac81-888a-41fb-a501-246c9e531c29";
 
-test('transcribeAudioUrl - basic transcription', async () => {
+test('transcribeVideoUrl - basic transcription', async () => {
   console.log('Starting transcription test with sample audio URL...');
-  console.log('Audio URL:', sampleAudioUrl.substring(0, 100) + '...');
+  console.log('Video URL:', sampleVideoUrl.substring(0, 100) + '...');
 
-  const result = await transcribeAudioUrl({
-    audioUrl: sampleAudioUrl,
+  const result = await transcribeVideoUrl({
+    videoUrl: sampleVideoUrl,
     language: 'english',
     languageFont: 'english',
   });
