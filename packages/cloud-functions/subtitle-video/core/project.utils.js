@@ -1,29 +1,20 @@
-import { transcribeVideoUrl } from "./transcriber.js";
-
 /**
- * Get video duration in seconds
- * @param {string} videoUrl file path or remote URL
- * @returns {Promise<number>}
+ * Builds a Twick subtitle video project JSON structure from transcription results.
+ * 
+ * @param {Object} params - Project parameters
+ * @param {Array<Object>} params.subtitles - Array of subtitle objects with {t, s, e} properties
+ * @param {number} params.duration - Video duration in seconds
+ * @param {string} params.videoUrl - Source video URL
+ * @param {Object} [params.videoSize] - Video dimensions {width, height}
+ * @returns {Object} Twick project JSON structure with properties, tracks, and version
  */
-
-export const createProject = async (params) => {
-  const { videoSize, videoUrl, language, languageFont } = params;
-
-  try {
-    const { subtitles, duration } = await transcribeVideoUrl({
-      videoUrl,
-      language,
-      languageFont,
-    });
-
-    if (!subtitles.length) {
-      throw new Error("No subtitles found");
-    }
+export const buildProject = (params) => {
+  const { subtitles, duration, videoUrl, videoSize } = params;
 
     return {
       properties: {
-        width: videoSize.width || 720,
-        height: videoSize.height || 1280,
+        width: videoSize?.width || 720,
+        height: videoSize?.height || 1280,
       },
       tracks: [
         {
@@ -37,8 +28,8 @@ export const createProject = async (params) => {
               e: duration,
               props: {
                 src: videoUrl,
-                width: videoSize.width || 720,
-                height: videoSize.height || 1280,
+                width: videoSize?.width || 720,
+                height: videoSize?.height || 1280,
               },
             },
           ],
@@ -78,8 +69,4 @@ export const createProject = async (params) => {
       ],
       version: 1,
     };
-  } catch (error) {
-    console.error("Error building project for", videoUrl, error);
-    throw error;
-  }
 };

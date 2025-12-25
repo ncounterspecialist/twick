@@ -1,5 +1,12 @@
-import { createProject, exportProject } from '@twick/cloud-subtitle-video';
+import { createSubtitleProject, exportProject } from '@twick/cloud-subtitle-video';
 
+/**
+ * Creates a standardized JSON HTTP response with CORS headers.
+ * 
+ * @param {number} statusCode - HTTP status code
+ * @param {Object} body - Response body object (will be JSON stringified)
+ * @returns {Object} Lambda response object with statusCode, headers, and body
+ */
 const jsonResponse = (statusCode, body) => ({
   statusCode,
   headers: {
@@ -12,22 +19,21 @@ const jsonResponse = (statusCode, body) => ({
 });
 
 /**
- * AWS Lambda handler for generating subtitle video from audio using Google Cloud Speech-to-Text.
- *
- * Expected JSON payload (e.g. via AppSync / Lambda resolver):
- * {
- *   "videoUrl": "https://example.com/video.mp4", // or "gs://bucket/object"
- *   "videoSize": { "width": 1920, "height": 1080 }, // optional, defaults to 720x1280
- *   "language": "english", // optional, defaults to "english"
- *   "languageFont": "english" // optional, defaults to "english"
- * }
- *
- * Environment variables:
- * - GOOGLE_CLOUD_PROJECT: Explicit Google Cloud project id.
- * - GOOGLE_CLOUD_LOCATION (optional): Location of the Google Cloud project.
- * - GOOGLE_VERTEX_MODEL (optional): Model to use for transcription.
- *
- * Returns: JSON payload containing subtitle video project.
+ * AWS Lambda handler for creating subtitle video projects.
+ * 
+ * Processes video URLs, transcribes audio using Google Speech-to-Text,
+ * and optionally exports projects to Google Cloud Storage.
+ * 
+ * @param {Object} event - Lambda event object
+ * @param {string} [event.httpMethod] - HTTP method (for API Gateway integration)
+ * @param {Object|string} [event.arguments] - AppSync arguments object
+ * @param {string} [event.body] - JSON string body (for API Gateway)
+ * @param {string} [event.body.videoUrl] - Required: Publicly accessible video URL
+ * @param {Object} [event.body.videoSize] - Optional: Video dimensions {width, height}
+ * @param {string} [event.body.language] - Optional: Transcription language (default: "english")
+ * @param {string} [event.body.languageFont] - Optional: Font/script for subtitles
+ * @param {boolean} [event.body.shouldExport] - Optional: If true, exports project to GCS
+ * @returns {Promise<Object>} Lambda response object with statusCode, headers, and body
  */
 export const handler = async (event) => {
   console.log('Subtitle video function invoked');
@@ -67,7 +73,7 @@ export const handler = async (event) => {
       });
     }
 
-    const result = await createProject({
+    const result = await createSubtitleProject({
       videoUrl,
       videoSize,
       language,
@@ -78,10 +84,12 @@ export const handler = async (event) => {
 
     if (shouldExport) {
       const project = await exportProject(result);
-      return project;
+      return jsonResponse(200, {
+        url: project,
+      });
     } else {
       return jsonResponse(200, {
-        ...result,
+        project: result,
       });
     }
   } catch (error) {
