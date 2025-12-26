@@ -4,7 +4,7 @@
   "license": "SEE LICENSE IN LICENSE.md",
   "scripts": {
     "start": "twick editor --projectFile ./src/live.tsx",
-    "build": "tsc && vite build",
+    "build": "tsc --noEmit && vite build",
     "docs": "typedoc --out docs src/visualizer-grouped.ts",
     "clean": "rimraf .turbo node_modules dist",
     "prepublishOnly": "pnpm run build"
