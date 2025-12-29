@@ -33,4 +33,4 @@ ENV HOME=/tmp
 
 ENV DONT_WRITE_TO_META_FILES=true
 
-CMD ["handler.handler"]
+CMD ["platform/aws/handler.handler"]

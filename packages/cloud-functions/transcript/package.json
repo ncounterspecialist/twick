@@ -23,6 +23,7 @@
     "verify:aws": "node -e \"require('fs').accessSync('platform/aws/Dockerfile'); require('fs').accessSync('platform/aws/handler.js'); console.log('AWS transcript function assets present')\"",
     "pack:aws": "npm run verify:aws && npm pack",
     "release:aws": "npm run verify:aws && npm publish --access public --tag aws",
+    "deploy:aws": "node scripts/deploy-aws.js",
     "prepublishOnly": "npm run verify:aws"
   },
   "publishConfig": {
