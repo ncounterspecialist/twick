@@ -36,37 +36,36 @@ if (!/^\d+\.\d+\.\d+/.test(version)) {
 const imageTag = `${IMAGE_NAME}:${version}`;
 const ecrImageUri = `${ECR_REGISTRY}/${imageTag}`;
 
-console.log(`Deploying ${imageTag} to ${ECR_REGISTRY}`);
+console.log(`Deploying Image to AWS ECR`);
 console.log("=".repeat(60));
 
 try {
   // Step 1: Login to ECR
-  console.log("\n[1/4] Logging into AWS ECR...");
+  console.log("\n[1/4] Logging into ECR...");
   const loginCommand = `aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${ECR_REGISTRY}`;
   execSync(loginCommand, { stdio: "inherit", cwd: projectRoot });
   console.log("✓ Successfully logged into ECR");
 
   // Step 2: Build Docker image
-  console.log(`\n[2/4] Building Docker image ${imageTag}...`);
+  console.log(`\n[2/4] Building Image...`);
   const buildCommand = `docker buildx build --platform linux/amd64 -t ${imageTag} -f ${DOCKERFILE_PATH} ${BUILD_CONTEXT}`;
   execSync(buildCommand, { stdio: "inherit", cwd: projectRoot });
-  console.log(`✓ Successfully built ${imageTag}`);
+  console.log(`✓ Successfully built Image`);
 
   // Step 3: Tag image for ECR
-  console.log(`\n[3/4] Tagging image as ${ecrImageUri}...`);
+  console.log(`\n[3/4] Tagging Image...`);
   const tagCommand = `docker tag ${imageTag} ${ecrImageUri}`;
   execSync(tagCommand, { stdio: "inherit", cwd: projectRoot });
-  console.log(`✓ Successfully tagged ${ecrImageUri}`);
+  console.log(`✓ Successfully tagged Image`);
 
   // Step 4: Push to ECR
-  console.log(`\n[4/4] Pushing image to ECR...`);
+  console.log(`\n[4/4] Pushing Image to ECR...`);
   const pushCommand = `docker push ${ecrImageUri}`;
   execSync(pushCommand, { stdio: "inherit", cwd: projectRoot });
-  console.log(`✓ Successfully pushed ${ecrImageUri}`);
+  console.log(`✓ Successfully pushed Image`);
 
   console.log("\n" + "=".repeat(60));
   console.log("✓ Deployment completed successfully!");
-  console.log(`\nImage URI: ${ecrImageUri}`);
 } catch (error) {
   console.error("\n✗ Deployment failed:", error.message);
   process.exit(1);
