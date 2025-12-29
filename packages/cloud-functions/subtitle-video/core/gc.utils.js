@@ -9,8 +9,7 @@ import fs from "fs";
  * Google Cloud Project ID. Can be set via GOOGLE_CLOUD_PROJECT environment variable.
  * @type {string}
  */
-export const CLOUD_PROJECT_ID =
-  process.env.GOOGLE_CLOUD_PROJECT ?? "baatcheet-prod";
+export const CLOUD_PROJECT_ID = process.env.GOOGLE_CLOUD_PROJECT;
 
 /**
  * Google Cloud region for Speech-to-Text API. Currently set to "global".
@@ -18,22 +17,22 @@ export const CLOUD_PROJECT_ID =
  */
 export const CLOUD_REGION = "global";
 
+export const AWS_REGION = process.env.AWS_REGION;
 /**
  * Google Cloud Storage bucket name for storing audio files and project exports.
  * Can be set via GOOGLE_CLOUD_STORAGE_BUCKET environment variable.
  * @type {string}
  */
-export const CLOUD_STORAGE_BUCKET =
-  process.env.GOOGLE_CLOUD_STORAGE_BUCKET ?? "twick-video";
+export const CLOUD_STORAGE_BUCKET = process.env.GOOGLE_CLOUD_STORAGE_BUCKET;
 
 let googleCredentials = null;
 
 /**
  * Retrieves Google Cloud service account credentials from AWS Secrets Manager.
- * 
+ *
  * If GCP_SERVICE_ACCOUNT_SECRET_NAME is set, fetches the JSON credentials from AWS Secrets Manager.
  * If not set, returns undefined (useful when credentials are provided via GOOGLE_APPLICATION_CREDENTIALS).
- * 
+ *
  * @returns {Promise<Object|undefined>} Parsed JSON credentials object or undefined
  * @throws {Error} If fetching from Secrets Manager fails
  */
@@ -60,8 +59,31 @@ export const getGoogleCredentials = async () => {
         VersionStage: "AWSCURRENT", // VersionStage defaults to AWSCURRENT if unspecified
       })
     );
-    googleCredentials = response.SecretString;
-    return JSON.parse(googleCredentials);
+    const parsedCredentials = JSON.parse(response.SecretString);
+
+    // Validate that the credentials contain required fields
+    if (!parsedCredentials.client_email) {
+      throw new Error(
+        `Invalid Google Cloud credentials: missing 'client_email' field. ` +
+          `The secret must contain a valid service account JSON with 'client_email', ` +
+          `'private_key', and 'type' fields.`
+      );
+    }
+
+    if (!parsedCredentials.private_key) {
+      throw new Error(
+        `Invalid Google Cloud credentials: missing 'private_key' field.`
+      );
+    }
+
+    if (parsedCredentials.type !== "service_account") {
+      console.warn(
+        `Warning: credentials type is '${parsedCredentials.type}', expected 'service_account'`
+      );
+    }
+
+    googleCredentials = parsedCredentials;
+    return googleCredentials;
   } catch (error) {
     console.error(
       `Failed to initialize Google credentials from secret ::`,
@@ -75,7 +97,7 @@ let storage = null;
 
 /**
  * Gets or initializes the Google Cloud Storage client instance.
- * 
+ *
  * @returns {Promise<Storage>} Initialized Storage client
  */
 const getStorage = async () => {
@@ -90,7 +112,7 @@ const getStorage = async () => {
 
 /**
  * Uploads a file to Google Cloud Storage.
- * 
+ *
  * @param {Object} params - Upload parameters
  * @param {Buffer|string} params.data - File data to upload (Buffer or string)
  * @param {string} [params.folder] - Optional folder path in the bucket
@@ -137,7 +159,7 @@ export const uploadFile = async ({
 
 /**
  * Converts a Google Cloud Storage URL to a gs:// URI format.
- * 
+ *
  * @param {string} URI - GCS URL (https://storage.googleapis.com/...) or gs:// URI
  * @returns {string} gs:// URI format
  * @throws {Error} If the URI format is invalid

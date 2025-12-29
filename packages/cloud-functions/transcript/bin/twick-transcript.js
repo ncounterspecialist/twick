@@ -12,11 +12,21 @@ function copyTemplate(destDir) {
   const templateDir = join(pkgRoot, 'platform', 'aws');
   if (!fs.existsSync(destDir)) fs.mkdirSync(destDir, { recursive: true });
 
-  for (const name of ['Dockerfile', 'handler.js']) {
-    const src = join(templateDir, name);
-    const dest = join(destDir, name);
-    fs.copyFileSync(src, dest);
+  // Create platform/aws directory structure to maintain consistency with CMD ["platform/aws/handler.handler"]
+  const platformAwsDir = join(destDir, 'platform', 'aws');
+  if (!fs.existsSync(platformAwsDir)) {
+    fs.mkdirSync(platformAwsDir, { recursive: true });
   }
+
+  // Copy Dockerfile to root (it references platform/aws/handler.handler)
+  const dockerfileSrc = join(templateDir, 'Dockerfile');
+  const dockerfileDest = join(destDir, 'Dockerfile');
+  fs.copyFileSync(dockerfileSrc, dockerfileDest);
+
+  // Copy handler.js to platform/aws/ to match the CMD path
+  const handlerSrc = join(templateDir, 'handler.js');
+  const handlerDest = join(platformAwsDir, 'handler.js');
+  fs.copyFileSync(handlerSrc, handlerDest);
 
   // Minimal package.json to enable docker layer caching (npm ci)
   const pkgJsonPath = join(destDir, 'package.json');

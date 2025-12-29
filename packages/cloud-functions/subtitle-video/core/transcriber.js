@@ -213,8 +213,6 @@ export async function transcribeLong({
     const allPhrases = [];
     const results = fileResult.transcript.results || [];
 
-    console.log("Results:", fileResult.transcript);
-
     for (const result of results) {
       const phrases = processResponse(result);
       console.log("Phrases:", phrases);
