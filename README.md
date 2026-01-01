@@ -91,6 +91,12 @@ Twick's cloud functions and agents enable powerful AI-driven video processing ca
 
 For detailed setup and deployment instructions, see the individual package READMEs in `packages/cloud-functions/` and `packages/agents/`.
 
+### Usage Statistics
+
+Track the growth of Twick's community and platform usage:
+
+![Active Developers](https://img.shields.io/badge/dynamic/json?url=https://development.d1vtsw7m0lx01h.amplifyapp.com/api/analytics/dev-count&query=$.result&label=Active%20Developers&color=blue) ![Total Videos Exported](https://img.shields.io/badge/dynamic/json?url=https://development.d1vtsw7m0lx01h.amplifyapp.com/api/analytics/video-count&query=$.result&label=Total%20Videos%20Exported&color=yellow)
+
 ## Getting Started
 
 1. Clone the repository:
