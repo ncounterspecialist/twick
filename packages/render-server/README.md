@@ -1,10 +1,12 @@
 # @twick/render-server
 
-A simple Node.js server for rendering videos using Twick.
+A Node.js package for rendering videos using Twick. Export the `renderTwickVideo` function for programmatic use, or scaffold a complete server using the CLI.
 
 ## Overview
 
-This package provides a server-side rendering solution for Twick video projects. It allows you to render video projects on the server and download the resulting video files.
+This package provides:
+- **`renderTwickVideo` function**: A programmatic API for rendering Twick videos
+- **CLI tool**: Scaffold a complete Express server to run locally on your machine
 
 ## Installation
 
@@ -16,18 +18,52 @@ pnpm add @twick/render-server
 
 ## Quick Start
 
-### Starting the server
+### Option 1: Scaffold a Server (Recommended)
+
+Scaffold a complete server with all endpoints configured:
 
 ```bash
-# Development mode
-pnpm run dev
+npx @twick/render-server init
+```
 
-# Production mode
-pnpm run build
-pnpm start
+This creates a `twick-render-server` directory with:
+- Express server with POST `/api/render-video` endpoint
+- Rate limiting and security middleware
+- TypeScript configuration
+- Package.json with all dependencies
+
+Then navigate to the scaffolded directory and start the server:
+
+```bash
+cd twick-render-server
+npm install
+npm run dev  # Development mode
+# or
+npm run build && npm start  # Production mode
 ```
 
 The server will start on port 3001 by default. You can change this by setting the `PORT` environment variable.
+
+### Option 2: Use Programmatically
+
+Import and use the `renderTwickVideo` function directly:
+
+```typescript
+import { renderTwickVideo } from "@twick/render-server";
+
+const videoPath = await renderTwickVideo(
+  {
+    input: {
+      properties: { width: 1920, height: 1080 },
+      // ... your project variables
+    }
+  },
+  {
+    outFile: "my-video.mp4",
+    quality: "high"
+  }
+);
+```
 
 ## API Endpoints
 
@@ -77,17 +113,24 @@ Renders a video using Twick.
 ```json
 {
   "success": true,
-  "downloadUrl": "http://localhost:3001/download/output/my-video.mp4"
+  "downloadUrl": "http://localhost:3001/download/my-video.mp4"
 }
 ```
 
-### GET /download/:outFile
+### GET /download/:filename
 
-Downloads a rendered video file.
+Downloads a rendered video file. This endpoint is rate-limited to prevent abuse.
+
+**Rate Limits:**
+- 100 requests per 15 minutes per IP address
+- Rate limit headers are included in responses:
+  - `X-RateLimit-Limit`: Maximum requests allowed
+  - `X-RateLimit-Remaining`: Remaining requests in current window
+  - `X-RateLimit-Reset`: When the rate limit window resets
 
 ### GET /health
 
-Health check endpoint.
+Health check endpoint. Returns server status and current timestamp.
 
 ## Configuration
 
@@ -96,23 +139,50 @@ The server uses the following environment variables:
 - `PORT`: Server port (default: 3001)
 - `NODE_ENV`: Environment (development/production)
 
-## Development
+## Package Development
+
+For developing this package itself:
 
 ```bash
 # Install dependencies
 pnpm install
 
-# Start development server
-pnpm run dev
-
-# Build for production
+# Build the package
 pnpm run build
 
-# Start production server
-pnpm start
+# Clean build artifacts
+pnpm run clean
+```
 
-# Test
-node test.js
+## API Reference
+
+### `renderTwickVideo(variables, settings)`
+
+Renders a Twick video with the provided variables and settings.
+
+**Parameters:**
+- `variables` (object): Project variables containing input configuration
+- `settings` (object, optional): Render settings to override defaults
+
+**Returns:** `Promise<string>` - Path to the rendered video file
+
+**Example:**
+```typescript
+import { renderTwickVideo } from "@twick/render-server";
+
+const videoPath = await renderTwickVideo(
+  {
+    input: {
+      properties: { width: 1920, height: 1080 },
+      tracks: [/* ... */]
+    }
+  },
+  {
+    outFile: "my-video.mp4",
+    quality: "high",
+    outDir: "./output"
+  }
+);
 ```
 
 > **Note:** This server will work on Linux and macOS only. Windows is not supported.
