@@ -3,7 +3,10 @@
   "version": "0.14.11",
   "license": "SEE LICENSE IN LICENSE.md",
   "type": "module",
-  "main": "dist/server.js",
+  "main": "dist/index.js",
+  "bin": {
+    "twick-render-server": "./dist/cli.js"
+  },
   "scripts": {
     "build": "tsc",
     "dev": "tsx watch src/server.ts",
