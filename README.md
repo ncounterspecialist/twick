@@ -15,6 +15,12 @@ Twick is a monorepo containing multiple packages for video editing functionality
 
 This repository contains a collection of packages for video and image manipulation, built with modern web technologies.
 
+### Usage Statistics
+
+Track the growth of Twick's community and platform usage:
+
+![Active Developers](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fdevelopment.d1vtsw7m0lx01h.amplifyapp.com%2Fapi%2Fanalytics%2Fdev-count&query=result&label=Active%20Developers&color=blue) ![Total Video Exported](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fdevelopment.d1vtsw7m0lx01h.amplifyapp.com%2Fapi%2Fanalytics%2Fvideo-count&query=result&label=Total%20Exported%20Video&color=green)
+
 ## Packages
 
 ### Core Packages
@@ -90,12 +96,6 @@ Twick's cloud functions and agents enable powerful AI-driven video processing ca
 - **Flexible**: Deploy to your own infrastructure or use as npm packages
 
 For detailed setup and deployment instructions, see the individual package READMEs in `packages/cloud-functions/` and `packages/agents/`.
-
-### Usage Statistics
-
-Track the growth of Twick's community and platform usage:
-
-![Active Developers](https://img.shields.io/badge/dynamic/json?url=https://development.d1vtsw7m0lx01h.amplifyapp.com/api/analytics/dev-count&query=$.result&label=Active%20Developers&color=blue) ![Total Videos Exported](https://img.shields.io/badge/dynamic/json?url=https://development.d1vtsw7m0lx01h.amplifyapp.com/api/analytics/video-count&query=$.result&label=Total%20Videos%20Exported&color=yellow)
 
 ## Getting Started
 
