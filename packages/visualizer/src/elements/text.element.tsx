@@ -88,6 +88,8 @@ export const TextElement = {
         ref={elementRef}
         key={element.id}
         text={element.t}
+        textWrap={element.props?.textWrap ?? true}
+        textAlign={element.props?.textAlign ?? "center"}
         {...element.props}
       />
     );

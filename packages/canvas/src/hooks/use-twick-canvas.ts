@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Canvas as FabricCanvas, FabricObject } from "fabric";
+import { Canvas as FabricCanvas, FabricObject, Textbox } from "fabric";
 import { Dimensions } from "@twick/media-utils";
 import {
   CanvasMetadata,
@@ -131,6 +131,7 @@ export const useTwickCanvas = ({
     if (twickCanvasRef.current) {
       console.log("Destroying twickCanvas");
       twickCanvasRef.current.off("mouse:up", handleMouseUp);
+      twickCanvasRef.current.off("text:editing:exited", onTextEdit);
       twickCanvasRef.current.dispose();
     }
 
@@ -150,12 +151,33 @@ export const useTwickCanvas = ({
     videoSizeRef.current = videoSize;
     // Attach event listeners
     canvas?.on("mouse:up", handleMouseUp);
+    canvas?.on("text:editing:exited", onTextEdit);
     canvasResolutionRef.current = canvasSize;
     setTwickCanvas(canvas);
     twickCanvasRef.current = canvas;
     // Notify when canvas is ready
     if (onCanvasReady) {
       onCanvasReady(canvas);
+    }
+  };
+
+  const onTextEdit = (event: any) => {
+    if (event.target) {
+      const object: FabricObject = event.target;
+      const elementId = object.get("id");
+      elementMap.current[elementId] = {
+        ...elementMap.current[elementId],
+        props: {
+          ...elementMap.current[elementId].props,
+          text:
+            (object as Textbox).text ??
+            elementMap.current[elementId].props.text,
+        },
+      };
+      onCanvasOperation?.(
+        CANVAS_OPERATIONS.ITEM_UPDATED,
+        elementMap.current[elementId]
+      );
     }
   };
 

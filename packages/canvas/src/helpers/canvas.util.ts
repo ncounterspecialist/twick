@@ -49,8 +49,8 @@ export const createCanvas = ({
     width: canvasSize.width,
     height: canvasSize.height,
     aspectRatio: canvasSize.width / canvasSize.height,
-    scaleX: canvasSize.width / videoSize.width,
-    scaleY: canvasSize.height / videoSize.height,
+    scaleX: Number((canvasSize.width / videoSize.width).toFixed(2)) ,
+    scaleY: Number((canvasSize.height / videoSize.height).toFixed(2)),
   };
 
   // Create and configure the Fabric.js canvas
