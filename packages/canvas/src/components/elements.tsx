@@ -1,6 +1,7 @@
 import {
   Canvas as FabricCanvas,
   FabricText,
+  Textbox,
   Group,
   FabricImage,
   Rect,
@@ -23,19 +24,19 @@ import { getObjectFitSize, getThumbnail } from "@twick/media-utils";
 
 /**
  * Add a text element to the canvas.
- * Creates and configures a Fabric.js text object with specified properties
- * including position, styling, and interactive controls.
+ * Creates and configures a Fabric.js Textbox object with specified properties
+ * including position, styling, interactive controls, and text wrapping support.
  *
  * @param element - The canvas element configuration
  * @param index - The z-index of the element
  * @param canvas - The Fabric.js canvas instance
  * @param canvasMetadata - Metadata about the canvas including scale and dimensions
- * @returns The configured Fabric.js text object
+ * @returns The configured Fabric.js Textbox object with text wrapping enabled
  *
  * @example
  * ```js
  * const textElement = addTextElement({
- *   element: { id: "text1", props: { text: "Hello", x: 100, y: 100 } },
+ *   element: { id: "text1", props: { text: "Hello", x: 100, y: 100, width: 200 } },
  *   index: 1,
  *   canvas: fabricCanvas,
  *   canvasMetadata: { scaleX: 1, scaleY: 1, width: 800, height: 600 }
@@ -59,13 +60,17 @@ export const addTextElement = ({
     canvasMetadata
   );
 
-  const text = new FabricText(element.props?.text || element.t || "", {
+  let width = element.props?.width ? element.props.width * canvasMetadata.scaleX : canvasMetadata.width;
+  if (element.props?.maxWidth) {
+    width = Math.min(width, element.props.maxWidth * canvasMetadata.scaleX);
+  }
+  const text = new Textbox(element.props?.text || element.t || "", {
     left: x,
     top: y,
     originX: "center",
     originY: "center",
     angle: element.props?.rotation || 0,
-    fontSize: Math.round(
+    fontSize: Math.floor(
       (element.props?.fontSize || DEFAULT_TEXT_PROPS.size) *
         canvasMetadata.scaleX
     ),
@@ -74,7 +79,8 @@ export const addTextElement = ({
     fontWeight: element.props?.fontWeight || "normal",
     fill: element.props?.fill || DEFAULT_TEXT_PROPS.fill,
     opacity: element.props?.opacity ?? 1,
-    skipWrapping: false,
+    width: width,
+    splitByGrapheme: false,
     textAlign: element.props?.textAlign || "center",
     stroke: element.props?.stroke || DEFAULT_TEXT_PROPS.stroke,
     strokeWidth: element.props?.lineWidth || DEFAULT_TEXT_PROPS.lineWidth,

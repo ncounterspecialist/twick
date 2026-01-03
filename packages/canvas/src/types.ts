@@ -228,6 +228,8 @@ export type CanvasElementProps = {
   opacity?: number;
   /** Width in pixels */
   width?: number;
+  /** Maximum width in pixels */
+  maxWidth?: number;
   /** Height in pixels */
   height?: number;
   /** Whether text should wrap */
