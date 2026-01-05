@@ -17,12 +17,12 @@
     "access": "public"
   },
   "dependencies": {
-    "@twick/2d": "^0.14.11",
-    "@twick/core": "^0.14.11",
-    "@twick/ffmpeg": "^0.14.11",
-    "@twick/renderer": "^0.14.11",
-    "@twick/ui": "^0.14.11",
-    "@twick/visualizer": "^0.14.11",
+    "@twick/2d": "workspace:*",
+    "@twick/core": "workspace:*",
+    "@twick/ffmpeg": "workspace:*",
+    "@twick/renderer": "workspace:*",
+    "@twick/ui": "workspace:*",
+    "@twick/visualizer": "workspace:*",
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "express-rate-limit": "^8.0.1",

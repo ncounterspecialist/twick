@@ -28,9 +28,9 @@
     "docs": "typedoc"
   },
   "dependencies": {
-    "@twick/core": "^0.14.11",
-    "@twick/player-react": "^0.14.11",
-    "@twick/visualizer": "workspace:^0.14.11",
+    "@twick/core": "workspace:*",
+    "@twick/player-react": "workspace:*",
+    "@twick/visualizer": "workspace:*",
     "react": "^18.0.0"
   },
   "devDependencies": {

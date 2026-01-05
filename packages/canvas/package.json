@@ -28,7 +28,7 @@
     "docs": "typedoc"  
   },
   "dependencies": {
-    "@twick/media-utils": "0.14.11",
+    "@twick/media-utils": "workspace:*",
     "fabric": "^6.6.2",
     "react": "^18.0.0"
   },

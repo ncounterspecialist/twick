@@ -58,19 +58,26 @@ jobs:
           # Update internal dependencies to use the new version
           find packages -name "package.json" -type f | while read file; do
             echo "Updating internal dependencies in $file"
-            # Update @twick/* dependencies to the new version
+            # Update @twick/* dependencies to the new version in all dependency fields
             jq --arg version "${{ steps.version.outputs.version }}" '
-              if .dependencies then
-                .dependencies |= with_entries(
-                  if .key | startswith("@twick/") then
-                    .value = $version
-                  else
-                    .
-                  end
-                )
-              else
-                .
-              end
+              # Helper function to update @twick/* dependencies
+              def update_twick_deps(deps):
+                if deps then
+                  deps | with_entries(
+                    if .key | startswith("@twick/") then
+                      .value = $version
+                    else
+                      .
+                    end
+                  )
+                else
+                  deps
+                end;
+              
+              # Update dependencies, devDependencies, and peerDependencies
+              (if .dependencies then .dependencies = update_twick_deps(.dependencies) else . end) |
+              (if .devDependencies then .devDependencies = update_twick_deps(.devDependencies) else . end) |
+              (if .peerDependencies then .peerDependencies = update_twick_deps(.peerDependencies) else . end)
             ' "$file" > "$file.tmp" && mv "$file.tmp" "$file"
           done
 

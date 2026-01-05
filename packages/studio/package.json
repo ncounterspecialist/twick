@@ -31,10 +31,10 @@
     "access": "public"
   },
   "dependencies": {
-    "@twick/media-utils": "workspace:^0.14.11",
-    "@twick/timeline": "workspace:^0.14.11",
-    "@twick/live-player": "workspace:^0.14.11",
-    "@twick/video-editor": "workspace:^0.14.11",
+    "@twick/media-utils": "workspace:*",
+    "@twick/timeline": "workspace:*",
+    "@twick/live-player": "workspace:*",
+    "@twick/video-editor": "workspace:*",
     "lucide-react": "^0.511.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
@@ -43,9 +43,9 @@
     "@types/node": "^20.11.24",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
-    "@twick/timeline": "workspace:^0.14.11",
-    "@twick/live-player": "workspace:^0.14.11",
-    "@twick/video-editor": "workspace:^0.14.11",
+    "@twick/timeline": "workspace:*",
+    "@twick/live-player": "workspace:*",
+    "@twick/video-editor": "workspace:*",
     "rimraf": "^5.0.5",
     "typedoc": "^0.25.8",
     "typedoc-plugin-markdown": "^3.17.1",
