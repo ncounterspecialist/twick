@@ -1,6 +1,6 @@
 {
   "name": "twick",
-  "version": "0.14.16",
+  "version": "0.14.18",
   "scripts": {
     "build": "turbo run build --filter=./packages/* --filter=./packages/agents/*",
     "build:media-utils": "turbo run build --filter=@twick/media-utils",
@@ -65,7 +65,7 @@
     "overrides": {
       "typescript": "^5.4.2",
       "axios": "^1.12.2",
-      "@twick/core": "0.14.11"
+      "@twick/core": "^0.14.18"
     }
   }
 }
