@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect, useMemo } from "react";
+import React, { useRef, useState, useEffect, useMemo } from "react";
 import { useDrag } from "@use-gesture/react";
 import "../../styles/timeline.css";
 import { TimelineTickConfig } from "../video-editor";
@@ -147,8 +147,8 @@ export default function SeekTrack({
       >
         {/* Ruler with individual tick divs to prevent overlap */}
         {(() => {
-          const ticks: JSX.Element[] = [];
-          const labels: JSX.Element[] = [];
+          const ticks: React.ReactElement[] = [];
+          const labels: React.ReactElement[] = [];
           const epsilon = 1e-6;
           
           // Generate all tick positions
