@@ -7,8 +7,8 @@ An MCP (Model Context Protocol) server for Claude Desktop that generates video c
 ### Quick Install (Recommended)
 
 ```bash
-git clone <repository-url>
-cd twick-mcp-agent
+git clone https://github.com/ncounterspecialist/twick.git
+cd twick/packages/agents/mcp-agent
 npm run install-claude
 ```
 
@@ -47,8 +47,8 @@ This will:
 
 1. **Clone and install dependencies:**
    ```bash
-   git clone <your-repo-url>
-   cd mcp-agent
+   git clone https://github.com/ncounterspecialist/twick.git
+   cd twick/packages/agents/mcp-agent
    npm install
    ```
 

@@ -19,7 +19,7 @@ This package provides a powerful video player component that supports complex ti
 
 ## Requirements
 
-- React 18 or higher
+- React 18 or 19
 - Browser environment with HTML5 Video support
 
 ## Installation
@@ -29,6 +29,8 @@ npm install @twick/live-player
 # or
 pnpm add @twick/live-player
 ```
+
+**Note:** All required dependencies (`@twick/visualizer`, `@twick/media-utils`) are automatically installed with `@twick/live-player`.
 
 ## Quick Start
 

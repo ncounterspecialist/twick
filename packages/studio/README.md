@@ -16,8 +16,12 @@ The main video editing interface for Twick, providing a professional-grade editi
 ## Installation
 
 ```bash
-pnpm add  @twick/timeline @twick/live-player @twick/studio
+npm install @twick/studio
+# or
+pnpm add @twick/studio
 ```
+
+**Note:** All required dependencies (`@twick/timeline`, `@twick/live-player`, `@twick/video-editor`, `@twick/canvas`, `@twick/media-utils`) are automatically installed with `@twick/studio`.
 
 ## Quick Start
 

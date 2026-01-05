@@ -14,6 +14,8 @@ npm install @twick/visualizer
 pnpm add @twick/visualizer
 ```
 
+**Note:** All required dependencies (`@twick/media-utils`) are automatically installed with `@twick/visualizer`.
+
 ## Quick Start
 
 ```typescript

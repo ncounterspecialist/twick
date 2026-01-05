@@ -8,6 +8,7 @@ export default defineConfig({
       entry: resolve(__dirname, 'src/index.ts'),
       name: 'TwickVideoEditor',
       fileName: (format) => `index.${format === 'es' ? 'mjs' : 'js'}`,
+      formats: ['es', 'cjs'],
     },
     rollupOptions: {
       external: [

@@ -5,6 +5,14 @@
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/src/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/src/index.d.ts"
+    },
+    "./dist/timeline.css": "./dist/timeline.css"
+  },
   "sideEffects": [
     "**/*.css"
   ],

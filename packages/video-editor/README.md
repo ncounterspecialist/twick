@@ -20,7 +20,7 @@ This package provides a comprehensive video editing interface with timeline mana
 
 ## Requirements
 
-- React 18 or higher
+- React 18 or 19
 - Browser environment with HTML5 Video support
 
 ## Installation
@@ -30,6 +30,8 @@ npm install @twick/video-editor
 # or
 pnpm add @twick/video-editor
 ```
+
+**Note:** All required dependencies (`@twick/canvas`, `@twick/timeline`, `@twick/live-player`, `@twick/media-utils`) are automatically installed with `@twick/video-editor`.
 
 ## Quick Start
 

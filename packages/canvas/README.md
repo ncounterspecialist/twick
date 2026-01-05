@@ -20,6 +20,8 @@ npm install @twick/canvas
 pnpm add @twick/canvas
 ```
 
+**Note:** All required dependencies (`@twick/media-utils`) are automatically installed with `@twick/canvas`.
+
 ## Quick Start
 
 ### Basic Canvas Setup

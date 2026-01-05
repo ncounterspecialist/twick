@@ -270,12 +270,6 @@ importers:
       lamejs:
         specifier: ^1.2.1
         version: 1.2.1
-      react:
-        specifier: ^18.0.0 || ^19.0.0
-        version: 19.2.3
-      react-dom:
-        specifier: ^18.0.0 || ^19.0.0
-        version: 19.2.3(react@19.2.3)
     devDependencies:
       '@types/node':
         specifier: ^20.11.24
@@ -356,9 +350,18 @@ importers:
 
   packages/studio:
     dependencies:
+      '@twick/live-player':
+        specifier: workspace:^0.14.11
+        version: link:../live-player
       '@twick/media-utils':
         specifier: workspace:^0.14.11
         version: link:../media-utils
+      '@twick/timeline':
+        specifier: workspace:^0.14.11
+        version: link:../timeline
+      '@twick/video-editor':
+        specifier: workspace:^0.14.11
+        version: link:../video-editor
       lucide-react:
         specifier: ^0.511.0
         version: 0.511.0(react@19.2.3)
@@ -369,15 +372,6 @@ importers:
         specifier: ^19.2.3
         version: 19.2.3(react@19.2.3)
     devDependencies:
-      '@twick/live-player':
-        specifier: workspace:^0.14.11
-        version: link:../live-player
-      '@twick/timeline':
-        specifier: workspace:^0.14.11
-        version: link:../timeline
-      '@twick/video-editor':
-        specifier: workspace:^0.14.11
-        version: link:../video-editor
       '@types/node':
         specifier: ^20.11.24
         version: 20.17.52
