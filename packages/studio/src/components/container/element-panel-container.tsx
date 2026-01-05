@@ -1,3 +1,4 @@
+import React from "react";
 import { Size, TrackElement } from "@twick/timeline";
 import { AudioPanelContainer } from "./audio-panel-container";
 import { ImagePanelContainer } from "./image-panel-container";
@@ -49,7 +50,7 @@ const ElementPanelContainer = ({
   selectedElement,
   addElement,
   updateElement,
-}: ElementPanelContainerProps): JSX.Element => {
+}: ElementPanelContainerProps): React.ReactElement => {
   const addNewElement = async (element: TrackElement) => {
     await addElement(element);
   };
