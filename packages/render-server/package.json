@@ -17,11 +17,11 @@
     "access": "public"
   },
   "dependencies": {
-    "@twick/2d": "^0.14.18",
-    "@twick/core": "^0.14.18",
+    "@twick/2d": "^0.14.19",
+    "@twick/core": "^0.14.19",
     "@twick/ffmpeg": "^0.14.18",
-    "@twick/renderer": "^0.14.18",
-    "@twick/ui": "^0.14.18",
+    "@twick/renderer": "^0.14.19",
+    "@twick/ui": "^0.14.19",
     "@twick/visualizer": "workspace:*",
     "cors": "^2.8.5",
     "express": "^4.18.2",

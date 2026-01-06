@@ -28,8 +28,8 @@
     "docs": "typedoc"
   },
   "dependencies": {
-    "@twick/core": "^0.14.18",
-    "@twick/player-react": "^0.14.18",
+    "@twick/core": "^0.14.19",
+    "@twick/player-react": "^0.14.19",
     "@twick/visualizer": "workspace:*",
     "react": "^18.0.0"
   },

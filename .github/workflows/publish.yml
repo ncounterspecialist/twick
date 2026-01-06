@@ -33,6 +33,76 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Update external @twick packages to latest
+        run: |
+          # Update external @twick/* packages to their latest versions from npm
+          # This ensures we're using the latest external dependencies
+          echo "Updating external @twick/* packages to latest versions..."
+          
+          # External packages that should be updated from npm
+          EXTERNAL_PACKAGES=("@twick/core" "@twick/2d" "@twick/cli" "@twick/renderer" "@twick/vite-plugin" "@twick/ui" "@twick/player-react")
+          
+          # Function to get latest version and update package.json
+          update_external_package() {
+            local pkg=$1
+            local latest_version=$(npm view "$pkg" version 2>/dev/null || echo "")
+            
+            if [ -z "$latest_version" ]; then
+              echo "⚠️  Could not fetch version for $pkg, skipping..."
+              return
+            fi
+            
+            echo "  $pkg → ^$latest_version"
+            
+            # Update in all package.json files
+            find packages -name "package.json" -type f | while read file; do
+              # Update dependencies
+              if jq -e ".dependencies.\"$pkg\"" "$file" > /dev/null 2>&1; then
+                current=$(jq -r ".dependencies.\"$pkg\"" "$file")
+                prefix="^"
+                if [[ "$current" =~ ^~ ]]; then prefix="~"; fi
+                jq --arg pkg "$pkg" --arg version "${prefix}${latest_version}" \
+                   '.dependencies[$pkg] = $version' "$file" > "$file.tmp" && mv "$file.tmp" "$file"
+              fi
+              
+              # Update devDependencies
+              if jq -e ".devDependencies.\"$pkg\"" "$file" > /dev/null 2>&1; then
+                current=$(jq -r ".devDependencies.\"$pkg\"" "$file")
+                prefix="^"
+                if [[ "$current" =~ ^~ ]]; then prefix="~"; fi
+                jq --arg pkg "$pkg" --arg version "${prefix}${latest_version}" \
+                   '.devDependencies[$pkg] = $version' "$file" > "$file.tmp" && mv "$file.tmp" "$file"
+              fi
+              
+              # Update peerDependencies
+              if jq -e ".peerDependencies.\"$pkg\"" "$file" > /dev/null 2>&1; then
+                current=$(jq -r ".peerDependencies.\"$pkg\"" "$file")
+                prefix="^"
+                if [[ "$current" =~ ^~ ]]; then prefix="~"; fi
+                jq --arg pkg "$pkg" --arg version "${prefix}${latest_version}" \
+                   '.peerDependencies[$pkg] = $version' "$file" > "$file.tmp" && mv "$file.tmp" "$file"
+              fi
+            done
+            
+            # Update root package.json pnpm.overrides
+            if jq -e ".pnpm.overrides.\"$pkg\"" package.json > /dev/null 2>&1; then
+              jq --arg pkg "$pkg" --arg version "^${latest_version}" \
+                 '.pnpm.overrides[$pkg] = $version' package.json > package.json.tmp && mv package.json.tmp package.json
+            fi
+          }
+          
+          # Update each external package
+          for pkg in "${EXTERNAL_PACKAGES[@]}"; do
+            update_external_package "$pkg"
+          done
+          
+          echo "✓ External packages updated to latest versions"
+          
+          # Regenerate lockfile with updated external packages
+          echo "Regenerating lockfile with updated external packages..."
+          pnpm install --no-frozen-lockfile
+          echo "✓ Lockfile regenerated"
+
       - name: Extract version from tag
         id: version
         run: |
@@ -53,12 +123,18 @@ jobs:
           # Also update the root package.json version
           jq --arg version "${{ steps.version.outputs.version }}" '.version = $version' package.json > package.json.tmp && mv package.json.tmp package.json
           
-          # Update root package.json pnpm.overrides if it contains @twick packages
+          # Update root package.json pnpm.overrides if it contains internal @twick packages
+          # Only update internal packages, not external ones like @twick/core
           echo "Updating pnpm.overrides in root package.json..."
-          jq --arg version "${{ steps.version.outputs.version }}" '
+          INTERNAL_PACKAGES="@twick/media-utils @twick/canvas @twick/timeline @twick/live-player @twick/visualizer @twick/video-editor @twick/studio @twick/render-server @twick/examples @twick/documentation @twick/cloud-export-video @twick/cloud-transcript @twick/cloud-subtitle-video @twick/mcp-agent"
+          internal_json=$(echo "$INTERNAL_PACKAGES" | jq -R -s 'split(" ") | map(select(length > 0))')
+          jq --arg version "${{ steps.version.outputs.version }}" --argjson internal_packages "$internal_json" '
+            def is_internal(pkg_name):
+              internal_packages | index(pkg_name) != null;
+            
             if .pnpm.overrides then
               .pnpm.overrides |= with_entries(
-                if .key | startswith("@twick/") then
+                if (.key | startswith("@twick/")) and is_internal(.key) then
                   .value = "^" + $version
                 else
                   .
@@ -71,18 +147,39 @@ jobs:
 
       - name: Update internal dependencies
         run: |
-          # Helper function to update @twick/* dependencies to new version
+          # List of internal @twick packages (packages in this monorepo)
+          # External packages like @twick/core, @twick/2d, @twick/cli should NOT be updated
+          INTERNAL_PACKAGES="@twick/media-utils @twick/canvas @twick/timeline @twick/live-player @twick/visualizer @twick/video-editor @twick/studio @twick/render-server @twick/examples @twick/documentation @twick/cloud-export-video @twick/cloud-transcript @twick/cloud-subtitle-video @twick/mcp-agent"
+          
+          # Helper function to check if a package is internal
+          is_internal_package() {
+            local pkg_name=$1
+            for internal in $INTERNAL_PACKAGES; do
+              if [ "$pkg_name" = "$internal" ]; then
+                return 0
+              fi
+            done
+            return 1
+          }
+          
+          # Helper function to update only internal @twick/* dependencies to new version
           # This handles both workspace:* and versioned dependencies (e.g., ^0.14.11)
           update_twick_version() {
             local file=$1
             local version=$2
-            jq --arg version "$version" '
-              # Helper function to update @twick/* dependencies
+            # Create JSON array of internal packages
+            local internal_json=$(echo "$INTERNAL_PACKAGES" | jq -R -s 'split(" ") | map(select(length > 0))')
+            jq --arg version "$version" --argjson internal_packages "$internal_json" '
+              # Helper function to check if package is internal
+              def is_internal(pkg_name):
+                internal_packages | index(pkg_name) != null;
+              
+              # Helper function to update only internal @twick/* dependencies
               # Handles workspace:*, versioned (^0.14.18, ~0.14.18), and exact versions
               def update_twick_deps(deps):
                 if deps then
                   deps | with_entries(
-                    if .key | startswith("@twick/") then
+                    if (.key | startswith("@twick/")) and is_internal(.key) then
                       # Convert to string for processing
                       (.value | tostring) as $val |
                       if $val == "workspace:*" then
@@ -133,13 +230,14 @@ jobs:
           }
           
           # Update internal dependencies in all package.json files
-          echo "Updating @twick/* dependencies to version ${{ steps.version.outputs.version }}..."
+          echo "Updating internal @twick/* dependencies to version ${{ steps.version.outputs.version }}..."
+          echo "Internal packages: $INTERNAL_PACKAGES"
           find packages -name "package.json" -type f | while read file; do
             echo "Updating internal dependencies in $file"
             update_twick_version "$file" "${{ steps.version.outputs.version }}"
           done
           
-          # Also update root package.json if it has @twick dependencies
+          # Also update root package.json if it has internal @twick dependencies
           if jq -e '.dependencies | keys[] | select(startswith("@twick/"))' package.json > /dev/null 2>&1 || \
              jq -e '.devDependencies | keys[] | select(startswith("@twick/"))' package.json > /dev/null 2>&1 || \
              jq -e '.peerDependencies | keys[] | select(startswith("@twick/"))' package.json > /dev/null 2>&1; then
@@ -212,6 +310,7 @@ jobs:
         run: |
           # Regenerate lockfile after cleaning workspace: prefixes
           # This ensures lockfile matches the cleaned dependencies for publishing
+          # External @twick/* packages (like @twick/core, @twick/2d, @twick/cli) will be installed from npm
           echo "Regenerating pnpm-lock.yaml after cleaning workspace dependencies..."
           pnpm install --no-frozen-lockfile
           echo "✓ Lockfile regenerated with cleaned dependencies"
