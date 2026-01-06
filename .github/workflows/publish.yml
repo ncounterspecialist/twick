@@ -52,27 +52,144 @@ jobs:
           
           # Also update the root package.json version
           jq --arg version "${{ steps.version.outputs.version }}" '.version = $version' package.json > package.json.tmp && mv package.json.tmp package.json
+          
+          # Update root package.json pnpm.overrides if it contains @twick packages
+          echo "Updating pnpm.overrides in root package.json..."
+          jq --arg version "${{ steps.version.outputs.version }}" '
+            if .pnpm.overrides then
+              .pnpm.overrides |= with_entries(
+                if .key | startswith("@twick/") then
+                  .value = "^" + $version
+                else
+                  .
+                end
+              )
+            else
+              .
+            end
+          ' package.json > package.json.tmp && mv package.json.tmp package.json
 
       - name: Update internal dependencies
         run: |
-          # Update internal dependencies to use the new version
+          # Helper function to update @twick/* dependencies to new version
+          # This handles both workspace:* and versioned dependencies (e.g., ^0.14.11)
+          update_twick_version() {
+            local file=$1
+            local version=$2
+            jq --arg version "$version" '
+              # Helper function to update @twick/* dependencies
+              # Handles workspace:*, versioned (^0.14.18, ~0.14.18), and exact versions
+              def update_twick_deps(deps):
+                if deps then
+                  deps | with_entries(
+                    if .key | startswith("@twick/") then
+                      # Convert to string for processing
+                      (.value | tostring) as $val |
+                      if $val == "workspace:*" then
+                        # workspace:* → exact version
+                        .value = $version
+                      elif ($val | startswith("workspace:")) then
+                        # workspace:^x.y.z or workspace:~x.y.z → exact version (for publishing)
+                        .value = $version
+                      elif ($val | startswith("^")) then
+                        # ^0.14.18 → ^<new-version> (preserve caret)
+                        .value = "^" + $version
+                      elif ($val | startswith("~")) then
+                        # ~0.14.18 → ~<new-version> (preserve tilde)
+                        .value = "~" + $version
+                      elif ($val | startswith(">=")) then
+                        # >=0.14.18 → >=<new-version>
+                        .value = ">=" + $version
+                      elif ($val | startswith("<=")) then
+                        # <=0.14.18 → <=<new-version>
+                        .value = "<=" + $version
+                      elif ($val | startswith(">")) then
+                        # >0.14.18 → ><new-version>
+                        .value = ">" + $version
+                      elif ($val | startswith("<")) then
+                        # <0.14.18 → <<new-version>
+                        .value = "<" + $version
+                      elif ($val | test("^[0-9]")) then
+                        # 0.14.18 → <new-version> (exact version)
+                        .value = $version
+                      else
+                        # Fallback: use exact version
+                        .value = $version
+                      end
+                    else
+                      .
+                    end
+                  )
+                else
+                  deps
+                end;
+              
+              # Update all dependency fields
+              (if .dependencies then .dependencies = update_twick_deps(.dependencies) else . end) |
+              (if .devDependencies then .devDependencies = update_twick_deps(.devDependencies) else . end) |
+              (if .peerDependencies then .peerDependencies = update_twick_deps(.peerDependencies) else . end) |
+              (if .optionalDependencies then .optionalDependencies = update_twick_deps(.optionalDependencies) else . end)
+            ' "$file" > "$file.tmp" && mv "$file.tmp" "$file"
+          }
+          
+          # Update internal dependencies in all package.json files
+          echo "Updating @twick/* dependencies to version ${{ steps.version.outputs.version }}..."
           find packages -name "package.json" -type f | while read file; do
             echo "Updating internal dependencies in $file"
-            # Update @twick/* dependencies to the new version
-            jq --arg version "${{ steps.version.outputs.version }}" '
-              if .dependencies then
-                .dependencies |= with_entries(
-                  if .key | startswith("@twick/") then
-                    .value = $version
-                  else
-                    .
-                  end
-                )
-              else
-                .
-              end
-            ' "$file" > "$file.tmp" && mv "$file.tmp" "$file"
+            update_twick_version "$file" "${{ steps.version.outputs.version }}"
           done
+          
+          # Also update root package.json if it has @twick dependencies
+          if jq -e '.dependencies | keys[] | select(startswith("@twick/"))' package.json > /dev/null 2>&1 || \
+             jq -e '.devDependencies | keys[] | select(startswith("@twick/"))' package.json > /dev/null 2>&1 || \
+             jq -e '.peerDependencies | keys[] | select(startswith("@twick/"))' package.json > /dev/null 2>&1; then
+            echo "Updating internal dependencies in root package.json"
+            update_twick_version "package.json" "${{ steps.version.outputs.version }}"
+          fi
+
+      - name: Verify version consistency
+        run: |
+          # Verify all @twick packages have the same version
+          echo "Verifying version consistency across all @twick packages..."
+          TARGET_VERSION="${{ steps.version.outputs.version }}"
+          ERRORS=0
+          
+          # Check package versions
+          find packages -name "package.json" -type f | while read file; do
+            PACKAGE_NAME=$(jq -r '.name' "$file")
+            if [[ "$PACKAGE_NAME" == @twick/* ]]; then
+              PACKAGE_VERSION=$(jq -r '.version' "$file")
+              if [ "$PACKAGE_VERSION" != "$TARGET_VERSION" ]; then
+                echo "❌ ERROR: $PACKAGE_NAME has version $PACKAGE_VERSION, expected $TARGET_VERSION"
+                ERRORS=1
+              else
+                echo "✓ $PACKAGE_NAME: $PACKAGE_VERSION"
+              fi
+            fi
+          done
+          
+          # Check root package.json version
+          ROOT_VERSION=$(jq -r '.version' package.json)
+          if [ "$ROOT_VERSION" != "$TARGET_VERSION" ]; then
+            echo "❌ ERROR: Root package.json has version $ROOT_VERSION, expected $TARGET_VERSION"
+            ERRORS=1
+          else
+            echo "✓ Root package.json: $ROOT_VERSION"
+          fi
+          
+          if [ $ERRORS -eq 1 ]; then
+            echo "❌ Version consistency check failed!"
+            exit 1
+          fi
+          
+          echo "✅ All @twick packages have version $TARGET_VERSION"
+
+      - name: Regenerate lockfile
+        run: |
+          # Regenerate lockfile after updating package versions and dependencies
+          echo "Regenerating pnpm-lock.yaml with updated versions..."
+          pnpm install --no-frozen-lockfile
+          echo "✓ Lockfile regenerated"
 
       - name: Clean workspace dependencies
         run: |
@@ -91,64 +208,77 @@ jobs:
             exit 1
           fi
 
+      - name: Regenerate lockfile after cleaning
+        run: |
+          # Regenerate lockfile after cleaning workspace: prefixes
+          # This ensures lockfile matches the cleaned dependencies for publishing
+          echo "Regenerating pnpm-lock.yaml after cleaning workspace dependencies..."
+          pnpm install --no-frozen-lockfile
+          echo "✓ Lockfile regenerated with cleaned dependencies"
+
       - name: Build all packages
         run: pnpm build
 
       - name: Verify builds
         run: |
           # Check that all packages have dist folders (excluding documentation)
-          for package in packages/*/; do
-            if [ -f "$package/package.json" ]; then
-              package_name=$(jq -r '.name' "$package/package.json")
-              package_dir=$(basename "$package")
-              
-              # Skip documentation package
-              if [ "$package_dir" = "documentation" ]; then
-                echo "⏭️  Skipping documentation package"
-                continue
-              fi
-              
-              if [ ! -d "$package/dist" ]; then
-                echo "Error: $package_name is missing dist folder"
+          # This handles both top-level and nested packages (e.g., cloud-functions/*, agents/*)
+          find packages -name "package.json" -type f | while read pkg_file; do
+            package_dir=$(dirname "$pkg_file")
+            package_name=$(jq -r '.name' "$pkg_file")
+            package_dirname=$(basename "$package_dir")
+            
+            # Skip documentation package
+            if [ "$package_dirname" = "documentation" ]; then
+              echo "⏭️  Skipping documentation package"
+              continue
+            fi
+            
+            # Check if package has a build script - if not, dist might not be required
+            if jq -e '.scripts.build' "$pkg_file" > /dev/null 2>&1; then
+              if [ ! -d "$package_dir/dist" ]; then
+                echo "❌ ERROR: $package_name is missing dist folder (expected at $package_dir/dist)"
                 exit 1
               fi
               echo "✓ $package_name built successfully"
+            else
+              echo "⏭️  Skipping $package_name (no build script)"
             fi
           done
 
       - name: Security validation
         run: |
           # Check for potentially dangerous scripts in package.json files (excluding documentation)
+          # This handles both top-level and nested packages
           echo "Validating package security..."
           
-          for package in packages/*/; do
-            if [ -f "$package/package.json" ]; then
-              package_name=$(jq -r '.name' "$package/package.json")
-              package_dir=$(basename "$package")
-              
-              # Skip documentation package
-              if [ "$package_dir" = "documentation" ]; then
-                echo "⏭️  Skipping documentation package security check"
-                continue
-              fi
-              
-              # Check for postinstall scripts (security risk)
-              if jq -e '.scripts.postinstall' "$package/package.json" > /dev/null 2>&1; then
-                echo "SECURITY WARNING: $package_name has a postinstall script"
-                echo "This is a security risk and will be ignored during publishing"
-              fi
-              
-              # Check for other potentially dangerous scripts
-              DANGEROUS_SCRIPTS=("preinstall" "install" "postinstall" "preuninstall" "uninstall" "postuninstall" "prepublish" "prepublishOnly" "prepack" "postpack")
-              
-              for script in "${DANGEROUS_SCRIPTS[@]}"; do
-                if jq -e ".scripts.$script" "$package/package.json" > /dev/null 2>&1; then
-                  echo "⚠️  WARNING: $package_name has a $script script"
-                fi
-              done
-              
-              echo "✓ $package_name security check completed"
+          find packages -name "package.json" -type f | while read pkg_file; do
+            package_dir=$(dirname "$pkg_file")
+            package_name=$(jq -r '.name' "$pkg_file")
+            package_dirname=$(basename "$package_dir")
+            
+            # Skip documentation package
+            if [ "$package_dirname" = "documentation" ]; then
+              echo "⏭️  Skipping documentation package security check"
+              continue
             fi
+            
+            # Check for postinstall scripts (security risk)
+            if jq -e '.scripts.postinstall' "$pkg_file" > /dev/null 2>&1; then
+              echo "SECURITY WARNING: $package_name has a postinstall script"
+              echo "This is a security risk and will be ignored during publishing"
+            fi
+            
+            # Check for other potentially dangerous scripts
+            DANGEROUS_SCRIPTS=("preinstall" "install" "postinstall" "preuninstall" "uninstall" "postuninstall" "prepublish" "prepublishOnly" "prepack" "postpack")
+            
+            for script in "${DANGEROUS_SCRIPTS[@]}"; do
+              if jq -e ".scripts.$script" "$pkg_file" > /dev/null 2>&1; then
+                echo "⚠️  WARNING: $package_name has a $script script"
+              fi
+            done
+            
+            echo "✓ $package_name security check completed"
           done
 
       - name: Determine publish order

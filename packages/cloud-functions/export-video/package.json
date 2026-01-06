@@ -45,21 +45,18 @@
   },
   "dependencies": {
     "@sparticuz/chromium": "^129.0.0",
-    "@twick/2d": "0.14.16",
-    "@twick/core": "0.14.16",
-    "@twick/ffmpeg": "0.14.16",
-    "@twick/renderer": "0.14.16",
-    "@twick/ui": "0.14.16",
-    "@twick/vite-plugin": "0.14.16",
-    "@twick/visualizer": "0.14.16",
+    "@twick/2d": "^0.14.18",
+    "@twick/core": "^0.14.18",
+    "@twick/ffmpeg": "^0.14.18",
+    "@twick/renderer": "^0.14.18",
+    "@twick/ui": "^0.14.18",
+    "@twick/vite-plugin": "^0.14.18",
+    "@twick/visualizer": "^0.14.18",
     "@aws-sdk/client-s3": "^3.620.0",
     "ffmpeg-static": "^5.2.0",
     "fluent-ffmpeg": "^2.1.3"
   },
   "devDependencies": {
     "typescript": "~5.4.5"
-  },
-  "peerDependencies": {
-    "puppeteer": ">=22"
   }
 }

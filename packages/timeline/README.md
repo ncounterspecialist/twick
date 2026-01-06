@@ -14,6 +14,8 @@ npm install @twick/timeline
 pnpm add @twick/timeline
 ```
 
+**Note:** All required dependencies (`@twick/media-utils`) are automatically installed with `@twick/timeline`.
+
 ## Quick Start
 
 ```typescript

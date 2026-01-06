@@ -5,6 +5,14 @@
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./dist/video-editor.css": "./dist/video-editor.css"
+  },
   "sideEffects": [
     "**/*.css"
   ],
@@ -22,29 +30,25 @@
   "publishConfig": {
     "access": "public"
   },
-  "peerDependencies": {
-    "@twick/timeline": "workspace:^0.14.11",
-    "@twick/live-player": "workspace:^0.14.11"
-  },
   "dependencies": {
     "@emotion/is-prop-valid": "^1.2.2",
-    "@twick/canvas": "workspace:^0.14.11",
-    "@twick/live-player": "workspace:^0.14.11",
-    "@twick/timeline": "workspace:^0.14.11",
+    "@twick/canvas": "workspace:*",
+    "@twick/live-player": "workspace:*",
+    "@twick/timeline": "workspace:*",
     "@react-spring/web": "^10.0.1",
     "@use-gesture/react": "^10.3.0",
-    "@twick/media-utils": "workspace:^0.14.11",
+    "@twick/media-utils": "workspace:*",
     "framer-motion": "^11.0.3",
     "lucide-react": "^0.511.0",
-    "react": "^19.2.3",
-    "react-dom": "^19.2.3"
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
   },
   "devDependencies": {
     "@types/node": "^20.11.24",
-    "@types/react": "^19.0.0",
-    "@types/react-dom": "^19.0.0",
-    "@twick/live-player": "workspace:^0.14.11",
-    "@twick/timeline": "workspace:^0.14.11",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "@twick/live-player": "workspace:*",
+    "@twick/timeline": "workspace:*",
     "rimraf": "^5.0.5",
     "typedoc": "^0.25.8",
     "typedoc-plugin-markdown": "^3.17.1",

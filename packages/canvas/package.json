@@ -5,6 +5,13 @@
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
   "sideEffects": false,
   "license": "SEE LICENSE IN LICENSE.md",
   "files": [
@@ -21,15 +28,15 @@
     "docs": "typedoc"  
   },
   "dependencies": {
-    "@twick/media-utils": "0.14.11",
+    "@twick/media-utils": "workspace:*",
     "fabric": "^6.6.2",
-    "react": "^19.2.3"
+    "react": "^18.0.0"
   },
   "devDependencies": {
     "@types/fabric": "^5.3.7",
     "@types/node": "^20.11.24",
-    "@types/react": "^19.0.0",
-    "@types/react-dom": "^19.0.0",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
     "typescript": "^5.4.2",
     "typedoc": "^0.25.8",
     "typedoc-plugin-markdown": "^3.17.1",

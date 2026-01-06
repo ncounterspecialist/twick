@@ -16,6 +16,8 @@ npm install @twick/render-server
 pnpm add @twick/render-server
 ```
 
+**Note:** All required dependencies (`@twick/visualizer`, `@twick/media-utils`, and other Twick packages) are automatically installed with `@twick/render-server`.
+
 ## Quick Start
 
 ### Option 1: Scaffold a Server (Recommended)

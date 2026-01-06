@@ -14,12 +14,12 @@
     "access": "public"
   },
   "dependencies": {
-    "@twick/canvas": "workspace:^0.14.11",
-    "@twick/media-utils": "workspace:^0.14.11",
-    "@twick/live-player": "workspace:^0.14.11",
-    "@twick/timeline": "workspace:^0.14.11",
-    "@twick/video-editor": "workspace:^0.14.11",
-    "@twick/studio": "workspace:^0.14.11",
+    "@twick/canvas": "workspace:*",
+    "@twick/media-utils": "workspace:*",
+    "@twick/live-player": "workspace:*",
+    "@twick/timeline": "workspace:*",
+    "@twick/video-editor": "workspace:*",
+    "@twick/studio": "workspace:*",
     "@types/react-router-dom": "^5.3.3",
     "dompurify": "^3.2.6",
     "lucide-react": "^0.511.0",

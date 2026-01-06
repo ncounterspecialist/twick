@@ -5,6 +5,14 @@
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/src/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/src/index.d.ts"
+    },
+    "./dist/timeline.css": "./dist/timeline.css"
+  },
   "sideEffects": [
     "**/*.css"
   ],
@@ -23,7 +31,7 @@
     "docs": "typedoc"
   },
   "dependencies": {
-    "@twick/media-utils": "workspace:^0.14.11",
+    "@twick/media-utils": "workspace:*",
     "posthog-js": "^1.258.5"
   },
   "devDependencies": {

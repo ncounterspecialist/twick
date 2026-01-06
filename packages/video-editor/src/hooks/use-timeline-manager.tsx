@@ -9,6 +9,24 @@ import {
 import { useMemo } from "react";
 import { DRAG_TYPE } from "../helpers/constants";
 
+interface TimelineManagerReturn {
+  timelineData: { tracks: Track[]; version: number } | null;
+  onAddTrack: () => void;
+  onElementDrag: ({
+    element,
+    dragType,
+    updates,
+  }: {
+    updates: { start: number; end: number };
+    element: TrackElement;
+    dragType: string;
+  }) => void;
+  onReorder: (reorderedItems: Track[]) => void;
+  onSeek: (time: number) => void;
+  onSelectionChange: (selectedItem: TrackElement | Track | null) => void;
+  selectedItem: Track | TrackElement | null;
+  totalDuration: number;
+}
 /**
  * Custom hook to manage timeline operations and state.
  * Provides functions for handling element dragging, track reordering,
@@ -27,7 +45,7 @@ import { DRAG_TYPE } from "../helpers/constants";
  * onSeek(15.5);
  * ```
  */
-export const useTimelineManager = () => {
+export const useTimelineManager = (): TimelineManagerReturn => {
   const { selectedItem, changeLog, setSelectedItem, totalDuration, editor } =
     useTimelineContext();
   /**

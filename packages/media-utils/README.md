@@ -14,6 +14,8 @@ npm install @twick/media-utils
 pnpm add @twick/media-utils
 ```
 
+**Note:** This is a foundation utility package with no Twick dependencies. It's automatically included when you install other Twick packages that depend on it.
+
 ## Quick Start
 
 ```typescript
