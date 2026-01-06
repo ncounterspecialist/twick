@@ -10,6 +10,9 @@
     "preview": "vite preview",
     "clean": "rimraf .turbo node_modules dist"
   },
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "publishConfig": {
     "access": "public"
   },

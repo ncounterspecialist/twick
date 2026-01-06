@@ -44,7 +44,7 @@
   "author": "",
   "license": "SEE LICENSE IN LICENSE.md",
   "engines": {
-    "node": ">=18"
+    "node": ">=20.0.0"
   },
   "dependencies": {
     "@aws-sdk/client-secrets-manager": "^3.679.0",

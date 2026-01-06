@@ -41,7 +41,7 @@
   "author": "",
   "license": "SEE LICENSE IN LICENSE.md",
   "engines": {
-    "node": ">=18"
+    "node": ">=20.0.0"
   },
   "dependencies": {
     "@sparticuz/chromium": "^129.0.0",

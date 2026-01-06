@@ -43,7 +43,7 @@
   "author": "",
   "license": "SEE LICENSE IN LICENSE.md",
   "engines": {
-    "node": ">=18"
+    "node": ">=20.0.0"
   },
   "dependencies": {
     "@google/genai": "^1.0.0",

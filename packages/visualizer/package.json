@@ -17,6 +17,9 @@
   "publishConfig": {
     "access": "public"
   },
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "dependencies": {
     "@preact/signals": "^1.2.1",
     "@twick/2d": "^0.14.18",
