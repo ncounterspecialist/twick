@@ -27,7 +27,24 @@ import { DRAG_TYPE } from "../helpers/constants";
  * onSeek(15.5);
  * ```
  */
-export const useTimelineManager = () => {
+export const useTimelineManager = (): {
+  timelineData: { tracks: Track[]; version: number } | null;
+  onAddTrack: () => void;
+  onElementDrag: ({
+    element,
+    dragType,
+    updates,
+  }: {
+    updates: { start: number; end: number };
+    element: TrackElement;
+    dragType: string;
+  }) => void;
+  onReorder: (reorderedItems: Track[]) => void;
+  onSeek: (time: number) => void;
+  onSelectionChange: (selectedItem: TrackElement | Track | null) => void;
+  selectedItem: Track | TrackElement | null;
+  totalDuration: number;
+} => {
   const { selectedItem, changeLog, setSelectedItem, totalDuration, editor } =
     useTimelineContext();
   /**
