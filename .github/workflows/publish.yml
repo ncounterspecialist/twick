@@ -221,16 +221,16 @@ jobs:
 
       - name: Verify builds
         run: |
-          # Check that all packages have dist folders (excluding documentation)
+          # Check that all packages have dist folders (excluding documentation, examples, examples-cra)
           # This handles both top-level and nested packages (e.g., cloud-functions/*, agents/*)
           find packages -name "package.json" -type f | while read pkg_file; do
             package_dir=$(dirname "$pkg_file")
             package_name=$(jq -r '.name' "$pkg_file")
             package_dirname=$(basename "$package_dir")
             
-            # Skip documentation package
-            if [ "$package_dirname" = "documentation" ]; then
-              echo "⏭️  Skipping documentation package"
+            # Skip documentation, examples, and examples-cra packages (these are not published)
+            if [ "$package_dirname" = "documentation" ] || [ "$package_dirname" = "examples" ] || [ "$package_dirname" = "examples-cra" ]; then
+              echo "⏭️  Skipping $package_dirname package (not published)"
               continue
             fi
             
@@ -248,7 +248,7 @@ jobs:
 
       - name: Security validation
         run: |
-          # Check for potentially dangerous scripts in package.json files (excluding documentation)
+          # Check for potentially dangerous scripts in package.json files (excluding documentation, examples, examples-cra)
           # This handles both top-level and nested packages
           echo "Validating package security..."
           
@@ -257,9 +257,9 @@ jobs:
             package_name=$(jq -r '.name' "$pkg_file")
             package_dirname=$(basename "$package_dir")
             
-            # Skip documentation package
-            if [ "$package_dirname" = "documentation" ]; then
-              echo "⏭️  Skipping documentation package security check"
+            # Skip documentation, examples, and examples-cra packages (these are not published)
+            if [ "$package_dirname" = "documentation" ] || [ "$package_dirname" = "examples" ] || [ "$package_dirname" = "examples-cra" ]; then
+              echo "⏭️  Skipping $package_dirname package security check (not published)"
               continue
             fi
             
