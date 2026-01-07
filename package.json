@@ -1,6 +1,6 @@
 {
   "name": "twick",
-  "version": "0.14.18",
+  "version": "0.15.0",
   "scripts": {
     "build": "turbo run build --filter=./packages/* --filter=./packages/agents/*",
     "build:media-utils": "turbo run build --filter=@twick/media-utils",
@@ -38,7 +38,9 @@
     "release": "turbo run build && changeset publish",
     "build:cloud-functions": "turbo run build --filter=./packages/cloud-functions/*",
     "pack:cloud-export-video:aws": "pnpm --filter @twick/cloud-export-video run pack:aws",
-    "release:cloud-export-video:aws": "pnpm --filter @twick/cloud-export-video run release:aws"
+    "release:cloud-export-video:aws": "pnpm --filter @twick/cloud-export-video run release:aws",
+    "permissions": "node scripts/fix-binary-permissions.js",
+    "rebuild": "pnpm run clean:packages && pnpm run clean && pnpm install && pnpm run build"
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.1",
@@ -58,6 +60,7 @@
     "packages/video-editor",
     "packages/studio",
     "packages/examples",
+    "packages/examples-cra",
     "packages/cloud-functions/*",
     "packages/agents/*"
   ],
@@ -65,7 +68,16 @@
     "overrides": {
       "typescript": "^5.4.2",
       "axios": "^1.12.2",
-      "@twick/core": "^0.14.18"
+      "@twick/core": "^0.15.0",
+      "@twick/2d": "^0.15.0",
+      "@twick/ui": "^0.15.0",
+      "@twick/player-react": "^0.15.0",
+      "@twick/ffmpeg": "^0.15.0",
+      "@twick/telemetry": "^0.15.0",
+      "@twick/vite-plugin": "^0.15.0",
+      "@twick/renderer": "^0.15.0",
+      "@twick/player": "^0.15.0",
+      "@twick/cli": "^0.15.0"
     }
   }
 }

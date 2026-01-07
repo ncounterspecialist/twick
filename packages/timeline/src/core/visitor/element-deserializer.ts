@@ -16,6 +16,7 @@ export class ElementDeserializer {
   private static deserializeBaseElement(element: TrackElement, json: ElementJSON): void {
     if (json.id) element.setId(json.id);
     if (json.trackId) element.setTrackId(json.trackId);
+    if (json.name) element.setName(json.name);
     if (json.s !== undefined) element.setStart(json.s);
     if (json.e !== undefined) element.setEnd(json.e);
     if (json.props) element.setProps(json.props);

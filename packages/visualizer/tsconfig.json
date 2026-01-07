@@ -1,11 +1,15 @@
 {
-  "extends": "@twick/2d/tsconfig.project.json",
+  "extends": "../../../twick-base/packages/2d/tsconfig.project.json",
   "include": ["src"],
   "compilerOptions": {
     "noEmit": false,
     "outDir": "dist",
     "module": "CommonJS",
     "skipLibCheck": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "jsxImportSource": "@twick/2d",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "target": "ES2020",
+    "downlevelIteration": true
   }
 }

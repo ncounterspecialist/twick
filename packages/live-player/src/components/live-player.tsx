@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 import { Player as CorePlayer } from "@twick/core";
 import { Player } from "@twick/player-react";
 import { generateId, getBaseProject } from "../helpers/player.utils";
@@ -113,13 +113,58 @@ export const LivePlayer = ({
    * // Triggers onTimeUpdate callback with 5.5 seconds
    * ```
    */
-  const onCurrentTimeUpdate = (currentTime: number) => {
+  const onCurrentTimeUpdate = useCallback((currentTime: number) => {
+    console.log("onCurrentTimeUpdate", currentTime);
     if (onTimeUpdate) {
       onTimeUpdate(currentTime);
     }
-  };
+  }, [onTimeUpdate]);
 
   /**
+   * Applies JSON variables to the player element.
+   * Converts project data to JSON and sets it as an attribute
+   * on the player HTML element for dynamic content updates.
+   *
+   * @param projectData - The project data to apply to the player
+   * 
+   * @example
+   * ```js
+   * setProjectData({ text: "Updated content", color: "red" });
+   * // Updates player with new project variables
+   * ```
+   */
+  const setProjectData = useCallback((projectData: any) => {
+    if (playerRef.current?.htmlElement && projectData) {
+      console.log("setProjectData in live player");
+      playerRef.current.htmlElement.setAttribute(
+        "variables",
+        JSON.stringify({ ...projectData, playerId: playerRef.current.id })
+      );
+    }
+  }, []);
+
+  /**
+   * Performs setup only once after the player has rendered for the first time.
+   * Hides unnecessary UI elements and applies initial project data
+   * to ensure proper player initialization.
+   * 
+   * @example
+   * ```js
+   * onFirstRender();
+   * // Hides UI elements and sets initial project data
+   * ```
+   */
+  const onFirstRender = useCallback(() => {
+    if (playerRef.current?.player && playerRef.current.htmlElement) {
+      playerRef.current.htmlElement?.nextElementSibling?.setAttribute(
+        "style",
+        "display: none;"
+      );
+      setProjectData(projectData);
+    }
+  }, [projectData]);
+
+  /**s
    * Handle player ready lifecycle and store references.
    * Called when the player is fully initialized and ready for use.
    * Stores player references and triggers the onPlayerReady callback.
@@ -132,7 +177,7 @@ export const LivePlayer = ({
    * // Stores player reference and triggers onPlayerReady callback
    * ```
    */
-  const handlePlayerReady = (player: CorePlayer) => {
+  const handlePlayerReady = useCallback((player: CorePlayer) => {
     playerRef.current = {
       player,
       id: playerRef.current.id,
@@ -148,51 +193,7 @@ export const LivePlayer = ({
         onPlayerReady(player);
       }
     }
-  };
-
-  /**
-   * Performs setup only once after the player has rendered for the first time.
-   * Hides unnecessary UI elements and applies initial project data
-   * to ensure proper player initialization.
-   * 
-   * @example
-   * ```js
-   * onFirstRender();
-   * // Hides UI elements and sets initial project data
-   * ```
-   */
-  const onFirstRender = () => {
-    if (playerRef.current?.player && playerRef.current.htmlElement) {
-      playerRef.current.htmlElement?.nextElementSibling?.setAttribute(
-        "style",
-        "display: none;"
-      );
-      setProjectData(projectData);
-    }
-  };
-
-  /**
-   * Applies JSON variables to the player element.
-   * Converts project data to JSON and sets it as an attribute
-   * on the player HTML element for dynamic content updates.
-   *
-   * @param projectData - The project data to apply to the player
-   * 
-   * @example
-   * ```js
-   * setProjectData({ text: "Updated content", color: "red" });
-   * // Updates player with new project variables
-   * ```
-   */
-  const setProjectData = (projectData: any) => {
-    if (playerRef.current?.htmlElement && projectData) {
-      console.log("setProjectData in live player");
-      playerRef.current.htmlElement.setAttribute(
-        "variables",
-        JSON.stringify({ ...projectData, playerId: playerRef.current.id })
-      );
-    }
-  };
+  }, [onPlayerReady, onFirstRender]);
 
   /**
    * Handles player update events from the Twick player.
@@ -219,7 +220,7 @@ export const LivePlayer = ({
   // Apply new project data whenever it changes
   useEffect(() => {
     setProjectData(projectData);
-  }, [projectData]);
+  }, [projectData, setProjectData]);
 
   // Play/pause player based on external prop
   useEffect(() => {

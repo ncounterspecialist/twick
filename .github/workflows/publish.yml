@@ -342,6 +342,8 @@ jobs:
                 npm publish --access public --ignore-scripts --tag aws --dry-run
                 echo "Publishing $package_name with aws tag..."
                 npm publish --access public --ignore-scripts --tag aws
+                echo "Adding latest dist-tag for $package_name..."
+                npm dist-tag add \"$package_name@${{ steps.version.outputs.version }}\" latest
               else
                 echo "Running dry-run for $package_name..."
                 npm publish --access public --ignore-scripts --dry-run

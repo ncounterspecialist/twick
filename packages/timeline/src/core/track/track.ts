@@ -58,7 +58,7 @@ export class Track {
    */
   constructor(name: string, type: string ="element", id?: string) {
     this.name = name;
-    this.id = id ?? `t-${generateShortUuid}`;
+    this.id = id ?? `t-${generateShortUuid()}`;
     this.type = type;
     this.props = {};
     this.elements = [];
@@ -542,10 +542,15 @@ export class Track {
    * ```
    */
   static fromJSON(json: any): Track {
-    const track = new Track(json.name, json.type ?? "element", json.id);
+    if (!json || typeof json !== 'object') {
+      throw new Error('Invalid JSON data for Track deserialization');
+    }
+    const track = new Track(json.name || '', json.type ?? "element", json.id);
     track.type = json.type;
-    track.props = json.props;
-    track.elements = (json.elements || []).map(ElementDeserializer.fromJSON);
+    track.props = json.props || {};
+    track.elements = (json.elements || [])
+      .map(ElementDeserializer.fromJSON)
+      .filter((element: any): element is TrackElement => element !== null);
     return track;
   }
 }

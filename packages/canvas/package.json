@@ -1,15 +1,14 @@
 {
   "name": "@twick/canvas",
-  "version": "0.14.11",
-  "type": "module",
+  "version": "0.15.0",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
-      "require": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/index.js"
     }
   },
   "sideEffects": false,
@@ -31,15 +30,17 @@
     "docs": "typedoc"  
   },
   "dependencies": {
-    "@twick/media-utils": "workspace:*",
-    "fabric": "^6.6.2",
-    "react": "^18.0.0"
+    "@twick/media-utils": "^0.15.0",
+    "fabric": "^6.6.2"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0"
   },
   "devDependencies": {
     "@types/fabric": "^5.3.7",
     "@types/node": "^20.11.24",
-    "@types/react": "^18.0.0",
-    "@types/react-dom": "^18.0.0",
+    "@types/react": "^18.0.0 || ^19.0.0",
+    "@types/react-dom": "^18.0.0 || ^19.0.0",
     "typescript": "^5.4.2",
     "typedoc": "^0.25.8",
     "typedoc-plugin-markdown": "^3.17.1",

@@ -398,7 +398,7 @@ const encodePcmToMp3 = async (buffer: AudioBuffer): Promise<Blob> => {
     right = floatTo16(rightFloat);
   }
 
-  const mp3Chunks: Uint8Array[] = [];
+  const mp3Chunks: BlobPart[] = [];
   for (let i = 0; i < left.length; i += samplesPerFrame) {
     const leftChunk = left.subarray(i, Math.min(i + samplesPerFrame, left.length));
     let mp3buf: Uint8Array;
@@ -408,11 +408,11 @@ const encodePcmToMp3 = async (buffer: AudioBuffer): Promise<Blob> => {
     } else {
       mp3buf = mp3encoder.encodeBuffer(leftChunk);
     }
-    if (mp3buf.length > 0) mp3Chunks.push(mp3buf);
+    if (mp3buf.length > 0) mp3Chunks.push(mp3buf as unknown as BlobPart);
   }
 
   const end = mp3encoder.flush();
-  if (end.length > 0) mp3Chunks.push(end);
+  if (end.length > 0) mp3Chunks.push(end as unknown as BlobPart);
 
   return new Blob(mp3Chunks, { type: "audio/mpeg" });
 };
