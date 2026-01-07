@@ -1,7 +1,6 @@
 {
   "name": "@twick/media-utils",
-  "version": "0.14.11",
-  "type": "module",
+  "version": "0.15.0",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -12,6 +11,9 @@
   ],
   "publishConfig": {
     "access": "public"
+  },
+  "engines": {
+    "node": ">=20.0.0"
   },
   "scripts": {
     "build": "tsc --noEmit && vite build",

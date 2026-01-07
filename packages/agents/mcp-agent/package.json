@@ -1,6 +1,6 @@
 {
   "name": "@twick/mcp-agent",
-  "version": "0.14.11",
+  "version": "0.15.0",
   "description": "MCP server for Claude Desktop that generates video captions using Google Vertex AI and integrates with Twick Studio",
   "main": "dist/stdio-server.js",
   "type": "module",
@@ -42,7 +42,7 @@
     "url": ""
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.20.0",

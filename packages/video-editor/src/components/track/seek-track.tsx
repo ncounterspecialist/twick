@@ -33,6 +33,7 @@ export default function SeekTrack({
   // Update seek position when currentTime changes
   useEffect(() => {
     if (!isDragging) {
+      console.log("currentTime", currentTime);
       setSeekPosition(currentTime * pixelsPerSecond);
     }
   }, [currentTime, pixelsPerSecond, isDragging]);

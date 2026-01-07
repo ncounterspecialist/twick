@@ -308,4 +308,4 @@ ${mediaFiles.map((file, index) => `  ${index + 1}. ${file.filename} (${file.data
   }
 };
 
-module.exports.handler = handler;
+export { handler };

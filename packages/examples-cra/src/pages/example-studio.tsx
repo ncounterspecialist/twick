@@ -2,9 +2,8 @@ import { LivePlayerProvider } from "@twick/live-player";
 import { TwickStudio } from "@twick/studio";
 import { TimelineProvider, INITIAL_TIMELINE_DATA } from "@twick/timeline";
 import "@twick/studio/dist/studio.css";
-export default function ExampleStudio() {
 
-  console.log("ExampleStudio rendered", INITIAL_TIMELINE_DATA);
+export default function ExampleStudio() {
   return (
     <LivePlayerProvider>
       <TimelineProvider

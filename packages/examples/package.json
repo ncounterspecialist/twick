@@ -1,6 +1,6 @@
 {
   "name": "@twick/examples",
-  "version": "0.14.11",
+  "version": "0.15.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -10,17 +10,19 @@
     "preview": "vite preview",
     "clean": "rimraf .turbo node_modules dist"
   },
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
-    "@twick/canvas": "workspace:*",
-    "@twick/media-utils": "workspace:*",
-    "@twick/live-player": "workspace:*",
-    "@twick/timeline": "workspace:*",
-    "@twick/video-editor": "workspace:*",
-    "@twick/studio": "workspace:*",
-    "@types/react-router-dom": "^5.3.3",
+    "@twick/canvas": "^0.15.0",
+    "@twick/media-utils": "^0.15.0",
+    "@twick/live-player": "^0.15.0",
+    "@twick/timeline": "^0.15.0",
+    "@twick/video-editor": "^0.15.0",
+    "@twick/studio": "^0.15.0",
     "dompurify": "^3.2.6",
     "lucide-react": "^0.511.0",
     "react": "^19.2.3",
