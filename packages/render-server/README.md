@@ -48,10 +48,29 @@ The server will start on port 3001 by default. You can change this by setting th
 
 ### Option 2: Use Programmatically
 
-Import and use the `renderTwickVideo` function directly:
+Import and use the `renderTwickVideo` function directly. The package supports both ESM and CommonJS:
 
+**ESM (import):**
 ```typescript
 import { renderTwickVideo } from "@twick/render-server";
+
+const videoPath = await renderTwickVideo(
+  {
+    input: {
+      properties: { width: 1920, height: 1080 },
+      // ... your project variables
+    }
+  },
+  {
+    outFile: "my-video.mp4",
+    quality: "high"
+  }
+);
+```
+
+**CommonJS (require):**
+```javascript
+const { renderTwickVideo } = require("@twick/render-server");
 
 const videoPath = await renderTwickVideo(
   {
@@ -168,7 +187,7 @@ Renders a Twick video with the provided variables and settings.
 
 **Returns:** `Promise<string>` - Path to the rendered video file
 
-**Example:**
+**Example (ESM):**
 ```typescript
 import { renderTwickVideo } from "@twick/render-server";
 
@@ -187,12 +206,39 @@ const videoPath = await renderTwickVideo(
 );
 ```
 
+**Example (CommonJS):**
+```javascript
+const { renderTwickVideo } = require("@twick/render-server");
+
+const videoPath = await renderTwickVideo(
+  {
+    input: {
+      properties: { width: 1920, height: 1080 },
+      tracks: [/* ... */]
+    }
+  },
+  {
+    outFile: "my-video.mp4",
+    quality: "high",
+    outDir: "./output"
+  }
+);
+```
+
 > **Note:** This server will work on Linux and macOS only. Windows is not supported.
+
+## Module Support
+
+This package supports both ESM and CommonJS:
+- **ESM**: Use `import { renderTwickVideo } from "@twick/render-server"`
+- **CommonJS**: Use `const { renderTwickVideo } = require("@twick/render-server")`
+
+The package automatically provides the correct format based on your module system.
 
 ## Browser Support
 
 This package requires a Node.js environment with support for:
-- Node.js 18 or higher
+- Node.js 20 or higher
 - Puppeteer for video rendering
 - File system operations
 

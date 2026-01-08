@@ -1,4 +1,4 @@
-FROM docker.io/revideo/aws-lambda-base-image:latest
+FROM --platform=linux/amd64 docker.io/revideo/aws-lambda-base-image:latest
 
 ARG TWICK_DIST_TAG=latest
 
