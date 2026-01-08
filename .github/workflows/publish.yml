@@ -310,10 +310,12 @@ jobs:
             fi
           fi
           
-          # Ensure cloud-functions/export-video is included at the end (nested package)
-          if [[ ! " $PUBLISH_ORDER " =~ " cloud-functions/export-video " ]]; then
-            PUBLISH_ORDER="$PUBLISH_ORDER cloud-functions/export-video"
-          fi
+          # Ensure all cloud functions are included (nested packages)
+          for cloud_func in cloud-functions/export-video cloud-functions/transcript cloud-functions/subtitle-video; do
+            if [[ ! " $PUBLISH_ORDER " =~ " $cloud_func " ]]; then
+              PUBLISH_ORDER="$PUBLISH_ORDER $cloud_func"
+            fi
+          done
           
           echo "Publish order: $PUBLISH_ORDER"
           echo "publish-order=$PUBLISH_ORDER" >> $GITHUB_OUTPUT
@@ -321,38 +323,67 @@ jobs:
       - name: Publish packages to NPM
         run: |
           # Publish packages in dependency order with security flags
+          VERSION="${{ steps.version.outputs.version }}"
+          
           for package in ${{ steps.publish-order.outputs.publish-order }}; do
             if [ -d "packages/$package" ] && [ -f "packages/$package/package.json" ]; then
               package_name=$(jq -r '.name' "packages/$package/package.json")
-              echo "Publishing $package_name (from $package)..."
+              echo "Processing $package_name (from $package)..."
               cd "packages/$package"
 
-              if jq -e '.scripts.build' package.json > /dev/null 2>&1; then
-                echo "Building $package_name to ensure dist artifacts are present..."
-                pnpm run build
+              # Check if version is already published
+              VERSION_EXISTS=false
+              if npm view "$package_name@$VERSION" version > /dev/null 2>&1; then
+                VERSION_EXISTS=true
+                echo "ℹ️  Version $VERSION is already published for $package_name"
+                echo "Skipping publish step, will only update tags if needed..."
               else
-                echo "No build script found for $package_name, skipping build step."
+                echo "Version $VERSION not found, will publish..."
+              fi
+
+              if [ "$VERSION_EXISTS" = false ]; then
+                # Only build if we're going to publish
+                if jq -e '.scripts.build' package.json > /dev/null 2>&1; then
+                  echo "Building $package_name to ensure dist artifacts are present..."
+                  pnpm run build
+                else
+                  echo "No build script found for $package_name, skipping build step."
+                fi
               fi
               
               # Use --ignore-scripts to prevent malicious postinstall scripts
               # Use --access public to ensure public access
-              # Use --dry-run first to validate
-              if [ "$package_name" = "@twick/cloud-export-video" ]; then
-                echo "Running dry-run for $package_name with aws tag..."
-                npm publish --access public --ignore-scripts --tag aws --dry-run
-                echo "Publishing $package_name with aws tag..."
-                npm publish --access public --ignore-scripts --tag aws
-                echo "Adding latest dist-tag for $package_name..."
-                npm dist-tag add \"$package_name@${{ steps.version.outputs.version }}\" latest
+              # Cloud functions are published with aws tag and also get latest tag
+              if [[ "$package_name" == "@twick/cloud-"* ]]; then
+                if [ "$VERSION_EXISTS" = false ]; then
+                  echo "Running dry-run for $package_name with aws tag..."
+                  npm publish --access public --ignore-scripts --tag aws --dry-run
+                  echo "Publishing $package_name with aws tag..."
+                  npm publish --access public --ignore-scripts --tag aws
+                  echo "✓ Published $package_name@$VERSION with aws tag"
+                else
+                  echo "Updating dist-tags for existing version..."
+                fi
+                
+                # Always try to update latest tag (may already be set)
+                echo "Adding/updating latest dist-tag for $package_name..."
+                npm dist-tag add "$package_name@$VERSION" latest 2>/dev/null || {
+                  echo "ℹ️  Latest tag already set or couldn't update"
+                }
+                echo "✓ $package_name@$VERSION is available with tags: aws, latest"
               else
-                echo "Running dry-run for $package_name..."
-                npm publish --access public --ignore-scripts --dry-run
-                echo "Publishing $package_name..."
-                npm publish --access public --ignore-scripts
+                if [ "$VERSION_EXISTS" = false ]; then
+                  echo "Running dry-run for $package_name..."
+                  npm publish --access public --ignore-scripts --dry-run
+                  echo "Publishing $package_name..."
+                  npm publish --access public --ignore-scripts
+                  echo "✓ Successfully published $package_name@$VERSION"
+                else
+                  echo "✓ $package_name@$VERSION already published, skipped"
+                fi
               fi
 
               cd - >/dev/null 2>&1
-              echo "✓ Successfully published $package_name"
             else
               echo "Warning: Package $package not found or missing package.json"
             fi

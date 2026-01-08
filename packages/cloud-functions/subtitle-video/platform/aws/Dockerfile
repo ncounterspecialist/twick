@@ -1,4 +1,4 @@
-FROM public.ecr.aws/lambda/nodejs:20
+FROM --platform=linux/amd64 public.ecr.aws/lambda/nodejs:20
 
 # Copy package files for better caching
 COPY package.json package-lock.json* ./

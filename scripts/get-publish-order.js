@@ -12,7 +12,10 @@ const PUBLISHABLE_PACKAGES = [
   'video-editor',
   'render-server',
   'studio',
-  'agents/mcp-agent'
+  'agents/mcp-agent',
+  'cloud-functions/export-video',
+  'cloud-functions/transcript',
+  'cloud-functions/subtitle-video'
 ];
 
 // Map from package name (without @twick/) to directory path
@@ -25,7 +28,10 @@ const PACKAGE_NAME_TO_PATH = {
   'video-editor': 'video-editor',
   'render-server': 'render-server',
   'studio': 'studio',
-  'mcp-agent': 'agents/mcp-agent'
+  'mcp-agent': 'agents/mcp-agent',
+  'cloud-export-video': 'cloud-functions/export-video',
+  'cloud-transcript': 'cloud-functions/transcript',
+  'cloud-subtitle-video': 'cloud-functions/subtitle-video'
 };
 
 function getPackageDependencies(packagePath) {
