@@ -11,7 +11,6 @@ const projectRoot = join(__dirname, "..");
 // Configuration
 const AWS_REGION = process.env.AWS_REGION;
 const AWS_ACCOUNT_ID = process.env.AWS_ACCOUNT_ID;
-const ECR_REGISTRY = `${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com`;
 const IMAGE_NAME = "twick-subtitle-video";
 const DOCKERFILE_PATH = "platform/aws/Dockerfile";
 const BUILD_CONTEXT = ".";
@@ -23,6 +22,9 @@ if (!version) {
   console.error("Error: Version is required");
   console.error("Usage: npm run deploy:aws <version>");
   console.error("Example: npm run deploy:aws 0.14.16");
+  console.error("\nRequired environment variables:");
+  console.error("  AWS_REGION - AWS region (e.g., ap-south-1)");
+  console.error("  AWS_ACCOUNT_ID - AWS account ID (12-digit number)");
   process.exit(1);
 }
 
@@ -33,6 +35,20 @@ if (!/^\d+\.\d+\.\d+/.test(version)) {
   process.exit(1);
 }
 
+// Validate required environment variables
+if (!AWS_REGION) {
+  console.error("Error: AWS_REGION environment variable is required");
+  console.error("Example: export AWS_REGION=ap-south-1");
+  process.exit(1);
+}
+
+if (!AWS_ACCOUNT_ID) {
+  console.error("Error: AWS_ACCOUNT_ID environment variable is required");
+  console.error("Example: export AWS_ACCOUNT_ID=123456789012");
+  process.exit(1);
+}
+
+const ECR_REGISTRY = `${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com`;
 const imageTag = `${IMAGE_NAME}:${version}`;
 const ecrImageUri = `${ECR_REGISTRY}/${imageTag}`;
 
@@ -40,14 +56,48 @@ console.log(`Deploying ${imageTag} to ECR (${AWS_REGION})`);
 console.log("=".repeat(60));
 
 try {
-  // Step 1: Login to ECR
-  console.log("\n[1/4] Logging into AWS ECR...");
+  // Step 1: Check if ECR repository exists, create if not
+  console.log("\n[1/5] Checking ECR repository...");
+  try {
+    execSync(
+      `aws ecr describe-repositories --repository-names ${IMAGE_NAME} --region ${AWS_REGION} 2>&1`,
+      { stdio: "pipe", cwd: projectRoot, encoding: "utf-8" }
+    );
+    console.log(`✓ Repository ${IMAGE_NAME} already exists`);
+  } catch (err) {
+    // Check if repository doesn't exist (this is expected and fine)
+    // AWS CLI sends errors to stderr, but with 2>&1 we capture it in the error
+    const errorOutput = err.stdout?.toString() || err.stderr?.toString() || err.message || '';
+    const errorMessage = errorOutput.toLowerCase();
+    
+    if (errorMessage.includes("repositorynotfoundexception") || 
+        errorMessage.includes("does not exist") ||
+        errorMessage.includes("repository with name")) {
+      console.log(`ℹ️  Repository ${IMAGE_NAME} not found, creating...`);
+      try {
+        execSync(
+          `aws ecr create-repository --repository-name ${IMAGE_NAME} --region ${AWS_REGION} --image-scanning-configuration scanOnPush=true --image-tag-mutability MUTABLE`,
+          { stdio: "inherit", cwd: projectRoot }
+        );
+        console.log(`✓ Successfully created repository ${IMAGE_NAME}`);
+      } catch (createError) {
+        console.error(`✗ Failed to create repository: ${createError.message}`);
+        throw createError;
+      }
+    } else {
+      console.error(`✗ Error checking repository: ${errorOutput || err.message}`);
+      throw err;
+    }
+  }
+
+  // Step 2: Login to ECR
+  console.log("\n[2/5] Logging into AWS ECR...");
   const loginCommand = `aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${ECR_REGISTRY}`;
   execSync(loginCommand, { stdio: "inherit", cwd: projectRoot });
   console.log("✓ Successfully logged into ECR");
 
-  // Step 2: Delete ALL existing images/manifests with this tag from ECR
-  console.log(`\n[2/4] Deleting all existing images/manifests with tag ${version}...`);
+  // Step 3: Delete ALL existing images/manifests with this tag from ECR
+  console.log(`\n[3/5] Deleting all existing images/manifests with tag ${version}...`);
   try {
     // Get all images with this tag (including manifests)
     const listCommand = `aws ecr describe-images --repository-name ${IMAGE_NAME} --image-ids imageTag=${version} --region ${AWS_REGION} --query 'imageDetails[*].imageDigest' --output text 2>/dev/null`;
@@ -79,8 +129,8 @@ try {
     console.log(`ℹ️  No existing images to delete`);
   }
 
-  // Step 3: Build Docker image
-  console.log(`\n[3/4] Building Docker image ${imageTag}...`);
+  // Step 4: Build Docker image
+  console.log(`\n[4/5] Building Docker image ${imageTag}...`);
   // Use regular docker build (not buildx) to create a single image
   // The Dockerfile already specifies --platform=linux/amd64 in FROM, so we don't need it in build
   // buildx creates multi-platform manifests which CloudFormation doesn't need
@@ -88,8 +138,8 @@ try {
   execSync(buildCommand, { stdio: "inherit", cwd: projectRoot });
   console.log(`✓ Successfully built`);
 
-  // Step 4: Tag and push to ECR
-  console.log(`\n[4/4] Tagging and pushing to ECR...`);
+  // Step 5: Tag and push to ECR
+  console.log(`\n[5/5] Tagging and pushing to ECR...`);
   const tagCommand = `docker tag ${imageTag} ${ecrImageUri}`;
   execSync(tagCommand, { stdio: "inherit", cwd: projectRoot });
   
