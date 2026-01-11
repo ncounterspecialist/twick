@@ -67,11 +67,11 @@ export async function downloadVideo({
   args.push("-o", outputFile);
 
   // Get video info as JSON (for metadata)
-  command += " --print-json";
+  args.push("--print-json");
   
   // Additional options
   if (mergeVideoAudio) {
-    command += " --merge-output-format mp4";
+    args.push("--merge-output-format", "mp4");
   }
   
   // Default options for better YouTube compatibility
@@ -79,27 +79,26 @@ export async function downloadVideo({
   const isYouTube = isYouTubeUrl(url);
   if (isYouTube && !ytdlpOptions['extractor-args']) {
     // Try using Android client first (less likely to trigger bot detection)
-    command += ` --extractor-args "youtube:player_client=android"`;
+    args.push("--extractor-args", "youtube:player_client=android");
   }
   
   // Add user-agent to help avoid detection
   if (isYouTube && !ytdlpOptions['user-agent']) {
-    command += ` --user-agent "Mozilla/5.0 (Linux; Android 10; Mobile) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.120 Mobile Safari/537.36"`;
+    args.push("--user-agent", "Mozilla/5.0 (Linux; Android 10; Mobile) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.120 Mobile Safari/537.36");
   }
   
   // Add custom yt-dlp options (these override defaults if specified)
   for (const [key, value] of Object.entries(ytdlpOptions)) {
     if (value === true || value === "") {
-      command += ` --${key}`;
+      args.push(`--${key}`);
     } else if (value !== false && value !== null && value !== undefined) {
-      // Escape quotes in values
-      const escapedValue = String(value).replace(/"/g, '\\"');
-      command += ` --${key} "${escapedValue}"`;
+      args.push(`--${key}`, String(value));
     }
   }
 
-  const commandForLog = [ytdlpPath, ...args].map((part) =>
-    typeof part === "string" && /\s/.test(part) ? `"${part.replace(/"/g, '\\"')}"` : String(part)
+  // Log command safely using JSON.stringify for proper escaping (for display only, not execution)
+  const commandForLog = [ytdlpPath, ...args].map((arg) => 
+    JSON.stringify(String(arg))
   ).join(" ");
   console.log(`Executing yt-dlp command: ${commandForLog}`);
 
