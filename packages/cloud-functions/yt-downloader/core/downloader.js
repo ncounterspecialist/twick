@@ -1,10 +1,11 @@
-import { exec } from "child_process";
+import { exec, execFile } from "child_process";
 import { promisify } from "util";
 import { unlink, existsSync } from "fs";
 import { join } from "path";
 import { tmpdir } from "os";
 
 const execAsync = promisify(exec);
+const execFileAsync = promisify(execFile);
 const unlinkAsync = promisify(unlink);
 
 function isYouTubeUrl(inputUrl) {
@@ -223,30 +224,35 @@ async function mergeVideoAudioFiles(videoPath, audioPath, outputPath) {
     throw new Error("Neither video nor audio file found for merging");
   }
   
-  let command = `${ffmpegPath} -y`; // -y to overwrite output
+  // Build ffmpeg arguments safely as an array (no shell interpretation)
+  const args = ["-y"]; // -y to overwrite output
   
   if (hasVideo) {
-    command += ` -i "${videoPath}"`;
+    args.push("-i", videoPath);
   }
   if (hasAudio) {
-    command += ` -i "${audioPath}"`;
+    args.push("-i", audioPath);
   }
   
   // Merge using codec copy when possible, or re-encode
   if (hasVideo && hasAudio) {
-    command += " -c:v copy -c:a copy";
+    args.push("-c:v", "copy", "-c:a", "copy");
   } else if (hasVideo) {
-    command += " -c:v copy";
+    args.push("-c:v", "copy");
   } else {
-    command += " -c:a copy";
+    args.push("-c:a", "copy");
   }
   
-  command += ` "${outputPath}"`;
+  args.push(outputPath);
   
-  console.log(`Merging with ffmpeg: ${command}`);
+  // Log a human-readable command representation for debugging
+  console.log(
+    `Merging with ffmpeg: ${ffmpegPath} ` +
+      args.map((a) => JSON.stringify(a)).join(" ")
+  );
   
   try {
-    const { stdout, stderr } = await execAsync(command, {
+    const { stdout, stderr } = await execFileAsync(ffmpegPath, args, {
       maxBuffer: 10 * 1024 * 1024,
     });
     
