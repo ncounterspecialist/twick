@@ -7,6 +7,22 @@ import { tmpdir } from "os";
 const execAsync = promisify(exec);
 const unlinkAsync = promisify(unlink);
 
+function isYouTubeUrl(inputUrl) {
+  try {
+    const parsed = new URL(inputUrl);
+    const hostname = parsed.hostname.toLowerCase();
+    return (
+      hostname === "youtube.com" ||
+      hostname === "youtu.be" ||
+      hostname.endsWith(".youtube.com")
+    );
+  } catch {
+    // If the URL cannot be parsed, treat it as non-YouTube.
+    return false;
+  }
+}
+
+
 /**
  * Downloads a video from YouTube or other supported platforms using yt-dlp.
  * 
@@ -53,7 +69,7 @@ export async function downloadVideo({
   
   // Default options for better YouTube compatibility
   // Use android client for YouTube to avoid bot detection when possible
-  const isYouTube = url.includes('youtube.com') || url.includes('youtu.be');
+  const isYouTube = isYouTubeUrl(url);
   if (isYouTube && !ytdlpOptions['extractor-args']) {
     // Try using Android client first (less likely to trigger bot detection)
     command += ` --extractor-args "youtube:player_client=android"`;

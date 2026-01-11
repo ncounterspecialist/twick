@@ -4,7 +4,7 @@
 
 Download videos from YouTube, Vimeo, and 1000+ other supported platforms using yt-dlp with automatic video/audio merging via ffmpeg. No server management required—deploy as a serverless Lambda function that scales automatically.
 
-## ⚠️ Legal Disclaimer
+## Legal Disclaimer
 
 **IMPORTANT**: You are solely responsible for ensuring that you have the legal right to download any video content. This tool is provided as-is for legitimate use cases such as downloading your own content, content you have explicit permission to download, or content that is in the public domain.
 
