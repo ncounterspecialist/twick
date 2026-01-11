@@ -51,15 +51,21 @@ export async function downloadVideo({
 
   // Build yt-dlp command
   const ytdlpPath = process.env.YTDLP_PATH || "/usr/local/bin/yt-dlp";
-  
-  let command = `${ytdlpPath} "${url}"`;
-  
+
+  // Build arguments array to avoid invoking a shell
+  const args = [];
+
+  // URL (positional argument)
+  args.push(url);
+
   // Set format
-  command += ` -f "${format}"`;
-  
+  if (format) {
+    args.push("-f", format);
+  }
+
   // Set output path
-  command += ` -o "${outputFile}"`;
-  
+  args.push("-o", outputFile);
+
   // Get video info as JSON (for metadata)
   command += " --print-json";
   
@@ -92,11 +98,14 @@ export async function downloadVideo({
     }
   }
 
-  console.log(`Executing yt-dlp command: ${command}`);
-  
+  const commandForLog = [ytdlpPath, ...args].map((part) =>
+    typeof part === "string" && /\s/.test(part) ? `"${part.replace(/"/g, '\\"')}"` : String(part)
+  ).join(" ");
+  console.log(`Executing yt-dlp command: ${commandForLog}`);
+
   try {
     // Execute yt-dlp and capture both stdout (JSON) and stderr
-    const { stdout, stderr } = await execAsync(command, {
+    const { stdout, stderr } = await execFileAsync(ytdlpPath, args, {
       maxBuffer: 10 * 1024 * 1024, // 10MB buffer
       encoding: "utf8",
     });
