@@ -1,12 +1,4 @@
-import { generatePresignedUploadUrl, buildObjectKey, getContentTypeFromFilename } from '../../core/index.js';
-
-const ensureEnvVar = (name) => {
-  const value = process.env[name];
-  if (!value) {
-    throw new Error(`Missing required environment variable: ${name}`);
-  }
-  return value;
-};
+import { generatePresignedUploadUrl, buildObjectKey, getContentTypeFromFilename } from '@twick/cloud-file-uploader';
 
 const normalizePrefix = (prefix = '') => {
   if (!prefix) {

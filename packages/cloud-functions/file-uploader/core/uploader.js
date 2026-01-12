@@ -69,12 +69,19 @@ export function sanitizeFilename(filename) {
     return `file-${Date.now()}`;
   }
 
-  return String(filename)
+  // Replace invalid characters with dashes
+  let sanitized = String(filename)
     .trim()
-    .replace(/[^a-zA-Z0-9._-]/g, '-')
-    .replace(/-{2,}/g, '-')
-    .replace(/^-+|-+$/g, '')
-    .substring(0, 255); // S3 key length limit
+    .replace(/[^a-zA-Z0-9._-]/g, '-');
+
+  // Collapse multiple consecutive dashes into a single dash
+  // Using /-+/g is more efficient than /-{2,}/g as it avoids backtracking
+  sanitized = sanitized.replace(/-+/g, '-');
+
+  // Remove leading and trailing dashes (using separate patterns is more efficient)
+  sanitized = sanitized.replace(/^-+/, '').replace(/-+$/, '');
+
+  return sanitized.substring(0, 255); // S3 key length limit
 }
 
 /**
