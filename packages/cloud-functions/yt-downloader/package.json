@@ -1,0 +1,57 @@
+{
+  "name": "@twick/cloud-yt-downloader",
+  "version": "0.1.0",
+  "description": "Twick cloud function for downloading videos from YouTube and other platforms using yt-dlp",
+  "type": "module",
+  "main": "core/index.js",
+  "exports": {
+    ".": "./core/index.js",
+    "./aws": "./platform/aws/handler.js",
+    "./platform/aws/*": "./platform/aws/*"
+  },
+  "bin": {
+    "twick-yt-downloader": "bin/twick-yt-downloader.js"
+  },
+  "files": [
+    "core",
+    "core/index.js",
+    "platform",
+    "bin",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "verify:aws": "node -e \"require('fs').accessSync('platform/aws/Dockerfile'); require('fs').accessSync('platform/aws/handler.js'); console.log('AWS yt-downloader function assets present')\"",
+    "pack:aws": "npm run verify:aws && npm pack",
+    "release:aws": "npm run verify:aws && npm publish --access public --tag aws",
+    "deploy:aws": "node scripts/deploy-aws.js",
+    "prepublishOnly": "npm run verify:aws"
+  },
+  "publishConfig": {
+    "access": "public",
+    "tag": "aws"
+  },
+  "keywords": [
+    "twick",
+    "youtube",
+    "yt-dlp",
+    "video",
+    "download",
+    "lambda",
+    "aws",
+    "docker",
+    "ffmpeg"
+  ],
+  "author": "",
+  "license": "SEE LICENSE IN LICENSE.md",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.620.0"
+  },
+  "devDependencies": {
+    "typescript": "~5.4.5",
+    "dotenv": "^16.4.5"
+  }
+}

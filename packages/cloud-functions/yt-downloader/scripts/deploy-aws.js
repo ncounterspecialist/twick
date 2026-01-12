@@ -11,7 +11,7 @@ const projectRoot = join(__dirname, "..");
 // Configuration
 const AWS_REGION = process.env.AWS_REGION;
 const AWS_ACCOUNT_ID = process.env.AWS_ACCOUNT_ID;
-const IMAGE_NAME = "twick-export-video";
+const IMAGE_NAME = "twick-yt-downloader";
 const DOCKERFILE_PATH = "platform/aws/Dockerfile";
 const BUILD_CONTEXT = ".";
 
@@ -21,7 +21,7 @@ const version = process.argv[2];
 if (!version) {
   console.error("Error: Version is required");
   console.error("Usage: npm run deploy:aws <version>");
-  console.error("Example: npm run deploy:aws 0.14.16");
+  console.error("Example: npm run deploy:aws 0.1.0");
   console.error("\nRequired environment variables:");
   console.error("  AWS_REGION - AWS region (e.g., ap-south-1)");
   console.error("  AWS_ACCOUNT_ID - AWS account ID (12-digit number)");
@@ -31,7 +31,7 @@ if (!version) {
 // Validate version format (basic check)
 if (!/^\d+\.\d+\.\d+/.test(version)) {
   console.error(`Error: Invalid version format: ${version}`);
-  console.error("Expected format: X.Y.Z (e.g., 0.14.16)");
+  console.error("Expected format: X.Y.Z (e.g., 0.1.0)");
   process.exit(1);
 }
 
@@ -59,7 +59,7 @@ try {
   // Step 1: Check if ECR repository exists, create if not
   console.log("\n[1/5] Checking ECR repository...");
   try {
-    execSync(
+    const checkOutput = execSync(
       `aws ecr describe-repositories --repository-names ${IMAGE_NAME} --region ${AWS_REGION} 2>&1`,
       { stdio: "pipe", cwd: projectRoot, encoding: "utf-8" }
     );
@@ -131,10 +131,9 @@ try {
 
   // Step 4: Build Docker image
   console.log(`\n[4/5] Building Docker image ${imageTag}...`);
-  // Use regular docker build (not buildx) to create a single image
-  // The Dockerfile already specifies --platform=linux/amd64 in FROM, so we don't need it in build
-  // buildx creates multi-platform manifests which CloudFormation doesn't need
-  const buildCommand = `docker build -t ${imageTag} -f ${DOCKERFILE_PATH} ${BUILD_CONTEXT}`;
+  // Use regular docker build with explicit platform for Lambda (linux/amd64)
+  // This ensures correct architecture even if building on different platforms
+  const buildCommand = `docker build --platform linux/amd64 -t ${imageTag} -f ${DOCKERFILE_PATH} ${BUILD_CONTEXT}`;
   execSync(buildCommand, { stdio: "inherit", cwd: projectRoot });
   console.log(`✓ Successfully built`);
 
@@ -154,4 +153,3 @@ try {
   console.error("\n✗ Deployment failed:", error.message);
   process.exit(1);
 }
-
