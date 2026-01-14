@@ -42,6 +42,7 @@ export function TwickStudio({ studioConfig }: { studioConfig?: StudioConfig }) {
   } = useStudioManager();
   const { videoResolution, setVideoResolution } = useTimelineContext();
   const {
+    onNewProject,
     onLoadProject,
     onSaveProject,
     onExportVideo,
@@ -69,6 +70,7 @@ export function TwickStudio({ studioConfig }: { studioConfig?: StudioConfig }) {
         {/* Header */}
         <StudioHeader
           setVideoResolution={setVideoResolution}
+          onNewProject={onNewProject}
           onLoadProject={onLoadProject}
           onSaveProject={onSaveProject}
           onExportVideo={onExportVideo}

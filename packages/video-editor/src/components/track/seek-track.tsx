@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, useMemo } from "react";
+import React, { useRef, useState, useMemo } from "react";
 import { useDrag } from "@use-gesture/react";
 import "../../styles/timeline.css";
 import { TimelineTickConfig } from "../video-editor";
@@ -22,7 +22,7 @@ export default function SeekTrack({
 }: SeekTrackProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
-  const [seekPosition, setSeekPosition] = useState(0);
+  const [dragPosition, setDragPosition] = useState<number | null>(null);
 
   const pixelsPerSecond = 100 * zoom;
   const totalWidth = duration * pixelsPerSecond;
@@ -30,12 +30,14 @@ export default function SeekTrack({
   // Calculate pin height based on number of timeline
   const pinHeight = 2 + timelineCount * (2.75 + 0.5); // 2.75rem height + 0.5rem margin per timeline
 
-  // Update seek position when currentTime changes
-  useEffect(() => {
-    if (!isDragging) {
-      setSeekPosition(currentTime * pixelsPerSecond);
-    }
-  }, [currentTime, pixelsPerSecond, isDragging]);
+  // Calculate seek position: use drag position when dragging, otherwise calculate from currentTime
+  // This ensures the position always reflects the current time when not dragging
+  const seekPosition = useMemo(() => {
+    const position = isDragging && dragPosition !== null
+      ? dragPosition
+      : currentTime * pixelsPerSecond;
+    return Math.max(0, position); // Ensure position is never negative
+  }, [isDragging, dragPosition, currentTime, pixelsPerSecond]);
 
   // Tick config (major/minor) based on duration tiers with more density for longer videos
   const { majorIntervalSec, minorIntervalSec } = useMemo(() => {
@@ -127,8 +129,13 @@ export default function SeekTrack({
     const xPos = x - rect.left + (containerRef.current.scrollLeft || 0);
     const newTime = Math.max(0, Math.min(duration, xPos / pixelsPerSecond));
     
-    setSeekPosition(xPos);
+    setDragPosition(xPos);
     onSeek(newTime);
+    
+    // Clear drag position when drag ends
+    if (!active) {
+      setDragPosition(null);
+    }
   });
 
   return (
@@ -223,10 +230,12 @@ export default function SeekTrack({
           className="twick-seek-track-playhead"
           style={{ 
             position: "absolute",
-            left: seekPosition, 
+            left: 0,
+            transform: `translateX(${seekPosition}px)`,
             top: 0,
             touchAction: "none",
-            transition: isDragging ? "none" : "left 0.1s linear",
+            transition: isDragging ? "none" : "transform 0.1s linear",
+            willChange: isDragging ? "transform" : "auto",
           }}
         >
           <div className="twick-seek-track-handle"></div>
