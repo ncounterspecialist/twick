@@ -114,7 +114,6 @@ export const LivePlayer = ({
    * ```
    */
   const onCurrentTimeUpdate = useCallback((currentTime: number) => {
-    console.log("onCurrentTimeUpdate", currentTime);
     if (onTimeUpdate) {
       onTimeUpdate(currentTime);
     }

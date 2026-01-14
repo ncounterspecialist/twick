@@ -6,15 +6,20 @@
  *
  * @example
  * ```jsx
- * import { TwickStudio, useStudioManager } from '@twick/studio';
- * import { TimelineProvider } from '@twick/timeline';
- * import { LivePlayerProvider } from '@twick/live-player';
+ * // All components and providers can be imported from @twick/studio
+ * import { 
+ *   TwickStudio, 
+ *   useStudioManager,
+ *   LivePlayerProvider,
+ *   TimelineProvider,
+ *   INITIAL_TIMELINE_DATA
+ * } from '@twick/studio';
  *
  * function App() {
  *   return (
  *     <LivePlayerProvider>
  *       <TimelineProvider
- *         initialData={{ timeline: [], version: 0 }}
+ *         initialData={INITIAL_TIMELINE_DATA}
  *         contextId="studio-demo"
  *       >
  *         <TwickStudio />
@@ -135,6 +140,24 @@ export {
 export * from "./helpers/generate-subtitles.service";
 export * from "./helpers/constant";
 export * from "./types";
+
+/**
+ * Re-export commonly used components from dependencies.
+ * 
+ * This allows users to import everything from @twick/studio without needing
+ * to install or import from individual @twick packages. All required dependencies
+ * are automatically installed when you install @twick/studio.
+ * 
+ * Re-exported components:
+ * - VideoEditor: Main video editor component from @twick/video-editor
+ * - LivePlayerProvider, LivePlayer: Player components from @twick/live-player
+ * - TimelineProvider, INITIAL_TIMELINE_DATA: Timeline components from @twick/timeline
+ */
+export { default as VideoEditor } from "@twick/video-editor";
+export type { VideoEditorProps, VideoEditorConfig } from "@twick/video-editor";
+export { LivePlayerProvider, LivePlayer } from "@twick/live-player";
+export { TimelineProvider, INITIAL_TIMELINE_DATA } from "@twick/timeline";
+export type { TimelineProviderProps } from "@twick/timeline";
 
 /**
  * Default export: TwickStudio (full editor component)

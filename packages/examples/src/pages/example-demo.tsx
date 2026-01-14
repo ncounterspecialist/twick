@@ -1,6 +1,4 @@
-import VideoEditor from "@twick/video-editor";
-import { LivePlayerProvider } from "@twick/live-player";
-import {  TimelineProvider } from "@twick/timeline";
+import { VideoEditor, LivePlayerProvider, TimelineProvider } from "@twick/studio";
 
 const videoResolution = {
   width: 720,

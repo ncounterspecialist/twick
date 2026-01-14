@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { LivePlayer } from "@twick/live-player";
+import { LivePlayer } from "@twick/studio";
 import { sample } from "../helpers/sample-data";
 import "./example-video.css";
 const ExampleVideo = () => {

@@ -11,13 +11,20 @@ export default defineConfig({
       formats: ['es', 'cjs'],
     },
     rollupOptions: {
+      // External dependencies that should not be bundled.
+      // React and React DOM are external to avoid duplication.
+      // @twick packages are external to:
+      // 1. Avoid bundling React contexts (which must be the same instance)
+      // 2. Allow proper tree-shaking in consuming applications
+      // 3. Ensure consistent versions across the monorepo
       external: [
         'react',
         'react-dom',
         'react/jsx-runtime',
         'react/jsx-dev-runtime',
         '@twick/timeline',
-        '@twick/video-editor'
+        '@twick/video-editor',
+        '@twick/live-player' // External to prevent React context duplication
       ],
       output: {
         exports: 'named',

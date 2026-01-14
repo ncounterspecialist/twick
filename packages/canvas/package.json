@@ -30,7 +30,7 @@
     "docs": "typedoc"  
   },
   "dependencies": {
-    "@twick/media-utils": "^0.15.0",
+    "@twick/media-utils": "workspace:*",
     "fabric": "^6.6.2"
   },
   "peerDependencies": {
