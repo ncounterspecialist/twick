@@ -1,4 +1,24 @@
 /**
+ * Generates a short UUID for element and track identification.
+ * Creates a 12-character unique identifier using a simplified
+ * UUID generation algorithm.
+ *
+ * @returns A 12-character unique identifier string
+ * 
+ * @example
+ * ```js
+ * const id = generateShortUuid();
+ * // id = "a1b2c3d4e5f6"
+ * ```
+ */
+const generateShortUuid = () => {
+  return "xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
+    const r = (Math.random() * 16) | 0;
+    const v = c === "x" ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
+};
+/**
  * Builds a Twick subtitle video project JSON structure from transcription results.
  * 
  * @param {Object} params - Project parameters
@@ -11,6 +31,9 @@
 export const buildProject = (params) => {
   const { subtitles, duration, videoUrl, videoSize } = params;
 
+  const videoTrackId = `t-${generateShortUuid()}`;
+  const captionTrackId = `t-${generateShortUuid()}`;
+
     return {
       properties: {
         width: videoSize?.width || 720,
@@ -18,24 +41,25 @@ export const buildProject = (params) => {
       },
       tracks: [
         {
-          id: "video",
+          id: videoTrackId,
           type: "video",
           elements: [
             {
-              id: "video",
+              id: `e-${generateShortUuid()}`,
               type: "video",
               s: 0,
               e: duration,
               props: {
                 src: videoUrl,
-                width: videoSize?.width || 720,
-                height: videoSize?.height || 1280,
+              },
+              frame: {
+                size: [videoSize?.width || 720, videoSize?.height || 1280],
               },
             },
           ],
         },
         {
-          id: "subtitle",
+          id: captionTrackId,
           type: "caption",
           props: {
             capStyle: "highlight_bg",
@@ -59,7 +83,8 @@ export const buildProject = (params) => {
             applyToAll: true,
           },
           elements: subtitles.map((subtitle, index) => ({
-            id: `subtitle-${index}`,
+            id: `e-${generateShortUuid()}`,
+            trackId: captionTrackId,
             type: "caption",
             s: subtitle.s / 1000,
             e: subtitle.e / 1000,

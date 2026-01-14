@@ -20,7 +20,7 @@ import {
   DEFAULT_TEXT_PROPS,
 } from "../helpers/constants";
 import { disabledControl, rotateControl } from "./element-controls";
-import { getObjectFitSize, getThumbnail } from "@twick/media-utils";
+import { getObjectFitSize, getThumbnailCached } from "@twick/media-utils";
 
 /**
  * Add a text element to the canvas.
@@ -336,7 +336,7 @@ export const addVideoElement = async ({
   currentFrameEffect?: FrameEffect;
 }) => {
   try {
-    const thumbnailUrl = await getThumbnail(
+    const thumbnailUrl = await getThumbnailCached(
       element?.props?.src || "",
       snapTime
     );

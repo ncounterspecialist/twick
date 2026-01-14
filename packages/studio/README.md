@@ -21,14 +21,28 @@ npm install @twick/studio
 pnpm add @twick/studio
 ```
 
-**Note:** All required dependencies (`@twick/timeline`, `@twick/live-player`, `@twick/video-editor`, `@twick/canvas`, `@twick/media-utils`) are automatically installed with `@twick/studio`.
+**Note:** All required dependencies are automatically installed with `@twick/studio`:
+- `@twick/timeline` - Timeline management
+- `@twick/live-player` - Video player components
+- `@twick/video-editor` - Video editor component
+- `@twick/canvas` - Canvas utilities
+- `@twick/media-utils` - Media processing utilities
+- `@twick/visualizer` - Visual rendering
+- `@twick/core` - Core functionality
+- `@twick/player-react` - React player components
+
+You can import all components and providers directly from `@twick/studio` - no need to import from individual packages! This simplifies your imports and ensures all dependencies are properly versioned together.
 
 ## Quick Start
 
 ```tsx
-import { LivePlayerProvider } from "@twick/live-player";
-import { TwickStudio } from "@twick/studio";
-import { TimelineProvider, INITIAL_TIMELINE_DATA } from "@twick/timeline";
+// Import everything you need from @twick/studio
+import { 
+  TwickStudio,
+  LivePlayerProvider,
+  TimelineProvider,
+  INITIAL_TIMELINE_DATA
+} from "@twick/studio";
 import "@twick/studio/dist/studio.css";
 
 export default function App() {
@@ -68,6 +82,16 @@ export default function App() {
     </LivePlayerProvider>
   );
 }
+```
+
+### Alternative: Import from Individual Packages
+
+You can also import from individual packages if you prefer:
+
+```tsx
+import { LivePlayerProvider } from "@twick/live-player";
+import { TimelineProvider, INITIAL_TIMELINE_DATA } from "@twick/timeline";
+import { TwickStudio } from "@twick/studio";
 ```
 
 ## Components
@@ -178,6 +202,27 @@ The studio includes specialized panels for different element types:
 ### Hooks
 
 - **useStudioManager**: Hook for managing studio state, selected tools, and element manipulation
+- **useGenerateSubtitles**: Hook for subtitle generation and polling
+
+### Re-exported Components
+
+For convenience, `@twick/studio` re-exports commonly used components from other packages:
+
+- **VideoEditor**: Main video editor component (from `@twick/video-editor`)
+- **LivePlayer**, **LivePlayerProvider**: Player components (from `@twick/live-player`)
+- **TimelineProvider**, **INITIAL_TIMELINE_DATA**: Timeline components (from `@twick/timeline`)
+
+You can import these directly from `@twick/studio`:
+
+```tsx
+import { 
+  VideoEditor,
+  LivePlayer,
+  LivePlayerProvider,
+  TimelineProvider,
+  INITIAL_TIMELINE_DATA
+} from "@twick/studio";
+```
 
 ## Development
 

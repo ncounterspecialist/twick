@@ -1,13 +1,26 @@
-import { ProjectJSON, useTimelineContext, VideoElement } from "@twick/timeline";
+import { PLAYER_STATE, ProjectJSON, useTimelineContext, VideoElement } from "@twick/timeline";
 import { ISubtitleGenerationPollingResponse, StudioConfig, SubtitleEntry } from "../types";
 import { loadFile, saveAsFile } from "@twick/media-utils";
 import { useState } from "react";
+import { useLivePlayerContext } from "@twick/live-player";
 
 const useStudioOperation = (studioConfig?: StudioConfig) => {
   const { editor, present } = useTimelineContext();
+  const { setSeekTime, setPlayerState } = useLivePlayerContext();
   const [projectName, setProjectName] = useState("");
+
+  const onNewProject = () => {
+    setPlayerState(PLAYER_STATE.PAUSED);
+    editor.loadProject({
+      tracks: [],
+      version: 0,
+    });
+    setSeekTime(0);
+  }
+
   const onLoadProject = async () => {
     let project: ProjectJSON;
+    setPlayerState(PLAYER_STATE.PAUSED);
     if (studioConfig?.loadProject) {
       project = await studioConfig.loadProject();
     } else {
@@ -16,8 +29,8 @@ const useStudioOperation = (studioConfig?: StudioConfig) => {
       setProjectName(file.name);
       project = JSON.parse(text);
     }
-    console.log("Editor", editor);
     editor.loadProject(project);
+    setSeekTime(0);
   };
 
   const onSaveProject = async () => {
@@ -97,6 +110,7 @@ const useStudioOperation = (studioConfig?: StudioConfig) => {
     onLoadProject, 
     onSaveProject, 
     onExportVideo, 
+    onNewProject,
     onGenerateSubtitles,
     addSubtitlesToTimeline,
     getSubtitleStatus,

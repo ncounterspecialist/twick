@@ -17,17 +17,19 @@
  */
 
 import type { Size } from "@twick/timeline";
-import { Save, Download, Clapperboard, File } from "lucide-react";
+import { Save, Download, Clapperboard, File, Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 
 interface StudioHeaderProps {
   setVideoResolution: (resolution: Size) => void;
+  onNewProject: () => void;
   onLoadProject: () => void;
   onSaveProject: () => void;
   onExportVideo: () => void;
 }
 export const StudioHeader = ({
   setVideoResolution,
+  onNewProject,
   onLoadProject,
   onSaveProject,
   onExportVideo,
@@ -64,6 +66,14 @@ export const StudioHeader = ({
         </div>
       </div>
       <div className="flex-container">
+        <button
+          className="btn-ghost"
+          title="New Project"
+          onClick={onNewProject}
+        >
+          <Plus className="icon-sm" />
+          New Project
+        </button>
         <button
           className="btn-ghost"
           title="Load Project"

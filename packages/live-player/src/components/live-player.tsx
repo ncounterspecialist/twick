@@ -114,7 +114,6 @@ export const LivePlayer = ({
    * ```
    */
   const onCurrentTimeUpdate = useCallback((currentTime: number) => {
-    console.log("onCurrentTimeUpdate", currentTime);
     if (onTimeUpdate) {
       onTimeUpdate(currentTime);
     }
@@ -124,18 +123,23 @@ export const LivePlayer = ({
    * Applies JSON variables to the player element.
    * Converts project data to JSON and sets it as an attribute
    * on the player HTML element for dynamic content updates.
+   * 
+   * Uses setAttribute instead of setting the property directly because
+   * the twick-player custom element's variables property is read-only (getter only).
+   * React would try to set it as a property, which would fail.
    *
    * @param projectData - The project data to apply to the player
    * 
    * @example
    * ```js
    * setProjectData({ text: "Updated content", color: "red" });
-   * // Updates player with new project variables
+   * // Updates player with new project variables via setAttribute
    * ```
    */
   const setProjectData = useCallback((projectData: any) => {
     if (playerRef.current?.htmlElement && projectData) {
       console.log("setProjectData in live player");
+      // Use setAttribute to avoid React trying to set a read-only property
       playerRef.current.htmlElement.setAttribute(
         "variables",
         JSON.stringify({ ...projectData, playerId: playerRef.current.id })
@@ -147,6 +151,8 @@ export const LivePlayer = ({
    * Performs setup only once after the player has rendered for the first time.
    * Hides unnecessary UI elements and applies initial project data
    * to ensure proper player initialization.
+   * 
+   * Merges baseProject with projectData to ensure all required properties are present.
    * 
    * @example
    * ```js
@@ -160,9 +166,11 @@ export const LivePlayer = ({
         "style",
         "display: none;"
       );
-      setProjectData(projectData);
+      // Merge baseProject with projectData for initial setup
+      const initialData = { ...baseProject, ...projectData };
+      setProjectData(initialData);
     }
-  }, [projectData]);
+  }, [projectData, baseProject, setProjectData]);
 
   /**s
    * Handle player ready lifecycle and store references.
@@ -218,8 +226,12 @@ export const LivePlayer = ({
   };
 
   // Apply new project data whenever it changes
+  // Note: Initial data is set in onFirstRender() after player is ready
   useEffect(() => {
-    setProjectData(projectData);
+    // Only update if player has been initialized (after first render)
+    if (isFirstRender.current && playerRef.current?.htmlElement) {
+      setProjectData(projectData);
+    }
   }, [projectData, setProjectData]);
 
   // Play/pause player based on external prop
@@ -264,7 +276,9 @@ export const LivePlayer = ({
         looping={false}
         controls={false}
         currentTime={seekTime}
-        variables={baseProject}
+        // Note: variables is not passed as a prop to avoid React trying to set it as a property.
+        // Instead, we use setAttribute via setProjectData() which is called in useEffect
+        // and onFirstRender to properly set the variables attribute on the custom element.
         volume={volume}
         quality={quality}
         onTimeUpdate={onCurrentTimeUpdate}

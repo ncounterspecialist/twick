@@ -78,7 +78,7 @@ importers:
   packages/canvas:
     dependencies:
       '@twick/media-utils':
-        specifier: ^0.15.0
+        specifier: workspace:*
         version: link:../media-utils
       fabric:
         specifier: ^6.6.2
@@ -160,24 +160,9 @@ importers:
 
   packages/examples:
     dependencies:
-      '@twick/canvas':
-        specifier: ^0.15.0
-        version: link:../canvas
-      '@twick/live-player':
-        specifier: ^0.15.0
-        version: link:../live-player
-      '@twick/media-utils':
-        specifier: ^0.15.0
-        version: link:../media-utils
       '@twick/studio':
-        specifier: ^0.15.0
+        specifier: workspace:*
         version: link:../studio
-      '@twick/timeline':
-        specifier: ^0.15.0
-        version: link:../timeline
-      '@twick/video-editor':
-        specifier: ^0.15.0
-        version: link:../video-editor
       dompurify:
         specifier: ^3.2.6
         version: 3.3.1
@@ -232,22 +217,22 @@ importers:
     dependencies:
       '@twick/canvas':
         specifier: ^0.15.0
-        version: link:../canvas
+        version: 0.15.1(react@19.2.3)
       '@twick/live-player':
         specifier: ^0.15.0
-        version: link:../live-player
+        version: 0.15.1(@types/node@20.19.27)(react@19.2.3)(typescript@5.9.3)
       '@twick/media-utils':
         specifier: ^0.15.0
-        version: link:../media-utils
+        version: 0.15.1
       '@twick/studio':
         specifier: ^0.15.0
-        version: link:../studio
+        version: 0.15.1(@types/node@20.19.27)(react-dom@19.2.3)(react@19.2.3)(typescript@5.9.3)
       '@twick/timeline':
         specifier: ^0.15.0
-        version: link:../timeline
+        version: 0.15.1
       '@twick/video-editor':
         specifier: ^0.15.0
-        version: link:../video-editor
+        version: 0.15.1(@types/node@20.19.27)(react-dom@19.2.3)(react@19.2.3)(typescript@5.9.3)
       dompurify:
         specifier: ^3.2.6
         version: 3.3.1
@@ -292,7 +277,7 @@ importers:
         specifier: ^0.15.0
         version: 0.15.0
       '@twick/visualizer':
-        specifier: ^0.15.0
+        specifier: workspace:*
         version: link:../visualizer
       react:
         specifier: ^18.0.0 || ^19.0.0
@@ -372,7 +357,7 @@ importers:
         specifier: ^0.15.0
         version: 0.15.0
       '@twick/visualizer':
-        specifier: ^0.15.0
+        specifier: workspace:*
         version: link:../visualizer
       cors:
         specifier: ^2.8.5
@@ -414,18 +399,30 @@ importers:
 
   packages/studio:
     dependencies:
-      '@twick/live-player':
+      '@twick/canvas':
+        specifier: workspace:*
+        version: link:../canvas
+      '@twick/core':
         specifier: ^0.15.0
+        version: 0.15.0
+      '@twick/live-player':
+        specifier: workspace:*
         version: link:../live-player
       '@twick/media-utils':
-        specifier: ^0.15.0
+        specifier: workspace:*
         version: link:../media-utils
-      '@twick/timeline':
+      '@twick/player-react':
         specifier: ^0.15.0
+        version: 0.15.0
+      '@twick/timeline':
+        specifier: workspace:*
         version: link:../timeline
       '@twick/video-editor':
-        specifier: ^0.15.0
+        specifier: workspace:*
         version: link:../video-editor
+      '@twick/visualizer':
+        specifier: workspace:*
+        version: link:../visualizer
       lucide-react:
         specifier: ^0.511.0
         version: 0.511.0(react@19.2.3)
@@ -467,7 +464,7 @@ importers:
   packages/timeline:
     dependencies:
       '@twick/media-utils':
-        specifier: ^0.15.0
+        specifier: workspace:*
         version: link:../media-utils
       posthog-js:
         specifier: ^1.258.5
@@ -513,16 +510,16 @@ importers:
         specifier: ^10.0.1
         version: 10.0.3(react-dom@19.2.3)(react@19.2.3)
       '@twick/canvas':
-        specifier: ^0.15.0
+        specifier: workspace:*
         version: link:../canvas
       '@twick/live-player':
-        specifier: ^0.15.0
+        specifier: workspace:*
         version: link:../live-player
       '@twick/media-utils':
-        specifier: ^0.15.0
+        specifier: workspace:*
         version: link:../media-utils
       '@twick/timeline':
-        specifier: ^0.15.0
+        specifier: workspace:*
         version: link:../timeline
       '@use-gesture/react':
         specifier: ^10.3.0
@@ -580,7 +577,7 @@ importers:
         specifier: ^0.15.0
         version: 0.15.0
       '@twick/media-utils':
-        specifier: ^0.15.0
+        specifier: workspace:*
         version: link:../media-utils
       '@twick/renderer':
         specifier: ^0.15.0
@@ -6886,6 +6883,22 @@ packages:
       parse-svg-path: 0.1.2
     dev: false
 
+  /@twick/canvas@0.15.1(react@19.2.3):
+    resolution: {integrity: sha512-7OpJK1wiFdI7EhH/6qh9Mposut3BLxr7nAxNtV7030BQQ4pzv0q6qrF6xotqQ3OgPP/oXqF+6VfPLs+tZ7IB+g==}
+    engines: {node: '>=20.0.0'}
+    peerDependencies:
+      react: ^18.0.0 || ^19.0.0
+    dependencies:
+      '@twick/media-utils': 0.15.1
+      fabric: 6.9.1
+      react: 19.2.3
+    transitivePeerDependencies:
+      - bufferutil
+      - encoding
+      - supports-color
+      - utf-8-validate
+    dev: false
+
   /@twick/cli@0.15.0(typescript@5.9.3):
     resolution: {integrity: sha512-ueSl7PbqfWMGD4b9kq2MglAYoB3LlX879HQPTFUIIU9tBfR4YAIC0+6TDp+/4F9X5+iEyyoiAW6/auqHEo/uLA==}
     hasBin: true
@@ -6934,6 +6947,41 @@ packages:
     transitivePeerDependencies:
       - debug
 
+  /@twick/live-player@0.15.1(@types/node@20.19.27)(react@19.2.3)(typescript@5.9.3):
+    resolution: {integrity: sha512-84XmD5MNgo+tXo3Aw8N3SUIrzPHXVpah/8wkjHm4Gw+Aeop2qCd7SwIso3zE6K/jqpoaBhdNskFBeGsNBCishg==}
+    engines: {node: '>=20.0.0'}
+    peerDependencies:
+      react: ^18.0.0 || ^19.0.0
+    dependencies:
+      '@twick/core': 0.15.0
+      '@twick/player-react': 0.15.0
+      '@twick/visualizer': 0.15.1(@types/node@20.19.27)(typescript@5.9.3)
+      react: 19.2.3
+    transitivePeerDependencies:
+      - '@types/node'
+      - bare-abort-controller
+      - bare-buffer
+      - bufferutil
+      - debug
+      - less
+      - lightningcss
+      - react-native-b4a
+      - sass
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - typescript
+      - utf-8-validate
+    dev: false
+
+  /@twick/media-utils@0.15.1:
+    resolution: {integrity: sha512-KWEPzSmy1VqjwwCHgiQxff7nDobZRI4tY1VyXS4IClEuK8S+zeJM8MxJcy6O8KQhs8dr2OWPuQr1KCJJac0YjQ==}
+    engines: {node: '>=20.0.0'}
+    dependencies:
+      lamejs: 1.2.1
+    dev: false
+
   /@twick/player-react@0.15.0:
     resolution: {integrity: sha512-nIhdnF28A7fHVqlq4vYbDxM8cVnaDh3gT+FVu8hbKWYFR9OHONXHMGYPjl4jXzm8VfubGewAbKohswdoE0QX1w==}
     dependencies:
@@ -6967,6 +7015,39 @@ packages:
       - typescript
       - utf-8-validate
 
+  /@twick/studio@0.15.1(@types/node@20.19.27)(react-dom@19.2.3)(react@19.2.3)(typescript@5.9.3):
+    resolution: {integrity: sha512-pEDFwDmuJNs0L0+6fH/GcrPcqRXTNgTmb4AMSKJYpUEdl/FOgJOx2viCPRzj1L33l9YhwodMXDTUFxFNTkgmcg==}
+    engines: {node: '>=20.0.0'}
+    peerDependencies:
+      react: ^18.0.0 || ^19.0.0
+      react-dom: ^18.0.0 || ^19.0.0
+    dependencies:
+      '@twick/live-player': 0.15.1(@types/node@20.19.27)(react@19.2.3)(typescript@5.9.3)
+      '@twick/media-utils': 0.15.1
+      '@twick/timeline': 0.15.1
+      '@twick/video-editor': 0.15.1(@types/node@20.19.27)(react-dom@19.2.3)(react@19.2.3)(typescript@5.9.3)
+      lucide-react: 0.511.0(react@19.2.3)
+      react: 19.2.3
+      react-dom: 19.2.3(react@19.2.3)
+    transitivePeerDependencies:
+      - '@types/node'
+      - bare-abort-controller
+      - bare-buffer
+      - bufferutil
+      - debug
+      - encoding
+      - less
+      - lightningcss
+      - react-native-b4a
+      - sass
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - typescript
+      - utf-8-validate
+    dev: false
+
   /@twick/telemetry@0.15.0:
     resolution: {integrity: sha512-f72z1uV7D6Fwxg7bxXKUqHIAloIbcnS+7+nIq6Nuuu0XBIcKKMnhfeFSVSjKGCrSPTZx6cn/X938zPxxThIOIw==}
     requiresBuild: true
@@ -6976,12 +7057,88 @@ packages:
     transitivePeerDependencies:
       - debug
 
+  /@twick/timeline@0.15.1:
+    resolution: {integrity: sha512-UwbE0cXn7yd80+e6YfO7KikAKOYZvlLdAT3Z64y5JTE/F5Rb1f3V/hIeHUrT+HMcUN+THlFhXLfU1S73wnvCeA==}
+    engines: {node: '>=20.0.0'}
+    dependencies:
+      '@twick/media-utils': 0.15.1
+      posthog-js: 1.314.0
+    dev: false
+
   /@twick/ui@0.15.0:
     resolution: {integrity: sha512-aC7koEk82Lpl4HalCExwFW4q7G5tAt0UeyiRC3u7nQb9+mMDD1gzlXbePaCxgXMddSWgM38Ar3FfAYXKtxT71A==}
     dependencies:
       '@preact/signals': 1.3.2(preact@10.28.1)
       '@twick/core': 0.15.0
       preact: 10.28.1
+
+  /@twick/video-editor@0.15.1(@types/node@20.19.27)(react-dom@19.2.3)(react@19.2.3)(typescript@5.9.3):
+    resolution: {integrity: sha512-jzbGplcMb0Lse+JOmxx+iKFb0/3tlxtHKOI75F++XGR+gzzvfzkry4zbwQRvyXmW/k7NWUyYxjUJH09nt+9Krw==}
+    engines: {node: '>=20.0.0'}
+    peerDependencies:
+      react: ^18.0.0 || ^19.0.0
+      react-dom: ^18.0.0 || ^19.0.0
+    dependencies:
+      '@emotion/is-prop-valid': 1.4.0
+      '@react-spring/web': 10.0.3(react-dom@19.2.3)(react@19.2.3)
+      '@twick/canvas': 0.15.1(react@19.2.3)
+      '@twick/live-player': 0.15.1(@types/node@20.19.27)(react@19.2.3)(typescript@5.9.3)
+      '@twick/media-utils': 0.15.1
+      '@twick/timeline': 0.15.1
+      '@use-gesture/react': 10.3.1(react@19.2.3)
+      framer-motion: 11.18.2(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.3)(react@19.2.3)
+      lucide-react: 0.511.0(react@19.2.3)
+      react: 19.2.3
+      react-dom: 19.2.3(react@19.2.3)
+    transitivePeerDependencies:
+      - '@types/node'
+      - bare-abort-controller
+      - bare-buffer
+      - bufferutil
+      - debug
+      - encoding
+      - less
+      - lightningcss
+      - react-native-b4a
+      - sass
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - typescript
+      - utf-8-validate
+    dev: false
+
+  /@twick/visualizer@0.15.1(@types/node@20.19.27)(typescript@5.9.3):
+    resolution: {integrity: sha512-t7TIE3O4DMkptMUX0NgTcSrtE29onq6g3TrjfSHBkcQfTOLLnTiZvASlEps20+A0pyJ6z4H3uWbPFxAN4YsaQQ==}
+    engines: {node: '>=20.0.0'}
+    dependencies:
+      '@preact/signals': 1.3.2(preact@10.28.1)
+      '@twick/2d': 0.15.0
+      '@twick/core': 0.15.0
+      '@twick/media-utils': 0.15.1
+      '@twick/renderer': 0.15.0(@types/node@20.19.27)(typescript@5.9.3)
+      '@twick/vite-plugin': 0.15.0
+      crelt: 1.0.6
+      date-fns: 4.1.0
+      preact: 10.28.1
+    transitivePeerDependencies:
+      - '@types/node'
+      - bare-abort-controller
+      - bare-buffer
+      - bufferutil
+      - debug
+      - less
+      - lightningcss
+      - react-native-b4a
+      - sass
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - typescript
+      - utf-8-validate
+    dev: false
 
   /@twick/vite-plugin@0.15.0:
     resolution: {integrity: sha512-/F3LeeBZn7qPIRFKAKwxaDr4yLK3cHuCAe3aWxYo/ZWM1RyHYSqLQ0q4rYqBv4+xjkCO5LYuw3/m6CMw/bS+bQ==}

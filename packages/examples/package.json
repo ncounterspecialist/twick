@@ -17,12 +17,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@twick/canvas": "^0.15.0",
-    "@twick/media-utils": "^0.15.0",
-    "@twick/live-player": "^0.15.0",
-    "@twick/timeline": "^0.15.0",
-    "@twick/video-editor": "^0.15.0",
-    "@twick/studio": "^0.15.0",
+    "@twick/studio": "workspace:*",
     "dompurify": "^3.2.6",
     "lucide-react": "^0.511.0",
     "react": "^19.2.3",

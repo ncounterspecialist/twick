@@ -29,7 +29,7 @@
     "date-fns": "^4.1.0",
     "preact": "^10.19.2",
     "crelt": "^1.0.6",
-    "@twick/media-utils": "^0.15.0"
+    "@twick/media-utils": "workspace:*"
   },
   "devDependencies": {
     "@twick/cli": "^0.15.0",

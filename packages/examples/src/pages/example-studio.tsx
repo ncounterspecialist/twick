@@ -1,6 +1,4 @@
-import { LivePlayerProvider } from "@twick/live-player";
-import { TwickStudio } from "@twick/studio";
-import { TimelineProvider, INITIAL_TIMELINE_DATA } from "@twick/timeline";
+import { TwickStudio, LivePlayerProvider, TimelineProvider, INITIAL_TIMELINE_DATA } from "@twick/studio";
 import "@twick/studio/dist/studio.css";
 export default function ExampleStudio() {
 
