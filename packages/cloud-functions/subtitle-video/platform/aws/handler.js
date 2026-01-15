@@ -1,5 +1,4 @@
-// import { createSubtitleProject, exportProject } from '@twick/cloud-subtitle-video';
-import { createSubtitleProject, exportProject } from '../../core/index.js';
+import { createSubtitleProject, exportProject } from '@twick/cloud-subtitle-video';
 
 /**
  * Creates a standardized JSON HTTP response with CORS headers.

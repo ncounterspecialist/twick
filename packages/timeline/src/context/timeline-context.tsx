@@ -21,14 +21,14 @@ import {
   getPostHogOptions,
   trackEvent,
 } from "../utils/analytics";
-import { PostHog } from "posthog-js";
+import { PostHog, PostHogConfig } from "posthog-js";
 
 /**
  * Type definition for the Timeline context.
  * Contains all the state and functions needed to manage a timeline instance.
  * Provides access to the timeline editor, selected items, undo/redo functionality,
  * and timeline actions.
- * 
+ *
  * @example
  * ```js
  * const {
@@ -81,7 +81,7 @@ const TimelineContext = createContext<TimelineContextType | undefined>(
 /**
  * Props for the TimelineProvider component.
  * Defines the configuration options for timeline context initialization.
- * 
+ *
  * @example
  * ```jsx
  * <TimelineProvider
@@ -121,7 +121,7 @@ export interface TimelineProviderProps {
  *
  * @param props - Timeline provider configuration
  * @returns Timeline context provider with state management
- * 
+ *
  * @example
  * ```jsx
  * <TimelineProviderInner
@@ -151,20 +151,22 @@ const TimelineProviderInner = ({
     null
   );
 
-  const [videoResolution, setVideoResolution] = useState<Size>(resolution ?? {width: 720, height: 1280});
+  const [videoResolution, setVideoResolution] = useState<Size>(
+    resolution ?? { width: 720, height: 1280 }
+  );
 
   const [totalDuration, setTotalDuration] = useState(0);
 
   const [changeLog, setChangeLog] = useState(0);
 
   const undoRedoContext = useUndoRedo();
-  
+
   const dataInitialized = useRef(false);
 
   /**
    * Updates the change log counter.
    * Called whenever the timeline is modified to track changes.
-   * 
+   *
    * @example
    * ```js
    * updateChangeLog();
@@ -205,7 +207,7 @@ const TimelineProviderInner = ({
    *
    * @param type - The type of action to perform
    * @param payload - Optional data for the action
-   * 
+   *
    * @example
    * ```js
    * setTimelineAction(TIMELINE_ACTION.SET_PLAYER_STATE, { playing: true });
@@ -220,7 +222,7 @@ const TimelineProviderInner = ({
    * Loads either persisted state or initial data into the editor.
    *
    * @param data - Project data to initialize with
-   * 
+   *
    * @example
    * ```js
    * initialize(projectData);
@@ -276,7 +278,7 @@ const TimelineProviderInner = ({
  *
  * @param props - Timeline provider configuration
  * @returns Context provider with timeline state management
- * 
+ *
  * @example
  * ```jsx
  * <TimelineProvider
@@ -287,7 +289,7 @@ const TimelineProviderInner = ({
  *   <YourApp />
  * </TimelineProvider>
  * ```
- * 
+ *
  * @example
  * Disable analytics:
  * ```jsx
@@ -302,7 +304,7 @@ const TimelineProviderInner = ({
 export const TimelineProvider = ({
   contextId,
   children,
-  resolution = {width: 720, height: 1280},
+  resolution = { width: 720, height: 1280 },
   initialData,
   undoRedoPersistenceKey,
   maxHistorySize,
@@ -317,7 +319,7 @@ export const TimelineProvider = ({
       url: typeof window !== "undefined" ? window.location.href : undefined,
       timestamp: new Date().toISOString(),
     });
-  }
+  };
 
   const postHogOptions = getPostHogOptions(analytics, onPostHogLoaded);
 
@@ -346,7 +348,7 @@ export const TimelineProvider = ({
   return (
     <PostHogProvider
       apiKey={apiKey}
-      options={postHogOptions}
+      options={postHogOptions as Partial<PostHogConfig>}
     >
       <UndoRedoProvider
         persistenceKey={undoRedoPersistenceKey}
@@ -374,7 +376,7 @@ export const TimelineProvider = ({
  *
  * @returns TimelineContextType object with all timeline state and controls
  * @throws Error if used outside of TimelineProvider
- * 
+ *
  * @example
  * ```js
  * const {
@@ -386,15 +388,15 @@ export const TimelineProvider = ({
  *   setSelectedItem,
  *   setTimelineAction
  * } = useTimelineContext();
- * 
+ *
  * // Access the timeline editor
  * const tracks = editor.getTracks();
- * 
+ *
  * // Check if undo is available
  * if (canUndo) {
  *   editor.undo();
  * }
- * 
+ *
  * // Set timeline action
  * setTimelineAction(TIMELINE_ACTION.SET_PLAYER_STATE, { playing: true });
  * ```

@@ -3,7 +3,7 @@ import { CAPTION_STYLE } from "@twick/timeline";
 export const CAPTION_PROPS = {
     [CAPTION_STYLE.WORD_BG_HIGHLIGHT]: {
         font: {
-            size: 50,
+            size: 46,
             weight: 700,
             family: "Bangers",
         },
@@ -20,7 +20,7 @@ export const CAPTION_PROPS = {
     },
     [CAPTION_STYLE.WORD_BY_WORD]: {
         font: {
-            size: 50,
+            size: 46,
             weight: 700,
             family: "Bangers",
         },
@@ -37,7 +37,7 @@ export const CAPTION_PROPS = {
       },
     [CAPTION_STYLE.WORD_BY_WORD_WITH_BG]: {
         font: {
-            size: 50,
+            size: 46,
             weight: 700,
             family: "Bangers",
         },

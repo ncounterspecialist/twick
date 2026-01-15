@@ -76,7 +76,7 @@ export const processSubtitlesToProject = async ({
         props: {
           capStyle: "highlight_bg",
           font: {
-            size: 50,
+            size: 46,
             weight: 700,
             family: "Bangers",
           },

@@ -30,7 +30,7 @@ const useStudioOperation = (studioConfig?: StudioConfig) => {
       project = JSON.parse(text);
     }
     editor.loadProject(project);
-    setSeekTime(0);
+    setSeekTime(0.01);
   };
 
   const onSaveProject = async () => {

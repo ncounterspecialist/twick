@@ -60,7 +60,7 @@ export const CAPTION_STYLE: Record<string, CaptionStyle> = {
       bgColor: "#444444",
       bgOffsetWidth: 30,
       bgOffsetHeight: 8,
-      fontSize: 50,
+      fontSize: 46,
     },
   },
   word_by_word: {
@@ -81,7 +81,7 @@ export const CAPTION_STYLE: Record<string, CaptionStyle> = {
       fill: "#FFFFFF",
       bgOffsetWidth: 20,
       bgOffsetHeight: 10,
-      fontSize: 50,
+      fontSize: 46,
     },
   },
   word_by_word_with_bg: {
@@ -103,7 +103,7 @@ export const CAPTION_STYLE: Record<string, CaptionStyle> = {
       fill: "#FFFFFF",
       bgOffsetWidth: 20,
       bgOffsetHeight: 10,
-      fontSize: 50,
+      fontSize: 46,
     },
   },
 };
