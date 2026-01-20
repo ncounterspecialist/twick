@@ -33,7 +33,6 @@ interface ErrorMessage {
 }
 
 type WorkerMessage = LoadMessage | MergeMessage;
-type WorkerResponse = ProgressMessage | CompleteMessage | ErrorMessage;
 
 self.onmessage = async (e: MessageEvent<WorkerMessage>) => {
   try {
@@ -175,7 +174,7 @@ async function mergeVideoAudio(videoBlob: Blob, audioBlob: Blob) {
     self.postMessage(msg4);
 
     // Set up progress tracking for FFmpeg execution
-    ffmpeg.on('progress', ({ progress, time }) => {
+    ffmpeg.on('progress', ({ progress }) => {
       const msg: ProgressMessage = {
         type: 'progress',
         progress: 50 + (progress * 45), // 50% to 95%
@@ -209,13 +208,19 @@ async function mergeVideoAudio(videoBlob: Blob, audioBlob: Blob) {
     await ffmpeg.deleteFile('audio.wav');
     await ffmpeg.deleteFile('output.mp4');
 
+    // Convert to ArrayBuffer (create a copy to ensure it's not a SharedArrayBuffer)
+    const outputData = output as Uint8Array;
+    const outputBuffer = new ArrayBuffer(outputData.length);
+    const outputView = new Uint8Array(outputBuffer);
+    outputView.set(outputData);
+
     const completeMsg: CompleteMessage = {
       type: 'complete',
-      output: (output as Uint8Array).buffer
+      output: outputBuffer
     };
 
     // Transfer the buffer to avoid copying
-    self.postMessage(completeMsg, [completeMsg.output]);
+    self.postMessage(completeMsg, { transfer: [outputBuffer] });
   } catch (error) {
     throw new Error(`Failed to merge video and audio: ${error instanceof Error ? error.message : 'Unknown error'}`);
   }
