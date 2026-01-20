@@ -18,6 +18,8 @@
   },
   "dependencies": {
     "@twick/studio": "workspace:*",
+    "@twick/browser-render": "workspace:*",
+    "@twick/visualizer": "workspace:*",
     "dompurify": "^3.2.6",
     "lucide-react": "^0.511.0",
     "react": "^19.2.3",
