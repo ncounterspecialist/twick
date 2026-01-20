@@ -1,16 +1,33 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 import { useBrowserRenderer } from '@twick/browser-render';
+import './example-renderer.css';
 
 /**
  * Complete example of a React component that uses the browser renderer
- * to render Twick videos client-side.
+ * to render Twick videos client-side with audio support.
  * 
- * The browser renderer now uses the same API as the server renderer:
- * - Uses @twick/visualizer project by default
- * - Supports custom project files via projectFile option
- * - Takes variables object with input configuration
+ * Features demonstrated:
+ * - Browser-native video rendering using WebCodecs
+ * - Audio processing with Web Audio API (when enabled)
+ * - Service Worker for media caching
+ * - Progress tracking
+ * - Video preview and download
  */
 export function ExampleVideoRenderer() {
+  const [includeAudio, setIncludeAudio] = useState(false);
+  const [audioSupported, setAudioSupported] = useState(false);
+  const [workerRegistered, setWorkerRegistered] = useState(false);
+  
+  const [audioBlob, setAudioBlob] = useState<Blob | null>(null);
+  
+  // FFmpeg worker state
+  const [ffmpegWorker, setFfmpegWorker] = useState<Worker | null>(null);
+  const [ffmpegReady, setFfmpegReady] = useState(false);
+  const [isMerging, setIsMerging] = useState(false);
+  const [mergeProgress, setMergeProgress] = useState(0);
+  const [mergeStatus, setMergeStatus] = useState('');
+  const [mergeError, setMergeError] = useState<string | null>(null);
+
   const {
     render,
     progress,
@@ -20,20 +37,95 @@ export function ExampleVideoRenderer() {
     error,
     reset,
   } = useBrowserRenderer({
-    // Optional: Import and use a custom project
-    // import myCustomProject from './my-custom-project';
-    // projectFile: myCustomProject,
-    
-    // If projectFile is not specified, uses @twick/visualizer project by default
-    // Note: String paths like "@twick/visualizer/dist/project.js" only work in Node.js,
-    // in the browser you must import the project and pass it as an object
-    
     width: 720,
     height: 1280,
     fps: 30,
     quality: 'high',
-    autoDownload: false, // Manual download control
+    includeAudio: includeAudio, // Pass audio option to renderer
+    onAudioReady: (blob) => {
+      setAudioBlob(blob);
+      console.log('✅ Audio ready for download');
+    },
+    autoDownload: false,
   });
+
+  // Register service worker for audio processing
+  useEffect(() => {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/audio-worker.js')
+        .then(registration => {
+          console.log('✅ Audio Service Worker registered', registration);
+          setWorkerRegistered(true);
+        })
+        .catch(err => {
+          console.error('❌ Service Worker registration failed:', err);
+        });
+    }
+
+    // Check if Web Audio API is available
+    const hasAudioContext = 'AudioContext' in window || 'webkitAudioContext' in window;
+    setAudioSupported(hasAudioContext);
+
+    // Initialize FFmpeg worker
+    const worker = new Worker(
+      new URL('../workers/ffmpeg.worker.ts', import.meta.url),
+      { type: 'module' }
+    );
+
+    worker.onmessage = (e) => {
+      const { type, progress, message, output, error } = e.data;
+
+      if (type === 'progress') {
+        setMergeProgress(progress);
+        setMergeStatus(message);
+        
+        // Check if FFmpeg finished loading
+        if (progress >= 100 && message.includes('loaded')) {
+          setFfmpegReady(true);
+          console.log('✅ FFmpeg ready for use');
+        }
+      } else if (type === 'complete') {
+        setIsMerging(false);
+        setMergeProgress(100);
+        setMergeStatus('Complete!');
+        
+        const blob = new Blob([output], { type: 'video/mp4' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `twick-video-${Date.now()}.mp4`;
+        a.click();
+        URL.revokeObjectURL(url);
+      } else if (type === 'error') {
+        setMergeError(error);
+        setIsMerging(false);
+        console.error('FFmpeg error:', error);
+      }
+    };
+
+    worker.onerror = (event) => {
+      const errorMsg = `Worker error at ${event.filename}:${event.lineno}:${event.colno} - ${event.message || 'Unknown error'}`;
+      console.error('❌ Worker error event:', {
+        message: event.message,
+        filename: event.filename,
+        lineno: event.lineno,
+        colno: event.colno,
+        error: event.error
+      });
+      setMergeError(errorMsg);
+      setIsMerging(false);
+      setMergeStatus('❌ Worker failed');
+    };
+
+    setFfmpegWorker(worker);
+
+    // Load FFmpeg on initialization
+    worker.postMessage({ type: 'load' });
+
+    return () => {
+      worker.terminate();
+    };
+  }, []);
 
   // Sample project data - A simple video with a blue rectangle
   const projectData = {
@@ -207,244 +299,210 @@ export function ExampleVideoRenderer() {
     download(`twick-video-${Date.now()}.mp4`);
   };
 
+  const handleDownloadWithAudio = async () => {
+    if (!videoBlob || !audioBlob) {
+      setMergeError('Missing video or audio');
+      return;
+    }
+
+    if (!ffmpegWorker) {
+      setMergeError('FFmpeg worker not initialized');
+      return;
+    }
+
+    if (!ffmpegReady) {
+      setMergeError('FFmpeg is still loading. Please wait...');
+      return;
+    }
+
+    setIsMerging(true);
+    setMergeError(null);
+    setMergeProgress(0);
+    setMergeStatus('Starting merge...');
+
+    console.log('📤 Sending merge request to worker', {
+      videoSize: videoBlob.size,
+      audioSize: audioBlob.size
+    });
+
+    try {
+      ffmpegWorker.postMessage({
+        type: 'merge',
+        video: videoBlob,
+        audio: audioBlob
+      });
+    } catch (error) {
+      console.error('Failed to post message to worker:', error);
+      setMergeError(`Failed to send data to worker: ${error instanceof Error ? error.message : String(error)}`);
+      setIsMerging(false);
+    }
+  };
+
   return (
-    <div style={styles.container}>
-      <h1 style={styles.title}>🎬 Browser Video Renderer</h1>
+    <div className="renderer-container">
+      <h1 className="renderer-title">🎬 Browser Video Renderer</h1>
       
-      {/* API Info */}
-      <div style={styles.infoBox}>
-        <h3 style={{ margin: '0 0 10px 0', color: '#4f46e5' }}>✨ New API Features</h3>
-        <ul style={{ margin: 0, paddingLeft: '20px', lineHeight: '1.8' }}>
-          <li><strong>Same API as server renderer</strong> - Consistent interface across platforms</li>
-          <li><strong>Uses @twick/visualizer project</strong> - Properly decodes scenes and elements</li>
-          <li><strong>Custom project support</strong> - Optional projectFile parameter</li>
-          <li><strong>Variables-based configuration</strong> - Pass input config via variables object</li>
-        </ul>
+      {/* Status Info */}
+      <div className="status-box">
+        <div className="status-row">
+          <div className="status-item">
+            <strong>WebCodecs:</strong>
+            <span className={window.VideoFrame ? 'status-success' : 'status-error'}>
+              {window.VideoFrame ? '✅ Supported' : '❌ Not Supported'}
+            </span>
+          </div>
+          <div className="status-item">
+            <strong>Audio:</strong>
+            <span className={audioSupported ? 'status-success' : 'status-error'}>
+              {audioSupported ? '✅ Available' : '❌ Not Available'}
+            </span>
+          </div>
+          <div className="status-item">
+            <strong>FFmpeg:</strong>
+            <span className={ffmpegReady ? 'status-success' : 'status-warning'}>
+              {ffmpegReady ? '✅ Ready' : '⏳ Loading...'}
+            </span>
+          </div>
+        </div>
       </div>
 
       {/* Browser Support Check */}
       {!window.VideoFrame && (
-        <div style={styles.warning}>
-          ⚠️ Your browser doesn't support WebCodecs. Please use Chrome, Edge, or Opera.
+        <div className="warning-box">
+          ⚠️ Your browser doesn't support WebCodecs. Please use Chrome 94+, Edge 94+, or Opera 80+
         </div>
       )}
 
+      {/* Audio Options */}
+      <div className="options-box">
+        <label className="checkbox-label">
+          <input
+            type="checkbox"
+            checked={includeAudio}
+            onChange={(e) => setIncludeAudio(e.target.checked)}
+            disabled={!audioSupported || !workerRegistered || isRendering}
+          />
+          <span>
+            Include audio in rendered video
+            {(!audioSupported || !workerRegistered) && (
+              <span style={{ fontSize: '12px', color: '#94a3b8', marginLeft: '8px' }}>
+                (requires Web Audio API + Service Worker)
+              </span>
+            )}
+          </span>
+        </label>
+      </div>
+
       {/* Controls */}
-      <div style={styles.controls}>
+      <div className="controls">
         <button
           onClick={handleRender}
           disabled={isRendering || !window.VideoFrame}
-          style={{
-            ...styles.button,
-            ...(isRendering || !window.VideoFrame ? styles.buttonDisabled : {}),
-          }}
+          className={`btn btn-primary ${(isRendering || !window.VideoFrame) ? 'disabled' : ''}`}
         >
-          {isRendering ? '⏳ Rendering...' : '🎬 Render Video'}
+          {isRendering ? '⏳ Rendering...' : includeAudio ? '🎬 Render with Audio' : '🎬 Render Video'}
         </button>
 
-        {videoBlob && (
+        {videoBlob && !audioBlob && (
           <>
-            <button
-              onClick={handleDownload}
-              style={{
-                ...styles.button,
-                ...styles.buttonSecondary,
-              }}
-            >
-              ⬇️ Download
+            <button onClick={handleDownload} className="btn btn-secondary">
+              ⬇️ Download Video
             </button>
-            <button
-              onClick={reset}
-              style={{
-                ...styles.button,
-                ...styles.buttonSecondary,
-              }}
-            >
+            <button onClick={reset} className="btn btn-secondary">
               🔄 Reset
             </button>
           </>
+        )}
+
+        {videoBlob && audioBlob && !isMerging && (
+          <>
+            <button
+              onClick={handleDownloadWithAudio}
+              disabled={!ffmpegReady}
+              className={`btn ${ffmpegReady ? 'btn-success' : ''}`}
+            >
+              {ffmpegReady ? '⬇️ Download Video + Audio' : '⏳ Loading FFmpeg...'}
+            </button>
+            <button onClick={reset} className="btn btn-secondary">
+              🔄 Reset
+            </button>
+          </>
+        )}
+
+        {isMerging && (
+          <button disabled className="btn">
+            ⏳ Processing...
+          </button>
         )}
       </div>
 
       {/* Progress Bar */}
       {isRendering && (
-        <div style={styles.progressContainer}>
-          <div style={styles.progressLabel}>
+        <div className="progress-container">
+          <div className="progress-label">
             Rendering: {(progress * 100).toFixed(0)}%
           </div>
-          <div style={styles.progressBar}>
-            <div
-              style={{
-                ...styles.progressFill,
-                width: `${progress * 100}%`,
-              }}
-            />
+          <div className="progress-bar">
+            <div className="progress-fill" style={{ width: `${progress * 100}%` }} />
+          </div>
+        </div>
+      )}
+
+      {/* Merge Progress */}
+      {isMerging && (
+        <div className="progress-container">
+          <div className="progress-label">
+            {mergeStatus} {(mergeProgress).toFixed(0)}%
+          </div>
+          <div className="progress-bar">
+            <div className="progress-fill" style={{ width: `${mergeProgress}%` }} />
           </div>
         </div>
       )}
 
       {/* Error Display */}
       {error && (
-        <div style={styles.error}>
+        <div className="error-box">
           <strong>Error:</strong> {error.message}
         </div>
       )}
 
+      {/* Merge Error */}
+      {mergeError && (
+        <div className="error-box">
+          <strong>Merge Error:</strong> {mergeError}
+        </div>
+      )}
+
       {/* Video Preview */}
-      {videoBlob && (
-        <div style={styles.videoContainer}>
-          <h3 style={styles.subtitle}>Preview</h3>
+      {videoBlob && !isMerging && (
+        <div className="video-container">
+          <h3 className="section-title">Preview</h3>
           <video
             src={URL.createObjectURL(videoBlob)}
             controls
-            style={styles.video}
+            className="video-preview"
           />
-          <div style={styles.info}>
+          <div className="video-info">
             Video size: {(videoBlob.size / 1024 / 1024).toFixed(2)} MB
+            {audioBlob && ` • Audio: ${(audioBlob.size / 1024 / 1024).toFixed(2)} MB`}
           </div>
         </div>
       )}
 
       {/* Instructions */}
-      <div style={styles.instructions}>
-        <h3 style={styles.subtitle}>How it works:</h3>
-        <ol style={styles.list}>
-          <li>Click "Render Video" to start rendering in your browser</li>
-          <li>Watch the progress bar as frames are encoded</li>
-          <li>Preview the video once rendering is complete</li>
-          <li>Download the final video file</li>
+      <div className="instructions">
+        <h3 className="section-title">How it works:</h3>
+        <ol>
+          <li>Enable audio option if you want sound in your video</li>
+          <li>Click "Render" to start rendering in your browser</li>
+          <li>Preview and download once complete</li>
         </ol>
-        <p style={styles.note}>
-          <strong>Note:</strong> All rendering happens in your browser using the
-          WebCodecs API. No server or upload required!
+        <p className="note">
+          All rendering happens in your browser using WebCodecs API. No server required!
         </p>
       </div>
     </div>
   );
 }
-
-// Styles
-const styles: Record<string, React.CSSProperties> = {
-  container: {
-    maxWidth: '800px',
-    margin: '0 auto',
-    padding: '40px 20px',
-    fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-  },
-  title: {
-    fontSize: '32px',
-    fontWeight: '700',
-    marginBottom: '24px',
-    color: '#1f2937',
-  },
-  subtitle: {
-    fontSize: '20px',
-    fontWeight: '600',
-    marginBottom: '12px',
-    color: '#374151',
-  },
-  infoBox: {
-    background: '#f0f9ff',
-    padding: '16px 20px',
-    borderRadius: '12px',
-    marginBottom: '24px',
-    border: '1px solid #bae6fd',
-    fontSize: '14px',
-    color: '#374151',
-  },
-  warning: {
-    background: '#fef3c7',
-    color: '#92400e',
-    padding: '12px 16px',
-    borderRadius: '8px',
-    marginBottom: '20px',
-    border: '1px solid #fbbf24',
-  },
-  controls: {
-    display: 'flex',
-    gap: '12px',
-    marginBottom: '24px',
-    flexWrap: 'wrap',
-  },
-  button: {
-    padding: '12px 24px',
-    fontSize: '16px',
-    fontWeight: '500',
-    color: 'white',
-    background: '#4f46e5',
-    border: 'none',
-    borderRadius: '8px',
-    cursor: 'pointer',
-    transition: 'all 0.2s',
-  },
-  buttonSecondary: {
-    background: '#6b7280',
-  },
-  buttonDisabled: {
-    background: '#9ca3af',
-    cursor: 'not-allowed',
-  },
-  progressContainer: {
-    marginBottom: '24px',
-  },
-  progressLabel: {
-    fontSize: '14px',
-    fontWeight: '500',
-    color: '#6b7280',
-    marginBottom: '8px',
-  },
-  progressBar: {
-    width: '100%',
-    height: '8px',
-    background: '#e5e7eb',
-    borderRadius: '4px',
-    overflow: 'hidden',
-  },
-  progressFill: {
-    height: '100%',
-    background: 'linear-gradient(90deg, #4f46e5, #7c3aed)',
-    transition: 'width 0.3s ease',
-  },
-  error: {
-    background: '#fee2e2',
-    color: '#991b1b',
-    padding: '12px 16px',
-    borderRadius: '8px',
-    marginBottom: '20px',
-    border: '1px solid #fca5a5',
-  },
-  videoContainer: {
-    marginTop: '24px',
-    padding: '20px',
-    background: '#f9fafb',
-    borderRadius: '12px',
-  },
-  video: {
-    width: '100%',
-    borderRadius: '8px',
-    marginBottom: '12px',
-  },
-  info: {
-    fontSize: '14px',
-    color: '#6b7280',
-  },
-  instructions: {
-    marginTop: '40px',
-    padding: '20px',
-    background: '#eff6ff',
-    borderRadius: '12px',
-    border: '1px solid #93c5fd',
-  },
-  list: {
-    paddingLeft: '24px',
-    color: '#374151',
-    lineHeight: '1.8',
-  },
-  note: {
-    marginTop: '16px',
-    fontSize: '14px',
-    color: '#1e40af',
-  },
-};
-
 export default ExampleVideoRenderer;

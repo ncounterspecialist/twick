@@ -77,6 +77,15 @@ importers:
 
   packages/browser-render:
     dependencies:
+      '@ffmpeg/core':
+        specifier: ^0.12.6
+        version: 0.12.10
+      '@ffmpeg/ffmpeg':
+        specifier: ^0.12.10
+        version: 0.12.15
+      '@ffmpeg/util':
+        specifier: ^0.12.1
+        version: 0.12.2
       '@twick/core':
         specifier: ^0.15.0
         version: 0.15.3
@@ -86,6 +95,9 @@ importers:
       mp4-wasm:
         specifier: ^1.0.6
         version: 1.0.6
+      mp4box:
+        specifier: ^0.5.2
+        version: 0.5.4
       react:
         specifier: '>=17.0.0'
         version: 19.2.3
@@ -194,6 +206,15 @@ importers:
 
   packages/examples:
     dependencies:
+      '@ffmpeg/core':
+        specifier: ^0.12.6
+        version: 0.12.10
+      '@ffmpeg/ffmpeg':
+        specifier: ^0.12.10
+        version: 0.12.15
+      '@ffmpeg/util':
+        specifier: ^0.12.1
+        version: 0.12.2
       '@twick/browser-render':
         specifier: workspace:*
         version: link:../browser-render
@@ -209,6 +230,9 @@ importers:
       lucide-react:
         specifier: ^0.511.0
         version: 0.511.0(react@19.2.3)
+      mp4box:
+        specifier: ^0.5.2
+        version: 0.5.4
       react:
         specifier: ^19.2.3
         version: 19.2.3
@@ -5296,6 +5320,28 @@ packages:
     os: [win32]
     requiresBuild: true
     optional: true
+
+  /@ffmpeg/core@0.12.10:
+    resolution: {integrity: sha512-dzNplnn2Nxle2c2i2rrDhqcB19q9cglCkWnoMTDN9Q9l3PvdjZWd1HfSPjCNWc/p8Q3CT+Es9fWOR0UhAeYQZA==}
+    engines: {node: '>=16.x'}
+    dev: false
+
+  /@ffmpeg/ffmpeg@0.12.15:
+    resolution: {integrity: sha512-1C8Obr4GsN3xw+/1Ww6PFM84wSQAGsdoTuTWPOj2OizsRDLT4CXTaVjPhkw6ARyDus1B9X/L2LiXHqYYsGnRFw==}
+    engines: {node: '>=18.x'}
+    dependencies:
+      '@ffmpeg/types': 0.12.4
+    dev: false
+
+  /@ffmpeg/types@0.12.4:
+    resolution: {integrity: sha512-k9vJQNBGTxE5AhYDtOYR5rO5fKsspbg51gbcwtbkw2lCdoIILzklulcjJfIDwrtn7XhDeF2M+THwJ2FGrLeV6A==}
+    engines: {node: '>=16.x'}
+    dev: false
+
+  /@ffmpeg/util@0.12.2:
+    resolution: {integrity: sha512-ouyoW+4JB7WxjeZ2y6KpRvB+dLp7Cp4ro8z0HIVpZVCM7AwFlHa0c4R8Y/a4M3wMqATpYKhC7lSFHQ0T11MEDw==}
+    engines: {node: '>=18.x'}
+    dev: false
 
   /@ffprobe-installer/darwin-arm64@5.0.1:
     resolution: {integrity: sha512-vwNCNjokH8hfkbl6m95zICHwkSzhEvDC3GVBcUp5HX8+4wsX10SP3B+bGur7XUzTIZ4cQpgJmEIAx6TUwRepMg==}

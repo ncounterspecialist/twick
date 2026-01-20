@@ -27,6 +27,12 @@ export interface UseBrowserRendererOptions {
   quality?: 'low' | 'medium' | 'high';
   /** Time range to render [start, end] in seconds */
   range?: [number, number];
+  /** Include audio in rendered video (experimental) */
+  includeAudio?: boolean;
+  /** Download audio separately as WAV file */
+  downloadAudioSeparately?: boolean;
+  /** Callback when audio is ready */
+  onAudioReady?: (audioBlob: Blob) => void;
   /** Automatically download the video when rendering completes */
   autoDownload?: boolean;
   /** Default filename for downloads */
@@ -132,7 +138,7 @@ export const useBrowserRenderer = (options: UseBrowserRendererOptions = {}): Use
     setIsRendering(true);
 
     try {
-      const { projectFile, width, height, fps, quality, range, autoDownload, downloadFilename, ...restOptions } = options;
+      const { projectFile, width, height, fps, quality, range, includeAudio, downloadAudioSeparately, onAudioReady, autoDownload, downloadFilename, ...restOptions } = options;
       
       const blob = await renderTwickVideoInBrowser({
         projectFile,
@@ -140,6 +146,9 @@ export const useBrowserRenderer = (options: UseBrowserRendererOptions = {}): Use
         settings: {
           width,
           height,
+          includeAudio,
+          downloadAudioSeparately,
+          onAudioReady,
           fps,
           quality,
           range,
