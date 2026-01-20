@@ -59,6 +59,7 @@
     "packages/live-player",
     "packages/video-editor",
     "packages/studio",
+    "packages/browser-render",
     "packages/examples",
     "packages/examples-cra",
     "packages/cloud-functions/*",
