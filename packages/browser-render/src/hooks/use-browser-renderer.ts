@@ -128,8 +128,19 @@ export const useBrowserRenderer = (options: UseBrowserRendererOptions = {}): Use
   }, []);
 
   const download = useCallback((filename?: string) => {
-    if (videoBlob) {
+    if (!videoBlob) {
+      const downloadError = new Error('No video available to download. Please render the video first.');
+      setError(downloadError);
+      console.error(downloadError.message);
+      return;
+    }
+    
+    try {
       downloadVideoBlob(videoBlob, filename || options.downloadFilename || 'video.mp4');
+    } catch (err) {
+      const downloadError = err instanceof Error ? err : new Error('Failed to download video');
+      setError(downloadError);
+      console.error('Download error:', downloadError);
     }
   }, [videoBlob, options.downloadFilename]);
 
@@ -159,7 +170,15 @@ export const useBrowserRenderer = (options: UseBrowserRendererOptions = {}): Use
           onComplete: (blob) => {
             setVideoBlob(blob);
             if (autoDownload) {
-              downloadVideoBlob(blob, downloadFilename || 'video.mp4');
+              try {
+                downloadVideoBlob(blob, downloadFilename || 'video.mp4');
+              } catch (downloadErr) {
+                const error = downloadErr instanceof Error 
+                  ? downloadErr 
+                  : new Error('Failed to auto-download video');
+                setError(error);
+                console.error('Auto-download error:', error);
+              }
             }
           },
           onError: (err) => {
@@ -168,12 +187,17 @@ export const useBrowserRenderer = (options: UseBrowserRendererOptions = {}): Use
         },
       });
 
+      if (!blob) {
+        throw new Error('Rendering failed: No video blob was generated');
+      }
+
       setVideoBlob(blob);
       setProgress(1);
       return blob;
     } catch (err) {
       const error = err instanceof Error ? err : new Error(String(err));
       setError(error);
+      console.error('Render error:', error);
       return null;
     } finally {
       setIsRendering(false);
