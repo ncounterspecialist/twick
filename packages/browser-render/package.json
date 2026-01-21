@@ -1,0 +1,53 @@
+{
+  "name": "@twick/browser-render",
+  "version": "0.15.0",
+  "license": "SEE LICENSE IN LICENSE.md",
+  "description": "Browser-native video rendering for Twick using WebCodecs API",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test:browser": "tsx src/test-browser-render.ts",
+    "clean": "rimraf dist"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@twick/core": "^0.15.0",
+    "@twick/visualizer": "workspace:*",
+    "mp4-wasm": "^1.0.6",
+    "mp4box": "^0.5.2",
+    "@ffmpeg/ffmpeg": "^0.12.10",
+    "@ffmpeg/util": "^0.12.1",
+    "@ffmpeg/core": "^0.12.6"
+  },
+  "peerDependencies": {
+    "react": ">=17.0.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@types/react": "^18.2.0",
+    "rimraf": "^5.0.5",
+    "tsup": "^8.0.0",
+    "tsx": "^4.7.0",
+    "typescript": "5.4.2"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
