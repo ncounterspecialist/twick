@@ -142,22 +142,225 @@ export * from "./helpers/constant";
 export * from "./types";
 
 /**
- * Re-export commonly used components from dependencies.
+ * ============================================================================
+ * RE-EXPORTS FROM DEPENDENCY PACKAGES
+ * ============================================================================
  * 
- * This allows users to import everything from @twick/studio without needing
- * to install or import from individual @twick packages. All required dependencies
- * are automatically installed when you install @twick/studio.
+ * The @twick/studio package re-exports components, hooks, types, and utilities
+ * from its dependency packages (@twick/video-editor, @twick/timeline, @twick/live-player).
  * 
- * Re-exported components:
- * - VideoEditor: Main video editor component from @twick/video-editor
- * - LivePlayerProvider, LivePlayer: Player components from @twick/live-player
- * - TimelineProvider, INITIAL_TIMELINE_DATA: Timeline components from @twick/timeline
+ * This provides a single entry point for developers using the Twick SDK.
+ * 
+ * Benefits:
+ * - Install only `@twick/studio` instead of multiple packages
+ * - Import everything from a single package: `import { ... } from '@twick/studio'`
+ * - All dependencies are automatically installed and version-matched
+ * - Simpler package management and fewer version conflicts
+ * 
+ * @example
+ * ```jsx
+ * // Before: Multiple package imports
+ * import { TwickStudio } from '@twick/studio';
+ * import { LivePlayer, LivePlayerProvider } from '@twick/live-player';
+ * import { TimelineProvider, TimelineEditor } from '@twick/timeline';
+ * import { VideoEditor } from '@twick/video-editor';
+ * 
+ * // After: Single package import
+ * import { 
+ *   TwickStudio, 
+ *   LivePlayer, 
+ *   LivePlayerProvider,
+ *   TimelineProvider,
+ *   TimelineEditor,
+ *   VideoEditor
+ * } from '@twick/studio';
+ * ```
+ */
+
+// ============================================================================
+// VIDEO EDITOR EXPORTS
+// ============================================================================
+/**
+ * Main video editor component and related types
  */
 export { default as VideoEditor } from "@twick/video-editor";
-export type { VideoEditorProps, VideoEditorConfig } from "@twick/video-editor";
-export { LivePlayerProvider, LivePlayer } from "@twick/live-player";
-export { TimelineProvider, INITIAL_TIMELINE_DATA } from "@twick/timeline";
+export type { 
+  VideoEditorProps, 
+  VideoEditorConfig,
+  TimelineTickConfig,
+  TimelineZoomConfig,
+  PlayerControlsProps
+} from "@twick/video-editor";
+
+/**
+ * Video editor hooks for custom implementations
+ */
+export { 
+  usePlayerControl,
+  useEditorManager,
+  useTimelineControl
+} from "@twick/video-editor";
+
+/**
+ * Video editor components
+ */
+export {
+  PlayerControls,
+  TimelineManager
+} from "@twick/video-editor";
+
+/**
+ * Media management utilities
+ */
+export {
+  BrowserMediaManager,
+  BaseMediaManager
+} from "@twick/video-editor";
+
+/**
+ * Animation and text effect constants
+ */
+export {
+  ANIMATIONS,
+  TEXT_EFFECTS
+} from "@twick/video-editor";
+
+/**
+ * Editor utility functions and types
+ */
+export {
+  animationGifs,
+  getAnimationGif,
+  setElementColors
+} from "@twick/video-editor";
+
+export type {
+  MediaItem,
+  PaginationOptions,
+  SearchOptions,
+  Animation,
+  TextEffect,
+  ElementColors
+} from "@twick/video-editor";
+
+// ============================================================================
+// LIVE PLAYER EXPORTS
+// ============================================================================
+/**
+ * Live player components and context
+ */
+export { 
+  LivePlayerProvider, 
+  LivePlayer,
+  useLivePlayerContext
+} from "@twick/live-player";
+
+/**
+ * Player constants and utilities
+ */
+export {
+  PLAYER_STATE,
+  getBaseProject,
+  generateId
+} from "@twick/live-player";
+
+// ============================================================================
+// TIMELINE EXPORTS
+// ============================================================================
+/**
+ * Timeline provider and editor
+ */
+export { 
+  TimelineProvider,
+  TimelineEditor,
+  INITIAL_TIMELINE_DATA
+} from "@twick/timeline";
+
 export type { TimelineProviderProps } from "@twick/timeline";
+
+/**
+ * Timeline element classes
+ */
+export {
+  Track,
+  TrackElement,
+  TextElement,
+  VideoElement,
+  ImageElement,
+  AudioElement,
+  CircleElement,
+  RectElement,
+  IconElement,
+  CaptionElement,
+  ElementAnimation,
+  ElementFrameEffect,
+  ElementTextEffect
+} from "@twick/timeline";
+
+/**
+ * Timeline visitor pattern classes for element manipulation
+ */
+export {
+  ElementSerializer,
+  ElementDeserializer,
+  ElementValidator,
+  ElementAdder,
+  ElementRemover,
+  ElementUpdater,
+  ElementSplitter,
+  ElementCloner
+} from "@twick/timeline";
+
+/**
+ * Timeline utilities and helpers
+ */
+export {
+  generateShortUuid,
+  getTotalDuration,
+  getCurrentElements,
+  isTrackId,
+  isElementId,
+  TIMELINE_ELEMENT_TYPE
+} from "@twick/timeline";
+
+/**
+ * Timeline types
+ */
+export type {
+  ProjectJSON,
+  Size,
+  Position,
+  Frame,
+  ElementJSON,
+  TrackJSON,
+  VideoProps,
+  AudioProps,
+  ImageProps,
+  TextProps,
+  RectProps,
+  CircleProps,
+  IconProps,
+  TextEffect as TimelineTextEffect,
+  FrameEffect,
+  FrameEffectProps,
+  Animation as TimelineAnimation,
+  ObjectFit,
+  TextAlign,
+  BaseMediaProps
+} from "@twick/timeline";
+
+/**
+ * Timeline constants
+ */
+export {
+  CAPTION_STYLE,
+  CAPTION_STYLE_OPTIONS,
+  CAPTION_FONT,
+  CAPTION_COLOR,
+  WORDS_PER_PHRASE,
+  TIMELINE_ACTION,
+  PROCESS_STATE
+} from "@twick/timeline";
 
 /**
  * Default export: TwickStudio (full editor component)

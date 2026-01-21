@@ -59,6 +59,14 @@ Twick's **React video editor SDK** is organized as a modular monorepo with clear
 - **@twick/examples** — Example implementations and usage demonstrations  
   *Why it exists: Reference implementations showing how to integrate Twick packages*
 
+### Video Rendering & Export
+
+- **@twick/browser-render** — Browser-native video rendering using WebCodecs API  
+  *Why it exists: Client-side video export for short videos without server infrastructure. Perfect for demos and prototyping*
+
+- **@twick/render-server** — Node.js video rendering server with Puppeteer and FFmpeg  
+  *Why it exists: Production-grade video processing for long videos with full audio support. Ideal for server-side automation*
+
 ### AI Caption Generation & Cloud Video Export
 
 - **@twick/cloud-transcript** — **AI Caption Generation**: Transcribe audio/video to JSON captions using Google GenAI (Vertex AI) with Gemini models  
@@ -151,6 +159,306 @@ export default function App() {
   );
 }
 ```
+
+## Video Export Options
+
+Twick provides **two rendering approaches** for exporting videos: **Browser Rendering** for quick, client-side exports and **Server Rendering** for production-grade, high-performance video processing.
+
+### Browser Rendering (`@twick/browser-render`)
+
+**Best for:** Short videos, client-side exports, prototyping, and demos
+
+Client-side video rendering using WebCodecs API. Videos are rendered directly in the user's browser without server infrastructure.
+
+#### When to Use Browser Rendering
+
+**Recommended for:**
+- Videos under 30 seconds
+- Client-side video preview/export
+- Prototyping and development
+- Simple video compositions
+- No server infrastructure available
+
+**Not recommended for:**
+- Videos longer than 1 minute
+- Production video processing at scale
+- Complex animations with many elements
+- Audio synchronization requirements
+- Server-side video generation pipelines
+
+#### Installation
+
+```bash
+npm install @twick/browser-render
+# or
+pnpm add @twick/browser-render
+```
+
+#### React Hook Example
+
+```tsx
+import { useBrowserRenderer, type BrowserRenderConfig } from "@twick/browser-render";
+import { TwickStudio, LivePlayerProvider, TimelineProvider, INITIAL_TIMELINE_DATA } from "@twick/studio";
+import "@twick/studio/dist/studio.css";
+import { useState } from "react";
+
+export default function VideoEditor() {
+  const { render, progress, isRendering, error, reset } = useBrowserRenderer({
+    width: 720,
+    height: 1280,
+    includeAudio: true,
+    autoDownload: true,
+  });
+
+  const [showSuccess, setShowSuccess] = useState(false);
+
+  const onExportVideo = async (project, videoSettings) => {
+    try {
+      const variables = {
+        input: {
+          ...project,
+          properties: {
+            width: videoSettings.resolution.width || 720,
+            height: videoSettings.resolution.height || 1280,
+            fps: videoSettings.fps || 30,
+          },
+        },
+      } as BrowserRenderConfig['variables'];
+      
+      const videoBlob = await render(variables);
+      
+      if (videoBlob) {
+        setShowSuccess(true);
+        return { status: true, message: "Video exported successfully!" };
+      }
+    } catch (err) {
+      return { status: false, message: err.message };
+    }
+  }
+
+  return (
+    <LivePlayerProvider>
+      <TimelineProvider initialData={INITIAL_TIMELINE_DATA} contextId="studio">
+        <TwickStudio 
+          studioConfig={{
+            exportVideo: onExportVideo,
+            videoProps: { width: 720, height: 1280 }
+          }} 
+        />
+        
+        {/* Progress Overlay */}
+        {isRendering && (
+          <div className="rendering-overlay">
+            <div>Rendering... {Math.round(progress * 100)}%</div>
+            <progress value={progress} max={1} />
+          </div>
+        )}
+        
+        {/* Error Display */}
+        {error && (
+          <div className="error-message">
+            {error.message}
+            <button onClick={reset}>Close</button>
+          </div>
+        )}
+      </TimelineProvider>
+    </LivePlayerProvider>
+  );
+}
+```
+
+#### Browser Rendering Limitations
+
+- **Browser Support**: Requires WebCodecs API (Chrome 94+, Edge 94+, not available in Firefox/Safari)
+- **Audio**: Experimental audio support (audio is extracted but not muxed into final video)
+- **Performance**: Limited by browser resources and user's device capabilities
+- **Memory**: Large videos may cause browser memory issues
+- **Reliability**: Browser tabs can be closed, interrupting rendering
+
+**Full Documentation:** See [`@twick/browser-render` README](./packages/browser-render/README.md)
+
+---
+
+### Server Rendering (`@twick/render-server`)
+
+**Best for:** Production video exports, long videos, server-side processing, and scalable video pipelines
+
+Node.js-based video rendering using Puppeteer and FFmpeg. Provides production-grade video processing with full audio support.
+
+#### When to Use Server Rendering
+
+**Recommended for:**
+- Videos longer than 30 seconds
+- Production video processing
+- Complex video compositions with many elements
+- Full audio synchronization and mixing
+- Automated video generation pipelines
+- Server-side video processing at scale
+- Reliable, high-performance rendering
+
+#### Installation
+
+```bash
+npm install @twick/render-server
+# or
+pnpm add @twick/render-server
+```
+
+#### Quick Start: Scaffold a Server
+
+The easiest way to get started is to scaffold a complete Express server:
+
+```bash
+npx @twick/render-server init
+cd twick-render-server
+npm install
+npm run dev  # Development mode
+```
+
+This creates a production-ready server with:
+- POST `/api/render-video` endpoint for video rendering
+- GET `/download/:filename` endpoint with rate limiting
+- Express server with security middleware
+- TypeScript support
+
+#### Programmatic Usage (ESM)
+
+```typescript
+import { renderTwickVideo } from "@twick/render-server";
+
+const videoPath = await renderTwickVideo(
+  {
+    input: {
+      properties: { 
+        width: 1920, 
+        height: 1080,
+        fps: 30 
+      },
+      tracks: [
+        {
+          id: "track-1",
+          type: "element",
+          elements: [
+            {
+              id: "text-1",
+              type: "text",
+              s: 0,
+              e: 5,
+              props: {
+                text: "Hello World",
+                fill: "#FFFFFF"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    outFile: "output.mp4",
+    quality: "high",
+    outDir: "./videos"
+  }
+);
+
+console.log("Video rendered:", videoPath);
+```
+
+#### Integrate with TwickStudio
+
+```tsx
+import { TwickStudio, LivePlayerProvider, TimelineProvider } from "@twick/studio";
+
+export default function VideoEditor() {
+  const onExportVideo = async (project, videoSettings) => {
+    try {
+      // Send to your server endpoint
+      const response = await fetch("http://localhost:3001/api/render-video", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          variables: {
+            input: {
+              ...project,
+              properties: {
+                width: videoSettings.resolution.width,
+                height: videoSettings.resolution.height,
+                fps: videoSettings.fps
+              }
+            }
+          },
+          settings: {
+            outFile: `video-${Date.now()}.mp4`,
+            quality: "high"
+          }
+        })
+      });
+
+      const result = await response.json();
+      
+      if (result.success) {
+        // Video is ready for download
+        window.open(result.downloadUrl, '_blank');
+        return { status: true, message: "Video exported successfully!" };
+      }
+    } catch (err) {
+      return { status: false, message: err.message };
+    }
+  }
+
+  return (
+    <LivePlayerProvider>
+      <TimelineProvider contextId="studio">
+        <TwickStudio 
+          studioConfig={{
+            exportVideo: onExportVideo,
+            videoProps: { width: 1920, height: 1080 }
+          }} 
+        />
+      </TimelineProvider>
+    </LivePlayerProvider>
+  );
+}
+```
+
+#### Server Requirements
+
+- **Node.js**: Version 20 or higher
+- **FFmpeg**: Required for audio/video processing
+- **Operating System**: Linux or macOS (Windows not supported)
+- **Memory**: Minimum 2GB RAM, 4GB+ recommended for HD videos
+
+**Full Documentation:** See [`@twick/render-server` README](./packages/render-server/README.md)
+
+---
+
+### Comparison: Browser vs Server Rendering
+
+| Feature | Browser Rendering | Server Rendering |
+|---------|------------------|------------------|
+| **Setup Complexity** | Simple (npm install) | Requires Node.js server |
+| **Infrastructure** | None required | Server/hosting needed |
+| **Video Length** | < 30 seconds recommended | Unlimited |
+| **Performance** | Limited by browser | High performance |
+| **Audio Support** | Experimental | Full support |
+| **Reliability** | Can be interrupted | Robust & reliable |
+| **Use Case** | Quick exports, demos | Production, automation |
+| **Browser Support** | Chrome/Edge only | N/A (server-side) |
+| **Cost** | Free (client-side) | Server hosting costs |
+| **Scalability** | Limited | Horizontally scalable |
+
+### Recommendations
+
+**For Development & Prototyping:**  
+Start with `@twick/browser-render` for quick feedback and testing.
+
+**For Production:**  
+Use `@twick/render-server` for reliable, high-quality video exports.
+
+**Hybrid Approach:**  
+Use browser rendering for preview/demos and server rendering for final exports.
+
+---
 
 ## Development
 
