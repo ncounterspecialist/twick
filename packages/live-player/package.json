@@ -12,7 +12,7 @@
     }
   },
   "sideEffects": false,
-  "license": "SEE LICENSE IN LICENSE.md",
+  "license": "https://github.com/ncounterspecialist/twick/blob/main/LICENSE.md",
   "files": [
     "dist"
   ],

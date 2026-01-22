@@ -1,7 +1,7 @@
 {
   "name": "@twick/browser-render",
   "version": "0.15.0",
-  "license": "SEE LICENSE IN LICENSE.md",
+  "license": "https://github.com/ncounterspecialist/twick/blob/main/LICENSE.md",
   "description": "Browser-native video rendering for Twick using WebCodecs API",
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",

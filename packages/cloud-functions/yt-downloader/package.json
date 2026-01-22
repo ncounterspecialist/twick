@@ -43,7 +43,7 @@
     "ffmpeg"
   ],
   "author": "",
-  "license": "SEE LICENSE IN LICENSE.md",
+  "license": "https://github.com/ncounterspecialist/twick/blob/main/LICENSE.md",
   "engines": {
     "node": ">=20.0.0"
   },
