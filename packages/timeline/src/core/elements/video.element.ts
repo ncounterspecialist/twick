@@ -73,6 +73,15 @@ export class VideoElement extends TrackElement {
     return this.props.volume ?? 1;
   } 
 
+  override getRotation(): number {
+    return this.frame?.rotation ?? 0;
+  }
+
+  override setRotation(rotation: number) {
+    this.frame.rotation = rotation;
+    return this;
+  }
+  
   override getPosition(): Position {
     return {
       x: this.frame.x ?? 0,

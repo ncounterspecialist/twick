@@ -48,6 +48,15 @@ export class ImageElement extends TrackElement {
     return this.objectFit;
   }
 
+  override getRotation(): number {
+    return this.frame?.rotation ?? 0;
+  }
+
+  override setRotation(rotation: number) {
+    this.frame.rotation = rotation;
+    return this;
+  }
+
   override getPosition(): Position {
     return {
       x: this.frame.x ?? 0,
