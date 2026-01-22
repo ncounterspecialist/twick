@@ -31,7 +31,7 @@ export function* makeVideoTrack({
 }) {
   const frameRef = createRef<any>();
   let prevTime = 0;
-  view.add(<Layout size={"100%"} ref={frameRef} layout />);
+  view.add(<Layout size={"100%"} ref={frameRef} />);
   for (const element of track.elements || []) {
     yield* waitFor(element?.s - prevTime);
     yield* elementController.get("video")?.create({
@@ -171,7 +171,7 @@ export function* makeSceneTrack({
   track: VisualizerTrack;
 }) {
   const frameRef = createRef<any>();
-  view.add(<Layout size={"100%"} ref={frameRef} layout />);
+  view.add(<Layout size={"100%"} ref={frameRef} />);
   for (const sceneElement of track.elements || []) {
     yield* elementController.get("scene")?.create({
       containerRef: frameRef,

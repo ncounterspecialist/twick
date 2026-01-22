@@ -10,8 +10,9 @@ export interface Size {
 }
 
 export interface Frame {
-  x: number;
-  y: number;
+  x?: number;
+  y?: number;
+  rotation?: number;
   width?: number;
   height?: number;
   size?: [number, number]; // For image/video elements
