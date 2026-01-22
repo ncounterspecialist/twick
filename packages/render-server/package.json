@@ -1,7 +1,7 @@
 {
   "name": "@twick/render-server",
   "version": "0.15.0",
-  "license": "SEE LICENSE IN LICENSE.md",
+  "license": "https://github.com/ncounterspecialist/twick/blob/main/LICENSE.md",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",

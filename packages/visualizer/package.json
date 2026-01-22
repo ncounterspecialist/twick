@@ -1,7 +1,7 @@
 {
   "name": "@twick/visualizer",
   "version": "0.15.0",
-  "license": "SEE LICENSE IN LICENSE.md",
+  "license": "https://github.com/ncounterspecialist/twick/blob/main/LICENSE.md",
   "scripts": {
     "start": "twick editor --projectFile ./src/live.tsx",
     "build": "tsc --noEmit && vite build",

@@ -306,7 +306,7 @@ jobs:
             # Fallback order if script fails to output expected format
             if [ -z "$PUBLISH_ORDER" ]; then
               echo "Warning: Could not determine dependency order, using fallback order"
-              PUBLISH_ORDER="media-utils canvas timeline live-player visualizer video-editor render-server"
+              PUBLISH_ORDER="media-utils canvas timeline live-player visualizer video-editor render-server browser-render"
             fi
           fi
           
