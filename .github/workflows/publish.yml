@@ -299,7 +299,7 @@ jobs:
             echo "Error running get-publish-order.js:"
             echo "$SCRIPT_OUTPUT"
             echo "Using fallback order"
-            PUBLISH_ORDER="media-utils canvas timeline live-player visualizer video-editor render-server"
+            PUBLISH_ORDER="media-utils canvas timeline live-player visualizer video-editor render-server browser-render studio"
           else
             PUBLISH_ORDER=$(echo "$SCRIPT_OUTPUT" | grep "Publish order string:" | cut -d: -f2 | xargs)
             

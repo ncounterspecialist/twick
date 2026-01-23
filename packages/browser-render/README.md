@@ -112,15 +112,16 @@ const videoBlob = await renderTwickVideoInBrowser({
 
 **Note**: String paths only work in Node.js. In the browser, you must import and pass the Project object directly.
 
-## WASM Setup
+## WASM and public assets
 
-Copy the WASM file to your public directory:
+The package ships `public/` with `mp4-wasm.wasm` and `audio-worker.js`. Copy them into your app's public directory so they are served:
 
 ```bash
-cp node_modules/mp4-wasm/dist/mp4-wasm.wasm public/
+cp node_modules/@twick/browser-render/public/mp4-wasm.wasm public/
+cp node_modules/@twick/browser-render/public/audio-worker.js public/
 ```
 
-Or configure Vite to serve it:
+Alternatively, configure your bundler (e.g. Vite) to serve WASM:
 
 ```typescript
 // vite.config.ts
@@ -134,18 +135,15 @@ export default defineConfig({
 - **Audio**: Audio processing is not yet implemented. Only video encoding is supported.
 - **Browser Support**: Requires WebCodecs API (Chrome 94+, Edge 94+)
 
-## API Comparison
-
-This package follows the same API as the server renderer (`@twick/renderer`):
-
-| Feature | Server | Browser |
-|---------|--------|---------|
-| Duration Calculation | `renderer.getNumberOfFrames()` | ✅ Same |
-| Playback State | `PlaybackState.Rendering` | ✅ Same |
-| Frame Progression | `playback.progress()` | ✅ Same |
-| Variables Assignment | `project.variables = {...}` | ✅ Same |
-| Audio Support | ✅ FFmpeg | ❌ Not yet |
-
 ## License
 
-MIT
+This package is licensed under the **Sustainable Use License (SUL) Version 1.0**.
+
+- Free for use in commercial and non-commercial apps
+- Can be modified and self-hosted
+- Cannot be sold, rebranded, or distributed as a standalone SDK
+
+For commercial licensing inquiries, contact: contact@kifferai.com
+
+For full license terms, see the main LICENSE.md file in the project root.
+
