@@ -1,0 +1,14 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPoints": ["./src/index.ts"],
+  "out": "docs",
+  "name": "@twick/browser-render",
+  "excludePrivate": true,
+  "excludeProtected": true,
+  "excludeExternals": true,
+  "theme": "default",
+  "readme": "README.md",
+  "plugin": ["typedoc-plugin-markdown"],
+  "categorizeByGroup": true,
+  "categoryOrder": ["Core", "Hooks", "Types", "*"]
+}

@@ -66,7 +66,21 @@ export async function muxAudioVideo(options: MuxerOptions): Promise<Blob> {
     
     // Read output
     const data = await ffmpeg.readFile('output.mp4');
-    const muxedBlob = new Blob([data], { type: 'video/mp4' });
+    // Convert FileData to Uint8Array with ArrayBuffer for Blob compatibility
+    // FileData can be Uint8Array or string, and Uint8Array might have SharedArrayBuffer
+    let uint8Array: Uint8Array;
+    if (typeof data === 'string') {
+      // If string, convert to Uint8Array
+      uint8Array = new TextEncoder().encode(data);
+    } else {
+      // If Uint8Array, ensure it has ArrayBuffer (not SharedArrayBuffer) by creating a copy
+      // This creates a new ArrayBuffer, ensuring compatibility with Blob
+      uint8Array = new Uint8Array(data.length);
+      uint8Array.set(data);
+    }
+    // Type assertion needed because TypeScript sees buffer as ArrayBufferLike
+    // but we've ensured it's a proper ArrayBuffer by creating a new Uint8Array
+    const muxedBlob = new Blob([uint8Array as BlobPart], { type: 'video/mp4' });
     
     console.log(`✅ Muxed video with audio: ${(muxedBlob.size / 1024 / 1024).toFixed(2)} MB`);
     
