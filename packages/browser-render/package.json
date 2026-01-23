@@ -3,21 +3,26 @@
   "version": "0.15.0",
   "license": "https://github.com/ncounterspecialist/twick/blob/main/LICENSE.md",
   "description": "Browser-native video rendering for Twick using WebCodecs API",
-  "main": "./dist/index.cjs",
+  "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
-      "require": "./dist/index.cjs"
+      "require": "./dist/index.js"
     }
   },
+  "files": [
+    "dist",
+    "public"
+  ],
   "scripts": {
-    "build": "tsup",
+    "build": "tsup && node scripts/copy-wasm.js",
     "dev": "tsup --watch",
     "test:browser": "tsx src/test-browser-render.ts",
-    "clean": "rimraf dist"
+    "clean": "rimraf dist",
+    "docs": "typedoc"
   },
   "publishConfig": {
     "access": "public"
@@ -45,7 +50,9 @@
     "rimraf": "^5.0.5",
     "tsup": "^8.0.0",
     "tsx": "^4.7.0",
-    "typescript": "5.4.2"
+    "typescript": "5.4.2",
+    "typedoc": "^0.25.8",
+    "typedoc-plugin-markdown": "^3.17.1"
   },
   "engines": {
     "node": ">=20.0.0"

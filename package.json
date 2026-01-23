@@ -12,6 +12,7 @@
     "build:video-editor": "turbo run build --filter=@twick/video-editor",
     "build:studio": "turbo run build --filter=@twick/studio",
     "build:render-server": "turbo run build --filter=@twick/render-server",
+    "build:browser-render": "turbo run build --filter=@twick/browser-render",
     "build:examples": "turbo run build --filter=@twick/examples",
     "build:mcp-agent": "turbo run build --filter=@twick/mcp-agent",
     "docs": "turbo run docs",

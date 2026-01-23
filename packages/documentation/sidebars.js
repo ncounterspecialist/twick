@@ -45,6 +45,11 @@ const sidebars = {
           label: '@twick/studio',
           id: 'packages/studio/modules'
         },
+        {
+          type: 'doc',
+          label: '@twick/browser-render',
+          id: 'packages/browser-render/modules'
+        },
       ],
     },
   ],

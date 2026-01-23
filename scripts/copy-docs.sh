@@ -9,6 +9,9 @@ mkdir -p packages/documentation/docs/packages/live-player
 mkdir -p packages/documentation/docs/packages/visualizer
 mkdir -p packages/documentation/docs/packages/studio
 mkdir -p packages/documentation/docs/packages/examples
+mkdir -p packages/documentation/docs/packages/timeline
+mkdir -p packages/documentation/docs/packages/video-editor
+mkdir -p packages/documentation/docs/packages/browser-render
 
 
 # Copy docs folders (if they exist)
@@ -18,6 +21,9 @@ cp -r packages/live-player/docs/* packages/documentation/docs/packages/live-play
 cp -r packages/visualizer/docs/* packages/documentation/docs/packages/visualizer/ 2>/dev/null || true
 cp -r packages/studio/docs/* packages/documentation/docs/packages/studio/ 2>/dev/null || true
 cp -r packages/examples/docs/* packages/documentation/docs/packages/examples/ 2>/dev/null || true
+cp -r packages/timeline/docs/* packages/documentation/docs/packages/timeline/ 2>/dev/null || true
+cp -r packages/video-editor/docs/* packages/documentation/docs/packages/video-editor/ 2>/dev/null || true
+cp -r packages/browser-render/docs/* packages/documentation/docs/packages/browser-render/ 2>/dev/null || true
 
 # Copy README files
 cp packages/canvas/README.md packages/documentation/docs/packages/canvas/ 2>/dev/null || true
@@ -26,5 +32,8 @@ cp packages/live-player/README.md packages/documentation/docs/packages/live-play
 cp packages/visualizer/README.md packages/documentation/docs/packages/visualizer/ 2>/dev/null || true
 cp packages/studio/README.md packages/documentation/docs/packages/studio/ 2>/dev/null || true
 cp packages/examples/README.md packages/documentation/docs/packages/examples/ 2>/dev/null || true
+cp packages/timeline/README.md packages/documentation/docs/packages/timeline/ 2>/dev/null || true
+cp packages/video-editor/README.md packages/documentation/docs/packages/video-editor/ 2>/dev/null || true
+cp packages/browser-render/README.md packages/documentation/docs/packages/browser-render/ 2>/dev/null || true
 
 echo "Documentation files copied successfully!" 
