@@ -11,6 +11,18 @@ Twick is a comprehensive **React Video Editor SDK** that empowers developers to 
 
 ![Active Developers](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fdevelopment.d1vtsw7m0lx01h.amplifyapp.com%2Fapi%2Fanalytics%2Fdev-count&query=result&label=Active%20Developers&color=blue) ![Total Video Exported](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fdevelopment.d1vtsw7m0lx01h.amplifyapp.com%2Fapi%2Fanalytics%2Fvideo-count&query=result&label=Total%20Exported%20Video&color=green)
 
+## Support Twick
+
+Twick is built and maintained as an open-source project.
+
+If this React video editor SDK helped you ship faster, experiment with AI captions, or build a better video experience, you can support its continued development here:
+
+<a href="https://buymeacoffee.com/coffeewithtwick">
+  <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" width="180">
+</a>
+
+Your support helps fund new features, better documentation, performance improvements, and long-term maintenance. Even a single coffee goes a long way for independent open-source work.
+
 ## React Video Editor SDK - Who Is This For?
 
 **This React video editor library is built for:**
