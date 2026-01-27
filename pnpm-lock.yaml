@@ -54,7 +54,7 @@ importers:
         version: 1.36.0(@modelcontextprotocol/sdk@1.25.2)
       '@modelcontextprotocol/sdk':
         specifier: ^1.20.0
-        version: 1.25.2(hono@4.11.4)(zod@3.25.76)
+        version: 1.25.2(hono@4.11.7)(zod@3.25.76)
       dotenv:
         specifier: ^16.4.5
         version: 16.6.1
@@ -177,7 +177,7 @@ importers:
         version: 3.9.2(@mdx-js/react@3.1.1)(react-dom@19.2.3)(react@19.2.3)(typescript@5.9.3)
       '@docusaurus/preset-classic':
         specifier: ^3.1.1
-        version: 3.9.2(@algolia/client-search@5.46.3)(@mdx-js/react@3.1.1)(@types/react@19.2.8)(react-dom@19.2.3)(react@19.2.3)(search-insights@2.17.3)(typescript@5.9.3)
+        version: 3.9.2(@algolia/client-search@5.47.0)(@mdx-js/react@3.1.1)(@types/react@19.2.8)(react-dom@19.2.3)(react@19.2.3)(search-insights@2.17.3)(typescript@5.9.3)
       '@mdx-js/react':
         specifier: ^3.0.0
         version: 3.1.1(@types/react@19.2.8)(react@19.2.3)
@@ -287,22 +287,22 @@ importers:
     dependencies:
       '@twick/canvas':
         specifier: ^0.15.0
-        version: 0.15.1(react@19.2.3)
+        version: 0.15.8(react@19.2.3)
       '@twick/live-player':
         specifier: ^0.15.0
-        version: 0.15.1(@types/node@20.19.29)(react@19.2.3)(typescript@5.9.3)
+        version: 0.15.8(@types/node@20.19.29)(react@19.2.3)(typescript@5.9.3)
       '@twick/media-utils':
         specifier: ^0.15.0
-        version: 0.15.1
+        version: 0.15.8
       '@twick/studio':
         specifier: ^0.15.0
-        version: 0.15.1(@types/node@20.19.29)(react-dom@19.2.3)(react@19.2.3)(typescript@5.9.3)
+        version: 0.15.8(@types/node@20.19.29)(react-dom@19.2.3)(react@19.2.3)(typescript@5.9.3)
       '@twick/timeline':
         specifier: ^0.15.0
-        version: 0.15.1
+        version: 0.15.8
       '@twick/video-editor':
         specifier: ^0.15.0
-        version: 0.15.1(@types/node@20.19.29)(react-dom@19.2.3)(react@19.2.3)(typescript@5.9.3)
+        version: 0.15.8(@types/node@20.19.29)(react-dom@19.2.3)(react@19.2.3)(typescript@5.9.3)
       dompurify:
         specifier: ^3.2.6
         version: 3.3.1
@@ -351,7 +351,7 @@ importers:
         version: link:../visualizer
       react:
         specifier: ^18.0.0 || ^19.0.0
-        version: 19.2.3
+        version: 18.3.1
     devDependencies:
       '@types/node':
         specifier: ^20.11.24
@@ -689,19 +689,19 @@ importers:
 
 packages:
 
-  /@ai-sdk/gateway@2.0.27(zod@4.3.5):
+  /@ai-sdk/gateway@2.0.27(zod@4.3.6):
     resolution: {integrity: sha512-8hbezMsGa0crSt7/DKjkYL1UbbJJW/UFxTfhmf5qcIeYeeWG4dTNmm+DWbUdIsTaWvp59KC4eeC9gYXBbTHd7w==}
     engines: {node: '>=18'}
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
     dependencies:
       '@ai-sdk/provider': 2.0.1
-      '@ai-sdk/provider-utils': 3.0.20(zod@4.3.5)
+      '@ai-sdk/provider-utils': 3.0.20(zod@4.3.6)
       '@vercel/oidc': 3.1.0
-      zod: 4.3.5
+      zod: 4.3.6
     dev: false
 
-  /@ai-sdk/provider-utils@3.0.20(zod@4.3.5):
+  /@ai-sdk/provider-utils@3.0.20(zod@4.3.6):
     resolution: {integrity: sha512-iXHVe0apM2zUEzauqJwqmpC37A5rihrStAih5Ks+JE32iTe4LZ58y17UGBjpQQTCRw9YxMeo2UFLxLpBluyvLQ==}
     engines: {node: '>=18'}
     peerDependencies:
@@ -710,7 +710,7 @@ packages:
       '@ai-sdk/provider': 2.0.1
       '@standard-schema/spec': 1.1.0
       eventsource-parser: 3.0.6
-      zod: 4.3.5
+      zod: 4.3.6
     dev: false
 
   /@ai-sdk/provider@2.0.1:
@@ -720,7 +720,7 @@ packages:
       json-schema: 0.4.0
     dev: false
 
-  /@ai-sdk/react@2.0.123(react@19.2.3)(zod@4.3.5):
+  /@ai-sdk/react@2.0.123(react@19.2.3)(zod@4.3.6):
     resolution: {integrity: sha512-exaEvHAsDdR0wgzF3l0BmC9U1nPLnkPK2CCnX3BP4RDj/PySZvPXjry3AOz1Ayb8KSPZgWklVRzxsQxrOYQJxA==}
     engines: {node: '>=18'}
     peerDependencies:
@@ -730,12 +730,12 @@ packages:
       zod:
         optional: true
     dependencies:
-      '@ai-sdk/provider-utils': 3.0.20(zod@4.3.5)
-      ai: 5.0.121(zod@4.3.5)
+      '@ai-sdk/provider-utils': 3.0.20(zod@4.3.6)
+      ai: 5.0.121(zod@4.3.6)
       react: 19.2.3
       swr: 2.3.8(react@19.2.3)
       throttleit: 2.1.0
-      zod: 4.3.5
+      zod: 4.3.6
     dev: false
 
   /@algolia/abtesting@1.12.3:
@@ -748,36 +748,36 @@ packages:
       '@algolia/requester-node-http': 5.46.3
     dev: false
 
-  /@algolia/autocomplete-core@1.19.2(@algolia/client-search@5.46.3)(algoliasearch@5.46.3)(search-insights@2.17.3):
+  /@algolia/autocomplete-core@1.19.2(@algolia/client-search@5.47.0)(algoliasearch@5.46.3)(search-insights@2.17.3):
     resolution: {integrity: sha512-mKv7RyuAzXvwmq+0XRK8HqZXt9iZ5Kkm2huLjgn5JoCPtDy+oh9yxUMfDDaVCw0oyzZ1isdJBc7l9nuCyyR7Nw==}
     dependencies:
-      '@algolia/autocomplete-plugin-algolia-insights': 1.19.2(@algolia/client-search@5.46.3)(algoliasearch@5.46.3)(search-insights@2.17.3)
-      '@algolia/autocomplete-shared': 1.19.2(@algolia/client-search@5.46.3)(algoliasearch@5.46.3)
+      '@algolia/autocomplete-plugin-algolia-insights': 1.19.2(@algolia/client-search@5.47.0)(algoliasearch@5.46.3)(search-insights@2.17.3)
+      '@algolia/autocomplete-shared': 1.19.2(@algolia/client-search@5.47.0)(algoliasearch@5.46.3)
     transitivePeerDependencies:
       - '@algolia/client-search'
       - algoliasearch
       - search-insights
     dev: false
 
-  /@algolia/autocomplete-plugin-algolia-insights@1.19.2(@algolia/client-search@5.46.3)(algoliasearch@5.46.3)(search-insights@2.17.3):
+  /@algolia/autocomplete-plugin-algolia-insights@1.19.2(@algolia/client-search@5.47.0)(algoliasearch@5.46.3)(search-insights@2.17.3):
     resolution: {integrity: sha512-TjxbcC/r4vwmnZaPwrHtkXNeqvlpdyR+oR9Wi2XyfORkiGkLTVhX2j+O9SaCCINbKoDfc+c2PB8NjfOnz7+oKg==}
     peerDependencies:
       search-insights: '>= 1 < 3'
     dependencies:
-      '@algolia/autocomplete-shared': 1.19.2(@algolia/client-search@5.46.3)(algoliasearch@5.46.3)
+      '@algolia/autocomplete-shared': 1.19.2(@algolia/client-search@5.47.0)(algoliasearch@5.46.3)
       search-insights: 2.17.3
     transitivePeerDependencies:
       - '@algolia/client-search'
       - algoliasearch
     dev: false
 
-  /@algolia/autocomplete-shared@1.19.2(@algolia/client-search@5.46.3)(algoliasearch@5.46.3):
+  /@algolia/autocomplete-shared@1.19.2(@algolia/client-search@5.47.0)(algoliasearch@5.46.3):
     resolution: {integrity: sha512-jEazxZTVD2nLrC+wYlVHQgpBoBB5KPStrJxLzsIFl6Kqd1AlG9sIAGl39V5tECLpIQzB3Qa2T6ZPJ1ChkwMK/w==}
     peerDependencies:
       '@algolia/client-search': '>= 4.9.1 < 6'
       algoliasearch: '>= 4.9.1 < 6'
     dependencies:
-      '@algolia/client-search': 5.46.3
+      '@algolia/client-search': 5.47.0
       algoliasearch: 5.46.3
     dev: false
 
@@ -803,6 +803,11 @@ packages:
 
   /@algolia/client-common@5.46.3:
     resolution: {integrity: sha512-SN+yK840nXa+2+mF72hrDfGd8+B7eBjF8TK/8KoRMdjlAkO/P3o3vtpjKRKI/Sk4L8kYYkB/avW8l+cwR+O1Ew==}
+    engines: {node: '>= 14.0.0'}
+    dev: false
+
+  /@algolia/client-common@5.47.0:
+    resolution: {integrity: sha512-Wzg5Me2FqgRDj0lFuPWFK05UOWccSMsIBL2YqmTmaOzxVlLZ+oUqvKbsUSOE5ud8Fo1JU7JyiLmEXBtgDKzTwg==}
     engines: {node: '>= 14.0.0'}
     dev: false
 
@@ -846,6 +851,16 @@ packages:
       '@algolia/requester-node-http': 5.46.3
     dev: false
 
+  /@algolia/client-search@5.47.0:
+    resolution: {integrity: sha512-b5hlU69CuhnS2Rqgsz7uSW0t4VqrLMLTPbUpEl0QVz56rsSwr1Sugyogrjb493sWDA+XU1FU5m9eB8uH7MoI0g==}
+    engines: {node: '>= 14.0.0'}
+    dependencies:
+      '@algolia/client-common': 5.47.0
+      '@algolia/requester-browser-xhr': 5.47.0
+      '@algolia/requester-fetch': 5.47.0
+      '@algolia/requester-node-http': 5.47.0
+    dev: false
+
   /@algolia/events@4.0.1:
     resolution: {integrity: sha512-FQzvOCgoFXAbf5Y6mYozw2aj5KCJoA3m4heImceldzPSMbdyS4atVjJzXKMsfX3wnZTFYwkkt8/z8UesLHlSBQ==}
     dev: false
@@ -887,6 +902,13 @@ packages:
       '@algolia/client-common': 5.46.3
     dev: false
 
+  /@algolia/requester-browser-xhr@5.47.0:
+    resolution: {integrity: sha512-Ja+zPoeSA2SDowPwCNRbm5Q2mzDvVV8oqxCQ4m6SNmbKmPlCfe30zPfrt9ho3kBHnsg37pGucwOedRIOIklCHw==}
+    engines: {node: '>= 14.0.0'}
+    dependencies:
+      '@algolia/client-common': 5.47.0
+    dev: false
+
   /@algolia/requester-fetch@5.46.3:
     resolution: {integrity: sha512-Uw+SPy/zpfwbH1AxQaeOWvWVzPEcO0XbtLbbSz0HPcEIiBGWyfa9LUCxD5UferbDjrSQNVimmzl3FaWi4u8Ykw==}
     engines: {node: '>= 14.0.0'}
@@ -894,11 +916,25 @@ packages:
       '@algolia/client-common': 5.46.3
     dev: false
 
+  /@algolia/requester-fetch@5.47.0:
+    resolution: {integrity: sha512-N6nOvLbaR4Ge+oVm7T4W/ea1PqcSbsHR4O58FJ31XtZjFPtOyxmnhgCmGCzP9hsJI6+x0yxJjkW5BMK/XI8OvA==}
+    engines: {node: '>= 14.0.0'}
+    dependencies:
+      '@algolia/client-common': 5.47.0
+    dev: false
+
   /@algolia/requester-node-http@5.46.3:
     resolution: {integrity: sha512-4No9iTjr1GZ0JWsFbQJj9aZBnmKyY1sTxOoEud9+SGe3U6iAulF0A0lI4cWi/F/Gcfg8V3jkaddcqSQKDnE45w==}
     engines: {node: '>= 14.0.0'}
     dependencies:
       '@algolia/client-common': 5.46.3
+    dev: false
+
+  /@algolia/requester-node-http@5.47.0:
+    resolution: {integrity: sha512-z1oyLq5/UVkohVXNDEY70mJbT/sv/t6HYtCvCwNrOri6pxBJDomP9R83KOlwcat+xqBQEdJHjbrPh36f1avmZA==}
+    engines: {node: '>= 14.0.0'}
+    dependencies:
+      '@algolia/client-common': 5.47.0
     dev: false
 
   /@alloc/quick-lru@5.2.0:
@@ -3373,7 +3409,7 @@ packages:
     resolution: {integrity: sha512-e9vPgtih6fkawakmYo0Y6V4BKBmDV7Ykudn7ADWXUs5b6pmtBRwDbpSG/WiaUG63G28OkJDEnsMvgIAnZgGwYw==}
     dev: false
 
-  /@docsearch/react@4.4.0(@algolia/client-search@5.46.3)(@types/react@19.2.8)(react-dom@19.2.3)(react@19.2.3)(search-insights@2.17.3):
+  /@docsearch/react@4.4.0(@algolia/client-search@5.47.0)(@types/react@19.2.8)(react-dom@19.2.3)(react@19.2.3)(search-insights@2.17.3):
     resolution: {integrity: sha512-z12zeg1mV7WD4Ag4pKSuGukETJLaucVFwszDXL/qLaEgRqxEaVacO9SR1qqnCXvZztlvz2rt7cMqryi/7sKfjA==}
     peerDependencies:
       '@types/react': '>= 16.8.0 < 20.0.0'
@@ -3390,18 +3426,18 @@ packages:
       search-insights:
         optional: true
     dependencies:
-      '@ai-sdk/react': 2.0.123(react@19.2.3)(zod@4.3.5)
-      '@algolia/autocomplete-core': 1.19.2(@algolia/client-search@5.46.3)(algoliasearch@5.46.3)(search-insights@2.17.3)
+      '@ai-sdk/react': 2.0.123(react@19.2.3)(zod@4.3.6)
+      '@algolia/autocomplete-core': 1.19.2(@algolia/client-search@5.47.0)(algoliasearch@5.46.3)(search-insights@2.17.3)
       '@docsearch/core': 4.4.0(@types/react@19.2.8)(react-dom@19.2.3)(react@19.2.3)
       '@docsearch/css': 4.4.0
       '@types/react': 19.2.8
-      ai: 5.0.121(zod@4.3.5)
+      ai: 5.0.121(zod@4.3.6)
       algoliasearch: 5.46.3
       marked: 16.4.2
       react: 19.2.3
       react-dom: 19.2.3(react@19.2.3)
       search-insights: 2.17.3
-      zod: 4.3.5
+      zod: 4.3.6
     transitivePeerDependencies:
       - '@algolia/client-search'
     dev: false
@@ -4001,7 +4037,7 @@ packages:
       - webpack-cli
     dev: false
 
-  /@docusaurus/preset-classic@3.9.2(@algolia/client-search@5.46.3)(@mdx-js/react@3.1.1)(@types/react@19.2.8)(react-dom@19.2.3)(react@19.2.3)(search-insights@2.17.3)(typescript@5.9.3):
+  /@docusaurus/preset-classic@3.9.2(@algolia/client-search@5.47.0)(@mdx-js/react@3.1.1)(@types/react@19.2.8)(react-dom@19.2.3)(react@19.2.3)(search-insights@2.17.3)(typescript@5.9.3):
     resolution: {integrity: sha512-IgyYO2Gvaigi21LuDIe+nvmN/dfGXAiMcV/murFqcpjnZc7jxFAxW+9LEjdPt61uZLxG4ByW/oUmX/DDK9t/8w==}
     engines: {node: '>=20.0'}
     peerDependencies:
@@ -4021,7 +4057,7 @@ packages:
       '@docusaurus/plugin-svgr': 3.9.2(@mdx-js/react@3.1.1)(react-dom@19.2.3)(react@19.2.3)(typescript@5.9.3)
       '@docusaurus/theme-classic': 3.9.2(@types/react@19.2.8)(react-dom@19.2.3)(react@19.2.3)(typescript@5.9.3)
       '@docusaurus/theme-common': 3.9.2(@docusaurus/plugin-content-docs@3.9.2)(react-dom@19.2.3)(react@19.2.3)
-      '@docusaurus/theme-search-algolia': 3.9.2(@algolia/client-search@5.46.3)(@mdx-js/react@3.1.1)(@types/react@19.2.8)(react-dom@19.2.3)(react@19.2.3)(search-insights@2.17.3)(typescript@5.9.3)
+      '@docusaurus/theme-search-algolia': 3.9.2(@algolia/client-search@5.47.0)(@mdx-js/react@3.1.1)(@types/react@19.2.8)(react-dom@19.2.3)(react@19.2.3)(search-insights@2.17.3)(typescript@5.9.3)
       '@docusaurus/types': 3.9.2(react-dom@19.2.3)(react@19.2.3)
       react: 19.2.3
       react-dom: 19.2.3(react@19.2.3)
@@ -4139,14 +4175,14 @@ packages:
       - webpack-cli
     dev: false
 
-  /@docusaurus/theme-search-algolia@3.9.2(@algolia/client-search@5.46.3)(@mdx-js/react@3.1.1)(@types/react@19.2.8)(react-dom@19.2.3)(react@19.2.3)(search-insights@2.17.3)(typescript@5.9.3):
+  /@docusaurus/theme-search-algolia@3.9.2(@algolia/client-search@5.47.0)(@mdx-js/react@3.1.1)(@types/react@19.2.8)(react-dom@19.2.3)(react@19.2.3)(search-insights@2.17.3)(typescript@5.9.3):
     resolution: {integrity: sha512-GBDSFNwjnh5/LdkxCKQHkgO2pIMX1447BxYUBG2wBiajS21uj64a+gH/qlbQjDLxmGrbrllBrtJkUHxIsiwRnw==}
     engines: {node: '>=20.0'}
     peerDependencies:
       react: ^18.0.0 || ^19.0.0
       react-dom: ^18.0.0 || ^19.0.0
     dependencies:
-      '@docsearch/react': 4.4.0(@algolia/client-search@5.46.3)(@types/react@19.2.8)(react-dom@19.2.3)(react@19.2.3)(search-insights@2.17.3)
+      '@docsearch/react': 4.4.0(@algolia/client-search@5.47.0)(@types/react@19.2.8)(react-dom@19.2.3)(react@19.2.3)(search-insights@2.17.3)
       '@docusaurus/core': 3.9.2(@mdx-js/react@3.1.1)(react-dom@19.2.3)(react@19.2.3)(typescript@5.9.3)
       '@docusaurus/logger': 3.9.2
       '@docusaurus/plugin-content-docs': 3.9.2(@mdx-js/react@3.1.1)(react-dom@19.2.3)(react@19.2.3)(typescript@5.9.3)
@@ -5427,7 +5463,7 @@ packages:
       '@modelcontextprotocol/sdk':
         optional: true
     dependencies:
-      '@modelcontextprotocol/sdk': 1.25.2(hono@4.11.4)(zod@3.25.76)
+      '@modelcontextprotocol/sdk': 1.25.2(hono@4.11.7)(zod@3.25.76)
       google-auth-library: 10.5.0
       protobufjs: 7.5.4
       ws: 8.19.0
@@ -5445,13 +5481,13 @@ packages:
     dependencies:
       '@hapi/hoek': 9.3.0
 
-  /@hono/node-server@1.19.9(hono@4.11.4):
+  /@hono/node-server@1.19.9(hono@4.11.7):
     resolution: {integrity: sha512-vHL6w3ecZsky+8P5MD+eFfaGTyCeOHUIFYMGpQGbrBTSmNNoxv0if69rEZ5giu36weC5saFuznL411gRX7bJDw==}
     engines: {node: '>=18.14.1'}
     peerDependencies:
       hono: ^4
     dependencies:
-      hono: 4.11.4
+      hono: 4.11.7
     dev: false
 
   /@humanfs/core@0.19.1:
@@ -5779,7 +5815,7 @@ packages:
       '@jest/schemas': 29.6.3
       '@types/istanbul-lib-coverage': 2.0.6
       '@types/istanbul-reports': 3.0.4
-      '@types/node': 20.19.29
+      '@types/node': 25.0.10
       '@types/yargs': 17.0.35
       chalk: 4.1.2
     dev: false
@@ -6031,7 +6067,7 @@ packages:
     resolution: {integrity: sha512-9b8mPpKrfeGRuhFH5iO1iwCLeIIsV6+H1sRfxbkoGXIyQE2BTsPd9zqSqQJ+pv5sJ/hT5M1zvOFL02MnEezFug==}
     dev: true
 
-  /@modelcontextprotocol/sdk@1.25.2(hono@4.11.4)(zod@3.25.76):
+  /@modelcontextprotocol/sdk@1.25.2(hono@4.11.7)(zod@3.25.76):
     resolution: {integrity: sha512-LZFeo4F9M5qOhC/Uc1aQSrBHxMrvxett+9KLHt7OhcExtoiRN9DKgbZffMP/nxjutWDQpfMDfP3nkHI4X9ijww==}
     engines: {node: '>=18'}
     peerDependencies:
@@ -6041,7 +6077,7 @@ packages:
       '@cfworker/json-schema':
         optional: true
     dependencies:
-      '@hono/node-server': 1.19.9(hono@4.11.4)
+      '@hono/node-server': 1.19.9(hono@4.11.7)
       ajv: 8.17.1
       ajv-formats: 3.0.1(ajv@8.17.1)
       content-type: 1.0.5
@@ -7271,13 +7307,13 @@ packages:
       parse-svg-path: 0.1.2
     dev: false
 
-  /@twick/canvas@0.15.1(react@19.2.3):
-    resolution: {integrity: sha512-7OpJK1wiFdI7EhH/6qh9Mposut3BLxr7nAxNtV7030BQQ4pzv0q6qrF6xotqQ3OgPP/oXqF+6VfPLs+tZ7IB+g==}
+  /@twick/canvas@0.15.8(react@19.2.3):
+    resolution: {integrity: sha512-9/GvUkHKWbZM62exHdjG/ay7Mb1uIJA195V5hqH/1LSzQLNr0/HZrqtAPId4r/gRRvQlGuLOFQOk4vUPHPKcQQ==}
     engines: {node: '>=20.0.0'}
     peerDependencies:
       react: ^18.0.0 || ^19.0.0
     dependencies:
-      '@twick/media-utils': 0.15.1
+      '@twick/media-utils': 0.15.8
       fabric: 6.9.1
       react: 19.2.3
     transitivePeerDependencies:
@@ -7336,15 +7372,15 @@ packages:
     transitivePeerDependencies:
       - debug
 
-  /@twick/live-player@0.15.1(@types/node@20.19.29)(react@19.2.3)(typescript@5.9.3):
-    resolution: {integrity: sha512-84XmD5MNgo+tXo3Aw8N3SUIrzPHXVpah/8wkjHm4Gw+Aeop2qCd7SwIso3zE6K/jqpoaBhdNskFBeGsNBCishg==}
+  /@twick/live-player@0.15.8(@types/node@20.19.29)(react@19.2.3)(typescript@5.9.3):
+    resolution: {integrity: sha512-9VyOdNQZQD+BJDgjfkF6DtZNJk3hE4tliUIyLs9L8kpqxWY416Yeamq0YCs59K8lsmrVfxjAeHChfqfOk1Q5+g==}
     engines: {node: '>=20.0.0'}
     peerDependencies:
       react: ^18.0.0 || ^19.0.0
     dependencies:
       '@twick/core': 0.15.8
       '@twick/player-react': 0.15.8
-      '@twick/visualizer': 0.15.1(@types/node@20.19.29)(typescript@5.9.3)
+      '@twick/visualizer': 0.15.8(@types/node@20.19.29)(typescript@5.9.3)
       react: 19.2.3
     transitivePeerDependencies:
       - '@types/node'
@@ -7364,8 +7400,8 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@twick/media-utils@0.15.1:
-    resolution: {integrity: sha512-KWEPzSmy1VqjwwCHgiQxff7nDobZRI4tY1VyXS4IClEuK8S+zeJM8MxJcy6O8KQhs8dr2OWPuQr1KCJJac0YjQ==}
+  /@twick/media-utils@0.15.8:
+    resolution: {integrity: sha512-ubPMvuyX4NMWuD/tdPdYzCov4xx1eYtNoDHKtXpgNSOvvcLeFq7r6kUALPH+aoNMtjga4tBkAmzGH8JkhtQN7Q==}
     engines: {node: '>=20.0.0'}
     dependencies:
       lamejs: 1.2.1
@@ -7406,17 +7442,21 @@ packages:
       - typescript
       - utf-8-validate
 
-  /@twick/studio@0.15.1(@types/node@20.19.29)(react-dom@19.2.3)(react@19.2.3)(typescript@5.9.3):
-    resolution: {integrity: sha512-pEDFwDmuJNs0L0+6fH/GcrPcqRXTNgTmb4AMSKJYpUEdl/FOgJOx2viCPRzj1L33l9YhwodMXDTUFxFNTkgmcg==}
+  /@twick/studio@0.15.8(@types/node@20.19.29)(react-dom@19.2.3)(react@19.2.3)(typescript@5.9.3):
+    resolution: {integrity: sha512-hSt9pHLk0WZDjb9X8pPUoHqoUcAki4PdbimQkRqTD6oi28hl6z/WbwVtATRYOZVU3PgMhM5u+d2TvKrLrkdpoQ==}
     engines: {node: '>=20.0.0'}
     peerDependencies:
       react: ^18.0.0 || ^19.0.0
       react-dom: ^18.0.0 || ^19.0.0
     dependencies:
-      '@twick/live-player': 0.15.1(@types/node@20.19.29)(react@19.2.3)(typescript@5.9.3)
-      '@twick/media-utils': 0.15.1
-      '@twick/timeline': 0.15.1
-      '@twick/video-editor': 0.15.1(@types/node@20.19.29)(react-dom@19.2.3)(react@19.2.3)(typescript@5.9.3)
+      '@twick/canvas': 0.15.8(react@19.2.3)
+      '@twick/core': 0.15.8
+      '@twick/live-player': 0.15.8(@types/node@20.19.29)(react@19.2.3)(typescript@5.9.3)
+      '@twick/media-utils': 0.15.8
+      '@twick/player-react': 0.15.8
+      '@twick/timeline': 0.15.8
+      '@twick/video-editor': 0.15.8(@types/node@20.19.29)(react-dom@19.2.3)(react@19.2.3)(typescript@5.9.3)
+      '@twick/visualizer': 0.15.8(@types/node@20.19.29)(typescript@5.9.3)
       lucide-react: 0.511.0(react@19.2.3)
       react: 19.2.3
       react-dom: 19.2.3(react@19.2.3)
@@ -7448,11 +7488,11 @@ packages:
     transitivePeerDependencies:
       - debug
 
-  /@twick/timeline@0.15.1:
-    resolution: {integrity: sha512-UwbE0cXn7yd80+e6YfO7KikAKOYZvlLdAT3Z64y5JTE/F5Rb1f3V/hIeHUrT+HMcUN+THlFhXLfU1S73wnvCeA==}
+  /@twick/timeline@0.15.8:
+    resolution: {integrity: sha512-K31vNfXNOxXor6poMzNB5TjMNNhPHXuB6W0HPb8caEwsWDXFdeK/fv2KQEUzkY7OY3qobn+iySbi9DLHmKFwkw==}
     engines: {node: '>=20.0.0'}
     dependencies:
-      '@twick/media-utils': 0.15.1
+      '@twick/media-utils': 0.15.8
       posthog-js: 1.321.2
     dev: false
 
@@ -7463,8 +7503,8 @@ packages:
       '@twick/core': 0.15.8
       preact: 10.28.2
 
-  /@twick/video-editor@0.15.1(@types/node@20.19.29)(react-dom@19.2.3)(react@19.2.3)(typescript@5.9.3):
-    resolution: {integrity: sha512-jzbGplcMb0Lse+JOmxx+iKFb0/3tlxtHKOI75F++XGR+gzzvfzkry4zbwQRvyXmW/k7NWUyYxjUJH09nt+9Krw==}
+  /@twick/video-editor@0.15.8(@types/node@20.19.29)(react-dom@19.2.3)(react@19.2.3)(typescript@5.9.3):
+    resolution: {integrity: sha512-lCsSEIfveHjSOlIYNqyzJQGL9WLENm8pa6bdkafUFd9broWjA0tJzvyrmRQn2EKN7cYMieWMn6azqeHa3wNYhw==}
     engines: {node: '>=20.0.0'}
     peerDependencies:
       react: ^18.0.0 || ^19.0.0
@@ -7472,10 +7512,10 @@ packages:
     dependencies:
       '@emotion/is-prop-valid': 1.4.0
       '@react-spring/web': 10.0.3(react-dom@19.2.3)(react@19.2.3)
-      '@twick/canvas': 0.15.1(react@19.2.3)
-      '@twick/live-player': 0.15.1(@types/node@20.19.29)(react@19.2.3)(typescript@5.9.3)
-      '@twick/media-utils': 0.15.1
-      '@twick/timeline': 0.15.1
+      '@twick/canvas': 0.15.8(react@19.2.3)
+      '@twick/live-player': 0.15.8(@types/node@20.19.29)(react@19.2.3)(typescript@5.9.3)
+      '@twick/media-utils': 0.15.8
+      '@twick/timeline': 0.15.8
       '@use-gesture/react': 10.3.1(react@19.2.3)
       framer-motion: 11.18.2(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.3)(react@19.2.3)
       lucide-react: 0.511.0(react@19.2.3)
@@ -7500,14 +7540,14 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@twick/visualizer@0.15.1(@types/node@20.19.29)(typescript@5.9.3):
-    resolution: {integrity: sha512-t7TIE3O4DMkptMUX0NgTcSrtE29onq6g3TrjfSHBkcQfTOLLnTiZvASlEps20+A0pyJ6z4H3uWbPFxAN4YsaQQ==}
+  /@twick/visualizer@0.15.8(@types/node@20.19.29)(typescript@5.9.3):
+    resolution: {integrity: sha512-5qoyjkeqq0zooldFuervJ+t2GyrT/NTSG1XURe6rz06SqGSgVJxttE4PGpG9l0EqIHI3XGhEDGSc7EQhXk7HYw==}
     engines: {node: '>=20.0.0'}
     dependencies:
       '@preact/signals': 1.3.2(preact@10.28.2)
       '@twick/2d': 0.15.8
       '@twick/core': 0.15.8
-      '@twick/media-utils': 0.15.1
+      '@twick/media-utils': 0.15.8
       '@twick/renderer': 0.15.8(@types/node@20.19.29)(typescript@5.9.3)
       '@twick/vite-plugin': 0.15.8
       crelt: 1.0.6
@@ -7714,7 +7754,7 @@ packages:
   /@types/http-proxy@1.17.17:
     resolution: {integrity: sha512-ED6LB+Z1AVylNTu7hdzuBqOgMnvG/ld6wGCG8wFnAzKX5uyW2K3WD52v0gnLCTK/VLpXtKckgWuyScYK6cSPaw==}
     dependencies:
-      '@types/node': 20.19.29
+      '@types/node': 25.0.10
     dev: false
 
   /@types/istanbul-lib-coverage@2.0.6:
@@ -7778,6 +7818,12 @@ packages:
     dependencies:
       undici-types: 7.16.0
     dev: true
+
+  /@types/node@25.0.10:
+    resolution: {integrity: sha512-zWW5KPngR/yvakJgGOmZ5vTBemDoSqF3AcV/LrO5u5wTWyEAVVh+IT39G4gtyAkh3CtTZs8aX/yRM82OfzHJRg==}
+    dependencies:
+      undici-types: 7.16.0
+    dev: false
 
   /@types/parse-json@4.0.2:
     resolution: {integrity: sha512-dISoDXWWQwUquiKsyZ4Ng+HX2KsPL7LyHKHQwgGFEA3IaKac4Obd+h2a/a6waisAoepJlBcx9paWqjA8/HVjCw==}
@@ -7862,7 +7908,7 @@ packages:
   /@types/sax@1.2.7:
     resolution: {integrity: sha512-rO73L89PJxeYM3s3pPPjiPgVVcymqU490g0YO5n5By0k2Erzj6tay/4lr1CHAAU4JyOWd1rpQ8bCf6cZfHU96A==}
     dependencies:
-      '@types/node': 20.19.29
+      '@types/node': 17.0.45
     dev: false
 
   /@types/semver@7.7.1:
@@ -8427,7 +8473,7 @@ packages:
       '@types/hast': 2.3.10
       import-meta-resolve: 2.2.2
       vscode-oniguruma: 1.7.0
-      vscode-textmate: 9.3.1
+      vscode-textmate: 9.3.2
     dev: false
 
   /@xmldom/xmldom@0.9.8:
@@ -8555,17 +8601,17 @@ packages:
       indent-string: 4.0.0
     dev: false
 
-  /ai@5.0.121(zod@4.3.5):
+  /ai@5.0.121(zod@4.3.6):
     resolution: {integrity: sha512-3iYPdARKGLryC/7OA9RgBUaym1gynvWS7UPy8NwoRNCKP52lshldtHB5xcEfVviw7liWH2zJlW9yEzsDglcIEQ==}
     engines: {node: '>=18'}
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
     dependencies:
-      '@ai-sdk/gateway': 2.0.27(zod@4.3.5)
+      '@ai-sdk/gateway': 2.0.27(zod@4.3.6)
       '@ai-sdk/provider': 2.0.1
-      '@ai-sdk/provider-utils': 3.0.20(zod@4.3.5)
+      '@ai-sdk/provider-utils': 3.0.20(zod@4.3.6)
       '@opentelemetry/api': 1.9.0
-      zod: 4.3.5
+      zod: 4.3.6
     dev: false
 
   /ajv-formats@2.1.1(ajv@8.17.1):
@@ -8950,6 +8996,16 @@ packages:
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
       - debug
+    dev: true
+
+  /axios@1.13.4:
+    resolution: {integrity: sha512-1wVkUaAO6WyaYtCkcYCOx12ZgpGf9Zif+qXa4n+oYzK558YryKqiL6UWwd5DqiH3VRW0GYhTZQ/vlgJrCoNQlg==}
+    dependencies:
+      follow-redirects: 1.15.11
+      form-data: 4.0.5
+      proxy-from-env: 1.1.0
+    transitivePeerDependencies:
+      - debug
 
   /axobject-query@4.1.0:
     resolution: {integrity: sha512-qIj0G9wZbMGNLjLmg1PT6v2mE9AH2zlnADJD/2tC6E00hgmhUOfEB6greHPAfLRSufHqROIUTkw6E+M3lH0PTQ==}
@@ -9169,8 +9225,8 @@ packages:
       bare-abort-controller:
         optional: true
 
-  /bare-fs@4.5.2:
-    resolution: {integrity: sha512-veTnRzkb6aPHOvSKIOy60KzURfBdUflr5VReI+NSaPL6xf+XLdONQgZgpYvUuZLVQ8dCqxpBAudaOM1+KpAUxw==}
+  /bare-fs@4.5.3:
+    resolution: {integrity: sha512-9+kwVx8QYvt3hPWnmb19tPnh38c6Nihz8Lx3t0g9+4GoIf3/fTgYwM4Z6NxgI+B9elLQA7mLE9PpqcWtOMRDiQ==}
     engines: {bare: '>=1.16.0'}
     requiresBuild: true
     peerDependencies:
@@ -13148,8 +13204,8 @@ packages:
       react-is: 16.13.1
     dev: false
 
-  /hono@4.11.4:
-    resolution: {integrity: sha512-U7tt8JsyrxSRKspfhtLET79pU8K+tInj5QZXs1jSugO1Vq5dFj3kmZsRldo29mTBfcjDRVRXrEZ6LS63Cog9ZA==}
+  /hono@4.11.7:
+    resolution: {integrity: sha512-l7qMiNee7t82bH3SeyUCt9UF15EVmaBvsppY2zQtrbIhl/yzBTny+YUxsVjSjQ6gaqaeVtZmGocom8TzBlA4Yw==}
     engines: {node: '>=16.9.0'}
     dev: false
 
@@ -14458,7 +14514,7 @@ packages:
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
       '@jest/types': 29.6.3
-      '@types/node': 20.19.29
+      '@types/node': 25.0.10
       chalk: 4.1.2
       ci-info: 3.9.0
       graceful-fs: 4.2.11
@@ -14550,7 +14606,7 @@ packages:
     resolution: {integrity: sha512-eIz2msL/EzL9UFTFFx7jBTkeZfku0yUAyZZZmJ93H2TYEiroIx2PQjEXcwYtYl8zXCxb+PAmA2hLIt/6ZEkPHw==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
-      '@types/node': 20.19.29
+      '@types/node': 25.0.10
       jest-util: 29.7.0
       merge-stream: 2.0.0
       supports-color: 8.1.1
@@ -18175,7 +18231,7 @@ packages:
     resolution: {integrity: sha512-XROs1h+DNatgKh/AlIlCtDxWzwrKdYDb2mOs58n4yN8BkGN9ewqeQwG5ApS4/IzwCb7HPttUkOVulkYatd2PIw==}
     engines: {node: '>=15.0.0'}
     dependencies:
-      axios: 1.13.2
+      axios: 1.13.4
     transitivePeerDependencies:
       - debug
 
@@ -20363,7 +20419,7 @@ packages:
       pump: 3.0.3
       tar-stream: 3.1.7
     optionalDependencies:
-      bare-fs: 4.5.2
+      bare-fs: 4.5.3
       bare-path: 3.0.0
     transitivePeerDependencies:
       - bare-abort-controller
@@ -20971,7 +21027,6 @@ packages:
 
   /undici-types@7.16.0:
     resolution: {integrity: sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw==}
-    dev: true
 
   /unicode-canonical-property-names-ecmascript@2.0.1:
     resolution: {integrity: sha512-dA8WbNeb2a6oQzAQ55YlT5vQAWGV9WXOsi3SskE3bcCdM0P4SDd+24zS/OCacdRq5BkdsRj9q3Pg6YyQoxIGqg==}
@@ -21401,8 +21456,8 @@ packages:
     resolution: {integrity: sha512-AFbieoL7a5LMqcnOF04ji+rpXadgOXnZsxQr//r83kLPr7biP7am3g9zbaZIaBGwBRWeSvoMD4mgPdX3e4NWBg==}
     dev: true
 
-  /vscode-textmate@9.3.1:
-    resolution: {integrity: sha512-U19nFkCraZF9/bkQKQYsb9mRqM9NwpToQQFl40nGiioZTH9gRtdtCHwp48cubayVfreX3ivnoxgxQgNwrTVmQg==}
+  /vscode-textmate@9.3.2:
+    resolution: {integrity: sha512-n2uGbUcrjhUEBH16uGA0TvUfhWwliFZ1e3+pTjrkim1Mt7ydB41lV08aUvsi70OlzDWp6X7Bx3w/x3fAXIsN0Q==}
     dev: false
 
   /vue-template-compiler@2.7.16:
@@ -22293,8 +22348,8 @@ packages:
     resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
     dev: false
 
-  /zod@4.3.5:
-    resolution: {integrity: sha512-k7Nwx6vuWx1IJ9Bjuf4Zt1PEllcwe7cls3VNzm4CQ1/hgtFUK2bRNG3rvnpPUhFjmqJKAKtjV576KnUkHocg/g==}
+  /zod@4.3.6:
+    resolution: {integrity: sha512-rftlrkhHZOcjDwkGlnUtZZkvaPHCsDATp4pGpuOOMDaTdDDXF91wuVDJoWoPsKX/3YPQ5fHuF3STjcYyKr+Qhg==}
     dev: false
 
   /zwitch@2.0.4:
