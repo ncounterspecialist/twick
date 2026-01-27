@@ -33,15 +33,18 @@ We actively monitor Discord for:
 
 ---
 
-## Supporting Twick
+## Support Twick
 
-Twick is an open-source project maintained by a small team. If it saves you time or helps you ship a product faster, you can support ongoing development:
+Twick is built and maintained as an open-source project.
+
+If this React video editor SDK helped you ship faster, avoid reinventing timelines, or save at least one late night wrestling with video logic, you can support its continued development here:
 
 <a href="https://buymeacoffee.com/coffeewithtwick">
   <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" width="180" alt="Support Twick on Buy Me a Coffee">
 </a>
 
-Your support directly funds new features, performance improvements, and better documentation.
+Your support helps fund new features, better documentation, performance improvements, and long-term maintenance. 
+Caffeine has a surprisingly high impact on open source velocity.
 
 ---
 
