@@ -2,6 +2,7 @@ import { Renderer, Vector2 } from "@twick/core";
 import type { Project, RendererSettings } from "@twick/core";
 import defaultProject from "@twick/visualizer/dist/project.js";
 import { BrowserAudioProcessor, getAssetPlacement, type AssetInfo } from './audio/audio-processor';
+import { muxAudioVideo } from './audio/audio-video-muxer';
 
 /**
  * Browser-native video exporter using WebCodecs API
@@ -80,7 +81,6 @@ class BrowserWasmExporter {
         fps: this.fps,
       });
     } catch (error) {
-      console.error('WASM loading error:', error);
       throw error;
     }
   }
@@ -113,50 +113,39 @@ class BrowserWasmExporter {
     endFrame: number,
   ): Promise<ArrayBuffer | null> {
     try {
-      console.log('🔊 Starting audio processing...', { 
-        frames: assets.length, 
-        startFrame, 
-        endFrame 
-      });
-
       const processor = new BrowserAudioProcessor();
       const assetPlacements = getAssetPlacement(assets);
-      
-      console.log(`📊 Found ${assetPlacements.length} audio assets to process`);
-      
+
       if (assetPlacements.length === 0) {
-        console.log('⚠️ No audio assets found');
         return null;
       }
-      
+
       const processedBuffers: AudioBuffer[] = [];
       for (const asset of assetPlacements) {
         if (asset.volume > 0 && asset.playbackRate > 0) {
-          console.log(`🎵 Processing audio: ${asset.key}`);
-          const buffer = await processor.processAudioAsset(
-            asset,
-            this.settings.fps || 30,
-            endFrame - startFrame
-          );
-          processedBuffers.push(buffer);
+          try {
+            const buffer = await processor.processAudioAsset(
+              asset,
+              this.settings.fps || 30,
+              endFrame - startFrame
+            );
+            processedBuffers.push(buffer);
+          } catch {
+            // Continue with other audio assets
+          }
         }
       }
-      
+
       if (processedBuffers.length === 0) {
-        console.log('⚠️ No audio buffers to mix');
         return null;
       }
-      
-      console.log(`🎛️ Mixing ${processedBuffers.length} audio track(s)...`);
+
       const mixedBuffer = processor.mixAudioBuffers(processedBuffers);
       const wavData = processor.audioBufferToWav(mixedBuffer);
-      
+
       await processor.close();
-      console.log(`✅ Audio processed: ${(wavData.byteLength / 1024 / 1024).toFixed(2)} MB`);
-      
       return wavData;
-    } catch (error) {
-      console.error('❌ Audio processing failed:', error);
+    } catch {
       return null;
     }
   }
@@ -310,29 +299,15 @@ export const renderTwickVideoInBrowser = async (
   try {
     const { projectFile, variables, settings = {} } = config;
 
-    // Validate input
     if (!variables || !variables.input) {
       throw new Error('Invalid configuration. "variables.input" is required.');
     }
 
-    // Get dimensions from input properties or use settings
     const width = settings.width || variables.input.properties?.width || 1920;
     const height = settings.height || variables.input.properties?.height || 1080;
     const fps = settings.fps || variables.input.properties?.fps || 30;
 
-    // Load the project
-    let project: Project;
-    
-    if (!projectFile) {
-      // Use default visualizer project
-      project = defaultProject;
-    } else {
-      // Use provided project object
-      project = projectFile as Project;
-    }
-
-    // Set variables on the project (same as server renderer)
-    // The renderer expects variables to be assigned directly to the project
+    const project: Project = !projectFile ? defaultProject : (projectFile as Project);
     project.variables = variables as any;
 
     // Create renderer settings
@@ -352,10 +327,7 @@ export const renderTwickVideoInBrowser = async (
       }),
     };
 
-    // Create the renderer
     const renderer = new Renderer(project);
-    
-    // Create and initialize the browser exporter
     const exporter = await BrowserWasmExporter.create(renderSettings);
     await exporter.start();
     
@@ -363,7 +335,6 @@ export const renderTwickVideoInBrowser = async (
       exporter.setProgressCallback(settings.onProgress);
     }
 
-    // Configure renderer
     await renderer['reloadScenes'](renderSettings);
     (renderer as any).stage.configure(renderSettings);
     (renderer as any).playback.fps = renderSettings.fps;
@@ -372,46 +343,78 @@ export const renderTwickVideoInBrowser = async (
     // PlaybackState: Playing = 0, Rendering = 1, Paused = 2, Presenting = 3
     (renderer as any).playback.state = 1;
     
-    // Calculate total frames from scenes
     const totalFrames = await renderer.getNumberOfFrames(renderSettings);
+
+    if (totalFrames === 0 || !isFinite(totalFrames)) {
+      throw new Error(
+        'Cannot render: Video has zero duration. ' +
+        'Please ensure your project has valid content with non-zero duration. ' +
+        'Check that all video elements have valid sources and are properly loaded.'
+      );
+    }
     
-    // Initialize playback
+    const videoElements: any[] = [];
+    if (variables.input.tracks) {
+      variables.input.tracks.forEach((track: any) => {
+        if (track.elements) {
+          track.elements.forEach((el: any) => {
+            if (el.type === 'video') videoElements.push(el);
+          });
+        }
+      });
+    }
+
+    if (videoElements.length > 0) {
+      for (const videoEl of videoElements) {
+        const src = videoEl.props?.src;
+        if (!src || src === 'undefined') continue;
+        const preloadVideo = document.createElement('video');
+        preloadVideo.crossOrigin = 'anonymous';
+        preloadVideo.preload = 'metadata';
+        preloadVideo.src = src;
+        await new Promise<void>((resolve, reject) => {
+          const timeout = setTimeout(
+            () => reject(new Error(`Timeout loading video metadata: ${src.substring(0, 80)}`)),
+            30000
+          );
+          preloadVideo.addEventListener('loadedmetadata', () => {
+            clearTimeout(timeout);
+            resolve();
+          }, { once: true });
+          preloadVideo.addEventListener('error', () => {
+            clearTimeout(timeout);
+            const err = preloadVideo.error;
+            reject(new Error(`Failed to load video: ${err?.message || 'Unknown error'}`));
+          }, { once: true });
+        });
+      }
+    }
+
     await (renderer as any).playback.recalculate();
     await (renderer as any).playback.reset();
     await (renderer as any).playback.seek(0);
-    
-    // Track media assets for audio processing
+
     const mediaAssets: AssetInfo[][] = [];
     
-    // Render frames
     for (let frame = 0; frame < totalFrames; frame++) {
       if (frame > 0) {
         await (renderer as any).playback.progress();
       }
-      
       await (renderer as any).stage.render(
         (renderer as any).playback.currentScene,
         (renderer as any).playback.previousScene,
       );
-      
-      // Collect media assets from current scene for audio
       const currentAssets = (renderer as any).playback.currentScene.getMediaAssets?.() || [];
       mediaAssets.push(currentAssets);
-      
       const canvas = (renderer as any).stage.finalBuffer;
       await exporter.handleFrame(canvas, frame);
-      
-      if (settings.onProgress) {
-        settings.onProgress(frame / totalFrames);
-      }
+      if (settings.onProgress) settings.onProgress(frame / totalFrames);
     }
-    
+
     await exporter.stop();
     
-    // Generate audio if requested
     let audioData: ArrayBuffer | null = null;
     if (settings.includeAudio && mediaAssets.length > 0) {
-      console.log('🎵 Generating audio track...');
       audioData = await exporter.generateAudio(mediaAssets, 0, totalFrames);
     }
 
@@ -420,13 +423,13 @@ export const renderTwickVideoInBrowser = async (
       throw new Error('Failed to create video blob');
     }
 
-    // Handle audio if it was generated
     if (audioData && settings.includeAudio) {
-      console.log('✅ Audio extracted and processed successfully');
-      console.log('📊 Audio data size:', (audioData.byteLength / 1024 / 1024).toFixed(2), 'MB');
-      
-      // Option 1: Download audio separately (most reliable)
-      if ((settings as any).downloadAudioSeparately) {
+      try {
+        finalBlob = await muxAudioVideo({
+          videoBlob: finalBlob,
+          audioBuffer: audioData,
+        });
+      } catch {
         const audioBlob = new Blob([audioData], { type: 'audio/wav' });
         const audioUrl = URL.createObjectURL(audioBlob);
         const a = document.createElement('a');
@@ -434,18 +437,7 @@ export const renderTwickVideoInBrowser = async (
         a.download = 'audio.wav';
         a.click();
         URL.revokeObjectURL(audioUrl);
-        console.log('✅ Audio downloaded separately as audio.wav');
       }
-      
-      // Option 2: Return audio via callback
-      if ((settings as any).onAudioReady) {
-        const audioBlob = new Blob([audioData], { type: 'audio/wav' });
-        (settings as any).onAudioReady(audioBlob);
-      }
-      
-      console.log('💡 Note: Client-side audio muxing is complex.');
-      console.log('💡 For full audio support, use server-side rendering: @twick/render-server');
-      console.log('💡 Or mux manually with: ffmpeg -i video.mp4 -i audio.wav -c:v copy -c:a aac output.mp4');
     }
 
     if (settings.onComplete) {

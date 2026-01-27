@@ -69,26 +69,23 @@ export class VideoFrameExtractor {
   /**
    * Get a frame thumbnail from a video at a specific time.
    * Uses caching and reuses video elements for optimal performance.
-   * 
+   * Uses 0.1s instead of 0 when seekTime is 0, since frames at t=0 are often blank.
+   *
    * @param videoUrl - The URL of the video
-   * @param seekTime - The time in seconds to extract the frame
+   * @param seekTime - The time in seconds to extract the frame (0 is treated as 0.1)
    * @returns Promise resolving to a thumbnail image URL (data URL or blob URL)
    */
   async getFrame(videoUrl: string, seekTime: number = 0.1): Promise<string> {
-    // Check cache first
-    const cacheKey = this.getCacheKey(videoUrl, seekTime);
+    const effectiveSeekTime = seekTime === 0 ? 0.1 : seekTime;
+
+    const cacheKey = this.getCacheKey(videoUrl, effectiveSeekTime);
     const cached = this.frameCache.get(cacheKey);
     if (cached) {
       return cached;
     }
 
-    // Get or create video element
     const videoState = await this.getVideoElement(videoUrl);
-    
-    // Extract frame
-    const thumbnail = await this.extractFrame(videoState.video, seekTime);
-    
-    // Cache the result
+    const thumbnail = await this.extractFrame(videoState.video, effectiveSeekTime);
     this.frameCache.set(cacheKey, thumbnail);
     
     return thumbnail;

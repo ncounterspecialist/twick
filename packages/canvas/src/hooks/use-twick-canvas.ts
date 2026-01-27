@@ -127,9 +127,7 @@ export const useTwickCanvas = ({
       return;
     }
 
-    // Dispose of the old canvas if it exists
     if (twickCanvasRef.current) {
-      console.log("Destroying twickCanvas");
       twickCanvasRef.current.off("mouse:up", handleMouseUp);
       twickCanvasRef.current.off("text:editing:exited", onTextEdit);
       twickCanvasRef.current.dispose();
@@ -378,10 +376,7 @@ export const useTwickCanvas = ({
     captionProps?: any;
     cleanAndAdd?: boolean;
   }) => {
-    if (!twickCanvas || !getCanvasContext(twickCanvas)) {
-      console.warn("Canvas not properly initialized");
-      return;
-    }
+    if (!twickCanvas || !getCanvasContext(twickCanvas)) return;
 
     try {
       if (cleanAndAdd && getCanvasContext(twickCanvas)) {
@@ -402,10 +397,7 @@ export const useTwickCanvas = ({
       await Promise.all(
         elements.map(async (element, index) => {
           try {
-            if (!element) {
-              console.warn("Element not found");
-              return;
-            }
+            if (!element) return;
             await addElementToCanvas({
               element,
               index,
@@ -413,14 +405,14 @@ export const useTwickCanvas = ({
               seekTime,
               captionProps,
             });
-          } catch (error) {
-            console.error(`Error adding element ${element.id}:`, error);
+          } catch {
+            // Skip element on add error
           }
         })
       );
       reorderElementsByZIndex(twickCanvas);
-    } catch (error) {
-      console.error("Error in setCanvasElements:", error);
+    } catch {
+      // Skip on error
     }
   };
 
@@ -454,10 +446,7 @@ export const useTwickCanvas = ({
     seekTime?: number;
     captionProps?: any;
   }) => {
-    if (!twickCanvas) {
-      console.warn("Canvas not initialized");
-      return;
-    }
+    if (!twickCanvas) return;
     // Add element based on type
     switch (element.type) {
       case ELEMENT_TYPES.VIDEO:

@@ -14,8 +14,6 @@ fs.mkdirSync(path.dirname(dest), { recursive: true });
 for (const src of candidates) {
   if (fs.existsSync(src)) {
     fs.cpSync(src, dest);
-    console.log('Copied mp4-wasm.wasm to public/ from', path.relative(root, src));
     process.exit(0);
   }
 }
-console.warn('mp4-wasm.wasm not found in any candidate path; skipping. Consumers can copy from examples public/ or node_modules/mp4-wasm.');

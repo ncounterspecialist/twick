@@ -3,6 +3,8 @@
  * Mirrors the server's FFmpeg audio generation logic
  */
 
+import { extractAudioFromVideo } from './video-audio-extractor';
+
 export interface MediaAsset {
   key: string;
   src: string;
@@ -88,11 +90,26 @@ export class BrowserAudioProcessor {
 
   /**
    * Fetch and decode audio from a media source
+   * Falls back to video element extraction if decodeAudioData fails
    */
   async fetchAndDecodeAudio(src: string): Promise<AudioBuffer> {
-    const response = await fetch(src);
-    const arrayBuffer = await response.arrayBuffer();
-    return await this.audioContext.decodeAudioData(arrayBuffer);
+    try {
+      const response = await fetch(src);
+      const arrayBuffer = await response.arrayBuffer();
+      return await this.audioContext.decodeAudioData(arrayBuffer);
+    } catch (err) {
+      try {
+        return await extractAudioFromVideo(
+          src,
+          0,
+          999999,
+          1.0,
+          this.sampleRate
+        );
+      } catch (fallbackErr) {
+        throw new Error(`Failed to extract audio: ${err}. Fallback also failed: ${fallbackErr}`);
+      }
+    }
   }
 
   /**

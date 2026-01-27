@@ -117,13 +117,13 @@ export const getThumbnail = async (
           if (playPromise !== undefined) {
             playPromise
               .then(() => {
-                video.currentTime = seekTime;
+                video.currentTime = seekTime || 0.1;
               })
               .catch(() => {
-                video.currentTime = seekTime;
+                video.currentTime = seekTime || 0.1;
               });
           } else {
-            video.currentTime = seekTime;
+            video.currentTime = seekTime || 0.1;
           }
         }, { once: true });
     

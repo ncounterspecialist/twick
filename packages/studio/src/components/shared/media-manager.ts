@@ -44,9 +44,7 @@ class MediaManagerSingleton {
                 MediaManagerSingleton.isInitialized = true;
                 resolvePromise!();
             } catch (error) {
-                // Reset the promise on error so initialization can be retried
                 MediaManagerSingleton.initializationPromise = null;
-                console.error("Error initializing default media:", error);
                 rejectPromise!(error);
             }
         })();
@@ -150,7 +148,6 @@ class MediaManagerSingleton {
                 
                 if (finalVideosToAdd.length > 0) {
                     await manager.addItems(finalVideosToAdd);
-                    console.log(`Added ${finalVideosToAdd.length} default video(s) to media library`);
                 }
             }
 
@@ -180,7 +177,6 @@ class MediaManagerSingleton {
                 
                 if (finalImagesToAdd.length > 0) {
                     await manager.addItems(finalImagesToAdd);
-                    console.log(`Added ${finalImagesToAdd.length} default image(s) to media library`);
                 }
             }
 
@@ -210,7 +206,6 @@ class MediaManagerSingleton {
                 
                 if (finalAudiosToAdd.length > 0) {
                     await manager.addItems(finalAudiosToAdd);
-                    console.log(`Added ${finalAudiosToAdd.length} default audio file(s) to media library`);
                 }
             }
         } catch (error) {

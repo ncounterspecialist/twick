@@ -129,18 +129,13 @@ export const useBrowserRenderer = (options: UseBrowserRendererOptions = {}): Use
 
   const download = useCallback((filename?: string) => {
     if (!videoBlob) {
-      const downloadError = new Error('No video available to download. Please render the video first.');
-      setError(downloadError);
-      console.error(downloadError.message);
+      setError(new Error('No video available to download. Please render the video first.'));
       return;
     }
-    
     try {
       downloadVideoBlob(videoBlob, filename || options.downloadFilename || 'video.mp4');
     } catch (err) {
-      const downloadError = err instanceof Error ? err : new Error('Failed to download video');
-      setError(downloadError);
-      console.error('Download error:', downloadError);
+      setError(err instanceof Error ? err : new Error('Failed to download video'));
     }
   }, [videoBlob, options.downloadFilename]);
 
@@ -173,11 +168,7 @@ export const useBrowserRenderer = (options: UseBrowserRendererOptions = {}): Use
               try {
                 downloadVideoBlob(blob, downloadFilename || 'video.mp4');
               } catch (downloadErr) {
-                const error = downloadErr instanceof Error 
-                  ? downloadErr 
-                  : new Error('Failed to auto-download video');
-                setError(error);
-                console.error('Auto-download error:', error);
+                setError(downloadErr instanceof Error ? downloadErr : new Error('Failed to auto-download video'));
               }
             }
           },
@@ -195,9 +186,7 @@ export const useBrowserRenderer = (options: UseBrowserRendererOptions = {}): Use
       setProgress(1);
       return blob;
     } catch (err) {
-      const error = err instanceof Error ? err : new Error(String(err));
-      setError(error);
-      console.error('Render error:', error);
+      setError(err instanceof Error ? err : new Error(String(err)));
       return null;
     } finally {
       setIsRendering(false);

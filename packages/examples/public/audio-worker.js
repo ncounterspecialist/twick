@@ -6,13 +6,11 @@
 const CACHE_NAME = 'twick-audio-cache-v1';
 const AUDIO_CACHE = 'audio-assets';
 
-self.addEventListener('install', (event) => {
-  console.log('[Audio Worker] Installed');
+self.addEventListener('install', () => {
   self.skipWaiting();
 });
 
 self.addEventListener('activate', (event) => {
-  console.log('[Audio Worker] Activated');
   event.waitUntil(self.clients.claim());
 });
 
@@ -24,14 +22,9 @@ self.addEventListener('fetch', (event) => {
     event.respondWith(
       caches.open(AUDIO_CACHE).then((cache) => {
         return cache.match(event.request).then((response) => {
-          if (response) {
-            console.log('[Audio Worker] Serving from cache:', url.pathname);
-            return response;
-          }
-          
+          if (response) return response;
           return fetch(event.request).then((networkResponse) => {
             cache.put(event.request, networkResponse.clone());
-            console.log('[Audio Worker] Cached:', url.pathname);
             return networkResponse;
           });
         });

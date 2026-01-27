@@ -135,7 +135,6 @@ export const blobUrlToFile = async (blobUrl: string, fileName: string): Promise<
       document.body.removeChild(link);
       window.URL.revokeObjectURL(downloadUrl);
     } catch (error) {
-      console.error("Error downloading file:", error);
       throw error;
     }
   };

@@ -73,11 +73,7 @@ export const useEditorManager = () => {
               setSelectedItem(element);
             }
           } catch (error) {}
-        } else {
-          console.log("TIMELINE ERROR: ", error.errors);
         }
-      } else {
-        console.log("TIMELINE ERROR: ", error);
       }
     }
   };

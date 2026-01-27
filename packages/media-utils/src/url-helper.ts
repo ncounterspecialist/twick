@@ -42,8 +42,7 @@ export const detectMediaTypeFromUrl = async (url: string): Promise<'image' | 'vi
   
       // Return null if not a recognized media type
       return null;
-    } catch (error) {
-      console.error('Fetch failed:', error);
+    } catch {
       return null;
     }
   };

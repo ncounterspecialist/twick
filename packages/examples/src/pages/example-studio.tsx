@@ -1,7 +1,7 @@
 import { useBrowserRenderer, type BrowserRenderConfig } from "@twick/browser-render";
 import { TwickStudio, LivePlayerProvider, TimelineProvider, INITIAL_TIMELINE_DATA, type VideoSettings, type ProjectJSON } from "@twick/studio";
 import "@twick/studio/dist/studio.css";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const VIDEO_SIZE = {
   width: 720,
@@ -32,10 +32,8 @@ export default function ExampleStudio() {
         },
       } as BrowserRenderConfig['variables'];
       
-      console.log("variables", JSON.stringify(variables, null, 2));
       const videoBlob = await render(variables);
-      console.log("videoBlob", videoBlob);
-      
+
       if (videoBlob) {
         setShowSuccess(true);
         setTimeout(() => setShowSuccess(false), 3000);
@@ -44,16 +42,9 @@ export default function ExampleStudio() {
         return { status: false, message: "Video export failed" };
       }
     } catch (err) {
-      console.error("Export error:", err);
       return { status: false, message: err instanceof Error ? err.message : "Unknown error" };
     }
   }
-
-  useEffect(() => {
-    console.log("progress", progress);
-    console.log("isRendering", isRendering);
-    console.log("error", error);
-  }, [progress, isRendering, error]);
 
   const handleCloseError = () => {
     reset();

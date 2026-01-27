@@ -271,17 +271,10 @@ const createAudioTimeline = async (
 
   // Process each segment
   for (const segment of segments) {
-    if (segment.s >= segment.e) {
-      console.warn(`Invalid segment: start (${segment.s}) >= end (${segment.e})`);
-      continue;
-    }
+    if (segment.s >= segment.e) continue;
 
-    // Skip segments with volume 0 (muted)
     const volume = segment.volume ?? 1;
-    if (volume <= 0) {
-      console.warn(`Skipping muted segment: ${segment.src}`);
-      continue;
-    }
+    if (volume <= 0) continue;
 
     try {
       const audioBuffer = await fetchAndDecodeAudio(segment.src);
@@ -302,8 +295,8 @@ const createAudioTimeline = async (
       }
       
       source.start(segment.s, 0, sourceDuration);
-    } catch (error) {
-      console.warn(`Failed to process segment: ${segment.src}`, error);
+    } catch {
+      // Skip segment on error
     }
   }
 

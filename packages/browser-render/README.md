@@ -46,19 +46,21 @@ a.click();
 import { useBrowserRenderer } from '@twick/browser-render';
 
 function VideoRenderer() {
-  const { render, progress, isRendering, videoBlob, download } = useBrowserRenderer({
-    width: 1920,
-    height: 1080,
-    fps: 30,
-    autoDownload: false
-  });
+  const { render, progress, isRendering, videoBlob, download, error, reset } =
+    useBrowserRenderer({
+      width: 720,
+      height: 1280,
+      fps: 30,
+      includeAudio: true,   // enable audio rendering + FFmpeg mux
+      autoDownload: true,   // auto-download final MP4
+    });
 
   const handleRender = async () => {
     await render({
       input: {
-        properties: { width: 1920, height: 1080, fps: 30 },
-        tracks: [/* ... */]
-      }
+        properties: { width: 720, height: 1280, fps: 30 },
+        tracks: [/* ... */],
+      },
     });
   };
 
@@ -69,6 +71,12 @@ function VideoRenderer() {
       </button>
       {isRendering && <progress value={progress} max={1} />}
       {videoBlob && <button onClick={download}>Download</button>}
+      {error && (
+        <div>
+          <p>{error.message}</p>
+          <button onClick={reset}>Clear error</button>
+        </div>
+      )}
     </div>
   );
 }
@@ -92,6 +100,9 @@ function VideoRenderer() {
     fps?: number;            // Frames per second (default: 30)
     quality?: 'low' | 'medium' | 'high';
     range?: [number, number]; // [start, end] in seconds
+    includeAudio?: boolean;  // Enable audio rendering and muxing (default: false)
+    downloadAudioSeparately?: boolean; // Also download audio.wav when muxing fails
+    onAudioReady?: (audioBlob: Blob) => void; // Callback when raw audio is ready
     onProgress?: (progress: number) => void;
     onComplete?: (videoBlob: Blob) => void;
     onError?: (error: Error) => void;
@@ -130,9 +141,38 @@ export default defineConfig({
 });
 ```
 
+### FFmpeg audio/video muxing (optional)
+
+When `settings.includeAudio` is enabled, `@twick/browser-render` will render audio in the browser and (by default) try to mux it into the final MP4 using `@ffmpeg/ffmpeg`.  
+To match the setup used in `@twick/examples`, you should:
+
+1. Install the FFmpeg packages:
+
+```bash
+npm install @ffmpeg/ffmpeg @ffmpeg/util @ffmpeg/core
+```
+
+2. Expose the FFmpeg core files from your app’s `public` folder so they are available at:
+
+```text
+/public/ffmpeg/ffmpeg-core.js
+/public/ffmpeg/ffmpeg-core.wasm
+```
+
+For example, you can copy them from `node_modules/@ffmpeg/core/dist`:
+
+```bash
+mkdir -p public/ffmpeg
+cp node_modules/@ffmpeg/core/dist/ffmpeg-core.js public/ffmpeg/
+cp node_modules/@ffmpeg/core/dist/ffmpeg-core.wasm public/ffmpeg/
+```
+
+In the browser, the muxer loads these files from `${window.location.origin}/ffmpeg`, so the URLs must match that structure.  
+If FFmpeg cannot be loaded, the renderer will fall back to returning a video-only file and (optionally) downloading `audio.wav` separately when `downloadAudioSeparately` is true.
+
 ## Limitations
 
-- **Audio**: Audio processing is not yet implemented. Only video encoding is supported.
+- **Audio**: Audio rendering and FFmpeg-based muxing run entirely in the browser and are still considered experimental. If FFmpeg assets are not available, only video will be muxed and audio may be downloaded as a separate file.
 - **Browser Support**: Requires WebCodecs API (Chrome 94+, Edge 94+)
 
 ## License
