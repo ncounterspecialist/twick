@@ -1,4 +1,4 @@
-# Twick – React Video Editor SDK with AI Captions
+# Twick – React Video Editor SDK with AI Caption Generation
 
 **Twick** is an open-source **React Video Editor Library & SDK** featuring AI caption generation, timeline editing, canvas tools, and MP4 export for building custom video applications.
 
@@ -89,7 +89,7 @@ It is designed for **developers**, not end users.
 - **`@twick/live-player`** – Video playback synchronized with timeline state  
 - **`@twick/browser-render`** – WebCodecs-based browser MP4 rendering  
 - **`@twick/render-server`** – Node + Puppeteer + FFmpeg rendering server  
-- **`@twick/cloud-transcript`** – AI transcription to JSON captions (Vertex AI / Gemini)  
+- **`@twick/cloud-transcript`** – AI transcription to JSON captions 
 - **`@twick/cloud-subtitle-video`** – Fully automated subtitle project generation from a video URL  
 - **`@twick/cloud-export-video`** – Serverless MP4 export via AWS Lambda containers  
 - **`@twick/mcp-agent`** – MCP agent for Claude Desktop + Twick Studio workflows  
@@ -120,7 +120,7 @@ Then open `http://localhost:4173` in your browser.
 Install the main editor studio package (it pulls in the required timeline and player dependencies):
 
 ```bash
-npm install @twick/studio
+npm install --save @twick/studio
 # or
 pnpm add @twick/studio
 ```
