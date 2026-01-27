@@ -1,5 +1,3 @@
-[@twick/timeline](../README.md) / [Exports](../modules.md) / TimelineEditor
-
 # Class: TimelineEditor
 
 TimelineEditor
@@ -14,36 +12,31 @@ It also handles undo/redo operations internally.
 
 - [constructor](TimelineEditor.md#constructor)
 
-### Properties
-
-- [context](TimelineEditor.md#context)
-- [totalDuration](TimelineEditor.md#totalduration)
-
 ### Methods
 
-- [addElementToTrack](TimelineEditor.md#addelementtotrack)
-- [addTrack](TimelineEditor.md#addtrack)
-- [cloneElement](TimelineEditor.md#cloneelement)
 - [getContext](TimelineEditor.md#getcontext)
-- [getLatestVersion](TimelineEditor.md#getlatestversion)
+- [pauseVideo](TimelineEditor.md#pausevideo)
 - [getTimelineData](TimelineEditor.md#gettimelinedata)
+- [getLatestVersion](TimelineEditor.md#getlatestversion)
+- [addTrack](TimelineEditor.md#addtrack)
 - [getTrackById](TimelineEditor.md#gettrackbyid)
 - [getTrackByName](TimelineEditor.md#gettrackbyname)
-- [getVideoAudio](TimelineEditor.md#getvideoaudio)
-- [loadProject](TimelineEditor.md#loadproject)
-- [pauseVideo](TimelineEditor.md#pausevideo)
-- [redo](TimelineEditor.md#redo)
-- [refresh](TimelineEditor.md#refresh)
-- [removeElement](TimelineEditor.md#removeelement)
-- [removeTrack](TimelineEditor.md#removetrack)
+- [getSubtiltesTrack](TimelineEditor.md#getsubtiltestrack)
 - [removeTrackById](TimelineEditor.md#removetrackbyid)
-- [reorderTracks](TimelineEditor.md#reordertracks)
-- [resetHistory](TimelineEditor.md#resethistory)
-- [setTimelineData](TimelineEditor.md#settimelinedata)
-- [splitElement](TimelineEditor.md#splitelement)
-- [undo](TimelineEditor.md#undo)
+- [removeTrack](TimelineEditor.md#removetrack)
+- [refresh](TimelineEditor.md#refresh)
+- [addElementToTrack](TimelineEditor.md#addelementtotrack)
+- [removeElement](TimelineEditor.md#removeelement)
 - [updateElement](TimelineEditor.md#updateelement)
+- [splitElement](TimelineEditor.md#splitelement)
+- [cloneElement](TimelineEditor.md#cloneelement)
+- [reorderTracks](TimelineEditor.md#reordertracks)
 - [updateHistory](TimelineEditor.md#updatehistory)
+- [undo](TimelineEditor.md#undo)
+- [redo](TimelineEditor.md#redo)
+- [resetHistory](TimelineEditor.md#resethistory)
+- [loadProject](TimelineEditor.md#loadproject)
+- [getVideoAudio](TimelineEditor.md#getvideoaudio)
 
 ## Constructors
 
@@ -63,98 +56,9 @@ It also handles undo/redo operations internally.
 
 #### Defined in
 
-[packages/timeline/src/core/editor/timeline.editor.ts:45](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/editor/timeline.editor.ts#L45)
-
-## Properties
-
-### context
-
-• `Private` **context**: `TimelineOperationContext`
-
-#### Defined in
-
-[packages/timeline/src/core/editor/timeline.editor.ts:42](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/editor/timeline.editor.ts#L42)
-
-___
-
-### totalDuration
-
-• `Private` **totalDuration**: `number` = `0`
-
-#### Defined in
-
-[packages/timeline/src/core/editor/timeline.editor.ts:43](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/editor/timeline.editor.ts#L43)
+[core/editor/timeline.editor.ts:46](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/editor/timeline.editor.ts#L46)
 
 ## Methods
-
-### addElementToTrack
-
-▸ **addElementToTrack**(`track`, `element`): `Promise`\<`boolean`\>
-
-Add an element to a specific track using the visitor pattern
-
-#### Parameters
-
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `track` | [`Track`](Track.md) | The track to add the element to |
-| `element` | [`TrackElement`](TrackElement.md) | The element to add |
-
-#### Returns
-
-`Promise`\<`boolean`\>
-
-`Promise<boolean>` true if element was added successfully
-
-#### Defined in
-
-[packages/timeline/src/core/editor/timeline.editor.ts:143](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/editor/timeline.editor.ts#L143)
-
-___
-
-### addTrack
-
-▸ **addTrack**(`name`): [`Track`](Track.md)
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `name` | `string` |
-
-#### Returns
-
-[`Track`](Track.md)
-
-#### Defined in
-
-[packages/timeline/src/core/editor/timeline.editor.ts:94](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/editor/timeline.editor.ts#L94)
-
-___
-
-### cloneElement
-
-▸ **cloneElement**(`element`): ``null`` \| [`TrackElement`](TrackElement.md)
-
-Clone an element using the visitor pattern
-
-#### Parameters
-
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `element` | [`TrackElement`](TrackElement.md) | The element to clone |
-
-#### Returns
-
-``null`` \| [`TrackElement`](TrackElement.md)
-
-TrackElement | null - the cloned element or null if cloning failed
-
-#### Defined in
-
-[packages/timeline/src/core/editor/timeline.editor.ts:272](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/editor/timeline.editor.ts#L272)
-
-___
 
 ### getContext
 
@@ -166,21 +70,21 @@ ___
 
 #### Defined in
 
-[packages/timeline/src/core/editor/timeline.editor.ts:51](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/editor/timeline.editor.ts#L51)
+[core/editor/timeline.editor.ts:52](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/editor/timeline.editor.ts#L52)
 
 ___
 
-### getLatestVersion
+### pauseVideo
 
-▸ **getLatestVersion**(): `number`
+▸ **pauseVideo**(): `void`
 
 #### Returns
 
-`number`
+`void`
 
 #### Defined in
 
-[packages/timeline/src/core/editor/timeline.editor.ts:69](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/editor/timeline.editor.ts#L69)
+[core/editor/timeline.editor.ts:56](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/editor/timeline.editor.ts#L56)
 
 ___
 
@@ -194,7 +98,42 @@ ___
 
 #### Defined in
 
-[packages/timeline/src/core/editor/timeline.editor.ts:64](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/editor/timeline.editor.ts#L64)
+[core/editor/timeline.editor.ts:65](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/editor/timeline.editor.ts#L65)
+
+___
+
+### getLatestVersion
+
+▸ **getLatestVersion**(): `number`
+
+#### Returns
+
+`number`
+
+#### Defined in
+
+[core/editor/timeline.editor.ts:70](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/editor/timeline.editor.ts#L70)
+
+___
+
+### addTrack
+
+▸ **addTrack**(`name`, `type?`): [`Track`](Track.md)
+
+#### Parameters
+
+| Name | Type | Default value |
+| :------ | :------ | :------ |
+| `name` | `string` | `undefined` |
+| `type` | `string` | `"element"` |
+
+#### Returns
+
+[`Track`](Track.md)
+
+#### Defined in
+
+[core/editor/timeline.editor.ts:106](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/editor/timeline.editor.ts#L106)
 
 ___
 
@@ -214,7 +153,7 @@ ___
 
 #### Defined in
 
-[packages/timeline/src/core/editor/timeline.editor.ts:103](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/editor/timeline.editor.ts#L103)
+[core/editor/timeline.editor.ts:115](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/editor/timeline.editor.ts#L115)
 
 ___
 
@@ -234,133 +173,21 @@ ___
 
 #### Defined in
 
-[packages/timeline/src/core/editor/timeline.editor.ts:109](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/editor/timeline.editor.ts#L109)
+[core/editor/timeline.editor.ts:121](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/editor/timeline.editor.ts#L121)
 
 ___
 
-### getVideoAudio
+### getSubtiltesTrack
 
-▸ **getVideoAudio**(): `Promise`\<`string`\>
-
-#### Returns
-
-`Promise`\<`string`\>
-
-#### Defined in
-
-[packages/timeline/src/core/editor/timeline.editor.ts:398](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/editor/timeline.editor.ts#L398)
-
-___
-
-### loadProject
-
-▸ **loadProject**(`«destructured»`): `void`
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `«destructured»` | `Object` |
-| › `tracks` | [`TrackJSON`](../modules.md#trackjson)[] |
-| › `version` | `number` |
+▸ **getSubtiltesTrack**(): ``null`` \| [`Track`](Track.md)
 
 #### Returns
 
-`void`
+``null`` \| [`Track`](Track.md)
 
 #### Defined in
 
-[packages/timeline/src/core/editor/timeline.editor.ts:377](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/editor/timeline.editor.ts#L377)
-
-___
-
-### pauseVideo
-
-▸ **pauseVideo**(): `void`
-
-#### Returns
-
-`void`
-
-#### Defined in
-
-[packages/timeline/src/core/editor/timeline.editor.ts:55](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/editor/timeline.editor.ts#L55)
-
-___
-
-### redo
-
-▸ **redo**(): `void`
-
-Trigger redo operation and update timeline data
-
-#### Returns
-
-`void`
-
-#### Defined in
-
-[packages/timeline/src/core/editor/timeline.editor.ts:327](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/editor/timeline.editor.ts#L327)
-
-___
-
-### refresh
-
-▸ **refresh**(): `void`
-
-Refresh the timeline data
-
-#### Returns
-
-`void`
-
-#### Defined in
-
-[packages/timeline/src/core/editor/timeline.editor.ts:130](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/editor/timeline.editor.ts#L130)
-
-___
-
-### removeElement
-
-▸ **removeElement**(`element`): `boolean`
-
-Remove an element from a specific track using the visitor pattern
-
-#### Parameters
-
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `element` | [`TrackElement`](TrackElement.md) | The element to remove |
-
-#### Returns
-
-`boolean`
-
-boolean true if element was removed successfully
-
-#### Defined in
-
-[packages/timeline/src/core/editor/timeline.editor.ts:173](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/editor/timeline.editor.ts#L173)
-
-___
-
-### removeTrack
-
-▸ **removeTrack**(`track`): `void`
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `track` | [`Track`](Track.md) |
-
-#### Returns
-
-`void`
-
-#### Defined in
-
-[packages/timeline/src/core/editor/timeline.editor.ts:121](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/editor/timeline.editor.ts#L121)
+[core/editor/timeline.editor.ts:127](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/editor/timeline.editor.ts#L127)
 
 ___
 
@@ -380,19 +207,19 @@ ___
 
 #### Defined in
 
-[packages/timeline/src/core/editor/timeline.editor.ts:115](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/editor/timeline.editor.ts#L115)
+[core/editor/timeline.editor.ts:133](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/editor/timeline.editor.ts#L133)
 
 ___
 
-### reorderTracks
+### removeTrack
 
-▸ **reorderTracks**(`tracks`): `void`
+▸ **removeTrack**(`track`): `void`
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `tracks` | [`Track`](Track.md)[] |
+| `track` | [`Track`](Track.md) |
 
 #### Returns
 
@@ -400,15 +227,15 @@ ___
 
 #### Defined in
 
-[packages/timeline/src/core/editor/timeline.editor.ts:281](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/editor/timeline.editor.ts#L281)
+[core/editor/timeline.editor.ts:139](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/editor/timeline.editor.ts#L139)
 
 ___
 
-### resetHistory
+### refresh
 
-▸ **resetHistory**(): `void`
+▸ **refresh**(): `void`
 
-Reset history and clear timeline data
+Refresh the timeline data
 
 #### Returns
 
@@ -416,28 +243,80 @@ Reset history and clear timeline data
 
 #### Defined in
 
-[packages/timeline/src/core/editor/timeline.editor.ts:355](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/editor/timeline.editor.ts#L355)
+[core/editor/timeline.editor.ts:148](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/editor/timeline.editor.ts#L148)
 
 ___
 
-### setTimelineData
+### addElementToTrack
 
-▸ **setTimelineData**(`tracks`, `version?`): `TimelineTrackData`
+▸ **addElementToTrack**(`track`, `element`): `Promise`\<`boolean`\>
+
+Add an element to a specific track using the visitor pattern.
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `tracks` | [`Track`](Track.md)[] |
-| `version?` | `number` |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `track` | [`Track`](Track.md) | The track to add the element to. |
+| `element` | [`TrackElement`](TrackElement.md) | The element to add. |
 
 #### Returns
 
-`TimelineTrackData`
+`Promise`\<`boolean`\>
+
+A promise that resolves to `true` if the element was added successfully, otherwise `false`.
 
 #### Defined in
 
-[packages/timeline/src/core/editor/timeline.editor.ts:75](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/editor/timeline.editor.ts#L75)
+[core/editor/timeline.editor.ts:161](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/editor/timeline.editor.ts#L161)
+
+___
+
+### removeElement
+
+▸ **removeElement**(`element`): `boolean`
+
+Remove an element from a specific track using the visitor pattern.
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `element` | [`TrackElement`](TrackElement.md) | The element to remove. |
+
+#### Returns
+
+`boolean`
+
+`true` if the element was removed successfully, otherwise `false`.
+
+#### Defined in
+
+[core/editor/timeline.editor.ts:197](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/editor/timeline.editor.ts#L197)
+
+___
+
+### updateElement
+
+▸ **updateElement**(`element`): [`TrackElement`](TrackElement.md)
+
+Update an element in a specific track using the visitor pattern.
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `element` | [`TrackElement`](TrackElement.md) | The updated element. |
+
+#### Returns
+
+[`TrackElement`](TrackElement.md)
+
+The updated `TrackElement`.
+
+#### Defined in
+
+[core/editor/timeline.editor.ts:227](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/editor/timeline.editor.ts#L227)
 
 ___
 
@@ -462,15 +341,43 @@ SplitResult with first element, second element, and success status
 
 #### Defined in
 
-[packages/timeline/src/core/editor/timeline.editor.ts:234](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/editor/timeline.editor.ts#L234)
+[core/editor/timeline.editor.ts:258](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/editor/timeline.editor.ts#L258)
 
 ___
 
-### undo
+### cloneElement
 
-▸ **undo**(): `void`
+▸ **cloneElement**(`element`): ``null`` \| [`TrackElement`](TrackElement.md)
 
-Trigger undo operation and update timeline data
+Clone an element using the visitor pattern
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `element` | [`TrackElement`](TrackElement.md) | The element to clone |
+
+#### Returns
+
+``null`` \| [`TrackElement`](TrackElement.md)
+
+TrackElement | null - the cloned element or null if cloning failed
+
+#### Defined in
+
+[core/editor/timeline.editor.ts:299](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/editor/timeline.editor.ts#L299)
+
+___
+
+### reorderTracks
+
+▸ **reorderTracks**(`tracks`): `void`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `tracks` | [`Track`](Track.md)[] |
 
 #### Returns
 
@@ -478,31 +385,7 @@ Trigger undo operation and update timeline data
 
 #### Defined in
 
-[packages/timeline/src/core/editor/timeline.editor.ts:299](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/editor/timeline.editor.ts#L299)
-
-___
-
-### updateElement
-
-▸ **updateElement**(`element`): `boolean`
-
-Update an element in a specific track using the visitor pattern
-
-#### Parameters
-
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `element` | [`TrackElement`](TrackElement.md) | The updated element |
-
-#### Returns
-
-`boolean`
-
-boolean true if element was updated successfully
-
-#### Defined in
-
-[packages/timeline/src/core/editor/timeline.editor.ts:203](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/editor/timeline.editor.ts#L203)
+[core/editor/timeline.editor.ts:308](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/editor/timeline.editor.ts#L308)
 
 ___
 
@@ -522,4 +405,88 @@ ___
 
 #### Defined in
 
-[packages/timeline/src/core/editor/timeline.editor.ts:285](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/editor/timeline.editor.ts#L285)
+[core/editor/timeline.editor.ts:312](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/editor/timeline.editor.ts#L312)
+
+___
+
+### undo
+
+▸ **undo**(): `void`
+
+Trigger undo operation and update timeline data
+
+#### Returns
+
+`void`
+
+#### Defined in
+
+[core/editor/timeline.editor.ts:326](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/editor/timeline.editor.ts#L326)
+
+___
+
+### redo
+
+▸ **redo**(): `void`
+
+Trigger redo operation and update timeline data
+
+#### Returns
+
+`void`
+
+#### Defined in
+
+[core/editor/timeline.editor.ts:354](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/editor/timeline.editor.ts#L354)
+
+___
+
+### resetHistory
+
+▸ **resetHistory**(): `void`
+
+Reset history and clear timeline data
+
+#### Returns
+
+`void`
+
+#### Defined in
+
+[core/editor/timeline.editor.ts:382](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/editor/timeline.editor.ts#L382)
+
+___
+
+### loadProject
+
+▸ **loadProject**(`«destructured»`): `void`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `«destructured»` | `Object` |
+| › `tracks` | [`TrackJSON`](../interfaces/TrackJSON.md)[] |
+| › `version` | `number` |
+
+#### Returns
+
+`void`
+
+#### Defined in
+
+[core/editor/timeline.editor.ts:404](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/editor/timeline.editor.ts#L404)
+
+___
+
+### getVideoAudio
+
+▸ **getVideoAudio**(): `Promise`\<`string`\>
+
+#### Returns
+
+`Promise`\<`string`\>
+
+#### Defined in
+
+[core/editor/timeline.editor.ts:425](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/editor/timeline.editor.ts#L425)

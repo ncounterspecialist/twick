@@ -21,7 +21,7 @@ Audio segment interface for stitching
 
 #### Defined in
 
-[audio-utils.ts:7](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/media-utils/src/audio-utils.ts#L7)
+[audio-utils.ts:7](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/media-utils/src/audio-utils.ts#L7)
 
 ___
 
@@ -31,7 +31,7 @@ ___
 
 #### Defined in
 
-[audio-utils.ts:6](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/media-utils/src/audio-utils.ts#L6)
+[audio-utils.ts:6](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/media-utils/src/audio-utils.ts#L6)
 
 ___
 
@@ -41,7 +41,7 @@ ___
 
 #### Defined in
 
-[audio-utils.ts:5](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/media-utils/src/audio-utils.ts#L5)
+[audio-utils.ts:5](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/media-utils/src/audio-utils.ts#L5)
 
 ___
 
@@ -51,4 +51,4 @@ ___
 
 #### Defined in
 
-[audio-utils.ts:8](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/media-utils/src/audio-utils.ts#L8)
+[audio-utils.ts:8](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/media-utils/src/audio-utils.ts#L8)

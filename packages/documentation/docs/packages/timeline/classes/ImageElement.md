@@ -1,5 +1,3 @@
-[@twick/timeline](../README.md) / [Exports](../modules.md) / ImageElement
-
 # Class: ImageElement
 
 ## Hierarchy
@@ -14,58 +12,51 @@
 
 - [constructor](ImageElement.md#constructor)
 
-### Properties
-
-- [animation](ImageElement.md#animation)
-- [backgroundColor](ImageElement.md#backgroundcolor)
-- [e](ImageElement.md#e)
-- [frame](ImageElement.md#frame)
-- [frameEffects](ImageElement.md#frameeffects)
-- [id](ImageElement.md#id)
-- [name](ImageElement.md#name)
-- [objectFit](ImageElement.md#objectfit)
-- [parentSize](ImageElement.md#parentsize)
-- [props](ImageElement.md#props)
-- [s](ImageElement.md#s)
-- [trackId](ImageElement.md#trackid)
-- [type](ImageElement.md#type)
-
 ### Methods
 
-- [accept](ImageElement.md#accept)
-- [addFrameEffect](ImageElement.md#addframeeffect)
-- [getAnimation](ImageElement.md#getanimation)
-- [getBackgroundColor](ImageElement.md#getbackgroundcolor)
-- [getDuration](ImageElement.md#getduration)
+- [getId](ImageElement.md#getid)
+- [getType](ImageElement.md#gettype)
+- [getStart](ImageElement.md#getstart)
 - [getEnd](ImageElement.md#getend)
+- [getDuration](ImageElement.md#getduration)
+- [getTrackId](ImageElement.md#gettrackid)
+- [getProps](ImageElement.md#getprops)
+- [getName](ImageElement.md#getname)
+- [getAnimation](ImageElement.md#getanimation)
+- [getOpacity](ImageElement.md#getopacity)
+- [setId](ImageElement.md#setid)
+- [setType](ImageElement.md#settype)
+- [setStart](ImageElement.md#setstart)
+- [setEnd](ImageElement.md#setend)
+- [setTrackId](ImageElement.md#settrackid)
+- [setName](ImageElement.md#setname)
+- [setAnimation](ImageElement.md#setanimation)
+- [setOpacity](ImageElement.md#setopacity)
+- [getParentSize](ImageElement.md#getparentsize)
 - [getFrame](ImageElement.md#getframe)
 - [getFrameEffects](ImageElement.md#getframeeffects)
-- [getId](ImageElement.md#getid)
-- [getName](ImageElement.md#getname)
+- [getBackgroundColor](ImageElement.md#getbackgroundcolor)
 - [getObjectFit](ImageElement.md#getobjectfit)
-- [getParentSize](ImageElement.md#getparentsize)
+- [getRotation](ImageElement.md#getrotation)
+- [setRotation](ImageElement.md#setrotation)
 - [getPosition](ImageElement.md#getposition)
-- [getProps](ImageElement.md#getprops)
-- [getStart](ImageElement.md#getstart)
-- [getTrackId](ImageElement.md#gettrackid)
-- [getType](ImageElement.md#gettype)
-- [setAnimation](ImageElement.md#setanimation)
-- [setBackgroundColor](ImageElement.md#setbackgroundcolor)
-- [setEnd](ImageElement.md#setend)
-- [setFrame](ImageElement.md#setframe)
-- [setFrameEffects](ImageElement.md#setframeeffects)
-- [setId](ImageElement.md#setid)
-- [setMediaFilter](ImageElement.md#setmediafilter)
-- [setName](ImageElement.md#setname)
-- [setObjectFit](ImageElement.md#setobjectfit)
-- [setParentSize](ImageElement.md#setparentsize)
-- [setPosition](ImageElement.md#setposition)
-- [setProps](ImageElement.md#setprops)
-- [setSrc](ImageElement.md#setsrc)
-- [setStart](ImageElement.md#setstart)
-- [setTrackId](ImageElement.md#settrackid)
-- [setType](ImageElement.md#settype)
 - [updateImageMeta](ImageElement.md#updateimagemeta)
+- [setPosition](ImageElement.md#setposition)
+- [setSrc](ImageElement.md#setsrc)
+- [setObjectFit](ImageElement.md#setobjectfit)
+- [setFrame](ImageElement.md#setframe)
+- [setParentSize](ImageElement.md#setparentsize)
+- [setMediaFilter](ImageElement.md#setmediafilter)
+- [setBackgroundColor](ImageElement.md#setbackgroundcolor)
+- [setProps](ImageElement.md#setprops)
+- [setFrameEffects](ImageElement.md#setframeeffects)
+- [addFrameEffect](ImageElement.md#addframeeffect)
+- [accept](ImageElement.md#accept)
+
+### Properties
+
+- [frameEffects](ImageElement.md#frameeffects)
+- [frame](ImageElement.md#frame)
 
 ## Constructors
 
@@ -78,7 +69,7 @@
 | Name | Type |
 | :------ | :------ |
 | `src` | `string` |
-| `parentSize` | [`Size`](../modules.md#size) |
+| `parentSize` | [`Size`](../interfaces/Size.md) |
 
 #### Returns
 
@@ -90,171 +81,739 @@
 
 #### Defined in
 
-[packages/timeline/src/core/elements/image.element.ts:16](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/image.element.ts#L16)
+[core/elements/image.element.ts:16](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/image.element.ts#L16)
 
-## Properties
+## Methods
 
-### animation
+### getId
 
-• `Protected` `Optional` **animation**: [`ElementAnimation`](ElementAnimation.md)
+▸ **getId**(): `string`
 
-#### Inherited from
+#### Returns
 
-[TrackElement](TrackElement.md).[animation](TrackElement.md#animation)
-
-#### Defined in
-
-[packages/timeline/src/core/elements/base.element.ts:13](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/base.element.ts#L13)
-
-___
-
-### backgroundColor
-
-• `Protected` **backgroundColor**: `string`
-
-#### Defined in
-
-[packages/timeline/src/core/elements/image.element.ts:9](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/image.element.ts#L9)
-
-___
-
-### e
-
-• `Protected` **e**: `number`
+`string`
 
 #### Inherited from
 
-[TrackElement](TrackElement.md).[e](TrackElement.md#e)
+[TrackElement](TrackElement.md).[getId](TrackElement.md#getid)
 
 #### Defined in
 
-[packages/timeline/src/core/elements/base.element.ts:10](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/base.element.ts#L10)
+[core/elements/base.element.ts:29](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/base.element.ts#L29)
 
 ___
 
-### frame
+### getType
 
-• **frame**: [`Frame`](../modules.md#frame)
+▸ **getType**(): `string`
 
-#### Defined in
+#### Returns
 
-[packages/timeline/src/core/elements/image.element.ts:13](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/image.element.ts#L13)
-
-___
-
-### frameEffects
-
-• `Optional` **frameEffects**: [`ElementFrameEffect`](ElementFrameEffect.md)[]
-
-#### Defined in
-
-[packages/timeline/src/core/elements/image.element.ts:12](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/image.element.ts#L12)
-
-___
-
-### id
-
-• `Protected` **id**: `string`
+`string`
 
 #### Inherited from
 
-[TrackElement](TrackElement.md).[id](TrackElement.md#id)
+[TrackElement](TrackElement.md).[getType](TrackElement.md#gettype)
 
 #### Defined in
 
-[packages/timeline/src/core/elements/base.element.ts:7](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/base.element.ts#L7)
+[core/elements/base.element.ts:33](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/base.element.ts#L33)
 
 ___
 
-### name
+### getStart
 
-• `Protected` **name**: `string`
+▸ **getStart**(): `number`
+
+#### Returns
+
+`number`
 
 #### Inherited from
 
-[TrackElement](TrackElement.md).[name](TrackElement.md#name)
+[TrackElement](TrackElement.md).[getStart](TrackElement.md#getstart)
 
 #### Defined in
 
-[packages/timeline/src/core/elements/base.element.ts:12](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/base.element.ts#L12)
+[core/elements/base.element.ts:37](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/base.element.ts#L37)
 
 ___
 
-### objectFit
+### getEnd
 
-• `Protected` **objectFit**: [`ObjectFit`](../modules.md#objectfit)
+▸ **getEnd**(): `number`
+
+#### Returns
+
+`number`
+
+#### Inherited from
+
+[TrackElement](TrackElement.md).[getEnd](TrackElement.md#getend)
 
 #### Defined in
 
-[packages/timeline/src/core/elements/image.element.ts:11](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/image.element.ts#L11)
+[core/elements/base.element.ts:41](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/base.element.ts#L41)
 
 ___
 
-### parentSize
+### getDuration
 
-• `Protected` **parentSize**: [`Size`](../modules.md#size)
+▸ **getDuration**(): `number`
+
+#### Returns
+
+`number`
+
+#### Inherited from
+
+[TrackElement](TrackElement.md).[getDuration](TrackElement.md#getduration)
 
 #### Defined in
 
-[packages/timeline/src/core/elements/image.element.ts:10](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/image.element.ts#L10)
+[core/elements/base.element.ts:45](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/base.element.ts#L45)
 
 ___
 
-### props
+### getTrackId
 
-• `Protected` **props**: [`ImageProps`](../modules.md#imageprops)
+▸ **getTrackId**(): `string`
+
+#### Returns
+
+`string`
+
+#### Inherited from
+
+[TrackElement](TrackElement.md).[getTrackId](TrackElement.md#gettrackid)
+
+#### Defined in
+
+[core/elements/base.element.ts:49](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/base.element.ts#L49)
+
+___
+
+### getProps
+
+▸ **getProps**(): `Record`\<`string`, `any`\>
+
+#### Returns
+
+`Record`\<`string`, `any`\>
+
+#### Inherited from
+
+[TrackElement](TrackElement.md).[getProps](TrackElement.md#getprops)
+
+#### Defined in
+
+[core/elements/base.element.ts:53](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/base.element.ts#L53)
+
+___
+
+### getName
+
+▸ **getName**(): `string`
+
+#### Returns
+
+`string`
+
+#### Inherited from
+
+[TrackElement](TrackElement.md).[getName](TrackElement.md#getname)
+
+#### Defined in
+
+[core/elements/base.element.ts:57](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/base.element.ts#L57)
+
+___
+
+### getAnimation
+
+▸ **getAnimation**(): `undefined` \| [`ElementAnimation`](ElementAnimation.md)
+
+#### Returns
+
+`undefined` \| [`ElementAnimation`](ElementAnimation.md)
+
+#### Inherited from
+
+[TrackElement](TrackElement.md).[getAnimation](TrackElement.md#getanimation)
+
+#### Defined in
+
+[core/elements/base.element.ts:61](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/base.element.ts#L61)
+
+___
+
+### getOpacity
+
+▸ **getOpacity**(): `number`
+
+#### Returns
+
+`number`
+
+#### Inherited from
+
+[TrackElement](TrackElement.md).[getOpacity](TrackElement.md#getopacity)
+
+#### Defined in
+
+[core/elements/base.element.ts:76](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/base.element.ts#L76)
+
+___
+
+### setId
+
+▸ **setId**(`id`): [`ImageElement`](ImageElement.md)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `id` | `string` |
+
+#### Returns
+
+[`ImageElement`](ImageElement.md)
+
+#### Inherited from
+
+[TrackElement](TrackElement.md).[setId](TrackElement.md#setid)
+
+#### Defined in
+
+[core/elements/base.element.ts:80](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/base.element.ts#L80)
+
+___
+
+### setType
+
+▸ **setType**(`type`): [`ImageElement`](ImageElement.md)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `type` | `string` |
+
+#### Returns
+
+[`ImageElement`](ImageElement.md)
+
+#### Inherited from
+
+[TrackElement](TrackElement.md).[setType](TrackElement.md#settype)
+
+#### Defined in
+
+[core/elements/base.element.ts:85](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/base.element.ts#L85)
+
+___
+
+### setStart
+
+▸ **setStart**(`s`): [`ImageElement`](ImageElement.md)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `s` | `number` |
+
+#### Returns
+
+[`ImageElement`](ImageElement.md)
+
+#### Inherited from
+
+[TrackElement](TrackElement.md).[setStart](TrackElement.md#setstart)
+
+#### Defined in
+
+[core/elements/base.element.ts:90](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/base.element.ts#L90)
+
+___
+
+### setEnd
+
+▸ **setEnd**(`e`): [`ImageElement`](ImageElement.md)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `e` | `number` |
+
+#### Returns
+
+[`ImageElement`](ImageElement.md)
+
+#### Inherited from
+
+[TrackElement](TrackElement.md).[setEnd](TrackElement.md#setend)
+
+#### Defined in
+
+[core/elements/base.element.ts:95](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/base.element.ts#L95)
+
+___
+
+### setTrackId
+
+▸ **setTrackId**(`trackId`): [`ImageElement`](ImageElement.md)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `trackId` | `string` |
+
+#### Returns
+
+[`ImageElement`](ImageElement.md)
+
+#### Inherited from
+
+[TrackElement](TrackElement.md).[setTrackId](TrackElement.md#settrackid)
+
+#### Defined in
+
+[core/elements/base.element.ts:100](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/base.element.ts#L100)
+
+___
+
+### setName
+
+▸ **setName**(`name`): [`ImageElement`](ImageElement.md)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `name` | `string` |
+
+#### Returns
+
+[`ImageElement`](ImageElement.md)
+
+#### Inherited from
+
+[TrackElement](TrackElement.md).[setName](TrackElement.md#setname)
+
+#### Defined in
+
+[core/elements/base.element.ts:105](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/base.element.ts#L105)
+
+___
+
+### setAnimation
+
+▸ **setAnimation**(`animation?`): [`ImageElement`](ImageElement.md)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `animation?` | [`ElementAnimation`](ElementAnimation.md) |
+
+#### Returns
+
+[`ImageElement`](ImageElement.md)
+
+#### Inherited from
+
+[TrackElement](TrackElement.md).[setAnimation](TrackElement.md#setanimation)
+
+#### Defined in
+
+[core/elements/base.element.ts:110](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/base.element.ts#L110)
+
+___
+
+### setOpacity
+
+▸ **setOpacity**(`opacity`): [`ImageElement`](ImageElement.md)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `opacity` | `number` |
+
+#### Returns
+
+[`ImageElement`](ImageElement.md)
+
+#### Inherited from
+
+[TrackElement](TrackElement.md).[setOpacity](TrackElement.md#setopacity)
+
+#### Defined in
+
+[core/elements/base.element.ts:126](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/base.element.ts#L126)
+
+___
+
+### getParentSize
+
+▸ **getParentSize**(): [`Size`](../interfaces/Size.md)
+
+#### Returns
+
+[`Size`](../interfaces/Size.md)
+
+#### Defined in
+
+[core/elements/image.element.ts:31](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/image.element.ts#L31)
+
+___
+
+### getFrame
+
+▸ **getFrame**(): [`Frame`](../interfaces/Frame.md)
+
+#### Returns
+
+[`Frame`](../interfaces/Frame.md)
+
+#### Defined in
+
+[core/elements/image.element.ts:35](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/image.element.ts#L35)
+
+___
+
+### getFrameEffects
+
+▸ **getFrameEffects**(): `undefined` \| [`ElementFrameEffect`](ElementFrameEffect.md)[]
+
+#### Returns
+
+`undefined` \| [`ElementFrameEffect`](ElementFrameEffect.md)[]
+
+#### Defined in
+
+[core/elements/image.element.ts:39](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/image.element.ts#L39)
+
+___
+
+### getBackgroundColor
+
+▸ **getBackgroundColor**(): `string`
+
+#### Returns
+
+`string`
+
+#### Defined in
+
+[core/elements/image.element.ts:43](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/image.element.ts#L43)
+
+___
+
+### getObjectFit
+
+▸ **getObjectFit**(): [`ObjectFit`](../modules.md#objectfit)
+
+#### Returns
+
+[`ObjectFit`](../modules.md#objectfit)
+
+#### Defined in
+
+[core/elements/image.element.ts:47](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/image.element.ts#L47)
+
+___
+
+### getRotation
+
+▸ **getRotation**(): `number`
+
+#### Returns
+
+`number`
 
 #### Overrides
 
-[TrackElement](TrackElement.md).[props](TrackElement.md#props)
+[TrackElement](TrackElement.md).[getRotation](TrackElement.md#getrotation)
 
 #### Defined in
 
-[packages/timeline/src/core/elements/image.element.ts:14](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/image.element.ts#L14)
+[core/elements/image.element.ts:51](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/image.element.ts#L51)
 
 ___
 
-### s
+### setRotation
 
-• `Protected` **s**: `number`
+▸ **setRotation**(`rotation`): [`ImageElement`](ImageElement.md)
 
-#### Inherited from
+#### Parameters
 
-[TrackElement](TrackElement.md).[s](TrackElement.md#s)
+| Name | Type |
+| :------ | :------ |
+| `rotation` | `number` |
+
+#### Returns
+
+[`ImageElement`](ImageElement.md)
+
+#### Overrides
+
+[TrackElement](TrackElement.md).[setRotation](TrackElement.md#setrotation)
 
 #### Defined in
 
-[packages/timeline/src/core/elements/base.element.ts:9](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/base.element.ts#L9)
+[core/elements/image.element.ts:55](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/image.element.ts#L55)
 
 ___
 
-### trackId
+### getPosition
 
-• `Protected` **trackId**: `string`
+▸ **getPosition**(): [`Position`](../interfaces/Position.md)
 
-#### Inherited from
+#### Returns
 
-[TrackElement](TrackElement.md).[trackId](TrackElement.md#trackid)
+[`Position`](../interfaces/Position.md)
+
+#### Overrides
+
+[TrackElement](TrackElement.md).[getPosition](TrackElement.md#getposition)
 
 #### Defined in
 
-[packages/timeline/src/core/elements/base.element.ts:11](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/base.element.ts#L11)
+[core/elements/image.element.ts:60](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/image.element.ts#L60)
 
 ___
 
-### type
+### updateImageMeta
 
-• `Protected` **type**: `string`
+▸ **updateImageMeta**(`updateFrame?`): `Promise`\<`void`\>
 
-#### Inherited from
+#### Parameters
 
-[TrackElement](TrackElement.md).[type](TrackElement.md#type)
+| Name | Type | Default value |
+| :------ | :------ | :------ |
+| `updateFrame` | `boolean` | `true` |
+
+#### Returns
+
+`Promise`\<`void`\>
 
 #### Defined in
 
-[packages/timeline/src/core/elements/base.element.ts:8](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/base.element.ts#L8)
+[core/elements/image.element.ts:67](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/image.element.ts#L67)
 
-## Methods
+___
+
+### setPosition
+
+▸ **setPosition**(`position`): [`ImageElement`](ImageElement.md)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `position` | [`Position`](../interfaces/Position.md) |
+
+#### Returns
+
+[`ImageElement`](ImageElement.md)
+
+#### Overrides
+
+[TrackElement](TrackElement.md).[setPosition](TrackElement.md#setposition)
+
+#### Defined in
+
+[core/elements/image.element.ts:82](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/image.element.ts#L82)
+
+___
+
+### setSrc
+
+▸ **setSrc**(`src`): `Promise`\<[`ImageElement`](ImageElement.md)\>
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `src` | `string` |
+
+#### Returns
+
+`Promise`\<[`ImageElement`](ImageElement.md)\>
+
+#### Defined in
+
+[core/elements/image.element.ts:88](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/image.element.ts#L88)
+
+___
+
+### setObjectFit
+
+▸ **setObjectFit**(`objectFit`): [`ImageElement`](ImageElement.md)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `objectFit` | [`ObjectFit`](../modules.md#objectfit) |
+
+#### Returns
+
+[`ImageElement`](ImageElement.md)
+
+#### Defined in
+
+[core/elements/image.element.ts:94](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/image.element.ts#L94)
+
+___
+
+### setFrame
+
+▸ **setFrame**(`frame`): [`ImageElement`](ImageElement.md)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `frame` | [`Frame`](../interfaces/Frame.md) |
+
+#### Returns
+
+[`ImageElement`](ImageElement.md)
+
+#### Defined in
+
+[core/elements/image.element.ts:99](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/image.element.ts#L99)
+
+___
+
+### setParentSize
+
+▸ **setParentSize**(`parentSize`): [`ImageElement`](ImageElement.md)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `parentSize` | [`Size`](../interfaces/Size.md) |
+
+#### Returns
+
+[`ImageElement`](ImageElement.md)
+
+#### Defined in
+
+[core/elements/image.element.ts:105](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/image.element.ts#L105)
+
+___
+
+### setMediaFilter
+
+▸ **setMediaFilter**(`mediaFilter`): [`ImageElement`](ImageElement.md)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `mediaFilter` | `string` |
+
+#### Returns
+
+[`ImageElement`](ImageElement.md)
+
+#### Defined in
+
+[core/elements/image.element.ts:110](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/image.element.ts#L110)
+
+___
+
+### setBackgroundColor
+
+▸ **setBackgroundColor**(`backgroundColor`): [`ImageElement`](ImageElement.md)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `backgroundColor` | `string` |
+
+#### Returns
+
+[`ImageElement`](ImageElement.md)
+
+#### Defined in
+
+[core/elements/image.element.ts:115](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/image.element.ts#L115)
+
+___
+
+### setProps
+
+▸ **setProps**(`props`): [`ImageElement`](ImageElement.md)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `props` | `Omit`\<`any`, ``"src"``\> |
+
+#### Returns
+
+[`ImageElement`](ImageElement.md)
+
+#### Overrides
+
+[TrackElement](TrackElement.md).[setProps](TrackElement.md#setprops)
+
+#### Defined in
+
+[core/elements/image.element.ts:120](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/image.element.ts#L120)
+
+___
+
+### setFrameEffects
+
+▸ **setFrameEffects**(`frameEffects?`): [`ImageElement`](ImageElement.md)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `frameEffects?` | [`ElementFrameEffect`](ElementFrameEffect.md)[] |
+
+#### Returns
+
+[`ImageElement`](ImageElement.md)
+
+#### Defined in
+
+[core/elements/image.element.ts:125](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/image.element.ts#L125)
+
+___
+
+### addFrameEffect
+
+▸ **addFrameEffect**(`frameEffect`): [`ImageElement`](ImageElement.md)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `frameEffect` | [`ElementFrameEffect`](ElementFrameEffect.md) |
+
+#### Returns
+
+[`ImageElement`](ImageElement.md)
+
+#### Defined in
+
+[core/elements/image.element.ts:130](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/image.element.ts#L130)
+
+___
 
 ### accept
 
@@ -282,650 +841,24 @@ ___
 
 #### Defined in
 
-[packages/timeline/src/core/elements/image.element.ts:126](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/image.element.ts#L126)
+[core/elements/image.element.ts:135](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/image.element.ts#L135)
 
-___
+## Properties
 
-### addFrameEffect
+### frameEffects
 
-▸ **addFrameEffect**(`frameEffect`): [`ImageElement`](ImageElement.md)
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `frameEffect` | [`ElementFrameEffect`](ElementFrameEffect.md) |
-
-#### Returns
-
-[`ImageElement`](ImageElement.md)
+• `Optional` **frameEffects**: [`ElementFrameEffect`](ElementFrameEffect.md)[]
 
 #### Defined in
 
-[packages/timeline/src/core/elements/image.element.ts:121](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/image.element.ts#L121)
+[core/elements/image.element.ts:12](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/image.element.ts#L12)
 
 ___
 
-### getAnimation
+### frame
 
-▸ **getAnimation**(): `undefined` \| [`ElementAnimation`](ElementAnimation.md)
-
-#### Returns
-
-`undefined` \| [`ElementAnimation`](ElementAnimation.md)
-
-#### Inherited from
-
-[TrackElement](TrackElement.md).[getAnimation](TrackElement.md#getanimation)
+• **frame**: [`Frame`](../interfaces/Frame.md)
 
 #### Defined in
 
-[packages/timeline/src/core/elements/base.element.ts:59](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/base.element.ts#L59)
-
-___
-
-### getBackgroundColor
-
-▸ **getBackgroundColor**(): `string`
-
-#### Returns
-
-`string`
-
-#### Defined in
-
-[packages/timeline/src/core/elements/image.element.ts:43](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/image.element.ts#L43)
-
-___
-
-### getDuration
-
-▸ **getDuration**(): `number`
-
-#### Returns
-
-`number`
-
-#### Inherited from
-
-[TrackElement](TrackElement.md).[getDuration](TrackElement.md#getduration)
-
-#### Defined in
-
-[packages/timeline/src/core/elements/base.element.ts:43](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/base.element.ts#L43)
-
-___
-
-### getEnd
-
-▸ **getEnd**(): `number`
-
-#### Returns
-
-`number`
-
-#### Inherited from
-
-[TrackElement](TrackElement.md).[getEnd](TrackElement.md#getend)
-
-#### Defined in
-
-[packages/timeline/src/core/elements/base.element.ts:39](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/base.element.ts#L39)
-
-___
-
-### getFrame
-
-▸ **getFrame**(): [`Frame`](../modules.md#frame)
-
-#### Returns
-
-[`Frame`](../modules.md#frame)
-
-#### Defined in
-
-[packages/timeline/src/core/elements/image.element.ts:35](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/image.element.ts#L35)
-
-___
-
-### getFrameEffects
-
-▸ **getFrameEffects**(): `undefined` \| [`ElementFrameEffect`](ElementFrameEffect.md)[]
-
-#### Returns
-
-`undefined` \| [`ElementFrameEffect`](ElementFrameEffect.md)[]
-
-#### Defined in
-
-[packages/timeline/src/core/elements/image.element.ts:39](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/image.element.ts#L39)
-
-___
-
-### getId
-
-▸ **getId**(): `string`
-
-#### Returns
-
-`string`
-
-#### Inherited from
-
-[TrackElement](TrackElement.md).[getId](TrackElement.md#getid)
-
-#### Defined in
-
-[packages/timeline/src/core/elements/base.element.ts:27](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/base.element.ts#L27)
-
-___
-
-### getName
-
-▸ **getName**(): `string`
-
-#### Returns
-
-`string`
-
-#### Inherited from
-
-[TrackElement](TrackElement.md).[getName](TrackElement.md#getname)
-
-#### Defined in
-
-[packages/timeline/src/core/elements/base.element.ts:55](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/base.element.ts#L55)
-
-___
-
-### getObjectFit
-
-▸ **getObjectFit**(): [`ObjectFit`](../modules.md#objectfit)
-
-#### Returns
-
-[`ObjectFit`](../modules.md#objectfit)
-
-#### Defined in
-
-[packages/timeline/src/core/elements/image.element.ts:47](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/image.element.ts#L47)
-
-___
-
-### getParentSize
-
-▸ **getParentSize**(): [`Size`](../modules.md#size)
-
-#### Returns
-
-[`Size`](../modules.md#size)
-
-#### Defined in
-
-[packages/timeline/src/core/elements/image.element.ts:31](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/image.element.ts#L31)
-
-___
-
-### getPosition
-
-▸ **getPosition**(): [`Position`](../modules.md#position)
-
-#### Returns
-
-[`Position`](../modules.md#position)
-
-#### Overrides
-
-[TrackElement](TrackElement.md).[getPosition](TrackElement.md#getposition)
-
-#### Defined in
-
-[packages/timeline/src/core/elements/image.element.ts:51](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/image.element.ts#L51)
-
-___
-
-### getProps
-
-▸ **getProps**(): `Record`\<`string`, `any`\>
-
-#### Returns
-
-`Record`\<`string`, `any`\>
-
-#### Inherited from
-
-[TrackElement](TrackElement.md).[getProps](TrackElement.md#getprops)
-
-#### Defined in
-
-[packages/timeline/src/core/elements/base.element.ts:51](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/base.element.ts#L51)
-
-___
-
-### getStart
-
-▸ **getStart**(): `number`
-
-#### Returns
-
-`number`
-
-#### Inherited from
-
-[TrackElement](TrackElement.md).[getStart](TrackElement.md#getstart)
-
-#### Defined in
-
-[packages/timeline/src/core/elements/base.element.ts:35](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/base.element.ts#L35)
-
-___
-
-### getTrackId
-
-▸ **getTrackId**(): `string`
-
-#### Returns
-
-`string`
-
-#### Inherited from
-
-[TrackElement](TrackElement.md).[getTrackId](TrackElement.md#gettrackid)
-
-#### Defined in
-
-[packages/timeline/src/core/elements/base.element.ts:47](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/base.element.ts#L47)
-
-___
-
-### getType
-
-▸ **getType**(): `string`
-
-#### Returns
-
-`string`
-
-#### Inherited from
-
-[TrackElement](TrackElement.md).[getType](TrackElement.md#gettype)
-
-#### Defined in
-
-[packages/timeline/src/core/elements/base.element.ts:31](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/base.element.ts#L31)
-
-___
-
-### setAnimation
-
-▸ **setAnimation**(`animation?`): [`ImageElement`](ImageElement.md)
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `animation?` | [`ElementAnimation`](ElementAnimation.md) |
-
-#### Returns
-
-[`ImageElement`](ImageElement.md)
-
-#### Inherited from
-
-[TrackElement](TrackElement.md).[setAnimation](TrackElement.md#setanimation)
-
-#### Defined in
-
-[packages/timeline/src/core/elements/base.element.ts:100](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/base.element.ts#L100)
-
-___
-
-### setBackgroundColor
-
-▸ **setBackgroundColor**(`backgroundColor`): [`ImageElement`](ImageElement.md)
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `backgroundColor` | `string` |
-
-#### Returns
-
-[`ImageElement`](ImageElement.md)
-
-#### Defined in
-
-[packages/timeline/src/core/elements/image.element.ts:106](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/image.element.ts#L106)
-
-___
-
-### setEnd
-
-▸ **setEnd**(`e`): [`ImageElement`](ImageElement.md)
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `e` | `number` |
-
-#### Returns
-
-[`ImageElement`](ImageElement.md)
-
-#### Inherited from
-
-[TrackElement](TrackElement.md).[setEnd](TrackElement.md#setend)
-
-#### Defined in
-
-[packages/timeline/src/core/elements/base.element.ts:85](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/base.element.ts#L85)
-
-___
-
-### setFrame
-
-▸ **setFrame**(`frame`): [`ImageElement`](ImageElement.md)
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `frame` | [`Frame`](../modules.md#frame) |
-
-#### Returns
-
-[`ImageElement`](ImageElement.md)
-
-#### Defined in
-
-[packages/timeline/src/core/elements/image.element.ts:90](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/image.element.ts#L90)
-
-___
-
-### setFrameEffects
-
-▸ **setFrameEffects**(`frameEffects?`): [`ImageElement`](ImageElement.md)
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `frameEffects?` | [`ElementFrameEffect`](ElementFrameEffect.md)[] |
-
-#### Returns
-
-[`ImageElement`](ImageElement.md)
-
-#### Defined in
-
-[packages/timeline/src/core/elements/image.element.ts:116](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/image.element.ts#L116)
-
-___
-
-### setId
-
-▸ **setId**(`id`): [`ImageElement`](ImageElement.md)
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `id` | `string` |
-
-#### Returns
-
-[`ImageElement`](ImageElement.md)
-
-#### Inherited from
-
-[TrackElement](TrackElement.md).[setId](TrackElement.md#setid)
-
-#### Defined in
-
-[packages/timeline/src/core/elements/base.element.ts:70](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/base.element.ts#L70)
-
-___
-
-### setMediaFilter
-
-▸ **setMediaFilter**(`mediaFilter`): [`ImageElement`](ImageElement.md)
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `mediaFilter` | `string` |
-
-#### Returns
-
-[`ImageElement`](ImageElement.md)
-
-#### Defined in
-
-[packages/timeline/src/core/elements/image.element.ts:101](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/image.element.ts#L101)
-
-___
-
-### setName
-
-▸ **setName**(`name`): [`ImageElement`](ImageElement.md)
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `name` | `string` |
-
-#### Returns
-
-[`ImageElement`](ImageElement.md)
-
-#### Inherited from
-
-[TrackElement](TrackElement.md).[setName](TrackElement.md#setname)
-
-#### Defined in
-
-[packages/timeline/src/core/elements/base.element.ts:95](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/base.element.ts#L95)
-
-___
-
-### setObjectFit
-
-▸ **setObjectFit**(`objectFit`): [`ImageElement`](ImageElement.md)
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `objectFit` | [`ObjectFit`](../modules.md#objectfit) |
-
-#### Returns
-
-[`ImageElement`](ImageElement.md)
-
-#### Defined in
-
-[packages/timeline/src/core/elements/image.element.ts:85](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/image.element.ts#L85)
-
-___
-
-### setParentSize
-
-▸ **setParentSize**(`parentSize`): [`ImageElement`](ImageElement.md)
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `parentSize` | [`Size`](../modules.md#size) |
-
-#### Returns
-
-[`ImageElement`](ImageElement.md)
-
-#### Defined in
-
-[packages/timeline/src/core/elements/image.element.ts:96](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/image.element.ts#L96)
-
-___
-
-### setPosition
-
-▸ **setPosition**(`position`): [`ImageElement`](ImageElement.md)
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `position` | [`Position`](../modules.md#position) |
-
-#### Returns
-
-[`ImageElement`](ImageElement.md)
-
-#### Overrides
-
-[TrackElement](TrackElement.md).[setPosition](TrackElement.md#setposition)
-
-#### Defined in
-
-[packages/timeline/src/core/elements/image.element.ts:73](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/image.element.ts#L73)
-
-___
-
-### setProps
-
-▸ **setProps**(`props`): [`ImageElement`](ImageElement.md)
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `props` | `Omit`\<`any`, ``"src"``\> |
-
-#### Returns
-
-[`ImageElement`](ImageElement.md)
-
-#### Overrides
-
-[TrackElement](TrackElement.md).[setProps](TrackElement.md#setprops)
-
-#### Defined in
-
-[packages/timeline/src/core/elements/image.element.ts:111](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/image.element.ts#L111)
-
-___
-
-### setSrc
-
-▸ **setSrc**(`src`): `Promise`\<[`ImageElement`](ImageElement.md)\>
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `src` | `string` |
-
-#### Returns
-
-`Promise`\<[`ImageElement`](ImageElement.md)\>
-
-#### Defined in
-
-[packages/timeline/src/core/elements/image.element.ts:79](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/image.element.ts#L79)
-
-___
-
-### setStart
-
-▸ **setStart**(`s`): [`ImageElement`](ImageElement.md)
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `s` | `number` |
-
-#### Returns
-
-[`ImageElement`](ImageElement.md)
-
-#### Inherited from
-
-[TrackElement](TrackElement.md).[setStart](TrackElement.md#setstart)
-
-#### Defined in
-
-[packages/timeline/src/core/elements/base.element.ts:80](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/base.element.ts#L80)
-
-___
-
-### setTrackId
-
-▸ **setTrackId**(`trackId`): [`ImageElement`](ImageElement.md)
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `trackId` | `string` |
-
-#### Returns
-
-[`ImageElement`](ImageElement.md)
-
-#### Inherited from
-
-[TrackElement](TrackElement.md).[setTrackId](TrackElement.md#settrackid)
-
-#### Defined in
-
-[packages/timeline/src/core/elements/base.element.ts:90](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/base.element.ts#L90)
-
-___
-
-### setType
-
-▸ **setType**(`type`): [`ImageElement`](ImageElement.md)
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `type` | `string` |
-
-#### Returns
-
-[`ImageElement`](ImageElement.md)
-
-#### Inherited from
-
-[TrackElement](TrackElement.md).[setType](TrackElement.md#settype)
-
-#### Defined in
-
-[packages/timeline/src/core/elements/base.element.ts:75](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/base.element.ts#L75)
-
-___
-
-### updateImageMeta
-
-▸ **updateImageMeta**(`updateFrame?`): `Promise`\<`void`\>
-
-#### Parameters
-
-| Name | Type | Default value |
-| :------ | :------ | :------ |
-| `updateFrame` | `boolean` | `true` |
-
-#### Returns
-
-`Promise`\<`void`\>
-
-#### Defined in
-
-[packages/timeline/src/core/elements/image.element.ts:58](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/image.element.ts#L58)
+[core/elements/image.element.ts:13](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/image.element.ts#L13)

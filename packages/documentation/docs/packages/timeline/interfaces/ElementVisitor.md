@@ -1,5 +1,3 @@
-[@twick/timeline](../README.md) / [Exports](../modules.md) / ElementVisitor
-
 # Interface: ElementVisitor\<T\>
 
 ## Type parameters
@@ -22,16 +20,36 @@
 
 ### Methods
 
-- [visitAudioElement](ElementVisitor.md#visitaudioelement)
-- [visitCaptionElement](ElementVisitor.md#visitcaptionelement)
-- [visitCircleElement](ElementVisitor.md#visitcircleelement)
-- [visitIconElement](ElementVisitor.md#visiticonelement)
-- [visitImageElement](ElementVisitor.md#visitimageelement)
-- [visitRectElement](ElementVisitor.md#visitrectelement)
-- [visitTextElement](ElementVisitor.md#visittextelement)
 - [visitVideoElement](ElementVisitor.md#visitvideoelement)
+- [visitAudioElement](ElementVisitor.md#visitaudioelement)
+- [visitImageElement](ElementVisitor.md#visitimageelement)
+- [visitTextElement](ElementVisitor.md#visittextelement)
+- [visitCaptionElement](ElementVisitor.md#visitcaptionelement)
+- [visitIconElement](ElementVisitor.md#visiticonelement)
+- [visitCircleElement](ElementVisitor.md#visitcircleelement)
+- [visitRectElement](ElementVisitor.md#visitrectelement)
 
 ## Methods
+
+### visitVideoElement
+
+▸ **visitVideoElement**(`element`): `T`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `element` | [`VideoElement`](../classes/VideoElement.md) |
+
+#### Returns
+
+`T`
+
+#### Defined in
+
+[core/visitor/element-visitor.ts:11](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-visitor.ts#L11)
+
+___
 
 ### visitAudioElement
 
@@ -49,67 +67,7 @@
 
 #### Defined in
 
-[packages/timeline/src/core/visitor/element-visitor.ts:12](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-visitor.ts#L12)
-
-___
-
-### visitCaptionElement
-
-▸ **visitCaptionElement**(`element`): `T`
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `element` | [`CaptionElement`](../classes/CaptionElement.md) |
-
-#### Returns
-
-`T`
-
-#### Defined in
-
-[packages/timeline/src/core/visitor/element-visitor.ts:15](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-visitor.ts#L15)
-
-___
-
-### visitCircleElement
-
-▸ **visitCircleElement**(`element`): `T`
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `element` | [`CircleElement`](../classes/CircleElement.md) |
-
-#### Returns
-
-`T`
-
-#### Defined in
-
-[packages/timeline/src/core/visitor/element-visitor.ts:17](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-visitor.ts#L17)
-
-___
-
-### visitIconElement
-
-▸ **visitIconElement**(`element`): `T`
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `element` | [`IconElement`](../classes/IconElement.md) |
-
-#### Returns
-
-`T`
-
-#### Defined in
-
-[packages/timeline/src/core/visitor/element-visitor.ts:16](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-visitor.ts#L16)
+[core/visitor/element-visitor.ts:12](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-visitor.ts#L12)
 
 ___
 
@@ -129,27 +87,7 @@ ___
 
 #### Defined in
 
-[packages/timeline/src/core/visitor/element-visitor.ts:13](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-visitor.ts#L13)
-
-___
-
-### visitRectElement
-
-▸ **visitRectElement**(`element`): `T`
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `element` | [`RectElement`](../classes/RectElement.md) |
-
-#### Returns
-
-`T`
-
-#### Defined in
-
-[packages/timeline/src/core/visitor/element-visitor.ts:18](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-visitor.ts#L18)
+[core/visitor/element-visitor.ts:13](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-visitor.ts#L13)
 
 ___
 
@@ -169,19 +107,19 @@ ___
 
 #### Defined in
 
-[packages/timeline/src/core/visitor/element-visitor.ts:14](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-visitor.ts#L14)
+[core/visitor/element-visitor.ts:14](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-visitor.ts#L14)
 
 ___
 
-### visitVideoElement
+### visitCaptionElement
 
-▸ **visitVideoElement**(`element`): `T`
+▸ **visitCaptionElement**(`element`): `T`
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `element` | [`VideoElement`](../classes/VideoElement.md) |
+| `element` | [`CaptionElement`](../classes/CaptionElement.md) |
 
 #### Returns
 
@@ -189,4 +127,64 @@ ___
 
 #### Defined in
 
-[packages/timeline/src/core/visitor/element-visitor.ts:11](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-visitor.ts#L11)
+[core/visitor/element-visitor.ts:15](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-visitor.ts#L15)
+
+___
+
+### visitIconElement
+
+▸ **visitIconElement**(`element`): `T`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `element` | [`IconElement`](../classes/IconElement.md) |
+
+#### Returns
+
+`T`
+
+#### Defined in
+
+[core/visitor/element-visitor.ts:16](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-visitor.ts#L16)
+
+___
+
+### visitCircleElement
+
+▸ **visitCircleElement**(`element`): `T`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `element` | [`CircleElement`](../classes/CircleElement.md) |
+
+#### Returns
+
+`T`
+
+#### Defined in
+
+[core/visitor/element-visitor.ts:17](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-visitor.ts#L17)
+
+___
+
+### visitRectElement
+
+▸ **visitRectElement**(`element`): `T`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `element` | [`RectElement`](../classes/RectElement.md) |
+
+#### Returns
+
+`T`
+
+#### Defined in
+
+[core/visitor/element-visitor.ts:18](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-visitor.ts#L18)

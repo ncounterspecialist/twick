@@ -1,5 +1,3 @@
-[@twick/timeline](../README.md) / [Exports](../modules.md) / ElementSplitter
-
 # Class: ElementSplitter
 
 ## Implements
@@ -12,21 +10,16 @@
 
 - [constructor](ElementSplitter.md#constructor)
 
-### Properties
-
-- [elementCloner](ElementSplitter.md#elementcloner)
-- [splitTime](ElementSplitter.md#splittime)
-
 ### Methods
 
+- [visitVideoElement](ElementSplitter.md#visitvideoelement)
 - [visitAudioElement](ElementSplitter.md#visitaudioelement)
+- [visitImageElement](ElementSplitter.md#visitimageelement)
+- [visitTextElement](ElementSplitter.md#visittextelement)
 - [visitCaptionElement](ElementSplitter.md#visitcaptionelement)
+- [visitRectElement](ElementSplitter.md#visitrectelement)
 - [visitCircleElement](ElementSplitter.md#visitcircleelement)
 - [visitIconElement](ElementSplitter.md#visiticonelement)
-- [visitImageElement](ElementSplitter.md#visitimageelement)
-- [visitRectElement](ElementSplitter.md#visitrectelement)
-- [visitTextElement](ElementSplitter.md#visittextelement)
-- [visitVideoElement](ElementSplitter.md#visitvideoelement)
 
 ## Constructors
 
@@ -46,29 +39,33 @@
 
 #### Defined in
 
-[packages/timeline/src/core/visitor/element-splitter.ts:22](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-splitter.ts#L22)
-
-## Properties
-
-### elementCloner
-
-• `Private` **elementCloner**: [`ElementCloner`](ElementCloner.md)
-
-#### Defined in
-
-[packages/timeline/src/core/visitor/element-splitter.ts:21](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-splitter.ts#L21)
-
-___
-
-### splitTime
-
-• `Private` **splitTime**: `number`
-
-#### Defined in
-
-[packages/timeline/src/core/visitor/element-splitter.ts:20](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-splitter.ts#L20)
+[core/visitor/element-splitter.ts:22](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-splitter.ts#L22)
 
 ## Methods
+
+### visitVideoElement
+
+▸ **visitVideoElement**(`element`): [`SplitResult`](../interfaces/SplitResult.md)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `element` | [`VideoElement`](VideoElement.md) |
+
+#### Returns
+
+[`SplitResult`](../interfaces/SplitResult.md)
+
+#### Implementation of
+
+[ElementVisitor](../interfaces/ElementVisitor.md).[visitVideoElement](../interfaces/ElementVisitor.md#visitvideoelement)
+
+#### Defined in
+
+[core/visitor/element-splitter.ts:27](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-splitter.ts#L27)
+
+___
 
 ### visitAudioElement
 
@@ -90,79 +87,7 @@ ___
 
 #### Defined in
 
-[packages/timeline/src/core/visitor/element-splitter.ts:49](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-splitter.ts#L49)
-
-___
-
-### visitCaptionElement
-
-▸ **visitCaptionElement**(`element`): [`SplitResult`](../interfaces/SplitResult.md)
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `element` | [`CaptionElement`](CaptionElement.md) |
-
-#### Returns
-
-[`SplitResult`](../interfaces/SplitResult.md)
-
-#### Implementation of
-
-[ElementVisitor](../interfaces/ElementVisitor.md).[visitCaptionElement](../interfaces/ElementVisitor.md#visitcaptionelement)
-
-#### Defined in
-
-[packages/timeline/src/core/visitor/element-splitter.ts:117](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-splitter.ts#L117)
-
-___
-
-### visitCircleElement
-
-▸ **visitCircleElement**(`element`): [`SplitResult`](../interfaces/SplitResult.md)
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `element` | [`CircleElement`](CircleElement.md) |
-
-#### Returns
-
-[`SplitResult`](../interfaces/SplitResult.md)
-
-#### Implementation of
-
-[ElementVisitor](../interfaces/ElementVisitor.md).[visitCircleElement](../interfaces/ElementVisitor.md#visitcircleelement)
-
-#### Defined in
-
-[packages/timeline/src/core/visitor/element-splitter.ts:164](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-splitter.ts#L164)
-
-___
-
-### visitIconElement
-
-▸ **visitIconElement**(`element`): [`SplitResult`](../interfaces/SplitResult.md)
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `element` | [`IconElement`](IconElement.md) |
-
-#### Returns
-
-[`SplitResult`](../interfaces/SplitResult.md)
-
-#### Implementation of
-
-[ElementVisitor](../interfaces/ElementVisitor.md).[visitIconElement](../interfaces/ElementVisitor.md#visiticonelement)
-
-#### Defined in
-
-[packages/timeline/src/core/visitor/element-splitter.ts:175](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-splitter.ts#L175)
+[core/visitor/element-splitter.ts:49](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-splitter.ts#L49)
 
 ___
 
@@ -186,31 +111,7 @@ ___
 
 #### Defined in
 
-[packages/timeline/src/core/visitor/element-splitter.ts:70](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-splitter.ts#L70)
-
-___
-
-### visitRectElement
-
-▸ **visitRectElement**(`element`): [`SplitResult`](../interfaces/SplitResult.md)
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `element` | [`RectElement`](RectElement.md) |
-
-#### Returns
-
-[`SplitResult`](../interfaces/SplitResult.md)
-
-#### Implementation of
-
-[ElementVisitor](../interfaces/ElementVisitor.md).[visitRectElement](../interfaces/ElementVisitor.md#visitrectelement)
-
-#### Defined in
-
-[packages/timeline/src/core/visitor/element-splitter.ts:149](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-splitter.ts#L149)
+[core/visitor/element-splitter.ts:70](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-splitter.ts#L70)
 
 ___
 
@@ -234,19 +135,19 @@ ___
 
 #### Defined in
 
-[packages/timeline/src/core/visitor/element-splitter.ts:85](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-splitter.ts#L85)
+[core/visitor/element-splitter.ts:85](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-splitter.ts#L85)
 
 ___
 
-### visitVideoElement
+### visitCaptionElement
 
-▸ **visitVideoElement**(`element`): [`SplitResult`](../interfaces/SplitResult.md)
+▸ **visitCaptionElement**(`element`): [`SplitResult`](../interfaces/SplitResult.md)
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `element` | [`VideoElement`](VideoElement.md) |
+| `element` | [`CaptionElement`](CaptionElement.md) |
 
 #### Returns
 
@@ -254,8 +155,80 @@ ___
 
 #### Implementation of
 
-[ElementVisitor](../interfaces/ElementVisitor.md).[visitVideoElement](../interfaces/ElementVisitor.md#visitvideoelement)
+[ElementVisitor](../interfaces/ElementVisitor.md).[visitCaptionElement](../interfaces/ElementVisitor.md#visitcaptionelement)
 
 #### Defined in
 
-[packages/timeline/src/core/visitor/element-splitter.ts:27](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-splitter.ts#L27)
+[core/visitor/element-splitter.ts:117](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-splitter.ts#L117)
+
+___
+
+### visitRectElement
+
+▸ **visitRectElement**(`element`): [`SplitResult`](../interfaces/SplitResult.md)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `element` | [`RectElement`](RectElement.md) |
+
+#### Returns
+
+[`SplitResult`](../interfaces/SplitResult.md)
+
+#### Implementation of
+
+[ElementVisitor](../interfaces/ElementVisitor.md).[visitRectElement](../interfaces/ElementVisitor.md#visitrectelement)
+
+#### Defined in
+
+[core/visitor/element-splitter.ts:149](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-splitter.ts#L149)
+
+___
+
+### visitCircleElement
+
+▸ **visitCircleElement**(`element`): [`SplitResult`](../interfaces/SplitResult.md)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `element` | [`CircleElement`](CircleElement.md) |
+
+#### Returns
+
+[`SplitResult`](../interfaces/SplitResult.md)
+
+#### Implementation of
+
+[ElementVisitor](../interfaces/ElementVisitor.md).[visitCircleElement](../interfaces/ElementVisitor.md#visitcircleelement)
+
+#### Defined in
+
+[core/visitor/element-splitter.ts:164](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-splitter.ts#L164)
+
+___
+
+### visitIconElement
+
+▸ **visitIconElement**(`element`): [`SplitResult`](../interfaces/SplitResult.md)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `element` | [`IconElement`](IconElement.md) |
+
+#### Returns
+
+[`SplitResult`](../interfaces/SplitResult.md)
+
+#### Implementation of
+
+[ElementVisitor](../interfaces/ElementVisitor.md).[visitIconElement](../interfaces/ElementVisitor.md#visiticonelement)
+
+#### Defined in
+
+[core/visitor/element-splitter.ts:175](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-splitter.ts#L175)

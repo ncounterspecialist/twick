@@ -1,6 +1,20 @@
-[@twick/timeline](../README.md) / [Exports](../modules.md) / TimelineProviderProps
-
 # Interface: TimelineProviderProps
+
+Props for the TimelineProvider component.
+Defines the configuration options for timeline context initialization.
+
+**`Example`**
+
+```jsx
+<TimelineProvider
+  contextId="my-timeline"
+  initialData={{ tracks: [], version: 1 }}
+  undoRedoPersistenceKey="timeline-state"
+  maxHistorySize={50}
+>
+  <YourApp />
+</TimelineProvider>
+```
 
 ## Table of contents
 
@@ -8,9 +22,11 @@
 
 - [children](TimelineProviderProps.md#children)
 - [contextId](TimelineProviderProps.md#contextid)
+- [resolution](TimelineProviderProps.md#resolution)
 - [initialData](TimelineProviderProps.md#initialdata)
-- [maxHistorySize](TimelineProviderProps.md#maxhistorysize)
 - [undoRedoPersistenceKey](TimelineProviderProps.md#undoredopersistencekey)
+- [maxHistorySize](TimelineProviderProps.md#maxhistorysize)
+- [analytics](TimelineProviderProps.md#analytics)
 
 ## Properties
 
@@ -18,9 +34,11 @@
 
 • **children**: `ReactNode`
 
+React children to wrap with timeline context
+
 #### Defined in
 
-[packages/timeline/src/context/timeline-context.tsx:41](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/context/timeline-context.tsx#L41)
+[context/timeline-context.tsx:99](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/context/timeline-context.tsx#L99)
 
 ___
 
@@ -28,9 +46,23 @@ ___
 
 • **contextId**: `string`
 
+Unique identifier for this timeline context
+
 #### Defined in
 
-[packages/timeline/src/context/timeline-context.tsx:42](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/context/timeline-context.tsx#L42)
+[context/timeline-context.tsx:101](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/context/timeline-context.tsx#L101)
+
+___
+
+### resolution
+
+• `Optional` **resolution**: [`Size`](Size.md)
+
+resolution of the video
+
+#### Defined in
+
+[context/timeline-context.tsx:103](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/context/timeline-context.tsx#L103)
 
 ___
 
@@ -38,26 +70,18 @@ ___
 
 • `Optional` **initialData**: `Object`
 
+Initial timeline data to load
+
 #### Type declaration
 
 | Name | Type |
 | :------ | :------ |
-| `tracks` | [`TrackJSON`](../modules.md#trackjson)[] |
+| `tracks` | [`TrackJSON`](TrackJSON.md)[] |
 | `version` | `number` |
 
 #### Defined in
 
-[packages/timeline/src/context/timeline-context.tsx:43](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/context/timeline-context.tsx#L43)
-
-___
-
-### maxHistorySize
-
-• `Optional` **maxHistorySize**: `number`
-
-#### Defined in
-
-[packages/timeline/src/context/timeline-context.tsx:48](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/context/timeline-context.tsx#L48)
+[context/timeline-context.tsx:105](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/context/timeline-context.tsx#L105)
 
 ___
 
@@ -65,6 +89,33 @@ ___
 
 • `Optional` **undoRedoPersistenceKey**: `string`
 
+Key for persisting undo/redo state
+
 #### Defined in
 
-[packages/timeline/src/context/timeline-context.tsx:47](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/context/timeline-context.tsx#L47)
+[context/timeline-context.tsx:110](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/context/timeline-context.tsx#L110)
+
+___
+
+### maxHistorySize
+
+• `Optional` **maxHistorySize**: `number`
+
+Maximum number of history states to keep
+
+#### Defined in
+
+[context/timeline-context.tsx:112](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/context/timeline-context.tsx#L112)
+
+___
+
+### analytics
+
+• `Optional` **analytics**: `AnalyticsConfig`
+
+Analytics configuration.
+Set to `{ enabled: false }` to disable tracking.
+
+#### Defined in
+
+[context/timeline-context.tsx:117](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/context/timeline-context.tsx#L117)

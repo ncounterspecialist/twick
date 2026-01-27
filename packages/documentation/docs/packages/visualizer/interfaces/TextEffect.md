@@ -1,5 +1,8 @@
 # Interface: TextEffect\<Params\>
 
+Interface for text effect animations.
+Defines the contract for text animation effects like typewriter, stream word, etc.
+
 ## Type parameters
 
 | Name | Type |
@@ -8,29 +11,21 @@
 
 ## Table of contents
 
-### Properties
-
-- [name](TextEffect.md#name)
-
 ### Methods
 
 - [run](TextEffect.md#run)
 
-## Properties
+### Properties
 
-### name
-
-• **name**: `string`
-
-#### Defined in
-
-[helpers/types.ts:186](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/visualizer/src/helpers/types.ts#L186)
+- [name](TextEffect.md#name)
 
 ## Methods
 
 ### run
 
 ▸ **run**(`params`): `Generator`\<`unknown`, `any`, `any`\>
+
+Executes the text effect animation
 
 #### Parameters
 
@@ -44,4 +39,16 @@
 
 #### Defined in
 
-[helpers/types.ts:187](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/visualizer/src/helpers/types.ts#L187)
+[helpers/types.ts:279](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/visualizer/src/helpers/types.ts#L279)
+
+## Properties
+
+### name
+
+• **name**: `string`
+
+The unique name identifier for this text effect
+
+#### Defined in
+
+[helpers/types.ts:277](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/visualizer/src/helpers/types.ts#L277)

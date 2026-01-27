@@ -1,5 +1,3 @@
-[@twick/timeline](../README.md) / [Exports](../modules.md) / ElementTextEffect
-
 # Class: ElementTextEffect
 
 ## Table of contents
@@ -8,22 +6,15 @@
 
 - [constructor](ElementTextEffect.md#constructor)
 
-### Properties
-
-- [bufferTime](ElementTextEffect.md#buffertime)
-- [delay](ElementTextEffect.md#delay)
-- [duration](ElementTextEffect.md#duration)
-- [name](ElementTextEffect.md#name)
-
 ### Methods
 
-- [getBufferTime](ElementTextEffect.md#getbuffertime)
-- [getDelay](ElementTextEffect.md#getdelay)
-- [getDuration](ElementTextEffect.md#getduration)
 - [getName](ElementTextEffect.md#getname)
-- [setBufferTime](ElementTextEffect.md#setbuffertime)
-- [setDelay](ElementTextEffect.md#setdelay)
+- [getDuration](ElementTextEffect.md#getduration)
+- [getDelay](ElementTextEffect.md#getdelay)
+- [getBufferTime](ElementTextEffect.md#getbuffertime)
 - [setDuration](ElementTextEffect.md#setduration)
+- [setDelay](ElementTextEffect.md#setdelay)
+- [setBufferTime](ElementTextEffect.md#setbuffertime)
 - [toJSON](ElementTextEffect.md#tojson)
 - [fromJSON](ElementTextEffect.md#fromjson)
 
@@ -45,75 +36,21 @@
 
 #### Defined in
 
-[packages/timeline/src/core/addOns/text-effect.ts:9](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/addOns/text-effect.ts#L9)
-
-## Properties
-
-### bufferTime
-
-• `Private` `Optional` **bufferTime**: `number`
-
-#### Defined in
-
-[packages/timeline/src/core/addOns/text-effect.ts:7](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/addOns/text-effect.ts#L7)
-
-___
-
-### delay
-
-• `Private` `Optional` **delay**: `number`
-
-#### Defined in
-
-[packages/timeline/src/core/addOns/text-effect.ts:6](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/addOns/text-effect.ts#L6)
-
-___
-
-### duration
-
-• `Private` `Optional` **duration**: `number`
-
-#### Defined in
-
-[packages/timeline/src/core/addOns/text-effect.ts:5](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/addOns/text-effect.ts#L5)
-
-___
-
-### name
-
-• `Private` **name**: `string`
-
-#### Defined in
-
-[packages/timeline/src/core/addOns/text-effect.ts:4](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/addOns/text-effect.ts#L4)
+[core/addOns/text-effect.ts:9](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/addOns/text-effect.ts#L9)
 
 ## Methods
 
-### getBufferTime
+### getName
 
-▸ **getBufferTime**(): `undefined` \| `number`
-
-#### Returns
-
-`undefined` \| `number`
-
-#### Defined in
-
-[packages/timeline/src/core/addOns/text-effect.ts:25](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/addOns/text-effect.ts#L25)
-
-___
-
-### getDelay
-
-▸ **getDelay**(): `undefined` \| `number`
+▸ **getName**(): `string`
 
 #### Returns
 
-`undefined` \| `number`
+`string`
 
 #### Defined in
 
-[packages/timeline/src/core/addOns/text-effect.ts:21](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/addOns/text-effect.ts#L21)
+[core/addOns/text-effect.ts:13](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/addOns/text-effect.ts#L13)
 
 ___
 
@@ -127,61 +64,35 @@ ___
 
 #### Defined in
 
-[packages/timeline/src/core/addOns/text-effect.ts:17](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/addOns/text-effect.ts#L17)
+[core/addOns/text-effect.ts:17](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/addOns/text-effect.ts#L17)
 
 ___
 
-### getName
+### getDelay
 
-▸ **getName**(): `string`
+▸ **getDelay**(): `undefined` \| `number`
 
 #### Returns
 
-`string`
+`undefined` \| `number`
 
 #### Defined in
 
-[packages/timeline/src/core/addOns/text-effect.ts:13](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/addOns/text-effect.ts#L13)
+[core/addOns/text-effect.ts:21](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/addOns/text-effect.ts#L21)
 
 ___
 
-### setBufferTime
+### getBufferTime
 
-▸ **setBufferTime**(`bufferTime?`): [`ElementTextEffect`](ElementTextEffect.md)
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `bufferTime?` | `number` |
+▸ **getBufferTime**(): `undefined` \| `number`
 
 #### Returns
 
-[`ElementTextEffect`](ElementTextEffect.md)
+`undefined` \| `number`
 
 #### Defined in
 
-[packages/timeline/src/core/addOns/text-effect.ts:39](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/addOns/text-effect.ts#L39)
-
-___
-
-### setDelay
-
-▸ **setDelay**(`delay?`): [`ElementTextEffect`](ElementTextEffect.md)
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `delay?` | `number` |
-
-#### Returns
-
-[`ElementTextEffect`](ElementTextEffect.md)
-
-#### Defined in
-
-[packages/timeline/src/core/addOns/text-effect.ts:34](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/addOns/text-effect.ts#L34)
+[core/addOns/text-effect.ts:25](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/addOns/text-effect.ts#L25)
 
 ___
 
@@ -201,21 +112,61 @@ ___
 
 #### Defined in
 
-[packages/timeline/src/core/addOns/text-effect.ts:29](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/addOns/text-effect.ts#L29)
+[core/addOns/text-effect.ts:29](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/addOns/text-effect.ts#L29)
+
+___
+
+### setDelay
+
+▸ **setDelay**(`delay?`): [`ElementTextEffect`](ElementTextEffect.md)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `delay?` | `number` |
+
+#### Returns
+
+[`ElementTextEffect`](ElementTextEffect.md)
+
+#### Defined in
+
+[core/addOns/text-effect.ts:34](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/addOns/text-effect.ts#L34)
+
+___
+
+### setBufferTime
+
+▸ **setBufferTime**(`bufferTime?`): [`ElementTextEffect`](ElementTextEffect.md)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `bufferTime?` | `number` |
+
+#### Returns
+
+[`ElementTextEffect`](ElementTextEffect.md)
+
+#### Defined in
+
+[core/addOns/text-effect.ts:39](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/addOns/text-effect.ts#L39)
 
 ___
 
 ### toJSON
 
-▸ **toJSON**(): [`TextEffect`](../modules.md#texteffect)
+▸ **toJSON**(): [`TextEffect`](../interfaces/TextEffect.md)
 
 #### Returns
 
-[`TextEffect`](../modules.md#texteffect)
+[`TextEffect`](../interfaces/TextEffect.md)
 
 #### Defined in
 
-[packages/timeline/src/core/addOns/text-effect.ts:44](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/addOns/text-effect.ts#L44)
+[core/addOns/text-effect.ts:44](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/addOns/text-effect.ts#L44)
 
 ___
 
@@ -227,7 +178,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `json` | [`TextEffect`](../modules.md#texteffect) |
+| `json` | [`TextEffect`](../interfaces/TextEffect.md) |
 
 #### Returns
 
@@ -235,4 +186,4 @@ ___
 
 #### Defined in
 
-[packages/timeline/src/core/addOns/text-effect.ts:53](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/addOns/text-effect.ts#L53)
+[core/addOns/text-effect.ts:53](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/addOns/text-effect.ts#L53)

@@ -110,7 +110,10 @@ export interface TimelineProviderProps {
   undoRedoPersistenceKey?: string;
   /** Maximum number of history states to keep */
   maxHistorySize?: number;
-  /** Analytics configuration. Set to { enabled: false } to disable tracking */
+  /**
+   * Analytics configuration.
+   * Set to `{ enabled: false }` to disable tracking.
+   */
   analytics?: AnalyticsConfig;
 }
 

@@ -1,37 +1,18 @@
-[@twick/live-player](README.md) / Exports
-
-# @twick/live-player
+# @twick/live-player - v0.15.0
 
 ## Table of contents
-
-### Variables
-
-- [PLAYER\_STATE](modules.md#player_state)
 
 ### Functions
 
 - [LivePlayer](modules.md#liveplayer)
 - [LivePlayerProvider](modules.md#liveplayerprovider)
-- [getBaseProject](modules.md#getbaseproject)
 - [useLivePlayerContext](modules.md#useliveplayercontext)
+- [getBaseProject](modules.md#getbaseproject)
+- [generateId](modules.md#generateid)
 
-## Variables
+### Variables
 
-### PLAYER\_STATE
-
-• `Const` **PLAYER\_STATE**: `Object`
-
-#### Type declaration
-
-| Name | Type |
-| :------ | :------ |
-| `PAUSED` | `string` |
-| `PLAYING` | `string` |
-| `REFRESH` | `string` |
-
-#### Defined in
-
-[helpers/constants.ts:2](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/live-player/src/helpers/constants.ts#L2)
+- [PLAYER\_STATE](modules.md#player_state)
 
 ## Functions
 
@@ -39,10 +20,9 @@
 
 ▸ **LivePlayer**(`props`): `Element`
 
-`LivePlayer` is a React component that wraps around the `@twick/player-react` player.
-
-It supports dynamic project variables, external control for playback, time seeking,
-volume and quality adjustment, and lifecycle callbacks like `onPlayerReady` and `onDurationChange`.
+LivePlayer is a React component that wraps around the @twick/player-react player.
+Supports dynamic project variables, external control for playback, time seeking,
+volume and quality adjustment, and lifecycle callbacks.
 
 #### Parameters
 
@@ -56,30 +36,98 @@ volume and quality adjustment, and lifecycle callbacks like `onPlayerReady` and 
 
 A configured player UI component
 
+**`Example`**
+
+```jsx
+<LivePlayer
+  playing={true}
+  projectData={{ text: "Hello World" }}
+  videoSize={{ width: 720, height: 1280 }}
+  onTimeUpdate={(time) => console.log('Current time:', time)}
+  onPlayerReady={(player) => console.log('Player ready:', player)}
+/>
+```
+
 #### Defined in
 
-[components/live-player.tsx:63](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/live-player/src/components/live-player.tsx#L63)
+[components/live-player.tsx:74](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/live-player/src/components/live-player.tsx#L74)
 
 ___
 
 ### LivePlayerProvider
 
-▸ **LivePlayerProvider**(`«destructured»`): `Element`
+▸ **LivePlayerProvider**(`props`): `Element`
+
+Provider component for the Live Player context.
+Manages the global state for live player instances including playback state,
+timing, and volume controls. Automatically handles seek time updates when
+pausing to maintain playback position.
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `«destructured»` | `Object` |
-| › `children` | `ReactNode` |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `props` | `Object` | Component props containing children to wrap |
+| `props.children` | `ReactNode` | - |
 
 #### Returns
 
 `Element`
 
+Context provider with live player state management
+
+**`Example`**
+
+```jsx
+<LivePlayerProvider>
+  <YourApp />
+</LivePlayerProvider>
+```
+
 #### Defined in
 
-[context/live-player-context.tsx:17](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/live-player/src/context/live-player-context.tsx#L17)
+[context/live-player-context.tsx:61](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/live-player/src/context/live-player-context.tsx#L61)
+
+___
+
+### useLivePlayerContext
+
+▸ **useLivePlayerContext**(): `LivePlayerContextType`
+
+Hook to access the Live Player context.
+Provides access to player state, timing controls, and volume management.
+Must be used within a LivePlayerProvider component.
+
+#### Returns
+
+`LivePlayerContextType`
+
+LivePlayerContextType object with all player state and controls
+
+**`Throws`**
+
+Error if used outside of LivePlayerProvider
+
+**`Example`**
+
+```js
+const {
+  playerState,
+  currentTime,
+  setPlayerState,
+  setCurrentTime
+} = useLivePlayerContext();
+
+// Control playback
+setPlayerState(PLAYER_STATE.PLAYING);
+
+// Update current time
+setCurrentTime(30.5);
+```
+
+#### Defined in
+
+[context/live-player-context.tsx:115](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/live-player/src/context/live-player-context.tsx#L115)
 
 ___
 
@@ -88,48 +136,97 @@ ___
 ▸ **getBaseProject**(`videoSize`, `playerId`): `Object`
 
 Generates a base project structure for the Twick Live Player.
-
-This function returns a minimal project configuration object with
-the specified video dimensions. It's typically used as a starting
-point for building or loading video compositions.
+Creates a minimal project configuration object with the specified video dimensions.
+Used as a starting point for building or loading video compositions.
 
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `videoSize` | `Object` | An object containing the width and height of the video. |
-| `videoSize.height` | `number` | - |
+| `videoSize` | `Object` | Object containing the width and height of the video |
 | `videoSize.width` | `number` | - |
-| `playerId` | `string` | - |
+| `videoSize.height` | `number` | - |
+| `playerId` | `string` | Unique identifier for the player instance |
 
 #### Returns
 
 `Object`
 
-A base project object with the specified video dimensions.
+Base project object with the specified video dimensions
 
 | Name | Type |
 | :------ | :------ |
-| `input` | \{ `properties`: \{ `height`: `number` = videoSize.height; `width`: `number` = videoSize.width }  } |
-| `input.properties` | \{ `height`: `number` = videoSize.height; `width`: `number` = videoSize.width } |
-| `input.properties.height` | `number` |
-| `input.properties.width` | `number` |
 | `playerId` | `string` |
+| `input` | \{ `properties`: \{ `width`: `number` = videoSize.width; `height`: `number` = videoSize.height }  } |
+| `input.properties` | \{ `width`: `number` = videoSize.width; `height`: `number` = videoSize.height } |
+| `input.properties.width` | `number` |
+| `input.properties.height` | `number` |
+
+**`Example`**
+
+```js
+const project = getBaseProject({ width: 720, height: 1280 }, "player-123");
+// project = { playerId: "player-123", input: { properties: { width: 720, height: 1280 } } }
+```
 
 #### Defined in
 
-[helpers/player.utils.ts:11](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/live-player/src/helpers/player.utils.ts#L11)
+[helpers/player.utils.ts:16](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/live-player/src/helpers/player.utils.ts#L16)
 
 ___
 
-### useLivePlayerContext
+### generateId
 
-▸ **useLivePlayerContext**(): `LivePlayerContextType`
+▸ **generateId**(): `string`
+
+Generates a unique identifier for player instances.
+Creates a random string using base36 encoding for use as
+player IDs and other unique identifiers.
 
 #### Returns
 
-`LivePlayerContextType`
+`string`
+
+A unique identifier string
+
+**`Example`**
+
+```js
+const id = generateId();
+// id = "abc123def456"
+```
 
 #### Defined in
 
-[context/live-player-context.tsx:46](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/live-player/src/context/live-player-context.tsx#L46)
+[helpers/player.utils.ts:47](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/live-player/src/helpers/player.utils.ts#L47)
+
+## Variables
+
+### PLAYER\_STATE
+
+• `Const` **PLAYER\_STATE**: `Object`
+
+Player state constants for the Live Player.
+Defines the different states that a player can be in during playback.
+
+**`Example`**
+
+```js
+import { PLAYER_STATE } from '@twick/live-player';
+
+if (playerState === PLAYER_STATE.PLAYING) {
+  console.log('Player is currently playing');
+}
+```
+
+#### Type declaration
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `REFRESH` | ``"Refresh"`` | Player is refreshing/reloading content |
+| `PLAYING` | ``"Playing"`` | Player is actively playing content |
+| `PAUSED` | ``"Paused"`` | Player is paused |
+
+#### Defined in
+
+[helpers/constants.ts:14](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/live-player/src/helpers/constants.ts#L14)

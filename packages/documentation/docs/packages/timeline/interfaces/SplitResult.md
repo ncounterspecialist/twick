@@ -1,5 +1,3 @@
-[@twick/timeline](../README.md) / [Exports](../modules.md) / SplitResult
-
 # Interface: SplitResult
 
 ## Table of contents
@@ -18,7 +16,7 @@
 
 #### Defined in
 
-[packages/timeline/src/core/visitor/element-splitter.ts:14](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-splitter.ts#L14)
+[core/visitor/element-splitter.ts:14](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-splitter.ts#L14)
 
 ___
 
@@ -28,7 +26,7 @@ ___
 
 #### Defined in
 
-[packages/timeline/src/core/visitor/element-splitter.ts:15](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-splitter.ts#L15)
+[core/visitor/element-splitter.ts:15](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-splitter.ts#L15)
 
 ___
 
@@ -38,4 +36,4 @@ ___
 
 #### Defined in
 
-[packages/timeline/src/core/visitor/element-splitter.ts:16](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-splitter.ts#L16)
+[core/visitor/element-splitter.ts:16](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-splitter.ts#L16)

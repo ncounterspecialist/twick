@@ -4,140 +4,199 @@
 
 ## Table of contents
 
+### References
+
+- [default](modules.md#default)
+
+### Interfaces
+
+- [BrowserRenderConfig](interfaces/BrowserRenderConfig.md)
+- [UseBrowserRendererOptions](interfaces/UseBrowserRendererOptions.md)
+- [UseBrowserRendererReturn](interfaces/UseBrowserRendererReturn.md)
+
 ### Functions
 
-- [renderTwickVideoInBrowser](modules.md#rendertwickvideoinbrowser)
 - [downloadVideoBlob](modules.md#downloadvideoblob)
-
-### Hooks
-
+- [renderTwickVideoInBrowser](modules.md#rendertwickvideoinbrowser)
 - [useBrowserRenderer](modules.md#usebrowserrenderer)
 
-### Type Aliases
+## References
 
-- [BrowserRenderConfig](modules.md#browserrenderconfig)
-- [UseBrowserRendererOptions](modules.md#usebrowserrendereroptions)
-- [UseBrowserRendererReturn](modules.md#usebrowserrendererreturn)
+### default
 
----
+Renames and re-exports [renderTwickVideoInBrowser](modules.md#rendertwickvideoinbrowser)
 
 ## Functions
 
-### renderTwickVideoInBrowser
-
-```typescript
-function renderTwickVideoInBrowser(config: BrowserRenderConfig): Promise<Blob>
-```
-
-Renders a Twick video in the browser using WebCodecs API.
-
-**Parameters:**
-
-| Parameter | Type | Description |
-| :------ | :------ | :------ |
-| `config` | `BrowserRenderConfig` | Configuration object for rendering |
-
-**Returns:** `Promise<Blob>`
-
-A promise that resolves to a Blob containing the rendered video.
-
----
-
 ### downloadVideoBlob
 
-```typescript
-function downloadVideoBlob(blob: Blob, filename?: string): void
+▸ **downloadVideoBlob**(`videoBlob`, `filename?`): `void`
+
+Helper function to download a video blob as a file
+
+#### Parameters
+
+| Name | Type | Default value | Description |
+| :------ | :------ | :------ | :------ |
+| `videoBlob` | `Blob` | `undefined` | The video blob to download |
+| `filename` | `string` | `'video.mp4'` | The desired filename (default: 'video.mp4') |
+
+#### Returns
+
+`void`
+
+**`Example`**
+
+```js
+const blob = await renderTwickVideoInBrowser(projectData);
+downloadVideoBlob(blob, 'my-video.mp4');
 ```
 
-Downloads a video blob as a file.
+#### Defined in
 
-**Parameters:**
+[browser-renderer.ts:473](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/browser-render/src/browser-renderer.ts#L473)
 
-| Parameter | Type | Description |
+___
+
+### renderTwickVideoInBrowser
+
+▸ **renderTwickVideoInBrowser**(`config`): `Promise`\<`Blob`\>
+
+Renders a Twick video directly in the browser without requiring a server.
+Uses WebCodecs API for encoding video frames into MP4 format.
+
+This function uses the same signature as the server renderer for consistency.
+
+#### Parameters
+
+| Name | Type | Description |
 | :------ | :------ | :------ |
-| `blob` | `Blob` | The video blob to download |
-| `filename?` | `string` | Optional filename (default: "video.mp4") |
+| `config` | [`BrowserRenderConfig`](interfaces/BrowserRenderConfig.md) | Configuration object containing variables and settings |
 
-**Returns:** `void`
+#### Returns
 
----
+`Promise`\<`Blob`\>
 
-## Hooks
+Promise resolving to a Blob containing the rendered video
+
+**`Example`**
+
+```js
+import { renderTwickVideoInBrowser } from '@twick/browser-render';
+
+// Using default visualizer project
+const videoBlob = await renderTwickVideoInBrowser({
+  variables: {
+    input: {
+      properties: { width: 1920, height: 1080, fps: 30 },
+      tracks: [
+        // Your tracks configuration
+      ]
+    }
+  },
+  settings: {
+    width: 1920,
+    height: 1080,
+    fps: 30,
+    quality: 'high',
+    onProgress: (progress) => console.log(`Rendering: ${progress * 100}%`),
+  }
+});
+
+// Using custom project
+import myProject from './my-custom-project';
+const videoBlob = await renderTwickVideoInBrowser({
+  projectFile: myProject, // Must be an imported Project object
+  variables: { input: {...} },
+  settings: {...}
+});
+
+// Download the video
+const url = URL.createObjectURL(videoBlob);
+const a = document.createElement('a');
+a.href = url;
+a.download = 'video.mp4';
+a.click();
+URL.revokeObjectURL(url);
+```
+
+#### Defined in
+
+[browser-renderer.ts:268](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/browser-render/src/browser-renderer.ts#L268)
+
+___
 
 ### useBrowserRenderer
 
-```typescript
-function useBrowserRenderer(options: UseBrowserRendererOptions): UseBrowserRendererReturn
-```
+▸ **useBrowserRenderer**(`options?`): [`UseBrowserRendererReturn`](interfaces/UseBrowserRendererReturn.md)
 
-React hook for browser-based video rendering.
+React hook for rendering Twick videos in the browser
 
-**Parameters:**
+Uses the same pattern as the server renderer for consistency.
 
-| Parameter | Type | Description |
+#### Parameters
+
+| Name | Type | Description |
 | :------ | :------ | :------ |
-| `options` | `UseBrowserRendererOptions` | Hook configuration options |
+| `options` | [`UseBrowserRendererOptions`](interfaces/UseBrowserRendererOptions.md) | Rendering options |
 
-**Returns:** `UseBrowserRendererReturn`
+#### Returns
 
-An object containing render function, progress state, and video blob.
+[`UseBrowserRendererReturn`](interfaces/UseBrowserRendererReturn.md)
 
----
+Renderer state and control functions
 
-## Type Aliases
+**`Example`**
 
-### BrowserRenderConfig
+```tsx
+import { useBrowserRenderer } from '@twick/browser-render';
 
-```typescript
-type BrowserRenderConfig = {
-  projectFile?: Project;
-  variables: {
-    input: any;
-    playerId?: string;
-    [key: string]: any;
+// Using default visualizer project
+function MyComponent() {
+  const { render, progress, isRendering, videoBlob, download } = useBrowserRenderer({
+    width: 1920,
+    height: 1080,
+    fps: 30,
+    autoDownload: true,
+  });
+
+  const handleRender = async () => {
+    await render({
+      input: {
+        properties: { width: 1920, height: 1080, fps: 30 },
+        tracks: [
+          // Your tracks configuration
+        ]
+      }
+    });
   };
-  settings?: {
-    width?: number;
-    height?: number;
-    fps?: number;
-    quality?: 'low' | 'medium' | 'high';
-    range?: [number, number];
-    onProgress?: (progress: number) => void;
-    onComplete?: (videoBlob: Blob) => void;
-    onError?: (error: Error) => void;
-  };
+
+  return (
+    <div>
+      <button onClick={handleRender} disabled={isRendering}>
+        {isRendering ? `Rendering... ${(progress * 100).toFixed(0)}%` : 'Render Video'}
+      </button>
+      {videoBlob && !autoDownload && (
+        <button onClick={() => download('my-video.mp4')}>Download</button>
+      )}
+    </div>
+  );
+}
+
+// Using custom project (must import it first)
+import myProject from './my-project';
+
+function CustomProjectComponent() {
+  const { render } = useBrowserRenderer({
+    projectFile: myProject, // Pass the imported project object
+    width: 1920,
+    height: 1080,
+  });
+  
+  // ... rest of component
 }
 ```
 
-Configuration for browser video rendering.
+#### Defined in
 
----
-
-### UseBrowserRendererOptions
-
-```typescript
-type UseBrowserRendererOptions = {
-  width?: number;
-  height?: number;
-  fps?: number;
-  autoDownload?: boolean;
-}
-```
-
-Options for the useBrowserRenderer hook.
-
----
-
-### UseBrowserRendererReturn
-
-```typescript
-type UseBrowserRendererReturn = {
-  render: (config: BrowserRenderConfig) => Promise<void>;
-  progress: number;
-  isRendering: boolean;
-  videoBlob: Blob | null;
-  download: () => void;
-}
-```
-
-Return type for the useBrowserRenderer hook.
+[hooks/use-browser-renderer.ts:117](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/browser-render/src/hooks/use-browser-renderer.ts#L117)

@@ -1,6 +1,41 @@
-@twick/timeline / [Exports](modules.md)
-
 # @twick/timeline
+
+Timeline management and editing capabilities for video projects.
+
+## Overview
+
+This package provides a comprehensive timeline editor with CRUD operations for managing video tracks and elements. It uses the visitor pattern to handle different element types consistently and offers a fluent interface for timeline manipulation.
+
+## Installation
+
+```bash
+npm install @twick/timeline
+# or
+pnpm add @twick/timeline
+```
+
+**Note:** All required dependencies (`@twick/media-utils`) are automatically installed with `@twick/timeline`.
+
+## Quick Start
+
+```typescript
+import { TimelineEditor, TimelineOperationContext } from '@twick/timeline';
+
+// Create editor with context
+const context: TimelineOperationContext = {
+  contextId: 'my-editor',
+  setTotalDuration: (duration) => console.log('Duration:', duration),
+  setPresent: (data) => console.log('Present:', data),
+  handleUndo: () => console.log('Undo'),
+  handleRedo: () => console.log('Redo'),
+  handleResetHistory: () => console.log('Reset History'),
+  setLatestProjectVersion: (version) => console.log('Version:', version),
+  setTimelineAction: (action, payload) => console.log('Action:', action, payload),
+};
+
+const editor = new TimelineEditor(context);
+const track = editor.addTrack('My Video Track');
+```
 
 ## Timeline Editor CRUD Operations
 
@@ -173,3 +208,56 @@ function MyComponent() {
   return <div>Timeline Editor Ready</div>;
 }
 ```
+
+## API Reference
+
+### Core Classes
+
+- `TimelineEditor`: Main timeline editor class
+- `TextElement`: Text element implementation
+- `VideoElement`: Video element implementation
+- `ImageElement`: Image element implementation
+- `AudioElement`: Audio element implementation
+
+### Hooks
+
+- `useTimelineContext`: React hook for timeline context
+
+### Utility Functions
+
+- `getCurrentElements`: Get elements at specific time
+- `getTotalDuration`: Calculate total timeline duration
+- `generateShortUuid`: Generate unique IDs
+- `isElementId`: Check if ID is element type
+- `isTrackId`: Check if ID is track type
+
+### Types
+
+- `TimelineOperationContext`: Context interface for timeline operations
+- `TrackElement`: Base track element interface
+
+For complete API documentation, refer to the generated documentation.
+
+## Browser Support
+
+This package requires a browser environment with support for:
+- Modern JavaScript features (ES2020+)
+- Promise and async/await support
+
+## Documentation
+
+For complete documentation, refer to the project documentation site.
+
+## License
+
+This package is licensed under the **Sustainable Use License (SUL) Version 1.0**.
+
+- Free for use in commercial and non-commercial apps
+- Can be modified and self-hosted
+- Cannot be sold, rebranded, or distributed as a standalone SDK
+
+For commercial licensing inquiries, contact: contact@kifferai.com
+
+For full license terms, see the main LICENSE.md file in the project root.
+
+
