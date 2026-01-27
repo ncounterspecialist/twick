@@ -73,7 +73,7 @@ export function ImagePanel({
                     e.stopPropagation();
                     onItemSelect(item, true);
                   }}
-                  className="media-action-btn"
+                  className="media-action-btn media-action-btn-primary"
                 >
                   <Plus className="icon-sm" />
                 </button>
