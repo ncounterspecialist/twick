@@ -1,5 +1,8 @@
 # Interface: Element\<Params\>
 
+Interface for creating visual elements in the scene.
+Defines the contract for all element types including video, image, text, and captions.
+
 ## Type parameters
 
 | Name | Type |
@@ -8,29 +11,21 @@
 
 ## Table of contents
 
-### Properties
-
-- [name](Element.md#name)
-
 ### Methods
 
 - [create](Element.md#create)
 
-## Properties
+### Properties
 
-### name
-
-• **name**: `string`
-
-#### Defined in
-
-[helpers/types.ts:163](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/visualizer/src/helpers/types.ts#L163)
+- [name](Element.md#name)
 
 ## Methods
 
 ### create
 
 ▸ **create**(`params`): `ThreadGenerator`
+
+Creates and manages the element in the scene
 
 #### Parameters
 
@@ -44,4 +39,16 @@
 
 #### Defined in
 
-[helpers/types.ts:164](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/visualizer/src/helpers/types.ts#L164)
+[helpers/types.ts:242](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/visualizer/src/helpers/types.ts#L242)
+
+## Properties
+
+### name
+
+• **name**: `string`
+
+The unique name identifier for this element type
+
+#### Defined in
+
+[helpers/types.ts:240](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/visualizer/src/helpers/types.ts#L240)

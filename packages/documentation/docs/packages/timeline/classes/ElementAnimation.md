@@ -1,5 +1,3 @@
-[@twick/timeline](../README.md) / [Exports](../modules.md) / ElementAnimation
-
 # Class: ElementAnimation
 
 ## Table of contents
@@ -8,28 +6,21 @@
 
 - [constructor](ElementAnimation.md#constructor)
 
-### Properties
-
-- [animate](ElementAnimation.md#animate)
-- [direction](ElementAnimation.md#direction)
-- [intensity](ElementAnimation.md#intensity)
-- [interval](ElementAnimation.md#interval)
-- [mode](ElementAnimation.md#mode)
-- [name](ElementAnimation.md#name)
-
 ### Methods
 
-- [getAnimate](ElementAnimation.md#getanimate)
-- [getDirection](ElementAnimation.md#getdirection)
-- [getIntensity](ElementAnimation.md#getintensity)
-- [getInterval](ElementAnimation.md#getinterval)
-- [getMode](ElementAnimation.md#getmode)
 - [getName](ElementAnimation.md#getname)
-- [setAnimate](ElementAnimation.md#setanimate)
-- [setDirection](ElementAnimation.md#setdirection)
-- [setIntensity](ElementAnimation.md#setintensity)
+- [getInterval](ElementAnimation.md#getinterval)
+- [getDuration](ElementAnimation.md#getduration)
+- [getIntensity](ElementAnimation.md#getintensity)
+- [getAnimate](ElementAnimation.md#getanimate)
+- [getMode](ElementAnimation.md#getmode)
+- [getDirection](ElementAnimation.md#getdirection)
 - [setInterval](ElementAnimation.md#setinterval)
+- [setDuration](ElementAnimation.md#setduration)
+- [setIntensity](ElementAnimation.md#setintensity)
+- [setAnimate](ElementAnimation.md#setanimate)
 - [setMode](ElementAnimation.md#setmode)
+- [setDirection](ElementAnimation.md#setdirection)
 - [toJSON](ElementAnimation.md#tojson)
 - [fromJSON](ElementAnimation.md#fromjson)
 
@@ -51,109 +42,21 @@
 
 #### Defined in
 
-[packages/timeline/src/core/addOns/animation.ts:11](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/addOns/animation.ts#L11)
-
-## Properties
-
-### animate
-
-• `Private` `Optional` **animate**: ``"enter"`` \| ``"exit"`` \| ``"both"``
-
-#### Defined in
-
-[packages/timeline/src/core/addOns/animation.ts:7](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/addOns/animation.ts#L7)
-
-___
-
-### direction
-
-• `Private` `Optional` **direction**: ``"left"`` \| ``"center"`` \| ``"right"`` \| ``"up"`` \| ``"down"``
-
-#### Defined in
-
-[packages/timeline/src/core/addOns/animation.ts:9](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/addOns/animation.ts#L9)
-
-___
-
-### intensity
-
-• `Private` `Optional` **intensity**: `number`
-
-#### Defined in
-
-[packages/timeline/src/core/addOns/animation.ts:6](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/addOns/animation.ts#L6)
-
-___
-
-### interval
-
-• `Private` `Optional` **interval**: `number`
-
-#### Defined in
-
-[packages/timeline/src/core/addOns/animation.ts:5](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/addOns/animation.ts#L5)
-
-___
-
-### mode
-
-• `Private` `Optional` **mode**: ``"in"`` \| ``"out"``
-
-#### Defined in
-
-[packages/timeline/src/core/addOns/animation.ts:8](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/addOns/animation.ts#L8)
-
-___
-
-### name
-
-• `Private` **name**: `string`
-
-#### Defined in
-
-[packages/timeline/src/core/addOns/animation.ts:4](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/addOns/animation.ts#L4)
+[core/addOns/animation.ts:12](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/addOns/animation.ts#L12)
 
 ## Methods
 
-### getAnimate
+### getName
 
-▸ **getAnimate**(): `undefined` \| ``"enter"`` \| ``"exit"`` \| ``"both"``
-
-#### Returns
-
-`undefined` \| ``"enter"`` \| ``"exit"`` \| ``"both"``
-
-#### Defined in
-
-[packages/timeline/src/core/addOns/animation.ts:27](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/addOns/animation.ts#L27)
-
-___
-
-### getDirection
-
-▸ **getDirection**(): `undefined` \| ``"left"`` \| ``"center"`` \| ``"right"`` \| ``"up"`` \| ``"down"``
+▸ **getName**(): `string`
 
 #### Returns
 
-`undefined` \| ``"left"`` \| ``"center"`` \| ``"right"`` \| ``"up"`` \| ``"down"``
+`string`
 
 #### Defined in
 
-[packages/timeline/src/core/addOns/animation.ts:35](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/addOns/animation.ts#L35)
-
-___
-
-### getIntensity
-
-▸ **getIntensity**(): `undefined` \| `number`
-
-#### Returns
-
-`undefined` \| `number`
-
-#### Defined in
-
-[packages/timeline/src/core/addOns/animation.ts:23](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/addOns/animation.ts#L23)
+[core/addOns/animation.ts:16](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/addOns/animation.ts#L16)
 
 ___
 
@@ -167,7 +70,49 @@ ___
 
 #### Defined in
 
-[packages/timeline/src/core/addOns/animation.ts:19](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/addOns/animation.ts#L19)
+[core/addOns/animation.ts:20](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/addOns/animation.ts#L20)
+
+___
+
+### getDuration
+
+▸ **getDuration**(): `undefined` \| `number`
+
+#### Returns
+
+`undefined` \| `number`
+
+#### Defined in
+
+[core/addOns/animation.ts:24](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/addOns/animation.ts#L24)
+
+___
+
+### getIntensity
+
+▸ **getIntensity**(): `undefined` \| `number`
+
+#### Returns
+
+`undefined` \| `number`
+
+#### Defined in
+
+[core/addOns/animation.ts:28](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/addOns/animation.ts#L28)
+
+___
+
+### getAnimate
+
+▸ **getAnimate**(): `undefined` \| ``"enter"`` \| ``"exit"`` \| ``"both"``
+
+#### Returns
+
+`undefined` \| ``"enter"`` \| ``"exit"`` \| ``"both"``
+
+#### Defined in
+
+[core/addOns/animation.ts:32](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/addOns/animation.ts#L32)
 
 ___
 
@@ -181,81 +126,21 @@ ___
 
 #### Defined in
 
-[packages/timeline/src/core/addOns/animation.ts:31](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/addOns/animation.ts#L31)
+[core/addOns/animation.ts:36](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/addOns/animation.ts#L36)
 
 ___
 
-### getName
+### getDirection
 
-▸ **getName**(): `string`
-
-#### Returns
-
-`string`
-
-#### Defined in
-
-[packages/timeline/src/core/addOns/animation.ts:15](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/addOns/animation.ts#L15)
-
-___
-
-### setAnimate
-
-▸ **setAnimate**(`animate?`): [`ElementAnimation`](ElementAnimation.md)
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `animate?` | ``"enter"`` \| ``"exit"`` \| ``"both"`` |
+▸ **getDirection**(): `undefined` \| ``"left"`` \| ``"center"`` \| ``"right"`` \| ``"up"`` \| ``"down"``
 
 #### Returns
 
-[`ElementAnimation`](ElementAnimation.md)
+`undefined` \| ``"left"`` \| ``"center"`` \| ``"right"`` \| ``"up"`` \| ``"down"``
 
 #### Defined in
 
-[packages/timeline/src/core/addOns/animation.ts:49](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/addOns/animation.ts#L49)
-
-___
-
-### setDirection
-
-▸ **setDirection**(`direction?`): [`ElementAnimation`](ElementAnimation.md)
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `direction?` | ``"left"`` \| ``"center"`` \| ``"right"`` \| ``"up"`` \| ``"down"`` |
-
-#### Returns
-
-[`ElementAnimation`](ElementAnimation.md)
-
-#### Defined in
-
-[packages/timeline/src/core/addOns/animation.ts:59](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/addOns/animation.ts#L59)
-
-___
-
-### setIntensity
-
-▸ **setIntensity**(`intensity?`): [`ElementAnimation`](ElementAnimation.md)
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `intensity?` | `number` |
-
-#### Returns
-
-[`ElementAnimation`](ElementAnimation.md)
-
-#### Defined in
-
-[packages/timeline/src/core/addOns/animation.ts:44](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/addOns/animation.ts#L44)
+[core/addOns/animation.ts:40](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/addOns/animation.ts#L40)
 
 ___
 
@@ -275,7 +160,67 @@ ___
 
 #### Defined in
 
-[packages/timeline/src/core/addOns/animation.ts:39](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/addOns/animation.ts#L39)
+[core/addOns/animation.ts:44](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/addOns/animation.ts#L44)
+
+___
+
+### setDuration
+
+▸ **setDuration**(`duration?`): [`ElementAnimation`](ElementAnimation.md)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `duration?` | `number` |
+
+#### Returns
+
+[`ElementAnimation`](ElementAnimation.md)
+
+#### Defined in
+
+[core/addOns/animation.ts:49](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/addOns/animation.ts#L49)
+
+___
+
+### setIntensity
+
+▸ **setIntensity**(`intensity?`): [`ElementAnimation`](ElementAnimation.md)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `intensity?` | `number` |
+
+#### Returns
+
+[`ElementAnimation`](ElementAnimation.md)
+
+#### Defined in
+
+[core/addOns/animation.ts:54](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/addOns/animation.ts#L54)
+
+___
+
+### setAnimate
+
+▸ **setAnimate**(`animate?`): [`ElementAnimation`](ElementAnimation.md)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `animate?` | ``"enter"`` \| ``"exit"`` \| ``"both"`` |
+
+#### Returns
+
+[`ElementAnimation`](ElementAnimation.md)
+
+#### Defined in
+
+[core/addOns/animation.ts:59](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/addOns/animation.ts#L59)
 
 ___
 
@@ -295,21 +240,41 @@ ___
 
 #### Defined in
 
-[packages/timeline/src/core/addOns/animation.ts:54](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/addOns/animation.ts#L54)
+[core/addOns/animation.ts:64](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/addOns/animation.ts#L64)
+
+___
+
+### setDirection
+
+▸ **setDirection**(`direction?`): [`ElementAnimation`](ElementAnimation.md)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `direction?` | ``"left"`` \| ``"center"`` \| ``"right"`` \| ``"up"`` \| ``"down"`` |
+
+#### Returns
+
+[`ElementAnimation`](ElementAnimation.md)
+
+#### Defined in
+
+[core/addOns/animation.ts:69](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/addOns/animation.ts#L69)
 
 ___
 
 ### toJSON
 
-▸ **toJSON**(): [`Animation`](../modules.md#animation)
+▸ **toJSON**(): [`Animation`](../interfaces/Animation.md)
 
 #### Returns
 
-[`Animation`](../modules.md#animation)
+[`Animation`](../interfaces/Animation.md)
 
 #### Defined in
 
-[packages/timeline/src/core/addOns/animation.ts:64](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/addOns/animation.ts#L64)
+[core/addOns/animation.ts:74](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/addOns/animation.ts#L74)
 
 ___
 
@@ -321,7 +286,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `json` | [`Animation`](../modules.md#animation) |
+| `json` | [`Animation`](../interfaces/Animation.md) |
 
 #### Returns
 
@@ -329,4 +294,4 @@ ___
 
 #### Defined in
 
-[packages/timeline/src/core/addOns/animation.ts:75](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/addOns/animation.ts#L75)
+[core/addOns/animation.ts:86](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/addOns/animation.ts#L86)

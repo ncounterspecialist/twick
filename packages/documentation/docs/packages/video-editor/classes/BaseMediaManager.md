@@ -1,5 +1,3 @@
-[@twick/video-editor](../README.md) / [Exports](../modules.md) / BaseMediaManager
-
 # Class: BaseMediaManager
 
 ## Hierarchy
@@ -18,14 +16,14 @@
 
 - [addItem](BaseMediaManager.md#additem)
 - [addItems](BaseMediaManager.md#additems)
-- [deleteItem](BaseMediaManager.md#deleteitem)
-- [deleteItems](BaseMediaManager.md#deleteitems)
 - [getItem](BaseMediaManager.md#getitem)
 - [getItems](BaseMediaManager.md#getitems)
-- [getTotalCount](BaseMediaManager.md#gettotalcount)
-- [search](BaseMediaManager.md#search)
 - [updateItem](BaseMediaManager.md#updateitem)
 - [updateItems](BaseMediaManager.md#updateitems)
+- [deleteItem](BaseMediaManager.md#deleteitem)
+- [deleteItems](BaseMediaManager.md#deleteitems)
+- [search](BaseMediaManager.md#search)
+- [getTotalCount](BaseMediaManager.md#gettotalcount)
 
 ## Constructors
 
@@ -41,41 +39,122 @@
 
 ### addItem
 
-▸ **addItem**(`item`): `Promise`\<[`MediaItem`](../modules.md#mediaitem)\>
+▸ **addItem**(`item`): `Promise`\<[`MediaItem`](../interfaces/MediaItem.md)\>
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `item` | `Omit`\<[`MediaItem`](../modules.md#mediaitem), ``"id"``\> |
+| `item` | `Omit`\<[`MediaItem`](../interfaces/MediaItem.md), ``"id"``\> |
 
 #### Returns
 
-`Promise`\<[`MediaItem`](../modules.md#mediaitem)\>
+`Promise`\<[`MediaItem`](../interfaces/MediaItem.md)\>
 
 #### Defined in
 
-[packages/video-editor/src/helpers/media-manager/base-media-manager.ts:6](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/video-editor/src/helpers/media-manager/base-media-manager.ts#L6)
+[packages/video-editor/src/helpers/media-manager/base-media-manager.ts:6](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/video-editor/src/helpers/media-manager/base-media-manager.ts#L6)
 
 ___
 
 ### addItems
 
-▸ **addItems**(`items`): `Promise`\<[`MediaItem`](../modules.md#mediaitem)[]\>
+▸ **addItems**(`items`): `Promise`\<[`MediaItem`](../interfaces/MediaItem.md)[]\>
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `items` | `Omit`\<[`MediaItem`](../modules.md#mediaitem), ``"id"``\>[] |
+| `items` | `Omit`\<[`MediaItem`](../interfaces/MediaItem.md), ``"id"``\>[] |
 
 #### Returns
 
-`Promise`\<[`MediaItem`](../modules.md#mediaitem)[]\>
+`Promise`\<[`MediaItem`](../interfaces/MediaItem.md)[]\>
 
 #### Defined in
 
-[packages/video-editor/src/helpers/media-manager/base-media-manager.ts:7](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/video-editor/src/helpers/media-manager/base-media-manager.ts#L7)
+[packages/video-editor/src/helpers/media-manager/base-media-manager.ts:7](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/video-editor/src/helpers/media-manager/base-media-manager.ts#L7)
+
+___
+
+### getItem
+
+▸ **getItem**(`id`): `Promise`\<`undefined` \| [`MediaItem`](../interfaces/MediaItem.md)\>
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `id` | `string` |
+
+#### Returns
+
+`Promise`\<`undefined` \| [`MediaItem`](../interfaces/MediaItem.md)\>
+
+#### Defined in
+
+[packages/video-editor/src/helpers/media-manager/base-media-manager.ts:8](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/video-editor/src/helpers/media-manager/base-media-manager.ts#L8)
+
+___
+
+### getItems
+
+▸ **getItems**(`options?`): `Promise`\<[`MediaItem`](../interfaces/MediaItem.md)[]\>
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `options?` | [`PaginationOptions`](../interfaces/PaginationOptions.md) |
+
+#### Returns
+
+`Promise`\<[`MediaItem`](../interfaces/MediaItem.md)[]\>
+
+#### Defined in
+
+[packages/video-editor/src/helpers/media-manager/base-media-manager.ts:9](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/video-editor/src/helpers/media-manager/base-media-manager.ts#L9)
+
+___
+
+### updateItem
+
+▸ **updateItem**(`id`, `updates`): `Promise`\<`undefined` \| [`MediaItem`](../interfaces/MediaItem.md)\>
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `id` | `string` |
+| `updates` | `Partial`\<[`MediaItem`](../interfaces/MediaItem.md)\> |
+
+#### Returns
+
+`Promise`\<`undefined` \| [`MediaItem`](../interfaces/MediaItem.md)\>
+
+#### Defined in
+
+[packages/video-editor/src/helpers/media-manager/base-media-manager.ts:10](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/video-editor/src/helpers/media-manager/base-media-manager.ts#L10)
+
+___
+
+### updateItems
+
+▸ **updateItems**(`updates`): `Promise`\<[`MediaItem`](../interfaces/MediaItem.md)[]\>
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `updates` | \{ `id`: `string` ; `updates`: `Partial`\<[`MediaItem`](../interfaces/MediaItem.md)\>  }[] |
+
+#### Returns
+
+`Promise`\<[`MediaItem`](../interfaces/MediaItem.md)[]\>
+
+#### Defined in
+
+[packages/video-editor/src/helpers/media-manager/base-media-manager.ts:11](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/video-editor/src/helpers/media-manager/base-media-manager.ts#L11)
 
 ___
 
@@ -95,7 +174,7 @@ ___
 
 #### Defined in
 
-[packages/video-editor/src/helpers/media-manager/base-media-manager.ts:12](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/video-editor/src/helpers/media-manager/base-media-manager.ts#L12)
+[packages/video-editor/src/helpers/media-manager/base-media-manager.ts:12](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/video-editor/src/helpers/media-manager/base-media-manager.ts#L12)
 
 ___
 
@@ -115,47 +194,27 @@ ___
 
 #### Defined in
 
-[packages/video-editor/src/helpers/media-manager/base-media-manager.ts:13](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/video-editor/src/helpers/media-manager/base-media-manager.ts#L13)
+[packages/video-editor/src/helpers/media-manager/base-media-manager.ts:13](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/video-editor/src/helpers/media-manager/base-media-manager.ts#L13)
 
 ___
 
-### getItem
+### search
 
-▸ **getItem**(`id`): `Promise`\<`undefined` \| [`MediaItem`](../modules.md#mediaitem)\>
+▸ **search**(`options`): `Promise`\<[`MediaItem`](../interfaces/MediaItem.md)[]\>
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `id` | `string` |
+| `options` | [`SearchOptions`](../interfaces/SearchOptions.md) |
 
 #### Returns
 
-`Promise`\<`undefined` \| [`MediaItem`](../modules.md#mediaitem)\>
+`Promise`\<[`MediaItem`](../interfaces/MediaItem.md)[]\>
 
 #### Defined in
 
-[packages/video-editor/src/helpers/media-manager/base-media-manager.ts:8](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/video-editor/src/helpers/media-manager/base-media-manager.ts#L8)
-
-___
-
-### getItems
-
-▸ **getItems**(`options?`): `Promise`\<[`MediaItem`](../modules.md#mediaitem)[]\>
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `options?` | [`PaginationOptions`](../modules.md#paginationoptions) |
-
-#### Returns
-
-`Promise`\<[`MediaItem`](../modules.md#mediaitem)[]\>
-
-#### Defined in
-
-[packages/video-editor/src/helpers/media-manager/base-media-manager.ts:9](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/video-editor/src/helpers/media-manager/base-media-manager.ts#L9)
+[packages/video-editor/src/helpers/media-manager/base-media-manager.ts:14](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/video-editor/src/helpers/media-manager/base-media-manager.ts#L14)
 
 ___
 
@@ -169,65 +228,4 @@ ___
 
 #### Defined in
 
-[packages/video-editor/src/helpers/media-manager/base-media-manager.ts:15](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/video-editor/src/helpers/media-manager/base-media-manager.ts#L15)
-
-___
-
-### search
-
-▸ **search**(`options`): `Promise`\<[`MediaItem`](../modules.md#mediaitem)[]\>
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `options` | [`SearchOptions`](../modules.md#searchoptions) |
-
-#### Returns
-
-`Promise`\<[`MediaItem`](../modules.md#mediaitem)[]\>
-
-#### Defined in
-
-[packages/video-editor/src/helpers/media-manager/base-media-manager.ts:14](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/video-editor/src/helpers/media-manager/base-media-manager.ts#L14)
-
-___
-
-### updateItem
-
-▸ **updateItem**(`id`, `updates`): `Promise`\<`undefined` \| [`MediaItem`](../modules.md#mediaitem)\>
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `id` | `string` |
-| `updates` | `Partial`\<[`MediaItem`](../modules.md#mediaitem)\> |
-
-#### Returns
-
-`Promise`\<`undefined` \| [`MediaItem`](../modules.md#mediaitem)\>
-
-#### Defined in
-
-[packages/video-editor/src/helpers/media-manager/base-media-manager.ts:10](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/video-editor/src/helpers/media-manager/base-media-manager.ts#L10)
-
-___
-
-### updateItems
-
-▸ **updateItems**(`updates`): `Promise`\<[`MediaItem`](../modules.md#mediaitem)[]\>
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `updates` | \{ `id`: `string` ; `updates`: `Partial`\<[`MediaItem`](../modules.md#mediaitem)\>  }[] |
-
-#### Returns
-
-`Promise`\<[`MediaItem`](../modules.md#mediaitem)[]\>
-
-#### Defined in
-
-[packages/video-editor/src/helpers/media-manager/base-media-manager.ts:11](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/video-editor/src/helpers/media-manager/base-media-manager.ts#L11)
+[packages/video-editor/src/helpers/media-manager/base-media-manager.ts:15](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/video-editor/src/helpers/media-manager/base-media-manager.ts#L15)

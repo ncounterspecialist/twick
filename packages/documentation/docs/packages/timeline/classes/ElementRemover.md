@@ -1,5 +1,3 @@
-[@twick/timeline](../README.md) / [Exports](../modules.md) / ElementRemover
-
 # Class: ElementRemover
 
 ElementRemover visitor for removing elements from tracks
@@ -16,20 +14,16 @@ Implements the Friend Class Pattern for explicit access control
 
 - [constructor](ElementRemover.md#constructor)
 
-### Properties
-
-- [trackFriend](ElementRemover.md#trackfriend)
-
 ### Methods
 
-- [visitAudioElement](ElementRemover.md#visitaudioelement)
-- [visitCaptionElement](ElementRemover.md#visitcaptionelement)
-- [visitCircleElement](ElementRemover.md#visitcircleelement)
-- [visitIconElement](ElementRemover.md#visiticonelement)
-- [visitImageElement](ElementRemover.md#visitimageelement)
-- [visitRectElement](ElementRemover.md#visitrectelement)
-- [visitTextElement](ElementRemover.md#visittextelement)
 - [visitVideoElement](ElementRemover.md#visitvideoelement)
+- [visitAudioElement](ElementRemover.md#visitaudioelement)
+- [visitImageElement](ElementRemover.md#visitimageelement)
+- [visitTextElement](ElementRemover.md#visittextelement)
+- [visitCaptionElement](ElementRemover.md#visitcaptionelement)
+- [visitIconElement](ElementRemover.md#visiticonelement)
+- [visitCircleElement](ElementRemover.md#visitcircleelement)
+- [visitRectElement](ElementRemover.md#visitrectelement)
 
 ## Constructors
 
@@ -49,19 +43,33 @@ Implements the Friend Class Pattern for explicit access control
 
 #### Defined in
 
-[packages/timeline/src/core/visitor/element-remover.ts:21](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-remover.ts#L21)
+[core/visitor/element-remover.ts:21](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-remover.ts#L21)
 
-## Properties
+## Methods
 
-### trackFriend
+### visitVideoElement
 
-• `Private` **trackFriend**: `TrackFriend`
+▸ **visitVideoElement**(`element`): `boolean`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `element` | [`VideoElement`](VideoElement.md) |
+
+#### Returns
+
+`boolean`
+
+#### Implementation of
+
+[ElementVisitor](../interfaces/ElementVisitor.md).[visitVideoElement](../interfaces/ElementVisitor.md#visitvideoelement)
 
 #### Defined in
 
-[packages/timeline/src/core/visitor/element-remover.ts:19](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-remover.ts#L19)
+[core/visitor/element-remover.ts:25](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-remover.ts#L25)
 
-## Methods
+___
 
 ### visitAudioElement
 
@@ -83,79 +91,7 @@ Implements the Friend Class Pattern for explicit access control
 
 #### Defined in
 
-[packages/timeline/src/core/visitor/element-remover.ts:30](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-remover.ts#L30)
-
-___
-
-### visitCaptionElement
-
-▸ **visitCaptionElement**(`element`): `boolean`
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `element` | [`CaptionElement`](CaptionElement.md) |
-
-#### Returns
-
-`boolean`
-
-#### Implementation of
-
-[ElementVisitor](../interfaces/ElementVisitor.md).[visitCaptionElement](../interfaces/ElementVisitor.md#visitcaptionelement)
-
-#### Defined in
-
-[packages/timeline/src/core/visitor/element-remover.ts:45](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-remover.ts#L45)
-
-___
-
-### visitCircleElement
-
-▸ **visitCircleElement**(`element`): `boolean`
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `element` | [`CircleElement`](CircleElement.md) |
-
-#### Returns
-
-`boolean`
-
-#### Implementation of
-
-[ElementVisitor](../interfaces/ElementVisitor.md).[visitCircleElement](../interfaces/ElementVisitor.md#visitcircleelement)
-
-#### Defined in
-
-[packages/timeline/src/core/visitor/element-remover.ts:55](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-remover.ts#L55)
-
-___
-
-### visitIconElement
-
-▸ **visitIconElement**(`element`): `boolean`
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `element` | [`IconElement`](IconElement.md) |
-
-#### Returns
-
-`boolean`
-
-#### Implementation of
-
-[ElementVisitor](../interfaces/ElementVisitor.md).[visitIconElement](../interfaces/ElementVisitor.md#visiticonelement)
-
-#### Defined in
-
-[packages/timeline/src/core/visitor/element-remover.ts:50](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-remover.ts#L50)
+[core/visitor/element-remover.ts:30](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-remover.ts#L30)
 
 ___
 
@@ -179,31 +115,7 @@ ___
 
 #### Defined in
 
-[packages/timeline/src/core/visitor/element-remover.ts:35](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-remover.ts#L35)
-
-___
-
-### visitRectElement
-
-▸ **visitRectElement**(`element`): `boolean`
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `element` | [`RectElement`](RectElement.md) |
-
-#### Returns
-
-`boolean`
-
-#### Implementation of
-
-[ElementVisitor](../interfaces/ElementVisitor.md).[visitRectElement](../interfaces/ElementVisitor.md#visitrectelement)
-
-#### Defined in
-
-[packages/timeline/src/core/visitor/element-remover.ts:60](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-remover.ts#L60)
+[core/visitor/element-remover.ts:35](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-remover.ts#L35)
 
 ___
 
@@ -227,19 +139,19 @@ ___
 
 #### Defined in
 
-[packages/timeline/src/core/visitor/element-remover.ts:40](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-remover.ts#L40)
+[core/visitor/element-remover.ts:40](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-remover.ts#L40)
 
 ___
 
-### visitVideoElement
+### visitCaptionElement
 
-▸ **visitVideoElement**(`element`): `boolean`
+▸ **visitCaptionElement**(`element`): `boolean`
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `element` | [`VideoElement`](VideoElement.md) |
+| `element` | [`CaptionElement`](CaptionElement.md) |
 
 #### Returns
 
@@ -247,8 +159,80 @@ ___
 
 #### Implementation of
 
-[ElementVisitor](../interfaces/ElementVisitor.md).[visitVideoElement](../interfaces/ElementVisitor.md#visitvideoelement)
+[ElementVisitor](../interfaces/ElementVisitor.md).[visitCaptionElement](../interfaces/ElementVisitor.md#visitcaptionelement)
 
 #### Defined in
 
-[packages/timeline/src/core/visitor/element-remover.ts:25](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-remover.ts#L25)
+[core/visitor/element-remover.ts:45](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-remover.ts#L45)
+
+___
+
+### visitIconElement
+
+▸ **visitIconElement**(`element`): `boolean`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `element` | [`IconElement`](IconElement.md) |
+
+#### Returns
+
+`boolean`
+
+#### Implementation of
+
+[ElementVisitor](../interfaces/ElementVisitor.md).[visitIconElement](../interfaces/ElementVisitor.md#visiticonelement)
+
+#### Defined in
+
+[core/visitor/element-remover.ts:50](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-remover.ts#L50)
+
+___
+
+### visitCircleElement
+
+▸ **visitCircleElement**(`element`): `boolean`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `element` | [`CircleElement`](CircleElement.md) |
+
+#### Returns
+
+`boolean`
+
+#### Implementation of
+
+[ElementVisitor](../interfaces/ElementVisitor.md).[visitCircleElement](../interfaces/ElementVisitor.md#visitcircleelement)
+
+#### Defined in
+
+[core/visitor/element-remover.ts:55](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-remover.ts#L55)
+
+___
+
+### visitRectElement
+
+▸ **visitRectElement**(`element`): `boolean`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `element` | [`RectElement`](RectElement.md) |
+
+#### Returns
+
+`boolean`
+
+#### Implementation of
+
+[ElementVisitor](../interfaces/ElementVisitor.md).[visitRectElement](../interfaces/ElementVisitor.md#visitrectelement)
+
+#### Defined in
+
+[core/visitor/element-remover.ts:60](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-remover.ts#L60)

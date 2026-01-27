@@ -1,5 +1,3 @@
-[@twick/timeline](../README.md) / [Exports](../modules.md) / VideoElement
-
 # Class: VideoElement
 
 ## Hierarchy
@@ -14,70 +12,56 @@
 
 - [constructor](VideoElement.md#constructor)
 
-### Properties
-
-- [animation](VideoElement.md#animation)
-- [backgroundColor](VideoElement.md#backgroundcolor)
-- [baseSize](VideoElement.md#basesize)
-- [e](VideoElement.md#e)
-- [frame](VideoElement.md#frame)
-- [frameEffects](VideoElement.md#frameeffects)
-- [id](VideoElement.md#id)
-- [mediaDuration](VideoElement.md#mediaduration)
-- [name](VideoElement.md#name)
-- [objectFit](VideoElement.md#objectfit)
-- [parentSize](VideoElement.md#parentsize)
-- [props](VideoElement.md#props)
-- [s](VideoElement.md#s)
-- [trackId](VideoElement.md#trackid)
-- [type](VideoElement.md#type)
-
 ### Methods
 
-- [accept](VideoElement.md#accept)
-- [addFrameEffect](VideoElement.md#addframeeffect)
-- [getAnimation](VideoElement.md#getanimation)
-- [getBackgroundColor](VideoElement.md#getbackgroundcolor)
-- [getDuration](VideoElement.md#getduration)
+- [getId](VideoElement.md#getid)
+- [getType](VideoElement.md#gettype)
+- [getStart](VideoElement.md#getstart)
 - [getEnd](VideoElement.md#getend)
-- [getEndAt](VideoElement.md#getendat)
+- [getDuration](VideoElement.md#getduration)
+- [getTrackId](VideoElement.md#gettrackid)
+- [getProps](VideoElement.md#getprops)
+- [getName](VideoElement.md#getname)
+- [getAnimation](VideoElement.md#getanimation)
+- [getOpacity](VideoElement.md#getopacity)
+- [setId](VideoElement.md#setid)
+- [setType](VideoElement.md#settype)
+- [setStart](VideoElement.md#setstart)
+- [setEnd](VideoElement.md#setend)
+- [setTrackId](VideoElement.md#settrackid)
+- [setName](VideoElement.md#setname)
+- [setAnimation](VideoElement.md#setanimation)
+- [setOpacity](VideoElement.md#setopacity)
+- [getParentSize](VideoElement.md#getparentsize)
 - [getFrame](VideoElement.md#getframe)
 - [getFrameEffects](VideoElement.md#getframeeffects)
-- [getId](VideoElement.md#getid)
-- [getMediaDuration](VideoElement.md#getmediaduration)
-- [getName](VideoElement.md#getname)
+- [getBackgroundColor](VideoElement.md#getbackgroundcolor)
 - [getObjectFit](VideoElement.md#getobjectfit)
-- [getParentSize](VideoElement.md#getparentsize)
-- [getPlaybackRate](VideoElement.md#getplaybackrate)
-- [getPosition](VideoElement.md#getposition)
-- [getProps](VideoElement.md#getprops)
-- [getSrc](VideoElement.md#getsrc)
-- [getStart](VideoElement.md#getstart)
+- [getMediaDuration](VideoElement.md#getmediaduration)
 - [getStartAt](VideoElement.md#getstartat)
-- [getTrackId](VideoElement.md#gettrackid)
-- [getType](VideoElement.md#gettype)
+- [getEndAt](VideoElement.md#getendat)
+- [getSrc](VideoElement.md#getsrc)
+- [getPlaybackRate](VideoElement.md#getplaybackrate)
 - [getVolume](VideoElement.md#getvolume)
-- [setAnimation](VideoElement.md#setanimation)
-- [setBackgroundColor](VideoElement.md#setbackgroundcolor)
-- [setEnd](VideoElement.md#setend)
-- [setFrame](VideoElement.md#setframe)
-- [setFrameEffects](VideoElement.md#setframeeffects)
-- [setId](VideoElement.md#setid)
-- [setMediaDuration](VideoElement.md#setmediaduration)
-- [setMediaFilter](VideoElement.md#setmediafilter)
-- [setName](VideoElement.md#setname)
-- [setObjectFit](VideoElement.md#setobjectfit)
-- [setParentSize](VideoElement.md#setparentsize)
-- [setPlaybackRate](VideoElement.md#setplaybackrate)
-- [setPosition](VideoElement.md#setposition)
-- [setProps](VideoElement.md#setprops)
-- [setSrc](VideoElement.md#setsrc)
-- [setStart](VideoElement.md#setstart)
-- [setStartAt](VideoElement.md#setstartat)
-- [setTrackId](VideoElement.md#settrackid)
-- [setType](VideoElement.md#settype)
-- [setVolume](VideoElement.md#setvolume)
+- [getRotation](VideoElement.md#getrotation)
+- [setRotation](VideoElement.md#setrotation)
+- [getPosition](VideoElement.md#getposition)
 - [updateVideoMeta](VideoElement.md#updatevideometa)
+- [setPosition](VideoElement.md#setposition)
+- [setSrc](VideoElement.md#setsrc)
+- [setMediaDuration](VideoElement.md#setmediaduration)
+- [setParentSize](VideoElement.md#setparentsize)
+- [setObjectFit](VideoElement.md#setobjectfit)
+- [setFrame](VideoElement.md#setframe)
+- [setPlaybackRate](VideoElement.md#setplaybackrate)
+- [setStartAt](VideoElement.md#setstartat)
+- [setMediaFilter](VideoElement.md#setmediafilter)
+- [setVolume](VideoElement.md#setvolume)
+- [setBackgroundColor](VideoElement.md#setbackgroundcolor)
+- [setProps](VideoElement.md#setprops)
+- [setFrameEffects](VideoElement.md#setframeeffects)
+- [addFrameEffect](VideoElement.md#addframeeffect)
+- [accept](VideoElement.md#accept)
 
 ## Constructors
 
@@ -90,7 +74,7 @@
 | Name | Type |
 | :------ | :------ |
 | `src` | `string` |
-| `parentSize` | [`Size`](../modules.md#size) |
+| `parentSize` | [`Size`](../interfaces/Size.md) |
 
 #### Returns
 
@@ -102,191 +86,903 @@
 
 #### Defined in
 
-[packages/timeline/src/core/elements/video.element.ts:18](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/video.element.ts#L18)
+[core/elements/video.element.ts:18](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/video.element.ts#L18)
 
-## Properties
+## Methods
 
-### animation
+### getId
 
-• `Protected` `Optional` **animation**: [`ElementAnimation`](ElementAnimation.md)
+▸ **getId**(): `string`
 
-#### Inherited from
+#### Returns
 
-[TrackElement](TrackElement.md).[animation](TrackElement.md#animation)
-
-#### Defined in
-
-[packages/timeline/src/core/elements/base.element.ts:13](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/base.element.ts#L13)
-
-___
-
-### backgroundColor
-
-• `Protected` **backgroundColor**: `string`
-
-#### Defined in
-
-[packages/timeline/src/core/elements/video.element.ts:12](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/video.element.ts#L12)
-
-___
-
-### baseSize
-
-• `Protected` **baseSize**: [`Size`](../modules.md#size)
-
-#### Defined in
-
-[packages/timeline/src/core/elements/video.element.ts:9](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/video.element.ts#L9)
-
-___
-
-### e
-
-• `Protected` **e**: `number`
+`string`
 
 #### Inherited from
 
-[TrackElement](TrackElement.md).[e](TrackElement.md#e)
+[TrackElement](TrackElement.md).[getId](TrackElement.md#getid)
 
 #### Defined in
 
-[packages/timeline/src/core/elements/base.element.ts:10](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/base.element.ts#L10)
+[core/elements/base.element.ts:29](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/base.element.ts#L29)
 
 ___
 
-### frame
+### getType
 
-• `Protected` **frame**: [`Frame`](../modules.md#frame)
+▸ **getType**(): `string`
 
-#### Defined in
+#### Returns
 
-[packages/timeline/src/core/elements/video.element.ts:15](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/video.element.ts#L15)
-
-___
-
-### frameEffects
-
-• `Protected` `Optional` **frameEffects**: [`ElementFrameEffect`](ElementFrameEffect.md)[]
-
-#### Defined in
-
-[packages/timeline/src/core/elements/video.element.ts:14](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/video.element.ts#L14)
-
-___
-
-### id
-
-• `Protected` **id**: `string`
+`string`
 
 #### Inherited from
 
-[TrackElement](TrackElement.md).[id](TrackElement.md#id)
+[TrackElement](TrackElement.md).[getType](TrackElement.md#gettype)
 
 #### Defined in
 
-[packages/timeline/src/core/elements/base.element.ts:7](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/base.element.ts#L7)
+[core/elements/base.element.ts:33](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/base.element.ts#L33)
 
 ___
 
-### mediaDuration
+### getStart
 
-• `Protected` **mediaDuration**: `number`
+▸ **getStart**(): `number`
 
-#### Defined in
+#### Returns
 
-[packages/timeline/src/core/elements/video.element.ts:10](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/video.element.ts#L10)
-
-___
-
-### name
-
-• `Protected` **name**: `string`
+`number`
 
 #### Inherited from
 
-[TrackElement](TrackElement.md).[name](TrackElement.md#name)
+[TrackElement](TrackElement.md).[getStart](TrackElement.md#getstart)
 
 #### Defined in
 
-[packages/timeline/src/core/elements/base.element.ts:12](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/base.element.ts#L12)
+[core/elements/base.element.ts:37](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/base.element.ts#L37)
 
 ___
 
-### objectFit
+### getEnd
 
-• `Protected` **objectFit**: [`ObjectFit`](../modules.md#objectfit)
+▸ **getEnd**(): `number`
+
+#### Returns
+
+`number`
+
+#### Inherited from
+
+[TrackElement](TrackElement.md).[getEnd](TrackElement.md#getend)
 
 #### Defined in
 
-[packages/timeline/src/core/elements/video.element.ts:13](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/video.element.ts#L13)
+[core/elements/base.element.ts:41](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/base.element.ts#L41)
 
 ___
 
-### parentSize
+### getDuration
 
-• `Protected` **parentSize**: [`Size`](../modules.md#size)
+▸ **getDuration**(): `number`
+
+#### Returns
+
+`number`
+
+#### Inherited from
+
+[TrackElement](TrackElement.md).[getDuration](TrackElement.md#getduration)
 
 #### Defined in
 
-[packages/timeline/src/core/elements/video.element.ts:11](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/video.element.ts#L11)
+[core/elements/base.element.ts:45](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/base.element.ts#L45)
 
 ___
 
-### props
+### getTrackId
 
-• `Protected` **props**: [`VideoProps`](../modules.md#videoprops)
+▸ **getTrackId**(): `string`
+
+#### Returns
+
+`string`
+
+#### Inherited from
+
+[TrackElement](TrackElement.md).[getTrackId](TrackElement.md#gettrackid)
+
+#### Defined in
+
+[core/elements/base.element.ts:49](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/base.element.ts#L49)
+
+___
+
+### getProps
+
+▸ **getProps**(): `Record`\<`string`, `any`\>
+
+#### Returns
+
+`Record`\<`string`, `any`\>
+
+#### Inherited from
+
+[TrackElement](TrackElement.md).[getProps](TrackElement.md#getprops)
+
+#### Defined in
+
+[core/elements/base.element.ts:53](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/base.element.ts#L53)
+
+___
+
+### getName
+
+▸ **getName**(): `string`
+
+#### Returns
+
+`string`
+
+#### Inherited from
+
+[TrackElement](TrackElement.md).[getName](TrackElement.md#getname)
+
+#### Defined in
+
+[core/elements/base.element.ts:57](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/base.element.ts#L57)
+
+___
+
+### getAnimation
+
+▸ **getAnimation**(): `undefined` \| [`ElementAnimation`](ElementAnimation.md)
+
+#### Returns
+
+`undefined` \| [`ElementAnimation`](ElementAnimation.md)
+
+#### Inherited from
+
+[TrackElement](TrackElement.md).[getAnimation](TrackElement.md#getanimation)
+
+#### Defined in
+
+[core/elements/base.element.ts:61](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/base.element.ts#L61)
+
+___
+
+### getOpacity
+
+▸ **getOpacity**(): `number`
+
+#### Returns
+
+`number`
+
+#### Inherited from
+
+[TrackElement](TrackElement.md).[getOpacity](TrackElement.md#getopacity)
+
+#### Defined in
+
+[core/elements/base.element.ts:76](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/base.element.ts#L76)
+
+___
+
+### setId
+
+▸ **setId**(`id`): [`VideoElement`](VideoElement.md)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `id` | `string` |
+
+#### Returns
+
+[`VideoElement`](VideoElement.md)
+
+#### Inherited from
+
+[TrackElement](TrackElement.md).[setId](TrackElement.md#setid)
+
+#### Defined in
+
+[core/elements/base.element.ts:80](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/base.element.ts#L80)
+
+___
+
+### setType
+
+▸ **setType**(`type`): [`VideoElement`](VideoElement.md)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `type` | `string` |
+
+#### Returns
+
+[`VideoElement`](VideoElement.md)
+
+#### Inherited from
+
+[TrackElement](TrackElement.md).[setType](TrackElement.md#settype)
+
+#### Defined in
+
+[core/elements/base.element.ts:85](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/base.element.ts#L85)
+
+___
+
+### setStart
+
+▸ **setStart**(`s`): [`VideoElement`](VideoElement.md)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `s` | `number` |
+
+#### Returns
+
+[`VideoElement`](VideoElement.md)
+
+#### Inherited from
+
+[TrackElement](TrackElement.md).[setStart](TrackElement.md#setstart)
+
+#### Defined in
+
+[core/elements/base.element.ts:90](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/base.element.ts#L90)
+
+___
+
+### setEnd
+
+▸ **setEnd**(`e`): [`VideoElement`](VideoElement.md)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `e` | `number` |
+
+#### Returns
+
+[`VideoElement`](VideoElement.md)
+
+#### Inherited from
+
+[TrackElement](TrackElement.md).[setEnd](TrackElement.md#setend)
+
+#### Defined in
+
+[core/elements/base.element.ts:95](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/base.element.ts#L95)
+
+___
+
+### setTrackId
+
+▸ **setTrackId**(`trackId`): [`VideoElement`](VideoElement.md)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `trackId` | `string` |
+
+#### Returns
+
+[`VideoElement`](VideoElement.md)
+
+#### Inherited from
+
+[TrackElement](TrackElement.md).[setTrackId](TrackElement.md#settrackid)
+
+#### Defined in
+
+[core/elements/base.element.ts:100](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/base.element.ts#L100)
+
+___
+
+### setName
+
+▸ **setName**(`name`): [`VideoElement`](VideoElement.md)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `name` | `string` |
+
+#### Returns
+
+[`VideoElement`](VideoElement.md)
+
+#### Inherited from
+
+[TrackElement](TrackElement.md).[setName](TrackElement.md#setname)
+
+#### Defined in
+
+[core/elements/base.element.ts:105](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/base.element.ts#L105)
+
+___
+
+### setAnimation
+
+▸ **setAnimation**(`animation?`): [`VideoElement`](VideoElement.md)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `animation?` | [`ElementAnimation`](ElementAnimation.md) |
+
+#### Returns
+
+[`VideoElement`](VideoElement.md)
+
+#### Inherited from
+
+[TrackElement](TrackElement.md).[setAnimation](TrackElement.md#setanimation)
+
+#### Defined in
+
+[core/elements/base.element.ts:110](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/base.element.ts#L110)
+
+___
+
+### setOpacity
+
+▸ **setOpacity**(`opacity`): [`VideoElement`](VideoElement.md)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `opacity` | `number` |
+
+#### Returns
+
+[`VideoElement`](VideoElement.md)
+
+#### Inherited from
+
+[TrackElement](TrackElement.md).[setOpacity](TrackElement.md#setopacity)
+
+#### Defined in
+
+[core/elements/base.element.ts:126](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/base.element.ts#L126)
+
+___
+
+### getParentSize
+
+▸ **getParentSize**(): [`Size`](../interfaces/Size.md)
+
+#### Returns
+
+[`Size`](../interfaces/Size.md)
+
+#### Defined in
+
+[core/elements/video.element.ts:32](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/video.element.ts#L32)
+
+___
+
+### getFrame
+
+▸ **getFrame**(): [`Frame`](../interfaces/Frame.md)
+
+#### Returns
+
+[`Frame`](../interfaces/Frame.md)
+
+#### Defined in
+
+[core/elements/video.element.ts:36](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/video.element.ts#L36)
+
+___
+
+### getFrameEffects
+
+▸ **getFrameEffects**(): `undefined` \| [`ElementFrameEffect`](ElementFrameEffect.md)[]
+
+#### Returns
+
+`undefined` \| [`ElementFrameEffect`](ElementFrameEffect.md)[]
+
+#### Defined in
+
+[core/elements/video.element.ts:40](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/video.element.ts#L40)
+
+___
+
+### getBackgroundColor
+
+▸ **getBackgroundColor**(): `string`
+
+#### Returns
+
+`string`
+
+#### Defined in
+
+[core/elements/video.element.ts:44](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/video.element.ts#L44)
+
+___
+
+### getObjectFit
+
+▸ **getObjectFit**(): [`ObjectFit`](../modules.md#objectfit)
+
+#### Returns
+
+[`ObjectFit`](../modules.md#objectfit)
+
+#### Defined in
+
+[core/elements/video.element.ts:48](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/video.element.ts#L48)
+
+___
+
+### getMediaDuration
+
+▸ **getMediaDuration**(): `number`
+
+#### Returns
+
+`number`
+
+#### Defined in
+
+[core/elements/video.element.ts:52](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/video.element.ts#L52)
+
+___
+
+### getStartAt
+
+▸ **getStartAt**(): `number`
+
+#### Returns
+
+`number`
+
+#### Defined in
+
+[core/elements/video.element.ts:56](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/video.element.ts#L56)
+
+___
+
+### getEndAt
+
+▸ **getEndAt**(): `number`
+
+#### Returns
+
+`number`
+
+#### Defined in
+
+[core/elements/video.element.ts:60](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/video.element.ts#L60)
+
+___
+
+### getSrc
+
+▸ **getSrc**(): `string`
+
+#### Returns
+
+`string`
+
+#### Defined in
+
+[core/elements/video.element.ts:64](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/video.element.ts#L64)
+
+___
+
+### getPlaybackRate
+
+▸ **getPlaybackRate**(): `number`
+
+#### Returns
+
+`number`
+
+#### Defined in
+
+[core/elements/video.element.ts:68](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/video.element.ts#L68)
+
+___
+
+### getVolume
+
+▸ **getVolume**(): `number`
+
+#### Returns
+
+`number`
+
+#### Defined in
+
+[core/elements/video.element.ts:72](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/video.element.ts#L72)
+
+___
+
+### getRotation
+
+▸ **getRotation**(): `number`
+
+#### Returns
+
+`number`
 
 #### Overrides
 
-[TrackElement](TrackElement.md).[props](TrackElement.md#props)
+[TrackElement](TrackElement.md).[getRotation](TrackElement.md#getrotation)
 
 #### Defined in
 
-[packages/timeline/src/core/elements/video.element.ts:16](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/video.element.ts#L16)
+[core/elements/video.element.ts:76](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/video.element.ts#L76)
 
 ___
 
-### s
+### setRotation
 
-• `Protected` **s**: `number`
+▸ **setRotation**(`rotation`): [`VideoElement`](VideoElement.md)
 
-#### Inherited from
+#### Parameters
 
-[TrackElement](TrackElement.md).[s](TrackElement.md#s)
+| Name | Type |
+| :------ | :------ |
+| `rotation` | `number` |
+
+#### Returns
+
+[`VideoElement`](VideoElement.md)
+
+#### Overrides
+
+[TrackElement](TrackElement.md).[setRotation](TrackElement.md#setrotation)
 
 #### Defined in
 
-[packages/timeline/src/core/elements/base.element.ts:9](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/base.element.ts#L9)
+[core/elements/video.element.ts:80](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/video.element.ts#L80)
 
 ___
 
-### trackId
+### getPosition
 
-• `Protected` **trackId**: `string`
+▸ **getPosition**(): [`Position`](../interfaces/Position.md)
 
-#### Inherited from
+#### Returns
 
-[TrackElement](TrackElement.md).[trackId](TrackElement.md#trackid)
+[`Position`](../interfaces/Position.md)
+
+#### Overrides
+
+[TrackElement](TrackElement.md).[getPosition](TrackElement.md#getposition)
 
 #### Defined in
 
-[packages/timeline/src/core/elements/base.element.ts:11](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/base.element.ts#L11)
+[core/elements/video.element.ts:85](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/video.element.ts#L85)
 
 ___
 
-### type
+### updateVideoMeta
 
-• `Protected` **type**: `string`
+▸ **updateVideoMeta**(`updateFrame?`): `Promise`\<`void`\>
 
-#### Inherited from
+#### Parameters
 
-[TrackElement](TrackElement.md).[type](TrackElement.md#type)
+| Name | Type | Default value |
+| :------ | :------ | :------ |
+| `updateFrame` | `boolean` | `true` |
+
+#### Returns
+
+`Promise`\<`void`\>
 
 #### Defined in
 
-[packages/timeline/src/core/elements/base.element.ts:8](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/base.element.ts#L8)
+[core/elements/video.element.ts:93](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/video.element.ts#L93)
 
-## Methods
+___
+
+### setPosition
+
+▸ **setPosition**(`position`): [`VideoElement`](VideoElement.md)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `position` | [`Position`](../interfaces/Position.md) |
+
+#### Returns
+
+[`VideoElement`](VideoElement.md)
+
+#### Overrides
+
+[TrackElement](TrackElement.md).[setPosition](TrackElement.md#setposition)
+
+#### Defined in
+
+[core/elements/video.element.ts:110](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/video.element.ts#L110)
+
+___
+
+### setSrc
+
+▸ **setSrc**(`src`): `Promise`\<[`VideoElement`](VideoElement.md)\>
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `src` | `string` |
+
+#### Returns
+
+`Promise`\<[`VideoElement`](VideoElement.md)\>
+
+#### Defined in
+
+[core/elements/video.element.ts:116](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/video.element.ts#L116)
+
+___
+
+### setMediaDuration
+
+▸ **setMediaDuration**(`mediaDuration`): [`VideoElement`](VideoElement.md)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `mediaDuration` | `number` |
+
+#### Returns
+
+[`VideoElement`](VideoElement.md)
+
+#### Defined in
+
+[core/elements/video.element.ts:122](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/video.element.ts#L122)
+
+___
+
+### setParentSize
+
+▸ **setParentSize**(`parentSize`): [`VideoElement`](VideoElement.md)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `parentSize` | [`Size`](../interfaces/Size.md) |
+
+#### Returns
+
+[`VideoElement`](VideoElement.md)
+
+#### Defined in
+
+[core/elements/video.element.ts:127](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/video.element.ts#L127)
+
+___
+
+### setObjectFit
+
+▸ **setObjectFit**(`objectFit`): [`VideoElement`](VideoElement.md)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `objectFit` | [`ObjectFit`](../modules.md#objectfit) |
+
+#### Returns
+
+[`VideoElement`](VideoElement.md)
+
+#### Defined in
+
+[core/elements/video.element.ts:132](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/video.element.ts#L132)
+
+___
+
+### setFrame
+
+▸ **setFrame**(`frame`): [`VideoElement`](VideoElement.md)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `frame` | [`Frame`](../interfaces/Frame.md) |
+
+#### Returns
+
+[`VideoElement`](VideoElement.md)
+
+#### Defined in
+
+[core/elements/video.element.ts:137](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/video.element.ts#L137)
+
+___
+
+### setPlaybackRate
+
+▸ **setPlaybackRate**(`playbackRate`): [`VideoElement`](VideoElement.md)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `playbackRate` | `number` |
+
+#### Returns
+
+[`VideoElement`](VideoElement.md)
+
+#### Defined in
+
+[core/elements/video.element.ts:142](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/video.element.ts#L142)
+
+___
+
+### setStartAt
+
+▸ **setStartAt**(`time`): [`VideoElement`](VideoElement.md)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `time` | `number` |
+
+#### Returns
+
+[`VideoElement`](VideoElement.md)
+
+#### Defined in
+
+[core/elements/video.element.ts:147](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/video.element.ts#L147)
+
+___
+
+### setMediaFilter
+
+▸ **setMediaFilter**(`mediaFilter`): [`VideoElement`](VideoElement.md)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `mediaFilter` | `string` |
+
+#### Returns
+
+[`VideoElement`](VideoElement.md)
+
+#### Defined in
+
+[core/elements/video.element.ts:152](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/video.element.ts#L152)
+
+___
+
+### setVolume
+
+▸ **setVolume**(`volume`): [`VideoElement`](VideoElement.md)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `volume` | `number` |
+
+#### Returns
+
+[`VideoElement`](VideoElement.md)
+
+#### Defined in
+
+[core/elements/video.element.ts:157](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/video.element.ts#L157)
+
+___
+
+### setBackgroundColor
+
+▸ **setBackgroundColor**(`backgroundColor`): [`VideoElement`](VideoElement.md)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `backgroundColor` | `string` |
+
+#### Returns
+
+[`VideoElement`](VideoElement.md)
+
+#### Defined in
+
+[core/elements/video.element.ts:162](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/video.element.ts#L162)
+
+___
+
+### setProps
+
+▸ **setProps**(`props`): [`VideoElement`](VideoElement.md)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `props` | `Omit`\<`any`, ``"src"``\> |
+
+#### Returns
+
+[`VideoElement`](VideoElement.md)
+
+#### Overrides
+
+[TrackElement](TrackElement.md).[setProps](TrackElement.md#setprops)
+
+#### Defined in
+
+[core/elements/video.element.ts:167](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/video.element.ts#L167)
+
+___
+
+### setFrameEffects
+
+▸ **setFrameEffects**(`frameEffects?`): [`VideoElement`](VideoElement.md)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `frameEffects?` | [`ElementFrameEffect`](ElementFrameEffect.md)[] |
+
+#### Returns
+
+[`VideoElement`](VideoElement.md)
+
+#### Defined in
+
+[core/elements/video.element.ts:175](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/video.element.ts#L175)
+
+___
+
+### addFrameEffect
+
+▸ **addFrameEffect**(`frameEffect`): [`VideoElement`](VideoElement.md)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `frameEffect` | [`ElementFrameEffect`](ElementFrameEffect.md) |
+
+#### Returns
+
+[`VideoElement`](VideoElement.md)
+
+#### Defined in
+
+[core/elements/video.element.ts:180](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/video.element.ts#L180)
+
+___
 
 ### accept
 
@@ -314,814 +1010,4 @@ ___
 
 #### Defined in
 
-[packages/timeline/src/core/elements/video.element.ts:176](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/video.element.ts#L176)
-
-___
-
-### addFrameEffect
-
-▸ **addFrameEffect**(`frameEffect`): [`VideoElement`](VideoElement.md)
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `frameEffect` | [`ElementFrameEffect`](ElementFrameEffect.md) |
-
-#### Returns
-
-[`VideoElement`](VideoElement.md)
-
-#### Defined in
-
-[packages/timeline/src/core/elements/video.element.ts:171](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/video.element.ts#L171)
-
-___
-
-### getAnimation
-
-▸ **getAnimation**(): `undefined` \| [`ElementAnimation`](ElementAnimation.md)
-
-#### Returns
-
-`undefined` \| [`ElementAnimation`](ElementAnimation.md)
-
-#### Inherited from
-
-[TrackElement](TrackElement.md).[getAnimation](TrackElement.md#getanimation)
-
-#### Defined in
-
-[packages/timeline/src/core/elements/base.element.ts:59](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/base.element.ts#L59)
-
-___
-
-### getBackgroundColor
-
-▸ **getBackgroundColor**(): `string`
-
-#### Returns
-
-`string`
-
-#### Defined in
-
-[packages/timeline/src/core/elements/video.element.ts:44](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/video.element.ts#L44)
-
-___
-
-### getDuration
-
-▸ **getDuration**(): `number`
-
-#### Returns
-
-`number`
-
-#### Inherited from
-
-[TrackElement](TrackElement.md).[getDuration](TrackElement.md#getduration)
-
-#### Defined in
-
-[packages/timeline/src/core/elements/base.element.ts:43](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/base.element.ts#L43)
-
-___
-
-### getEnd
-
-▸ **getEnd**(): `number`
-
-#### Returns
-
-`number`
-
-#### Inherited from
-
-[TrackElement](TrackElement.md).[getEnd](TrackElement.md#getend)
-
-#### Defined in
-
-[packages/timeline/src/core/elements/base.element.ts:39](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/base.element.ts#L39)
-
-___
-
-### getEndAt
-
-▸ **getEndAt**(): `number`
-
-#### Returns
-
-`number`
-
-#### Defined in
-
-[packages/timeline/src/core/elements/video.element.ts:60](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/video.element.ts#L60)
-
-___
-
-### getFrame
-
-▸ **getFrame**(): [`Frame`](../modules.md#frame)
-
-#### Returns
-
-[`Frame`](../modules.md#frame)
-
-#### Defined in
-
-[packages/timeline/src/core/elements/video.element.ts:36](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/video.element.ts#L36)
-
-___
-
-### getFrameEffects
-
-▸ **getFrameEffects**(): `undefined` \| [`ElementFrameEffect`](ElementFrameEffect.md)[]
-
-#### Returns
-
-`undefined` \| [`ElementFrameEffect`](ElementFrameEffect.md)[]
-
-#### Defined in
-
-[packages/timeline/src/core/elements/video.element.ts:40](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/video.element.ts#L40)
-
-___
-
-### getId
-
-▸ **getId**(): `string`
-
-#### Returns
-
-`string`
-
-#### Inherited from
-
-[TrackElement](TrackElement.md).[getId](TrackElement.md#getid)
-
-#### Defined in
-
-[packages/timeline/src/core/elements/base.element.ts:27](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/base.element.ts#L27)
-
-___
-
-### getMediaDuration
-
-▸ **getMediaDuration**(): `number`
-
-#### Returns
-
-`number`
-
-#### Defined in
-
-[packages/timeline/src/core/elements/video.element.ts:52](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/video.element.ts#L52)
-
-___
-
-### getName
-
-▸ **getName**(): `string`
-
-#### Returns
-
-`string`
-
-#### Inherited from
-
-[TrackElement](TrackElement.md).[getName](TrackElement.md#getname)
-
-#### Defined in
-
-[packages/timeline/src/core/elements/base.element.ts:55](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/base.element.ts#L55)
-
-___
-
-### getObjectFit
-
-▸ **getObjectFit**(): [`ObjectFit`](../modules.md#objectfit)
-
-#### Returns
-
-[`ObjectFit`](../modules.md#objectfit)
-
-#### Defined in
-
-[packages/timeline/src/core/elements/video.element.ts:48](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/video.element.ts#L48)
-
-___
-
-### getParentSize
-
-▸ **getParentSize**(): [`Size`](../modules.md#size)
-
-#### Returns
-
-[`Size`](../modules.md#size)
-
-#### Defined in
-
-[packages/timeline/src/core/elements/video.element.ts:32](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/video.element.ts#L32)
-
-___
-
-### getPlaybackRate
-
-▸ **getPlaybackRate**(): `number`
-
-#### Returns
-
-`number`
-
-#### Defined in
-
-[packages/timeline/src/core/elements/video.element.ts:68](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/video.element.ts#L68)
-
-___
-
-### getPosition
-
-▸ **getPosition**(): [`Position`](../modules.md#position)
-
-#### Returns
-
-[`Position`](../modules.md#position)
-
-#### Overrides
-
-[TrackElement](TrackElement.md).[getPosition](TrackElement.md#getposition)
-
-#### Defined in
-
-[packages/timeline/src/core/elements/video.element.ts:76](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/video.element.ts#L76)
-
-___
-
-### getProps
-
-▸ **getProps**(): `Record`\<`string`, `any`\>
-
-#### Returns
-
-`Record`\<`string`, `any`\>
-
-#### Inherited from
-
-[TrackElement](TrackElement.md).[getProps](TrackElement.md#getprops)
-
-#### Defined in
-
-[packages/timeline/src/core/elements/base.element.ts:51](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/base.element.ts#L51)
-
-___
-
-### getSrc
-
-▸ **getSrc**(): `string`
-
-#### Returns
-
-`string`
-
-#### Defined in
-
-[packages/timeline/src/core/elements/video.element.ts:64](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/video.element.ts#L64)
-
-___
-
-### getStart
-
-▸ **getStart**(): `number`
-
-#### Returns
-
-`number`
-
-#### Inherited from
-
-[TrackElement](TrackElement.md).[getStart](TrackElement.md#getstart)
-
-#### Defined in
-
-[packages/timeline/src/core/elements/base.element.ts:35](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/base.element.ts#L35)
-
-___
-
-### getStartAt
-
-▸ **getStartAt**(): `number`
-
-#### Returns
-
-`number`
-
-#### Defined in
-
-[packages/timeline/src/core/elements/video.element.ts:56](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/video.element.ts#L56)
-
-___
-
-### getTrackId
-
-▸ **getTrackId**(): `string`
-
-#### Returns
-
-`string`
-
-#### Inherited from
-
-[TrackElement](TrackElement.md).[getTrackId](TrackElement.md#gettrackid)
-
-#### Defined in
-
-[packages/timeline/src/core/elements/base.element.ts:47](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/base.element.ts#L47)
-
-___
-
-### getType
-
-▸ **getType**(): `string`
-
-#### Returns
-
-`string`
-
-#### Inherited from
-
-[TrackElement](TrackElement.md).[getType](TrackElement.md#gettype)
-
-#### Defined in
-
-[packages/timeline/src/core/elements/base.element.ts:31](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/base.element.ts#L31)
-
-___
-
-### getVolume
-
-▸ **getVolume**(): `number`
-
-#### Returns
-
-`number`
-
-#### Defined in
-
-[packages/timeline/src/core/elements/video.element.ts:72](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/video.element.ts#L72)
-
-___
-
-### setAnimation
-
-▸ **setAnimation**(`animation?`): [`VideoElement`](VideoElement.md)
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `animation?` | [`ElementAnimation`](ElementAnimation.md) |
-
-#### Returns
-
-[`VideoElement`](VideoElement.md)
-
-#### Inherited from
-
-[TrackElement](TrackElement.md).[setAnimation](TrackElement.md#setanimation)
-
-#### Defined in
-
-[packages/timeline/src/core/elements/base.element.ts:100](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/base.element.ts#L100)
-
-___
-
-### setBackgroundColor
-
-▸ **setBackgroundColor**(`backgroundColor`): [`VideoElement`](VideoElement.md)
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `backgroundColor` | `string` |
-
-#### Returns
-
-[`VideoElement`](VideoElement.md)
-
-#### Defined in
-
-[packages/timeline/src/core/elements/video.element.ts:153](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/video.element.ts#L153)
-
-___
-
-### setEnd
-
-▸ **setEnd**(`e`): [`VideoElement`](VideoElement.md)
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `e` | `number` |
-
-#### Returns
-
-[`VideoElement`](VideoElement.md)
-
-#### Inherited from
-
-[TrackElement](TrackElement.md).[setEnd](TrackElement.md#setend)
-
-#### Defined in
-
-[packages/timeline/src/core/elements/base.element.ts:85](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/base.element.ts#L85)
-
-___
-
-### setFrame
-
-▸ **setFrame**(`frame`): [`VideoElement`](VideoElement.md)
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `frame` | [`Frame`](../modules.md#frame) |
-
-#### Returns
-
-[`VideoElement`](VideoElement.md)
-
-#### Defined in
-
-[packages/timeline/src/core/elements/video.element.ts:128](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/video.element.ts#L128)
-
-___
-
-### setFrameEffects
-
-▸ **setFrameEffects**(`frameEffects?`): [`VideoElement`](VideoElement.md)
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `frameEffects?` | [`ElementFrameEffect`](ElementFrameEffect.md)[] |
-
-#### Returns
-
-[`VideoElement`](VideoElement.md)
-
-#### Defined in
-
-[packages/timeline/src/core/elements/video.element.ts:166](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/video.element.ts#L166)
-
-___
-
-### setId
-
-▸ **setId**(`id`): [`VideoElement`](VideoElement.md)
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `id` | `string` |
-
-#### Returns
-
-[`VideoElement`](VideoElement.md)
-
-#### Inherited from
-
-[TrackElement](TrackElement.md).[setId](TrackElement.md#setid)
-
-#### Defined in
-
-[packages/timeline/src/core/elements/base.element.ts:70](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/base.element.ts#L70)
-
-___
-
-### setMediaDuration
-
-▸ **setMediaDuration**(`mediaDuration`): [`VideoElement`](VideoElement.md)
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `mediaDuration` | `number` |
-
-#### Returns
-
-[`VideoElement`](VideoElement.md)
-
-#### Defined in
-
-[packages/timeline/src/core/elements/video.element.ts:113](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/video.element.ts#L113)
-
-___
-
-### setMediaFilter
-
-▸ **setMediaFilter**(`mediaFilter`): [`VideoElement`](VideoElement.md)
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `mediaFilter` | `string` |
-
-#### Returns
-
-[`VideoElement`](VideoElement.md)
-
-#### Defined in
-
-[packages/timeline/src/core/elements/video.element.ts:143](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/video.element.ts#L143)
-
-___
-
-### setName
-
-▸ **setName**(`name`): [`VideoElement`](VideoElement.md)
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `name` | `string` |
-
-#### Returns
-
-[`VideoElement`](VideoElement.md)
-
-#### Inherited from
-
-[TrackElement](TrackElement.md).[setName](TrackElement.md#setname)
-
-#### Defined in
-
-[packages/timeline/src/core/elements/base.element.ts:95](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/base.element.ts#L95)
-
-___
-
-### setObjectFit
-
-▸ **setObjectFit**(`objectFit`): [`VideoElement`](VideoElement.md)
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `objectFit` | [`ObjectFit`](../modules.md#objectfit) |
-
-#### Returns
-
-[`VideoElement`](VideoElement.md)
-
-#### Defined in
-
-[packages/timeline/src/core/elements/video.element.ts:123](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/video.element.ts#L123)
-
-___
-
-### setParentSize
-
-▸ **setParentSize**(`parentSize`): [`VideoElement`](VideoElement.md)
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `parentSize` | [`Size`](../modules.md#size) |
-
-#### Returns
-
-[`VideoElement`](VideoElement.md)
-
-#### Defined in
-
-[packages/timeline/src/core/elements/video.element.ts:118](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/video.element.ts#L118)
-
-___
-
-### setPlaybackRate
-
-▸ **setPlaybackRate**(`playbackRate`): [`VideoElement`](VideoElement.md)
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `playbackRate` | `number` |
-
-#### Returns
-
-[`VideoElement`](VideoElement.md)
-
-#### Defined in
-
-[packages/timeline/src/core/elements/video.element.ts:133](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/video.element.ts#L133)
-
-___
-
-### setPosition
-
-▸ **setPosition**(`position`): [`VideoElement`](VideoElement.md)
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `position` | [`Position`](../modules.md#position) |
-
-#### Returns
-
-[`VideoElement`](VideoElement.md)
-
-#### Overrides
-
-[TrackElement](TrackElement.md).[setPosition](TrackElement.md#setposition)
-
-#### Defined in
-
-[packages/timeline/src/core/elements/video.element.ts:101](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/video.element.ts#L101)
-
-___
-
-### setProps
-
-▸ **setProps**(`props`): [`VideoElement`](VideoElement.md)
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `props` | `Omit`\<`any`, ``"src"``\> |
-
-#### Returns
-
-[`VideoElement`](VideoElement.md)
-
-#### Overrides
-
-[TrackElement](TrackElement.md).[setProps](TrackElement.md#setprops)
-
-#### Defined in
-
-[packages/timeline/src/core/elements/video.element.ts:158](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/video.element.ts#L158)
-
-___
-
-### setSrc
-
-▸ **setSrc**(`src`): `Promise`\<[`VideoElement`](VideoElement.md)\>
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `src` | `string` |
-
-#### Returns
-
-`Promise`\<[`VideoElement`](VideoElement.md)\>
-
-#### Defined in
-
-[packages/timeline/src/core/elements/video.element.ts:107](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/video.element.ts#L107)
-
-___
-
-### setStart
-
-▸ **setStart**(`s`): [`VideoElement`](VideoElement.md)
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `s` | `number` |
-
-#### Returns
-
-[`VideoElement`](VideoElement.md)
-
-#### Inherited from
-
-[TrackElement](TrackElement.md).[setStart](TrackElement.md#setstart)
-
-#### Defined in
-
-[packages/timeline/src/core/elements/base.element.ts:80](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/base.element.ts#L80)
-
-___
-
-### setStartAt
-
-▸ **setStartAt**(`time`): [`VideoElement`](VideoElement.md)
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `time` | `number` |
-
-#### Returns
-
-[`VideoElement`](VideoElement.md)
-
-#### Defined in
-
-[packages/timeline/src/core/elements/video.element.ts:138](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/video.element.ts#L138)
-
-___
-
-### setTrackId
-
-▸ **setTrackId**(`trackId`): [`VideoElement`](VideoElement.md)
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `trackId` | `string` |
-
-#### Returns
-
-[`VideoElement`](VideoElement.md)
-
-#### Inherited from
-
-[TrackElement](TrackElement.md).[setTrackId](TrackElement.md#settrackid)
-
-#### Defined in
-
-[packages/timeline/src/core/elements/base.element.ts:90](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/base.element.ts#L90)
-
-___
-
-### setType
-
-▸ **setType**(`type`): [`VideoElement`](VideoElement.md)
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `type` | `string` |
-
-#### Returns
-
-[`VideoElement`](VideoElement.md)
-
-#### Inherited from
-
-[TrackElement](TrackElement.md).[setType](TrackElement.md#settype)
-
-#### Defined in
-
-[packages/timeline/src/core/elements/base.element.ts:75](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/base.element.ts#L75)
-
-___
-
-### setVolume
-
-▸ **setVolume**(`volume`): [`VideoElement`](VideoElement.md)
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `volume` | `number` |
-
-#### Returns
-
-[`VideoElement`](VideoElement.md)
-
-#### Defined in
-
-[packages/timeline/src/core/elements/video.element.ts:148](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/video.element.ts#L148)
-
-___
-
-### updateVideoMeta
-
-▸ **updateVideoMeta**(`updateFrame?`): `Promise`\<`void`\>
-
-#### Parameters
-
-| Name | Type | Default value |
-| :------ | :------ | :------ |
-| `updateFrame` | `boolean` | `true` |
-
-#### Returns
-
-`Promise`\<`void`\>
-
-#### Defined in
-
-[packages/timeline/src/core/elements/video.element.ts:84](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/elements/video.element.ts#L84)
+[core/elements/video.element.ts:185](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/video.element.ts#L185)

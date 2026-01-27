@@ -1,5 +1,8 @@
 # Interface: FrameEffectPlugin\<Params\>
 
+Interface for frame effect plugins.
+Defines the contract for frame effects like circular and rectangular masks.
+
 ## Type parameters
 
 | Name | Type |
@@ -8,29 +11,21 @@
 
 ## Table of contents
 
-### Properties
-
-- [name](FrameEffectPlugin.md#name)
-
 ### Methods
 
 - [run](FrameEffectPlugin.md#run)
 
-## Properties
+### Properties
 
-### name
-
-• **name**: `string`
-
-#### Defined in
-
-[helpers/types.ts:225](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/visualizer/src/helpers/types.ts#L225)
+- [name](FrameEffectPlugin.md#name)
 
 ## Methods
 
 ### run
 
 ▸ **run**(`params`): `ThreadGenerator`
+
+Executes the frame effect
 
 #### Parameters
 
@@ -44,4 +39,16 @@
 
 #### Defined in
 
-[helpers/types.ts:226](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/visualizer/src/helpers/types.ts#L226)
+[helpers/types.ts:342](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/visualizer/src/helpers/types.ts#L342)
+
+## Properties
+
+### name
+
+• **name**: `string`
+
+The unique name identifier for this frame effect
+
+#### Defined in
+
+[helpers/types.ts:340](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/visualizer/src/helpers/types.ts#L340)

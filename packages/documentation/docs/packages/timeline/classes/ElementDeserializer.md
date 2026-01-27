@@ -1,5 +1,3 @@
-[@twick/timeline](../README.md) / [Exports](../modules.md) / ElementDeserializer
-
 # Class: ElementDeserializer
 
 ## Table of contents
@@ -10,15 +8,14 @@
 
 ### Methods
 
-- [deserializeAudioElement](ElementDeserializer.md#deserializeaudioelement)
-- [deserializeBaseElement](ElementDeserializer.md#deserializebaseelement)
-- [deserializeCaptionElement](ElementDeserializer.md#deserializecaptionelement)
-- [deserializeCircleElement](ElementDeserializer.md#deserializecircleelement)
-- [deserializeIconElement](ElementDeserializer.md#deserializeiconelement)
-- [deserializeImageElement](ElementDeserializer.md#deserializeimageelement)
-- [deserializeRectElement](ElementDeserializer.md#deserializerectelement)
-- [deserializeTextElement](ElementDeserializer.md#deserializetextelement)
 - [deserializeVideoElement](ElementDeserializer.md#deserializevideoelement)
+- [deserializeAudioElement](ElementDeserializer.md#deserializeaudioelement)
+- [deserializeImageElement](ElementDeserializer.md#deserializeimageelement)
+- [deserializeTextElement](ElementDeserializer.md#deserializetextelement)
+- [deserializeCaptionElement](ElementDeserializer.md#deserializecaptionelement)
+- [deserializeIconElement](ElementDeserializer.md#deserializeiconelement)
+- [deserializeCircleElement](ElementDeserializer.md#deserializecircleelement)
+- [deserializeRectElement](ElementDeserializer.md#deserializerectelement)
 - [fromJSON](ElementDeserializer.md#fromjson)
 
 ## Constructors
@@ -33,6 +30,26 @@
 
 ## Methods
 
+### deserializeVideoElement
+
+▸ **deserializeVideoElement**(`json`): [`VideoElement`](VideoElement.md)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `json` | [`ElementJSON`](../interfaces/ElementJSON.md) |
+
+#### Returns
+
+[`VideoElement`](VideoElement.md)
+
+#### Defined in
+
+[core/visitor/element-deserializer.ts:26](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-deserializer.ts#L26)
+
+___
+
 ### deserializeAudioElement
 
 ▸ **deserializeAudioElement**(`json`): [`AudioElement`](AudioElement.md)
@@ -41,7 +58,7 @@
 
 | Name | Type |
 | :------ | :------ |
-| `json` | [`ElementJSON`](../modules.md#elementjson) |
+| `json` | [`ElementJSON`](../interfaces/ElementJSON.md) |
 
 #### Returns
 
@@ -49,88 +66,7 @@
 
 #### Defined in
 
-[packages/timeline/src/core/visitor/element-deserializer.ts:42](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-deserializer.ts#L42)
-
-___
-
-### deserializeBaseElement
-
-▸ **deserializeBaseElement**(`element`, `json`): `void`
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `element` | [`TrackElement`](TrackElement.md) |
-| `json` | [`ElementJSON`](../modules.md#elementjson) |
-
-#### Returns
-
-`void`
-
-#### Defined in
-
-[packages/timeline/src/core/visitor/element-deserializer.ts:16](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-deserializer.ts#L16)
-
-___
-
-### deserializeCaptionElement
-
-▸ **deserializeCaptionElement**(`json`): [`CaptionElement`](CaptionElement.md)
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `json` | [`ElementJSON`](../modules.md#elementjson) |
-
-#### Returns
-
-[`CaptionElement`](CaptionElement.md)
-
-#### Defined in
-
-[packages/timeline/src/core/visitor/element-deserializer.ts:76](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-deserializer.ts#L76)
-
-___
-
-### deserializeCircleElement
-
-▸ **deserializeCircleElement**(`json`): [`CircleElement`](CircleElement.md)
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `json` | [`ElementJSON`](../modules.md#elementjson) |
-
-#### Returns
-
-[`CircleElement`](CircleElement.md)
-
-#### Defined in
-
-[packages/timeline/src/core/visitor/element-deserializer.ts:101](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-deserializer.ts#L101)
-
-___
-
-### deserializeIconElement
-
-▸ **deserializeIconElement**(`json`): [`IconElement`](IconElement.md)
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `json` | [`ElementJSON`](../modules.md#elementjson) |
-
-#### Returns
-
-[`IconElement`](IconElement.md)
-
-#### Defined in
-
-[packages/timeline/src/core/visitor/element-deserializer.ts:87](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-deserializer.ts#L87)
+[core/visitor/element-deserializer.ts:43](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-deserializer.ts#L43)
 
 ___
 
@@ -142,7 +78,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `json` | [`ElementJSON`](../modules.md#elementjson) |
+| `json` | [`ElementJSON`](../interfaces/ElementJSON.md) |
 
 #### Returns
 
@@ -150,27 +86,7 @@ ___
 
 #### Defined in
 
-[packages/timeline/src/core/visitor/element-deserializer.ts:51](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-deserializer.ts#L51)
-
-___
-
-### deserializeRectElement
-
-▸ **deserializeRectElement**(`json`): [`RectElement`](RectElement.md)
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `json` | [`ElementJSON`](../modules.md#elementjson) |
-
-#### Returns
-
-[`RectElement`](RectElement.md)
-
-#### Defined in
-
-[packages/timeline/src/core/visitor/element-deserializer.ts:111](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-deserializer.ts#L111)
+[core/visitor/element-deserializer.ts:52](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-deserializer.ts#L52)
 
 ___
 
@@ -182,7 +98,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `json` | [`ElementJSON`](../modules.md#elementjson) |
+| `json` | [`ElementJSON`](../interfaces/ElementJSON.md) |
 
 #### Returns
 
@@ -190,27 +106,87 @@ ___
 
 #### Defined in
 
-[packages/timeline/src/core/visitor/element-deserializer.ts:67](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-deserializer.ts#L67)
+[core/visitor/element-deserializer.ts:68](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-deserializer.ts#L68)
 
 ___
 
-### deserializeVideoElement
+### deserializeCaptionElement
 
-▸ **deserializeVideoElement**(`json`): [`VideoElement`](VideoElement.md)
+▸ **deserializeCaptionElement**(`json`): [`CaptionElement`](CaptionElement.md)
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `json` | [`ElementJSON`](../modules.md#elementjson) |
+| `json` | [`ElementJSON`](../interfaces/ElementJSON.md) |
 
 #### Returns
 
-[`VideoElement`](VideoElement.md)
+[`CaptionElement`](CaptionElement.md)
 
 #### Defined in
 
-[packages/timeline/src/core/visitor/element-deserializer.ts:25](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-deserializer.ts#L25)
+[core/visitor/element-deserializer.ts:77](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-deserializer.ts#L77)
+
+___
+
+### deserializeIconElement
+
+▸ **deserializeIconElement**(`json`): [`IconElement`](IconElement.md)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `json` | [`ElementJSON`](../interfaces/ElementJSON.md) |
+
+#### Returns
+
+[`IconElement`](IconElement.md)
+
+#### Defined in
+
+[core/visitor/element-deserializer.ts:88](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-deserializer.ts#L88)
+
+___
+
+### deserializeCircleElement
+
+▸ **deserializeCircleElement**(`json`): [`CircleElement`](CircleElement.md)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `json` | [`ElementJSON`](../interfaces/ElementJSON.md) |
+
+#### Returns
+
+[`CircleElement`](CircleElement.md)
+
+#### Defined in
+
+[core/visitor/element-deserializer.ts:101](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-deserializer.ts#L101)
+
+___
+
+### deserializeRectElement
+
+▸ **deserializeRectElement**(`json`): [`RectElement`](RectElement.md)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `json` | [`ElementJSON`](../interfaces/ElementJSON.md) |
+
+#### Returns
+
+[`RectElement`](RectElement.md)
+
+#### Defined in
+
+[core/visitor/element-deserializer.ts:111](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-deserializer.ts#L111)
 
 ___
 
@@ -222,7 +198,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `json` | [`ElementJSON`](../modules.md#elementjson) |
+| `json` | [`ElementJSON`](../interfaces/ElementJSON.md) |
 
 #### Returns
 
@@ -230,4 +206,4 @@ ___
 
 #### Defined in
 
-[packages/timeline/src/core/visitor/element-deserializer.ts:124](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-deserializer.ts#L124)
+[core/visitor/element-deserializer.ts:124](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-deserializer.ts#L124)

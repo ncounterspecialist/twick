@@ -1,5 +1,3 @@
-[@twick/timeline](../README.md) / [Exports](../modules.md) / ElementValidator
-
 # Class: ElementValidator
 
 ## Implements
@@ -14,23 +12,14 @@
 
 ### Methods
 
-- [validateAudioElement](ElementValidator.md#validateaudioelement)
-- [validateBasicProperties](ElementValidator.md#validatebasicproperties)
-- [validateCaptionElement](ElementValidator.md#validatecaptionelement)
-- [validateCircleElement](ElementValidator.md#validatecircleelement)
-- [validateIconElement](ElementValidator.md#validateiconelement)
-- [validateImageElement](ElementValidator.md#validateimageelement)
-- [validateRectElement](ElementValidator.md#validaterectelement)
-- [validateTextElement](ElementValidator.md#validatetextelement)
-- [validateVideoElement](ElementValidator.md#validatevideoelement)
-- [visitAudioElement](ElementValidator.md#visitaudioelement)
-- [visitCaptionElement](ElementValidator.md#visitcaptionelement)
-- [visitCircleElement](ElementValidator.md#visitcircleelement)
-- [visitIconElement](ElementValidator.md#visiticonelement)
-- [visitImageElement](ElementValidator.md#visitimageelement)
-- [visitRectElement](ElementValidator.md#visitrectelement)
-- [visitTextElement](ElementValidator.md#visittextelement)
 - [visitVideoElement](ElementValidator.md#visitvideoelement)
+- [visitAudioElement](ElementValidator.md#visitaudioelement)
+- [visitImageElement](ElementValidator.md#visitimageelement)
+- [visitTextElement](ElementValidator.md#visittextelement)
+- [visitCaptionElement](ElementValidator.md#visitcaptionelement)
+- [visitIconElement](ElementValidator.md#visiticonelement)
+- [visitCircleElement](ElementValidator.md#visitcircleelement)
+- [visitRectElement](ElementValidator.md#visitrectelement)
 
 ## Constructors
 
@@ -44,209 +33,9 @@
 
 ## Methods
 
-### validateAudioElement
+### visitVideoElement
 
-▸ **validateAudioElement**(`element`): `Object`
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `element` | [`AudioElement`](AudioElement.md) |
-
-#### Returns
-
-`Object`
-
-| Name | Type |
-| :------ | :------ |
-| `errors` | `string`[] |
-| `warnings` | `string`[] |
-
-#### Defined in
-
-[packages/timeline/src/core/visitor/element-validator.ts:112](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-validator.ts#L112)
-
-___
-
-### validateBasicProperties
-
-▸ **validateBasicProperties**(`element`): `Object`
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `element` | `any` |
-
-#### Returns
-
-`Object`
-
-| Name | Type |
-| :------ | :------ |
-| `errors` | `string`[] |
-| `warnings` | `string`[] |
-
-#### Defined in
-
-[packages/timeline/src/core/visitor/element-validator.ts:23](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-validator.ts#L23)
-
-___
-
-### validateCaptionElement
-
-▸ **validateCaptionElement**(`element`): `Object`
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `element` | [`CaptionElement`](CaptionElement.md) |
-
-#### Returns
-
-`Object`
-
-| Name | Type |
-| :------ | :------ |
-| `errors` | `string`[] |
-| `warnings` | `string`[] |
-
-#### Defined in
-
-[packages/timeline/src/core/visitor/element-validator.ts:151](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-validator.ts#L151)
-
-___
-
-### validateCircleElement
-
-▸ **validateCircleElement**(`element`): `Object`
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `element` | [`CircleElement`](CircleElement.md) |
-
-#### Returns
-
-`Object`
-
-| Name | Type |
-| :------ | :------ |
-| `errors` | `string`[] |
-| `warnings` | `string`[] |
-
-#### Defined in
-
-[packages/timeline/src/core/visitor/element-validator.ts:182](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-validator.ts#L182)
-
-___
-
-### validateIconElement
-
-▸ **validateIconElement**(`element`): `Object`
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `element` | [`IconElement`](IconElement.md) |
-
-#### Returns
-
-`Object`
-
-| Name | Type |
-| :------ | :------ |
-| `errors` | `string`[] |
-| `warnings` | `string`[] |
-
-#### Defined in
-
-[packages/timeline/src/core/visitor/element-validator.ts:165](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-validator.ts#L165)
-
-___
-
-### validateImageElement
-
-▸ **validateImageElement**(`element`): `Object`
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `element` | [`ImageElement`](ImageElement.md) |
-
-#### Returns
-
-`Object`
-
-| Name | Type |
-| :------ | :------ |
-| `errors` | `string`[] |
-| `warnings` | `string`[] |
-
-#### Defined in
-
-[packages/timeline/src/core/visitor/element-validator.ts:134](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-validator.ts#L134)
-
-___
-
-### validateRectElement
-
-▸ **validateRectElement**(`element`): `Object`
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `element` | [`RectElement`](RectElement.md) |
-
-#### Returns
-
-`Object`
-
-| Name | Type |
-| :------ | :------ |
-| `errors` | `string`[] |
-| `warnings` | `string`[] |
-
-#### Defined in
-
-[packages/timeline/src/core/visitor/element-validator.ts:199](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-validator.ts#L199)
-
-___
-
-### validateTextElement
-
-▸ **validateTextElement**(`element`): `Object`
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `element` | [`TextElement`](TextElement.md) |
-
-#### Returns
-
-`Object`
-
-| Name | Type |
-| :------ | :------ |
-| `errors` | `string`[] |
-| `warnings` | `string`[] |
-
-#### Defined in
-
-[packages/timeline/src/core/visitor/element-validator.ts:65](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-validator.ts#L65)
-
-___
-
-### validateVideoElement
-
-▸ **validateVideoElement**(`element`): `Object`
+▸ **visitVideoElement**(`element`): `boolean`
 
 #### Parameters
 
@@ -256,16 +45,15 @@ ___
 
 #### Returns
 
-`Object`
+`boolean`
 
-| Name | Type |
-| :------ | :------ |
-| `errors` | `string`[] |
-| `warnings` | `string`[] |
+#### Implementation of
+
+[ElementVisitor](../interfaces/ElementVisitor.md).[visitVideoElement](../interfaces/ElementVisitor.md#visitvideoelement)
 
 #### Defined in
 
-[packages/timeline/src/core/visitor/element-validator.ts:87](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-validator.ts#L87)
+[core/visitor/element-validator.ts:219](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-validator.ts#L219)
 
 ___
 
@@ -289,79 +77,7 @@ ___
 
 #### Defined in
 
-[packages/timeline/src/core/visitor/element-validator.ts:234](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-validator.ts#L234)
-
-___
-
-### visitCaptionElement
-
-▸ **visitCaptionElement**(`element`): `boolean`
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `element` | [`CaptionElement`](CaptionElement.md) |
-
-#### Returns
-
-`boolean`
-
-#### Implementation of
-
-[ElementVisitor](../interfaces/ElementVisitor.md).[visitCaptionElement](../interfaces/ElementVisitor.md#visitcaptionelement)
-
-#### Defined in
-
-[packages/timeline/src/core/visitor/element-validator.ts:276](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-validator.ts#L276)
-
-___
-
-### visitCircleElement
-
-▸ **visitCircleElement**(`element`): `boolean`
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `element` | [`CircleElement`](CircleElement.md) |
-
-#### Returns
-
-`boolean`
-
-#### Implementation of
-
-[ElementVisitor](../interfaces/ElementVisitor.md).[visitCircleElement](../interfaces/ElementVisitor.md#visitcircleelement)
-
-#### Defined in
-
-[packages/timeline/src/core/visitor/element-validator.ts:304](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-validator.ts#L304)
-
-___
-
-### visitIconElement
-
-▸ **visitIconElement**(`element`): `boolean`
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `element` | [`IconElement`](IconElement.md) |
-
-#### Returns
-
-`boolean`
-
-#### Implementation of
-
-[ElementVisitor](../interfaces/ElementVisitor.md).[visitIconElement](../interfaces/ElementVisitor.md#visiticonelement)
-
-#### Defined in
-
-[packages/timeline/src/core/visitor/element-validator.ts:290](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-validator.ts#L290)
+[core/visitor/element-validator.ts:233](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-validator.ts#L233)
 
 ___
 
@@ -385,31 +101,7 @@ ___
 
 #### Defined in
 
-[packages/timeline/src/core/visitor/element-validator.ts:248](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-validator.ts#L248)
-
-___
-
-### visitRectElement
-
-▸ **visitRectElement**(`element`): `boolean`
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `element` | [`RectElement`](RectElement.md) |
-
-#### Returns
-
-`boolean`
-
-#### Implementation of
-
-[ElementVisitor](../interfaces/ElementVisitor.md).[visitRectElement](../interfaces/ElementVisitor.md#visitrectelement)
-
-#### Defined in
-
-[packages/timeline/src/core/visitor/element-validator.ts:318](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-validator.ts#L318)
+[core/visitor/element-validator.ts:247](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-validator.ts#L247)
 
 ___
 
@@ -433,19 +125,19 @@ ___
 
 #### Defined in
 
-[packages/timeline/src/core/visitor/element-validator.ts:262](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-validator.ts#L262)
+[core/visitor/element-validator.ts:261](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-validator.ts#L261)
 
 ___
 
-### visitVideoElement
+### visitCaptionElement
 
-▸ **visitVideoElement**(`element`): `boolean`
+▸ **visitCaptionElement**(`element`): `boolean`
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `element` | [`VideoElement`](VideoElement.md) |
+| `element` | [`CaptionElement`](CaptionElement.md) |
 
 #### Returns
 
@@ -453,8 +145,80 @@ ___
 
 #### Implementation of
 
-[ElementVisitor](../interfaces/ElementVisitor.md).[visitVideoElement](../interfaces/ElementVisitor.md#visitvideoelement)
+[ElementVisitor](../interfaces/ElementVisitor.md).[visitCaptionElement](../interfaces/ElementVisitor.md#visitcaptionelement)
 
 #### Defined in
 
-[packages/timeline/src/core/visitor/element-validator.ts:220](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-validator.ts#L220)
+[core/visitor/element-validator.ts:275](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-validator.ts#L275)
+
+___
+
+### visitIconElement
+
+▸ **visitIconElement**(`element`): `boolean`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `element` | [`IconElement`](IconElement.md) |
+
+#### Returns
+
+`boolean`
+
+#### Implementation of
+
+[ElementVisitor](../interfaces/ElementVisitor.md).[visitIconElement](../interfaces/ElementVisitor.md#visiticonelement)
+
+#### Defined in
+
+[core/visitor/element-validator.ts:289](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-validator.ts#L289)
+
+___
+
+### visitCircleElement
+
+▸ **visitCircleElement**(`element`): `boolean`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `element` | [`CircleElement`](CircleElement.md) |
+
+#### Returns
+
+`boolean`
+
+#### Implementation of
+
+[ElementVisitor](../interfaces/ElementVisitor.md).[visitCircleElement](../interfaces/ElementVisitor.md#visitcircleelement)
+
+#### Defined in
+
+[core/visitor/element-validator.ts:303](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-validator.ts#L303)
+
+___
+
+### visitRectElement
+
+▸ **visitRectElement**(`element`): `boolean`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `element` | [`RectElement`](RectElement.md) |
+
+#### Returns
+
+`boolean`
+
+#### Implementation of
+
+[ElementVisitor](../interfaces/ElementVisitor.md).[visitRectElement](../interfaces/ElementVisitor.md#visitrectelement)
+
+#### Defined in
+
+[core/visitor/element-validator.ts:317](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-validator.ts#L317)

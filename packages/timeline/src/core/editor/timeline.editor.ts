@@ -153,10 +153,10 @@ export class TimelineEditor {
   }
 
   /**
-   * Add an element to a specific track using the visitor pattern
-   * @param track The track to add the element to
-   * @param element The element to add
-   * @returns Promise<boolean> true if element was added successfully
+   * Add an element to a specific track using the visitor pattern.
+   * @param track The track to add the element to.
+   * @param element The element to add.
+   * @returns A promise that resolves to `true` if the element was added successfully, otherwise `false`.
    */
   async addElementToTrack(
     track: Track,
@@ -190,9 +190,9 @@ export class TimelineEditor {
   }
 
   /**
-   * Remove an element from a specific track using the visitor pattern
-   * @param element The element to remove
-   * @returns boolean true if element was removed successfully
+   * Remove an element from a specific track using the visitor pattern.
+   * @param element The element to remove.
+   * @returns `true` if the element was removed successfully, otherwise `false`.
    */
   removeElement(element: TrackElement): boolean {
     const track = this.getTrackById(element.getTrackId());
@@ -220,9 +220,9 @@ export class TimelineEditor {
   }
 
   /**
-   * Update an element in a specific track using the visitor pattern
-   * @param element The updated element
-   * @returns TrackElement the updated element
+   * Update an element in a specific track using the visitor pattern.
+   * @param element The updated element.
+   * @returns The updated `TrackElement`.
    */
   updateElement(element: TrackElement): TrackElement {
     const track = this.getTrackById(element.getTrackId());

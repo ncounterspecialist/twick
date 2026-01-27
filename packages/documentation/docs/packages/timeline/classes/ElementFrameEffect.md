@@ -1,5 +1,3 @@
-[@twick/timeline](../README.md) / [Exports](../modules.md) / ElementFrameEffect
-
 # Class: ElementFrameEffect
 
 ## Table of contents
@@ -8,20 +6,14 @@
 
 - [constructor](ElementFrameEffect.md#constructor)
 
-### Properties
-
-- [e](ElementFrameEffect.md#e)
-- [props](ElementFrameEffect.md#props)
-- [s](ElementFrameEffect.md#s)
-
 ### Methods
 
-- [getEnd](ElementFrameEffect.md#getend)
+- [setProps](ElementFrameEffect.md#setprops)
 - [getProps](ElementFrameEffect.md#getprops)
 - [getStart](ElementFrameEffect.md#getstart)
-- [setEnd](ElementFrameEffect.md#setend)
-- [setProps](ElementFrameEffect.md#setprops)
+- [getEnd](ElementFrameEffect.md#getend)
 - [setStart](ElementFrameEffect.md#setstart)
+- [setEnd](ElementFrameEffect.md#setend)
 - [toJSON](ElementFrameEffect.md#tojson)
 - [fromJSON](ElementFrameEffect.md#fromjson)
 
@@ -44,65 +36,41 @@
 
 #### Defined in
 
-[packages/timeline/src/core/addOns/frame-effect.ts:7](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/addOns/frame-effect.ts#L7)
-
-## Properties
-
-### e
-
-• `Private` **e**: `number`
-
-#### Defined in
-
-[packages/timeline/src/core/addOns/frame-effect.ts:5](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/addOns/frame-effect.ts#L5)
-
-___
-
-### props
-
-• `Private` **props**: [`FrameEffectProps`](../modules.md#frameeffectprops)
-
-#### Defined in
-
-[packages/timeline/src/core/addOns/frame-effect.ts:6](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/addOns/frame-effect.ts#L6)
-
-___
-
-### s
-
-• `Private` **s**: `number`
-
-#### Defined in
-
-[packages/timeline/src/core/addOns/frame-effect.ts:4](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/addOns/frame-effect.ts#L4)
+[core/addOns/frame-effect.ts:7](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/addOns/frame-effect.ts#L7)
 
 ## Methods
 
-### getEnd
+### setProps
 
-▸ **getEnd**(): `number`
+▸ **setProps**(`props`): [`ElementFrameEffect`](ElementFrameEffect.md)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `props` | [`FrameEffectProps`](../interfaces/FrameEffectProps.md) |
 
 #### Returns
 
-`number`
+[`ElementFrameEffect`](ElementFrameEffect.md)
 
 #### Defined in
 
-[packages/timeline/src/core/addOns/frame-effect.ts:25](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/addOns/frame-effect.ts#L25)
+[core/addOns/frame-effect.ts:12](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/addOns/frame-effect.ts#L12)
 
 ___
 
 ### getProps
 
-▸ **getProps**(): [`FrameEffectProps`](../modules.md#frameeffectprops)
+▸ **getProps**(): [`FrameEffectProps`](../interfaces/FrameEffectProps.md)
 
 #### Returns
 
-[`FrameEffectProps`](../modules.md#frameeffectprops)
+[`FrameEffectProps`](../interfaces/FrameEffectProps.md)
 
 #### Defined in
 
-[packages/timeline/src/core/addOns/frame-effect.ts:17](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/addOns/frame-effect.ts#L17)
+[core/addOns/frame-effect.ts:17](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/addOns/frame-effect.ts#L17)
 
 ___
 
@@ -116,47 +84,21 @@ ___
 
 #### Defined in
 
-[packages/timeline/src/core/addOns/frame-effect.ts:21](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/addOns/frame-effect.ts#L21)
+[core/addOns/frame-effect.ts:21](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/addOns/frame-effect.ts#L21)
 
 ___
 
-### setEnd
+### getEnd
 
-▸ **setEnd**(`end`): [`ElementFrameEffect`](ElementFrameEffect.md)
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `end` | `number` |
+▸ **getEnd**(): `number`
 
 #### Returns
 
-[`ElementFrameEffect`](ElementFrameEffect.md)
+`number`
 
 #### Defined in
 
-[packages/timeline/src/core/addOns/frame-effect.ts:34](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/addOns/frame-effect.ts#L34)
-
-___
-
-### setProps
-
-▸ **setProps**(`props`): [`ElementFrameEffect`](ElementFrameEffect.md)
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `props` | [`FrameEffectProps`](../modules.md#frameeffectprops) |
-
-#### Returns
-
-[`ElementFrameEffect`](ElementFrameEffect.md)
-
-#### Defined in
-
-[packages/timeline/src/core/addOns/frame-effect.ts:12](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/addOns/frame-effect.ts#L12)
+[core/addOns/frame-effect.ts:25](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/addOns/frame-effect.ts#L25)
 
 ___
 
@@ -176,21 +118,41 @@ ___
 
 #### Defined in
 
-[packages/timeline/src/core/addOns/frame-effect.ts:29](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/addOns/frame-effect.ts#L29)
+[core/addOns/frame-effect.ts:29](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/addOns/frame-effect.ts#L29)
+
+___
+
+### setEnd
+
+▸ **setEnd**(`end`): [`ElementFrameEffect`](ElementFrameEffect.md)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `end` | `number` |
+
+#### Returns
+
+[`ElementFrameEffect`](ElementFrameEffect.md)
+
+#### Defined in
+
+[core/addOns/frame-effect.ts:34](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/addOns/frame-effect.ts#L34)
 
 ___
 
 ### toJSON
 
-▸ **toJSON**(): [`FrameEffect`](../modules.md#frameeffect)
+▸ **toJSON**(): [`FrameEffect`](../interfaces/FrameEffect.md)
 
 #### Returns
 
-[`FrameEffect`](../modules.md#frameeffect)
+[`FrameEffect`](../interfaces/FrameEffect.md)
 
 #### Defined in
 
-[packages/timeline/src/core/addOns/frame-effect.ts:39](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/addOns/frame-effect.ts#L39)
+[core/addOns/frame-effect.ts:39](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/addOns/frame-effect.ts#L39)
 
 ___
 
@@ -202,7 +164,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `json` | [`FrameEffect`](../modules.md#frameeffect) |
+| `json` | [`FrameEffect`](../interfaces/FrameEffect.md) |
 
 #### Returns
 
@@ -210,4 +172,4 @@ ___
 
 #### Defined in
 
-[packages/timeline/src/core/addOns/frame-effect.ts:47](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/addOns/frame-effect.ts#L47)
+[core/addOns/frame-effect.ts:47](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/addOns/frame-effect.ts#L47)

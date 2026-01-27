@@ -1,5 +1,3 @@
-[@twick/timeline](../README.md) / [Exports](../modules.md) / ElementUpdater
-
 # Class: ElementUpdater
 
 ElementUpdater visitor for updating elements in tracks
@@ -16,20 +14,16 @@ Implements the Friend Class Pattern for explicit access control
 
 - [constructor](ElementUpdater.md#constructor)
 
-### Properties
-
-- [trackFriend](ElementUpdater.md#trackfriend)
-
 ### Methods
 
-- [visitAudioElement](ElementUpdater.md#visitaudioelement)
-- [visitCaptionElement](ElementUpdater.md#visitcaptionelement)
-- [visitCircleElement](ElementUpdater.md#visitcircleelement)
-- [visitIconElement](ElementUpdater.md#visiticonelement)
-- [visitImageElement](ElementUpdater.md#visitimageelement)
-- [visitRectElement](ElementUpdater.md#visitrectelement)
-- [visitTextElement](ElementUpdater.md#visittextelement)
 - [visitVideoElement](ElementUpdater.md#visitvideoelement)
+- [visitAudioElement](ElementUpdater.md#visitaudioelement)
+- [visitImageElement](ElementUpdater.md#visitimageelement)
+- [visitTextElement](ElementUpdater.md#visittextelement)
+- [visitCaptionElement](ElementUpdater.md#visitcaptionelement)
+- [visitIconElement](ElementUpdater.md#visiticonelement)
+- [visitCircleElement](ElementUpdater.md#visitcircleelement)
+- [visitRectElement](ElementUpdater.md#visitrectelement)
 
 ## Constructors
 
@@ -49,19 +43,33 @@ Implements the Friend Class Pattern for explicit access control
 
 #### Defined in
 
-[packages/timeline/src/core/visitor/element-updater.ts:21](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-updater.ts#L21)
+[core/visitor/element-updater.ts:21](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-updater.ts#L21)
 
-## Properties
+## Methods
 
-### trackFriend
+### visitVideoElement
 
-• `Private` **trackFriend**: `TrackFriend`
+▸ **visitVideoElement**(`element`): `boolean`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `element` | [`VideoElement`](VideoElement.md) |
+
+#### Returns
+
+`boolean`
+
+#### Implementation of
+
+[ElementVisitor](../interfaces/ElementVisitor.md).[visitVideoElement](../interfaces/ElementVisitor.md#visitvideoelement)
 
 #### Defined in
 
-[packages/timeline/src/core/visitor/element-updater.ts:19](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-updater.ts#L19)
+[core/visitor/element-updater.ts:25](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-updater.ts#L25)
 
-## Methods
+___
 
 ### visitAudioElement
 
@@ -83,79 +91,7 @@ Implements the Friend Class Pattern for explicit access control
 
 #### Defined in
 
-[packages/timeline/src/core/visitor/element-updater.ts:29](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-updater.ts#L29)
-
-___
-
-### visitCaptionElement
-
-▸ **visitCaptionElement**(`element`): `boolean`
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `element` | [`CaptionElement`](CaptionElement.md) |
-
-#### Returns
-
-`boolean`
-
-#### Implementation of
-
-[ElementVisitor](../interfaces/ElementVisitor.md).[visitCaptionElement](../interfaces/ElementVisitor.md#visitcaptionelement)
-
-#### Defined in
-
-[packages/timeline/src/core/visitor/element-updater.ts:41](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-updater.ts#L41)
-
-___
-
-### visitCircleElement
-
-▸ **visitCircleElement**(`element`): `boolean`
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `element` | [`CircleElement`](CircleElement.md) |
-
-#### Returns
-
-`boolean`
-
-#### Implementation of
-
-[ElementVisitor](../interfaces/ElementVisitor.md).[visitCircleElement](../interfaces/ElementVisitor.md#visitcircleelement)
-
-#### Defined in
-
-[packages/timeline/src/core/visitor/element-updater.ts:49](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-updater.ts#L49)
-
-___
-
-### visitIconElement
-
-▸ **visitIconElement**(`element`): `boolean`
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `element` | [`IconElement`](IconElement.md) |
-
-#### Returns
-
-`boolean`
-
-#### Implementation of
-
-[ElementVisitor](../interfaces/ElementVisitor.md).[visitIconElement](../interfaces/ElementVisitor.md#visiticonelement)
-
-#### Defined in
-
-[packages/timeline/src/core/visitor/element-updater.ts:45](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-updater.ts#L45)
+[core/visitor/element-updater.ts:29](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-updater.ts#L29)
 
 ___
 
@@ -179,31 +115,7 @@ ___
 
 #### Defined in
 
-[packages/timeline/src/core/visitor/element-updater.ts:33](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-updater.ts#L33)
-
-___
-
-### visitRectElement
-
-▸ **visitRectElement**(`element`): `boolean`
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `element` | [`RectElement`](RectElement.md) |
-
-#### Returns
-
-`boolean`
-
-#### Implementation of
-
-[ElementVisitor](../interfaces/ElementVisitor.md).[visitRectElement](../interfaces/ElementVisitor.md#visitrectelement)
-
-#### Defined in
-
-[packages/timeline/src/core/visitor/element-updater.ts:53](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-updater.ts#L53)
+[core/visitor/element-updater.ts:33](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-updater.ts#L33)
 
 ___
 
@@ -227,19 +139,19 @@ ___
 
 #### Defined in
 
-[packages/timeline/src/core/visitor/element-updater.ts:37](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-updater.ts#L37)
+[core/visitor/element-updater.ts:37](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-updater.ts#L37)
 
 ___
 
-### visitVideoElement
+### visitCaptionElement
 
-▸ **visitVideoElement**(`element`): `boolean`
+▸ **visitCaptionElement**(`element`): `boolean`
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `element` | [`VideoElement`](VideoElement.md) |
+| `element` | [`CaptionElement`](CaptionElement.md) |
 
 #### Returns
 
@@ -247,8 +159,80 @@ ___
 
 #### Implementation of
 
-[ElementVisitor](../interfaces/ElementVisitor.md).[visitVideoElement](../interfaces/ElementVisitor.md#visitvideoelement)
+[ElementVisitor](../interfaces/ElementVisitor.md).[visitCaptionElement](../interfaces/ElementVisitor.md#visitcaptionelement)
 
 #### Defined in
 
-[packages/timeline/src/core/visitor/element-updater.ts:25](https://github.com/ncounterspecialist/twick/blob/076b5b2d4006b7835e1bf4168731258cbc34771f/packages/timeline/src/core/visitor/element-updater.ts#L25)
+[core/visitor/element-updater.ts:41](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-updater.ts#L41)
+
+___
+
+### visitIconElement
+
+▸ **visitIconElement**(`element`): `boolean`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `element` | [`IconElement`](IconElement.md) |
+
+#### Returns
+
+`boolean`
+
+#### Implementation of
+
+[ElementVisitor](../interfaces/ElementVisitor.md).[visitIconElement](../interfaces/ElementVisitor.md#visiticonelement)
+
+#### Defined in
+
+[core/visitor/element-updater.ts:45](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-updater.ts#L45)
+
+___
+
+### visitCircleElement
+
+▸ **visitCircleElement**(`element`): `boolean`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `element` | [`CircleElement`](CircleElement.md) |
+
+#### Returns
+
+`boolean`
+
+#### Implementation of
+
+[ElementVisitor](../interfaces/ElementVisitor.md).[visitCircleElement](../interfaces/ElementVisitor.md#visitcircleelement)
+
+#### Defined in
+
+[core/visitor/element-updater.ts:49](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-updater.ts#L49)
+
+___
+
+### visitRectElement
+
+▸ **visitRectElement**(`element`): `boolean`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `element` | [`RectElement`](RectElement.md) |
+
+#### Returns
+
+`boolean`
+
+#### Implementation of
+
+[ElementVisitor](../interfaces/ElementVisitor.md).[visitRectElement](../interfaces/ElementVisitor.md#visitrectelement)
+
+#### Defined in
+
+[core/visitor/element-updater.ts:53](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-updater.ts#L53)
