@@ -87,12 +87,26 @@ export function VideoPanel({
               </div> */}
 
               {/* Quick Actions */}
+              {/* Center primary add button */}
               <div className="media-actions">
-                {/* Play/Pause button */}
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
-                    const videoEl = e.currentTarget.parentElement?.parentElement?.querySelector('video');
+                    onItemSelect(item, true);
+                  }}
+                  className="media-action-btn media-action-btn-primary"
+                >
+                  <Plus className="icon-sm" />
+                </button>
+              </div>
+
+              {/* Corner play/pause control */}
+              <div className="media-actions media-actions-corner">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    const videoEl =
+                      e.currentTarget.parentElement?.parentElement?.querySelector("video");
                     if (videoEl) {
                       togglePlayPause(item, videoEl);
                     }
@@ -104,17 +118,6 @@ export function VideoPanel({
                   ) : (
                     <Play className="icon-sm" />
                   )}
-                </button>
-
-                {/* Add button */}
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onItemSelect(item, true);
-                  }}
-                  className="media-action-btn"
-                >
-                  <Plus className="icon-sm" />
                 </button>
               </div>
             </div>

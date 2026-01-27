@@ -447,16 +447,25 @@ html {
 
 .media-actions {
   position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
+  inset: 0;
   display: flex;
-  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
   opacity: 0;
   transition: opacity 0.2s;
 }
 
 .media-item:hover .media-actions {
   opacity: 1;
+}
+
+.media-actions-corner {
+  inset: auto;
+  top: 0.5rem;
+  right: 0.5rem;
+  align-items: flex-start;
+  justify-content: flex-end;
 }
 
 .media-action-btn {
@@ -471,6 +480,18 @@ html {
   color: white;
   cursor: pointer;
   transition: background-color 0.2s;
+}
+
+.media-action-btn-primary {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 9999px;
+  background-color: rgba(100, 100, 100, 0.5);
+}
+
+.media-action-btn-primary .icon-sm {
+  width: 1.5rem;
+  height: 1.5rem;
 }
 
 .media-action-btn:hover {
