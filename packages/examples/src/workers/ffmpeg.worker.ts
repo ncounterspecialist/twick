@@ -36,8 +36,6 @@ type WorkerMessage = LoadMessage | MergeMessage;
 
 self.onmessage = async (e: MessageEvent<WorkerMessage>) => {
   try {
-    console.log('[FFmpeg Worker] Received message:', e.data.type);
-    
     if (e.data.type === 'load') {
       await loadFFmpeg();
       return;
@@ -45,15 +43,10 @@ self.onmessage = async (e: MessageEvent<WorkerMessage>) => {
 
     if (e.data.type === 'merge') {
       const { video, audio } = e.data;
-      console.log('[FFmpeg Worker] Starting merge:', {
-        videoSize: video.size,
-        audioSize: audio.size
-      });
       await mergeVideoAudio(video, audio);
       return;
     }
   } catch (error) {
-    console.error('[FFmpeg Worker] Error in message handler:', error);
     const errorMsg: ErrorMessage = {
       type: 'error',
       error: error instanceof Error 
@@ -109,11 +102,6 @@ async function loadFFmpeg() {
       wasmURL,
     });
 
-    // Set up progress logging
-    ffmpeg.on('log', ({ message }) => {
-      console.log('[FFmpeg]:', message);
-    });
-
     isLoaded = true;
 
     const msg4: ProgressMessage = {
@@ -123,14 +111,8 @@ async function loadFFmpeg() {
     };
     self.postMessage(msg4);
   } catch (error) {
-    const errorDetails = error instanceof Error ? error.message : String(error);
-    const stack = error instanceof Error ? error.stack : '';
-    console.error('[FFmpeg] Load error:', {
-      message: errorDetails,
-      stack,
-      error
-    });
-    throw new Error(`Failed to load FFmpeg: ${errorDetails}`);
+    const msg = error instanceof Error ? error.message : String(error);
+    throw new Error(`Failed to load FFmpeg: ${msg}`);
   }
 }
 

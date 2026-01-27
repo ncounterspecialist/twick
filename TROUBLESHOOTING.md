@@ -10,6 +10,7 @@ Common issues and solutions when using Twick packages.
 - [Module Resolution](#module-resolution)
 - [TypeScript Configuration](#typescript-configuration)
 - [Docker & Environment](#docker--environment)
+- [Browser Rendering (`@twick/browser-render`)](#browser-rendering-twickbrowser-render)
 - [Runtime Errors](#runtime-errors)
 - [Integration Issues](#integration-issues)
 - [Performance Issues](#performance-issues)
@@ -646,6 +647,118 @@ import "@twick/video-editor/dist/video-editor.css";
    ```
 
 **Note:** The key fix is ensuring `@twick/video-editor` is in your dependencies. Installing `@twick/studio` should automatically include it, but Docker builds sometimes need explicit verification.
+
+---
+
+## Browser Rendering (`@twick/browser-render`)
+
+### Browser Not Supported / WebCodecs Errors
+
+**Errors:**
+- `ReferenceError: VideoEncoder is not defined`
+- `TypeError: Failed to construct 'VideoEncoder'`
+- Video render never starts in some browsers
+
+**Root Cause:**
+- `@twick/browser-render` relies on the WebCodecs API
+- WebCodecs is only available in **Chrome 94+** and **Edge 94+**
+- It is **not fully supported** in Firefox, Safari, or older Chromium-based browsers
+
+**Solutions:**
+1. Verify browser support:
+   - Use latest Chrome or Edge (desktop)
+   - Avoid Safari/Firefox for browser rendering
+2. Add a feature check before calling renderer:
+   ```ts
+   const isWebCodecsSupported =
+     typeof window !== "undefined" &&
+     "VideoEncoder" in window &&
+     "VideoDecoder" in window;
+
+   if (!isWebCodecsSupported) {
+     // Fallback: show message or route to server rendering
+   }
+   ```
+3. For production exports on unsupported browsers, use `@twick/render-server` instead of `@twick/browser-render`.
+
+### WASM / public Assets Not Found
+
+**Errors:**
+- `Failed to fetch mp4-wasm.wasm`
+- `404 mp4-wasm.wasm`
+- `audio-worker.js` not found
+
+**Root Cause:**
+- `@twick/browser-render` ships WASM and worker assets in its `public/` folder
+- These must be copied to your app's `public/` directory so the browser can load them
+
+**Solutions:**
+1. Copy assets after installing the package:
+   ```bash
+   cp node_modules/@twick/browser-render/public/mp4-wasm.wasm public/
+   cp node_modules/@twick/browser-render/public/audio-worker.js public/
+   ```
+2. Ensure your app actually serves these files at:
+   - `/mp4-wasm.wasm`
+   - `/audio-worker.js`
+3. If using Vite (or another bundler), include WASM as an asset:
+   ```ts
+   // vite.config.ts
+   export default defineConfig({
+     assetsInclude: ["**/*.wasm"],
+   });
+   ```
+
+### FFmpeg Assets Missing (Audio Muxing)
+
+**Symptoms:**
+- Video renders **without audio**
+- Separate `audio.wav` is downloaded
+- Console errors like `Failed to load ffmpeg-core.wasm` or `ffmpeg-core.js not found`
+
+**Root Cause:**
+- When `includeAudio` is enabled, `@twick/browser-render` uses `@ffmpeg/ffmpeg` in the browser to mux audio into the final MP4
+- FFmpeg core files are not installed or not served from the expected path
+
+**Solutions:**
+1. Install FFmpeg browser packages:
+   ```bash
+   npm install @ffmpeg/ffmpeg @ffmpeg/util @ffmpeg/core
+   ```
+2. Copy FFmpeg core files to your app's `public/ffmpeg` folder:
+   ```bash
+   mkdir -p public/ffmpeg
+   cp node_modules/@ffmpeg/core/dist/ffmpeg-core.js public/ffmpeg/
+   cp node_modules/@ffmpeg/core/dist/ffmpeg-core.wasm public/ffmpeg/
+   ```
+3. Confirm they are served from:
+   - `/ffmpeg/ffmpeg-core.js`
+   - `/ffmpeg/ffmpeg-core.wasm`
+4. If FFmpeg still fails to load:
+   - Check network tab for 404s
+   - Verify `window.location.origin/ffmpeg/ffmpeg-core.js` is accessible
+   - Use `downloadAudioSeparately` and `onAudioReady` as a fallback for audio-only downloads
+
+### Render Fails or Hangs in Browser
+
+**Issue:** Rendering never finishes, or browser tab becomes unresponsive when using `useBrowserRenderer` or `renderTwickVideoInBrowser`.
+
+**Solutions:**
+1. Keep videos short for browser rendering:
+   - Recommended: **≤ 30 seconds**
+   - For longer videos, use `@twick/render-server`
+2. Reduce resolution and FPS in `BrowserRenderConfig`:
+   ```ts
+   const { render } = useBrowserRenderer({
+     width: 720,
+     height: 1280,
+     fps: 30,
+     includeAudio: true,
+     autoDownload: true,
+   });
+   ```
+3. Avoid very large timelines or huge images; test with a minimal project first.
+4. Watch memory usage in DevTools; if it grows quickly, simplify your composition or move to server rendering.
 
 ---
 

@@ -104,7 +104,6 @@ function TimelineView({
 
   // Track reordering handlers
   const handleTrackDragStart = (e: React.DragEvent, track: Track) => {
-    console.log("Drag", track);
     setDraggedTimeline(track);
     e.dataTransfer.setData("application/json", JSON.stringify(track));
   };

@@ -53,9 +53,7 @@ export const usePlayerManager = ({
    * // Logs canvas ready status
    * ```
    */
-  const handleCanvasReady = (canvas: any) => {
-    console.log("canvas ready", canvas);
-  };
+  const handleCanvasReady = (_canvas: any) => {};
 
   /**
    * Handles canvas operations like item selection and updates.

@@ -6,13 +6,11 @@
 const CACHE_NAME = 'twick-audio-cache-v1';
 const AUDIO_CACHE = 'audio-assets';
 
-self.addEventListener('install', (event) => {
-  console.log('Audio Service Worker installed');
+self.addEventListener('install', () => {
   self.skipWaiting();
 });
 
 self.addEventListener('activate', (event) => {
-  console.log('Audio Service Worker activated');
   event.waitUntil(self.clients.claim());
 });
 
@@ -80,7 +78,6 @@ async function extractAudio(url) {
       size: blob.size
     };
   } catch (error) {
-    console.error('Failed to extract audio:', error);
     throw error;
   }
 }

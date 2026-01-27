@@ -60,13 +60,8 @@ const renderTwickVideo = async (variables, settings) => {
       variables: variables,
       settings: mergedSettings,
     });
-
-    console.log("renderVideo Executed:");
-    console.log("Render result:", result);
-
     return result;
   } catch (error) {
-    console.error("Render error:", error);
     throw error;
   }
 };

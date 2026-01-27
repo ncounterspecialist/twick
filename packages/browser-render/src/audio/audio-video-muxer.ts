@@ -1,57 +1,57 @@
+'use client';
+
 /**
  * Browser-based audio/video muxing using FFmpeg.wasm (main thread)
- * Loads core files from local public/ffmpeg directory
+ * Compatible with Next.js 15
+ *
+ * FFmpeg core files must be served from the app's public folder, e.g.:
+ * twick-web/public/ffmpeg/ffmpeg-core.js, ffmpeg-core.wasm
  */
 
 export interface MuxerOptions {
   videoBlob: Blob;
   audioBuffer: ArrayBuffer;
-  fps: number;
-  width: number;
-  height: number;
 }
 
-/**
- * Mux audio and video using FFmpeg.wasm in main thread
- * Core files loaded from /ffmpeg/ (no CDN, no CORS issues)
- */
-export async function muxAudioVideo(options: MuxerOptions): Promise<Blob> {
+/** Base URL for FFmpeg assets (twick-web public/ffmpeg). Use same-origin URLs directly; toBlobURL causes "Cannot find module 'blob:...'" in some environments. */
+function getFFmpegBaseURL(): string {
+  if (typeof window !== 'undefined') {
+    return `${window.location.origin}/ffmpeg`;
+  }
+  return '/ffmpeg';
+}
+
+export async function muxAudioVideo(
+  options: MuxerOptions
+): Promise<Blob> {
   try {
-    console.log('🎬 Starting FFmpeg.wasm muxing (main thread)...');
-    
-    // Import from installed packages (bundled by Vite)
     const { FFmpeg } = await import('@ffmpeg/ffmpeg');
-    const { fetchFile, toBlobURL } = await import('@ffmpeg/util');
-    
+    const { fetchFile } = await import('@ffmpeg/util');
+
     const ffmpeg = new FFmpeg();
-    
-    ffmpeg.on('log', ({ message }) => {
-      console.log('[FFmpeg]', message);
-    });
-    
-    ffmpeg.on('progress', ({ progress }) => {
-      console.log(`[FFmpeg] Progress: ${(progress * 100).toFixed(1)}%`);
-    });
-    
-    console.log('[FFmpeg] Loading core from /ffmpeg/...');
-    
-    // Load from LOCAL files in public/ffmpeg (no CDN!)
-    // Note: FFmpeg 0.12.x has worker embedded in core.js, no separate workerURL needed
+
+    const base = getFFmpegBaseURL();
+    const coreURL = `${base}/ffmpeg-core.js`;
+    const wasmURL = `${base}/ffmpeg-core.wasm`;
+
+    // Load from same-origin public folder (twick-web/public/ffmpeg). Do NOT use toBlobURL —
+    // it produces blob: URLs that can trigger "Cannot find module 'blob:...'".
     await ffmpeg.load({
-      coreURL: await toBlobURL('/ffmpeg/ffmpeg-core.js', 'text/javascript'),
-      wasmURL: await toBlobURL('/ffmpeg/ffmpeg-core.wasm', 'application/wasm'),
+      coreURL,
+      wasmURL,
     });
-    
-    console.log('✅ FFmpeg.wasm loaded');
-    
-    // Write input files
-    console.log('[FFmpeg] Writing input files...');
-    await ffmpeg.writeFile('video.mp4', await fetchFile(options.videoBlob));
-    await ffmpeg.writeFile('audio.wav', new Uint8Array(options.audioBuffer));
-    
-    console.log('[FFmpeg] Muxing audio and video...');
-    
-    // Mux video and audio
+
+    // Write inputs
+    await ffmpeg.writeFile(
+      'video.mp4',
+      await fetchFile(options.videoBlob)
+    );
+
+    await ffmpeg.writeFile(
+      'audio.wav',
+      new Uint8Array(options.audioBuffer)
+    );
+
     await ffmpeg.exec([
       '-i', 'video.mp4',
       '-i', 'audio.wav',
@@ -59,35 +59,19 @@ export async function muxAudioVideo(options: MuxerOptions): Promise<Blob> {
       '-c:a', 'aac',
       '-b:a', '192k',
       '-shortest',
-      'output.mp4'
+      'output.mp4',
     ]);
-    
-    console.log('[FFmpeg] Reading output file...');
-    
-    // Read output
+
     const data = await ffmpeg.readFile('output.mp4');
-    // Convert FileData to Uint8Array with ArrayBuffer for Blob compatibility
-    // FileData can be Uint8Array or string, and Uint8Array might have SharedArrayBuffer
-    let uint8Array: Uint8Array;
-    if (typeof data === 'string') {
-      // If string, convert to Uint8Array
-      uint8Array = new TextEncoder().encode(data);
-    } else {
-      // If Uint8Array, ensure it has ArrayBuffer (not SharedArrayBuffer) by creating a copy
-      // This creates a new ArrayBuffer, ensuring compatibility with Blob
-      uint8Array = new Uint8Array(data.length);
-      uint8Array.set(data);
-    }
-    // Type assertion needed because TypeScript sees buffer as ArrayBufferLike
-    // but we've ensured it's a proper ArrayBuffer by creating a new Uint8Array
-    const muxedBlob = new Blob([uint8Array as BlobPart], { type: 'video/mp4' });
-    
-    console.log(`✅ Muxed video with audio: ${(muxedBlob.size / 1024 / 1024).toFixed(2)} MB`);
-    
-    return muxedBlob;
-  } catch (error) {
-    console.error('❌ FFmpeg.wasm muxing failed:', error);
-    console.warn('⚠️ Returning video-only');
+
+    const uint8 =
+      typeof data === 'string'
+        ? new TextEncoder().encode(data)
+        : new Uint8Array(data);
+
+    return new Blob([uint8], { type: 'video/mp4' });
+
+  } catch {
     return options.videoBlob;
   }
 }

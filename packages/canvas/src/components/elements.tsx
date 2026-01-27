@@ -162,7 +162,6 @@ const setImageProps = ({
     element.props?.y || 0,
     canvasMetadata
   );
-  console.log(width, height, x, y);
   img.set("id", element.id);
   img.set("zIndex", index);
   img.set("width", width);
@@ -353,8 +352,8 @@ export const addVideoElement = async ({
       canvasMetadata,
       currentFrameEffect,
     });
-  } catch (error) {
-    console.error("Error loading image:", error);
+  } catch {
+    // Skip element on load error
   }
 };
 
@@ -425,8 +424,8 @@ export const addImageElement = async ({
       canvas.add(img);
       return img;
     }
-  } catch (error) {
-    console.error("Error loading image:", error);
+  } catch {
+    // Skip element on load error
   }
 };
 

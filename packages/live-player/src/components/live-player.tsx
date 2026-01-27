@@ -138,8 +138,6 @@ export const LivePlayer = ({
    */
   const setProjectData = useCallback((projectData: any) => {
     if (playerRef.current?.htmlElement && projectData) {
-      console.log("setProjectData in live player");
-      // Use setAttribute to avoid React trying to set a read-only property
       playerRef.current.htmlElement.setAttribute(
         "variables",
         JSON.stringify({ ...projectData, playerId: playerRef.current.id })
