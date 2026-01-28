@@ -89,6 +89,9 @@ importers:
       '@twick/core':
         specifier: 0.15.8
         version: 0.15.8
+      '@twick/media-utils':
+        specifier: workspace:*
+        version: link:../media-utils
       '@twick/visualizer':
         specifier: workspace:*
         version: link:../visualizer
