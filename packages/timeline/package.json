@@ -34,7 +34,7 @@
   },
   "dependencies": {
     "@twick/media-utils": "workspace:*",
-    "posthog-js": "^1.258.5"
+    "posthog-js": "^1.334.1"
   },
   "devDependencies": {
     "@types/node": "^20.11.24",

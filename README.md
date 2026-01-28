@@ -8,6 +8,7 @@ Twick enables developers to build professional video editing experiences with **
 - AI caption generation
 - React timeline editor
 - Canvas-based video editing
+- Client-side rendering
 - Serverless MP4 export
 - Open-source video SDK
 
@@ -57,8 +58,6 @@ Twick is a modular **React video editor library** and cloud toolchain that helps
 - Render MP4s using **browser WebCodecs** or **server-side FFmpeg**
 - Integrate video editing into SaaS products, internal tools, or automation pipelines
 
-It is designed for **developers**, not end users.
-
 ---
 
 ## Who is this for?
@@ -76,11 +75,13 @@ It is designed for **developers**, not end users.
 
 - **Twick Studio (full editor UI):**  
   Professional React-based video editor with timeline, canvas, and export.  
-  👉 `https://development.d1vtsw7m0lx01h.amplifyapp.com/`
+
+  👉 [Twick Studio](https://development.d1vtsw7m0lx01h.amplifyapp.com)
 
 - **AI Subtitle Generator:**  
-  Paste a video URL, get AI-generated captions and timed tracks (Gemini / Vertex AI).  
-  👉 `https://development.d1vtsw7m0lx01h.amplifyapp.com/subtitles`
+  Paste a video URL, get AI-generated captions and timed tracks.
+
+  👉 [Generate AI Caption with Twick](https://development.d1vtsw7m0lx01h.amplifyapp.com/subtitles)
 
 ---
 
@@ -166,7 +167,7 @@ For Next.js or more advanced setups, refer to the docs.
 Twick supports **two primary export paths**:
 
 - **Browser rendering (`@twick/browser-render`)**  
-  - Client-side export using WebCodecs  
+  - Client-side export using WebCodecs API for video encoding + FFmpeg.wasm for audio/video muxing  
   - Best for short clips, previews, prototypes, and environments without backend infra  
 
 - **Server rendering (`@twick/render-server`)**  
@@ -268,6 +269,7 @@ export default function VideoEditor() {
 **Limitations (summary)**
 
 - Requires WebCodecs (Chrome / Edge; not Firefox / Safari)  
+- Requires FFmpeg.wasm core files in public folder for audio/video muxing  
 - Limited by client device resources and memory  
 - Long or complex renders are better handled on the server  
 
@@ -411,16 +413,16 @@ For full details, see the `@twick/render-server` README.
 ## Documentation
 
 - **Main docs & API reference:**  
-  `https://ncounterspecialist.github.io/twick`
 
-- **In-action guides and examples:**  
-  `https://ncounterspecialist.github.io/twick/docs/in-action`
+  [Twick Documentation](https://ncounterspecialist.github.io/twick)
 
-- **AI captioning overview:**  
-  `https://ncounterspecialist.github.io/twick`
+- **In-action guides and examples:** 
 
-- **Troubleshooting:**  
-  `./TROUBLESHOOTING.md`
+  [Twick in Action](https://ncounterspecialist.github.io/twick/docs/intro)
+
+- **Troubleshooting:**
+
+  [Troubleshooting Documentation](https://github.com/ncounterspecialist/twick/blob/main/TROUBLESHOOTING.md)   
 
 ---
 
@@ -447,7 +449,7 @@ pnpm build:media-utils
 pnpm dev
 ```
 
-For detailed contribution guidelines, see `CONTRIBUTING.md`.
+For detailed contribution guidelines, see [Contribution Guide](https://github.com/ncounterspecialist/twick/blob/main/CONTRIBUTING.md)
 
 ---
 
@@ -460,7 +462,7 @@ This **React Video Editor SDK** is licensed under the **Sustainable Use License 
 - Cannot be sold, rebranded, or redistributed as a standalone SDK or developer tool  
 
 For resale or SaaS redistribution of this library, please contact `contact@kifferai.com`.  
-Full terms: see `LICENSE.md`.
+Full terms: see [License](https://github.com/ncounterspecialist/twick/blob/main/LICENSE.md).
 
 ---
 
