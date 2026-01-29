@@ -6,6 +6,10 @@
 // Main browser renderer functions
 export { renderTwickVideoInBrowser, downloadVideoBlob } from './browser-renderer';
 
+// Helpers
+export { normalizeVideoBlob } from './audio/video-normalizer';
+export type { NormalizeVideoOptions, NormalizeVideoResult } from './audio/video-normalizer';
+
 // React hook
 export { useBrowserRenderer } from './hooks/use-browser-renderer';
 

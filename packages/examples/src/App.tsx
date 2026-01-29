@@ -7,6 +7,7 @@ import {
 import ExampleVideo from './pages/example-video';
 import ExampleDemo from './pages/example-demo';
 import ExampleStudio from './pages/example-studio';
+import ExampleRender  from './pages/example-render';
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
   {
     path: '/demo',
     element: <ExampleDemo />,
+  },
+  {
+    path: '/render',
+    element: <ExampleRender />,
   }
 ]);
 
