@@ -78,12 +78,31 @@ export async function muxAudioVideo(
     });
     
     await ffmpeg.exec([
+      // Inputs
       '-i', 'video.mp4',
       '-i', 'audio.wav',
-      '-c:v', 'copy',
+
+      // Explicit stream mapping
+      '-map', '0:v:0',
+      '-map', '1:a:0',
+
+      // Re-encode video to a very standard H.264 stream.
+      // Copying the WebCodecs/mp4-wasm bitstream can sometimes
+      // lead to timing issues where only the first second renders.
+      '-c:v', 'libx264',
+      '-preset', 'veryfast',
+      '-crf', '20',
+
+      // AAC audio
       '-c:a', 'aac',
       '-b:a', '192k',
+
+      // Make MP4 more web‑friendly
+      '-movflags', '+faststart',
+
+      // Stop at the shortest of the two streams
       '-shortest',
+
       'output.mp4',
     ]);
     const execDuration = Date.now() - execStartTime;

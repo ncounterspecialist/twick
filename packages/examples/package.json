@@ -20,12 +20,6 @@
     "@twick/studio": "workspace:*",
     "@twick/browser-render": "workspace:*",
     "@twick/visualizer": "workspace:*",
-    "dompurify": "^3.2.6",
-    "lucide-react": "^0.511.0",
-    "mp4box": "^0.5.2",
-    "@ffmpeg/ffmpeg": "^0.12.10",
-    "@ffmpeg/util": "^0.12.1",
-    "@ffmpeg/core": "^0.12.6",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
     "react-router-dom": "^7.6.1"
