@@ -74,7 +74,6 @@ export async function muxAudioVideo(
     const ffmpegLogs: string[] = [];
     ffmpeg.on('log', ({ message }: { message: string }) => {
       ffmpegLogs.push(message);
-      console.log(`  [FFmpeg] ${message}`);
     });
     
     await ffmpeg.exec([

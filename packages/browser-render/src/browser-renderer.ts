@@ -28,10 +28,13 @@ class BrowserWasmExporter {
   private fps: number = 30;
   /** On Windows, copy each frame to this canvas before creating VideoFrame to avoid invalid encoder output. */
   private copyCanvas: HTMLCanvasElement | null = null;
-  /** On Windows use native VideoEncoder + mp4-muxer with prefer-software so frames are actually encoded. */
+  /** On Windows use native VideoEncoder + Mediabunny with prefer-software so frames are actually encoded. */
   private useNativeEncoder = false;
   private nativeVideoEncoder: VideoEncoder | null = null;
-  private nativeMuxer: { addVideoChunk: (chunk: EncodedVideoChunk, meta?: EncodedVideoChunkMetadata) => void; finalize: () => void; target: { buffer: ArrayBuffer } } | null = null;
+  private nativeOutput: { target: { buffer: ArrayBuffer }; finalize(): Promise<void> } | null = null;
+  private nativePacketSource: { add(packet: unknown, meta?: EncodedVideoChunkMetadata): Promise<void>; close(): void } | null = null;
+  private nativeAddPromise: Promise<void> = Promise.resolve();
+  private nativeFirstChunk = true;
 
   public static async create(settings: RendererSettings) {
     return new BrowserWasmExporter(settings);
@@ -50,16 +53,29 @@ class BrowserWasmExporter {
 
     if (isWindows()) {
       try {
-        const { Muxer, ArrayBufferTarget } = await import('mp4-muxer');
-        const target = new ArrayBufferTarget();
-        const muxer = new Muxer({
-          target,
-          video: { codec: 'avc', width: w, height: h },
+        const { Output, BufferTarget, Mp4OutputFormat, EncodedVideoPacketSource, EncodedPacket } = await import('mediabunny');
+        const output = new Output({
+          format: new Mp4OutputFormat(),
+          target: new BufferTarget(),
         });
-        this.nativeMuxer = muxer as typeof this.nativeMuxer;
+        const packetSource = new EncodedVideoPacketSource('avc');
+        output.addVideoTrack(packetSource);
+        await output.start();
+        this.nativeOutput = output as typeof this.nativeOutput;
+        this.nativePacketSource = packetSource as typeof this.nativePacketSource;
+        this.nativeAddPromise = Promise.resolve();
+        this.nativeFirstChunk = true;
 
         const videoEncoder = new VideoEncoder({
-          output: (chunk: EncodedVideoChunk, meta?: EncodedVideoChunkMetadata) => muxer.addVideoChunk(chunk, meta),
+          output: (chunk: EncodedVideoChunk, meta?: EncodedVideoChunkMetadata) => {
+            const packet = EncodedPacket.fromEncodedChunk(chunk);
+            const isFirst = this.nativeFirstChunk;
+            const metaArg = isFirst ? meta : undefined;
+            this.nativeFirstChunk = false;
+            this.nativeAddPromise = this.nativeAddPromise.then(() =>
+              this.nativePacketSource!.add(packet, metaArg),
+            );
+          },
           error: (e: Error) => console.error('[BrowserRender] VideoEncoder error:', e),
         });
         const bitrate = Math.max(500_000, (w * h * fps * 0.1) | 0);
@@ -85,7 +101,8 @@ class BrowserWasmExporter {
       } catch {
         this.useNativeEncoder = false;
         this.nativeVideoEncoder = null;
-        this.nativeMuxer = null;
+        this.nativeOutput = null;
+        this.nativePacketSource = null;
       }
     }
 
@@ -189,13 +206,16 @@ class BrowserWasmExporter {
   }
 
   public async stop(): Promise<void> {
-    if (this.useNativeEncoder && this.nativeVideoEncoder && this.nativeMuxer) {
+    if (this.useNativeEncoder && this.nativeVideoEncoder && this.nativeOutput && this.nativePacketSource) {
       await this.nativeVideoEncoder.flush();
       this.nativeVideoEncoder.close();
       this.nativeVideoEncoder = null;
-      this.nativeMuxer.finalize();
-      const buf = this.nativeMuxer.target.buffer;
-      this.nativeMuxer = null;
+      await this.nativeAddPromise;
+      this.nativePacketSource.close();
+      await this.nativeOutput.finalize();
+      const buf = this.nativeOutput.target.buffer;
+      this.nativeOutput = null;
+      this.nativePacketSource = null;
       this.videoBlob = new Blob([buf], { type: 'video/mp4' });
       return;
     }
