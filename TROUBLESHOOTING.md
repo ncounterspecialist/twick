@@ -485,49 +485,6 @@ import "@twick/video-editor/dist/video-editor.css";
 
 **Note:** The fix works with or without Vite. The key is having `@twick/video-editor` in dependencies (which is automatic when installing `@twick/studio`).
 
-### StudioConfig TypeScript Error: videoProps Not Found
-
-**Error:** `Property 'videoProps' does not exist on type 'StudioConfig'` (but works at runtime)
-
-**Cause:** This happens when `@twick/video-editor` is missing from dependencies, causing TypeScript to not resolve the extended `VideoEditorConfig` type properly.
-
-**Solutions:**
-
-1. **Ensure @twick/video-editor is in dependencies** (should be auto-included, but verify):
-   ```bash
-   npm install @twick/studio
-   # This should automatically install @twick/video-editor
-   
-   # Verify it's installed
-   npm list @twick/video-editor
-   ```
-
-2. **If using Docker, ensure all dependencies are installed:**
-   ```dockerfile
-   COPY package*.json ./
-   RUN npm install  # Not npm install --production
-   ```
-
-3. **Temporary workaround (if types still don't resolve):**
-   ```tsx
-   // Type assertion workaround
-   <TwickStudio 
-     studioConfig={{
-       videoProps: {
-         width: 720,
-         height: 1280,
-       },
-     } as any}
-   />
-   ```
-
-4. **Proper fix - ensure proper type resolution:**
-   - Clear `node_modules` and reinstall
-   - Restart TypeScript server
-   - Check that `@twick/video-editor` types are in `node_modules/@twick/video-editor/dist/index.d.ts`
-
-**Note:** This fix works with or without Vite. The issue is dependency resolution, not the build tool.
-
 ---
 
 ## Docker & Environment
@@ -681,27 +638,61 @@ import "@twick/video-editor/dist/video-editor.css";
    ```
 3. For production exports on unsupported browsers, use `@twick/render-server` instead of `@twick/browser-render`.
 
+### projectFile: Use Imported Project in Browser
+
+**Error:** Rendering fails or project does not load when passing a path string for `projectFile`.
+
+**Root Cause:**
+- In the browser, `projectFile` must be an **imported Project object**, not a string path.
+- String paths only work in Node.js (server renderer).
+
+**Solution:**
+```ts
+// ✅ Correct – browser
+import myProject from './my-custom-project';
+
+const blob = await renderTwickVideoInBrowser({
+  projectFile: myProject,
+  variables: { input: { ... } },
+  settings: { ... },
+});
+
+// ❌ Wrong – path string only works in Node
+renderTwickVideoInBrowser({ projectFile: './project.js', ... });
+```
+
 ### WASM / public Assets Not Found
 
 **Errors:**
+- `Could not load WASM file from any location`
 - `Failed to fetch mp4-wasm.wasm`
 - `404 mp4-wasm.wasm`
 - `audio-worker.js` not found
 
 **Root Cause:**
-- `@twick/browser-render` ships WASM and worker assets in its `public/` folder
-- These must be copied to your app's `public/` directory so the browser can load them
+- The renderer looks for `mp4-wasm.wasm` at several paths (in order). If none return a valid WASM file, rendering fails.
+- WASM and worker assets must be copied to your app's `public/` (or equivalent) so the browser can load them.
+
+**Paths tried for mp4-wasm (first successful response wins):**
+- `/@mp4-wasm`
+- `/assets/mp4-wasm.wasm`
+- `/assets/mp4-YBRi_559.wasm`
+- `/mp4-wasm.wasm`
+- `/node_modules/mp4-wasm/dist/mp4-wasm.wasm`
 
 **Solutions:**
-1. Copy assets after installing the package:
+1. Copy the WASM file to a location your app serves, e.g.:
    ```bash
    cp node_modules/@twick/browser-render/public/mp4-wasm.wasm public/
+   # or
+   cp node_modules/mp4-wasm/dist/mp4-wasm.wasm public/
+   ```
+2. Ensure your app serves the file at one of the paths above (e.g. `/mp4-wasm.wasm` or `/assets/mp4-wasm.wasm`).
+3. Copy other assets if needed:
+   ```bash
    cp node_modules/@twick/browser-render/public/audio-worker.js public/
    ```
-2. Ensure your app actually serves these files at:
-   - `/mp4-wasm.wasm`
-   - `/audio-worker.js`
-3. If using Vite (or another bundler), include WASM as an asset:
+4. If using Vite (or another bundler), include WASM as an asset:
    ```ts
    // vite.config.ts
    export default defineConfig({
@@ -738,6 +729,59 @@ import "@twick/video-editor/dist/video-editor.css";
    - Check network tab for 404s
    - Verify `window.location.origin/ffmpeg/ffmpeg-core.js` is accessible
    - Use `downloadAudioSeparately` and `onAudioReady` as a fallback for audio-only downloads
+5. If muxing fails, the renderer returns video-only and can optionally download `audio.wav` when `settings.downloadAudioSeparately` is true.
+
+### Video Blob Too Small / Windows Encoder Issues
+
+**Errors:**
+- `Video blob is too small (X bytes). No video frames were encoded.`
+- Message: *"This often happens on Windows when the encoder does not accept the frame format from canvas."*
+
+**Root Cause:**
+- On Windows, passing canvas directly to the encoder can produce invalid or empty output.
+- The renderer applies workarounds: canvas copy before creating `VideoFrame`, and on Windows it may use native `VideoEncoder` with `prefer-software` (and mediabunny) so frames are actually encoded. If that path fails, it falls back to mp4-wasm with canvas copied via `createImageBitmap`.
+
+**Solutions:**
+1. Use a different browser (e.g. latest Chrome or Edge).
+2. Update graphics drivers.
+3. Ensure you're on a recent browser version so WebCodecs and software encoding are available.
+4. If the blob is still too small, use `@twick/render-server` for export on that machine.
+
+### Video Has Zero Duration
+
+**Error:** `Cannot render: Video has zero duration. Please ensure your project has valid content with non-zero duration.`
+
+**Root Cause:**
+- `totalFrames` is 0 or non-finite (e.g. no content, or playback/duration calculation failed).
+
+**Solutions:**
+1. Ensure the project has at least one track with non-zero duration.
+2. Check that all video elements have valid `src` and load correctly (see video metadata timeout below).
+3. Verify `variables.input.properties` (width, height, fps) and track timing are set correctly.
+
+### Video Metadata Load Timeout
+
+**Error:** `Timeout loading video metadata: <url>`
+
+**Root Cause:**
+- A video source failed to fire `loadedmetadata` within 30 seconds (e.g. wrong URL, CORS, or no video track).
+
+**Solutions:**
+1. Use a URL that returns a valid video (same-origin or CORS-enabled).
+2. Ensure the URL is reachable from the browser and returns `Content-Type: video/...`.
+3. Shorten or fix the URL if it's extremely long or invalid.
+
+### Audio Processing Timeout
+
+**Error:** `Timeout processing audio asset after 20s - video may have no audio track`
+
+**Root Cause:**
+- Each audio/video asset is processed with a 20-second timeout. Slow or non-audio sources can hit this.
+
+**Solutions:**
+1. Use sources that have a real audio track and load quickly.
+2. If a clip has no audio, the renderer skips it and continues; you can ignore this for silent clips.
+3. For long or heavy assets, consider server-side rendering.
 
 ### Render Fails or Hangs in Browser
 
@@ -759,6 +803,8 @@ import "@twick/video-editor/dist/video-editor.css";
    ```
 3. Avoid very large timelines or huge images; test with a minimal project first.
 4. Watch memory usage in DevTools; if it grows quickly, simplify your composition or move to server rendering.
+
+**Progress reporting:** When using `settings.onProgress`, progress is reported as: 0–90% video encoding, 90–97% audio generation, 98% muxing (if audio), 100% complete. Use this to see which phase is slow or stuck.
 
 ---
 
