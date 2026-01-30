@@ -163,6 +163,7 @@ export const useBrowserRenderer = (options: UseBrowserRendererOptions = {}): Use
             setProgress(p);
           },
           onComplete: (blob) => {
+            console.log('[BrowserRender] useBrowserRenderer: onComplete received blob', blob ? `size=${blob.size} type=${blob.type}` : 'null');
             setVideoBlob(blob);
             if (autoDownload) {
               try {
@@ -173,6 +174,7 @@ export const useBrowserRenderer = (options: UseBrowserRendererOptions = {}): Use
             }
           },
           onError: (err) => {
+            console.error('[BrowserRender] useBrowserRenderer: onError', err?.message);
             setError(err);
           },
         },
@@ -186,6 +188,8 @@ export const useBrowserRenderer = (options: UseBrowserRendererOptions = {}): Use
       setProgress(1);
       return blob;
     } catch (err) {
+      const errorMsg = err instanceof Error ? err.message : String(err);
+      console.error('[BrowserRender] useBrowserRenderer: render failed', errorMsg);
       setError(err instanceof Error ? err : new Error(String(err)));
       return null;
     } finally {
