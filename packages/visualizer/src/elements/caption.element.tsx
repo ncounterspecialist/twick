@@ -89,7 +89,7 @@ export const CaptionElement = {
    * });
    * ```
    */
-  *create({ containerRef, caption }: ElementParams) {
+  *create({ containerRef, caption, containerProps }: ElementParams) {
     const words = splitPhraseTiming(caption);
     let phraseStart = 0;
     if (words?.length) {
@@ -106,6 +106,13 @@ export const CaptionElement = {
       idx: 0,
       prevTime: phraseStart,
     };
+
+    // Set container properties
+    containerRef().maxWidth(containerProps?.maxWidth ?? "95%");
+    containerRef().wrap(containerProps?.wrap ?? "wrap");
+    containerRef().justifyContent(containerProps?.justifyContent ?? "center");
+    containerRef().alignItems(containerProps?.alignItems ?? "center");
+
     for (const word of words) {
       wordsState.props.push(caption.props);
       const textRef = createRef<Txt>();

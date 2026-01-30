@@ -141,6 +141,7 @@ export type CaptionProps = {
   bgMargin?: [number, number];
   bgRadius?: number;
   bgPadding?: [number, number];
+  maxWidth?: number;
   x?: number;
   y?: number;
 };
@@ -198,6 +199,7 @@ export type VisualizerTrack = {
   id: string;
   type: string;
   elements: VisualizerElement[];
+  containerProps?: ContainerProps;
   props?: {
     capStyle?: string;
     bgOpacity?: number;
@@ -220,6 +222,17 @@ export type VisualizerTrack = {
 };
 
 /**
+ * Container properties for layout and positioning of elements.
+ * Controls the layout and positioning of elements in the container.
+ */
+export type ContainerProps = {
+  maxWidth?: number;
+  wrap?: "wrap" | "nowrap" | "wrap-reverse";
+  justifyContent?: "flex-start" | "flex-end" | "center" | "space-between" | "space-around" | "space-evenly";
+  alignItems?: "flex-start" | "flex-end" | "center" | "stretch" | "baseline";
+};
+
+/**
  * Parameters for creating elements in the visualizer scene.
  * Contains all necessary references and configuration for element creation.
  */
@@ -229,6 +242,7 @@ export type ElementParams = {
   element?: VisualizerElement;
   caption?: Caption;
   waitOnStart?: boolean;
+  containerProps?: ContainerProps;
 };
 
 /**

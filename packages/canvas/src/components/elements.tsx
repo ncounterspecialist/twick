@@ -1,6 +1,5 @@
 import {
   Canvas as FabricCanvas,
-  FabricText,
   Textbox,
   Group,
   FabricImage,
@@ -21,6 +20,8 @@ import {
 } from "../helpers/constants";
 import { disabledControl, rotateControl } from "./element-controls";
 import { getObjectFitSize, getThumbnailCached } from "@twick/media-utils";
+
+const MARGIN = 10;
 
 /**
  * Add a text element to the canvas.
@@ -60,7 +61,7 @@ export const addTextElement = ({
     canvasMetadata
   );
 
-  let width = element.props?.width ? element.props.width * canvasMetadata.scaleX : canvasMetadata.width;
+  let width = element.props?.width ? element.props.width * canvasMetadata.scaleX : canvasMetadata.width - (2 * MARGIN);
   if (element.props?.maxWidth) {
     width = Math.min(width, element.props.maxWidth * canvasMetadata.scaleX);
   }
@@ -176,20 +177,20 @@ const setImageProps = ({
 
 /**
  * Add a caption element to the canvas based on provided props.
- * Creates a text element with caption-specific styling including
- * shadows, positioning, and font properties.
+ * Creates a Fabric.js Textbox with caption-specific styling including
+ * shadows, positioning, font properties, and text wrapping (same as text element).
  *
  * @param element - The canvas element configuration
  * @param index - The z-index of the element
  * @param canvas - The Fabric.js canvas instance
  * @param captionProps - Default and user-defined caption properties
  * @param canvasMetadata - Metadata about the canvas including scale and dimensions
- * @returns The configured Fabric.js caption object
+ * @returns The configured Fabric.js Textbox caption object with wrapping enabled
  *
  * @example
  * ```js
  * const captionElement = addCaptionElement({
- *   element: { id: "caption1", props: { text: "Caption", pos: { x: 100, y: 100 } } },
+ *   element: { id: "caption1", props: { text: "Caption", x: 100, y: 100, width: 200 } },
  *   index: 3,
  *   canvas: fabricCanvas,
  *   captionProps: { font: { size: 24, family: "Arial" } },
@@ -211,12 +212,17 @@ export const addCaptionElement = ({
   canvasMetadata: CanvasMetadata;
 }) => {
   const { x, y } = convertToCanvasPosition(
-    (captionProps?.applyToAll ? captionProps?.x : element.props?.x) ?? 0,
-    (captionProps?.applyToAll ? captionProps?.y : element.props?.y) ?? 0,
+    (captionProps?.applyToAll ? captionProps?.x : element.props?.x ?? captionProps?.x) ?? 0,
+    (captionProps?.applyToAll ? captionProps?.y : element.props?.y ?? captionProps?.y) ?? 0,
     canvasMetadata
   );
 
-  const caption = new FabricText(element.props?.text || element.t || "", {
+  let width = element.props?.width ? element.props.width * canvasMetadata.scaleX : canvasMetadata.width - (2 * MARGIN);
+  if (element.props?.maxWidth) {
+    width = Math.min(width, element.props.maxWidth * canvasMetadata.scaleX);
+  }
+
+  const caption = new Textbox(element.props?.text || element.t || "", {
     left: x,
     top: y,
     originX: "center",
@@ -249,6 +255,9 @@ export const addCaptionElement = ({
     opacity: (captionProps?.applyToAll
       ? captionProps?.opacity
       : element.props?.opacity ?? captionProps?.opacity) ?? 1,
+    width,
+    splitByGrapheme: false,
+    textAlign: element.props?.textAlign ?? "center",
     shadow: new Shadow({
       offsetX:
       (captionProps?.applyToAll

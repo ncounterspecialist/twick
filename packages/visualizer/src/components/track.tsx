@@ -177,6 +177,7 @@ export function* makeSceneTrack({
       containerRef: frameRef,
       element: sceneElement,
       view,
+      containerProps: track.containerProps,
     });
   }
   yield frameRef().remove();
