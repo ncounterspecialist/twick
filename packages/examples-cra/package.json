@@ -20,9 +20,9 @@
   "scripts": {
     "prestart": "node node_modules/@twick/browser-render/scripts/copy-public-assets.js",
     "prebuild": "node node_modules/@twick/browser-render/scripts/copy-public-assets.js",
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -43,6 +43,7 @@
     ]
   },
   "devDependencies": {
+    "@craco/craco": "^7.1.0",
     "@types/node": "^20.11.24",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0"
