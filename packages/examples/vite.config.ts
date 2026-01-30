@@ -1,10 +1,12 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import { twickBrowserRenderPlugin } from '@twick/browser-render/vite-plugin-ffmpeg'
 
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
     react(),
+    twickBrowserRenderPlugin(),
     {
       name: 'configure-response-headers',
       configureServer: (server) => {

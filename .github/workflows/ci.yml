@@ -30,5 +30,13 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Build all packages
-        run: pnpm build
+      - name: Build all packages (except examples-cra)
+        run: pnpm exec turbo run build --filter=!@twick/examples-cra
+
+      - name: Build examples-cra
+        run: pnpm exec turbo run build --filter=@twick/examples-cra
+        env:
+          # CRA treats Webpack warnings as errors when CI=true. examples-cra hits
+          # "Critical dependency: the request of a dependency is an expression" from
+          # transitive deps (@ffmpeg/ffmpeg, mp4-wasm, etc.); disable only for this package.
+          CI: false

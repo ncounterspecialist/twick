@@ -45,3 +45,7 @@ pnpm-debug.log*
 # Documentation
 packages/*/docs/
 !packages/documentation/docs/
+packages/examples/public/audio-worker.js
+packages/examples/public/ffmpeg/ffmpeg-core.js
+packages/examples/public/ffmpeg/ffmpeg-core.wasm
+packages/examples/public/mp4-wasm.wasm

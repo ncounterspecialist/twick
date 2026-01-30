@@ -1,7 +1,7 @@
 import { defineConfig } from 'tsup';
 
 export default defineConfig({
-  entry: ['src/index.ts'],
+  entry: ['src/index.ts', 'src/vite-plugin-ffmpeg.ts'],
   format: ['cjs', 'esm'],
   dts: {
     resolve: true,
@@ -14,6 +14,7 @@ export default defineConfig({
     '@twick/core',
     '@twick/visualizer',
     'mp4-wasm',
-    'react'
+    'react',
+    'vite'
   ],
 });
