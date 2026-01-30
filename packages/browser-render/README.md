@@ -144,6 +144,45 @@ export default defineConfig({
 ### FFmpeg audio/video muxing (optional)
 
 When `settings.includeAudio` is enabled, `@twick/browser-render` will render audio in the browser and (by default) try to mux it into the final MP4 using `@ffmpeg/ffmpeg`.  
+
+#### Automatic Setup with Vite Plugin (Recommended)
+
+For Vite projects, use the provided plugin to automatically copy FFmpeg files:
+
+```ts
+// vite.config.ts
+import { defineConfig } from 'vite';
+import { twickBrowserRenderPlugin } from '@twick/browser-render/vite-plugin-ffmpeg';
+
+export default defineConfig({
+  plugins: [
+    twickBrowserRenderPlugin(),
+    // ... your other plugins
+  ],
+});
+```
+
+The plugin automatically copies `ffmpeg-core.js` and `ffmpeg-core.wasm` from `node_modules/@ffmpeg/core/dist` to your `public/ffmpeg/` directory.
+
+#### Create React App / non-Vite
+
+For CRA or any project without Vite, run the copy script before `start` and `build`:
+
+```json
+{
+  "scripts": {
+    "prestart": "node node_modules/@twick/browser-render/scripts/copy-public-assets.js",
+    "prebuild": "node node_modules/@twick/browser-render/scripts/copy-public-assets.js",
+    "start": "react-scripts start",
+    "build": "react-scripts build"
+  }
+}
+```
+
+The script copies FFmpeg core files, `mp4-wasm.wasm`, and `audio-worker.js` to your `public/` directory. No extra dependencies required.
+
+#### Manual Setup
+
 To match the setup used in `@twick/examples`, you should:
 
 1. Install the FFmpeg packages:
@@ -169,6 +208,8 @@ cp node_modules/@ffmpeg/core/dist/ffmpeg-core.wasm public/ffmpeg/
 
 In the browser, the muxer loads these files from `${window.location.origin}/ffmpeg`, so the URLs must match that structure.  
 If FFmpeg cannot be loaded, the renderer will fall back to returning a video-only file and (optionally) downloading `audio.wav` separately when `downloadAudioSeparately` is true.
+
+**Note**: For Vite projects, you can use the `twickBrowserRenderPlugin()` Vite plugin to automatically copy these files. See the plugin documentation at `@twick/browser-render/vite-plugin-ffmpeg`.
 
 ## Limitations
 

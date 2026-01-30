@@ -104,7 +104,10 @@ See the full documentation for detailed APIs and examples.
 
 ## Quick start – Monorepo
 
-Clone and run the demo locally:
+Clone and run the demos locally. Two example apps are included:
+
+**Vite (recommended)** – `packages/examples`  
+Uses the `@twick/browser-render` Vite plugin so FFmpeg and WASM assets are copied to `public/` automatically.
 
 ```bash
 git clone https://github.com/ncounterspecialist/twick.git
@@ -112,10 +115,30 @@ cd twick
 
 pnpm install
 pnpm build
-pnpm preview
+pnpm --filter=@twick/examples preview
 ```
 
-Then open `http://localhost:4173` in your browser.
+Then open `http://localhost:4173` (or the port shown) in your browser.
+
+**Create React App** – `packages/examples-cra`  
+Uses a copy script before `start`/`build` so the same assets are available without Vite.
+
+```bash
+pnpm install
+pnpm --filter=@twick/examples-cra build
+pnpm --filter=@twick/examples-cra start
+```
+
+Both run smoothly with no manual copying of FFmpeg or WASM files.
+
+**Running the examples**
+
+| App | Path | Command to run |
+|-----|------|----------------|
+| Vite | `packages/examples` | `pnpm --filter=@twick/examples dev` or `pnpm --filter=@twick/examples preview` (after build) |
+| Create React App | `packages/examples-cra` | `pnpm --filter=@twick/examples-cra start` (prestart copies assets automatically) |
+
+The Vite examples use `twickBrowserRenderPlugin()` in `vite.config.ts`; the CRA examples use `prestart`/`prebuild` to run `@twick/browser-render/scripts/copy-public-assets.js`. In both cases, FFmpeg and WASM files are handled for you.
 
 ---
 
@@ -266,10 +289,28 @@ export default function VideoEditor() {
 }
 ```
 
+**Public assets (FFmpeg, WASM) – run smoothly**
+
+Browser rendering needs FFmpeg core files and WASM in your app’s `public/` folder. You don’t need to copy them manually:
+
+- **Vite** – Add the plugin and it copies assets on dev/build:
+  ```ts
+  // vite.config.ts
+  import { twickBrowserRenderPlugin } from '@twick/browser-render/vite-plugin-ffmpeg';
+  export default defineConfig({ plugins: [twickBrowserRenderPlugin(), /* ... */] });
+  ```
+- **Create React App or other bundlers** – Run the copy script before `start` and `build`:
+  ```json
+  "prestart": "node node_modules/@twick/browser-render/scripts/copy-public-assets.js",
+  "prebuild": "node node_modules/@twick/browser-render/scripts/copy-public-assets.js"
+  ```
+
+See the `@twick/browser-render` README for manual setup and troubleshooting.
+
 **Limitations (summary)**
 
 - Requires WebCodecs (Chrome / Edge; not Firefox / Safari)  
-- Requires FFmpeg.wasm core files in public folder for audio/video muxing  
+- FFmpeg.wasm is used for audio/video muxing (plugin or script copies it for you)  
 - Limited by client device resources and memory  
 - Long or complex renders are better handled on the server  
 

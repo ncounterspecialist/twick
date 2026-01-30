@@ -129,6 +129,9 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
+      vite:
+        specifier: ^6.0.0
+        version: 6.4.1(@types/node@20.19.29)(tsx@4.21.0)
 
   packages/canvas:
     dependencies:
@@ -266,10 +269,13 @@ importers:
         version: 8.53.0(eslint@9.39.2)(typescript@5.9.3)
       vite:
         specifier: ^6.3.5
-        version: 6.4.1
+        version: 6.4.1(@types/node@20.19.29)(tsx@4.21.0)
 
   packages/examples-cra:
     dependencies:
+      '@twick/browser-render':
+        specifier: workspace:*
+        version: link:../browser-render
       '@twick/canvas':
         specifier: ^0.15.0
         version: 0.15.9(react@19.2.3)
@@ -288,12 +294,6 @@ importers:
       '@twick/video-editor':
         specifier: ^0.15.0
         version: 0.15.9(@types/node@20.19.29)(react-dom@19.2.3)(react@19.2.3)(typescript@5.9.3)
-      dompurify:
-        specifier: ^3.2.6
-        version: 3.3.1
-      lucide-react:
-        specifier: ^0.511.0
-        version: 0.511.0(react@19.2.3)
       react:
         specifier: ^19.0.0
         version: 19.2.3
@@ -8254,7 +8254,7 @@ packages:
       '@rolldown/pluginutils': 1.0.0-beta.27
       '@types/babel__core': 7.20.5
       react-refresh: 0.17.0
-      vite: 6.4.1
+      vite: 6.4.1(@types/node@20.19.29)(tsx@4.21.0)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -21333,7 +21333,7 @@ packages:
       fsevents: 2.3.3
     dev: true
 
-  /vite@6.4.1:
+  /vite@6.4.1(@types/node@20.19.29)(tsx@4.21.0):
     resolution: {integrity: sha512-+Oxm7q9hDoLMyJOYfUYBuHQo+dkAloi33apOPP56pzj+vsdJDzr+j1NISE5pyaAuKL4A3UD34qd0lx5+kfKp2g==}
     engines: {node: ^18.0.0 || ^20.0.0 || >=22.0.0}
     hasBin: true
@@ -21373,12 +21373,14 @@ packages:
       yaml:
         optional: true
     dependencies:
+      '@types/node': 20.19.29
       esbuild: 0.25.12
       fdir: 6.5.0(picomatch@4.0.3)
       picomatch: 4.0.3
       postcss: 8.5.6
       rollup: 4.55.1
       tinyglobby: 0.2.15
+      tsx: 4.21.0
     optionalDependencies:
       fsevents: 2.3.3
     dev: true

@@ -11,11 +11,17 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
       "require": "./dist/index.js"
+    },
+    "./vite-plugin-ffmpeg": {
+      "types": "./dist/vite-plugin-ffmpeg.d.ts",
+      "import": "./dist/vite-plugin-ffmpeg.mjs",
+      "require": "./dist/vite-plugin-ffmpeg.js"
     }
   },
   "files": [
     "dist",
-    "public"
+    "public",
+    "scripts"
   ],
   "scripts": {
     "build": "tsup && node scripts/copy-wasm.js",
@@ -53,7 +59,8 @@
     "tsx": "^4.7.0",
     "typescript": "5.4.2",
     "typedoc": "^0.25.8",
-    "typedoc-plugin-markdown": "^3.17.1"
+    "typedoc-plugin-markdown": "^3.17.1",
+    "vite": "^6.0.0"
   },
   "engines": {
     "node": ">=20.0.0"
