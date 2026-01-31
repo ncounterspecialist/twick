@@ -20,9 +20,9 @@
   "scripts": {
     "prestart": "node node_modules/@twick/browser-render/scripts/copy-public-assets.js",
     "prebuild": "node node_modules/@twick/browser-render/scripts/copy-public-assets.js",
-    "start": "craco start",
-    "build": "craco build",
-    "test": "craco test",
+    "start": "pnpm exec craco start",
+    "build": "pnpm exec craco build",
+    "test": "pnpm exec craco test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

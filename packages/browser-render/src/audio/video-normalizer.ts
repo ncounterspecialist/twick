@@ -49,7 +49,7 @@ function getFFmpegBaseURL(): string {
  * Normalize a video Blob into a browser- and WebCodecs-friendly MP4.
  *
  * Typical usage:
- * - Call this after file upload (e.g. from an <input type="file">)
+ * - Call this after file upload (e.g. from an <input type="file" />)
  * - Upload the returned Blob to your storage (S3, etc.)
  * - Use that URL in your Twick project instead of the raw source
  */
