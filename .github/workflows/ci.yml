@@ -34,9 +34,8 @@ jobs:
         run: pnpm exec turbo run build --filter=!@twick/examples-cra
 
       - name: Build examples-cra
-        run: pnpm exec turbo run build --filter=@twick/examples-cra
-        env:
-          # CRA treats Webpack warnings as errors when CI=true. examples-cra hits
-          # "Critical dependency: the request of a dependency is an expression" from
-          # transitive deps (@ffmpeg/ffmpeg, mp4-wasm, etc.); disable only for this package.
-          CI: false
+        run: CI=false pnpm exec turbo run build --filter=@twick/examples-cra
+        # CRA treats Webpack warnings as errors when CI=true. examples-cra hits
+        # "Critical dependency: the request of a dependency is an expression" from
+        # transitive deps (@ffmpeg/ffmpeg, mp4-wasm, etc.). CRACO ignores that warning;
+        # CI=false ensures child processes (pnpm/turbo) also see it when step env isn't inherited.
