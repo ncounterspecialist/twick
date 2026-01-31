@@ -49,7 +49,7 @@ export default function ExampleRender() {
         }
     };
 
-    // Update video URL when blob changes
+    // Update video URL when blob changes (for preview)
     if (videoBlob && !videoUrl) {
         const url = URL.createObjectURL(videoBlob);
         setVideoUrl(url);
