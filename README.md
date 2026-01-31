@@ -23,8 +23,11 @@ Twick enables developers to build professional video editing experiences with **
 
 ## Connect with the Twick team
 
-- **Join the Discord (recommended):** the fastest way to reach the maintainers, ask implementation questions, discuss ideas, and share feedback.  
-  👉 **[Join the Twick Discord](https://discord.gg/DQ4f9TyGW8)**
+The fastest way to reach the maintainers, ask implementation questions, discuss ideas, and share feedback:
+
+<a href="https://discord.gg/DQ4f9TyGW8">
+  <img src="https://img.shields.io/badge/Join_Twick_Discord-Community-5865F2?style=for-the-badge&logo=discord&logoColor=white" width="220" alt="Join the Twick Discord">
+</a>
 
 We actively monitor Discord for:
 
@@ -73,15 +76,19 @@ Twick is a modular **React video editor library** and cloud toolchain that helps
 
 ## Live demos
 
-- **Twick Studio (full editor UI):**  
-  Professional React-based video editor with timeline, canvas, and export.  
+**Twick Studio (full editor UI)** — Professional React-based video editor with timeline, canvas, and export.
 
-  👉 [Twick Studio](https://development.d1vtsw7m0lx01h.amplifyapp.com)
+<a href="https://development.d1vtsw7m0lx01h.amplifyapp.com">
+  <img src="https://img.shields.io/badge/Twick_Studio-Live_Demo-61DAFB?style=for-the-badge&logoColor=black" width="220" alt="Open Twick Studio">
+</a>
 
-- **AI Subtitle Generator:**  
-  Paste a video URL, get AI-generated captions and timed tracks.
 
-  👉 [Generate AI Caption with Twick](https://development.d1vtsw7m0lx01h.amplifyapp.com/subtitles)
+
+**AI Subtitle Generator** — Paste a video URL, get AI-generated captions and timed tracks.
+
+<a href="https://development.d1vtsw7m0lx01h.amplifyapp.com/subtitles">
+  <img src="https://img.shields.io/badge/Generate_AI_Caption-Live_Demo-8B5CF6?style=for-the-badge&logoColor=white" width="240" alt="Generate AI Caption with Twick">
+</a>
 
 ---
 
@@ -470,7 +477,7 @@ For full details, see the `@twick/render-server` README.
 ## Community & support
 
 - **Discord (primary support channel)** – talk directly to the maintainers, share ideas, and get real-time help:  
-  👉 **[Join the Twick Discord](https://discord.gg/DQ4f9TyGW8)**
+  **[Join the Twick Discord](https://discord.gg/DQ4f9TyGW8)**
 
 - **GitHub Issues** – bug reports, feature requests, and roadmap discussion.
 
