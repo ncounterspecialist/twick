@@ -83,7 +83,6 @@ Twick is a modular **React video editor library** and cloud toolchain that helps
 </a>
 
 
-
 **AI Subtitle Generator** — Paste a video URL, get AI-generated captions and timed tracks.
 
 <a href="https://development.d1vtsw7m0lx01h.amplifyapp.com/subtitles">
@@ -98,7 +97,8 @@ Twick is a modular **React video editor library** and cloud toolchain that helps
 - **`@twick/canvas`** – Fabric.js-based canvas tools for video/image editing  
 - **`@twick/timeline`** – Timeline model, tracks, operations, and undo/redo  
 - **`@twick/live-player`** – Video playback synchronized with timeline state  
-- **`@twick/browser-render`** – WebCodecs-based browser MP4 rendering  
+- **`@twick/browser-render`** – WebCodecs-based browser MP4 rendering (uses `@twick/ffmpeg-web` for audio muxing)  
+- **`@twick/ffmpeg-web`** – FFmpeg.wasm wrapper for webpack, Next.js, CRA, and Vite (used by `@twick/browser-render`)  
 - **`@twick/render-server`** – Node + Puppeteer + FFmpeg rendering server  
 - **`@twick/cloud-transcript`** – AI transcription to JSON captions 
 - **`@twick/cloud-subtitle-video`** – Fully automated subtitle project generation from a video URL  
@@ -298,15 +298,15 @@ export default function VideoEditor() {
 
 **Public assets (FFmpeg, WASM) – run smoothly**
 
-Browser rendering needs FFmpeg core files and WASM in your app’s `public/` folder. You don’t need to copy them manually:
+Browser rendering uses **`@twick/ffmpeg-web`** for FFmpeg-based audio muxing. FFmpeg core and mp4-wasm are loaded from your app’s same-origin paths first, then from CDN if not found, so you often don’t need to copy anything:
 
-- **Vite** – Add the plugin and it copies assets on dev/build:
+- **Vite** – Add the plugin to copy assets on dev/build (recommended for offline or custom paths):
   ```ts
   // vite.config.ts
   import { twickBrowserRenderPlugin } from '@twick/browser-render/vite-plugin-ffmpeg';
   export default defineConfig({ plugins: [twickBrowserRenderPlugin(), /* ... */] });
   ```
-- **Create React App or other bundlers** – Run the copy script before `start` and `build`:
+- **Create React App or other bundlers** – Optional: run the copy script before `start`/`build` to serve assets from your app instead of CDN:
   ```json
   "prestart": "node node_modules/@twick/browser-render/scripts/copy-public-assets.js",
   "prebuild": "node node_modules/@twick/browser-render/scripts/copy-public-assets.js"
@@ -317,7 +317,7 @@ See the `@twick/browser-render` README for manual setup and troubleshooting.
 **Limitations (summary)**
 
 - Requires WebCodecs (Chrome / Edge; not Firefox / Safari)  
-- FFmpeg.wasm is used for audio/video muxing (plugin or script copies it for you)  
+- Audio/video muxing uses FFmpeg.wasm via `@twick/ffmpeg-web` (same-origin or CDN; plugin or copy script optional for offline)  
 - Limited by client device resources and memory  
 - Long or complex renders are better handled on the server  
 

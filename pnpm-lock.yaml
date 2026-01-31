@@ -80,15 +80,15 @@ importers:
       '@ffmpeg/core':
         specifier: ^0.12.6
         version: 0.12.10
-      '@ffmpeg/ffmpeg':
-        specifier: ^0.12.10
-        version: 0.12.15
       '@ffmpeg/util':
         specifier: ^0.12.1
         version: 0.12.2
       '@twick/core':
         specifier: ^0.15.10
         version: 0.15.10
+      '@twick/ffmpeg-web':
+        specifier: workspace:*
+        version: link:../ffmpeg-web
       '@twick/media-utils':
         specifier: workspace:*
         version: link:../media-utils
@@ -328,6 +328,16 @@ importers:
       '@types/react-dom':
         specifier: ^19.0.0
         version: 19.2.3(@types/react@19.2.8)
+
+  packages/ffmpeg-web:
+    dependencies:
+      '@ffmpeg/types':
+        specifier: ^0.12.4
+        version: 0.12.4
+    devDependencies:
+      '@ffmpeg/ffmpeg':
+        specifier: ^0.12.15
+        version: 0.12.15
 
   packages/live-player:
     dependencies:
@@ -5228,12 +5238,11 @@ packages:
     engines: {node: '>=18.x'}
     dependencies:
       '@ffmpeg/types': 0.12.4
-    dev: false
+    dev: true
 
   /@ffmpeg/types@0.12.4:
     resolution: {integrity: sha512-k9vJQNBGTxE5AhYDtOYR5rO5fKsspbg51gbcwtbkw2lCdoIILzklulcjJfIDwrtn7XhDeF2M+THwJ2FGrLeV6A==}
     engines: {node: '>=16.x'}
-    dev: false
 
   /@ffmpeg/util@0.12.2:
     resolution: {integrity: sha512-ouyoW+4JB7WxjeZ2y6KpRvB+dLp7Cp4ro8z0HIVpZVCM7AwFlHa0c4R8Y/a4M3wMqATpYKhC7lSFHQ0T11MEDw==}

@@ -1,11 +1,9 @@
 'use client';
 
 /**
- * Browser-based audio/video muxing using FFmpeg.wasm (main thread)
- * Compatible with Next.js 15
- *
- * FFmpeg core files must be served from the app's public folder, e.g.:
- * twick-web/public/ffmpeg/ffmpeg-core.js, ffmpeg-core.wasm
+ * Browser-based audio/video muxing using FFmpeg.wasm (main thread).
+ * Works in CRA, Vite, and Next.js with no extra scripts.
+ * FFmpeg core loads from CDN by default; same-origin /ffmpeg is tried first if available.
  */
 
 export interface MuxerOptions {
@@ -13,12 +11,27 @@ export interface MuxerOptions {
   audioBuffer: ArrayBuffer;
 }
 
-/** Base URL for FFmpeg assets (twick-web public/ffmpeg). Use same-origin URLs directly; toBlobURL causes "Cannot find module 'blob:...'" in some environments. */
-function getFFmpegBaseURL(): string {
+const FFMPEG_CORE_VERSION = '0.12.10';
+const CDN_BASE = `https://cdn.jsdelivr.net/npm/@ffmpeg/core@${FFMPEG_CORE_VERSION}/dist/umd`;
+
+/** Same-origin /ffmpeg (optional; if app copied assets). */
+function getSameOriginFFmpegURLs(): { coreURL: string; wasmURL: string } | null {
   if (typeof window !== 'undefined') {
-    return `${window.location.origin}/ffmpeg`;
+    const origin = window.location.origin;
+    return {
+      coreURL: `${origin}/ffmpeg/ffmpeg-core.js`,
+      wasmURL: `${origin}/ffmpeg/ffmpeg-core.wasm`,
+    };
   }
-  return '/ffmpeg';
+  return null;
+}
+
+/** CDN URLs so no copy script is required. */
+function getCDNFFmpegURLs(): { coreURL: string; wasmURL: string } {
+  return {
+    coreURL: `${CDN_BASE}/ffmpeg-core.js`,
+    wasmURL: `${CDN_BASE}/ffmpeg-core.wasm`,
+  };
 }
 
 export async function muxAudioVideo(
@@ -30,23 +43,29 @@ export async function muxAudioVideo(
     console.log(`  Video blob size: ${options.videoBlob.size} bytes (${(options.videoBlob.size / 1024 / 1024).toFixed(2)} MB)`);
     console.log(`  Audio buffer size: ${options.audioBuffer.byteLength} bytes (${(options.audioBuffer.byteLength / 1024 / 1024).toFixed(2)} MB)`);
     
-    const { FFmpeg } = await import('@ffmpeg/ffmpeg');
+    const { FFmpeg } = await import('@twick/ffmpeg-web');
     const { fetchFile } = await import('@ffmpeg/util');
 
     const ffmpeg = new FFmpeg();
 
-    const base = getFFmpegBaseURL();
-    const coreURL = `${base}/ffmpeg-core.js`;
-    const wasmURL = `${base}/ffmpeg-core.wasm`;
-
-    console.log(`Loading FFmpeg from ${base}`);
+    const sameOrigin = getSameOriginFFmpegURLs();
+    const cdn = getCDNFFmpegURLs();
+    let loadOpts: { coreURL: string; wasmURL: string };
     const loadStartTime = Date.now();
-    // Load from same-origin public folder (twick-web/public/ffmpeg). Do NOT use toBlobURL —
-    // it produces blob: URLs that can trigger "Cannot find module 'blob:...'".
-    await ffmpeg.load({
-      coreURL,
-      wasmURL,
-    });
+    try {
+      loadOpts = sameOrigin ?? cdn;
+      const base = loadOpts.coreURL.replace(/\/ffmpeg-core\.js$/, '');
+      console.log(`Loading FFmpeg from ${base}`);
+      await ffmpeg.load(loadOpts);
+    } catch (firstErr) {
+      if (sameOrigin && (firstErr instanceof TypeError || String(firstErr).includes('fetch') || String(firstErr).includes('404'))) {
+        console.log('Same-origin FFmpeg not found, loading from CDN.');
+        loadOpts = cdn;
+        await ffmpeg.load(loadOpts);
+      } else {
+        throw firstErr;
+      }
+    }
     const loadDuration = Date.now() - loadStartTime;
     console.log(`FFmpeg loaded successfully in ${loadDuration}ms`);
 
@@ -127,17 +146,25 @@ export async function muxAudioVideo(
     const totalDuration = Date.now() - muxStartTime;
     const errorMsg = error instanceof Error ? error.message : String(error);
     const errorStack = error instanceof Error ? error.stack : undefined;
-    console.error('FFmpeg muxing failed:', errorMsg);
-    if (errorStack) {
-      console.error('Error stack:', errorStack);
+    const isBlobModuleError = /Cannot find module ['"]?blob:/.test(errorMsg);
+    if (isBlobModuleError) {
+      console.warn(
+        '[BrowserRender] Audio muxing is not supported in this build environment (e.g. Create React App). ' +
+          'Video will be exported without audio. To get audio, use Vite or configure webpack to ignore blob: dynamic imports.'
+      );
+    } else {
+      console.error('FFmpeg muxing failed:', errorMsg);
+      if (errorStack) {
+        console.error('Error stack:', errorStack);
+      }
+      console.error('Error details:', {
+        errorType: error instanceof Error ? error.constructor.name : typeof error,
+        errorMessage: errorMsg,
+        duration: `${totalDuration}ms`,
+        videoBlobSize: options.videoBlob.size,
+        audioBufferSize: options.audioBuffer.byteLength,
+      });
     }
-    console.error('Error details:', {
-      errorType: error instanceof Error ? error.constructor.name : typeof error,
-      errorMessage: errorMsg,
-      duration: `${totalDuration}ms`,
-      videoBlobSize: options.videoBlob.size,
-      audioBufferSize: options.audioBuffer.byteLength,
-    });
     // Re-throw the error so the caller can handle it
     throw error;
   }

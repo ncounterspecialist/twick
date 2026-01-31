@@ -114,6 +114,7 @@ class BrowserWasmExporter {
         '/assets/mp4-YBRi_559.wasm',
         '/mp4-wasm.wasm',
         '/node_modules/mp4-wasm/dist/mp4-wasm.wasm',
+        'https://cdn.jsdelivr.net/npm/mp4-wasm@1.0.6/dist/mp4-wasm.wasm',
       ];
       let buffer: ArrayBuffer | null = null;
       for (const path of possiblePaths) {
@@ -132,8 +133,7 @@ class BrowserWasmExporter {
       if (!buffer) {
         console.error('[BrowserRender] Exporter start: no WASM buffer from any path');
         throw new Error(
-          'Could not load WASM file from any location. ' +
-          'Please copy mp4-wasm.wasm to your public directory or configure Vite to serve it.'
+          'Could not load mp4-wasm. Check network (CDN) or copy mp4-wasm.wasm to your public directory.'
         );
       }
       const mp4 = await loadMp4Module({ wasmBinary: buffer });
@@ -673,8 +673,11 @@ export const renderTwickVideoInBrowser = async (
       } catch (muxError) {
         const errorMsg = muxError instanceof Error ? muxError.message : String(muxError);
         const errorStack = muxError instanceof Error ? muxError.stack : undefined;
-        console.error('[BrowserRender] Audio muxing failed:', errorMsg);
-        if (errorStack) console.error('[BrowserRender] Stack:', errorStack);
+        const isBlobModuleError = /Cannot find module ['"]?blob:/.test(errorMsg);
+        if (!isBlobModuleError) {
+          console.error('[BrowserRender] Audio muxing failed:', errorMsg);
+          if (errorStack) console.error('[BrowserRender] Stack:', errorStack);
+        }
         // Optionally download audio separately if requested
         if (settings.downloadAudioSeparately && audioData) {
           const audioBlob = new Blob([audioData], { type: 'audio/wav' });

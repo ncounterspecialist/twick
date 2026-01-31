@@ -1,0 +1,36 @@
+{
+  "name": "@twick/ffmpeg-web",
+  "version": "0.15.0",
+  "description": "FFmpeg.wasm for browser with webpack/Next.js/CRA",
+  "main": "./dist/umd/ffmpeg.js",
+  "types": "./dist/esm/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/esm/index.d.ts",
+      "node": "./dist/esm/empty.mjs",
+      "default": {
+        "import": "./dist/esm/index.js",
+        "require": "./dist/umd/ffmpeg.js"
+      }
+    },
+    "./worker": {
+      "types": "./dist/esm/worker.d.ts",
+      "default": "./dist/esm/worker.js"
+    }
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "node scripts/copy-and-patch.js",
+    "prepare": "node scripts/copy-and-patch.js"
+  },
+  "dependencies": {
+    "@ffmpeg/types": "^0.12.4"
+  },
+  "devDependencies": {
+    "@ffmpeg/ffmpeg": "^0.12.15"
+  },
+  "engines": {
+    "node": ">=18.x"
+  },
+  "license": "MIT"
+}

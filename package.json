@@ -60,6 +60,7 @@
     "packages/live-player",
     "packages/video-editor",
     "packages/studio",
+    "packages/ffmpeg-web",
     "packages/browser-render",
     "packages/examples",
     "packages/examples-cra",
