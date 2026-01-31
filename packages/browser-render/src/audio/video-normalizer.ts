@@ -65,7 +65,7 @@ export async function normalizeVideoBlob(
     console.log('[VideoNormalizer] Starting normalization...');
     console.log(`[VideoNormalizer] Input size: ${input.size} bytes (${(input.size / 1024 / 1024).toFixed(2)} MB)`);
 
-    const { FFmpeg } = await import('@ffmpeg/ffmpeg');
+    const { FFmpeg } = await import('@twick/ffmpeg-web');
     const { fetchFile } = await import('@ffmpeg/util');
 
     const ffmpeg = new FFmpeg();

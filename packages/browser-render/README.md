@@ -123,50 +123,24 @@ const videoBlob = await renderTwickVideoInBrowser({
 
 **Note**: String paths only work in Node.js. In the browser, you must import and pass the Project object directly.
 
-## WASM and public assets
+## No extra scripts required
 
-The package ships `public/` with `mp4-wasm.wasm` and `audio-worker.js`. Copy them into your app's public directory so they are served:
+**CRA, Vite, and Next.js**: Install `@twick/browser-render` and use it. No postinstall, copy scripts, or patches are required.
+
+This package uses **`@twick/ffmpeg-web`** (a wrapper around `@ffmpeg/ffmpeg`) so that dynamic imports work correctly with webpack, Next.js, CRA, and Vite—no consumer-level patches needed.
+
+- **Video encoding**: mp4-wasm is loaded from your app’s public paths first, then from CDN (jsdelivr) if not found.
+- **Audio muxing**: FFmpeg core is loaded via `@twick/ffmpeg-web` from same-origin paths (e.g. `/ffmpeg/`) if present, otherwise from CDN. Works with webpack (CRA, Next.js) and Vite out of the box.
+
+### Optional: offline or custom assets
+
+To avoid CDN and serve everything from your app, copy assets into your public directory:
 
 ```bash
-cp node_modules/@twick/browser-render/public/mp4-wasm.wasm public/
-cp node_modules/@twick/browser-render/public/audio-worker.js public/
+node node_modules/@twick/browser-render/scripts/copy-public-assets.js
 ```
 
-Alternatively, configure your bundler (e.g. Vite) to serve WASM:
-
-```typescript
-// vite.config.ts
-export default defineConfig({
-  assetsInclude: ['**/*.wasm']
-});
-```
-
-### FFmpeg audio/video muxing (optional)
-
-When `settings.includeAudio` is enabled, `@twick/browser-render` will render audio in the browser and (by default) try to mux it into the final MP4 using `@ffmpeg/ffmpeg`.  
-
-#### Automatic Setup with Vite Plugin (Recommended)
-
-For Vite projects, use the provided plugin to automatically copy FFmpeg files:
-
-```ts
-// vite.config.ts
-import { defineConfig } from 'vite';
-import { twickBrowserRenderPlugin } from '@twick/browser-render/vite-plugin-ffmpeg';
-
-export default defineConfig({
-  plugins: [
-    twickBrowserRenderPlugin(),
-    // ... your other plugins
-  ],
-});
-```
-
-The plugin automatically copies `ffmpeg-core.js` and `ffmpeg-core.wasm` from `node_modules/@ffmpeg/core/dist` to your `public/ffmpeg/` directory.
-
-#### Create React App / non-Vite
-
-For CRA or any project without Vite, run the copy script before `start` and `build`:
+Or add to `package.json`:
 
 ```json
 {
@@ -179,37 +153,16 @@ For CRA or any project without Vite, run the copy script before `start` and `bui
 }
 ```
 
-The script copies FFmpeg core files, `mp4-wasm.wasm`, and `audio-worker.js` to your `public/` directory. No extra dependencies required.
+The script copies FFmpeg core files (from `@twick/ffmpeg-web`), `mp4-wasm.wasm`, and `audio-worker.js` to your `public/` directory. If assets cannot be loaded (e.g. offline), the renderer falls back to video-only; for Vite you can use `twickBrowserRenderPlugin()` (see `@twick/browser-render/vite-plugin-ffmpeg`).
 
-#### Manual Setup
+#### Manual setup (same-origin only)
 
-To match the setup used in `@twick/examples`, you should:
+If you prefer to serve FFmpeg and WASM from your app only (no CDN), ensure these are available:
 
-1. Install the FFmpeg packages:
+- **FFmpeg**: `/ffmpeg/ffmpeg-core.js` and `/ffmpeg/ffmpeg-core.wasm` (e.g. via the copy script or Vite plugin above).
+- **mp4-wasm**: `mp4-wasm.wasm` in your `public/` root (or path your app serves it from).
 
-```bash
-npm install @ffmpeg/ffmpeg @ffmpeg/util @ffmpeg/core
-```
-
-2. Expose the FFmpeg core files from your app’s `public` folder so they are available at:
-
-```text
-/public/ffmpeg/ffmpeg-core.js
-/public/ffmpeg/ffmpeg-core.wasm
-```
-
-For example, you can copy them from `node_modules/@ffmpeg/core/dist`:
-
-```bash
-mkdir -p public/ffmpeg
-cp node_modules/@ffmpeg/core/dist/ffmpeg-core.js public/ffmpeg/
-cp node_modules/@ffmpeg/core/dist/ffmpeg-core.wasm public/ffmpeg/
-```
-
-In the browser, the muxer loads these files from `${window.location.origin}/ffmpeg`, so the URLs must match that structure.  
-If FFmpeg cannot be loaded, the renderer will fall back to returning a video-only file and (optionally) downloading `audio.wav` separately when `downloadAudioSeparately` is true.
-
-**Note**: For Vite projects, you can use the `twickBrowserRenderPlugin()` Vite plugin to automatically copy these files. See the plugin documentation at `@twick/browser-render/vite-plugin-ffmpeg`.
+The muxer loads FFmpeg from `${window.location.origin}/ffmpeg` when present. If FFmpeg cannot be loaded, the renderer returns a video-only file and (optionally) downloads `audio.wav` separately when `downloadAudioSeparately` is true. For Vite, use `twickBrowserRenderPlugin()` to copy these files automatically; see `@twick/browser-render/vite-plugin-ffmpeg`.
 
 ## Limitations
 

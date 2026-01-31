@@ -3,14 +3,16 @@ const path = require('path');
 
 // Packages that should be published (exclude examples and documentation)
 // Format: directory path relative to packages/
+// Order: dependencies must be published before dependents (ffmpeg-web before browser-render).
 const PUBLISHABLE_PACKAGES = [
   'media-utils',
-  'canvas', 
+  'canvas',
   'timeline',
   'live-player',
   'visualizer',
   'video-editor',
   'render-server',
+  'ffmpeg-web',
   'browser-render',
   'studio',
   'agents/mcp-agent',
@@ -28,6 +30,7 @@ const PACKAGE_NAME_TO_PATH = {
   'visualizer': 'visualizer',
   'video-editor': 'video-editor',
   'render-server': 'render-server',
+  'ffmpeg-web': 'ffmpeg-web',
   'browser-render': 'browser-render',
   'studio': 'studio',
   'mcp-agent': 'agents/mcp-agent',
@@ -107,7 +110,8 @@ function topologicalSort(packages) {
     }
   }
   
-  return order.reverse();
+  // Return dependency order (deps first) so npm publish succeeds (e.g. ffmpeg-web before browser-render).
+  return order;
 }
 
 function main() {
