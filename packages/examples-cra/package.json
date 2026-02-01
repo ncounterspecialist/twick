@@ -18,8 +18,6 @@
     "web-vitals": "^3.5.0"
   },
   "scripts": {
-    "prestart": "node node_modules/@twick/browser-render/scripts/copy-public-assets.js",
-    "prebuild": "node node_modules/@twick/browser-render/scripts/copy-public-assets.js",
     "start": "pnpm exec craco start",
     "build": "pnpm exec craco build",
     "test": "pnpm exec craco test",

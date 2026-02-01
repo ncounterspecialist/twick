@@ -96,8 +96,15 @@ export class BrowserAudioProcessor {
     try {
       const response = await fetch(src);
       const arrayBuffer = await response.arrayBuffer();
-      return await this.audioContext.decodeAudioData(arrayBuffer);
+      // Attach a handler immediately so decodeAudioData's promise is never "unhandled"
+      // when it rejects (e.g. "Unable to decode audio data"). We still catch below and use fallback.
+      const decodePromise = this.audioContext.decodeAudioData(arrayBuffer.slice(0));
+      const handled = decodePromise.catch((err: unknown) => {
+        throw err;
+      });
+      return await handled;
     } catch (err) {
+      // decodeAudioData can fail (e.g. format, CORS opaque response). Try video extraction.
       try {
         return await extractAudioFromVideo(
           src,

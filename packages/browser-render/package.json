@@ -40,7 +40,7 @@
     "mediabunny": "^1.31.0",
     "mp4-wasm": "^1.0.6",
     "mp4box": "^0.5.2",
-    "@ffmpeg/ffmpeg": "^0.12.10",
+    "@twick/ffmpeg-web": "workspace:*",
     "@ffmpeg/util": "^0.12.1",
     "@ffmpeg/core": "^0.12.6"
   },
