@@ -1,0 +1,22 @@
+# @twick/render-server — configurable via .env
+# Copy .env.example to .env and adjust values.
+
+services:
+  render-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: twick-render-server:latest
+    container_name: twick-render-server
+    restart: unless-stopped
+
+    environment:
+      PORT: "${PORT:-5000}"
+      NODE_ENV: "${NODE_ENV:-production}"
+      # Rate limiting: window in ms, max requests per window, cleanup interval in ms
+      RATE_LIMIT_WINDOW_MS: "${RATE_LIMIT_WINDOW_MS:-900000}"
+      RATE_LIMIT_MAX_REQUESTS: "${RATE_LIMIT_MAX_REQUESTS:-100}"
+      RATE_LIMIT_CLEANUP_INTERVAL_MS: "${RATE_LIMIT_CLEANUP_INTERVAL_MS:-60000}"
+
+    ports:
+      - "${PORT:-5000}:${PORT:-5000}"
