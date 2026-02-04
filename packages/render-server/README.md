@@ -20,7 +20,24 @@ pnpm add @twick/render-server
 
 ## Quick Start
 
-### Option 1: Scaffold a Server (Recommended)
+### Option 1: Run via Docker (No setup)
+
+Run a prebuilt render server container (no repo clone required):
+
+```bash
+docker run -p 5000:5000 ghcr.io/ncounterspecialist/render-server:latest
+```
+
+This starts the Twick render server on port `5000` with `ffmpeg` and `ffprobe` preinstalled and configured.  
+You can then call:
+
+- **Render endpoint**: `POST http://localhost:5000/api/render-video`
+- **Download endpoint**: `GET http://localhost:5000/download/:filename`
+- **Health check**: `GET http://localhost:5000/health`
+
+> **Note:** The published image targets `linux/amd64`. On Apple Silicon (M1/M2/M3), Docker Desktop will run it under emulation automatically, or you can pass `--platform=linux/amd64` explicitly.
+
+### Option 2: Scaffold a Server (Recommended for customization)
 
 Scaffold a complete server with all endpoints configured:
 
@@ -46,7 +63,7 @@ npm run build && npm start  # Production mode
 
 The server will start on port 3001 by default. You can change this by setting the `PORT` environment variable.
 
-### Option 2: Use Programmatically
+### Option 3: Use Programmatically
 
 Import and use the `renderTwickVideo` function directly. The package supports both ESM and CommonJS:
 
