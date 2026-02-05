@@ -20,22 +20,38 @@ pnpm add @twick/render-server
 
 ## Quick Start
 
-### Option 1: Run via Docker (No setup)
+### Option 1: Run via Docker
 
-Run a prebuilt render server container (no repo clone required):
+**Prebuilt image (no repo clone):**
 
 ```bash
-docker run -p 5000:5000 ghcr.io/ncounterspecialist/render-server:latest
+docker run -e PORT=5000 -p 5000:5000 ghcr.io/ncounterspecialist/render-server:latest
 ```
 
-This starts the Twick render server on port `5000` with `ffmpeg` and `ffprobe` preinstalled and configured.  
-You can then call:
+**Build and run from this package (monorepo):**
 
-- **Render endpoint**: `POST http://localhost:5000/api/render-video`
-- **Download endpoint**: `GET http://localhost:5000/download/:filename`
-- **Health check**: `GET http://localhost:5000/health`
+```bash
+cd packages/render-server
+docker build -t twick-render-server:latest .
+docker run -e PORT=5000 -p 5000:5000 twick-render-server:latest
+```
 
-> **Note:** The published image targets `linux/amd64`. On Apple Silicon (M1/M2/M3), Docker Desktop will run it under emulation automatically, or you can pass `--platform=linux/amd64` explicitly.
+**Docker Compose (configurable via `.env`):**
+
+```bash
+cd packages/render-server
+cp .env.example .env   # optional: edit port, rate limits, etc.
+docker compose up -d
+```
+
+The server listens on the port set by `PORT` (default in Docker: `5000`). Endpoints:
+
+- **Render**: `POST http://localhost:<PORT>/api/render-video`
+- **Download**: `GET http://localhost:<PORT>/download/:filename`
+- **Health**: `GET http://localhost:<PORT>/health`
+
+`ffmpeg` and `ffprobe` are preinstalled in the image.  
+The published image targets `linux/amd64`. On Apple Silicon (M1/M2/M3), Docker runs it under emulation, or use `--platform=linux/amd64`.
 
 ### Option 2: Scaffold a Server (Recommended for customization)
 
@@ -151,20 +167,18 @@ Renders a video using Twick.
 ```json
 {
   "success": true,
-  "downloadUrl": "http://localhost:3001/download/my-video.mp4"
+  "downloadUrl": "http://localhost:<PORT>/download/my-video.mp4"
 }
 ```
+(`<PORT>` is the server port, e.g. `5000` when run via Docker.)
 
 ### GET /download/:filename
 
 Downloads a rendered video file. This endpoint is rate-limited to prevent abuse.
 
-**Rate Limits:**
-- 100 requests per 15 minutes per IP address
-- Rate limit headers are included in responses:
-  - `X-RateLimit-Limit`: Maximum requests allowed
-  - `X-RateLimit-Remaining`: Remaining requests in current window
-  - `X-RateLimit-Reset`: When the rate limit window resets
+**Rate limits** (configurable via environment variables, see [Configuration](#configuration)):
+- Default: 100 requests per 15 minutes per IP
+- Response headers: `X-RateLimit-Limit`, `X-RateLimit-Remaining`, `X-RateLimit-Reset`
 
 ### GET /health
 
@@ -172,10 +186,17 @@ Health check endpoint. Returns server status and current timestamp.
 
 ## Configuration
 
-The server uses the following environment variables:
+Environment variables (supported in Docker via `-e`, `docker-compose`, or `.env`):
 
-- `PORT`: Server port (default: 3001)
-- `NODE_ENV`: Environment (development/production)
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `PORT` | Server port | `5000` (Docker), `3001` (scaffolded server) |
+| `NODE_ENV` | Environment | `production` |
+| `RATE_LIMIT_WINDOW_MS` | Rate limit window, in milliseconds | `900000` (15 min) |
+| `RATE_LIMIT_MAX_REQUESTS` | Max requests per IP per window | `100` |
+| `RATE_LIMIT_CLEANUP_INTERVAL_MS` | Cleanup interval for rate-limit store, in ms | `60000` (1 min) |
+
+Copy `.env.example` to `.env` in this package to customize when using Docker Compose.
 
 ## Package Development
 

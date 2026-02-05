@@ -1,4 +1,4 @@
-name: Build & Publish @twick/render-server Docker image
+name: Deploy Twick Server Image
 
 permissions:
   contents: read
@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Version tag for Docker image (e.g., 0.15.0 or latest)'
+        description: 'Image tag and @twick/* dependency version (e.g. 0.15.12); "latest" uses package version'
         required: false
         default: 'latest'
         type: string
@@ -31,26 +31,43 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push @twick/render-server image to GHCR
+      - name: Resolve dependency version and replace workspace:*
+        id: version
         run: |
           set -euo pipefail
-
-          OWNER="${{ github.repository_owner }}"
-          VERSION="${{ inputs.version || 'latest' }}"
-
           PKG_DIR="packages/render-server"
           PKG_JSON="$PKG_DIR/package.json"
-
           if [ ! -f "$PKG_JSON" ]; then
             echo "package.json not found at $PKG_JSON"
             exit 1
           fi
+          # Image tag: user input or 'latest'
+          TAG="${{ inputs.version || 'latest' }}"
+          # Version for @twick/* deps: use tag if it looks like semver, else package.json version
+          if [[ "$TAG" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-.*)?$ ]]; then
+            DEP_VERSION="$TAG"
+          else
+            DEP_VERSION=$(jq -r '.version' "$PKG_JSON")
+          fi
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "dep_version=$DEP_VERSION" >> "$GITHUB_OUTPUT"
+          # Replace workspace:* with ^DEP_VERSION so Docker build installs from registry
+          jq --arg v "$DEP_VERSION" '
+            (.dependencies // {}) |= with_entries(if .value == "workspace:*" then .value = "^" + $v else . end) |
+            (.devDependencies // {}) |= with_entries(if .value == "workspace:*" then .value = "^" + $v else . end)
+          ' "$PKG_JSON" > "$PKG_JSON.tmp" && mv "$PKG_JSON.tmp" "$PKG_JSON"
+          echo "Using dependency version ^$DEP_VERSION for workspace:* (image tag: $TAG)"
 
+      - name: Build and push @twick/render-server image to GHCR
+        run: |
+          set -euo pipefail
+          OWNER="${{ github.repository_owner }}"
+          VERSION="${{ steps.version.outputs.tag }}"
+          PKG_DIR="packages/render-server"
+          PKG_JSON="$PKG_DIR/package.json"
           PKG_NAME=$(jq -r '.name' "$PKG_JSON")
           IMAGE_NAME=$(echo "$PKG_NAME" | sed -E 's#^@[^/]+/##')
-
-          echo "Building $PKG_NAME from $PKG_DIR/Dockerfile → ghcr.io/$OWNER/$IMAGE_NAME:$VERSION"
-
+          echo "Building $PKG_NAME from $PKG_DIR → ghcr.io/$OWNER/$IMAGE_NAME:$VERSION"
           docker buildx build \
             --platform linux/amd64 \
             --file "$PKG_DIR/Dockerfile" \
@@ -60,6 +77,5 @@ jobs:
             --label "org.opencontainers.image.revision=${{ github.sha }}" \
             --push \
             "$PKG_DIR"
-
           echo "✓ Successfully built and pushed ghcr.io/$OWNER/$IMAGE_NAME:$VERSION"
 

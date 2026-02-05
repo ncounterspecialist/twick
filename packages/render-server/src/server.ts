@@ -4,16 +4,19 @@ import path from "path";
 import { fileURLToPath } from "url";
 import renderTwickVideo from "./renderer";
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 5000;
 const BASE_PATH = `http://localhost:${PORT}`;
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Rate limiting configuration
-const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000; // 15 minutes
-const RATE_LIMIT_MAX_REQUESTS = 100; // Maximum requests per window
-const RATE_LIMIT_CLEANUP_INTERVAL_MS = 60 * 1000; // Cleanup every minute
+// Rate limiting configuration (all configurable via env)
+const RATE_LIMIT_WINDOW_MS =
+  parseInt(process.env.RATE_LIMIT_WINDOW_MS ?? "900000", 10) || 15 * 60 * 1000; // default 15 min (ms)
+const RATE_LIMIT_MAX_REQUESTS =
+  parseInt(process.env.RATE_LIMIT_MAX_REQUESTS ?? "100", 10) || 100; // max requests per window
+const RATE_LIMIT_CLEANUP_INTERVAL_MS =
+  parseInt(process.env.RATE_LIMIT_CLEANUP_INTERVAL_MS ?? "60000", 10) || 60 * 1000; // default 1 min (ms)
 
 // In-memory store for rate limiting
 interface RateLimitEntry {

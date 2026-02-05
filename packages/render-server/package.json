@@ -26,11 +26,11 @@
     "access": "public"
   },
   "dependencies": {
-    "@twick/2d": "^0.15.0",
-    "@twick/core": "^0.15.0",
-    "@twick/ffmpeg": "^0.15.0",
-    "@twick/renderer": "^0.15.0",
-    "@twick/ui": "^0.15.0",
+    "@twick/2d": "^0.15.12",
+    "@twick/core": "^0.15.12",
+    "@twick/ffmpeg": "^0.15.12",
+    "@twick/renderer": "^0.15.12",
+    "@twick/ui": "^0.15.12",
     "@twick/visualizer": "workspace:*",
     "cors": "^2.8.5",
     "express": "^4.18.2",
