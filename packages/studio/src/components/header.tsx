@@ -17,7 +17,7 @@
  */
 
 import type { Size } from "@twick/timeline";
-import { Save, Download, Clapperboard, File, Plus } from "lucide-react";
+import { Save, Download, Clapperboard, File, Plus, RectangleVertical, RectangleHorizontal } from "lucide-react";
 import { useEffect, useState } from "react";
 
 interface StudioHeaderProps {
@@ -45,6 +45,21 @@ export const StudioHeader = ({
     }
   }, []);
 
+  const handleOrientationChange = (nextOrientation: "horizontal" | "vertical") => {
+    if (nextOrientation === orientation) return;
+
+    const confirmMessage =
+      "Changing orientation will create a new project with the new resolution. Do you want to continue?";
+
+    if (!window.confirm(confirmMessage)) {
+      return;
+    }
+
+    // Create a fresh project for the new resolution
+    onNewProject();
+    setOrientation(nextOrientation);
+  };
+
   useEffect(() => {
     if (orientation === "horizontal") {
       localStorage.setItem("orientation", "horizontal");
@@ -57,13 +72,30 @@ export const StudioHeader = ({
 
   return (
     <header className="header">
-      <div className="flex-container">
         <div className="flex-container">
           <Clapperboard className="icon-lg accent-purple" />
           <h1 className="text-gradient">
             Twick Studio
           </h1>
         </div>
+      <div className="flex-container" style={{ gap: "0.5rem" }}>
+        <span className="text-sm opacity-80">Orientation</span>
+        <button
+          className={`btn-ghost ${orientation === "vertical" ? "btn-primary" : ""}`}
+          title="Portrait (720×1280)"
+          onClick={() => handleOrientationChange("vertical")}
+        >
+          <RectangleVertical className="icon-sm" />
+
+        </button>
+        <button
+          className={`btn-ghost ${orientation === "horizontal" ? "btn-primary" : ""}`}
+          title="Landscape (1280×720)"
+          onClick={() => handleOrientationChange("horizontal")}
+        >
+          <RectangleHorizontal className="icon-sm" />
+
+        </button>
       </div>
       <div className="flex-container">
         <button

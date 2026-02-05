@@ -278,7 +278,7 @@ export const LivePlayer = ({
         // Instead, we use setAttribute via setProjectData() which is called in useEffect
         // and onFirstRender to properly set the variables attribute on the custom element.
         volume={volume}
-        quality={quality}
+        quality={quality || 1}
         onTimeUpdate={onCurrentTimeUpdate}
         onPlayerReady={handlePlayerReady}
         width={baseProject.input?.properties?.width || DEFAULT_VIDEO_SIZE.width}
