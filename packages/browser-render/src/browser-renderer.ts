@@ -108,11 +108,12 @@ class BrowserWasmExporter {
 
     try {
       const loadMp4Module = (await import('mp4-wasm')).default;
+      // Try paths most likely to exist first to avoid console 404s (Next.js: public/mp4-wasm.wasm -> /mp4-wasm.wasm)
       const possiblePaths = [
-        '/@mp4-wasm',
+        '/mp4-wasm.wasm',
         '/assets/mp4-wasm.wasm',
         '/assets/mp4-YBRi_559.wasm',
-        '/mp4-wasm.wasm',
+        '/@mp4-wasm',
         '/node_modules/mp4-wasm/dist/mp4-wasm.wasm',
         'https://cdn.jsdelivr.net/npm/mp4-wasm@1.0.6/dist/mp4-wasm.wasm',
       ];

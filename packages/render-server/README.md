@@ -25,7 +25,7 @@ pnpm add @twick/render-server
 **Prebuilt image (no repo clone):**
 
 ```bash
-docker run -e PORT=5000 -p 5000:5000 ghcr.io/ncounterspecialist/render-server:latest
+docker run --platform linux/amd64 -e PORT=5000 -p 5000:5000 ghcr.io/ncounterspecialist/render-server:<version>
 ```
 
 **Build and run from this package (monorepo):**
