@@ -110,6 +110,16 @@ function VideoRenderer() {
 }
 ```
 
+### Quality levels
+
+The `settings.quality` flag controls the internal render resolution (supersampling), not the final video width/height:
+
+- `'low'` (or omitted): `resolutionScale = 1` (base project resolution)
+- `'medium'`: `resolutionScale ≈ 1.5` (higher internal resolution, sharper output)
+- `'high'`: `resolutionScale = 2` (2× internal resolution for maximum sharpness)
+
+Higher quality levels produce noticeably sharper text and images at the same output size, but increase render time and memory usage.
+
 ## Custom Project
 
 ```typescript

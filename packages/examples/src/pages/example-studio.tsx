@@ -1,17 +1,23 @@
 import { useBrowserRenderer, type BrowserRenderConfig } from "@twick/browser-render";
-import { TwickStudio, LivePlayerProvider, TimelineProvider, INITIAL_TIMELINE_DATA, type VideoSettings, type ProjectJSON } from "@twick/studio";
+import {
+  TwickStudio,
+  LivePlayerProvider,
+  TimelineProvider,
+  INITIAL_TIMELINE_DATA,
+  type VideoSettings,
+  type ProjectJSON,
+} from "@twick/studio";
 import "@twick/studio/dist/studio.css";
 import { useState } from "react";
 
 const VIDEO_SIZE = {
   width: 720,
   height: 1280,
-}
+};
 
 export default function ExampleStudio() {
   const { render, progress, isRendering, error, reset } = useBrowserRenderer({
-    width: VIDEO_SIZE.width,
-    height: VIDEO_SIZE.height,
+    // Let the renderer derive width/height from variables.input.properties
     includeAudio: true,
     autoDownload: true,
   });
@@ -25,6 +31,7 @@ export default function ExampleStudio() {
         input: {
           ...project,
           properties: {
+            // Use the resolution coming from Twick Studio (portrait or landscape)
             width: videoSettings.resolution.width || VIDEO_SIZE.width,
             height: videoSettings.resolution.height || VIDEO_SIZE.height,
             fps: videoSettings.fps || 30,

@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useLivePlayerContext } from "@twick/live-player";
 
 const useStudioOperation = (studioConfig?: StudioConfig) => {
-  const { editor, present } = useTimelineContext();
+  const { editor, present, videoResolution } = useTimelineContext();
   const { setSeekTime, setPlayerState } = useLivePlayerContext();
   const [projectName, setProjectName] = useState("");
 
@@ -62,8 +62,8 @@ const useStudioOperation = (studioConfig?: StudioConfig) => {
         outFile: "output.mp4",
         fps: 30,
         resolution: {
-          width: studioConfig.videoProps?.width,
-          height: studioConfig.videoProps?.height,
+          width: videoResolution.width,
+          height: videoResolution.height,
         },
       });
     } else {

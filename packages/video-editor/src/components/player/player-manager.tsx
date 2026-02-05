@@ -105,7 +105,7 @@ export const PlayerManager = ({
       <LivePlayer
         seekTime={seekTime}
         projectData={projectData}
-        quality={playerProps?.quality}
+        quality={playerProps?.quality || 1}
         videoSize={{
           width: videoProps.width,
           height: videoProps.height,

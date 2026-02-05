@@ -464,6 +464,16 @@ export const renderTwickVideoInBrowser = async (
     const height = settings.height || variables.input.properties?.height || 1080;
     const fps = settings.fps || variables.input.properties?.fps || 30;
 
+    // Map quality flag to an internal resolution scale for supersampling.
+    // This keeps the output resolution (width/height) the same while
+    // rendering the scenes at a higher pixel density for sharper exports.
+    const qualityResolutionScale =
+      settings.quality === 'high'
+        ? 2
+        : settings.quality === 'medium'
+          ? 1.5
+          : 1;
+
     const project: Project = !projectFile ? defaultProject : (projectFile as Project);
     project.variables = variables as any;
 
@@ -474,7 +484,7 @@ export const renderTwickVideoInBrowser = async (
         name: '@twick/core/wasm',
       },
       size: new Vector2(width, height),
-      resolutionScale: 1,
+      resolutionScale: qualityResolutionScale,
       colorSpace: 'srgb',
       fps: fps,
       range: settings.range || [0, Infinity],
