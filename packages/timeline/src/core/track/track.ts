@@ -1,4 +1,5 @@
 import { ElementJSON, TrackJSON } from "../../types";
+import { TRACK_TYPES } from "../../utils/constants";
 import { generateShortUuid } from "../../utils/timeline.utils";
 import { TrackElement } from "../elements/base.element";
 import { ElementDeserializer } from "../visitor/element-deserializer";
@@ -56,7 +57,7 @@ export class Track {
    * const trackWithId = new Track("Audio Track", "element", "video-track-1");
    * ```
    */
-  constructor(name: string, type: string ="element", id?: string) {
+  constructor(name: string, type: string = TRACK_TYPES.ELEMENT, id?: string) {
     this.name = name;
     this.id = id ?? `t-${generateShortUuid()}`;
     this.type = type;
@@ -545,7 +546,7 @@ export class Track {
     if (!json || typeof json !== 'object') {
       throw new Error('Invalid JSON data for Track deserialization');
     }
-    const track = new Track(json.name || '', json.type ?? "element", json.id);
+    const track = new Track(json.name || '', json.type ?? TRACK_TYPES.ELEMENT, json.id);
     track.type = json.type;
     track.props = json.props || {};
     track.elements = (json.elements || [])

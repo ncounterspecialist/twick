@@ -358,3 +358,65 @@ export type CaptionProps = {
   };
   applyToAll?: boolean;
 };
+
+/**
+ * Parameters passed to a canvas element handler when adding an element.
+ */
+export type CanvasElementAddParams = {
+  element: CanvasElement;
+  index: number;
+  canvas: import("fabric").Canvas;
+  canvasMetadata: CanvasMetadata;
+  seekTime?: number;
+  captionProps?: CaptionProps | null;
+  elementFrameMapRef?: { current: Record<string, FrameEffect | undefined> };
+  getCurrentFrameEffect?: (item: CanvasElement, seekTime: number) => FrameEffect | undefined;
+  /** Used by watermark handler to store props for WATERMARK_UPDATED */
+  watermarkPropsRef?: { current: any };
+};
+
+/**
+ * Context passed when updating element state from a Fabric object (e.g. after transform).
+ */
+export type CanvasElementUpdateContext = {
+  canvasMetadata: CanvasMetadata;
+  videoSize: { width: number; height: number };
+  elementFrameMapRef: { current: Record<string, FrameEffect | undefined> };
+  captionPropsRef: { current: CaptionProps | null };
+  watermarkPropsRef: { current: any };
+};
+
+/**
+ * Result of updateFromFabricObject; tells the hook which operation to emit.
+ * When operation is CAPTION_PROPS_UPDATED, payload is { element, props }.
+ * When operation is WATERMARK_UPDATED, payload is WatermarkUpdatePayload.
+ */
+export type CanvasElementUpdateResult = {
+  element: CanvasElement;
+  operation?: string;
+  payload?: any;
+};
+
+/**
+ * Canonical payload for WATERMARK_UPDATED. Matches timeline WatermarkJSON shape
+ * so video-editor can apply via setWatermark() and panel can update type/props.
+ */
+export type WatermarkUpdatePayload = {
+  position: { x: number; y: number };
+  rotation?: number;
+  opacity?: number;
+  props?: Record<string, unknown>;
+};
+
+/**
+ * Handler for a canvas element type. Register with ElementController for scalable dispatch.
+ */
+export type CanvasElementHandler = {
+  name: string;
+  add(params: CanvasElementAddParams): Promise<void>;
+  updateFromFabricObject?: (
+    object: any,
+    element: CanvasElement,
+    context: CanvasElementUpdateContext
+  ) => CanvasElementUpdateResult | null;
+};

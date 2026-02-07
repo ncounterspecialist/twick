@@ -1,3 +1,4 @@
+import Watermark from "../core/addOns/watermark";
 import { TrackElement } from "../core/elements/base.element";
 import { Track } from "../core/track/track";
 
@@ -12,6 +13,7 @@ type TimelineStore = {
 export type TimelineTrackData = {
     tracks: Track[];
     version: number;
+    watermark?: Watermark;
 }
 
 export class TimelineContextStore {

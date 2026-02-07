@@ -108,7 +108,9 @@ export const CANVAS_OPERATIONS = {
   /** Items have been ungrouped */
   ITEM_UNGROUPED: "ITEM_UNGROUPED",
   /** Caption properties have been updated */
-  CAPTION_PROPS_UPDATED: "CAPTION_PROPS_UPDATED"
+  CAPTION_PROPS_UPDATED: "CAPTION_PROPS_UPDATED",
+  /** Watermark has been updated */
+  WATERMARK_UPDATED: "WATERMARK_UPDATED",
 }
 
 /**
@@ -139,6 +141,8 @@ export const ELEMENT_TYPES = {
   RECT: "rect",
   /** Circle element type */
   CIRCLE: "circle",
+  /** Icon element type */
+  ICON: "icon",
   /** Background color element type */
   BACKGROUND_COLOR: "backgroundColor",
 }

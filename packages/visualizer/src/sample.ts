@@ -26,6 +26,18 @@ export const sample = {
         "orgId": "a251d9971a55"
       },
       "basePath": "carlyn",
+      "watermark": {
+        "id": "e-watermark",
+        "type": "text",
+        "position": { "x": 0, "y": -200 },
+        "opacity": 0.7,
+        "props": {
+          "text": "© Twick SDK",
+          "fontSize": 24,
+          "fontFamily": "Arial",
+          "fill": "#ffffff"
+      }
+    },
       "tracks": [
         {
           "id": "t-scene",

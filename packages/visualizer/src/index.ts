@@ -194,3 +194,8 @@ export * from './elements';
 export * from './text-effects';
 export * from './frame-effects';
 
+// Watermark renderer registry (Option B – register custom watermark types)
+export { default as watermarkController } from './controllers/watermark.controller';
+export { WatermarkController } from './controllers/watermark.controller';
+export type { WatermarkRendererContract, WatermarkRendererParams } from './helpers/watermark.types';
+

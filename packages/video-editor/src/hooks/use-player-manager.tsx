@@ -1,4 +1,4 @@
-import { CANVAS_OPERATIONS, useTwickCanvas } from "@twick/canvas";
+import { CANVAS_OPERATIONS, CanvasElement, useTwickCanvas } from "@twick/canvas";
 import {
   CaptionElement,
   ElementDeserializer,
@@ -71,10 +71,20 @@ export const usePlayerManager = ({
    */
   const handleCanvasOperation = (operation: string, data: any) => {
     if (operation === CANVAS_OPERATIONS.CAPTION_PROPS_UPDATED) {
-      const subtitlesTrack = editor.getSubtiltesTrack();
+      const subtitlesTrack = editor.getSubtitlesTrack();
       subtitlesTrack?.setProps(data.props);
       setSelectedItem(data.element);
       editor.refresh();
+    } else if (operation === CANVAS_OPERATIONS.WATERMARK_UPDATED) {
+      const w = editor.getWatermark();
+      if (w && data) {
+        if (data.position) w.setPosition(data.position);
+        if (data.rotation != null) w.setRotation(data.rotation);
+        if (data.opacity != null) w.setOpacity(data.opacity);
+        if (data.props) w.setProps(data.props);
+        editor.setWatermark(w);
+        currentChangeLog.current = currentChangeLog.current + 1;
+      }
     } else {
       const element = ElementDeserializer.fromJSON(data);
       switch (operation) {
@@ -131,8 +141,25 @@ export const usePlayerManager = ({
         captionProps = track?.getProps() ?? {};
       }
     });
+    const watermark = editor.getWatermark();
+    let watermarkElement: CanvasElement | undefined;
+    if (watermark) {
+      const position = watermark.getPosition();
+      watermarkElement = {
+        id: watermark.getId(),
+        type: watermark.getType(),
+        props: {
+          ...(watermark.getProps() || {}),
+          x: position?.x ?? 0,
+          y: position?.y ?? 0,
+          rotation: watermark.getRotation() ?? 0,
+          opacity: watermark.getOpacity() ?? 1,
+        },
+      };
+    }
     setCanvasElements({
       elements,
+      watermark: watermarkElement,
       seekTime,
       captionProps,
       cleanAndAdd: true,
