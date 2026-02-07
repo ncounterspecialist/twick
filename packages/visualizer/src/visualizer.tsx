@@ -57,6 +57,7 @@ import {
   makeElementTrack,
   makeSceneTrack,
   makeVideoTrack,
+  makeWatermarkTrack,
 } from "./components/track";
 import { dispatchWindowEvent } from "./helpers/event.utils";
 
@@ -159,6 +160,25 @@ export const scene = makeScene2D("scene", function* (view: View2D) {
         }
         index++;
       }
+
+      // Add watermark on top of all tracks when present
+      if (input.watermark) {
+        const duration =
+          input.tracks?.length > 0
+            ? Math.max(
+                0,
+                ...input.tracks.flatMap((t) => t.elements || []).map((e) => e.e)
+              )
+            : 10;
+        movie.push(
+          makeWatermarkTrack({
+            view,
+            watermark: input.watermark,
+            duration,
+          })
+        );
+      }
+
       // Execute all track animations in parallel
       yield* all(...movie);
       dispatchWindowEvent(EVENT_TYPES.PLAYER_UPDATE, {

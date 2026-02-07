@@ -2,18 +2,47 @@ import { View2D } from "@twick/2d";
 import { Reference, ThreadGenerator, Vector2 } from "@twick/core";
 
 /**
+ * Watermark configuration for overlay on video.
+ * Supports text or image watermarks with position, rotation, and opacity.
+ * Compatible with WatermarkJSON from @twick/timeline.
+ */
+export type WatermarkInput = {
+  type: "text" | "image";
+  position?: Position;
+  rotation?: number;
+  opacity?: number;
+  props: {
+    text?: string;
+    fontSize?: number;
+    fontFamily?: string;
+    fill?: string;
+    stroke?: string;
+    strokeWidth?: number;
+    textAlign?: string;
+    fontWeight?: number;
+    lineWidth?: number;
+    fontStyle?: string;
+    src?: string;
+    width?: number;
+    height?: number;
+    objectFit?: ObjectFit;
+  };
+};
+
+/**
  * Main input configuration for video visualization.
- * Contains player settings, background color, dimensions, and track definitions
- * for creating complete video visualizations.
+ * Contains player settings, background color, dimensions, track definitions,
+ * and optional watermark for creating complete video visualizations.
  */
 export type VideoInput = {
-  playerId: string,
+  playerId: string;
   backgroundColor: string;
   properties: {
     width: number;
     height: number;
   };
   tracks: VisualizerTrack[];
+  watermark?: WatermarkInput;
 };
 
 /**

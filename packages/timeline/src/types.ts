@@ -40,9 +40,20 @@ export interface TrackJSON {
 }
 
 export interface ProjectJSON {
+  watermark?: WatermarkJSON;
   tracks: TrackJSON[];
   version: number;
 }
+
+export interface WatermarkJSON {
+  id: string;
+  type: 'text' | 'image';
+  position?: Position;
+  rotation?: number;
+  opacity?: number;
+  props: TextProps | ImageProps;
+}
+
 
 // Props Types
 export interface BaseMediaProps {
@@ -94,6 +105,8 @@ export interface TextProps {
   shadowOpacity?: number;
   strokeWidth?: number;
   textAlign?: TextAlign;
+  backgroundColor?: string;
+  backgroundOpacity?: number;
   fontWeight?: number;
   lineWidth?: number;
   rotation?: number;

@@ -1,4 +1,32 @@
 /**
+ * Track type constants for timeline tracks.
+ * Use these instead of raw strings for type safety and consistency.
+ *
+ * @example
+ * ```js
+ * import { TRACK_TYPES } from '@twick/timeline';
+ *
+ * editor.addTrack("Video", TRACK_TYPES.VIDEO);
+ * const captionsTrack = editor.getSubtitlesTrack(); // first track with type TRACK_TYPES.CAPTION
+ * ```
+ */
+export const TRACK_TYPES = {
+  /** Video track – video clips */
+  VIDEO: "video",
+  /** Audio track – audio clips */
+  AUDIO: "audio",
+  /** Caption track – subtitles / captions */
+  CAPTION: "caption",
+  /** Scene track – scene containers (e.g. image/video as full scene) */
+  SCENE: "scene",
+  /** Element track – text, shapes, icons, images (overlay elements) */
+  ELEMENT: "element",
+} as const;
+
+/** Union type of valid track type strings */
+export type TrackType = (typeof TRACK_TYPES)[keyof typeof TRACK_TYPES];
+
+/**
  * Initial timeline data structure for new video editor projects.
  * Provides a default timeline with a sample text element to get started.
  * 
@@ -16,7 +44,7 @@
 export const INITIAL_TIMELINE_DATA = {
   tracks: [
     {
-      type: "element",
+      type: TRACK_TYPES.ELEMENT,
       id: "t-sample",
       name: "sample",
       elements: [

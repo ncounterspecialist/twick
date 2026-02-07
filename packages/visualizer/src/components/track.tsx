@@ -3,8 +3,8 @@
  * including video, audio, captions, scenes, and elements.
  */
 
-import { Layout, Rect, View2D, Audio } from "@twick/2d";
-import { VisualizerTrack } from "../helpers/types";
+import { Layout, Rect, View2D, Audio, Img, Txt } from "@twick/2d";
+import { VisualizerTrack, WatermarkInput } from "../helpers/types";
 import { all, Color, createRef, ThreadGenerator, waitFor } from "@twick/core";
 import {
   CAPTION_STYLE,
@@ -13,6 +13,7 @@ import {
 } from "../helpers/constants";
 import { logger } from "../helpers/log.utils";
 import elementController from "../controllers/element.controller";
+import watermarkController from "../controllers/watermark.controller";
 import { hexToRGB } from "../helpers/utils";
 
 /**
@@ -217,4 +218,29 @@ export function* makeElementTrack({
 
   yield* all(...sequence);
   yield elementTrackRef().remove();
+}
+
+/**
+ * Creates a watermark overlay on top of all tracks.
+ * Dispatches to the registered watermark renderer by type (text | image).
+ * Added last to ensure it renders on top of all content.
+ */
+export function* makeWatermarkTrack({
+  view,
+  watermark,
+  duration,
+}: {
+  view: View2D;
+  watermark: WatermarkInput;
+  duration: number;
+}) {
+  if (duration <= 0) return;
+
+  // Add watermark after other tracks have started (ensures it renders on top)
+  yield* waitFor(0.001);
+
+  const renderer = watermarkController.get(watermark.type);
+  if (renderer) {
+    yield* renderer.render({ view, watermark, duration });
+  }
 }

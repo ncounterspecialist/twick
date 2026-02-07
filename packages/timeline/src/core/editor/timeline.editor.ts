@@ -3,6 +3,7 @@ import {
   generateShortUuid,
   getTotalDuration,
 } from "../../utils/timeline.utils";
+import { TRACK_TYPES } from "../../utils/constants";
 import { Track } from "../track/track";
 import {
   timelineContextStore,
@@ -17,6 +18,7 @@ import { ElementCloner } from "../visitor/element-cloner";
 import { TrackElement } from "../elements/base.element";
 import { ProjectJSON, TrackJSON } from "../../types";
 import { ValidationError } from "../visitor/element-validator";
+import Watermark from "../addOns/watermark";
 
 /**
  * Type for timeline operation context
@@ -76,17 +78,20 @@ export class TimelineEditor {
   protected setTimelineData({
     tracks,
     version,
+    watermark,
     updatePlayerData,
   }: {
     tracks: Track[];
     version?: number;
     updatePlayerData?: boolean;
+    watermark?: Watermark;
   }) {
     const prevTimelineData = this.getTimelineData();
     const updatedVersion = version ?? (prevTimelineData?.version || 0) + 1;
     const updatedTimelineData = {
       tracks,
       version: updatedVersion,
+      watermark,
     };
     timelineContextStore.setTimelineData(
       this.context.contextId,
@@ -103,7 +108,7 @@ export class TimelineEditor {
     return updatedTimelineData as TimelineTrackData;
   }
 
-  addTrack(name: string, type: string = "element"): Track {
+  addTrack(name: string, type: string = TRACK_TYPES.ELEMENT): Track {
     const prevTimelineData = this.getTimelineData();
     const id = `t-${generateShortUuid()}`;
     const track = new Track(name, type, id);
@@ -124,9 +129,9 @@ export class TimelineEditor {
     return track as Track | null;
   }
 
-  getSubtiltesTrack(): Track | null {
+  getSubtitlesTrack(): Track | null {
     const prevTimelineData = this.getTimelineData();
-    const track = prevTimelineData?.tracks.find((t) => t.getType() === "caption");
+    const track = prevTimelineData?.tracks.find((t) => t.getType() === TRACK_TYPES.CAPTION);
     return track as Track | null;
   }
 
@@ -418,6 +423,32 @@ export class TimelineEditor {
         tracks: tracks,
         version: version,
         forceUpdate: true,
+      });
+    }
+  }
+
+  getWatermark(): Watermark | null {
+    const currentData = this.getTimelineData();
+    return currentData?.watermark || null;
+  }
+
+  setWatermark(watermark: Watermark): void {
+    const currentData = this.getTimelineData();
+    if (currentData) {
+      this.setTimelineData({
+        tracks: currentData.tracks,
+        updatePlayerData: true,
+        watermark: watermark,
+      });
+    }
+  }
+
+  removeWatermark(): void {
+    const currentData = this.getTimelineData();
+    if (currentData) {
+      this.setTimelineData({
+        tracks: currentData.tracks,
+        updatePlayerData: true,
       });
     }
   }

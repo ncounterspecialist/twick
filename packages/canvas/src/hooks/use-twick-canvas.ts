@@ -9,22 +9,13 @@ import {
 } from "../types";
 import {
   clearCanvas,
-  convertToVideoPosition,
   createCanvas,
   getCanvasContext,
   getCurrentFrameEffect,
   reorderElementsByZIndex,
 } from "../helpers/canvas.util";
-import { CANVAS_OPERATIONS, ELEMENT_TYPES } from "../helpers/constants";
-import {
-  addImageElement,
-  addVideoElement,
-  addRectElement,
-  addTextElement,
-  addCaptionElement,
-  addBackgroundColor,
-  addCircleElement,
-} from "../components/elements";
+import { CANVAS_OPERATIONS } from "../helpers/constants";
+import elementController from "../controllers/element.controller";
 
 /**
  * Custom hook to manage a Fabric.js canvas and associated operations.
@@ -52,6 +43,7 @@ export const useTwickCanvas = ({
 }) => {
   const [twickCanvas, setTwickCanvas] = useState<FabricCanvas | null>(null); // Canvas instance
   const elementMap = useRef<Record<string, any>>({}); // Maps element IDs to their data
+  const watermarkPropsRef = useRef<any | null>(null);
   const elementFrameMap = useRef<Record<string, any>>({}); // Maps element IDs to their frame effects
   const twickCanvasRef = useRef<FabricCanvas | null>(null);
   const videoSizeRef = useRef<Dimensions>({ width: 1, height: 1 }); // Stores the video dimensions
@@ -205,146 +197,27 @@ export const useTwickCanvas = ({
         case "scale":
         case "scaleX":
         case "scaleY":
-        case "rotate":
-          const { x, y } = convertToVideoPosition(
-            object.left,
-            object.top,
-            canvasMetadataRef.current,
-            videoSizeRef.current
+        case "rotate": {
+          const currentElement = elementMap.current[elementId];
+          const handler = elementController.get(
+            elementId === "e-watermark" ? "watermark" : currentElement?.type
           );
-          if (elementMap.current[elementId].type === "caption") {
-            if (captionPropsRef.current?.applyToAll) {
-              onCanvasOperation?.(CANVAS_OPERATIONS.CAPTION_PROPS_UPDATED, {
-                element: elementMap.current[elementId],
-                props: {
-                  ...captionPropsRef.current,
-                  x,
-                  y,
-                },
-              });
-            } else {
-              elementMap.current[elementId] = {
-                ...elementMap.current[elementId],
-                props: {
-                  ...elementMap.current[elementId].props,
-                  x,
-                  y,
-                },
-              };
-              onCanvasOperation?.(
-                CANVAS_OPERATIONS.ITEM_UPDATED,
-                elementMap.current[elementId]
-              );
-            }
-          } else {
-            if (object?.type === "group") {
-              const currentFrameEffect = elementFrameMap.current[elementId];
-              let updatedFrameSize;
-              if (currentFrameEffect) {
-                updatedFrameSize = [
-                  currentFrameEffect.props.frameSize[0] * object.scaleX,
-                  currentFrameEffect.props.frameSize[1] * object.scaleY,
-                ];
-              } else {
-                updatedFrameSize = [
-                  elementMap.current[elementId].frame.size[0] * object.scaleX,
-                  elementMap.current[elementId].frame.size[1] * object.scaleY,
-                ];
-              }
-
-              if (currentFrameEffect) {
-                elementMap.current[elementId] = {
-                  ...elementMap.current[elementId],
-                  frameEffects: (
-                    elementMap.current[elementId].frameEffects || []
-                  ).map((frameEffect: any) =>
-                    frameEffect.id === currentFrameEffect?.id
-                      ? {
-                          ...frameEffect,
-                          props: {
-                            ...frameEffect.props,
-                            framePosition: {
-                              x,
-                              y,
-                            },
-                            frameSize: updatedFrameSize,
-                          },
-                        }
-                      : frameEffect
-                  ),
-                };
-                elementFrameMap.current[elementId] = {
-                  ...elementFrameMap.current[elementId],
-                  framePosition: {
-                    x,
-                    y,
-                  },
-                  frameSize: updatedFrameSize,
-                };
-              } else {
-                elementMap.current[elementId] = {
-                  ...elementMap.current[elementId],
-                  frame: {
-                    ...elementMap.current[elementId].frame,
-                    rotation: object.angle,
-                    size: updatedFrameSize,
-                    x,
-                    y,
-                  },
-                };
-              }
-            } else {
-              if (object?.type === "text") {
-                elementMap.current[elementId] = {
-                  ...elementMap.current[elementId],
-                  props: {
-                    ...elementMap.current[elementId].props,
-                    rotation: object.angle,
-                    x,
-                    y,
-                  },
-                };
-              } else if (object?.type === "circle") {
-                const radius = Number(
-                  (
-                    elementMap.current[elementId].props.radius * object.scaleX
-                  ).toFixed(2)
-                );
-                elementMap.current[elementId] = {
-                  ...elementMap.current[elementId],
-                  props: {
-                    ...elementMap.current[elementId].props,
-                    rotation: object.angle,
-                    radius: radius,
-                    height: radius * 2,
-                    width: radius * 2,
-                    x,
-                    y,
-                  },
-                };
-              } else {
-                elementMap.current[elementId] = {
-                  ...elementMap.current[elementId],
-                  props: {
-                    ...elementMap.current[elementId].props,
-                    rotation: object.angle,
-                    width:
-                      elementMap.current[elementId].props.width * object.scaleX,
-                    height:
-                      elementMap.current[elementId].props.height *
-                      object.scaleY,
-                    x,
-                    y,
-                  },
-                };
-              }
-            }
+          const result = handler?.updateFromFabricObject?.(object, currentElement ?? { id: elementId, type: "text", props: {} } as CanvasElement, {
+            canvasMetadata: canvasMetadataRef.current,
+            videoSize: videoSizeRef.current,
+            elementFrameMapRef: elementFrameMap,
+            captionPropsRef,
+            watermarkPropsRef,
+          });
+          if (result) {
+            elementMap.current[elementId] = result.element;
             onCanvasOperation?.(
-              CANVAS_OPERATIONS.ITEM_UPDATED,
-              elementMap.current[elementId]
+              result.operation ?? CANVAS_OPERATIONS.ITEM_UPDATED,
+              result.payload ?? result.element
             );
           }
           break;
+        }
       }
     }
   };
@@ -367,11 +240,13 @@ export const useTwickCanvas = ({
    */
   const setCanvasElements = async ({
     elements,
+    watermark,
     seekTime = 0,
     captionProps,
     cleanAndAdd = false,
   }: {
     elements: CanvasElement[];
+    watermark?: CanvasElement;
     seekTime?: number;
     captionProps?: any;
     cleanAndAdd?: boolean;
@@ -410,6 +285,11 @@ export const useTwickCanvas = ({
           }
         })
       );
+      if (watermark) {
+        addWatermarkToCanvas({
+          element: watermark,
+        });
+      }
       reorderElementsByZIndex(twickCanvas);
     } catch {
       // Skip on error
@@ -447,86 +327,18 @@ export const useTwickCanvas = ({
     captionProps?: any;
   }) => {
     if (!twickCanvas) return;
-    // Add element based on type
-    switch (element.type) {
-      case ELEMENT_TYPES.VIDEO:
-        const currentFrameEffect = getCurrentFrameEffect(
-          element,
-          seekTime || 0
-        );
-        elementFrameMap.current[element.id] = currentFrameEffect;
-        const snapTime =
-          ((seekTime || 0) - (element?.s || 0)) *
-            (element?.props?.playbackRate || 1) +
-          (element?.props?.time || 0);
-        await addVideoElement({
-          element,
-          index,
-          canvas: twickCanvas,
-          canvasMetadata: canvasMetadataRef.current,
-          currentFrameEffect,
-          snapTime,
-        });
-        if (element.timelineType === "scene") {
-          await addBackgroundColor({
-            element,
-            index,
-            canvas: twickCanvas,
-            canvasMetadata: canvasMetadataRef.current,
-          });
-        }
-        break;
-      case ELEMENT_TYPES.IMAGE:
-        await addImageElement({
-          element,
-          index,
-          canvas: twickCanvas,
-          canvasMetadata: canvasMetadataRef.current,
-        });
-        if (element.timelineType === "scene") {
-          await addBackgroundColor({
-            element,
-            index,
-            canvas: twickCanvas,
-            canvasMetadata: canvasMetadataRef.current,
-          });
-        }
-        break;
-      case ELEMENT_TYPES.RECT:
-        await addRectElement({
-          element,
-          index,
-          canvas: twickCanvas,
-          canvasMetadata: canvasMetadataRef.current,
-        });
-        break;
-      case ELEMENT_TYPES.CIRCLE:
-        await addCircleElement({
-          element,
-          index,
-          canvas: twickCanvas,
-          canvasMetadata: canvasMetadataRef.current,
-        });
-        break;
-      case ELEMENT_TYPES.TEXT:
-        await addTextElement({
-          element,
-          index,
-          canvas: twickCanvas,
-          canvasMetadata: canvasMetadataRef.current,
-        });
-        break;
-      case ELEMENT_TYPES.CAPTION:
-        await addCaptionElement({
-          element,
-          index,
-          canvas: twickCanvas,
-          captionProps,
-          canvasMetadata: canvasMetadataRef.current,
-        });
-        break;
-      default:
-        break;
+    const handler = elementController.get(element.type);
+    if (handler) {
+      await handler.add({
+        element,
+        index,
+        canvas: twickCanvas,
+        canvasMetadata: canvasMetadataRef.current,
+        seekTime,
+        captionProps: captionProps ?? null,
+        elementFrameMapRef: elementFrameMap,
+        getCurrentFrameEffect,
+      });
     }
     elementMap.current[element.id] = element;
     if (reorder) {
@@ -534,10 +346,30 @@ export const useTwickCanvas = ({
     }
   };
 
+  const addWatermarkToCanvas = ({
+    element,
+  }: {
+    element: CanvasElement;
+  }) => {
+    if (!twickCanvas) return;
+    const handler = elementController.get("watermark");
+    if (handler) {
+      handler.add({
+        element,
+        index: Object.keys(elementMap.current).length,
+        canvas: twickCanvas,
+        canvasMetadata: canvasMetadataRef.current,
+        watermarkPropsRef,
+      });
+      elementMap.current[element.id] = element;
+    }
+  };
+
   return {
     twickCanvas,
     buildCanvas,
     onVideoSizeChange,
+    addWatermarkToCanvas,
     addElementToCanvas,
     setCanvasElements,
   };

@@ -14,7 +14,7 @@ export const useSubtitlesPanel = () => {
   const { editor } = useTimelineContext();
 
   const fetchSubtitles = async () => {
-    const editorSubtitlesTrack = editor.getSubtiltesTrack();
+    const editorSubtitlesTrack = editor.getSubtitlesTrack();
     if (editorSubtitlesTrack) {
       subtitlesTrack.current = editorSubtitlesTrack;
       setSubtitles(

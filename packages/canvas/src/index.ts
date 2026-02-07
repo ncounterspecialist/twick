@@ -43,10 +43,19 @@ export type {
   CanvasElement,
   CanvasElementProps,
   CaptionProps,
+  CanvasElementAddParams,
+  CanvasElementUpdateContext,
+  CanvasElementUpdateResult,
+  CanvasElementHandler,
+  WatermarkUpdatePayload,
 } from "./types";
 
 // Constants
-export { CANVAS_OPERATIONS } from "./helpers/constants";
+export { CANVAS_OPERATIONS, ELEMENT_TYPES } from "./helpers/constants";
+
+// Element controller (registry pattern – register custom element types)
+export { default as elementController } from "./controllers/element.controller";
+export { ElementController } from "./controllers/element.controller";
 
 // Utility functions
 export {

@@ -25,7 +25,8 @@
  * ```
  */
 
-import { TIMELINE_ELEMENT_TYPE } from "./utils/constants";
+import { TIMELINE_ELEMENT_TYPE, TRACK_TYPES } from "./utils/constants";
+import type { TrackType } from "./utils/constants";
 import { TimelineEditor } from "./core/editor/timeline.editor";
 import {
   TimelineProvider,
@@ -59,6 +60,7 @@ import { TrackElement } from "./core/elements/base.element";
 import { ElementAnimation } from "./core/addOns/animation";
 import { ElementFrameEffect } from "./core/addOns/frame-effect";
 import { ElementTextEffect } from "./core/addOns/text-effect";
+import Watermark from "./core/addOns/watermark";
 
 // Core element types
 export {
@@ -74,7 +76,8 @@ export {
   VideoElement,
   ElementAnimation,
   ElementFrameEffect,
-  ElementTextEffect
+  ElementTextEffect,
+  Watermark,
 };
 
 // Timeline management
@@ -85,7 +88,8 @@ export {
 
 // Types and interfaces
 export type { TimelineProviderProps };
-export { TIMELINE_ELEMENT_TYPE };
+export { TIMELINE_ELEMENT_TYPE, TRACK_TYPES };
+export type { TrackType };
 
 // Utilities and helpers
 export * from "./types";
