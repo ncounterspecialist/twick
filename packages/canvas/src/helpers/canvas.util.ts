@@ -87,6 +87,47 @@ export const createCanvas = ({
 };
 
 /**
+ * Measure the width of text using Canvas 2D measureText with the given font.
+ * For multi-line text (with \n), returns the width of the longest line.
+ * Used to size Textbox to content when no explicit width is provided.
+ *
+ * @param text - The text to measure
+ * @param options - Font options matching the text element (fontSize, fontFamily, etc.)
+ * @returns The width in pixels of the longest line
+ */
+export function measureTextWidth(
+  text: string,
+  options: {
+    fontSize: number;
+    fontFamily: string;
+    fontStyle?: string;
+    fontWeight?: string | number;
+  }
+): number {
+  if (typeof document === "undefined" || !text) return 0;
+
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return 0;
+
+  const {
+    fontSize,
+    fontFamily,
+    fontStyle = "normal",
+    fontWeight = "normal",
+  } = options;
+  ctx.font = `${fontStyle} ${String(fontWeight)} ${fontSize}px ${fontFamily}`;
+
+  const lines = text.split("\n");
+  let maxWidth = 0;
+  for (const line of lines) {
+    const { width } = ctx.measureText(line);
+    if (width > maxWidth) maxWidth = width;
+  }
+  return Math.ceil(maxWidth);
+}
+
+/**
  * Reorders elements on the canvas based on their zIndex property.
  * Sorts all canvas objects by their zIndex and re-adds them to maintain
  * proper layering order for visual elements.
@@ -231,4 +272,30 @@ export const getCurrentFrameEffect = (item: any, seekTime: number) => {
     }
   }
   return currentFrameEffect;
+};
+
+/**
+ * Converts a hex color string to rgba with the given alpha.
+ * Handles both 3-digit and 6-digit hex color formats.
+ *
+ * @param hex - The hex color string (e.g. "#ff0000" or "#f00")
+ * @param alpha - Opacity value between 0 and 1
+ * @returns CSS rgba string (e.g. "rgba(255, 0, 0, 0.8)")
+ */
+export const hexToRgba = (hex: string, alpha: number): string => {
+  const color = hex.replace(/^#/, "");
+  const fullHex =
+    color.length === 3
+      ? color
+          .split("")
+          .map((c) => c + c)
+          .join("")
+      : color;
+  if (fullHex.length !== 6) {
+    return hex;
+  }
+  const r = parseInt(fullHex.slice(0, 2), 16);
+  const g = parseInt(fullHex.slice(2, 4), 16);
+  const b = parseInt(fullHex.slice(4, 6), 16);
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 };

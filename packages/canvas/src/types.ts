@@ -287,6 +287,10 @@ export type CanvasElementProps = {
   shadowBlur?: number;
   /** Shadow offset [x, y] */
   shadowOffset?: [number, number];
+  /** Background color for text elements */
+  backgroundColor?: string;
+  /** Background opacity for text elements (0-1) */
+  backgroundOpacity?: number;
   /** Playback rate for video elements */
   playbackRate?: number;
   /** Current time for video elements */

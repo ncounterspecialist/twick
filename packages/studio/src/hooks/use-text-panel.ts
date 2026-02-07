@@ -30,6 +30,9 @@ export interface TextPanelState {
   applyShadow: boolean;
   shadowColor: string;
   strokeWidth: number;
+  applyBackground: boolean;
+  backgroundColor: string;
+  backgroundOpacity: number;
   fonts: string[];
   operation: string;
 }
@@ -45,6 +48,9 @@ export interface TextPanelActions {
   setApplyShadow: (shadow: boolean) => void;
   setShadowColor: (color: string) => void;
   setStrokeWidth: (width: number) => void;
+  setApplyBackground: (apply: boolean) => void;
+  setBackgroundColor: (color: string) => void;
+  setBackgroundOpacity: (opacity: number) => void;
   handleApplyChanges: () => void;
 }
 
@@ -67,6 +73,9 @@ export const useTextPanel = ({
   const [applyShadow, setApplyShadow] = useState(DEFAULT_TEXT_PROPS.applyShadow);
   const [shadowColor, setShadowColor] = useState(DEFAULT_TEXT_PROPS.shadowColor);
   const [strokeWidth, setStrokeWidth] = useState(DEFAULT_TEXT_PROPS.strokeWidth);
+  const [applyBackground, setApplyBackground] = useState(false);
+  const [backgroundColor, setBackgroundColor] = useState("#FACC15");
+  const [backgroundOpacity, setBackgroundOpacity] = useState(1);
 
   const fonts = Object.values(AVAILABLE_TEXT_FONTS);
 
@@ -83,23 +92,26 @@ export const useTextPanel = ({
       textElement.setStrokeColor(strokeColor);
       textElement.setLineWidth(strokeWidth);
       textElement.setTextAlign(DEFAULT_TEXT_PROPS.textAlign);
+      const nextProps = { ...textElement.getProps() };
       if (applyShadow) {
-        textElement.setProps({
-          ...textElement.getProps(),
-          shadowColor,
-          shadowOffset: DEFAULT_TEXT_PROPS.shadowOffset,
-          shadowBlur: DEFAULT_TEXT_PROPS.shadowBlur,
-          shadowOpacity: DEFAULT_TEXT_PROPS.shadowOpacity,
-        });
+        nextProps.shadowColor = shadowColor;
+        nextProps.shadowOffset = DEFAULT_TEXT_PROPS.shadowOffset;
+        nextProps.shadowBlur = DEFAULT_TEXT_PROPS.shadowBlur;
+        nextProps.shadowOpacity = DEFAULT_TEXT_PROPS.shadowOpacity;
       } else {
-        textElement.setProps({
-          ...textElement.getProps(),
-          shadowColor: undefined,
-          shadowOffset: undefined,
-          shadowBlur: undefined,
-          shadowOpacity: undefined,
-        });
+        nextProps.shadowColor = undefined;
+        nextProps.shadowOffset = undefined;
+        nextProps.shadowBlur = undefined;
+        nextProps.shadowOpacity = undefined;
       }
+      if (applyBackground) {
+        nextProps.backgroundColor = backgroundColor;
+        nextProps.backgroundOpacity = backgroundOpacity;
+      } else {
+        nextProps.backgroundColor = undefined;
+        nextProps.backgroundOpacity = undefined;
+      }
+      textElement.setProps(nextProps);
       updateElement(textElement);
     } else {
       textElement = new TextElement(textContent)
@@ -112,15 +124,18 @@ export const useTextPanel = ({
         .setLineWidth(strokeWidth)
         .setTextAlign("center");
 
+      const nextProps = { ...textElement.getProps() };
       if (applyShadow) {
-        textElement.setProps({
-          ...textElement.getProps(),
-          shadowColor,
-          shadowOffset: DEFAULT_TEXT_PROPS.shadowOffset,
-          shadowBlur: DEFAULT_TEXT_PROPS.shadowBlur,
-          shadowOpacity: DEFAULT_TEXT_PROPS.shadowOpacity,
-        });
+        nextProps.shadowColor = shadowColor;
+        nextProps.shadowOffset = DEFAULT_TEXT_PROPS.shadowOffset;
+        nextProps.shadowBlur = DEFAULT_TEXT_PROPS.shadowBlur;
+        nextProps.shadowOpacity = DEFAULT_TEXT_PROPS.shadowOpacity;
       }
+      if (applyBackground) {
+        nextProps.backgroundColor = backgroundColor;
+        nextProps.backgroundOpacity = backgroundOpacity;
+      }
+      textElement.setProps(nextProps);
       await addElement(textElement);
     }
   };
@@ -141,6 +156,12 @@ export const useTextPanel = ({
       if (hasShadow) {
         setShadowColor(textProps.shadowColor ?? DEFAULT_TEXT_PROPS.shadowColor);
       }
+      const hasBackground = textProps.backgroundColor != null && textProps.backgroundColor !== "";
+      setApplyBackground(hasBackground);
+      if (hasBackground) {
+        setBackgroundColor(textProps.backgroundColor ?? "#FACC15");
+        setBackgroundOpacity(textProps.backgroundOpacity ?? 1);
+      }
     } else {
       setTextContent(DEFAULT_TEXT_PROPS.text);
       setFontSize(DEFAULT_TEXT_PROPS.fontSize);
@@ -152,6 +173,9 @@ export const useTextPanel = ({
       setStrokeWidth(DEFAULT_TEXT_PROPS.strokeWidth);
       setApplyShadow(DEFAULT_TEXT_PROPS.applyShadow);
       setShadowColor(DEFAULT_TEXT_PROPS.shadowColor);
+      setApplyBackground(false);
+      setBackgroundColor("#FACC15");
+      setBackgroundOpacity(1);
     }
   }, [selectedElement]);
 
@@ -178,6 +202,12 @@ export const useTextPanel = ({
     setApplyShadow,
     setShadowColor,
     setStrokeWidth,
+    applyBackground,
+    backgroundColor,
+    backgroundOpacity,
+    setApplyBackground,
+    setBackgroundColor,
+    setBackgroundOpacity,
     handleApplyChanges,
   };
 };
