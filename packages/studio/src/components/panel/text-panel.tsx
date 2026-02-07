@@ -16,6 +16,9 @@
  * @param {boolean} props.applyShadow - Whether to apply shadow effect
  * @param {string} props.shadowColor - Shadow color in hex format
  * @param {number} props.strokeWidth - Width of text stroke
+ * @param {boolean} props.applyBackground - Whether to apply background behind text
+ * @param {string} props.backgroundColor - Background color in hex (when applyBackground is true)
+ * @param {number} props.backgroundOpacity - Background opacity 0-1 (when applyBackground is true)
  * @param {string[]} props.fonts - Available font options
  * @param {(text: string) => void} props.setTextContent - Update text content
  * @param {(size: number) => void} props.setFontSize - Update font size
@@ -27,6 +30,9 @@
  * @param {(apply: boolean) => void} props.setApplyShadow - Toggle shadow effect
  * @param {(color: string) => void} props.setShadowColor - Update shadow color
  * @param {(width: number) => void} props.setStrokeWidth - Update stroke width
+ * @param {(apply: boolean) => void} props.setApplyBackground - Toggle background
+ * @param {(color: string) => void} props.setBackgroundColor - Update background color
+ * @param {(opacity: number) => void} props.setBackgroundOpacity - Update background opacity
  * @param {() => void} props.handleApplyChanges - Apply text element changes
  * 
  * @example
@@ -65,6 +71,9 @@ export function TextPanel({
   applyShadow,
   shadowColor,
   strokeWidth,
+  applyBackground,
+  backgroundColor,
+  backgroundOpacity,
   fonts,
   operation,
   setTextContent,
@@ -77,6 +86,9 @@ export function TextPanel({
   setApplyShadow,
   setShadowColor,
   setStrokeWidth,
+  setApplyBackground,
+  setBackgroundColor,
+  setBackgroundOpacity,
   handleApplyChanges,
 }: TextPanelProps) {
   return (
@@ -231,6 +243,60 @@ export function TextPanel({
             className="slider-purple"
           />
           <span className="slider-value">{strokeWidth}</span>
+        </div>
+      </div>
+
+      {/* Background (optional) */}
+      <div className="panel-section">
+        <label className="label-dark">Background</label>
+        <div className="color-section">
+          <div className="checkbox-control">
+            <label className="checkbox-label">
+              <input
+                type="checkbox"
+                checked={applyBackground}
+                onChange={(e) => setApplyBackground(e.target.checked)}
+                className="checkbox-purple"
+              />
+              Apply Background
+            </label>
+          </div>
+          {applyBackground && (
+            <>
+              <div className="color-control">
+                <label className="label-small">Background Color</label>
+                <div className="color-inputs">
+                  <input
+                    type="color"
+                    value={backgroundColor}
+                    onChange={(e) => setBackgroundColor(e.target.value)}
+                    className="color-picker"
+                  />
+                  <input
+                    type="text"
+                    value={backgroundColor}
+                    onChange={(e) => setBackgroundColor(e.target.value)}
+                    className="color-text"
+                  />
+                </div>
+              </div>
+              <div className="panel-section">
+                <label className="label-small">Background Opacity</label>
+                <div className="slider-container">
+                  <input
+                    type="range"
+                    min="0"
+                    max="1"
+                    step={0.1}
+                    value={backgroundOpacity}
+                    onChange={(e) => setBackgroundOpacity(Number(e.target.value))}
+                    className="slider-purple"
+                  />
+                  <span className="slider-value">{Math.round(backgroundOpacity * 100)}%</span>
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </div>
 

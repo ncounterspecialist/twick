@@ -7,7 +7,11 @@ import {
   Circle,
   Shadow,
 } from "fabric";
-import { convertToCanvasPosition } from "../helpers/canvas.util";
+import {
+  convertToCanvasPosition,
+  hexToRgba,
+  measureTextWidth,
+} from "../helpers/canvas.util";
 import {
   CanvasElement,
   CanvasMetadata,
@@ -61,30 +65,61 @@ export const addTextElement = ({
     canvasMetadata
   );
 
-  let width = element.props?.width ? element.props.width * canvasMetadata.scaleX : canvasMetadata.width - (2 * MARGIN);
-  if (element.props?.maxWidth) {
-    width = Math.min(width, element.props.maxWidth * canvasMetadata.scaleX);
+  const fontSize = Math.floor(
+    (element.props?.fontSize || DEFAULT_TEXT_PROPS.size) *
+      canvasMetadata.scaleX
+  );
+  const fontFamily = element.props?.fontFamily || DEFAULT_TEXT_PROPS.family;
+  const fontStyle = element.props?.fontStyle || "normal";
+  const fontWeight = element.props?.fontWeight || "normal";
+
+  let width: number;
+  if (element.props?.width != null && element.props.width > 0) {
+    width = element.props.width * canvasMetadata.scaleX;
+    if (element.props?.maxWidth) {
+      width = Math.min(width, element.props.maxWidth * canvasMetadata.scaleX);
+    }
+  } else {
+    const textContent = element.props?.text ?? element.t ?? "";
+    width = measureTextWidth(textContent, {
+      fontSize,
+      fontFamily,
+      fontStyle,
+      fontWeight,
+    });
+    const padding = 4;
+    width = width + padding * 2;
+    if (element.props?.maxWidth) {
+      width = Math.min(width, element.props.maxWidth * canvasMetadata.scaleX);
+    }
+    if (width <= 0) width = 100;
   }
+
+  const backgroundColor = element.props?.backgroundColor
+    ? hexToRgba(
+        element.props.backgroundColor,
+        element.props?.backgroundOpacity ?? 1
+      )
+    : undefined;
+
   const text = new Textbox(element.props?.text || element.t || "", {
     left: x,
     top: y,
     originX: "center",
     originY: "center",
     angle: element.props?.rotation || 0,
-    fontSize: Math.floor(
-      (element.props?.fontSize || DEFAULT_TEXT_PROPS.size) *
-        canvasMetadata.scaleX
-    ),
-    fontFamily: element.props?.fontFamily || DEFAULT_TEXT_PROPS.family,
-    fontStyle: element.props?.fontStyle || "normal",
-    fontWeight: element.props?.fontWeight || "normal",
+    fontSize,
+    fontFamily,
+    fontStyle,
+    fontWeight,
     fill: element.props?.fill || DEFAULT_TEXT_PROPS.fill,
     opacity: element.props?.opacity ?? 1,
-    width: width,
+    width,
     splitByGrapheme: false,
     textAlign: element.props?.textAlign || "center",
     stroke: element.props?.stroke || DEFAULT_TEXT_PROPS.stroke,
     strokeWidth: element.props?.lineWidth || DEFAULT_TEXT_PROPS.lineWidth,
+    ...(backgroundColor && { backgroundColor }),
     shadow: element.props?.shadowColor
       ? new Shadow({
           offsetX:
