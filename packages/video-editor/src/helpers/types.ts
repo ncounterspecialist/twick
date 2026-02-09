@@ -72,3 +72,12 @@ export interface ElementColors {
   transition: string;
   animation: string;
 }
+
+/**
+ * Canvas behavior options for TwickEditor / TwickStudio.
+ * Customers set these via editorConfig.canvasConfig or studioConfig.
+ */
+export interface CanvasConfig {
+  /** When true, holding Shift while dragging restricts movement to horizontal or vertical (dominant axis). Default: false. */
+  enableShiftAxisLock?: boolean;
+}

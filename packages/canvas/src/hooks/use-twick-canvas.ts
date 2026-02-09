@@ -37,9 +37,18 @@ import elementController from "../controllers/element.controller";
 export const useTwickCanvas = ({
   onCanvasReady,
   onCanvasOperation,
+  /**
+   * When true, holding Shift while dragging an object will lock movement to
+   * the dominant axis (horizontal or vertical). This mirrors behavior in
+   * professional editors and improves precise alignment.
+   *
+   * Default: false (opt‑in to avoid surprising existing consumers).
+   */
+  enableShiftAxisLock = false,
 }: {
   onCanvasReady?: (canvas: FabricCanvas) => void;
   onCanvasOperation?: (operation: string, data: any) => void;
+  enableShiftAxisLock?: boolean;
 }) => {
   const [twickCanvas, setTwickCanvas] = useState<FabricCanvas | null>(null); // Canvas instance
   const elementMap = useRef<Record<string, any>>({}); // Maps element IDs to their data
@@ -49,6 +58,13 @@ export const useTwickCanvas = ({
   const videoSizeRef = useRef<Dimensions>({ width: 1, height: 1 }); // Stores the video dimensions
   const canvasResolutionRef = useRef<Dimensions>({ width: 1, height: 1 }); // Stores the canvas dimensions
   const captionPropsRef = useRef<CaptionProps | null>(null);
+  const axisLockStateRef = useRef<
+    | null
+    | {
+        /** "x" when movement is locked horizontally, "y" when locked vertically */
+        axis: "x" | "y";
+      }
+  >(null);
   const canvasMetadataRef = useRef<CanvasMetadata>({
     width: 0,
     height: 0,
@@ -77,6 +93,55 @@ export const useTwickCanvas = ({
       canvasMetadataRef.current.scaleY =
         canvasMetadataRef.current.height / videoSize.height;
     }
+  };
+
+  /**
+   * Handles object moving events on the canvas.
+   * When Shift is held (and axis lock is enabled), restricts movement to the
+   * dominant axis based on the initial drag direction.
+   */
+  const handleObjectMoving = (event: any) => {
+    if (!enableShiftAxisLock) return;
+    const target: FabricObject | undefined = event?.target;
+    const transform = event?.transform;
+    const pointerEvent = event?.e as MouseEvent | PointerEvent | undefined;
+
+    if (!target || !transform || !pointerEvent) {
+      axisLockStateRef.current = null;
+      return;
+    }
+
+    // If Shift is not pressed, do not constrain movement.
+    if (!pointerEvent.shiftKey) {
+      axisLockStateRef.current = null;
+      return;
+    }
+
+    const original = transform.original;
+    if (!original || typeof target.left !== "number" || typeof target.top !== "number") {
+      axisLockStateRef.current = null;
+      return;
+    }
+
+    // Decide the dominant axis once for the drag operation.
+    if (!axisLockStateRef.current) {
+      const dx = Math.abs(target.left - original.left);
+      const dy = Math.abs(target.top - original.top);
+      axisLockStateRef.current = {
+        axis: dx >= dy ? "x" : "y",
+      };
+    }
+
+    if (axisLockStateRef.current.axis === "x") {
+      // Lock vertical movement.
+      target.top = original.top;
+    } else {
+      // Lock horizontal movement.
+      target.left = original.left;
+    }
+
+    // Ensure the canvas reflects the updated coordinates.
+    target.canvas?.requestRenderAll();
   };
 
   /**
@@ -122,6 +187,7 @@ export const useTwickCanvas = ({
     if (twickCanvasRef.current) {
       twickCanvasRef.current.off("mouse:up", handleMouseUp);
       twickCanvasRef.current.off("text:editing:exited", onTextEdit);
+      twickCanvasRef.current.off("object:moving", handleObjectMoving);
       twickCanvasRef.current.dispose();
     }
 
@@ -142,6 +208,7 @@ export const useTwickCanvas = ({
     // Attach event listeners
     canvas?.on("mouse:up", handleMouseUp);
     canvas?.on("text:editing:exited", onTextEdit);
+    canvas?.on("object:moving", handleObjectMoving);
     canvasResolutionRef.current = canvasSize;
     setTwickCanvas(canvas);
     twickCanvasRef.current = canvas;

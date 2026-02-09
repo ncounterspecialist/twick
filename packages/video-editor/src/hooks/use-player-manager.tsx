@@ -10,6 +10,7 @@ import { useLivePlayerContext } from "@twick/live-player";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createElementFromDrop } from "./use-timeline-drop";
 import type { CanvasDropPayload } from "./use-canvas-drop";
+import type { CanvasConfig } from "../helpers/types";
 
 /**
  * Custom hook to manage player state and canvas interactions.
@@ -17,19 +18,23 @@ import type { CanvasDropPayload } from "./use-canvas-drop";
  * for the video editor component.
  *
  * @param videoProps - Object containing video dimensions
+ * @param canvasConfig - Canvas behavior options (e.g. enableShiftAxisLock) from editorConfig / studioConfig
  * @returns Object containing player management functions and state
  *
  * @example
  * ```js
  * const { twickCanvas, projectData, updateCanvas } = usePlayerManager({
- *   videoProps: { width: 1920, height: 1080 }
+ *   videoProps: { width: 1920, height: 1080 },
+ *   canvasConfig: { enableShiftAxisLock: true }
  * });
  * ```
  */
 export const usePlayerManager = ({
   videoProps,
+  canvasConfig,
 }: {
   videoProps: { width: number; height: number };
+  canvasConfig?: CanvasConfig;
 }) => {
   const [projectData, setProjectData] = useState<any>(null);
   const {
@@ -140,6 +145,7 @@ export const usePlayerManager = ({
   const { twickCanvas, buildCanvas, setCanvasElements } = useTwickCanvas({
     onCanvasReady: handleCanvasReady,
     onCanvasOperation: handleCanvasOperation,
+    enableShiftAxisLock: canvasConfig?.enableShiftAxisLock ?? false,
   });
 
   /**

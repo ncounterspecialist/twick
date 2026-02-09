@@ -1,5 +1,5 @@
 import type { ProjectJSON, Size, TrackElement, VideoElement } from "@twick/timeline"
-import { VideoEditorConfig } from "@twick/video-editor"
+import type { CanvasConfig, VideoEditorConfig } from "@twick/video-editor"
 
 export interface MediaItem {
   id: string
@@ -96,6 +96,8 @@ export interface ISubtitleGenerationService {
 }
 
 export interface StudioConfig extends VideoEditorConfig {
+  /** Canvas behavior options (e.g. enableShiftAxisLock). Same as editorConfig.canvasConfig in TwickEditor. */
+  canvasConfig?: CanvasConfig;
   saveProject?: (project: ProjectJSON, fileName: string) => Promise<Result>;
   loadProject?: () => Promise<ProjectJSON>;
   /**

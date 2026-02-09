@@ -39,7 +39,7 @@ import TimelineManager from "./components/timeline/timeline-manager";
 import { usePlayerControl } from "./hooks/use-player-control";
 import { useEditorManager } from "./hooks/use-editor-manager";
 import BrowserMediaManager from "./helpers/media-manager/browser-media-manager";
-import { MediaItem, PaginationOptions, SearchOptions, Animation, TextEffect, ElementColors } from "./helpers/types";
+import { MediaItem, PaginationOptions, SearchOptions, Animation, TextEffect, ElementColors, CanvasConfig } from "./helpers/types";
 import BaseMediaManager from "./helpers/media-manager/base-media-manager";
 import { animationGifs, getAnimationGif } from "./assets";
 import { ANIMATIONS } from "./helpers/animation-manager";
@@ -51,7 +51,7 @@ export { setElementColors };
 
 // Types and interfaces
 export type { MediaItem, PaginationOptions, SearchOptions, Animation, TextEffect, ElementColors };
-export type { PlayerControlsProps, VideoEditorProps, VideoEditorConfig, TimelineTickConfig, TimelineZoomConfig };
+export type { PlayerControlsProps, VideoEditorProps, VideoEditorConfig, TimelineTickConfig, TimelineZoomConfig, CanvasConfig };
 
 // Constants and configurations
 export { ANIMATIONS, TEXT_EFFECTS };

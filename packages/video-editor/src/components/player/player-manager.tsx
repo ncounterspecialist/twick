@@ -8,6 +8,7 @@ import { useEffect, useRef } from "react";
 import "../../styles/video-editor.css";
 import { usePlayerManager } from "../../hooks/use-player-manager";
 import { useCanvasDrop } from "../../hooks/use-canvas-drop";
+import type { CanvasConfig } from "../../helpers/types";
 
 /**
  * PlayerManager component that manages video playback and canvas rendering.
@@ -19,6 +20,7 @@ import { useCanvasDrop } from "../../hooks/use-canvas-drop";
  * @param props.videoProps - Video dimensions and background color
  * @param props.playerProps - Optional player quality settings
  * @param props.canvasMode - Whether to show canvas overlay when paused
+ * @param props.canvasConfig - Canvas behavior options (e.g. enableShiftAxisLock)
  * @returns JSX element containing player and canvas components
  * 
  * @example
@@ -27,6 +29,7 @@ import { useCanvasDrop } from "../../hooks/use-canvas-drop";
  *   videoProps={{ width: 1920, height: 1080, backgroundColor: '#000' }}
  *   playerProps={{ quality: 720 }}
  *   canvasMode={true}
+ *   canvasConfig={{ enableShiftAxisLock: true }}
  * />
  * ```
  */
@@ -34,10 +37,12 @@ export const PlayerManager = ({
   videoProps,
   playerProps,
   canvasMode,
+  canvasConfig,
 }: {
   videoProps: { width: number; height: number, backgroundColor?: string };
   playerProps?: { quality?: number },
   canvasMode: boolean;
+  canvasConfig?: CanvasConfig;
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -51,7 +56,7 @@ export const PlayerManager = ({
     setCurrentTime,
   } = useLivePlayerContext();
   const { twickCanvas, projectData, updateCanvas, playerUpdating, onPlayerUpdate, buildCanvas, handleDropOnCanvas } =
-    usePlayerManager({ videoProps });
+    usePlayerManager({ videoProps, canvasConfig });
   const { handleDragOver, handleDragLeave, handleDrop } = useCanvasDrop({
     containerRef,
     videoSize: { width: videoProps.width, height: videoProps.height },
