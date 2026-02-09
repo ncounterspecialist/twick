@@ -5,8 +5,8 @@ import "../../styles/timeline.css";
 
 interface TrackHeaderProps {
   track: Track;
-  selectedItem: Track | null;
-  onSelect: (track: Track) => void;
+  selectedIds: Set<string>;
+  onSelect: (track: Track, event: React.MouseEvent) => void;
   onDragStart: (e: React.DragEvent, track: Track) => void;
   onDragOver: (e: React.DragEvent) => void;
   onDrop: (e: React.DragEvent, track: Track) => void;
@@ -14,7 +14,7 @@ interface TrackHeaderProps {
 
 const TrackHeader = ({
   track,
-  selectedItem,
+  selectedIds,
   onDragStart,
   onDragOver,
   onDrop,
@@ -23,12 +23,12 @@ const TrackHeader = ({
   return (
     <div
       className={`twick-track-header ${
-        (selectedItem instanceof Track) && selectedItem.getId() === track.getId()
+        selectedIds.has(track.getId())
           ? "twick-track-header-selected"
           : "twick-track-header-default"
       }`}
       draggable
-      onClick={() => onSelect(track)}
+      onClick={(e) => onSelect(track, e)}
       onDragStart={(e) => onDragStart(e, track)}
       onDragOver={onDragOver}
       onDrop={(e) => onDrop(e, track)}

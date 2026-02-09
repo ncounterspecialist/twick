@@ -10,8 +10,9 @@ interface TrackBaseProps {
   track: Track;
   trackWidth: number;
   selectedItem: TrackElement | null;
+  selectedIds: Set<string>;
   allowOverlap?: boolean;
-  onItemSelection: (element: TrackElement) => void;
+  onItemSelection: (element: TrackElement, event: React.MouseEvent) => void;
   onDrag: ({
     element,
     dragType,
@@ -30,6 +31,7 @@ const TrackBase = ({
   track,
   trackWidth,
   selectedItem,
+  selectedIds,
   onItemSelection,
   onDrag,
   allowOverlap = false,
@@ -56,6 +58,7 @@ const TrackBase = ({
           allowOverlap={allowOverlap}
           parentWidth={trackWidth}
           selectedItem={selectedItem}
+          selectedIds={selectedIds}
           onSelection={onItemSelection}
           onDrag={onDrag}
           elementColors={elementColors}

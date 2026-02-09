@@ -118,6 +118,15 @@ export const DEFAULT_TIMELINE_ZOOM = 1.5;
  * />
  * ```
  */
+/**
+ * Default frames per second for timeline time display.
+ * Used for MM:SS.FF format (e.g. 00:15.12 = 15.4 seconds at 30fps).
+ */
+export const DEFAULT_FPS = 30;
+
+/** Snap threshold in pixels - used to convert to seconds based on zoom */
+export const SNAP_THRESHOLD_PX = 10;
+
 export const DEFAULT_TIMELINE_ZOOM_CONFIG = {
   /** Minimum zoom level (10%) */
   min: 0.1,

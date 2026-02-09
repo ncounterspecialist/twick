@@ -9,11 +9,16 @@ import {
   Loader2,
   ZoomIn,
   ZoomOut,
+  SkipBack,
+  SkipForward,
 } from "lucide-react";
 import { UndoRedoControls } from "./undo-redo-controls";
-import { TrackElement, Track } from "@twick/timeline";
+import { TrackElement, Track, formatTimeWithFrames } from "@twick/timeline";
 import { TimelineZoomConfig } from "../video-editor";
-import { DEFAULT_TIMELINE_ZOOM_CONFIG } from "../../helpers/constants";
+import {
+  DEFAULT_TIMELINE_ZOOM_CONFIG,
+  DEFAULT_FPS,
+} from "../../helpers/constants";
 
 /**
  * Props for the PlayerControls component.
@@ -39,8 +44,10 @@ import { DEFAULT_TIMELINE_ZOOM_CONFIG } from "../../helpers/constants";
  * ```
  */
 export interface PlayerControlsProps {
-  /** Currently selected timeline element or track */
+  /** Currently selected timeline element or track (primary) */
   selectedItem: TrackElement | Track | null;
+  /** Set of selected IDs for multi-select */
+  selectedIds?: Set<string>;
   /** Current playback time in seconds */
   currentTime: number;
   /** Total duration of the timeline in seconds */
@@ -57,8 +64,8 @@ export interface PlayerControlsProps {
   onUndo?: () => void;
   /** Optional callback for redo operation */
   onRedo?: () => void;
-  /** Optional callback for delete operation */
-  onDelete?: (item: TrackElement | Track) => void;
+  /** Optional callback for delete operation (deletes all selected) */
+  onDelete?: () => void;
   /** Optional callback for split operation */
   onSplit?: (item: TrackElement, splitTime: number) => void;
   /** Current zoom level for timeline */
@@ -69,10 +76,15 @@ export interface PlayerControlsProps {
   className?: string;
   /** Timeline zoom configuration (min, max, step, default) */
   zoomConfig?: TimelineZoomConfig;
+  /** Frames per second for time display (MM:SS.FF format) */
+  fps?: number;
+  /** Callback to seek to a specific time (for jump to start/end) */
+  onSeek?: (time: number) => void;
 }
 
 const PlayerControls: React.FC<PlayerControlsProps> = ({
   selectedItem,
+  selectedIds = new Set(),
   duration,
   currentTime,
   playerState,
@@ -87,24 +99,34 @@ const PlayerControls: React.FC<PlayerControlsProps> = ({
   setZoomLevel,
   className = "",
   zoomConfig = DEFAULT_TIMELINE_ZOOM_CONFIG,
+  fps = DEFAULT_FPS,
+  onSeek,
 }) => {
+
   const MAX_ZOOM = zoomConfig.max;
   const MIN_ZOOM = zoomConfig.min;
   const ZOOM_STEP = zoomConfig.step;
-  // Format time to MM:SS format
-  const formatTime = useCallback((time: number) => {
-    const minutes = Math.floor(time / 60);
-    const seconds = Math.floor(time % 60);
-    return `${minutes.toString().padStart(2, "0")}:${seconds
-      .toString()
-      .padStart(2, "0")}`;
-  }, []);
+
+  const formatTime = useCallback(
+    (time: number) => formatTimeWithFrames(time, fps),
+    [fps]
+  );
+
+  const handleSeekToStart = useCallback(() => {
+    onSeek?.(0);
+  }, [onSeek]);
+
+  const handleSeekToEnd = useCallback(() => {
+    onSeek?.(duration);
+  }, [onSeek, duration]);
 
   const handleDelete = useCallback(() => {
-    if (selectedItem && onDelete) {
-      onDelete(selectedItem);
+    if (selectedIds.size > 0 && onDelete) {
+      onDelete();
     }
-  }, [selectedItem, onDelete]);
+  }, [selectedIds.size, onDelete]);
+
+  const hasSelection = selectedIds.size > 0;
 
   const handleSplit = useCallback(() => {
     if (selectedItem instanceof TrackElement && onSplit) {
@@ -130,10 +152,10 @@ const PlayerControls: React.FC<PlayerControlsProps> = ({
       <div className="edit-controls">
         <button
           onClick={handleDelete}
-          disabled={!selectedItem}
+          disabled={!hasSelection}
           title="Delete"
           className={`control-btn delete-btn ${
-            !selectedItem ? "btn-disabled" : ""
+            !hasSelection ? "btn-disabled" : ""
           }`}
         >
           <Trash2 className="icon-md" />
@@ -159,6 +181,16 @@ const PlayerControls: React.FC<PlayerControlsProps> = ({
       </div>
 
       <div className="playback-controls">
+        {/* Jump to Start */}
+        <button
+          onClick={handleSeekToStart}
+          disabled={playerState === PLAYER_STATE.REFRESH}
+          title="Jump to start"
+          className="control-btn"
+        >
+          <SkipBack className="icon-md" />
+        </button>
+
         {/* Playback Controls */}
         <button
           onClick={togglePlayback}
@@ -179,6 +211,16 @@ const PlayerControls: React.FC<PlayerControlsProps> = ({
           ) : (
             <Play className="icon-lg" />
           )}
+        </button>
+
+        {/* Jump to End */}
+        <button
+          onClick={handleSeekToEnd}
+          disabled={playerState === PLAYER_STATE.REFRESH}
+          title="Jump to end"
+          className="control-btn"
+        >
+          <SkipForward className="icon-md" />
         </button>
 
         {/* Time Display */}

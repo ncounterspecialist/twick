@@ -104,6 +104,8 @@ export interface VideoEditorConfig {
   timelineZoomConfig?: TimelineZoomConfig;
   /** Custom element colors for timeline elements */
   elementColors?: ElementColors;
+  /** Frames per second for time display (MM:SS.FF format) */
+  fps?: number;
 }
 
 /**
@@ -227,6 +229,7 @@ const VideoEditor: React.FC<VideoEditorProps> = ({
             trackZoom={trackZoom}
             setTrackZoom={setTrackZoom}
             zoomConfig={zoomConfig}
+            fps={editorConfig.fps}
           />
         ) : null}
 

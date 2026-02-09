@@ -1,15 +1,17 @@
 import {
   createContext,
+  useCallback,
   useContext,
-  useState,
   useEffect,
   useMemo,
   useRef,
+  useState,
 } from "react";
 import { TIMELINE_ACTION } from "../utils/constants";
 import { UndoRedoProvider, useUndoRedo } from "./undo-redo-context";
 import { Track } from "../core/track/track";
 import { TrackElement } from "../core/elements/base.element";
+import { resolveId } from "../utils/selection";
 import { ProjectJSON, Size, TrackJSON } from "../types";
 import { TimelineEditor } from "../core/editor/timeline.editor";
 import { editorRegistry } from "../utils/register-editor";
@@ -47,8 +49,10 @@ export type TimelineContextType = {
   contextId: string;
   /** The timeline editor instance for this context */
   editor: TimelineEditor;
-  /** Currently selected track or element */
+  /** Currently selected track or element (primary selection, for backward compat) */
   selectedItem: Track | TrackElement | null;
+  /** Set of selected IDs (tracks and elements) for multi-select */
+  selectedIds: Set<string>;
   /** Change counter for tracking modifications */
   changeLog: number;
   /** Current timeline action being performed */
@@ -66,8 +70,12 @@ export type TimelineContextType = {
   canUndo: boolean;
   /** Whether redo operation is available */
   canRedo: boolean;
-  /** Function to set the selected item */
+  /** Function to set the selected item (single select, clears multi-select) */
   setSelectedItem: (item: Track | TrackElement | null) => void;
+  /** Function to update selection (multi-select) */
+  setSelection: (
+    ids: Set<string> | ((prev: Set<string>) => Set<string>)
+  ) => void;
   /** Function to set timeline actions */
   setTimelineAction: (type: string, payload: any) => void;
   /** Function to set the video resolution */
@@ -150,8 +158,20 @@ const TimelineProviderInner = ({
     payload: null,
   });
 
-  const [selectedItem, setSelectedItem] = useState<Track | TrackElement | null>(
-    null
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+
+  const setSelectedItem = useCallback(
+    (item: Track | TrackElement | null) => {
+      setSelectedIds(item ? new Set([item.getId()]) : new Set());
+    },
+    []
+  );
+
+  const setSelection = useCallback(
+    (ids: Set<string> | ((prev: Set<string>) => Set<string>)) => {
+      setSelectedIds(ids);
+    },
+    []
   );
 
   const [videoResolution, setVideoResolution] = useState<Size>(
@@ -204,6 +224,29 @@ const TimelineProviderInner = ({
     return newEditor;
   }, [contextId]);
 
+  const selectedItem = useMemo(() => {
+    if (selectedIds.size === 0) return null;
+    const tracks = editor.getTimelineData()?.tracks ?? [];
+    const primaryId = [...selectedIds][0];
+    return resolveId(primaryId, tracks);
+  }, [selectedIds, changeLog, editor]);
+
+  // Reconcile selection after undo/redo (remove stale IDs)
+  useEffect(() => {
+    const tracks = editor.getTimelineData()?.tracks ?? [];
+    const validIds = new Set<string>();
+    for (const t of tracks) {
+      validIds.add(t.getId());
+      for (const el of t.getElements()) {
+        validIds.add(el.getId());
+      }
+    }
+    setSelectedIds((prev) => {
+      const next = new Set([...prev].filter((id) => validIds.has(id)));
+      return next.size === prev.size ? prev : next;
+    });
+  }, [changeLog, editor]);
+
   /**
    * Sets a timeline action with optional payload.
    * Used to trigger timeline state changes and actions.
@@ -253,6 +296,8 @@ const TimelineProviderInner = ({
   const contextValue: TimelineContextType = {
     contextId,
     selectedItem,
+    selectedIds,
+    setSelection,
     timelineAction,
     totalDuration,
     changeLog,

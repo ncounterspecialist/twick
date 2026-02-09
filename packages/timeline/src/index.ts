@@ -95,6 +95,9 @@ export type { TrackType };
 export * from "./types";
 export * from "./utils/constants";
 export * from "./utils/timeline.utils";
+export * from "./utils/time-format";
+export * from "./utils/selection";
+export * from "./utils/snap";
 export * from "./context/timeline-context";
 
 // Core components
