@@ -26,6 +26,8 @@ const ControlManager = ({
     totalDuration,
     selectedItem,
     selectedIds,
+    followPlayheadEnabled,
+    setFollowPlayheadEnabled,
   } = useTimelineContext();
   const { deleteItem, splitElement, handleUndo, handleRedo } =
     useTimelineControl();
@@ -56,6 +58,8 @@ const ControlManager = ({
         zoomConfig={zoomConfig}
         fps={fps ?? DEFAULT_FPS}
         onSeek={handleSeek}
+        followPlayheadEnabled={followPlayheadEnabled}
+        onFollowPlayheadToggle={() => setFollowPlayheadEnabled(!followPlayheadEnabled)}
       />
     </div>
   );

@@ -27,6 +27,7 @@
 
 import { Wand2, Plus, Play, Pause } from "lucide-react";
 import type { MediaItem } from "@twick/video-editor";
+import { TIMELINE_DROP_MEDIA_TYPE } from "@twick/video-editor";
 import type { VideoPanelProps } from "../../types/media-panel";
 import { useVideoPreview } from "../../hooks/use-video-preview";
 import UrlInput from "../shared/url-input";
@@ -65,8 +66,16 @@ export function VideoPanel({
           {(items || []).map((item: MediaItem) => (
             <div
               key={item.id}
+              draggable
               onDoubleClick={() => onItemSelect(item)}
-              className="media-item"
+              onDragStart={(e) => {
+                e.dataTransfer.setData(
+                  TIMELINE_DROP_MEDIA_TYPE,
+                  JSON.stringify({ type: "video", url: item.url })
+                );
+                e.dataTransfer.effectAllowed = "copy";
+              }}
+              className="media-item media-item-draggable"
             >
               <video
                 src={item.url}
@@ -86,20 +95,6 @@ export function VideoPanel({
                 0:13
               </div> */}
 
-              {/* Quick Actions */}
-              {/* Center primary add button */}
-              <div className="media-actions">
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onItemSelect(item, true);
-                  }}
-                  className="media-action-btn media-action-btn-primary"
-                >
-                  <Plus className="icon-sm" />
-                </button>
-              </div>
-
               {/* Corner play/pause control */}
               <div className="media-actions media-actions-corner">
                 <button
@@ -118,6 +113,15 @@ export function VideoPanel({
                   ) : (
                     <Play className="icon-sm" />
                   )}
+                </button>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onItemSelect(item, true);
+                  }}
+                  className="media-action-btn"
+                >
+                  <Plus className="icon-sm" />
                 </button>
               </div>
             </div>

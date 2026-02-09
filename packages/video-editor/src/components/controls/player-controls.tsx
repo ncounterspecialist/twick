@@ -11,6 +11,7 @@ import {
   ZoomOut,
   SkipBack,
   SkipForward,
+  Crosshair,
 } from "lucide-react";
 import { UndoRedoControls } from "./undo-redo-controls";
 import { TrackElement, Track, formatTimeWithFrames } from "@twick/timeline";
@@ -80,6 +81,10 @@ export interface PlayerControlsProps {
   fps?: number;
   /** Callback to seek to a specific time (for jump to start/end) */
   onSeek?: (time: number) => void;
+  /** Whether timeline follows playhead during playback */
+  followPlayheadEnabled?: boolean;
+  /** Toggle follow playhead */
+  onFollowPlayheadToggle?: () => void;
 }
 
 const PlayerControls: React.FC<PlayerControlsProps> = ({
@@ -101,6 +106,8 @@ const PlayerControls: React.FC<PlayerControlsProps> = ({
   zoomConfig = DEFAULT_TIMELINE_ZOOM_CONFIG,
   fps = DEFAULT_FPS,
   onSeek,
+  followPlayheadEnabled = true,
+  onFollowPlayheadToggle,
 }) => {
 
   const MAX_ZOOM = zoomConfig.max;
@@ -181,6 +188,16 @@ const PlayerControls: React.FC<PlayerControlsProps> = ({
       </div>
 
       <div className="playback-controls">
+        {/* Follow Playhead Toggle */}
+        {onFollowPlayheadToggle && (
+          <button
+            onClick={onFollowPlayheadToggle}
+            title={followPlayheadEnabled ? "Follow playhead on (click to disable)" : "Follow playhead off (click to enable)"}
+            className={`control-btn ${followPlayheadEnabled ? "follow-btn-active" : ""}`}
+          >
+            <Crosshair className="icon-md" />
+          </button>
+        )}
         {/* Jump to Start */}
         <button
           onClick={handleSeekToStart}

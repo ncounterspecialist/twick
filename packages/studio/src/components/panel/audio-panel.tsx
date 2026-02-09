@@ -29,6 +29,7 @@
  */
 
 import { Wand2, Plus, Volume2, Play, Pause } from "lucide-react";
+import { TIMELINE_DROP_MEDIA_TYPE } from "@twick/video-editor";
 import UrlInput from "../shared/url-input";
 import type { AudioPanelProps } from "../../types/media-panel";
 import { useAudioPreview } from "../../hooks/use-audio-preview";
@@ -67,8 +68,16 @@ export const AudioPanel = ({
           {(items || []).map((item) => (
             <div
               key={item.id}
+              draggable
               onDoubleClick={() => onItemSelect(item)}
-              className="media-list-item"
+              onDragStart={(e) => {
+                e.dataTransfer.setData(
+                  TIMELINE_DROP_MEDIA_TYPE,
+                  JSON.stringify({ type: "audio", url: item.url })
+                );
+                e.dataTransfer.effectAllowed = "copy";
+              }}
+              className="media-list-item media-item-draggable"
             >
               {/* Audio Info */}
               <div className="media-list-content">

@@ -78,6 +78,12 @@ export const MIN_DURATION = 0.1;
  * }
  * ```
  */
+/**
+ * MIME type for media items dragged from the studio's media panels (video, audio, image)
+ * to the timeline. The data format is JSON: { type: "video"|"audio"|"image", url: string }.
+ */
+export const TIMELINE_DROP_MEDIA_TYPE = "application/x-twick-media";
+
 export const DRAG_TYPE = {
   /** Drag operation is starting */
   START: "start",

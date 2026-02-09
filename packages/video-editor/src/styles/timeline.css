@@ -229,3 +229,14 @@
   margin-top: 2px;
   background-color: #474747;
 }
+
+/* Drop preview - ghost placeholder when dragging files over timeline */
+.twick-drop-preview {
+  position: absolute;
+  z-index: 20;
+  pointer-events: none;
+  background: rgba(96, 165, 250, 0.35);
+  border: 2px dashed rgba(96, 165, 250, 0.8);
+  border-radius: 6px;
+  transition: left 0.05s ease-out, top 0.05s ease-out;
+}

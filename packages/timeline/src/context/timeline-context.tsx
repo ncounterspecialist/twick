@@ -80,6 +80,10 @@ export type TimelineContextType = {
   setTimelineAction: (type: string, payload: any) => void;
   /** Function to set the video resolution */
   setVideoResolution: (size: Size) => void;
+  /** Whether timeline follows playhead during playback */
+  followPlayheadEnabled: boolean;
+  /** Toggle follow playhead during playback */
+  setFollowPlayheadEnabled: (enabled: boolean) => void;
 };
 
 const TimelineContext = createContext<TimelineContextType | undefined>(
@@ -159,6 +163,7 @@ const TimelineProviderInner = ({
   });
 
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [followPlayheadEnabled, setFollowPlayheadEnabled] = useState(true);
 
   const setSelectedItem = useCallback(
     (item: Track | TrackElement | null) => {
@@ -308,7 +313,9 @@ const TimelineProviderInner = ({
     setVideoResolution,
     setSelectedItem,
     setTimelineAction,
-    editor, // Include the editor instance
+    editor,
+    followPlayheadEnabled,
+    setFollowPlayheadEnabled,
   };
 
   return (

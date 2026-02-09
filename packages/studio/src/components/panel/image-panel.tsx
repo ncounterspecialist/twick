@@ -27,6 +27,7 @@
 
 import { Wand2, Plus } from "lucide-react";
 import type { MediaItem } from "@twick/video-editor";
+import { TIMELINE_DROP_MEDIA_TYPE } from "@twick/video-editor";
 import type { ImagePanelProps } from "../../types/media-panel";
 import UrlInput from "../shared/url-input";
 
@@ -61,19 +62,25 @@ export function ImagePanel({
           {(items || []).map((item: MediaItem) => (
             <div
               key={item.id}
+              draggable
               onDoubleClick={() => onItemSelect(item)}
-              className="media-item"
+              onDragStart={(e) => {
+                e.dataTransfer.setData(
+                  TIMELINE_DROP_MEDIA_TYPE,
+                  JSON.stringify({ type: "image", url: item.url })
+                );
+                e.dataTransfer.effectAllowed = "copy";
+              }}
+              className="media-item media-item-draggable"
             >
               <img src={item.url} alt="" className="media-item-content" />
-
-              {/* Quick Actions */}
-              <div className="media-actions">
+              <div className="media-actions media-actions-corner">
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
                     onItemSelect(item, true);
                   }}
-                  className="media-action-btn media-action-btn-primary"
+                  className="media-action-btn"
                 >
                   <Plus className="icon-sm" />
                 </button>

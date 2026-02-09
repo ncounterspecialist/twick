@@ -73,6 +73,14 @@
   color: var(--color-purple-300);
 }
 
+.follow-btn-active {
+  color: var(--color-purple-400);
+}
+
+.follow-btn-active:hover {
+  color: var(--color-purple-300);
+}
+
 .play-pause-btn {
   padding: 0.75rem;
   color: white;

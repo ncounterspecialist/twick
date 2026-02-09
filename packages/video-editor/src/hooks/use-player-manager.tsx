@@ -6,7 +6,10 @@ import {
   TIMELINE_ACTION,
   useTimelineContext,
 } from "@twick/timeline";
-import { useEffect, useRef, useState } from "react";
+import { useLivePlayerContext } from "@twick/live-player";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { createElementFromDrop } from "./use-timeline-drop";
+import type { CanvasDropPayload } from "./use-canvas-drop";
 
 /**
  * Custom hook to manage player state and canvas interactions.
@@ -35,7 +38,9 @@ export const usePlayerManager = ({
     setSelectedItem,
     editor,
     changeLog,
+    videoResolution,
   } = useTimelineContext();
+  const { getCurrentTime } = useLivePlayerContext();
 
   const currentChangeLog = useRef(changeLog);
   const prevSeekTime = useRef(0);
@@ -70,6 +75,12 @@ export const usePlayerManager = ({
    * ```
    */
   const handleCanvasOperation = (operation: string, data: any) => {
+    if (operation === CANVAS_OPERATIONS.ADDED_NEW_ELEMENT) {
+      if (data?.element) {
+        setSelectedItem(data.element);
+      }
+      return;
+    }
     if (operation === CANVAS_OPERATIONS.CAPTION_PROPS_UPDATED) {
       const subtitlesTrack = editor.getSubtitlesTrack();
       subtitlesTrack?.setProps(data.props);
@@ -103,6 +114,28 @@ export const usePlayerManager = ({
       }
     }
   };
+
+  const handleDropOnCanvas = useCallback(
+    async (payload: CanvasDropPayload) => {
+      const { type, url, canvasX, canvasY } = payload;
+      const element = createElementFromDrop(type, url, videoResolution);
+      const currentTime = getCurrentTime();
+      element.setStart(currentTime);
+
+      const newTrack = editor.addTrack(`Track_${Date.now()}`);
+      const result = await editor.addElementToTrack(newTrack, element);
+      if (result) {
+        setSelectedItem(element);
+        currentChangeLog.current = currentChangeLog.current + 1;
+        editor.refresh();
+        handleCanvasOperation(CANVAS_OPERATIONS.ADDED_NEW_ELEMENT, {
+          element,
+          canvasPosition: canvasX != null && canvasY != null ? { x: canvasX, y: canvasY } : undefined,
+        });
+      }
+    },
+    [editor, videoResolution, getCurrentTime, setSelectedItem]
+  );
 
   const { twickCanvas, buildCanvas, setCanvasElements } = useTwickCanvas({
     onCanvasReady: handleCanvasReady,
@@ -224,5 +257,6 @@ export const usePlayerManager = ({
     buildCanvas,
     onPlayerUpdate,
     playerUpdating,
+    handleDropOnCanvas,
   };
 };
