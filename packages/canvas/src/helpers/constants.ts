@@ -111,6 +111,8 @@ export const CANVAS_OPERATIONS = {
   CAPTION_PROPS_UPDATED: "CAPTION_PROPS_UPDATED",
   /** Watermark has been updated */
   WATERMARK_UPDATED: "WATERMARK_UPDATED",
+  /** A new element was added via drop on canvas; payload is { element } */
+  ADDED_NEW_ELEMENT: "ADDED_NEW_ELEMENT",
 }
 
 /**

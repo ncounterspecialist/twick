@@ -384,6 +384,14 @@ html {
   overflow: hidden;
 }
 
+.media-item-draggable {
+  cursor: grab;
+}
+
+.media-item-draggable:active {
+  cursor: grabbing;
+}
+
 .media-item {
   position: relative;
   cursor: pointer;

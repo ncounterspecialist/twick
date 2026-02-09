@@ -2,6 +2,7 @@ import {
   TrackElement,
   Track,
   useTimelineContext,
+  resolveIds,
 } from "@twick/timeline";
 
 /**
@@ -23,29 +24,27 @@ import {
  * ```
  */
 const useTimelineControl = () => {
-  const { editor, setSelectedItem } = useTimelineContext();
+  const { editor, setSelectedItem, selectedIds } = useTimelineContext();
 
   /**
-   * Deletes a track or element from the timeline.
-   * Determines the type of item and calls the appropriate
-   * editor method for removal.
+   * Deletes selected item(s) from the timeline.
+   * When multiple items are selected, deletes all of them.
    *
-   * @param item - The track or element to delete
-   * 
-   * @example
-   * ```js
-   * deleteItem(track);
-   * // Removes the track from the timeline
-   * 
-   * deleteItem(element);
-   * // Removes the element from its track
-   * ```
+   * @param item - The track or element to delete (optional; uses selection when not provided)
    */
-  const deleteItem = (item: Track | TrackElement) => {
-    if(item instanceof Track) {
-      editor.removeTrack(item);
-    } else if(item instanceof TrackElement) {
-      editor.removeElement(item);
+  const deleteItem = (item?: Track | TrackElement) => {
+    const tracks = editor.getTimelineData()?.tracks ?? [];
+    const toDelete =
+      item !== undefined
+        ? [item]
+        : resolveIds(selectedIds, tracks);
+
+    for (const el of toDelete) {
+      if (el instanceof Track) {
+        editor.removeTrack(el);
+      } else if (el instanceof TrackElement) {
+        editor.removeElement(el);
+      }
     }
     setSelectedItem(null);
   };
@@ -85,16 +84,10 @@ const useTimelineControl = () => {
   /**
    * Handles redo operation for timeline changes.
    * Reapplies the last undone action on the timeline.
-   * 
-   * @example
-   * ```js
-   * handleRedo();
-   * // Reapplies the last undone timeline action
-   * ```
    */
   const handleRedo = () => {
     editor.redo();
-  }
+  };
 
   return {
     splitElement,

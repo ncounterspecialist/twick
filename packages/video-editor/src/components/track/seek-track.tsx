@@ -3,6 +3,11 @@ import { useDrag } from "@use-gesture/react";
 import "../../styles/timeline.css";
 import { TimelineTickConfig } from "../video-editor";
 
+export interface PlayheadState {
+  positionPx: number;
+  isDragging: boolean;
+}
+
 interface SeekTrackProps {
   currentTime: number;
   duration: number; // in seconds
@@ -10,6 +15,8 @@ interface SeekTrackProps {
   onSeek: (time: number) => void;
   timelineCount?: number; // number of timeline to calculate pin height
   timelineTickConfigs?: TimelineTickConfig[]; // custom tick configurations
+  /** Called when playhead position or drag state changes (for auto-scroll) */
+  onPlayheadUpdate?: (state: PlayheadState) => void;
 }
 
 export default function SeekTrack({
@@ -19,6 +26,7 @@ export default function SeekTrack({
   onSeek,
   timelineCount = 0,
   timelineTickConfigs,
+  onPlayheadUpdate,
 }: SeekTrackProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
@@ -33,11 +41,20 @@ export default function SeekTrack({
   // Calculate seek position: use drag position when dragging, otherwise calculate from currentTime
   // This ensures the position always reflects the current time when not dragging
   const seekPosition = useMemo(() => {
-    const position = isDragging && dragPosition !== null
-      ? dragPosition
-      : currentTime * pixelsPerSecond;
+    const position =
+      isDragging && dragPosition !== null
+        ? dragPosition
+        : currentTime * pixelsPerSecond;
     return Math.max(0, position); // Ensure position is never negative
   }, [isDragging, dragPosition, currentTime, pixelsPerSecond]);
+
+  // Notify parent of playhead state for auto-scroll during playback/drag
+  React.useEffect(() => {
+    onPlayheadUpdate?.({
+      positionPx: seekPosition,
+      isDragging,
+    });
+  }, [seekPosition, isDragging, onPlayheadUpdate]);
 
   // Tick config (major/minor) based on duration tiers with more density for longer videos
   const { majorIntervalSec, minorIntervalSec } = useMemo(() => {

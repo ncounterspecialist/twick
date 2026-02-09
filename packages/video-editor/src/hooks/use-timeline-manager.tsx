@@ -5,6 +5,7 @@ import {
   useTimelineContext,
   VideoElement,
   AudioElement,
+  resolveIds,
 } from "@twick/timeline";
 import { useMemo } from "react";
 import { DRAG_TYPE } from "../helpers/constants";
@@ -46,7 +47,7 @@ interface TimelineManagerReturn {
  * ```
  */
 export const useTimelineManager = (): TimelineManagerReturn => {
-  const { selectedItem, changeLog, setSelectedItem, totalDuration, editor } =
+  const { selectedItem, changeLog, setSelectedItem, totalDuration, editor, selectedIds } =
     useTimelineContext();
   /**
    * Handles element dragging operations on the timeline.
@@ -75,6 +76,43 @@ export const useTimelineManager = (): TimelineManagerReturn => {
     element: TrackElement;
     dragType: string;
   }) => {
+    const tracks = editor.getTimelineData()?.tracks ?? [];
+    const duration = totalDuration;
+
+    if (dragType === DRAG_TYPE.MOVE && selectedIds.has(element.getId()) && selectedIds.size > 1) {
+      const resolved = resolveIds(selectedIds, tracks);
+      const elements = resolved.filter((item): item is TrackElement => item instanceof TrackElement);
+      if (elements.length > 1) {
+      const minStart = Math.min(...elements.map((el) => el.getStart()));
+      const maxEnd = Math.max(...elements.map((el) => el.getEnd()));
+      const delta = updates.start - element.getStart();
+      const deltaMin = -minStart;
+      const deltaMax = duration - maxEnd;
+      const clampedDelta = Math.max(deltaMin, Math.min(deltaMax, delta));
+
+      for (const el of elements) {
+        const newStart = el.getStart() + clampedDelta;
+        const newEnd = el.getEnd() + clampedDelta;
+        if (el instanceof VideoElement || el instanceof AudioElement) {
+          const elementProps = el.getProps();
+          const startDelta =
+            newStart - el.getStart() * (elementProps?.playbackRate || 1);
+          if (el instanceof AudioElement) {
+            (el as AudioElement).setStartAt(el.getStartAt() + startDelta);
+          } else {
+            (el as VideoElement).setStartAt(el.getStartAt() + startDelta);
+          }
+        }
+        el.setStart(newStart);
+        el.setEnd(newEnd);
+        editor.updateElement(el);
+      }
+      setSelectedItem(element);
+      editor.refresh();
+      return;
+      }
+    }
+
     if (dragType === DRAG_TYPE.START) {
       if (element instanceof VideoElement || element instanceof AudioElement) {
         const elementProps = element.getProps();

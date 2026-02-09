@@ -7,6 +7,7 @@ import { useTimelineContext } from "@twick/timeline";
 import { useEffect, useRef } from "react";
 import "../../styles/video-editor.css";
 import { usePlayerManager } from "../../hooks/use-player-manager";
+import { useCanvasDrop } from "../../hooks/use-canvas-drop";
 
 /**
  * PlayerManager component that manages video playback and canvas rendering.
@@ -38,10 +39,10 @@ export const PlayerManager = ({
   playerProps?: { quality?: number },
   canvasMode: boolean;
 }) => {
-  const { changeLog } = useTimelineContext();
-  const { twickCanvas, projectData, updateCanvas, playerUpdating, onPlayerUpdate, buildCanvas } =
-    usePlayerManager({ videoProps });
+  const containerRef = useRef<HTMLDivElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
   const durationRef = useRef<number>(0);
+  const { changeLog } = useTimelineContext();
   const {
     playerState,
     playerVolume,
@@ -49,9 +50,14 @@ export const PlayerManager = ({
     setPlayerState,
     setCurrentTime,
   } = useLivePlayerContext();
-
-  const containerRef = useRef<HTMLDivElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const { twickCanvas, projectData, updateCanvas, playerUpdating, onPlayerUpdate, buildCanvas, handleDropOnCanvas } =
+    usePlayerManager({ videoProps });
+  const { handleDragOver, handleDragLeave, handleDrop } = useCanvasDrop({
+    containerRef,
+    videoSize: { width: videoProps.width, height: videoProps.height },
+    onDrop: handleDropOnCanvas,
+    enabled: !!handleDropOnCanvas && canvasMode,
+  });
 
   useEffect(() => {
     const container = containerRef.current;
@@ -132,6 +138,9 @@ export const PlayerManager = ({
           style={{
             opacity: playerState === PLAYER_STATE.PAUSED ? 1 : 0,
           }}
+          onDragOver={handleDragOver}
+          onDragLeave={handleDragLeave}
+          onDrop={handleDrop}
         >
           <canvas ref={canvasRef} className="twick-editor-canvas" />
         </div>

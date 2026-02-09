@@ -78,6 +78,12 @@ export const MIN_DURATION = 0.1;
  * }
  * ```
  */
+/**
+ * MIME type for media items dragged from the studio's media panels (video, audio, image)
+ * to the timeline. The data format is JSON: { type: "video"|"audio"|"image", url: string }.
+ */
+export const TIMELINE_DROP_MEDIA_TYPE = "application/x-twick-media";
+
 export const DRAG_TYPE = {
   /** Drag operation is starting */
   START: "start",
@@ -118,6 +124,15 @@ export const DEFAULT_TIMELINE_ZOOM = 1.5;
  * />
  * ```
  */
+/**
+ * Default frames per second for timeline time display.
+ * Used for MM:SS.FF format (e.g. 00:15.12 = 15.4 seconds at 30fps).
+ */
+export const DEFAULT_FPS = 30;
+
+/** Snap threshold in pixels - used to convert to seconds based on zoom */
+export const SNAP_THRESHOLD_PX = 10;
+
 export const DEFAULT_TIMELINE_ZOOM_CONFIG = {
   /** Minimum zoom level (10%) */
   min: 0.1,

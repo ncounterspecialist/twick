@@ -1,21 +1,29 @@
 import { useState, useEffect, useRef, useMemo } from "react";
 import { useDrag } from "@use-gesture/react";
 import { motion, HTMLMotionProps } from "framer-motion";
-import { MIN_DURATION, DRAG_TYPE } from "../../helpers/constants";
+import {
+  MIN_DURATION,
+  DRAG_TYPE,
+} from "../../helpers/constants";
 import { ELEMENT_COLORS } from "../../helpers/editor.utils";
-import { FrameEffect, getDecimalNumber, TrackElement } from "@twick/timeline";
+import {
+  FrameEffect,
+  getDecimalNumber,
+  TrackElement,
+} from "@twick/timeline";
 import { ElementColors } from "../../helpers/types";
 import "../../styles/timeline.css";
 
 export const TrackElementView: React.FC<{
   element: TrackElement;
   selectedItem: TrackElement | null;
+  selectedIds: Set<string>;
   parentWidth: number;
   duration: number;
   nextStart: number | null;
   prevEnd: number;
   allowOverlap: boolean;
-  onSelection: (element: TrackElement) => void;
+  onSelection: (element: TrackElement, event: React.MouseEvent) => void;
   onDrag: ({
     element,
     dragType,
@@ -33,6 +41,7 @@ export const TrackElementView: React.FC<{
   nextStart,
   prevEnd,
   selectedItem,
+  selectedIds,
   onSelection,
   onDrag,
   allowOverlap = false,
@@ -62,8 +71,8 @@ export const TrackElementView: React.FC<{
     dragType.current = DRAG_TYPE.MOVE;
     setPosition((prev) => {
       const span = prev.end - prev.start;
-      let newStart = Math.max(0, prev.start + (dx / parentWidth) * duration);
-      newStart = Math.min(newStart, prev.end - MIN_DURATION);
+      let newStart = prev.start + (dx / parentWidth) * duration;
+      newStart = Math.max(0, Math.min(newStart, prev.end - MIN_DURATION));
       if (!allowOverlap) {
         if (prevEnd !== null && newStart < prevEnd) {
           newStart = prevEnd;
@@ -93,8 +102,8 @@ export const TrackElementView: React.FC<{
     }
     dragType.current = DRAG_TYPE.START;
     setPosition((prev) => {
-      let newStart = Math.max(0, prev.start + (dx / parentWidth) * duration);
-      newStart = Math.min(newStart, prev.end - MIN_DURATION);
+      let newStart = prev.start + (dx / parentWidth) * duration;
+      newStart = Math.max(0, Math.min(newStart, prev.end - MIN_DURATION));
       if (prevEnd !== null && !allowOverlap && newStart < prevEnd) {
         newStart = prevEnd;
       }
@@ -117,11 +126,11 @@ export const TrackElementView: React.FC<{
     setPosition((prev) => {
       let newEnd = prev.end + (dx / parentWidth) * duration;
       newEnd = Math.max(newEnd, prev.start + MIN_DURATION);
-      if(!allowOverlap) {
+      if (!allowOverlap) {
         if (nextStart !== null && newEnd > nextStart) {
           newEnd = nextStart;
         }
-      } 
+      }
       return {
         start: prev.start,
         end: newEnd,
@@ -159,8 +168,11 @@ export const TrackElementView: React.FC<{
   };
 
   const isSelected = useMemo(() => {
-    return selectedItem?.getId() === element.getId();
-  }, [selectedItem, element]);
+    return selectedIds.has(element.getId());
+  }, [selectedIds, element]);
+
+  const hasHandles =
+    selectedItem?.getId() === element.getId();
 
   const motionProps: HTMLMotionProps<"div"> = {
     ref,
@@ -181,9 +193,9 @@ export const TrackElementView: React.FC<{
     },
     onMouseUp: sendUpdate,
     onTouchEnd: sendUpdate,
-    onClick: () => {
+    onClick: (e: React.MouseEvent) => {
       if (onSelection) {
-        onSelection(element);
+        onSelection(element, e);
       }
     },
     style: {
@@ -197,7 +209,7 @@ export const TrackElementView: React.FC<{
   return (
     <motion.div {...motionProps}>
       <div style={{ touchAction: "none", height: "100%" }} {...bind()}>
-        {isSelected ? (
+        {hasHandles ? (
           <div
             style={{ touchAction: "none" , zIndex: isSelected? 100 : 1}}
             {...bindStartHandle()}
@@ -209,7 +221,7 @@ export const TrackElementView: React.FC<{
             ? (element as any).getText()
             : element.getName() || element.getType()}
         </div>
-        {isSelected ? (
+        {hasHandles ? (
           <div
             style={{ touchAction: "none", zIndex: isSelected? 100 : 1 }}
             {...bindEndHandle()}
