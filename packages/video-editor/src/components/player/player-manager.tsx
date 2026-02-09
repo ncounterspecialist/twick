@@ -68,6 +68,7 @@ export const PlayerManager = ({
     sendToBack,
     bringForward,
     sendBackward,
+    deleteElement,
   } = usePlayerManager({ videoProps, canvasConfig });
   const [contextMenu, setContextMenu] = useState<{ x: number; y: number; elementId: string } | null>(null);
   const closeContextMenu = useCallback(() => setContextMenu(null), []);
@@ -192,6 +193,7 @@ export const PlayerManager = ({
           onSendToBack={sendToBack}
           onBringForward={bringForward}
           onSendBackward={sendBackward}
+          onDelete={deleteElement}
           onClose={closeContextMenu}
         />
       )}

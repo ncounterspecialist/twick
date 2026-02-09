@@ -8,6 +8,7 @@ export interface CanvasContextMenuProps {
   onSendToBack: (elementId: string) => void;
   onBringForward: (elementId: string) => void;
   onSendBackward: (elementId: string) => void;
+  onDelete: (elementId: string) => void;
   onClose: () => void;
 }
 
@@ -23,6 +24,7 @@ export const CanvasContextMenu: React.FC<CanvasContextMenuProps> = ({
   onSendToBack,
   onBringForward,
   onSendBackward,
+  onDelete,
   onClose,
 }) => {
   const menuRef = useRef<HTMLDivElement>(null);
@@ -87,6 +89,15 @@ export const CanvasContextMenu: React.FC<CanvasContextMenuProps> = ({
         role="menuitem"
       >
         Send to Back
+      </button>
+      <div className="twick-canvas-context-menu-separator" role="separator" />
+      <button
+        type="button"
+        className="twick-canvas-context-menu-item twick-canvas-context-menu-item-danger"
+        onClick={() => handleAction(onDelete)}
+        role="menuitem"
+      >
+        Delete
       </button>
     </div>
   );

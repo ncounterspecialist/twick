@@ -5,6 +5,7 @@ import {
   getCurrentElements,
   TIMELINE_ACTION,
   useTimelineContext,
+  type TrackElement,
 } from "@twick/timeline";
 import { useLivePlayerContext } from "@twick/live-player";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -262,6 +263,21 @@ export const usePlayerManager = ({
     }
   };
 
+  const deleteElement = (elementId: string): void => {
+    const tracks = editor.getTimelineData()?.tracks ?? [];
+    for (const track of tracks) {
+      const element = track.getElementById(elementId);
+      if (element) {
+        editor.removeElement(element as TrackElement);
+        currentChangeLog.current = currentChangeLog.current + 1;
+        setSelectedItem(null);
+        // Refresh canvas so the deleted element is removed from the canvas
+        updateCanvas(getCurrentTime());
+        return;
+      }
+    }
+  };
+
   useEffect(() => {
     switch (timelineAction.type) {
       case TIMELINE_ACTION.UPDATE_PLAYER_DATA:
@@ -304,5 +320,6 @@ export const usePlayerManager = ({
     sendToBack,
     bringForward,
     sendBackward,
+    deleteElement,
   };
 };

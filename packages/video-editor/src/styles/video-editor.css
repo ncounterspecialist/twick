@@ -124,3 +124,17 @@
 .twick-canvas-context-menu-item:hover {
   background: #3a3a3a;
 }
+
+.twick-canvas-context-menu-separator {
+  height: 1px;
+  margin: 4px 8px;
+  background: #444;
+}
+
+.twick-canvas-context-menu-item-danger:hover {
+  background: #7f1d1d;
+}
+
+.twick-canvas-context-menu-item.twick-canvas-context-menu-item-danger {
+  color: #fca5a5;
+}
