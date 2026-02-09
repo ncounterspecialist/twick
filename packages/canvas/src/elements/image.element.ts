@@ -51,6 +51,17 @@ export const ImageElement: CanvasElementHandler = {
         return {
           element: {
             ...element,
+            // Keep the base frame in sync with the active frame effect
+            // so visualizer `Rect {...element.frame}` reflects the same size/position.
+            frame: element.frame
+              ? {
+                  ...element.frame,
+                  rotation: object.angle,
+                  size: updatedFrameSize,
+                  x,
+                  y,
+                }
+              : element.frame,
             frameEffects: (element.frameEffects || []).map((fe: any) =>
               (fe as { id?: string }).id === (currentFrameEffect as { id?: string })?.id
                 ? {
