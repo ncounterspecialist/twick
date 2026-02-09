@@ -156,6 +156,70 @@ export const reorderElementsByZIndex = (canvas: FabricCanvas) => {
 };
 
 /**
+ * Finds a Fabric object on the canvas by its element id (stored as custom "id" on the object).
+ */
+export const getCanvasObjectById = (
+  canvas: FabricCanvas | null | undefined,
+  elementId: string
+): import("fabric").FabricObject | undefined => {
+  if (!canvas) return undefined;
+  const objects = canvas.getObjects();
+  return objects.find((obj) => (obj as any).get?.("id") === elementId);
+};
+
+export type ZOrderDirection = "front" | "back" | "forward" | "backward";
+
+/**
+ * Changes the z-order of the object with the given element id and reorders the canvas.
+ * Returns the new zIndex for the moved object, or null if not found.
+ */
+export const changeZOrder = (
+  canvas: FabricCanvas | null | undefined,
+  elementId: string,
+  direction: ZOrderDirection
+): number | null => {
+  if (!canvas) return null;
+  const objects = canvas.getObjects();
+  const sorted = [...objects].sort((a, b) => (a.zIndex || 0) - (b.zIndex || 0));
+  const idx = sorted.findIndex((obj) => (obj as any).get?.("id") === elementId);
+  if (idx < 0) return null;
+
+  const minZ = sorted[0]?.zIndex ?? 0;
+  const maxZ = sorted[sorted.length - 1]?.zIndex ?? 0;
+  const obj = sorted[idx] as any;
+
+  if (direction === "front") {
+    obj.set("zIndex", maxZ + 1);
+    reorderElementsByZIndex(canvas);
+    return maxZ + 1;
+  }
+  if (direction === "back") {
+    obj.set("zIndex", minZ - 1);
+    reorderElementsByZIndex(canvas);
+    return minZ - 1;
+  }
+  if (direction === "forward" && idx < sorted.length - 1) {
+    const next = sorted[idx + 1] as any;
+    const myZ = obj.zIndex ?? idx;
+    const nextZ = next.zIndex ?? idx + 1;
+    obj.set("zIndex", nextZ);
+    next.set("zIndex", myZ);
+    reorderElementsByZIndex(canvas);
+    return nextZ;
+  }
+  if (direction === "backward" && idx > 0) {
+    const prev = sorted[idx - 1] as any;
+    const myZ = obj.zIndex ?? idx;
+    const prevZ = prev.zIndex ?? idx - 1;
+    obj.set("zIndex", prevZ);
+    prev.set("zIndex", myZ);
+    reorderElementsByZIndex(canvas);
+    return prevZ;
+  }
+  return obj.zIndex ?? idx;
+};
+
+/**
  * Retrieves the context of a Fabric.js canvas.
  * 
  * @param canvas - The Fabric.js canvas instance
@@ -242,6 +306,22 @@ export const convertToVideoPosition = (
   return {
     x: Number((x / canvasMetadata.scaleX - videoSize.width / 2).toFixed(2)),
     y: Number((y / canvasMetadata.scaleY - videoSize.height / 2).toFixed(2)),
+  };
+};
+
+/**
+ * Converts dimensions from canvas (Fabric) space to video space.
+ * Uses the object's actual displayed size (width*scaleX, height*scaleY) so the
+ * result matches what's on canvas even after move or when element.props is stale.
+ */
+export const convertToVideoDimensions = (
+  widthCanvas: number,
+  heightCanvas: number,
+  canvasMetadata: CanvasMetadata
+): Dimensions => {
+  return {
+    width: Number((widthCanvas / canvasMetadata.scaleX).toFixed(2)),
+    height: Number((heightCanvas / canvasMetadata.scaleY).toFixed(2)),
   };
 };
 

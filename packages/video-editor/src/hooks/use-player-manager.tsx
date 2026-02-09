@@ -86,6 +86,33 @@ export const usePlayerManager = ({
       }
       return;
     }
+    if (operation === CANVAS_OPERATIONS.Z_ORDER_CHANGED) {
+      const { elementId, direction } = data ?? {};
+      if (!elementId || !direction) return;
+      const tracks = editor.getTimelineData()?.tracks ?? [];
+      const trackIndex = tracks.findIndex((t) =>
+        t.getElements().some((el) => el.getId() === elementId)
+      );
+      if (trackIndex < 0) return;
+      const track = tracks[trackIndex];
+      const reordered = [...tracks];
+      if (direction === "front") {
+        reordered.splice(trackIndex, 1);
+        reordered.push(track);
+      } else if (direction === "back") {
+        reordered.splice(trackIndex, 1);
+        reordered.unshift(track);
+      } else if (direction === "forward" && trackIndex < reordered.length - 1) {
+        [reordered[trackIndex], reordered[trackIndex + 1]] = [reordered[trackIndex + 1], reordered[trackIndex]];
+      } else if (direction === "backward" && trackIndex > 0) {
+        [reordered[trackIndex - 1], reordered[trackIndex]] = [reordered[trackIndex], reordered[trackIndex - 1]];
+      } else {
+        return;
+      }
+      editor.reorderTracks(reordered);
+      currentChangeLog.current = currentChangeLog.current + 1;
+      return;
+    }
     if (operation === CANVAS_OPERATIONS.CAPTION_PROPS_UPDATED) {
       const subtitlesTrack = editor.getSubtitlesTrack();
       subtitlesTrack?.setProps(data.props);
@@ -142,7 +169,15 @@ export const usePlayerManager = ({
     [editor, videoResolution, getCurrentTime, setSelectedItem]
   );
 
-  const { twickCanvas, buildCanvas, setCanvasElements } = useTwickCanvas({
+  const {
+    twickCanvas,
+    buildCanvas,
+    setCanvasElements,
+    bringToFront,
+    sendToBack,
+    bringForward,
+    sendBackward,
+  } = useTwickCanvas({
     onCanvasReady: handleCanvasReady,
     onCanvasOperation: handleCanvasOperation,
     enableShiftAxisLock: canvasConfig?.enableShiftAxisLock ?? false,
@@ -202,6 +237,7 @@ export const usePlayerManager = ({
       seekTime,
       captionProps,
       cleanAndAdd: true,
+      lockAspectRatio: canvasConfig?.lockAspectRatio,
     });
     currentChangeLog.current = changeLog;
   };
@@ -264,5 +300,9 @@ export const usePlayerManager = ({
     onPlayerUpdate,
     playerUpdating,
     handleDropOnCanvas,
+    bringToFront,
+    sendToBack,
+    bringForward,
+    sendBackward,
   };
 };

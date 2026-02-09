@@ -4,11 +4,12 @@ import {
   useLivePlayerContext,
 } from "@twick/live-player";
 import { useTimelineContext } from "@twick/timeline";
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import "../../styles/video-editor.css";
 import { usePlayerManager } from "../../hooks/use-player-manager";
 import { useCanvasDrop } from "../../hooks/use-canvas-drop";
 import type { CanvasConfig } from "../../helpers/types";
+import { CanvasContextMenu } from "./canvas-context-menu";
 
 /**
  * PlayerManager component that manages video playback and canvas rendering.
@@ -55,8 +56,22 @@ export const PlayerManager = ({
     setPlayerState,
     setCurrentTime,
   } = useLivePlayerContext();
-  const { twickCanvas, projectData, updateCanvas, playerUpdating, onPlayerUpdate, buildCanvas, handleDropOnCanvas } =
-    usePlayerManager({ videoProps, canvasConfig });
+  const {
+    twickCanvas,
+    projectData,
+    updateCanvas,
+    playerUpdating,
+    onPlayerUpdate,
+    buildCanvas,
+    handleDropOnCanvas,
+    bringToFront,
+    sendToBack,
+    bringForward,
+    sendBackward,
+  } = usePlayerManager({ videoProps, canvasConfig });
+  const [contextMenu, setContextMenu] = useState<{ x: number; y: number; elementId: string } | null>(null);
+  const closeContextMenu = useCallback(() => setContextMenu(null), []);
+
   const { handleDragOver, handleDragLeave, handleDrop } = useCanvasDrop({
     containerRef,
     videoSize: { width: videoProps.width, height: videoProps.height },
@@ -86,6 +101,23 @@ export const PlayerManager = ({
       updateCanvas(seekTime);
     }
   }, [twickCanvas, playerState, seekTime, changeLog]);
+
+  useEffect(() => {
+    if (!twickCanvas || !canvasMode) return;
+    const onSelectionCreated = (e: any) => {
+      const ev = e?.e;
+      if (!ev) return;
+      const id = e.target?.get?.("id");
+      if (id) {
+        setContextMenu({ x: ev.clientX, y: ev.clientY, elementId: id });
+      }
+    }
+    twickCanvas.on("contextmenu", onSelectionCreated);
+    return () => {
+      twickCanvas.off("contextmenu", onSelectionCreated);
+
+    };
+  }, [twickCanvas, canvasMode]);
 
   const handleTimeUpdate = (time: number) => {
     if (durationRef.current && time >= durationRef.current) {
@@ -146,9 +178,22 @@ export const PlayerManager = ({
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
           onDrop={handleDrop}
+          onContextMenu={(e) => e.preventDefault()}
         >
           <canvas ref={canvasRef} className="twick-editor-canvas" />
         </div>
+      )}
+      {contextMenu && (
+        <CanvasContextMenu
+          x={contextMenu.x}
+          y={contextMenu.y}
+          elementId={contextMenu.elementId}
+          onBringToFront={bringToFront}
+          onSendToBack={sendToBack}
+          onBringForward={bringForward}
+          onSendBackward={sendBackward}
+          onClose={closeContextMenu}
+        />
       )}
     </div>
   );

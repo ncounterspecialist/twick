@@ -142,7 +142,7 @@ export const addTextElement = ({
   text.set("id", element.id);
   text.set("zIndex", index);
 
-  // Disable unwanted control points
+  // Disable unwanted control points (text is not resizable on canvas)
   text.controls.mt = disabledControl;
   text.controls.mb = disabledControl;
   text.controls.ml = disabledControl;
@@ -182,11 +182,13 @@ const setImageProps = ({
   element,
   index,
   canvasMetadata,
+  lockAspectRatio = true,
 }: {
   img: FabricImage;
   element: CanvasElement;
   index: number;
   canvasMetadata: CanvasMetadata;
+  lockAspectRatio?: boolean;
 }) => {
   const width =
     (element.props?.width || 0) * canvasMetadata.scaleX || canvasMetadata.width;
@@ -208,6 +210,7 @@ const setImageProps = ({
   img.set("selectable", true);
   img.set("hasControls", true);
   img.set("touchAction", "all");
+  img.set("lockUniScaling", lockAspectRatio);
 };
 
 /**
@@ -239,12 +242,14 @@ export const addCaptionElement = ({
   canvas,
   captionProps,
   canvasMetadata,
+  lockAspectRatio = false,
 }: {
   element: CanvasElement;
   index: number;
   canvas: FabricCanvas;
   captionProps: CaptionProps;
   canvasMetadata: CanvasMetadata;
+  lockAspectRatio?: boolean;
 }) => {
   const { x, y } = convertToCanvasPosition(
     (captionProps?.applyToAll ? captionProps?.x : element.props?.x ?? captionProps?.x) ?? 0,
@@ -319,6 +324,7 @@ export const addCaptionElement = ({
   // Assign metadata and custom controls
   caption.set("id", element.id);
   caption.set("zIndex", index);
+  caption.set("lockUniScaling", lockAspectRatio);
 
   // Disable unwanted control points
   caption.controls.mt = disabledControl;
@@ -432,6 +438,7 @@ export const addImageElement = async ({
   canvas,
   canvasMetadata,
   currentFrameEffect,
+  lockAspectRatio = true,
 }: {
   imageUrl?: string;
   element: CanvasElement;
@@ -439,6 +446,8 @@ export const addImageElement = async ({
   canvas: FabricCanvas;
   canvasMetadata: CanvasMetadata;
   currentFrameEffect?: FrameEffect;
+  /** When true, resize keeps aspect ratio (uniform scaling). Default true for images. */
+  lockAspectRatio?: boolean;
 }) => {
   try {
     // Load the image from the provided source URL
@@ -448,7 +457,7 @@ export const addImageElement = async ({
       originY: "center",
       lockMovementX: false,
       lockMovementY: false,
-      lockUniScaling: true,
+      lockUniScaling: lockAspectRatio,
       hasControls: false,
       selectable: false,
     });
@@ -462,9 +471,10 @@ export const addImageElement = async ({
         canvas,
         canvasMetadata,
         currentFrameEffect,
+        lockAspectRatio,
       });
     } else {
-      setImageProps({ img, element, index, canvasMetadata });
+      setImageProps({ img, element, index, canvasMetadata, lockAspectRatio });
       canvas.add(img);
       return img;
     }
@@ -504,6 +514,7 @@ const addMediaGroup = ({
   canvas,
   canvasMetadata,
   currentFrameEffect,
+  lockAspectRatio = true,
 }: {
   element: CanvasElement;
   img: FabricImage;
@@ -511,6 +522,7 @@ const addMediaGroup = ({
   canvas: FabricCanvas;
   canvasMetadata: CanvasMetadata;
   currentFrameEffect?: FrameEffect;
+  lockAspectRatio?: boolean;
 }) => {
   let frameSize;
   let angle;
@@ -617,6 +629,7 @@ const addMediaGroup = ({
 
   group.set("id", element.id);
   group.set("zIndex", index);
+  group.set("lockUniScaling", lockAspectRatio);
   canvas.add(group);
   return group;
 };
@@ -647,11 +660,13 @@ export const addRectElement = ({
   index,
   canvas,
   canvasMetadata,
+  lockAspectRatio = false,
 }: {
   element: CanvasElement;
   index: number;
   canvas: FabricCanvas;
   canvasMetadata: CanvasMetadata;
+  lockAspectRatio?: boolean;
 }) => {
   // Convert element's position to canvas coordinates
   const { x, y } = convertToCanvasPosition(
@@ -680,6 +695,7 @@ export const addRectElement = ({
   // Set custom properties for the rectangle
   rect.set("id", element.id); // Unique identifier for the rectangle
   rect.set("zIndex", index); // zIndex determines rendering order
+  rect.set("lockUniScaling", lockAspectRatio);
 
   // Set custom control for rotation
   rect.controls.mtr = rotateControl;
@@ -693,11 +709,13 @@ export const addCircleElement = ({
   index,
   canvas,
   canvasMetadata,
+  lockAspectRatio = true,
 }: {
   element: CanvasElement;
   index: number;
   canvas: FabricCanvas;
   canvasMetadata: CanvasMetadata;
+  lockAspectRatio?: boolean;
 }) => {
   // Convert element's position to canvas coordinates
   const { x, y } = convertToCanvasPosition(
@@ -726,6 +744,7 @@ export const addCircleElement = ({
 
   circle.set("id", element.id);
   circle.set("zIndex", index);
+  circle.set("lockUniScaling", lockAspectRatio);
   canvas.add(circle);
   return circle;
 };

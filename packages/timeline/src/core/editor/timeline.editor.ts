@@ -100,10 +100,13 @@ export class TimelineEditor {
     this.updateHistory(updatedTimelineData);
     this.context.updateChangeLog();
     if (updatePlayerData) {
-      this.context?.setTimelineAction?.(
-        TIMELINE_ACTION.UPDATE_PLAYER_DATA,
-        updatedTimelineData
-      );
+      // Send serialized tracks (TrackJSON[]) so live-player/visualizer get proper JSON with z-ordered elements
+      const serializedTracks: TrackJSON[] = tracks.map((t) => t.serialize());
+      this.context?.setTimelineAction?.(TIMELINE_ACTION.UPDATE_PLAYER_DATA, {
+        tracks: serializedTracks,
+        version: updatedVersion,
+        watermark: watermark != null ? (watermark as any).toJSON?.() : undefined,
+      });
     }
     return updatedTimelineData as TimelineTrackData;
   }
@@ -241,10 +244,10 @@ export class TimelineEditor {
       const result = element.accept(elementUpdater);
 
       if (result) {
-        // Update the timeline data to reflect the change
+        // Update the timeline data to reflect the change (e.g. zIndex) so player/visualizer get new order
         const currentData = this.getTimelineData();
         if (currentData) {
-          this.setTimelineData({tracks: currentData.tracks});
+          this.setTimelineData({ tracks: currentData.tracks, updatePlayerData: true });
         }
       }
 

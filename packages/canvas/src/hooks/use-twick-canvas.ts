@@ -8,6 +8,7 @@ import {
   CaptionProps,
 } from "../types";
 import {
+  changeZOrder,
   clearCanvas,
   createCanvas,
   getCanvasContext,
@@ -311,12 +312,15 @@ export const useTwickCanvas = ({
     seekTime = 0,
     captionProps,
     cleanAndAdd = false,
+    lockAspectRatio,
   }: {
     elements: CanvasElement[];
     watermark?: CanvasElement;
     seekTime?: number;
     captionProps?: any;
     cleanAndAdd?: boolean;
+    /** When true, element resize keeps aspect ratio. Overridable per element via props.lockAspectRatio. */
+    lockAspectRatio?: boolean;
   }) => {
     if (!twickCanvas || !getCanvasContext(twickCanvas)) return;
 
@@ -340,12 +344,14 @@ export const useTwickCanvas = ({
         elements.map(async (element, index) => {
           try {
             if (!element) return;
+            const zOrder = element.zIndex ?? index;
             await addElementToCanvas({
               element,
-              index,
+              index: zOrder,
               reorder: false,
               seekTime,
               captionProps,
+              lockAspectRatio,
             });
           } catch {
             // Skip element on add error
@@ -386,12 +392,14 @@ export const useTwickCanvas = ({
     reorder = true,
     seekTime,
     captionProps,
+    lockAspectRatio,
   }: {
     element: CanvasElement;
     index: number;
     reorder: boolean;
     seekTime?: number;
     captionProps?: any;
+    lockAspectRatio?: boolean;
   }) => {
     if (!twickCanvas) return;
     const handler = elementController.get(element.type);
@@ -405,9 +413,10 @@ export const useTwickCanvas = ({
         captionProps: captionProps ?? null,
         elementFrameMapRef: elementFrameMap,
         getCurrentFrameEffect,
+        lockAspectRatio: lockAspectRatio ?? element.props?.lockAspectRatio,
       });
     }
-    elementMap.current[element.id] = element;
+    elementMap.current[element.id] = { ...element, zIndex: element.zIndex ?? index };
     if (reorder) {
       reorderElementsByZIndex(twickCanvas);
     }
@@ -432,6 +441,25 @@ export const useTwickCanvas = ({
     }
   };
 
+  /**
+   * Changes the canvas z-order of the element (Fabric display) and notifies timeline to reorder tracks.
+   * Z-order is determined by track order; this emits Z_ORDER_CHANGED so the editor can move the element's track.
+   */
+  const applyZOrder = (elementId: string, direction: "front" | "back" | "forward" | "backward"): boolean => {
+    if (!twickCanvas) return false;
+    const newZIndex = changeZOrder(twickCanvas, elementId, direction);
+    if (newZIndex == null) return false;
+    const element = elementMap.current[elementId];
+    if (element) elementMap.current[elementId] = { ...element, zIndex: newZIndex };
+    onCanvasOperation?.(CANVAS_OPERATIONS.Z_ORDER_CHANGED, { elementId, direction });
+    return true;
+  };
+
+  const bringToFront = (elementId: string) => applyZOrder(elementId, "front");
+  const sendToBack = (elementId: string) => applyZOrder(elementId, "back");
+  const bringForward = (elementId: string) => applyZOrder(elementId, "forward");
+  const sendBackward = (elementId: string) => applyZOrder(elementId, "backward");
+
   return {
     twickCanvas,
     buildCanvas,
@@ -439,5 +467,9 @@ export const useTwickCanvas = ({
     addWatermarkToCanvas,
     addElementToCanvas,
     setCanvasElements,
+    bringToFront,
+    sendToBack,
+    bringForward,
+    sendBackward,
   };
 };

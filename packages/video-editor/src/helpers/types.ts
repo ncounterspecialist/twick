@@ -80,4 +80,6 @@ export interface ElementColors {
 export interface CanvasConfig {
   /** When true, holding Shift while dragging restricts movement to horizontal or vertical (dominant axis). Default: false. */
   enableShiftAxisLock?: boolean;
+  /** When true, element resize keeps aspect ratio (uniform scaling). Can be overridden per element via props. Default: true for media. */
+  lockAspectRatio?: boolean;
 }

@@ -8,13 +8,14 @@ export const CaptionElement: CanvasElementHandler = {
   name: ELEMENT_TYPES.CAPTION,
 
   async add(params) {
-    const { element, index, canvas, captionProps, canvasMetadata } = params;
+    const { element, index, canvas, captionProps, canvasMetadata, lockAspectRatio } = params;
     await addCaptionElement({
       element,
       index,
       canvas,
       captionProps: (captionProps ?? {}) as import("../types").CaptionProps,
       canvasMetadata,
+      lockAspectRatio: lockAspectRatio ?? element.props?.lockAspectRatio,
     });
   },
 

@@ -1,6 +1,6 @@
 import type { CanvasElementHandler } from "../types";
 import { addVideoElement, addBackgroundColor } from "../components/elements";
-import { convertToVideoPosition } from "../helpers/canvas.util";
+import { convertToVideoPosition, convertToVideoDimensions } from "../helpers/canvas.util";
 import { ELEMENT_TYPES } from "../helpers/constants";
 
 export const VideoElement: CanvasElementHandler = {
@@ -51,14 +51,17 @@ export const VideoElement: CanvasElementHandler = {
       context.canvasMetadata,
       context.videoSize
     );
+    const scaledW = (object.width ?? 0) * (object.scaleX ?? 1);
+    const scaledH = (object.height ?? 0) * (object.scaleY ?? 1);
+    const { width: fw, height: fh } = convertToVideoDimensions(
+      scaledW,
+      scaledH,
+      context.canvasMetadata
+    );
+    const updatedFrameSize: [number, number] = [fw, fh];
     const currentFrameEffect = context.elementFrameMapRef.current[element.id];
-    let updatedFrameSize: [number, number];
 
     if (currentFrameEffect) {
-      updatedFrameSize = [
-        currentFrameEffect.props.frameSize![0] * object.scaleX,
-        currentFrameEffect.props.frameSize![1] * object.scaleY,
-      ];
       context.elementFrameMapRef.current[element.id] = {
         ...currentFrameEffect,
         props: {
@@ -87,10 +90,6 @@ export const VideoElement: CanvasElementHandler = {
     }
 
     const frame = element.frame!;
-    updatedFrameSize = [
-      (frame.size![0] ?? 0) * object.scaleX,
-      (frame.size![1] ?? 0) * object.scaleY,
-    ];
     return {
       element: {
         ...element,

@@ -19,7 +19,9 @@ export class ElementDeserializer {
     if (json.name) element.setName(json.name);
     if (json.s !== undefined) element.setStart(json.s);
     if (json.e !== undefined) element.setEnd(json.e);
-    if (json.props) element.setProps(json.props);
+    const props = { ...(json.props || {}) };
+    if (json.zIndex !== undefined) props.zIndex = json.zIndex;
+    if (Object.keys(props).length) element.setProps(props);
     if (json.animation) element.setAnimation(ElementAnimation.fromJSON(json.animation));
   }
 
