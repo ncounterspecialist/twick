@@ -4,7 +4,7 @@ import { buildProject } from "./project.utils.js";
 import { transcribeLong, transcribeShort } from "./transcriber.js";
 
 /**
- * Creates a complete subtitle video project from a video URL.
+ * Creates a complete caption video project from a video URL.
  * Downloads video, extracts audio, transcribes it using Google Speech-to-Text,
  * and builds a Twick project JSON structure.
  * 
@@ -12,29 +12,29 @@ import { transcribeLong, transcribeShort } from "./transcriber.js";
  * @param {string} params.videoUrl - Publicly accessible HTTP(S) URL to the video file
  * @param {Object} [params.videoSize] - Video dimensions {width, height} (defaults to 720x1280)
  * @param {string} [params.language="english"] - Transcription language code
- * @param {string} [params.languageFont="english"] - Font/script for subtitles
+ * @param {string} [params.languageFont="english"] - Font/script for captions
  * @returns {Promise<Object>} Twick project JSON structure
  * @throws {Error} If video processing, transcription, or project building fails
  */
-export const createSubtitleProject = async (params) => {
+export const createCaptionProject = async (params) => {
   const { videoSize, videoUrl, language, languageFont } = params;
 
   const { audioBuffer, duration } = await extractAudioBufferFromVideo(videoUrl);
-  let subtitles = [];
+  let captions = [];
   if (!duration) {
     throw new Error("Failed to get duration of video");
   } else if (!audioBuffer) {
     throw new Error("Failed to get audio buffer from video");
   } else if (duration > 6) {
-    subtitles = await transcribeLong({ audioBuffer, language });
+    captions = await transcribeLong({ audioBuffer, language });
   } else {
-    subtitles = await transcribeShort({ audioBuffer, language });
+    captions = await transcribeShort({ audioBuffer, language });
   }
-  if (!subtitles.length) {
-    throw new Error("No subtitles found");
+  if (!captions.length) {
+    throw new Error("No captions found");
   }
   const project = buildProject({
-    subtitles,
+    captions,
     duration,
     videoUrl,
     videoSize,

@@ -1,1 +1,1 @@
-export { createSubtitleProject, exportProject } from "./workflow.js";
+export { createCaptionProject, exportProject } from "./workflow.js";

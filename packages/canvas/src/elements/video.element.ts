@@ -1,6 +1,6 @@
 import type { CanvasElementHandler } from "../types";
 import { addVideoElement, addBackgroundColor } from "../components/elements";
-import { convertToVideoPosition, convertToVideoDimensions } from "../helpers/canvas.util";
+import { convertToVideoPosition, convertToVideoDimensions, getObjectCanvasCenter, getObjectCanvasAngle } from "../helpers/canvas.util";
 import { ELEMENT_TYPES } from "../helpers/constants";
 
 export const VideoElement: CanvasElementHandler = {
@@ -45,9 +45,10 @@ export const VideoElement: CanvasElementHandler = {
   },
 
   updateFromFabricObject(object, element, context) {
+    const canvasCenter = getObjectCanvasCenter(object);
     const { x, y } = convertToVideoPosition(
-      object.left,
-      object.top,
+      canvasCenter.x,
+      canvasCenter.y,
       context.canvasMetadata,
       context.videoSize
     );
@@ -95,7 +96,7 @@ export const VideoElement: CanvasElementHandler = {
         ...element,
         frame: {
           ...frame,
-          rotation: object.angle,
+          rotation: getObjectCanvasAngle(object),
           size: updatedFrameSize,
           x,
           y,

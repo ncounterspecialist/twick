@@ -11,7 +11,7 @@ const projectRoot = join(__dirname, "..");
 // Configuration
 const AWS_REGION = process.env.AWS_REGION;
 const AWS_ACCOUNT_ID = process.env.AWS_ACCOUNT_ID;
-const IMAGE_NAME = "twick-subtitle-video";
+const IMAGE_NAME = "twick-caption-video";
 const DOCKERFILE_PATH = "platform/aws/Dockerfile";
 const BUILD_CONTEXT = ".";
 

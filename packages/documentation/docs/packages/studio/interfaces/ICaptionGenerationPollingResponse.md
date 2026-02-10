@@ -1,14 +1,14 @@
-[@twick/studio - v0.15.0](../README.md) / [Exports](../modules.md) / ISubtitleGenerationPollingResponse
+[@twick/studio - v0.15.0](../README.md) / [Exports](../modules.md) / ICaptionGenerationPollingResponse
 
-# Interface: ISubtitleGenerationPollingResponse
+# Interface: ICaptionGenerationPollingResponse
 
 ## Table of contents
 
 ### Properties
 
-- [error](ISubtitleGenerationPollingResponse.md#error)
-- [status](ISubtitleGenerationPollingResponse.md#status)
-- [subtitles](ISubtitleGenerationPollingResponse.md#subtitles)
+- [error](#error)
+- [status](#status)
+- [captions](#captions)
 
 ## Properties
 
@@ -32,9 +32,9 @@ ___
 
 ___
 
-### subtitles
+### captions
 
-• `Optional` **subtitles**: [`SubtitleEntry`](SubtitleEntry.md)[]
+• `Optional` **captions**: [`CaptionEntry`](CaptionEntry.md)[]
 
 #### Defined in
 

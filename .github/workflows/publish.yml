@@ -311,7 +311,7 @@ jobs:
           fi
           
           # Ensure all cloud functions are included (nested packages)
-          for cloud_func in cloud-functions/export-video cloud-functions/transcript cloud-functions/subtitle-video; do
+          for cloud_func in cloud-functions/export-video cloud-functions/transcript cloud-functions/caption-video; do
             if [[ ! " $PUBLISH_ORDER " =~ " $cloud_func " ]]; then
               PUBLISH_ORDER="$PUBLISH_ORDER $cloud_func"
             fi

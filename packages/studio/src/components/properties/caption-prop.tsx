@@ -34,8 +34,8 @@ export const CAPTION_COLOR = {
   bgColor: "#8C52FF",
 };
 
-interface SubtitlePropPanelProps {
-  setApplyPropsToAllSubtitle: (apply: boolean) => void;
+interface CaptionPropPanelProps {
+  setApplyPropsToAllCaption: (apply: boolean) => void;
 }
 
 // interface CaptionProps {
@@ -51,18 +51,18 @@ interface SubtitlePropPanelProps {
 //   };
 // }
 
-export function SubtitlePropPanel({
+export function CaptionPropPanel({
   selectedElement,
   updateElement,
-  setApplyPropsToAllSubtitle,
-}: SubtitlePropPanelProps & PropertiesPanelProps) {
+  setApplyPropsToAllCaption,
+}: CaptionPropPanelProps & PropertiesPanelProps) {
   const captionProps = {
     capStyle: CAPTION_STYLE.WORD_BG_HIGHLIGHT,
     font: CAPTION_FONT,
     colors: CAPTION_COLOR
   };
-  const [applyPropsToAllSubtitle] = useState(false);
-  const subTitleRef = useRef<HTMLInputElement>(null);
+  const [applyPropsToAllCaption] = useState(false);
+  const captionRef = useRef<HTMLInputElement>(null);
   const [editedText, setEditedText] = useState("");
   const [capStyle, setCapStyle] = useState(
     CAPTION_STYLE_OPTIONS[CAPTION_STYLE.WORD_BG_HIGHLIGHT]
@@ -82,10 +82,10 @@ export function SubtitlePropPanel({
     fontFamily?: string;
     colors?: typeof colors;
   }) => {
-    const subtitleElement = selectedElement as CaptionElement;
+    const captionElement = selectedElement as CaptionElement;
 
-    if (subtitleElement) {
-      subtitleElement.setProps({
+    if (captionElement) {
+      captionElement.setProps({
         ...(selectedElement?.getProps() || {}),
         capStyle: updates.style ?? capStyle?.value,
         font: {
@@ -95,27 +95,27 @@ export function SubtitlePropPanel({
         colors: updates.colors ?? colors,
       });
 
-      updateElement?.(subtitleElement);
+      updateElement?.(captionElement);
     }
   };
 
   useEffect(() => {
-    const subtitleElement = selectedElement as CaptionElement;
-    if(subtitleElement) {
-        setEditedText(subtitleElement?.getText());
-        if (subTitleRef.current) {
-          subTitleRef.current.value = subtitleElement?.getText();
+    const captionElement = selectedElement as CaptionElement;
+    if(captionElement) {
+        setEditedText(captionElement?.getText());
+        if (captionRef.current) {
+          captionRef.current.value = captionElement?.getText();
         }
-        const subtitleProps = subtitleElement.getProps();
-        const _capStyle = subtitleProps?.capStyle || captionProps.capStyle;
+        const captionProps = captionElement.getProps();
+        const _capStyle = captionProps?.capStyle || captionProps.capStyle;
         if (_capStyle) {
           setCapStyle(CAPTION_STYLE_OPTIONS[_capStyle]);
         }
-        setFontSize(subtitleProps?.font?.size || captionProps.font.size);
+        setFontSize(captionProps?.font?.size || captionProps.font.size);
         setFontFamily(
-            subtitleProps?.font?.family || captionProps.font.family
+            captionProps?.font?.family || captionProps.font.family
         );
-        setColors(subtitleProps?.colors || captionProps.colors);
+        setColors(captionProps?.colors || captionProps.colors);
     }
       
   }, [selectedElement, captionProps]);
@@ -126,14 +126,14 @@ export function SubtitlePropPanel({
 
   return (
       <div className="space-y-3">
-        {/* Subtitle Content */}
+        {/* Caption Content */}
         <div className="bg-neutral-800/40 rounded-lg p-2.5 border border-gray-600/20">
           <h5 className="text-xs font-semibold text-gray-200 mb-2 flex items-center gap-1.5">
             <div className="w-1.5 h-1.5 bg-purple-400 rounded-full"></div>
-            Subtitle Content
+            Caption Content
           </h5>
           <input
-            ref={subTitleRef}
+            ref={captionRef}
             type="text"
             value={editedText}
             onBlur={(e) => handleUpdateCaption({ text: e.target.value })}
@@ -295,14 +295,14 @@ export function SubtitlePropPanel({
             <input
               type="checkbox"
               id="apply-all"
-              checked={applyPropsToAllSubtitle}
+              checked={applyPropsToAllCaption}
               onChange={() => {
-                setApplyPropsToAllSubtitle?.(!applyPropsToAllSubtitle);
+                setApplyPropsToAllCaption?.(!applyPropsToAllCaption);
               }}
               className="w-4 h-4 bg-neutral-700/60 border border-gray-600/40 rounded text-purple-500 focus:ring-purple-500/30"
             />
             <label htmlFor="apply-all" className="text-xs text-gray-400">
-              Apply to all subtitles
+              Apply to all captions
             </label>
           </div>
         </div>
@@ -310,4 +310,4 @@ export function SubtitlePropPanel({
   );
 }
 
-export default SubtitlePropPanel;
+export default CaptionPropPanel;

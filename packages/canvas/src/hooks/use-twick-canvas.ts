@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Canvas as FabricCanvas, FabricObject, Textbox } from "fabric";
+import { Canvas as FabricCanvas, FabricObject, Textbox, ActiveSelection } from "fabric";
 import { Dimensions } from "@twick/media-utils";
 import {
   CanvasMetadata,
@@ -17,6 +17,7 @@ import {
 } from "../helpers/canvas.util";
 import { CANVAS_OPERATIONS } from "../helpers/constants";
 import elementController from "../controllers/element.controller";
+import { disabledControl, rotateControl } from "../components/element-controls";
 
 /**
  * Custom hook to manage a Fabric.js canvas and associated operations.
@@ -146,6 +147,33 @@ export const useTwickCanvas = ({
   };
 
   /**
+   * Applies drag-only controls to marquee selection (ActiveSelection).
+   * Restricts resize/scale while allowing drag and rotate, matching text element behavior.
+   * Does not affect Media Groups (image+frame) which are Fabric Groups, not ActiveSelection.
+   */
+  const applyMarqueeSelectionControls = () => {
+    const canvasInstance = twickCanvasRef.current;
+    if (!canvasInstance) return;
+
+    const activeObject = canvasInstance.getActiveObject();
+    if (!activeObject) return;
+
+    // Only modify ActiveSelection (marquee multi-select), not Media Groups or single objects
+    if (activeObject instanceof ActiveSelection) {
+      activeObject.controls.mt = disabledControl;
+      activeObject.controls.mb = disabledControl;
+      activeObject.controls.ml = disabledControl;
+      activeObject.controls.mr = disabledControl;
+      activeObject.controls.bl = disabledControl;
+      activeObject.controls.br = disabledControl;
+      activeObject.controls.tl = disabledControl;
+      activeObject.controls.tr = disabledControl;
+      activeObject.controls.mtr = rotateControl;
+      canvasInstance.requestRenderAll();
+    }
+  };
+
+  /**
    * Initializes the Fabric.js canvas with the provided configuration.
    * Creates a new canvas instance with the specified properties and sets up
    * event listeners for interactive operations.
@@ -189,6 +217,8 @@ export const useTwickCanvas = ({
       twickCanvasRef.current.off("mouse:up", handleMouseUp);
       twickCanvasRef.current.off("text:editing:exited", onTextEdit);
       twickCanvasRef.current.off("object:moving", handleObjectMoving);
+      twickCanvasRef.current.off("selection:created", applyMarqueeSelectionControls);
+      twickCanvasRef.current.off("selection:updated", applyMarqueeSelectionControls);
       twickCanvasRef.current.dispose();
     }
 
@@ -210,6 +240,8 @@ export const useTwickCanvas = ({
     canvas?.on("mouse:up", handleMouseUp);
     canvas?.on("text:editing:exited", onTextEdit);
     canvas?.on("object:moving", handleObjectMoving);
+    canvas?.on("selection:created", applyMarqueeSelectionControls);
+    canvas?.on("selection:updated", applyMarqueeSelectionControls);
     canvasResolutionRef.current = canvasSize;
     setTwickCanvas(canvas);
     twickCanvasRef.current = canvas;
@@ -243,6 +275,8 @@ export const useTwickCanvas = ({
    * Handles mouse up events on the canvas.
    * Processes user interactions like dragging, scaling, and rotating elements,
    * updating element properties and triggering appropriate callbacks.
+   * When a marquee selection (ActiveSelection) is dragged or rotated, persists
+   * each selected element's new position/rotation to the timeline.
    *
    * @param event - Mouse event object containing interaction details
    */
@@ -250,7 +284,9 @@ export const useTwickCanvas = ({
     if (event.target) {
       const object: FabricObject = event.target;
       const elementId = object.get("id");
-      if (event.transform?.action === "drag") {
+      const action = event.transform?.action;
+
+      if (action === "drag") {
         const original = event.transform.original;
         if (object.left === original.left && object.top === original.top) {
           onCanvasOperation?.(
@@ -260,7 +296,42 @@ export const useTwickCanvas = ({
           return;
         }
       }
-      switch (event.transform?.action) {
+
+      const context = {
+        canvasMetadata: canvasMetadataRef.current,
+        videoSize: videoSizeRef.current,
+        elementFrameMapRef: elementFrameMap,
+        captionPropsRef,
+        watermarkPropsRef,
+      };
+
+      // Marquee selection (ActiveSelection): persist each selected element to timeline
+      if (object instanceof ActiveSelection && (action === "drag" || action === "rotate")) {
+        const objects = object.getObjects();
+        for (const fabricObj of objects) {
+          const id = fabricObj.get("id");
+          if (!id || id === "e-watermark") continue;
+          const currentElement = elementMap.current[id];
+          if (!currentElement) continue;
+          const handler = elementController.get(currentElement.type);
+          const result = handler?.updateFromFabricObject?.(
+            fabricObj,
+            currentElement,
+            context
+          );
+          if (result) {
+            elementMap.current[id] = result.element;
+            onCanvasOperation?.(
+              result.operation ?? CANVAS_OPERATIONS.ITEM_UPDATED,
+              result.payload ?? result.element
+            );
+          }
+        }
+        return;
+      }
+
+      // Single object
+      switch (action) {
         case "drag":
         case "scale":
         case "scaleX":
@@ -270,13 +341,7 @@ export const useTwickCanvas = ({
           const handler = elementController.get(
             elementId === "e-watermark" ? "watermark" : currentElement?.type
           );
-          const result = handler?.updateFromFabricObject?.(object, currentElement ?? { id: elementId, type: "text", props: {} } as CanvasElement, {
-            canvasMetadata: canvasMetadataRef.current,
-            videoSize: videoSizeRef.current,
-            elementFrameMapRef: elementFrameMap,
-            captionPropsRef,
-            watermarkPropsRef,
-          });
+          const result = handler?.updateFromFabricObject?.(object, currentElement ?? { id: elementId, type: "text", props: {} } as CanvasElement, context);
           if (result) {
             elementMap.current[elementId] = result.element;
             onCanvasOperation?.(

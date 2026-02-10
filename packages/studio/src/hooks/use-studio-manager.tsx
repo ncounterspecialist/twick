@@ -42,7 +42,7 @@ export const useStudioManager = () => {
   const isToolChanged = useRef(false);
 
 
-  // const addSubtitlesToTimeline = (elements: TrackElement[]) => {
+  // const addCaptionsToTimeline = (elements: TrackElement[]) => {
   //   if (selectedItem instanceof Track && selectedItem.getType() == "caption") {
   //     elements.forEach((element) => {
   //       editor.addElementToTrack(selectedItem, element);

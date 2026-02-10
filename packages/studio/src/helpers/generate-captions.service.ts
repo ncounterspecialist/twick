@@ -1,24 +1,24 @@
 import { CAPTION_STYLE, ProjectJSON, VideoElement } from "@twick/timeline";
 import {
-  ISubtitleGenerationPollingResponse,
-  ISubtitleGenerationService,
-  SubtitleEntry,
+  ICaptionGenerationPollingResponse,
+  ICaptionGenerationService,
+  CaptionEntry,
 } from "../types";
 import { CAPTION_PROPS } from "./constant";
 import { hasAudio } from "@twick/media-utils";
 
-class GenerateSubtitlesService implements ISubtitleGenerationService {
+class GenerateCaptionsService implements ICaptionGenerationService {
   videoElement: VideoElement | null;
   projectJSON: ProjectJSON | null;
   generateSubtiltesApi: (videoUrl: string) => Promise<string>;
-  requestStatusApi: (reqId: string) => Promise<ISubtitleGenerationPollingResponse>;
+  requestStatusApi: (reqId: string) => Promise<ICaptionGenerationPollingResponse>;
 
   constructor({
     generateSubtiltesApi,
     requestStatusApi,
   }: {
     generateSubtiltesApi: (videoUrl: string) => Promise<string>;
-    requestStatusApi: (reqId: string) => Promise<ISubtitleGenerationPollingResponse>;
+    requestStatusApi: (reqId: string) => Promise<ICaptionGenerationPollingResponse>;
   }) {
     this.videoElement = null;
     this.projectJSON = null;
@@ -26,7 +26,7 @@ class GenerateSubtitlesService implements ISubtitleGenerationService {
     this.requestStatusApi = requestStatusApi;
   }
 
-  async generateSubtitles(
+  async generateCaptions(
     videoElement: VideoElement,
     projectJSON: ProjectJSON
   ): Promise<string> {
@@ -40,19 +40,19 @@ class GenerateSubtitlesService implements ISubtitleGenerationService {
     try {
       return await this.generateSubtiltesApi(videoElement.getSrc());
     } catch (error) {
-      console.error("Error generating subtitles:", error);
+      console.error("Error generating captions:", error);
       throw error;
     }
   }
 
   async getRequestStatus(
     reqId: string
-  ): Promise<ISubtitleGenerationPollingResponse> {
+  ): Promise<ICaptionGenerationPollingResponse> {
     return await this.requestStatusApi(reqId);
   }
 
-  updateProjectWithSubtitles(
-    subtitles: SubtitleEntry[]
+  updateProjectWithCaptions(
+    captions: CaptionEntry[]
   ): ProjectJSON {
     if (!this.projectJSON) {
       throw new Error("Project not set");
@@ -62,40 +62,40 @@ class GenerateSubtitlesService implements ISubtitleGenerationService {
     }
     const startTime = this.videoElement.getStart();
     const endTime = this.videoElement.getEnd();
-    let subtitlesTrack = this.projectJSON.tracks.find(
+    let captionsTrack = this.projectJSON.tracks.find(
       (track) => track.type === "caption"
     );
-    if (subtitlesTrack) {
-      // Filter out existing overlapping subtitle elements
-      subtitlesTrack.elements = subtitlesTrack.elements.filter((el) => {
+    if (captionsTrack) {
+      // Filter out existing overlapping caption elements
+      captionsTrack.elements = captionsTrack.elements.filter((el) => {
         // Keep only non-caption OR captions completely outside the new range
         if (el.type !== "caption") return true;
         return el.e <= startTime || el.s >= endTime;
       });
 
-      // Add new subtitles
-      const newSubtitleElements = subtitles.map((subtitle, index) => ({
-        id: `subtitles-${index}`, // ensure unique ID
+      // Add new captions
+      const newCaptionElements = captions.map((caption, index) => ({
+        id: `captions-${index}`, // ensure unique ID
         type: "caption",
-        s: startTime + subtitle.s,
-        e: startTime + subtitle.e,
-        t: subtitle.t,
+        s: startTime + caption.s,
+        e: startTime + caption.e,
+        t: caption.t,
       }));
 
-      subtitlesTrack.elements.push(...newSubtitleElements);
+      captionsTrack.elements.push(...newCaptionElements);
 
-      subtitlesTrack.elements = subtitlesTrack.elements
+      captionsTrack.elements = captionsTrack.elements
         .sort((a, b) => a.s - b.s)
         .map((el, index) => {
           return {
             ...el,
-            id: `subtitles-${index}`,
+            id: `captions-${index}`,
           };
         });
     } else {
-      subtitlesTrack = {
-        id: "subtitles",
-        name: "Subtitles",
+      captionsTrack = {
+        id: "caption",
+        name: "Caption",
         elements: [],
         type: "caption",
         props: {
@@ -106,22 +106,22 @@ class GenerateSubtitlesService implements ISubtitleGenerationService {
           applyToAll: true,
         },
       };
-      subtitlesTrack.elements = subtitles.map((subtitle, index) => {
+      captionsTrack.elements = captions.map((caption, index) => {
         return {
-          id: `subtitles-${index}`,
+          id: `captions-${index}`,
           type: "caption",
-          s: startTime + subtitle.s,
-          e: startTime + subtitle.e,
-          t: subtitle.t,
+          s: startTime + caption.s,
+          e: startTime + caption.e,
+          t: caption.t,
         };
       });
-      this.projectJSON.tracks.push(subtitlesTrack);
+      this.projectJSON.tracks.push(captionsTrack);
     }
     this.projectJSON.version++;
     return this.projectJSON as ProjectJSON;
   }
 
-  async generateSubtitleVideo(
+  async generateCaptionVideo(
     videoUrl: string,
     videoSize?: { width: number; height: number }
   ): Promise<string> {
@@ -167,9 +167,9 @@ class GenerateSubtitlesService implements ISubtitleGenerationService {
       version: 1,
     };
 
-    const reqId = await this.generateSubtitles(videoElement, this.projectJSON);
+    const reqId = await this.generateCaptions(videoElement, this.projectJSON);
     return reqId;
   }
 }
 
-export default GenerateSubtitlesService;
+export default GenerateCaptionsService;

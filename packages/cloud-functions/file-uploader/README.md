@@ -585,7 +585,7 @@ Error response format:
 - **Video asset uploads** — Upload video files for video editing workflows
 - **Image uploads** — Upload images, thumbnails, or graphics
 - **Audio files** — Upload background music or sound effects
-- **Document uploads** — Upload scripts, subtitles, or other assets
+- **Document uploads** — Upload scripts, captions, or other assets
 - **User-generated content** — Allow users to upload their own media files
 
 ## Advanced Usage

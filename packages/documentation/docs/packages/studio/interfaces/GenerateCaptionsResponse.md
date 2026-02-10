@@ -1,14 +1,14 @@
-[@twick/studio - v0.15.0](../README.md) / [Exports](../modules.md) / GenerateSubtitlesResponse
+[@twick/studio - v0.15.0](../README.md) / [Exports](../modules.md) / GenerateCaptionsResponse
 
-# Interface: GenerateSubtitlesResponse
+# Interface: GenerateCaptionsResponse
 
-Response from POST /generate-subtitles
+Response from POST /generate-captions
 
 ## Table of contents
 
 ### Properties
 
-- [reqId](GenerateSubtitlesResponse.md#reqid)
+- [reqId](#reqid)
 
 ## Properties
 

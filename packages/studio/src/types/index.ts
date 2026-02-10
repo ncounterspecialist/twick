@@ -30,18 +30,18 @@ export interface Result {
 }
 
 /**
- * Subtitle entry format used for timeline integration
+ * Caption entry format used for timeline integration
  */
-export interface SubtitleEntry {
+export interface CaptionEntry {
   s: number; // start time in seconds
   e: number; // end time in seconds
-  t: string; // subtitle text
+  t: string; // caption text
 }
 
 /**
- * Response from POST /generate-subtitles
+ * Response from POST /generate-captions
  */
-export interface GenerateSubtitlesResponse {
+export interface GenerateCaptionsResponse {
   reqId: string;
 }
 
@@ -61,7 +61,7 @@ export interface RequestStatusPending {
  */
 export interface RequestStatusCompleted {
   status: "completed";
-  subtitles: SubtitleEntry[];
+  captions: CaptionEntry[];
 }
 
 /**
@@ -69,30 +69,30 @@ export interface RequestStatusCompleted {
  */
 export type RequestStatusResponse = RequestStatusPending | RequestStatusCompleted;
 
-export interface ISubtitleGenerationPollingResponse {
+export interface ICaptionGenerationPollingResponse {
   status: "pending" | "completed" | "failed";
-  subtitles?: SubtitleEntry[];
+  captions?: CaptionEntry[];
   error?: string;
 }
 
-export interface ISubtitleGenerationService {
-  generateSubtitles: (
+export interface ICaptionGenerationService {
+  generateCaptions: (
     videoElement: VideoElement,
     project: ProjectJSON
   ) => Promise<string>;
 
-  updateProjectWithSubtitles: (
-    subtitles: SubtitleEntry[]
+  updateProjectWithCaptions: (
+    captions: CaptionEntry[]
   ) => ProjectJSON;
 
-  generateSubtitleVideo?: (
+  generateCaptionVideo?: (
     videoUrl: string,
     videoSize?: { width: number; height: number }
   ) => Promise<string>;
 
   getRequestStatus: (
     reqId: string
-  ) => Promise<ISubtitleGenerationPollingResponse>;
+  ) => Promise<ICaptionGenerationPollingResponse>;
 }
 
 export interface StudioConfig extends VideoEditorConfig {
@@ -101,10 +101,10 @@ export interface StudioConfig extends VideoEditorConfig {
   saveProject?: (project: ProjectJSON, fileName: string) => Promise<Result>;
   loadProject?: () => Promise<ProjectJSON>;
   /**
-   * Subtitle generation service for polling-based async subtitle generation
+   * Caption generation service for polling-based async caption generation
    * Implement this in your application code to provide API endpoints
    */
-  subtitleGenerationService?: ISubtitleGenerationService;
+  captionGenerationService?: ICaptionGenerationService;
   exportVideo? : (project: ProjectJSON, videoSettings: VideoSettings) => Promise<Result>;
 }
 
@@ -168,7 +168,7 @@ export interface TimelineElement {
 export interface Track {
   id: string
   name: string
-  type: 'video' | 'audio' | 'text' | 'subtitle'
+  type: 'video' | 'audio' | 'text' | 'caption'
   elements: TimelineElement[]
   locked: boolean
   visible: boolean

@@ -1,4 +1,4 @@
-import { createSubtitleProject, exportProject } from '@twick/cloud-subtitle-video';
+import { createCaptionProject, exportProject } from '@twick/cloud-caption-video';
 
 /**
  * Creates a standardized JSON HTTP response with CORS headers.
@@ -19,7 +19,7 @@ const jsonResponse = (statusCode, body) => ({
 });
 
 /**
- * AWS Lambda handler for creating subtitle video projects.
+ * AWS Lambda handler for creating caption video projects.
  * 
  * Processes video URLs, transcribes audio using Google Speech-to-Text,
  * and optionally exports projects to Google Cloud Storage.
@@ -31,12 +31,12 @@ const jsonResponse = (statusCode, body) => ({
  * @param {string} [event.body.videoUrl] - Required: Publicly accessible video URL
  * @param {Object} [event.body.videoSize] - Optional: Video dimensions {width, height}
  * @param {string} [event.body.language] - Optional: Transcription language (default: "english")
- * @param {string} [event.body.languageFont] - Optional: Font/script for subtitles
+ * @param {string} [event.body.languageFont] - Optional: Font/script for captions
  * @param {boolean} [event.body.shouldExport] - Optional: If true, exports project to GCS
  * @returns {Promise<Object>} Lambda response object with statusCode, headers, and body
  */
 export const handler = async (event) => {
-  console.log('Subtitle video function invoked');
+  console.log('Caption video function invoked');
   console.log('Event:', JSON.stringify(event));
 
   if (event.httpMethod === 'OPTIONS') {
@@ -68,19 +68,19 @@ export const handler = async (event) => {
             'Publicly reachable video URL or "gs://bucket/object" for GCS',
           videoSize: 'Optional video size (e.g., { "width": 1920, "height": 1080 })',
           language: 'Optional language (e.g., "english", "hindi")',
-          languageFont: 'Optional font/script for subtitles (e.g., "english")',
+          languageFont: 'Optional font/script for captions (e.g., "english")',
         },
       });
     }
 
-    const result = await createSubtitleProject({
+    const result = await createCaptionProject({
       videoUrl,
       videoSize,
       language,
       languageFont,
     });
 
-    console.log('Subtitle video project created successfully');
+    console.log('Caption video project created successfully');
 
     if (shouldExport) {
       const project = await exportProject(result);
@@ -93,10 +93,10 @@ export const handler = async (event) => {
       });
     }
   } catch (error) {
-    console.error('Error creating subtitle video project:', error);
+    console.error('Error creating caption video project:', error);
 
     return jsonResponse(500, {
-      error: 'Error creating subtitle video project',
+      error: 'Error creating caption video project',
       message: error instanceof Error ? error.message : 'Unknown error',
     });
   }

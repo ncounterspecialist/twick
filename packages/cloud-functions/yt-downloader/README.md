@@ -202,9 +202,9 @@ await downloadVideo({
 await downloadVideo({
   url: 'https://youtube.com/watch?v=...',
   ytdlpOptions: {
-    'write-sub': true,        // Download subtitles
-    'write-auto-sub': true,   // Download auto-generated subtitles
-    'sub-lang': 'en',         // Subtitle language
+    'write-sub': true,        // Download captions
+    'write-auto-sub': true,   // Download auto-generated captions
+    'sub-lang': 'en',         // Caption language
     'extract-flat': false,    // Extract playlist info only
     'cookies-file': '/path/to/cookies.txt',  // Use cookies for authentication
     'extractor-args': 'youtube:player_client=android',  // Use different client

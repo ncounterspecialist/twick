@@ -194,7 +194,7 @@ The studio includes specialized panels for different element types:
 - **VideoPanel**: Video management and library  
 - **ImagePanel**: Image management and library
 - **TextPanel**: Text editing with advanced styling
-- **SubtitlesPanel**: Subtitle and caption management
+- **CaptionsPanel**: Caption and caption management
 - **CirclePanel**: Circle shape creation and editing
 - **RectPanel**: Rectangle shape creation and editing
 - **IconPanel**: Icon library with search and customization
@@ -202,7 +202,7 @@ The studio includes specialized panels for different element types:
 ### Hooks
 
 - **useStudioManager**: Hook for managing studio state, selected tools, and element manipulation
-- **useGenerateSubtitles**: Hook for subtitle generation and polling
+- **useGenerateCaptions**: Hook for caption generation and polling
 
 ### Re-exported Components
 

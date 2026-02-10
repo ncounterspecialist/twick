@@ -281,6 +281,37 @@ export const convertToCanvasPosition = (
 };
 
 /**
+ * Returns the object's center position in canvas coordinates.
+ * For objects inside a Group/ActiveSelection, left/top are group-relative; this uses
+ * getCenterPoint() to get the correct absolute canvas position (same as individual items).
+ *
+ * @param obj - Fabric object (standalone or inside a group)
+ * @returns { x, y } in canvas space
+ */
+export const getObjectCanvasCenter = (obj: { left?: number; top?: number; getCenterPoint?: () => { x: number; y: number } }): { x: number; y: number } => {
+  if (obj.getCenterPoint) {
+    const p = obj.getCenterPoint();
+    return { x: p.x, y: p.y };
+  }
+  return { x: obj.left ?? 0, y: obj.top ?? 0 };
+};
+
+/**
+ * Returns the object's angle in canvas space (degrees).
+ * For objects inside a Group/ActiveSelection, object.angle is group-relative; this uses
+ * getTotalAngle() to get the correct absolute canvas angle (same as individual items).
+ *
+ * @param obj - Fabric object (standalone or inside a group)
+ * @returns angle in degrees
+ */
+export const getObjectCanvasAngle = (obj: { angle?: number; getTotalAngle?: () => number }): number => {
+  if (typeof obj.getTotalAngle === "function") {
+    return obj.getTotalAngle();
+  }
+  return obj.angle ?? 0;
+};
+
+/**
  * Converts a position from the canvas coordinate space to the video coordinate space.
  * Applies inverse scaling and centering transformations to map canvas coordinates
  * back to the corresponding video coordinate positions.

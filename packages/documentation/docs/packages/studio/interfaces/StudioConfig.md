@@ -15,7 +15,7 @@
 - [exportVideo](StudioConfig.md#exportvideo)
 - [loadProject](StudioConfig.md#loadproject)
 - [saveProject](StudioConfig.md#saveproject)
-- [subtitleGenerationService](StudioConfig.md#subtitlegenerationservice)
+- [captionGenerationService](StudioConfig.md#captiongenerationservice)
 
 ## Properties
 
@@ -87,11 +87,11 @@ ___
 
 ___
 
-### subtitleGenerationService
+### captionGenerationService
 
-• `Optional` **subtitleGenerationService**: [`ISubtitleGenerationService`](ISubtitleGenerationService.md)
+• `Optional` **captionGenerationService**: [`ICaptionGenerationService`](ICaptionGenerationService.md)
 
-Subtitle generation service for polling-based async subtitle generation
+Caption generation service for polling-based async caption generation
 Implement this in your application code to provide API endpoints
 
 #### Defined in

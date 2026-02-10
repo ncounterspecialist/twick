@@ -12,7 +12,7 @@ Twick is an open-source React SDK that helps developers build timeline-based, AI
 ------------------------------------------------------------------------------------
 - **Video Editing SDK** — High-level APIs for creating rich media editing experiences
 - **Canvas Timeline Editing** — Drag, trim, resize, and layer video/audio tracks on a powerful canvas-based editor
-- **AI-Generated Captions** — Automatically generate and sync subtitles with your video content
+- **AI-Generated Captions** — Automatically generate and sync captions with your video content
 - **Serverless MP4 Export** — Render and export videos using AWS Lambda + S3, no server needed
 - **Modular React Architecture** — Built as composable TypeScript packages tailored for React apps
 - **Prebuilt React Components** — Drop-in UI components for video playback, timelines, and controls
@@ -46,5 +46,5 @@ To start building with Twick, check out our quickstart guide and learn how to se
 - **[@twick/timeline](/docs/packages/timeline/modules)** – Core timeline management with CRUD operations and visitor pattern
 - **[@twick/visualizer](/docs/packages/visualizer/modules)** – Toolkit for interactive video visualizations, animation, and real-time preview
 - **[@twick/video-editor](/docs/packages/video-editor/modules)** – Complete video editing interface with timeline, canvas, and playback controls
-- **[@twick/studio](/docs/packages/studio/modules)** – A comprehensive React-based studio interface for creating and editing multimedia compositions. Features a modular panel system for managing media (video, audio, images), text elements, shapes, icons, and subtitles, with an intuitive timeline-based workflow.
+- **[@twick/studio](/docs/packages/studio/modules)** – A comprehensive React-based studio interface for creating and editing multimedia compositions. Features a modular panel system for managing media (video, audio, images), text elements, shapes, icons, and captions, with an intuitive timeline-based workflow.
 

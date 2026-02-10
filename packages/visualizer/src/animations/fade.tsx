@@ -74,10 +74,10 @@ import { AnimationParams } from "../helpers/types";
  *     animation: { name: "fade", animate: "enter", duration: 2 }
  *   },
  *   {
- *     id: "subtitle", 
+ *     id: "caption", 
  *     type: "text",
  *     s: 1, e: 8,
- *     t: "Subtitle",
+ *     t: "Caption",
  *     animation: { name: "fade", animate: "enter", duration: 2 }
  *   },
  *   {

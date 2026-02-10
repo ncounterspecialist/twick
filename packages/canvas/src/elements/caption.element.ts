@@ -1,6 +1,6 @@
 import type { CanvasElementHandler } from "../types";
 import { addCaptionElement } from "../components/elements";
-import { convertToVideoPosition } from "../helpers/canvas.util";
+import { convertToVideoPosition, getObjectCanvasCenter } from "../helpers/canvas.util";
 import { ELEMENT_TYPES } from "../helpers/constants";
 import { CANVAS_OPERATIONS } from "../helpers/constants";
 
@@ -20,9 +20,10 @@ export const CaptionElement: CanvasElementHandler = {
   },
 
   updateFromFabricObject(object, element, context) {
+    const canvasCenter = getObjectCanvasCenter(object);
     const { x, y } = convertToVideoPosition(
-      object.left,
-      object.top,
+      canvasCenter.x,
+      canvasCenter.y,
       context.canvasMetadata,
       context.videoSize
     );

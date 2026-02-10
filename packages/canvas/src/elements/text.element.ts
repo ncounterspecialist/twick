@@ -1,6 +1,6 @@
 import type { CanvasElementHandler } from "../types";
 import { addTextElement } from "../components/elements";
-import { convertToVideoPosition } from "../helpers/canvas.util";
+import { convertToVideoPosition, getObjectCanvasCenter, getObjectCanvasAngle } from "../helpers/canvas.util";
 import { ELEMENT_TYPES } from "../helpers/constants";
 
 export const TextElement: CanvasElementHandler = {
@@ -17,9 +17,10 @@ export const TextElement: CanvasElementHandler = {
   },
 
   updateFromFabricObject(object, element, context) {
+    const canvasCenter = getObjectCanvasCenter(object);
     const { x, y } = convertToVideoPosition(
-      object.left,
-      object.top,
+      canvasCenter.x,
+      canvasCenter.y,
       context.canvasMetadata,
       context.videoSize
     );
@@ -28,7 +29,7 @@ export const TextElement: CanvasElementHandler = {
         ...element,
         props: {
           ...element.props,
-          rotation: object.angle,
+          rotation: getObjectCanvasAngle(object),
           x,
           y,
         },
