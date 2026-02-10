@@ -30,6 +30,13 @@ html {
 
 /* Components */
 
+.header-separator {
+  width: 1px;
+  height: 2.5rem;
+  background-color: var(--color-gray-600);
+  margin: 0 1rem;
+}
+
 /* ========================================
    SEARCH UTILITIES
    ======================================== */
