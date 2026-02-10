@@ -115,8 +115,8 @@ export const usePlayerManager = ({
       return;
     }
     if (operation === CANVAS_OPERATIONS.CAPTION_PROPS_UPDATED) {
-      const subtitlesTrack = editor.getSubtitlesTrack();
-      subtitlesTrack?.setProps(data.props);
+      const captionsTrack = editor.getCaptionsTrack();
+      captionsTrack?.setProps(data.props);
       setSelectedItem(data.element);
       editor.refresh();
     } else if (operation === CANVAS_OPERATIONS.WATERMARK_UPDATED) {

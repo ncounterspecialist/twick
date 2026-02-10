@@ -172,34 +172,34 @@ const buildPrompt = (duration, language, languageFont) => {
   // Convert duration from seconds to milliseconds for the prompt
   const durationMs = Math.round(duration * 1000);
 
-  return `You are a professional subtitle and transcription engine.
+  return `You are a professional caption and transcription engine.
 
 ## INPUT
 - Audio duration: ${durationMs} milliseconds
 - Target language: ${language}
-- Subtitle font script: ${languageFont}
+- Caption font script: ${languageFont}
 
 ## OBJECTIVE
-Transcribe the audio into clear, readable subtitles.
+Transcribe the audio into clear, readable captions.
 
-If the spoken audio is NOT in ${language}, translate it into ${language} before generating subtitles.
+If the spoken audio is NOT in ${language}, translate it into ${language} before generating captions.
 
-## SUBTITLE SEGMENTATION RULES
+## CAPTION SEGMENTATION RULES
 - Split speech into short, natural phrases.
-- Each subtitle phrase MUST contain a maximum of 4 words.
+- Each caption phrase MUST contain a maximum of 4 words.
 - Do NOT split words across phrases.
 - Avoid breaking phrases mid-sentence unless required by timing constraints.
 
 ## TIMING RULES (STRICT — MUST FOLLOW)
 - All timestamps are in **milliseconds**.
-- Each subtitle object MUST include:
+- Each caption object MUST include:
   - 's': start timestamp
   - 'e': end timestamp
 - Duration of each phrase = 'e - s'
 - Minimum phrase duration: **100 ms**
 - 'e' MUST be greater than 's'
 - 'e' MUST be **less than or equal to ${durationMs}**
-- Subtitles MUST be sequential:
+- Captions MUST be sequential:
   - 's' of the next phrase MUST be **greater than or equal to** the previous 'e'
   - NO overlapping timestamps
 - Prefer aligning timestamps with natural speech pauses.
@@ -207,7 +207,7 @@ If the spoken audio is NOT in ${language}, translate it into ${language} before 
 ## TEXT RULES
 - 't' MUST be written using ${languageFont} characters.
 - No emojis.
-- No punctuation-only subtitles.
+- No punctuation-only captions.
 - Normalize casing according to the target language's writing system.
 - Remove filler sounds (e.g., “um”, “uh”) unless semantically important.
 
@@ -222,7 +222,7 @@ Return ONLY a valid JSON array.
 ## OUTPUT SCHEMA
 [
   {
-    "t": "Subtitle text",
+    "t": "Caption text",
     "s": 0,
     "e": 1200
   }
@@ -231,14 +231,14 @@ Return ONLY a valid JSON array.
 };
 
 /**
- * Transcribe an audio URL to JSON subtitles using Google GenAI (Vertex AI),
+ * Transcribe an audio URL to JSON captions using Google GenAI (Vertex AI),
  * mirroring the Python implementation in `playground/vertex/transcript.py`.
  *
  * @param {Object} params
  * @param {string} params.videoUrl - Publicly reachable video URL.
  * @param {string} [params.language="english"] - Target transcription language (human-readable).
- * @param {string} [params.languageFont="english"] - Target font/script for subtitles.
- * @returns {Promise<{ subtitles: Array<{t: string, s: number, e: number}> }>} Subtitles array with text, start time, and end time.
+ * @param {string} [params.languageFont="english"] - Target font/script for captions.
+ * @returns {Promise<{ captions: Array<{t: string, s: number, e: number}> }>} Captions array with text, start time, and end time.
  * @throws {Error} When audioUrl is missing or downstream calls fail.
  */
 export const transcribeVideoUrl = async (params) => {
@@ -320,27 +320,27 @@ export const transcribeVideoUrl = async (params) => {
     .trim();
 
 
-  let subtitles = [];
+  let captions = [];
   try {
     // Try to find JSON array in the text (in case there's extra text)
     const jsonMatch = textPart.match(/\[[\s\S]*\]/);
     const jsonText = jsonMatch ? jsonMatch[0] : textPart;
 
-    subtitles = JSON.parse(jsonText);
-    if (!Array.isArray(subtitles)) {
-      throw new Error("Parsed subtitles are not an array");
+    captions = JSON.parse(jsonText);
+    if (!Array.isArray(captions)) {
+      throw new Error("Parsed captions are not an array");
     }
   } catch (err) {
     console.warn(
-      "Failed to parse model output as JSON subtitles, returning raw text",
+      "Failed to parse model output as JSON captions, returning raw text",
       err
     );
     console.warn("Raw response text:", textPart.substring(0, 500));
-    subtitles = [];
+    captions = [];
   }
 
   return {
-    subtitles,
+    captions,
     duration,
     videoUrl
   };

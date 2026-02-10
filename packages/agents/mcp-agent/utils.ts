@@ -20,14 +20,14 @@ export const uploadDataToFile = async (data: any) => {
   return res.json();
 };
 
-export const processSubtitles = async (project: any) => {
+export const processCaptions = async (project: any) => {
   try {
     const uploadResult = await uploadDataToFile(project);
     // Use stderr for logs so stdio JSON-RPC traffic on stdout is not corrupted.
     console.error("Upload Result", uploadResult);
     return uploadResult;
   } catch (err) {
-    console.error("Error processing subtitles", err);
+    console.error("Error processing captions", err);
     return {
       success: false,
       error: "Error uploading project to file",
@@ -36,13 +36,13 @@ export const processSubtitles = async (project: any) => {
   }
 };
 
-export const processSubtitlesToProject = async ({
-  subtitles,
+export const processCaptionsToProject = async ({
+  captions,
   videoUrl,
   duration,
   videoSize,
 }: {
-  subtitles: any;
+  captions: any;
   videoUrl: string;
   duration: number;
   videoSize: { width: number; height: number };
@@ -71,7 +71,7 @@ export const processSubtitlesToProject = async ({
         ],
       },
       {
-        id: "subtitle",
+        id: "caption",
         type: "caption",
         props: {
           capStyle: "highlight_bg",
@@ -94,12 +94,12 @@ export const processSubtitlesToProject = async ({
           y: 200,
           applyToAll: true,
         },
-        elements: subtitles.map((subtitle: any, index: number) => ({
-          id: `subtitle-${index}`,
+        elements: captions.map((caption: any, index: number) => ({
+          id: `caption-${index}`,
           type: "caption",
-          s: subtitle.s / 1000,
-          e: subtitle.e / 1000,
-          t: subtitle.t,
+          s: caption.s / 1000,
+          e: caption.e / 1000,
+          t: caption.t,
         })),
       },
     ],

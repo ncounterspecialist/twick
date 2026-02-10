@@ -2,18 +2,18 @@ import { TrackElement, VideoElement } from "@twick/timeline";
 import { useEffect, useState, useRef } from "react";
 import { hasAudio } from "@twick/media-utils";
 import { Loader2, VolumeX, Volume2, CheckCircle2, XCircle } from "lucide-react";
-import { ISubtitleGenerationPollingResponse } from "../../types";
+import { ICaptionGenerationPollingResponse } from "../../types";
 
-export function GenerateSubtitlesPanel({
+export function GenerateCaptionsPanel({
   selectedElement,
-  addSubtitlesToTimeline,
-  onGenerateSubtitles,
-  getSubtitleStatus,
+  addCaptionsToTimeline,
+  onGenerateCaptions,
+  getCaptionstatus,
 }: {
   selectedElement: TrackElement;
-  addSubtitlesToTimeline: (subtitles: { s: number; e: number; t: string }[]) => void;
-  onGenerateSubtitles: (videoElement: VideoElement) => Promise<string | null>;
-  getSubtitleStatus: (reqId: string) => Promise<ISubtitleGenerationPollingResponse>;
+  addCaptionsToTimeline: (captions: { s: number; e: number; t: string }[]) => void;
+  onGenerateCaptions: (videoElement: VideoElement) => Promise<string | null>;
+  getCaptionstatus: (reqId: string) => Promise<ICaptionGenerationPollingResponse>;
 }) {
   const [containsAudio, setContainsAudio] = useState<boolean | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -40,7 +40,7 @@ export function GenerateSubtitlesPanel({
   };
 
   const startPolling = async (reqId: string) => {
-    if (!getSubtitleStatus) {
+    if (!getCaptionstatus) {
       return;
     }
     setPollingStatus("polling");
@@ -49,7 +49,7 @@ export function GenerateSubtitlesPanel({
 
     const poll = async () => {
       try {
-        const response = await getSubtitleStatus(reqId);
+        const response = await getCaptionstatus(reqId);
 
         
         if (response.status === "completed") {
@@ -57,8 +57,8 @@ export function GenerateSubtitlesPanel({
           setPollingStatus("success");
           setIsGenerating(false);
           
-          // Add subtitles to timeline
-          addSubtitlesToTimeline(response.subtitles || []);
+          // Add captions to timeline
+          addCaptionsToTimeline(response.captions || []);
           
           // Reset status after 3 seconds
           setTimeout(() => {
@@ -70,15 +70,15 @@ export function GenerateSubtitlesPanel({
           stopPolling();
           setPollingStatus("error");
           setIsGenerating(false);
-          setErrorMessage(response.error || "Failed to generate subtitles");
-          console.error("Error generating subtitles:", response.error);
+          setErrorMessage(response.error || "Failed to generate captions");
+          console.error("Error generating captions:", response.error);
         }
       } catch (error) {
         stopPolling();
         setPollingStatus("error");
         setIsGenerating(false);
-        setErrorMessage(error instanceof Error ? error.message : "Failed to get subtitle status");
-        console.error("Error polling for subtitles:", error);
+        setErrorMessage(error instanceof Error ? error.message : "Failed to get caption status");
+        console.error("Error polling for captions:", error);
       }
     };
 
@@ -87,7 +87,7 @@ export function GenerateSubtitlesPanel({
     pollingIntervalRef.current = setInterval(poll, 2000);
   };
 
-  const handleGenerateSubtitles = async () => {
+  const handleGenerateCaptions = async () => {
     if (!(selectedElement instanceof VideoElement)) {
       return;
     }
@@ -96,12 +96,12 @@ export function GenerateSubtitlesPanel({
     
 
     try {
-      const reqId = await onGenerateSubtitles(videoElement);
+      const reqId = await onGenerateCaptions(videoElement);
       if (!reqId) {
         setPollingStatus("error");
         setIsGenerating(false);
-        setErrorMessage("Failed to start subtitle generation");
-        console.error("Error generating subtitles: Failed to start subtitle generation");
+        setErrorMessage("Failed to start caption generation");
+        console.error("Error generating captions: Failed to start caption generation");
         return;
       }
       currentReqIdRef.current = reqId;
@@ -109,8 +109,8 @@ export function GenerateSubtitlesPanel({
     } catch (error) {
       setPollingStatus("error");
       setIsGenerating(false);
-      setErrorMessage(error instanceof Error ? error.message : "Failed to start subtitle generation");
-      console.error("Error generating subtitles:", error);
+      setErrorMessage(error instanceof Error ? error.message : "Failed to start caption generation");
+      console.error("Error generating captions:", error);
     }
   };
 
@@ -147,7 +147,7 @@ export function GenerateSubtitlesPanel({
 
   return (
     <div className="panel-container">
-      <div className="panel-title">Generate Subtitles Panel</div>
+      <div className="panel-title">Generate Captions Panel</div>
       
       {/* Loading State */}
       {isLoading && (
@@ -179,7 +179,7 @@ export function GenerateSubtitlesPanel({
           <div className="empty-state">
             <div className="empty-state-content">
               <Volume2 className="empty-state-icon" />
-              <p className="empty-state-text">Audio detected! You can now generate subtitles</p>
+              <p className="empty-state-text">Audio detected! You can now generate captions</p>
             </div>
           </div>
         </div>
@@ -191,7 +191,7 @@ export function GenerateSubtitlesPanel({
           <div className="empty-state">
             <div className="empty-state-content">
               <Loader2 className="empty-state-icon animate-spin" />
-              <p className="empty-state-text">Generating subtitles... Please wait</p>
+              <p className="empty-state-text">Generating captions... Please wait</p>
             </div>
           </div>
         </div>
@@ -203,7 +203,7 @@ export function GenerateSubtitlesPanel({
           <div className="empty-state">
             <div className="empty-state-content">
               <CheckCircle2 className="empty-state-icon" color="var(--color-green-500)" />
-              <p className="empty-state-text">Subtitles generated successfully!</p>
+              <p className="empty-state-text">Captions generated successfully!</p>
             </div>
           </div>
         </div>
@@ -215,7 +215,7 @@ export function GenerateSubtitlesPanel({
           <div className="empty-state">
             <div className="empty-state-content">
               <XCircle className="empty-state-icon" color="var(--color-red-500)" />
-              <p className="empty-state-text">{errorMessage || "Failed to generate subtitles"}</p>
+              <p className="empty-state-text">{errorMessage || "Failed to generate captions"}</p>
             </div>
           </div>
         </div>
@@ -225,11 +225,11 @@ export function GenerateSubtitlesPanel({
       {!isLoading && (
         <div className="flex panel-section">
           <button
-            onClick={handleGenerateSubtitles}
+            onClick={handleGenerateCaptions}
             disabled={!containsAudio || isGenerating}
             className="btn-primary w-full"
           >
-            {isGenerating ? "Generating..." : "Generate Subtitles"}
+            {isGenerating ? "Generating..." : "Generate Captions"}
           </button>
         </div>
       )}

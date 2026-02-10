@@ -8,7 +8,7 @@ import { IconPanelContainer } from "./icon-panel-container";
 import { RectPanelContainer } from "./rect-panel-container";
 import { CirclePanelContainer } from "./circle-panel-container";
 import { Wand2 } from "lucide-react";
-import { SubtitlesPanelContainer } from "./subtitles-panel-container";
+import { CaptionsPanelContainer } from "./captions-panel-container";
 
 /**
  * Props interface for the ElementPanelContainer component.
@@ -27,7 +27,7 @@ interface ElementPanelContainerProps {
  * ElementPanelContainer component that renders the appropriate element panel
  * based on the currently selected tool. Provides a unified interface for
  * managing different types of timeline elements including media, text, shapes,
- * and subtitles. Shows an empty state when no tool is selected.
+ * and captions. Shows an empty state when no tool is selected.
  *
  * @param props - Component props for element panel configuration
  * @returns JSX element containing the appropriate element panel or empty state
@@ -120,8 +120,8 @@ const ElementPanelContainer = ({
             updateElement={updateElement}
           />
         );
-      case "subtitle":
-        return <SubtitlesPanelContainer />;
+      case "caption":
+        return <CaptionsPanelContainer />;
       default:
         return (
           <div className="panel-container">

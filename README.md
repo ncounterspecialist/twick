@@ -2,7 +2,7 @@
 
 **Twick** is an open-source **React Video Editor Library & SDK** featuring AI caption generation, timeline editing, canvas tools, and MP4 export for building custom video applications.
 
-Twick enables developers to build professional video editing experiences with **AI-powered caption generation**, real-time timeline editing, and serverless video rendering. It combines React-based canvas tools, AI subtitle generation using Google Vertex AI (Gemini), and cloud-native MP4 export—all in TypeScript. Whether you're building a video SaaS, content creation platform, or automated video pipeline, Twick provides the React video editor components you need to ship fast.
+Twick enables developers to build professional video editing experiences with **AI-powered caption generation**, real-time timeline editing, and serverless video rendering. It combines React-based canvas tools, AI caption generation using Google Vertex AI (Gemini), and cloud-native MP4 export—all in TypeScript. Whether you're building a video SaaS, content creation platform, or automated video pipeline, Twick provides the React video editor components you need to ship fast.
 
 **Key features:** 
 - AI caption generation
@@ -57,7 +57,7 @@ Caffeine has a surprisingly high impact on open source velocity.
 Twick is a modular **React video editor library** and cloud toolchain that helps you:
 
 - Build **timeline-based editors** with React
-- Add **AI subtitles and transcripts** to any video
+- Add **AI captions and transcripts** to any video
 - Render MP4s using **browser WebCodecs** or **server-side FFmpeg**
 - Integrate video editing into SaaS products, internal tools, or automation pipelines
 
@@ -83,7 +83,7 @@ Twick is a modular **React video editor library** and cloud toolchain that helps
 </a>
 
 
-**AI Subtitle Generator** — Paste a video URL, get AI-generated captions and timed tracks.
+**AI Caption Generator** — Paste a video URL, get AI-generated captions and timed tracks.
 
 <a href="https://development.d1vtsw7m0lx01h.amplifyapp.com/subtitles">
   <img src="https://img.shields.io/badge/Generate_AI_Caption-Live_Demo-8B5CF6?style=for-the-badge&logoColor=white" width="240" alt="Generate AI Caption with Twick">
@@ -101,7 +101,7 @@ Twick is a modular **React video editor library** and cloud toolchain that helps
 - **`@twick/ffmpeg-web`** – FFmpeg.wasm wrapper for webpack, Next.js, CRA, and Vite (used by `@twick/browser-render`)  
 - **`@twick/render-server`** – Node + Puppeteer + FFmpeg rendering server  
 - **`@twick/cloud-transcript`** – AI transcription to JSON captions 
-- **`@twick/cloud-subtitle-video`** – Fully automated subtitle project generation from a video URL  
+- **`@twick/cloud-caption-video`** – Fully automated caption project generation from a video URL  
 - **`@twick/cloud-export-video`** – Serverless MP4 export via AWS Lambda containers  
 - **`@twick/mcp-agent`** – MCP agent for Claude Desktop + Twick Studio workflows  
 
@@ -529,7 +529,7 @@ Full terms: see [License](https://github.com/ncounterspecialist/twick/blob/main/
     "price": "0",
     "priceCurrency": "USD"
   },
-  "keywords": "React Video Editor, Video Editor SDK, AI Caption Generation, React Video Editor Library, Timeline Editor, Canvas Video Editing, MP4 Export, Video Editing Library, React Canvas, Serverless Video Rendering, AI Subtitle Generation, Video Transcription, Open Source Video Editor",
+  "keywords": "React Video Editor, Video Editor SDK, AI Caption Generation, React Video Editor Library, Timeline Editor, Canvas Video Editing, MP4 Export, Video Editing Library, React Canvas, Serverless Video Rendering, AI Caption Generation, Video Transcription, Open Source Video Editor",
   "softwareVersion": "0.15.0",
   "url": "https://github.com/ncounterspecialist/twick",
   "codeRepository": "https://github.com/ncounterspecialist/twick",
@@ -549,7 +549,7 @@ Full terms: see [License](https://github.com/ncounterspecialist/twick/blob/main/
     "Canvas tools for video manipulation",
     "Serverless MP4 export with AWS Lambda",
     "Real-time video preview",
-    "Automated subtitle generation",
+    "Automated caption generation",
     "Video transcription API",
     "React components for video editing",
     "Open-source video editor library"

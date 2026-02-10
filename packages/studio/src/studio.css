@@ -98,22 +98,22 @@ html {
   display: flex;
   flex-direction: column;
   background-color: var(--color-neutral-900);
-  padding: 0.5rem;
+  padding: 0.75rem;
   overflow-x: hidden;
   overflow-y: auto;
 }
 
 .panel-title {
-  font-size: 1.125rem;
+  font-size: 0.9rem;
   font-weight: 600;
   color: var(--color-gray-100);
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
 }
 
 .panel-section {
   display: flex;
   flex-direction: column;
-  gap: 8;
+  gap: 0.5rem;
   margin-bottom: 0.75rem;
 }
 
@@ -131,13 +131,17 @@ html {
   overflow-y: hidden;
   overflow-x: hidden;
   backdrop-filter: blur(24px);
-  box-shadow: var(--shadow-xl);
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.6);
 }
 
 .properties-header {
   padding: 0.75rem;
-  border-bottom: 1px solid rgba(75, 85, 99, 0.3);
-  background: linear-gradient(to right, rgba(147, 51, 234, 0.1), transparent);
+  border-bottom: 1px solid rgba(55, 65, 81, 0.7);
+  background: linear-gradient(
+    to right,
+    rgba(15, 23, 42, 0.96),
+    rgba(17, 24, 39, 0.96)
+  );
 }
 
 .properties-title {
@@ -631,7 +635,7 @@ html {
   justify-content: space-between;
   padding: 0 1rem;
   backdrop-filter: blur(12px);
-  box-shadow: var(--shadow-lg);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55);
 }
 
 /* Media library styles */

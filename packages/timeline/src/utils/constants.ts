@@ -7,7 +7,7 @@
  * import { TRACK_TYPES } from '@twick/timeline';
  *
  * editor.addTrack("Video", TRACK_TYPES.VIDEO);
- * const captionsTrack = editor.getSubtitlesTrack(); // first track with type TRACK_TYPES.CAPTION
+ * const captionsTrack = editor.getCaptionsTrack(); // first track with type TRACK_TYPES.CAPTION
  * ```
  */
 export const TRACK_TYPES = {
@@ -15,7 +15,7 @@ export const TRACK_TYPES = {
   VIDEO: "video",
   /** Audio track – audio clips */
   AUDIO: "audio",
-  /** Caption track – subtitles / captions */
+  /** Caption track – captions / captions */
   CAPTION: "caption",
   /** Scene track – scene containers (e.g. image/video as full scene) */
   SCENE: "scene",

@@ -21,7 +21,7 @@ It also handles undo/redo operations internally.
 - [addTrack](TimelineEditor.md#addtrack)
 - [getTrackById](TimelineEditor.md#gettrackbyid)
 - [getTrackByName](TimelineEditor.md#gettrackbyname)
-- [getSubtitlesTrack](TimelineEditor.md#getsubtitlestrack)
+- [getCaptionsTrack](TimelineEditor.md#getcaptionstrack)
 - [removeTrackById](TimelineEditor.md#removetrackbyid)
 - [removeTrack](TimelineEditor.md#removetrack)
 - [refresh](TimelineEditor.md#refresh)
@@ -177,9 +177,9 @@ ___
 
 ___
 
-### getSubtitlesTrack
+### getCaptionsTrack
 
-▸ **getSubtitlesTrack**(): ``null`` \| [`Track`](Track.md)
+▸ **getCaptionsTrack**(): ``null`` \| [`Track`](Track.md)
 
 #### Returns
 

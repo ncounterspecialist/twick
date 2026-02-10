@@ -49,9 +49,9 @@ import { Toolbar } from "./components/toolbar";
 import { useStudioManager } from "./hooks/use-studio-manager";
 
 /**
- * Hook for subtitle generation and polling.
+ * Hook for caption generation and polling.
  */
-import useGenerateSubtitles from "./hooks/use-generate-subtitles";
+import useGenerateCaptions from "./hooks/use-generate-captions";
 
 /**
  * Top header with project actions and resolution controls.
@@ -94,9 +94,9 @@ import { RectPanel } from "./components/panel/rect-panel";
 import { IconPanel } from "./components/panel/icon-panel";
 
 /**
- * Panel for managing subtitles/captions.
+ * Panel for managing captions/captions.
  */
-import { SubtitlesPanel } from "./components/panel/subtitles-panel";
+import { CaptionsPanel } from "./components/panel/captions-panel";
 
 // Main exported UI components
 export {
@@ -118,8 +118,8 @@ export {
   ImagePanel,
   /** Panel for editing/add text elements */
   TextPanel,
-  /** Panel for subtitle/caption management */
-  SubtitlesPanel,
+  /** Panel for caption/caption management */
+  CaptionsPanel,
   /** Panel for adding circles */
   CirclePanel,
   /** Panel for adding rectangles */
@@ -132,12 +132,12 @@ export {
 export {
   /** Hook for managing studio state and selections */
   useStudioManager,
-  /** Hook for polling-based subtitle generation */
-  useGenerateSubtitles,
+  /** Hook for polling-based caption generation */
+  useGenerateCaptions,
 };
 
 // Utilities and types
-export * from "./helpers/generate-subtitles.service";
+export * from "./helpers/generate-captions.service";
 export * from "./helpers/constant";
 export * from "./types";
 

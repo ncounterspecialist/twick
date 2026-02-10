@@ -1,21 +1,21 @@
-[@twick/studio - v0.15.0](../README.md) / [Exports](../modules.md) / ISubtitleGenerationService
+[@twick/studio - v0.15.0](../README.md) / [Exports](../modules.md) / ICaptionGenerationService
 
-# Interface: ISubtitleGenerationService
+# Interface: ICaptionGenerationService
 
 ## Table of contents
 
 ### Properties
 
-- [generateSubtitleVideo](ISubtitleGenerationService.md#generatesubtitlevideo)
-- [generateSubtitles](ISubtitleGenerationService.md#generatesubtitles)
-- [getRequestStatus](ISubtitleGenerationService.md#getrequeststatus)
-- [updateProjectWithSubtitles](ISubtitleGenerationService.md#updateprojectwithsubtitles)
+- [generateCaptionVideo](#generatecaptionvideo)
+- [generateCaptions](#generatecaptions)
+- [getRequestStatus](#getrequeststatus)
+- [updateProjectWithCaptions](#updateprojectwithcaptions)
 
 ## Properties
 
-### generateSubtitleVideo
+### generateCaptionVideo
 
-• `Optional` **generateSubtitleVideo**: (`videoUrl`: `string`, `videoSize?`: \{ `height`: `number` ; `width`: `number`  }) => `Promise`\<`string`\>
+• `Optional` **generateCaptionVideo**: (`videoUrl`: `string`, `videoSize?`: \{ `height`: `number` ; `width`: `number`  }) => `Promise`\<`string`\>
 
 #### Type declaration
 
@@ -40,9 +40,9 @@
 
 ___
 
-### generateSubtitles
+### generateCaptions
 
-• **generateSubtitles**: (`videoElement`: `VideoElement`, `project`: `ProjectJSON`) => `Promise`\<`string`\>
+• **generateCaptions**: (`videoElement`: `VideoElement`, `project`: `ProjectJSON`) => `Promise`\<`string`\>
 
 #### Type declaration
 
@@ -67,11 +67,11 @@ ___
 
 ### getRequestStatus
 
-• **getRequestStatus**: (`reqId`: `string`) => `Promise`\<[`ISubtitleGenerationPollingResponse`](ISubtitleGenerationPollingResponse.md)\>
+• **getRequestStatus**: (`reqId`: `string`) => `Promise`\<[`ICaptionGenerationPollingResponse`](ICaptionGenerationPollingResponse.md)\>
 
 #### Type declaration
 
-▸ (`reqId`): `Promise`\<[`ISubtitleGenerationPollingResponse`](ISubtitleGenerationPollingResponse.md)\>
+▸ (`reqId`): `Promise`\<[`ICaptionGenerationPollingResponse`](ICaptionGenerationPollingResponse.md)\>
 
 ##### Parameters
 
@@ -81,7 +81,7 @@ ___
 
 ##### Returns
 
-`Promise`\<[`ISubtitleGenerationPollingResponse`](ISubtitleGenerationPollingResponse.md)\>
+`Promise`\<[`ICaptionGenerationPollingResponse`](ICaptionGenerationPollingResponse.md)\>
 
 #### Defined in
 
@@ -89,19 +89,19 @@ ___
 
 ___
 
-### updateProjectWithSubtitles
+### updateProjectWithCaptions
 
-• **updateProjectWithSubtitles**: (`subtitles`: [`SubtitleEntry`](SubtitleEntry.md)[]) => `ProjectJSON`
+• **updateProjectWithCaptions**: (`captions`: [`CaptionEntry`](CaptionEntry.md)[]) => `ProjectJSON`
 
 #### Type declaration
 
-▸ (`subtitles`): `ProjectJSON`
+▸ (`captions`): `ProjectJSON`
 
 ##### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `subtitles` | [`SubtitleEntry`](SubtitleEntry.md)[] |
+| `captions` | [`CaptionEntry`](CaptionEntry.md)[] |
 
 ##### Returns
 

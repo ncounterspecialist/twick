@@ -11,7 +11,7 @@ This document demonstrates how to create videos programmatically using the Twick
 - **TextElement**: Text overlays with font styling, colors, and positioning
 - **AudioElement**: Background music or sound effects
 - **ImageElement**: Static images or graphics
-- **CaptionElement**: Subtitles or captions
+- **CaptionElement**: Captions or captions
 
 ### Timing Properties
 - `setStart(time)`: When the element appears in the timeline (seconds)

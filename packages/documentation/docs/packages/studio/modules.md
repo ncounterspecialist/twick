@@ -15,9 +15,9 @@
 
 ### Interfaces
 
-- [GenerateSubtitlesResponse](interfaces/GenerateSubtitlesResponse.md)
-- [ISubtitleGenerationPollingResponse](interfaces/ISubtitleGenerationPollingResponse.md)
-- [ISubtitleGenerationService](interfaces/ISubtitleGenerationService.md)
+- [GenerateCaptionsResponse](interfaces/GenerateCaptionsResponse.md)
+- [ICaptionGenerationPollingResponse](interfaces/ICaptionGenerationPollingResponse.md)
+- [ICaptionGenerationService](interfaces/ICaptionGenerationService.md)
 - [PanelProps](interfaces/PanelProps.md)
 - [PropertiesPanelProps](interfaces/PropertiesPanelProps.md)
 - [RequestStatus](interfaces/RequestStatus.md)
@@ -25,7 +25,7 @@
 - [RequestStatusPending](interfaces/RequestStatusPending.md)
 - [Result](interfaces/Result.md)
 - [StudioConfig](interfaces/StudioConfig.md)
-- [SubtitleEntry](interfaces/SubtitleEntry.md)
+- [CaptionEntry](interfaces/CaptionEntry.md)
 - [Timeline](interfaces/Timeline.md)
 - [TimelineElement](interfaces/TimelineElement.md)
 - [ToolCategory](interfaces/ToolCategory.md)
@@ -48,12 +48,12 @@
 - [ImagePanel](modules.md#imagepanel)
 - [RectPanel](modules.md#rectpanel)
 - [StudioHeader](modules.md#studioheader)
-- [SubtitlesPanel](modules.md#subtitlespanel)
+- [CaptionsPanel](modules.md#captionspanel)
 - [TextPanel](modules.md#textpanel)
 - [Toolbar](modules.md#toolbar)
 - [TwickStudio](modules.md#twickstudio)
 - [VideoPanel](modules.md#videopanel)
-- [useGenerateSubtitles](modules.md#usegeneratesubtitles)
+- [useGenerateCaptions](modules.md#usegeneratecaptions)
 - [useStudioManager](modules.md#usestudiomanager)
 
 ## References
@@ -288,20 +288,20 @@ ___
 
 ___
 
-### SubtitlesPanel
+### CaptionsPanel
 
-▸ **SubtitlesPanel**(`«destructured»`): `Element`
+▸ **CaptionsPanel**(`«destructured»`): `Element`
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `«destructured»` | `Object` |
-| › `addSubtitle` | () => `void` |
-| › `deleteSubtitle` | (`index`: `number`) => `void` |
-| › `splitSubtitle` | (`index`: `number`) => `void` |
-| › `subtitles` | `SubtitleEntry`[] |
-| › `updateSubtitle` | (`index`: `number`, `subtitle`: `SubtitleEntry`) => `void` |
+| › `addCaption` | () => `void` |
+| › `deleteCaption` | (`index`: `number`) => `void` |
+| › `splitCaption` | (`index`: `number`) => `void` |
+| › `captions` | `CaptionEntry`[] |
+| › `updateCaption` | (`index`: `number`, `caption`: `CaptionEntry`) => `void` |
 
 #### Returns
 
@@ -309,7 +309,7 @@ ___
 
 #### Defined in
 
-[studio/src/components/panel/subtitles-panel.tsx:43](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/studio/src/components/panel/subtitles-panel.tsx#L43)
+[studio/src/components/panel/captions-panel.tsx:43](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/studio/src/components/panel/captions-panel.tsx#L43)
 
 ___
 
@@ -396,9 +396,9 @@ ___
 
 ___
 
-### useGenerateSubtitles
+### useGenerateCaptions
 
-▸ **useGenerateSubtitles**(`studioConfig?`): `Object`
+▸ **useGenerateCaptions**(`studioConfig?`): `Object`
 
 #### Parameters
 
@@ -412,13 +412,13 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `addSubtitlesToTimeline` | (`subtitles`: [`SubtitleEntry`](interfaces/SubtitleEntry.md)[]) => `void` |
-| `getSubtitleStatus` | (`reqId`: `string`) => `Promise`\<[`ISubtitleGenerationPollingResponse`](interfaces/ISubtitleGenerationPollingResponse.md)\> |
-| `onGenerateSubtitles` | (`videoElement`: `VideoElement`) => `Promise`\<``null`` \| `string`\> |
+| `addCaptionsToTimeline` | (`captions`: [`CaptionEntry`](interfaces/CaptionEntry.md)[]) => `void` |
+| `getCaptionstatus` | (`reqId`: `string`) => `Promise`\<[`ICaptionGenerationPollingResponse`](interfaces/ICaptionGenerationPollingResponse.md)\> |
+| `onGenerateCaptions` | (`videoElement`: `VideoElement`) => `Promise`\<``null`` \| `string`\> |
 
 #### Defined in
 
-[studio/src/hooks/use-generate-subtitles.ts:8](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/studio/src/hooks/use-generate-subtitles.ts#L8)
+[studio/src/hooks/use-generate-captions.ts:8](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/studio/src/hooks/use-generate-captions.ts#L8)
 
 ___
 

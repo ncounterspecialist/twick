@@ -131,7 +131,7 @@ function main() {
     console.log("      - UPLOAD_API_URL: Your upload API endpoint (optional)");
     console.log("      - TWICK_STUDIO_URL: Your Twick Studio URL (optional)");
     console.log("   3. Restart Claude Desktop to load the new MCP server");
-    console.log("\n✨ The 'generate-subtitles' tool will be available in Claude Desktop!\n");
+    console.log("\n✨ The 'generate-captions' tool will be available in Claude Desktop!\n");
   } catch (error) {
     console.error("\n❌ Installation failed:");
     console.error(error.message);

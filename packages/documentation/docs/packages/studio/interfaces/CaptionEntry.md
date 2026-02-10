@@ -1,16 +1,16 @@
-[@twick/studio - v0.15.0](../README.md) / [Exports](../modules.md) / SubtitleEntry
+[@twick/studio - v0.15.0](../README.md) / [Exports](../modules.md) / CaptionEntry
 
-# Interface: SubtitleEntry
+# Interface: CaptionEntry
 
-Subtitle entry format used for timeline integration
+Caption entry format used for timeline integration
 
 ## Table of contents
 
 ### Properties
 
-- [e](SubtitleEntry.md#e)
-- [s](SubtitleEntry.md#s)
-- [t](SubtitleEntry.md#t)
+- [e](CaptionEntry.md#e)
+- [s](CaptionEntry.md#s)
+- [t](CaptionEntry.md#t)
 
 ## Properties
 

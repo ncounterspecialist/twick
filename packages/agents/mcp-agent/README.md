@@ -20,7 +20,7 @@ See [SHIPPING.md](./SHIPPING.md) for distribution options and release informatio
 
 - 🎬 **Video Transcription**: Transcribe videos from public URLs using Google Vertex AI
 - 🌍 **Multi-language Support**: Support for multiple languages and fonts
-- 📝 **Subtitle Generation**: Generate timed subtitle files in Twick Studio format
+- 📝 **Caption Generation**: Generate timed caption files in Twick Studio format
 - 🔗 **Twick Studio Integration**: Direct upload and link generation for Twick Studio
 - 📦 **Claude Desktop Extension**: Easy one-click installation
 
@@ -120,23 +120,23 @@ Edit the `twick-mcp-agent` section in your Claude Desktop config file:
 
 ## Usage
 
-Once installed, the `generate-subtitles` tool will be available in Claude Desktop. You can use it like:
+Once installed, the `generate-captions` tool will be available in Claude Desktop. You can use it like:
 
 ```
-Generate subtitless for this video: https://example.com/video.mp4
+Generate captionss for this video: https://example.com/video.mp4
 ```
 
 Or with specific language settings:
 
 ```
-Generate subtitless for https://example.com/video.mp4 in Spanish with Spanish font
+Generate captionss for https://example.com/video.mp4 in Spanish with Spanish font
 ```
 
 ### Tool Parameters
 
 - `videoUrl` (required): Publicly accessible video URL
 - `language` (optional): Target language for transcription (default: "english")
-- `language_font` (optional): Font/script for subtitles (default: "english")
+- `language_font` (optional): Font/script for captions (default: "english")
 
 ## Project Structure
 

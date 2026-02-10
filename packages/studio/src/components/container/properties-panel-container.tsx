@@ -3,25 +3,25 @@ import { TextEffects } from "../properties/text-effects";
 import { Animation } from "../properties/animation";
 import { VideoElement, type TrackElement } from "@twick/timeline";
 import { PlaybackPropsPanel } from "../properties/playback-props";
-import { GenerateSubtitlesPanel } from "../properties/generate-subtitles";
-import { ISubtitleGenerationPollingResponse, SubtitleEntry } from "../../types";
+import { GenerateCaptionsPanel } from "../properties/generate-captions";
+import { ICaptionGenerationPollingResponse, CaptionEntry } from "../../types";
 
 interface PropertiesPanelContainerProps {
   selectedProp: string;
   selectedElement: TrackElement | null;
   updateElement: (element: TrackElement) => void;
-  addSubtitlesToTimeline: (subtitles: SubtitleEntry[]) => void;
-  onGenerateSubtitles: (videoElement: VideoElement) => Promise<string | null>;
-  getSubtitleStatus: (reqId: string) => Promise<ISubtitleGenerationPollingResponse>;
+  addCaptionsToTimeline: (captions: CaptionEntry[]) => void;
+  onGenerateCaptions: (videoElement: VideoElement) => Promise<string | null>;
+  getCaptionstatus: (reqId: string) => Promise<ICaptionGenerationPollingResponse>;
 }
 
 export function PropertiesPanelContainer({
   selectedProp,
   selectedElement,
   updateElement,
-  addSubtitlesToTimeline,
-  onGenerateSubtitles,
-  getSubtitleStatus,
+  addCaptionsToTimeline,
+  onGenerateCaptions,
+  getCaptionstatus,
 }: PropertiesPanelContainerProps) {
   if (!selectedElement) {
     return (
@@ -77,12 +77,12 @@ export function PropertiesPanelContainer({
         />
       )}
       {
-        selectedProp === "generate-subtitles" && (
-          <GenerateSubtitlesPanel
+        selectedProp === "generate-captions" && (
+          <GenerateCaptionsPanel
             selectedElement={selectedElement}
-            addSubtitlesToTimeline={addSubtitlesToTimeline}
-            onGenerateSubtitles={onGenerateSubtitles}
-            getSubtitleStatus={getSubtitleStatus}
+            addCaptionsToTimeline={addCaptionsToTimeline}
+            onGenerateCaptions={onGenerateCaptions}
+            getCaptionstatus={getCaptionstatus}
           />
         )
       }

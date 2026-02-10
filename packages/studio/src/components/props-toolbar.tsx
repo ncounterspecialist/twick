@@ -93,21 +93,21 @@ const propsCategories: Map<string, ToolCategory> = new Map([
     },
   ],
   [
-    "subtitle-style",
+    "caption-style",
     {
-      id: "subtitle-style",
-      name: "Subtitle Style",
+      id: "caption-style",
+      name: "Caption Style",
       icon: "MessageSquare",
-      description: "Subtitle Style",
+      description: "Caption Style",
     },
   ],
   [
-    "generate-subtitles",
+    "generate-captions",
     {
-      id: "generate-subtitles",
-      name: "Generate Subtitles",
-      icon: "Subtitles",
-      description: "Generate Subtitles",
+      id: "generate-captions",
+      name: "Generate Captions",
+      icon: "Caption",
+      description: "Generate Captions",
     },
   ],
 ]);
@@ -122,7 +122,7 @@ const getIcon = (iconName: string) => {
       return Image;
     case "Music":
       return Music;
-    case "Subtitles":
+    case "Caption":
       return Captions;
     case "MessageSquare":
       return MessageSquare;
@@ -161,7 +161,7 @@ export function PropsToolbar({
       sections.push(propsCategories.get("animations")!);
       sections.push(propsCategories.get("color-effects")!);
       sections.push(propsCategories.get("playback-props")!);
-      sections.push(propsCategories.get("generate-subtitles")!);
+      sections.push(propsCategories.get("generate-captions")!);
     } else if (selectedElement instanceof AudioElement) {
       sections.push(propsCategories.get("element-props")!);
       sections.push(propsCategories.get("playback-props")!);
@@ -177,7 +177,7 @@ export function PropsToolbar({
     } else if (selectedElement instanceof CaptionElement) {
       sections.push(propsCategories.get("element-props")!);
       sections.push(propsCategories.get("animations")!);
-      sections.push(propsCategories.get("subtitle-style")!);
+      sections.push(propsCategories.get("caption-style")!);
     }
     return sections;
   }, [selectedElement]);

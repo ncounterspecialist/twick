@@ -68,7 +68,7 @@ The Twick SDK exposes a global registry called `twickTimelineEditors` that conta
 - **TextElement**: Text overlays with font styling, colors, and positioning
 - **AudioElement**: Background music or sound effects
 - **ImageElement**: Static images or graphics
-- **CaptionElement**: Subtitles or captions
+- **CaptionElement**: Captions or captions
 
 ### Timing Properties
 - `setStart(time)`: When the element appears in the timeline (seconds)

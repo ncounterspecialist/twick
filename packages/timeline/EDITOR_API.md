@@ -30,7 +30,7 @@ Tracks have a **type** that determines how they are used in the visualizer/playe
 |------------|----------|----------|
 | `"video"`   | `TRACK_TYPES.VIDEO`   | Video clips |
 | `"audio"`   | `TRACK_TYPES.AUDIO`   | Audio clips |
-| `"caption"` | `TRACK_TYPES.CAPTION` | Subtitles / captions |
+| `"caption"` | `TRACK_TYPES.CAPTION` | Captions / captions |
 | `"scene"`   | `TRACK_TYPES.SCENE`   | Scene containers (e.g. image/video as full scene) |
 | `"element"` | `TRACK_TYPES.ELEMENT` | Text, shapes, icons, images (overlay elements) |
 
@@ -42,7 +42,7 @@ import { TRACK_TYPES } from "@twick/timeline";
 // addTrack(name: string, type?: string): Track
 // type defaults to TRACK_TYPES.ELEMENT
 const videoTrack = editor.addTrack("Main video", TRACK_TYPES.VIDEO);
-const captionsTrack = editor.addTrack("Subtitles", TRACK_TYPES.CAPTION);
+const captionsTrack = editor.addTrack("Caption", TRACK_TYPES.CAPTION);
 const overlayTrack = editor.addTrack("Overlays", TRACK_TYPES.ELEMENT);
 ```
 
@@ -54,7 +54,7 @@ const tracks = data?.tracks ?? [];
 
 const trackById = editor.getTrackById("t-xxx");
 const trackByName = editor.getTrackByName("Main video");
-const captionsTrack = editor.getSubtitlesTrack(); // first track with type TRACK_TYPES.CAPTION
+const captionsTrack = editor.getCaptionsTrack(); // first track with type TRACK_TYPES.CAPTION
 ```
 
 ---
@@ -145,9 +145,9 @@ if (track) await editor.addElementToTrack(track, el);
 import { CaptionElement } from "@twick/timeline";
 
 // CaptionElement(t: string, start: number, end: number)
-const el = new CaptionElement("This is a subtitle phrase", 2, 5);
+const el = new CaptionElement("This is a caption phrase", 2, 5);
 
-const track = editor.getSubtitlesTrack() ?? editor.addTrack("Captions", TRACK_TYPES.CAPTION);
+const track = editor.getCaptionsTrack() ?? editor.addTrack("Captions", TRACK_TYPES.CAPTION);
 await editor.addElementToTrack(track, el);
 ```
 

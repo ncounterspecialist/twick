@@ -6,7 +6,7 @@ import {
 } from "@modelcontextprotocol/sdk/types.js";
 import { transcribeVideoUrl } from "./transcriber.js";
 import {
-  processSubtitlesToProject,
+  processCaptionsToProject,
   returnProjectAsFile,
   returnProjectAsTwickStudioLink,
 } from "./utils.js";
@@ -41,9 +41,9 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
   return {
     tools: [
       {
-        name: "generate-subtitles",
+        name: "generate-captions",
         description:
-          "Generate subtitles for an video URL using an external service",
+          "Generate captions for an video URL using an external service",
         inputSchema: {
           type: "object",
           properties: {
@@ -69,7 +69,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
 
 server.setRequestHandler(CallToolRequestSchema, async (request) => {
   try {
-    if (request.params.name === "generate-subtitles") {
+    if (request.params.name === "generate-captions") {
       const { videoUrl, language, language_font } = request.params
         .arguments as {
         videoUrl: string;
@@ -87,8 +87,8 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         languageFont: language_font ?? "english",
       });
 
-      const project = await processSubtitlesToProject({
-        subtitles: data.subtitles,
+      const project = await processCaptionsToProject({
+        captions: data.captions,
         videoUrl: data.videoUrl,
         duration: data.duration,
         videoSize: { width: 720, height: 1280 },

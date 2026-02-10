@@ -9,7 +9,7 @@ Response from GET /request-status when status is ready
 ### Properties
 
 - [status](RequestStatusCompleted.md#status)
-- [subtitles](RequestStatusCompleted.md#subtitles)
+- [captions](RequestStatusCompleted.md#captions)
 
 ## Properties
 
@@ -23,9 +23,9 @@ Response from GET /request-status when status is ready
 
 ___
 
-### subtitles
+### captions
 
-• **subtitles**: [`SubtitleEntry`](SubtitleEntry.md)[]
+• **captions**: [`CaptionEntry`](CaptionEntry.md)[]
 
 #### Defined in
 

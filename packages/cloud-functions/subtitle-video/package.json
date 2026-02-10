@@ -1,7 +1,7 @@
 {
-  "name": "@twick/cloud-subtitle-video",
+  "name": "@twick/cloud-caption-video",
   "version": "0.15.0",
-  "description": "Twick cloud function for generating subtitle video from audio using Google Cloud Speech-to-Text",
+  "description": "Twick cloud function for generating caption video from audio using Google Cloud Speech-to-Text",
   "type": "module",
   "main": "core/index.js",
   "exports": {
@@ -10,7 +10,7 @@
     "./platform/aws/*": "./platform/aws/*"
   },
   "bin": {
-    "twick-subtitle-video": "bin/twick-subtitle-video.js"
+    "twick-caption-video": "bin/twick-caption-video.js"
   },
   "files": [
     "core",

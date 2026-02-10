@@ -120,7 +120,7 @@ Timeline
 │   └── Image Element (5-15s)
 ├── Track 2 (Text Overlays)
 │   ├── Title Text (1-5s)
-│   └── Subtitle Text (3-8s)
+│   └── Caption Text (3-8s)
 └── Track 3 (Audio)
     └── Background Music (0-20s)
 ```
@@ -161,7 +161,7 @@ Elements are the building blocks of your video. Each element type serves a speci
 | `VideoElement` | Video clips | Source, duration, volume | Main video content, clips |
 | `ImageElement` | Static images | Source, dimensions, position | Photos, graphics, logos |
 | `AudioElement` | Audio tracks | Source, volume, playback rate | Background music, sound effects |
-| `CaptionElement` | Subtitles | Text, timing, style | Subtitles, accessibility |
+| `CaptionElement` | Captions | Text, timing, style | Captions, accessibility |
 | `RectElement` | Rectangles | Color, size, position | Backgrounds, overlays, graphics |
 | `CircleElement` | Circles | Color, radius, position | Highlights, decorative elements |
 | `IconElement` | Icons | Icon type, size, color | UI elements, symbols, buttons |
@@ -706,12 +706,12 @@ audioElement
 
 ### **CaptionElement**
 
-Add subtitles with word-by-word timing:
+Add captions with word-by-word timing:
 
 ```typescript
 import { CaptionElement } from "@twick/timeline";
 
-const captionElement = new CaptionElement("This is a subtitle");
+const captionElement = new CaptionElement("This is a caption");
 captionElement
   .setStart(0)
   .setEnd(5)
@@ -1637,7 +1637,7 @@ import { TimelineProvider, INITIAL_TIMELINE_DATA } from "@twick/timeline";
 - `VideoElement`: Video clips with playback controls
 - `ImageElement`: Static images
 - `AudioElement`: Audio tracks
-- `CaptionElement`: Subtitles with timing
+- `CaptionElement`: Captions with timing
 - `RectElement`: Rectangles
 - `CircleElement`: Circles
 - `IconElement`: Icons

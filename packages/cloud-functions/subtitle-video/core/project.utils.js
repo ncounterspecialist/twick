@@ -19,17 +19,17 @@ const generateShortUuid = () => {
   });
 };
 /**
- * Builds a Twick subtitle video project JSON structure from transcription results.
+ * Builds a Twick caption video project JSON structure from transcription results.
  * 
  * @param {Object} params - Project parameters
- * @param {Array<Object>} params.subtitles - Array of subtitle objects with {t, s, e} properties
+ * @param {Array<Object>} params.captions - Array of caption objects with {t, s, e} properties
  * @param {number} params.duration - Video duration in seconds
  * @param {string} params.videoUrl - Source video URL
  * @param {Object} [params.videoSize] - Video dimensions {width, height}
  * @returns {Object} Twick project JSON structure with properties, tracks, and version
  */
 export const buildProject = (params) => {
-  const { subtitles, duration, videoUrl, videoSize } = params;
+  const { captions, duration, videoUrl, videoSize } = params;
 
   const videoTrackId = `t-${generateShortUuid()}`;
   const captionTrackId = `t-${generateShortUuid()}`;
@@ -82,13 +82,13 @@ export const buildProject = (params) => {
             y: 200,
             applyToAll: true,
           },
-          elements: subtitles.map((subtitle, index) => ({
+          elements: captions.map((caption, index) => ({
             id: `e-${generateShortUuid()}`,
             trackId: captionTrackId,
             type: "caption",
-            s: subtitle.s / 1000,
-            e: subtitle.e / 1000,
-            t: subtitle.t,
+            s: caption.s / 1000,
+            e: caption.e / 1000,
+            t: caption.t,
           })),
         },
       ],

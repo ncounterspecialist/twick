@@ -2,7 +2,7 @@
 
 **Transcribe audio/video to JSON captions using Google GenAI (Vertex AI) with Gemini models.**
 
-Extract text from audio content with precise millisecond timestamps. Perfect for generating subtitle data from audio files or video URLs.
+Extract text from audio content with precise millisecond timestamps. Perfect for generating caption data from audio files or video URLs.
 
 ## What Problem Does This Solve?
 

@@ -1,15 +1,15 @@
-# @twick/cloud-subtitle-video
+# @twick/cloud-caption-video
 
-**Generate complete subtitle video projects from video URLs using Google Cloud Speech-to-Text.**
+**Generate complete caption video projects from video URLs using Google Cloud Speech-to-Text.**
 
-Automatically transcribes video audio, creates timed subtitle tracks, and optionally exports project JSONs to Google Cloud Storage. Perfect for programmatic subtitle generation at scale.
+Automatically transcribes video audio, creates timed caption tracks, and optionally exports project JSONs to Google Cloud Storage. Perfect for programmatic caption generation at scale.
 
 ## What Problem Does This Solve?
 
-- **Automated subtitle generation** — Convert video URLs into complete Twick projects with timed subtitles
-- **Word-level timing** — Precise subtitle placement using Google Speech-to-Text API
+- **Automated caption generation** — Convert video URLs into complete Twick projects with timed captions
+- **Word-level timing** — Precise caption placement using Google Speech-to-Text API
 - **Serverless processing** — Deploy as AWS Lambda for automatic scaling
-- **Multi-language support** — Generate subtitles in multiple languages and fonts
+- **Multi-language support** — Generate captions in multiple languages and fonts
 
 ## Input → Output
 
@@ -24,13 +24,13 @@ Automatically transcribes video audio, creates timed subtitle tracks, and option
 }
 ```
 
-**Output:** Complete Twick project JSON with video track + subtitle track
+**Output:** Complete Twick project JSON with video track + caption track
 ```json
 {
   "properties": { "width": 1920, "height": 1080 },
   "tracks": [
     { "id": "video", "type": "video", "elements": [...] },
-    { "id": "subtitle", "type": "caption", "elements": [...] }
+    { "id": "caption", "type": "caption", "elements": [...] }
   ],
   "version": 1
 }
@@ -41,7 +41,7 @@ Automatically transcribes video audio, creates timed subtitle tracks, and option
 ## Installation
 
 ```bash
-npm install -D @twick/cloud-subtitle-video
+npm install -D @twick/cloud-caption-video
 ```
 
 ## Quick Start
@@ -49,13 +49,13 @@ npm install -D @twick/cloud-subtitle-video
 ### 1. Scaffold AWS Lambda Template
 
 ```bash
-npx twick-subtitle-video init
+npx twick-caption-video init
 ```
 
 ### 2. Build Docker Image
 
 ```bash
-npx twick-subtitle-video build twick-subtitle-video:latest
+npx twick-caption-video build twick-caption-video:latest
 ```
 
 ### 3. Configure Google Cloud
@@ -82,10 +82,10 @@ npx twick-subtitle-video build twick-subtitle-video:latest
 
 ```bash
 # Login to ECR
-npx twick-subtitle-video ecr-login us-east-1 YOUR_ACCOUNT_ID
+npx twick-caption-video ecr-login us-east-1 YOUR_ACCOUNT_ID
 
 # Push to ECR
-npx twick-subtitle-video push twick-subtitle-video:latest us-east-1 YOUR_ACCOUNT_ID
+npx twick-caption-video push twick-caption-video:latest us-east-1 YOUR_ACCOUNT_ID
 ```
 
 ## Deployment (High Level)
@@ -105,16 +105,16 @@ The Lambda handler expects:
 Use the core functions directly:
 
 ```js
-import { createSubtitleProject } from '@twick/cloud-subtitle-video';
+import { createCaptionProject } from '@twick/cloud-caption-video';
 
-const project = await createSubtitleProject({
+const project = await createCaptionProject({
   videoUrl: 'https://example.com/video.mp4',
   videoSize: { width: 1920, height: 1080 },
   language: 'english',
   languageFont: 'english',
 });
 
-console.log(project.tracks); // Array of video and subtitle tracks
+console.log(project.tracks); // Array of video and caption tracks
 ```
 
 ## Technical Details
@@ -122,7 +122,7 @@ console.log(project.tracks); // Array of video and subtitle tracks
 - **API:** Google Cloud Speech-to-Text API v2
 - **Model:** `"long"` (optimized for longer audio)
 - **Audio format:** FLAC, 16kHz, mono
-- **Features:** Word-level timing offsets for precise subtitle placement
+- **Features:** Word-level timing offsets for precise caption placement
 - **Auto-selection:** Synchronous (short audio) or batch (long audio >6s)
 
 For detailed setup instructions, see the complete deployment guide in the repository.

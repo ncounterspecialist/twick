@@ -132,7 +132,7 @@ export class TimelineEditor {
     return track as Track | null;
   }
 
-  getSubtitlesTrack(): Track | null {
+  getCaptionsTrack(): Track | null {
     const prevTimelineData = this.getTimelineData();
     const track = prevTimelineData?.tracks.find((t) => t.getType() === TRACK_TYPES.CAPTION);
     return track as Track | null;
