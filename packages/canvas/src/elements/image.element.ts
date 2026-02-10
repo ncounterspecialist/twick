@@ -1,18 +1,19 @@
 import type { CanvasElementHandler } from "../types";
 import { addImageElement, addBackgroundColor } from "../components/elements";
-import { convertToVideoPosition } from "../helpers/canvas.util";
+import { convertToVideoPosition, convertToVideoDimensions } from "../helpers/canvas.util";
 import { ELEMENT_TYPES } from "../helpers/constants";
 
 export const ImageElement: CanvasElementHandler = {
   name: ELEMENT_TYPES.IMAGE,
 
   async add(params) {
-    const { element, index, canvas, canvasMetadata } = params;
+    const { element, index, canvas, canvasMetadata, lockAspectRatio } = params;
     await addImageElement({
       element,
       index,
       canvas,
       canvasMetadata,
+      lockAspectRatio: lockAspectRatio ?? element.props?.lockAspectRatio,
     });
     if (element.timelineType === "scene") {
       await addBackgroundColor({
@@ -34,12 +35,15 @@ export const ImageElement: CanvasElementHandler = {
     const currentFrameEffect = context.elementFrameMapRef.current[element.id];
 
     if (object.type === "group") {
-      let updatedFrameSize: [number, number];
+      const scaledW = (object.width ?? 0) * (object.scaleX ?? 1);
+      const scaledH = (object.height ?? 0) * (object.scaleY ?? 1);
+      const { width: fw, height: fh } = convertToVideoDimensions(
+        scaledW,
+        scaledH,
+        context.canvasMetadata
+      );
+      const updatedFrameSize: [number, number] = [fw, fh];
       if (currentFrameEffect) {
-        updatedFrameSize = [
-          currentFrameEffect.props.frameSize![0] * object.scaleX,
-          currentFrameEffect.props.frameSize![1] * object.scaleY,
-        ];
         context.elementFrameMapRef.current[element.id] = {
           ...currentFrameEffect,
           props: {
@@ -51,6 +55,17 @@ export const ImageElement: CanvasElementHandler = {
         return {
           element: {
             ...element,
+            // Keep the base frame in sync with the active frame effect
+            // so visualizer `Rect {...element.frame}` reflects the same size/position.
+            frame: element.frame
+              ? {
+                  ...element.frame,
+                  rotation: object.angle,
+                  size: updatedFrameSize,
+                  x,
+                  y,
+                }
+              : element.frame,
             frameEffects: (element.frameEffects || []).map((fe: any) =>
               (fe as { id?: string }).id === (currentFrameEffect as { id?: string })?.id
                 ? {
@@ -67,10 +82,6 @@ export const ImageElement: CanvasElementHandler = {
         };
       }
       const frame = element.frame!;
-      updatedFrameSize = [
-        (frame.size![0] ?? 0) * object.scaleX,
-        (frame.size![1] ?? 0) * object.scaleY,
-      ];
       return {
         element: {
           ...element,
@@ -85,14 +96,22 @@ export const ImageElement: CanvasElementHandler = {
       };
     }
 
+    // Use Fabric's actual displayed size so live player matches canvas after resize+move
+    const scaledW = (object.width ?? 0) * (object.scaleX ?? 1);
+    const scaledH = (object.height ?? 0) * (object.scaleY ?? 1);
+    const { width, height } = convertToVideoDimensions(
+      scaledW,
+      scaledH,
+      context.canvasMetadata
+    );
     return {
       element: {
         ...element,
         props: {
           ...element.props,
           rotation: object.angle,
-          width: (element.props?.width ?? 0) * object.scaleX,
-          height: (element.props?.height ?? 0) * object.scaleY,
+          width,
+          height,
           x,
           y,
         },

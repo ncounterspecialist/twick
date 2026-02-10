@@ -7,12 +7,13 @@ export const CircleElement: CanvasElementHandler = {
   name: ELEMENT_TYPES.CIRCLE,
 
   async add(params) {
-    const { element, index, canvas, canvasMetadata } = params;
+    const { element, index, canvas, canvasMetadata, lockAspectRatio } = params;
     await addCircleElement({
       element,
       index,
       canvas,
       canvasMetadata,
+      lockAspectRatio: lockAspectRatio ?? element.props?.lockAspectRatio,
     });
   },
 

@@ -187,6 +187,7 @@ export { default as VideoEditor } from "@twick/video-editor";
 export type { 
   VideoEditorProps, 
   VideoEditorConfig,
+  CanvasConfig,
   TimelineTickConfig,
   TimelineZoomConfig,
   PlayerControlsProps

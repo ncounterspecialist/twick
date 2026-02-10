@@ -66,6 +66,9 @@ export default function ExampleStudio() {
         >
           <TwickStudio studioConfig={{
             exportVideo: onExportVideo,
+            canvasConfig: {
+              enableShiftAxisLock: true,
+            },
             videoProps: {
               width: 720,
               height: 1280,

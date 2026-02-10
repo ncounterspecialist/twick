@@ -5,11 +5,13 @@ import {
   getCurrentElements,
   TIMELINE_ACTION,
   useTimelineContext,
+  type TrackElement,
 } from "@twick/timeline";
 import { useLivePlayerContext } from "@twick/live-player";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createElementFromDrop } from "./use-timeline-drop";
 import type { CanvasDropPayload } from "./use-canvas-drop";
+import type { CanvasConfig } from "../helpers/types";
 
 /**
  * Custom hook to manage player state and canvas interactions.
@@ -17,19 +19,23 @@ import type { CanvasDropPayload } from "./use-canvas-drop";
  * for the video editor component.
  *
  * @param videoProps - Object containing video dimensions
+ * @param canvasConfig - Canvas behavior options (e.g. enableShiftAxisLock) from editorConfig / studioConfig
  * @returns Object containing player management functions and state
  *
  * @example
  * ```js
  * const { twickCanvas, projectData, updateCanvas } = usePlayerManager({
- *   videoProps: { width: 1920, height: 1080 }
+ *   videoProps: { width: 1920, height: 1080 },
+ *   canvasConfig: { enableShiftAxisLock: true }
  * });
  * ```
  */
 export const usePlayerManager = ({
   videoProps,
+  canvasConfig,
 }: {
   videoProps: { width: number; height: number };
+  canvasConfig?: CanvasConfig;
 }) => {
   const [projectData, setProjectData] = useState<any>(null);
   const {
@@ -79,6 +85,33 @@ export const usePlayerManager = ({
       if (data?.element) {
         setSelectedItem(data.element);
       }
+      return;
+    }
+    if (operation === CANVAS_OPERATIONS.Z_ORDER_CHANGED) {
+      const { elementId, direction } = data ?? {};
+      if (!elementId || !direction) return;
+      const tracks = editor.getTimelineData()?.tracks ?? [];
+      const trackIndex = tracks.findIndex((t) =>
+        t.getElements().some((el) => el.getId() === elementId)
+      );
+      if (trackIndex < 0) return;
+      const track = tracks[trackIndex];
+      const reordered = [...tracks];
+      if (direction === "front") {
+        reordered.splice(trackIndex, 1);
+        reordered.push(track);
+      } else if (direction === "back") {
+        reordered.splice(trackIndex, 1);
+        reordered.unshift(track);
+      } else if (direction === "forward" && trackIndex < reordered.length - 1) {
+        [reordered[trackIndex], reordered[trackIndex + 1]] = [reordered[trackIndex + 1], reordered[trackIndex]];
+      } else if (direction === "backward" && trackIndex > 0) {
+        [reordered[trackIndex - 1], reordered[trackIndex]] = [reordered[trackIndex], reordered[trackIndex - 1]];
+      } else {
+        return;
+      }
+      editor.reorderTracks(reordered);
+      currentChangeLog.current = currentChangeLog.current + 1;
       return;
     }
     if (operation === CANVAS_OPERATIONS.CAPTION_PROPS_UPDATED) {
@@ -137,9 +170,18 @@ export const usePlayerManager = ({
     [editor, videoResolution, getCurrentTime, setSelectedItem]
   );
 
-  const { twickCanvas, buildCanvas, setCanvasElements } = useTwickCanvas({
+  const {
+    twickCanvas,
+    buildCanvas,
+    setCanvasElements,
+    bringToFront,
+    sendToBack,
+    bringForward,
+    sendBackward,
+  } = useTwickCanvas({
     onCanvasReady: handleCanvasReady,
     onCanvasOperation: handleCanvasOperation,
+    enableShiftAxisLock: canvasConfig?.enableShiftAxisLock ?? false,
   });
 
   /**
@@ -196,6 +238,7 @@ export const usePlayerManager = ({
       seekTime,
       captionProps,
       cleanAndAdd: true,
+      lockAspectRatio: canvasConfig?.lockAspectRatio,
     });
     currentChangeLog.current = changeLog;
   };
@@ -217,6 +260,21 @@ export const usePlayerManager = ({
     if (event?.detail?.status === "ready") {
       setPlayerUpdating(false);
       setTimelineAction(TIMELINE_ACTION.ON_PLAYER_UPDATED, null);
+    }
+  };
+
+  const deleteElement = (elementId: string): void => {
+    const tracks = editor.getTimelineData()?.tracks ?? [];
+    for (const track of tracks) {
+      const element = track.getElementById(elementId);
+      if (element) {
+        editor.removeElement(element as TrackElement);
+        currentChangeLog.current = currentChangeLog.current + 1;
+        setSelectedItem(null);
+        // Refresh canvas so the deleted element is removed from the canvas
+        updateCanvas(getCurrentTime());
+        return;
+      }
     }
   };
 
@@ -258,5 +316,10 @@ export const usePlayerManager = ({
     onPlayerUpdate,
     playerUpdating,
     handleDropOnCanvas,
+    bringToFront,
+    sendToBack,
+    bringForward,
+    sendBackward,
+    deleteElement,
   };
 };

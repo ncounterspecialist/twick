@@ -12,6 +12,8 @@ import { TrackElement } from "../elements/base.element";
 
 export class ElementSerializer implements ElementVisitor<ElementJSON> {
   serializeElement(element: TrackElement): ElementJSON {
+    const props = structuredClone(element.getProps());
+    const zIndex = props?.zIndex;
     return {
       id: element.getId(),
       trackId: element.getTrackId(),
@@ -19,7 +21,8 @@ export class ElementSerializer implements ElementVisitor<ElementJSON> {
       name: element.getName(),
       s: element.getStart(),
       e: element.getEnd(),
-      props: structuredClone(element.getProps()),
+      props,
+      ...(zIndex !== undefined && { zIndex }),
       animation: element.getAnimation()?.toJSON(),
     };
   }

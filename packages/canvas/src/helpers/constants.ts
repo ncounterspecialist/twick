@@ -113,6 +113,8 @@ export const CANVAS_OPERATIONS = {
   WATERMARK_UPDATED: "WATERMARK_UPDATED",
   /** A new element was added via drop on canvas; payload is { element } */
   ADDED_NEW_ELEMENT: "ADDED_NEW_ELEMENT",
+  /** Z-order changed (bring to front / send to back). Payload is { elementId, direction }. Timeline should reorder tracks. */
+  Z_ORDER_CHANGED: "Z_ORDER_CHANGED",
 }
 
 /**

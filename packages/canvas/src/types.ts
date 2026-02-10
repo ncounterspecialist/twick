@@ -44,6 +44,8 @@ export type CanvasProps = {
   enableRetinaScaling?: boolean;
   /** Threshold for touch zoom interactions */
   touchZoomThreshold?: number;
+  /** Default lock aspect ratio when resizing elements (uniform scaling). Can be overridden per element via props.lockAspectRatio. */
+  lockAspectRatio?: boolean;
 };
 
 /**
@@ -181,6 +183,8 @@ export type CanvasElement = {
     /** Y coordinate */
     y: number;
   };
+  /** Layering order on the canvas (higher = on top). Updated by bring to front / send to back. */
+  zIndex?: number;
 };
 
 /**
@@ -295,6 +299,8 @@ export type CanvasElementProps = {
   playbackRate?: number;
   /** Current time for video elements */
   time?: number;
+  /** When true, resize preserves aspect ratio (uniform scaling). When false, allows non-uniform scale. */
+  lockAspectRatio?: boolean;
 };
 
 /**
@@ -377,6 +383,8 @@ export type CanvasElementAddParams = {
   getCurrentFrameEffect?: (item: CanvasElement, seekTime: number) => FrameEffect | undefined;
   /** Used by watermark handler to store props for WATERMARK_UPDATED */
   watermarkPropsRef?: { current: any };
+  /** When true, resize keeps aspect ratio (uniform scaling). Overridable by element.props.lockAspectRatio. */
+  lockAspectRatio?: boolean;
 };
 
 /**

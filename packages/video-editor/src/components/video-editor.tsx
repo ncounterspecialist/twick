@@ -8,7 +8,7 @@ import {
   DEFAULT_TIMELINE_TICK_CONFIGS,
   DEFAULT_ELEMENT_COLORS,
 } from "../helpers/constants";
-import { ElementColors } from "../helpers/types";
+import { CanvasConfig, ElementColors } from "../helpers/types";
 
 /**
  * Configuration for timeline tick marks at specific duration ranges.
@@ -66,6 +66,7 @@ export interface TimelineZoomConfig {
  * const editorConfig = {
  *   videoProps: { width: 1920, height: 1080 },
  *   canvasMode: true,
+ *   canvasConfig: { enableShiftAxisLock: true },
  *   timelineTickConfigs: [
  *     { durationThreshold: 30, majorInterval: 5, minorTicks: 5 },
  *     { durationThreshold: 300, majorInterval: 30, minorTicks: 6 }
@@ -98,6 +99,8 @@ export interface VideoEditorConfig {
   };
   /** Whether to use canvas mode for rendering */
   canvasMode?: boolean;
+  /** Canvas behavior options (axis lock, zoom, snapping, etc.). Used by TwickEditor and TwickStudio. */
+  canvasConfig?: CanvasConfig;
   /** Custom timeline tick configurations for different duration ranges */
   timelineTickConfigs?: TimelineTickConfig[];
   /** Custom timeline zoom configuration (min, max, step, default) */
@@ -211,6 +214,7 @@ const VideoEditor: React.FC<VideoEditorProps> = ({
         videoProps={editorConfig.videoProps}
         playerProps={editorConfig.playerProps}
         canvasMode={editorConfig.canvasMode ?? true}
+        canvasConfig={editorConfig.canvasConfig}
       />
     ),
     [editorConfig]

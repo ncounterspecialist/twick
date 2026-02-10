@@ -15,7 +15,12 @@
     "skipLibCheck": true,
     "jsx": "react-jsx",
     "jsxImportSource": "@twick/2d",
-    "downlevelIteration": true
+    "downlevelIteration": true,
+    "baseUrl": ".",
+    "paths": {
+      "@twick/2d/jsx-runtime": ["./src/jsx-dev-runtime-shim.ts"],
+      "@twick/2d/jsx-dev-runtime": ["./src/jsx-dev-runtime-shim.ts"]
+    }
   },
   "include": ["src"]
 }

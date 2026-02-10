@@ -7,12 +7,13 @@ export const RectElement: CanvasElementHandler = {
   name: ELEMENT_TYPES.RECT,
 
   async add(params) {
-    const { element, index, canvas, canvasMetadata } = params;
+    const { element, index, canvas, canvasMetadata, lockAspectRatio } = params;
     await addRectElement({
       element,
       index,
       canvas,
       canvasMetadata,
+      lockAspectRatio: lockAspectRatio ?? element.props?.lockAspectRatio,
     });
   },
 

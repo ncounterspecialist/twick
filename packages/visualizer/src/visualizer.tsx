@@ -134,7 +134,7 @@ export const scene = makeScene2D("scene", function* (view: View2D) {
       const movie = [];
       let index = 1;
 
-      // Iterate through each track element and create appropriate visualization
+      // Iterate through each track. Z-order is determined by track order (first track = back, last = front).
       for (const track of input.tracks) {
         switch (track.type) {
           case TRACK_TYPES.VIDEO:
