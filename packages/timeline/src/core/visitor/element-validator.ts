@@ -104,8 +104,8 @@ export class ElementValidator implements ElementVisitor<boolean> {
       errors.push("Video element must have a source URL");
     }
 
-    if (props?.volume !== undefined && (props.volume < 0 || props.volume > 1)) {
-      errors.push("Volume must be between 0 and 1");
+    if (props?.volume !== undefined && (props.volume < 0 || props.volume > 3)) {
+      errors.push("Volume must be between 0 and 3 (linear; ~+6 dB max)");
     }
 
     if (props?.playbackRate !== undefined && props.playbackRate <= 0) {
@@ -129,8 +129,8 @@ export class ElementValidator implements ElementVisitor<boolean> {
       errors.push("Audio element must have a source URL");
     }
 
-    if (props?.volume !== undefined && (props.volume < 0 || props.volume > 1)) {
-      errors.push("Volume must be between 0 and 1");
+    if (props?.volume !== undefined && (props.volume < 0 || props.volume > 3)) {
+      errors.push("Volume must be between 0 and 3 (linear; ~+6 dB max)");
     }
 
     if (props?.playbackRate !== undefined && props.playbackRate <= 0) {
