@@ -3,6 +3,7 @@ import PlayerControls from "./player-controls";
 import { useTimelineContext } from "@twick/timeline";
 import { usePlayerControl } from "../../hooks/use-player-control";
 import useTimelineControl from "../../hooks/use-timeline-control";
+import { useCanvasKeyboard } from "../../hooks/use-canvas-keyboard";
 import { TimelineZoomConfig } from "../video-editor";
 import { DEFAULT_FPS } from "../../helpers/constants";
 
@@ -31,6 +32,10 @@ const ControlManager = ({
   } = useTimelineContext();
   const { deleteItem, splitElement, handleUndo, handleRedo } =
     useTimelineControl();
+
+  useCanvasKeyboard({
+    onDelete: () => deleteItem(),
+  });
 
   const handleSeek = (time: number) => {
     const clamped = Math.max(0, Math.min(totalDuration, time));
