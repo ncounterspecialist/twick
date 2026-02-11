@@ -397,7 +397,7 @@ const newProject = {
 
 | Name | Type |
 | :------ | :------ |
-| `tracks` | \{ `type`: `string` = "element"; `id`: `string` = "t-sample"; `name`: `string` = "sample"; `elements`: \{ `id`: `string` = "e-sample"; `trackId`: `string` = "t-sample"; `name`: `string` = "sample"; `type`: `string` = "text"; `s`: `number` = 0; `e`: `number` = 5; `props`: \{ `text`: `string` = "Twick Video Editor"; `fill`: `string` = "#FFFFFF" }  }[]  }[] |
+| `tracks` | `Track[]` |
 | `version` | `number` |
 
 #### Defined in
