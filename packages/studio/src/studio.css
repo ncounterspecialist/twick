@@ -109,6 +109,7 @@ html {
   background: rgba(23, 23, 28, 0.96);
   padding: 0.75rem;
   border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 0.25rem;
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
   overflow-x: hidden;
   overflow-y: auto;
