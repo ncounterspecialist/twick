@@ -35,6 +35,8 @@ const ControlManager = ({
 
   useCanvasKeyboard({
     onDelete: () => deleteItem(),
+    onUndo: () => handleUndo(),
+    onRedo: () => handleRedo(),
   });
 
   const handleSeek = (time: number) => {

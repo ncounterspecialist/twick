@@ -10,15 +10,21 @@ function shouldIgnoreKeydown(): boolean {
 }
 
 /**
- * Registers keyboard shortcut for delete.
- * Delete, Backspace.
+ * Registers keyboard shortcuts for editor actions.
+ * - Delete, Backspace: delete
+ * - Cmd/Ctrl+Z: undo
+ * - Cmd/Ctrl+Shift+Z or Cmd/Ctrl+Y: redo
  * Ignores events when focus is in input, textarea, or contenteditable.
  */
 export function useCanvasKeyboard({
   onDelete,
+  onUndo,
+  onRedo,
   enabled = true,
 }: {
   onDelete?: () => void;
+  onUndo?: () => void;
+  onRedo?: () => void;
   enabled?: boolean;
 }) {
   useEffect(() => {
@@ -28,7 +34,28 @@ export function useCanvasKeyboard({
       if (shouldIgnoreKeydown()) return;
 
       const key = e.key.toLowerCase();
-      if (key === "delete" || key === "backspace") {
+
+      // Modifier-aware shortcuts (Cmd/Ctrl)
+      const hasPrimaryModifier = e.metaKey || e.ctrlKey;
+
+      if (hasPrimaryModifier) {
+        // Undo: Cmd/Ctrl+Z (without Shift)
+        if (key === "z" && !e.shiftKey) {
+          e.preventDefault();
+          onUndo?.();
+          return;
+        }
+
+        // Redo: Cmd/Ctrl+Shift+Z or Cmd/Ctrl+Y
+        if (key === "y" || (key === "z" && e.shiftKey)) {
+          e.preventDefault();
+          onRedo?.();
+          return;
+        }
+      }
+
+      // Delete / Backspace (no modifiers)
+      if (!hasPrimaryModifier && (key === "delete" || key === "backspace")) {
         e.preventDefault();
         onDelete?.();
       }
