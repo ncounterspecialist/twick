@@ -88,10 +88,6 @@ import { CirclePanel } from "./components/panel/circle-panel";
  */
 import { RectPanel } from "./components/panel/rect-panel";
 
-/**
- * Panel for browsing and inserting icons.
- */
-import { IconPanel } from "./components/panel/icon-panel";
 
 /**
  * Panel for managing captions/captions.
@@ -124,8 +120,6 @@ export {
   CirclePanel,
   /** Panel for adding rectangles */
   RectPanel,
-  /** Panel for icon assets */
-  IconPanel,
 }
 
 // Hook exports for external logic integration

@@ -4,7 +4,6 @@ import { AudioPanelContainer } from "./audio-panel-container";
 import { ImagePanelContainer } from "./image-panel-container";
 import { VideoPanelContainer } from "./video-panel-container";
 import { TextPanelContainer } from "./text-panel-container";
-import { IconPanelContainer } from "./icon-panel-container";
 import { RectPanelContainer } from "./rect-panel-container";
 import { CirclePanelContainer } from "./circle-panel-container";
 import { Wand2 } from "lucide-react";
@@ -88,15 +87,6 @@ const ElementPanelContainer = ({
       case "text":
         return (
           <TextPanelContainer
-            selectedElement={selectedElement}
-            addElement={addNewElement}
-            updateElement={updateElement}
-          />
-        );
-      case "icon":
-        return (
-          <IconPanelContainer
-            videoResolution={videoResolution}
             selectedElement={selectedElement}
             addElement={addNewElement}
             updateElement={updateElement}

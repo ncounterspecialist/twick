@@ -25,7 +25,6 @@ import {
   Image, 
   Music,
   Circle,
-  Infinity, 
   MessageSquare,
   Plus,
   Square,
@@ -37,7 +36,6 @@ const toolCategories: ToolCategory[] = [
   { id: 'image', name: 'Image', icon: 'Image', description: 'Add an image element' },
   { id: 'audio', name: 'Audio', icon: 'Audio', description: 'Add an audio element' },
   { id: 'text', name: 'Text', icon: 'Type', description: 'Add text elements' },
-  { id: 'icon', name: 'Icons', icon: 'Icon', description: 'Add an icon element'},
   { id: 'circle', name: 'Circle', icon: 'Circle', description: 'Add a circle element'},
   { id: 'rect', name: 'Rect', icon: 'Rect', description: 'Add a rectangle element' },
   { id: 'caption', name: 'Caption', icon: 'MessageSquare', description: 'Manage captions'},
@@ -47,7 +45,6 @@ const getIcon = (iconName: string) => {
   switch (iconName) {
     case 'Plus': return Plus
     case 'Type': return Type
-    case 'Icon': return Infinity
     case 'Upload': return Upload
     case 'Square': return Square
     case 'Image': return Image

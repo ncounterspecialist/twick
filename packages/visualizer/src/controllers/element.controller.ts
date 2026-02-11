@@ -1,7 +1,6 @@
 import { AudioElement } from "../elements/audio.element";
 import { CaptionElement } from "../elements/caption.element";
 import { CircleElement } from "../elements/circle.element";
-import { IconElement } from "../elements/icon.element";
 import { ImageElement } from "../elements/image.element";
 import { RectElement } from "../elements/rect.element";
 import { SceneElement } from "../elements/scene.element";
@@ -33,7 +32,6 @@ export class ElementController {
     elementController.register(TextElement);
     elementController.register(AudioElement);
     elementController.register(CircleElement);
-    elementController.register(IconElement);
     elementController.register(RectElement);
   }
 
