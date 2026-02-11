@@ -109,6 +109,7 @@ html {
   background: rgba(23, 23, 28, 0.96);
   padding: 0.75rem;
   border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 0.25rem;
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
   overflow-x: hidden;
   overflow-y: auto;
@@ -619,6 +620,8 @@ html {
 
 /* Sidebar styles */
 .sidebar {
+  position: relative;
+  z-index: 2;
   min-width: 3.8rem;
   max-width: 3.8rem;
   padding-top: 0.75rem;
@@ -635,7 +638,7 @@ html {
 
 .toolbar-label {
   text-align: center;
-  font-size: smaller;
+  font-size: 0.75rem;
   color: rgba(203, 213, 225, 0.9); 
 }
 
@@ -1262,6 +1265,8 @@ html {
 
 /* Side panels */
 .studio-left-panel {
+  position: relative;
+  z-index: 1;
   width: 288px;
   flex-shrink: 0;
   height: 100%;

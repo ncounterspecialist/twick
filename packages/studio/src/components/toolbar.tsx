@@ -25,7 +25,6 @@ import {
   Image, 
   Music,
   Circle,
-  Infinity, 
   MessageSquare,
   Plus,
   Square,
@@ -33,21 +32,19 @@ import {
 import type { ToolCategory } from '../types'
 
 const toolCategories: ToolCategory[] = [
-  { id: 'video', name: 'Video', icon: 'Video', description: 'Video' },
-  { id: 'image', name: 'Image', icon: 'Image', description: 'Image' },
-  { id: 'audio', name: 'Audio', icon: 'Audio', description: 'Audio' },
-  { id: 'text', name: 'Text', icon: 'Type', description: 'Add text elements', shortcut: 'T' },
-  { id: 'icon', name: 'Icons', icon: 'Icon', description: 'Icon Element', shortcut: 'I' },
-  { id: 'circle', name: 'Circle', icon: 'Circle', description: 'Circle Element', shortcut: 'C' },
-  { id: 'rect', name: 'Rect', icon: 'Rect', description: 'Rect Element' },
-  { id: 'caption', name: 'Captions', icon: 'MessageSquare', description: 'Manage captions', shortcut: 'S' },
+  { id: 'video', name: 'Video', icon: 'Video', description: 'Add a video element' },
+  { id: 'image', name: 'Image', icon: 'Image', description: 'Add an image element' },
+  { id: 'audio', name: 'Audio', icon: 'Audio', description: 'Add an audio element' },
+  { id: 'text', name: 'Text', icon: 'Type', description: 'Add text elements' },
+  { id: 'circle', name: 'Circle', icon: 'Circle', description: 'Add a circle element'},
+  { id: 'rect', name: 'Rect', icon: 'Rect', description: 'Add a rectangle element' },
+  { id: 'caption', name: 'Caption', icon: 'MessageSquare', description: 'Manage captions'},
 ]
 
 const getIcon = (iconName: string) => {
   switch (iconName) {
     case 'Plus': return Plus
     case 'Type': return Type
-    case 'Icon': return Infinity
     case 'Upload': return Upload
     case 'Square': return Square
     case 'Image': return Image

@@ -45,8 +45,7 @@ export function isAnalyticsEnabled(config?: AnalyticsConfig): boolean {
 
   // Check config prop
   if (config?.enabled === false) return false;
-  
-  // return true by default
+
   return true;
 }
 

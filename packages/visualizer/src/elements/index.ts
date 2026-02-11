@@ -10,5 +10,4 @@ export { TextElement } from './text.element';
 export { CaptionElement } from './caption.element';
 export { RectElement } from './rect.element';
 export { CircleElement } from './circle.element';
-export { IconElement } from './icon.element';
 export { SceneElement } from './scene.element';

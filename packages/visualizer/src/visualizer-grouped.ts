@@ -55,7 +55,6 @@ export { CaptionElement } from './elements/caption.element';
 // Shape and UI elements
 export { RectElement } from './elements/rect.element';
 export { CircleElement } from './elements/circle.element';
-export { IconElement } from './elements/icon.element';
 
 // Special elements
 export { SceneElement } from './elements/scene.element';

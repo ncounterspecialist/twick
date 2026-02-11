@@ -405,8 +405,21 @@ export const useTwickCanvas = ({
       }
 
       captionPropsRef.current = captionProps;
+
+      // Deduplicate elements by id to avoid rendering the same logical
+      // element multiple times on the canvas (which could happen if the
+      // caller accidentally passes duplicates).
+      const uniqueElements: CanvasElement[] = [];
+      const seenIds = new Set<string>();
+      for (const el of elements) {
+        if (!el || !el.id) continue;
+        if (seenIds.has(el.id)) continue;
+        seenIds.add(el.id);
+        uniqueElements.push(el);
+      }
+
       await Promise.all(
-        elements.map(async (element, index) => {
+        uniqueElements.map(async (element, index) => {
           try {
             if (!element) return;
             const zOrder = element.zIndex ?? index;
