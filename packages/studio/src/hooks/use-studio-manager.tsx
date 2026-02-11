@@ -41,20 +41,6 @@ export const useStudioManager = () => {
 
   const isToolChanged = useRef(false);
 
-
-  // const addCaptionsToTimeline = (elements: TrackElement[]) => {
-  //   if (selectedItem instanceof Track && selectedItem.getType() == "caption") {
-  //     elements.forEach((element) => {
-  //       editor.addElementToTrack(selectedItem, element);
-  //     });
-  //   } else {
-  //     const newTrack = editor.addTrack("Track", "caption");
-  //     elements.forEach((element) => {
-  //       editor.addElementToTrack(newTrack, element);
-  //     });
-  //   }
-  // };
-
   useEffect(() => {
     if (selectedItem instanceof TrackElement) {
       setSelectedTool(selectedItem.getType());

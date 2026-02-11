@@ -43,7 +43,6 @@ export const usePlayerControl = () => {
     } else if (playerState === PLAYER_STATE.PAUSED) {
       playerStateRef.current = PLAYER_STATE.REFRESH;
       setPlayerState(PLAYER_STATE.REFRESH);
-      // TODO: get player data from timeline context
       setTimelineAction(TIMELINE_ACTION.UPDATE_PLAYER_DATA, present);
     }
   };
