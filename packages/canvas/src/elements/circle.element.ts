@@ -28,6 +28,7 @@ export const CircleElement: CanvasElementHandler = {
     const radius = Number(
       ((element.props?.radius ?? 0) * object.scaleX).toFixed(2)
     );
+    const opacity = object.opacity != null ? object.opacity : element.props?.opacity;
     return {
       element: {
         ...element,
@@ -39,6 +40,7 @@ export const CircleElement: CanvasElementHandler = {
           width: radius * 2,
           x,
           y,
+          ...(opacity != null && { opacity }),
         },
       },
     };

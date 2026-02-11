@@ -57,9 +57,9 @@
 .twick-seek-track {
   position: relative;
   width: 100%;
-  border-top: 1px solid #262626;
-  border-bottom: 1px solid #262626;
-  background-color: #171717;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  background-color: #0f0f14;
 }
 
 .twick-seek-track-canvas {
@@ -80,8 +80,9 @@
   top: 0;
   left: 0;
   z-index: 30;
-  width: 1.5px;
-  background-color: #FFFFFF;
+  width: 2px;
+  background-color: var(--color-purple-400);
+  box-shadow: 0 0 8px rgba(139, 92, 246, 0.8);
 }
 
 .twick-seek-track-handle {
@@ -93,6 +94,7 @@
   transform: translate(-50%, -50%);
   background-color: #FFFFFF;
   border-radius: 25%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
 .twick-track-element {

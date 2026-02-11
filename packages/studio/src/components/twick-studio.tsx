@@ -22,20 +22,17 @@ import { useStudioManager } from "../hooks/use-studio-manager";
 import ElementPanelContainer from "./container/element-panel-container";
 import { useTimelineContext } from "@twick/timeline";
 import { MediaProvider } from "../context/media-context";
-import { PropsToolbar } from "./props-toolbar";
 import { PropertiesPanelContainer } from "./container/properties-panel-container";
 import VideoEditor from "@twick/video-editor";
 import { useMemo } from "react";
 import { StudioConfig } from "../types";
 import useStudioOperation from "../hooks/use-studio-operation";
-import useGenerateCaptions from "../hooks/use-generate-captions";
+import { useGenerateCaptions } from "..";
 
 export function TwickStudio({ studioConfig }: { studioConfig?: StudioConfig }) {
   const {
     selectedTool,
     setSelectedTool,
-    selectedProp,
-    setSelectedProp,
     selectedElement,
     addElement,
     updateElement,
@@ -83,15 +80,17 @@ export function TwickStudio({ studioConfig }: { studioConfig?: StudioConfig }) {
             setSelectedTool={setSelectedTool}
           />
 
-          {/* Left Panel */}
-          <ElementPanelContainer
-            videoResolution={videoResolution}
-            selectedTool={selectedTool}
-            setSelectedTool={setSelectedTool}
-            selectedElement={selectedElement}
-            addElement={addElement}
-            updateElement={updateElement}
-          />
+          {/* Left Panel (Element Library) */}
+          <div className="studio-left-panel">
+            <ElementPanelContainer
+              videoResolution={videoResolution}
+              selectedTool={selectedTool}
+              setSelectedTool={setSelectedTool}
+              selectedElement={selectedElement}
+              addElement={addElement}
+              updateElement={updateElement}
+            />
+          </div>
 
           {/* Center - Canvas and Transport */}
           <main className="main-container">
@@ -107,22 +106,17 @@ export function TwickStudio({ studioConfig }: { studioConfig?: StudioConfig }) {
             </div>
           </main>
 
-          {/* Left Panel */}
-          <PropertiesPanelContainer
-            selectedProp={selectedProp}
-            selectedElement={selectedElement}
-            updateElement={updateElement}
-            addCaptionsToTimeline={addCaptionsToTimeline}
-            onGenerateCaptions={onGenerateCaptions}
-            getCaptionstatus={getCaptionstatus}
-          />
-
-          {/* Right Toolbar */}
-          <PropsToolbar
-            selectedElement={selectedElement}
-            selectedProp={selectedProp}
-            setSelectedProp={setSelectedProp}
-          />
+          {/* Right Panel (Inspector + Props Toolbar) */}
+          <div className="studio-right-panel">
+            <PropertiesPanelContainer
+              selectedElement={selectedElement}
+              updateElement={updateElement}
+              addCaptionsToTimeline={addCaptionsToTimeline}
+              onGenerateCaptions={onGenerateCaptions}
+              getCaptionstatus={getCaptionstatus}
+              videoResolution={videoResolution}
+            />
+          </div>
         </div>
       </div>
     </MediaProvider>

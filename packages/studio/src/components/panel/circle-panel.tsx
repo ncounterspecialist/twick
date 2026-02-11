@@ -8,7 +8,6 @@
  * @param {Object} props
  * @param {number} props.radius - Circle radius in pixels
  * @param {string} props.fillColor - Fill color in hex format
- * @param {number} props.opacity - Opacity percentage (0-100)
  * @param {string} props.strokeColor - Stroke color in hex format
  * @param {number} props.lineWidth - Stroke width in pixels
  * @param {(radius: number) => void} props.setRadius - Update circle radius
@@ -46,13 +45,11 @@ export type CirclePanelProps = CirclePanelState & CirclePanelActions;
 export function CirclePanel({
   radius,
   fillColor,
-  opacity,
   strokeColor,
   lineWidth,
   operation,
   setRadius,
   setFillColor,
-  setOpacity,
   setStrokeColor,
   setLineWidth,
   handleApplyChanges,
@@ -95,21 +92,6 @@ export function CirclePanel({
         </div>
       </div>
 
-      {/* Opacity */}
-      <div className="panel-section">
-        <label className="label-dark">Opacity</label>
-        <div className="slider-container">
-          <input
-            type="range"
-            min="0"
-            max="100"
-            value={opacity}
-            onChange={(e) => setOpacity(Number(e.target.value))}
-            className="slider-purple"
-          />
-          <span className="slider-value">{opacity}%</span>
-        </div>
-      </div>
 
       {/* Stroke Color */}
       <div className="panel-section">
@@ -146,12 +128,14 @@ export function CirclePanel({
         </div>
       </div>
 
-      {/* Operation button */}
-      <div className="flex panel-section">
-        <button onClick={handleApplyChanges} className="btn-primary w-full">
-          {operation}
-        </button>
-      </div>
+      {/* Operation button (only for creation, not edits) */}
+      {operation !== "Apply Changes" && (
+        <div className="flex panel-section">
+          <button onClick={handleApplyChanges} className="btn-primary w-full">
+            {operation}
+          </button>
+        </div>
+      )}
     </div>
   );
 }

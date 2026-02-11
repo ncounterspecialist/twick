@@ -222,7 +222,11 @@
   cursor: pointer;
   position: relative;
   overflow: hidden;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 150ms cubic-bezier(0.4, 0, 0.2, 1),
+    background-color 150ms ease,
+    color 150ms ease,
+    border-color 150ms ease;
   text-transform: uppercase;
   letter-spacing: 0.025em;
   box-shadow: 0 4px 14px 0 rgba(0, 0, 0, 0.15);
@@ -246,7 +250,7 @@
 }
 
 .btn:active {
-  transform: translateY(1px);
+  transform: scale(0.98);
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
 }
 
@@ -271,7 +275,9 @@
   cursor: pointer;
   position: relative;
   overflow: hidden;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 150ms cubic-bezier(0.4, 0, 0.2, 1),
+    background 150ms ease;
   background: linear-gradient(135deg, var(--color-purple-600), var(--color-purple-700), var(--color-purple-800));
   color: white;
   border: 1px solid var(--color-purple-500);
@@ -281,12 +287,13 @@
 .btn-primary:hover {
   background: linear-gradient(135deg, var(--color-purple-500), var(--color-purple-600), var(--color-purple-700));
   box-shadow: 0 12px 35px rgba(147, 51, 234, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.15);
-  transform: translateY(-2px);
+  transform: translateY(-1px);
 }
 
 .btn-primary:active {
   background: linear-gradient(135deg, var(--color-purple-700), var(--color-purple-800), var(--color-purple-900));
   box-shadow: 0 6px 20px rgba(147, 51, 234, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transform: scale(0.98);
 }
 
 .btn-primary:disabled {
@@ -342,7 +349,11 @@
   cursor: pointer;
   position: relative;
   overflow: hidden;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 150ms cubic-bezier(0.4, 0, 0.2, 1),
+    background 150ms ease,
+    color 150ms ease,
+    border-color 150ms ease;
   background: rgba(64, 64, 64, 0.3);
   color: var(--color-neutral-300);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -355,7 +366,11 @@
   color: white;
   border-color: rgba(255, 255, 255, 0.2);
   box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  transform: translateY(-2px);
+  transform: translateY(-1px);
+}
+
+.btn-ghost:active {
+  transform: scale(0.98);
 }
 
 .btn-ghost:disabled {
@@ -478,8 +493,8 @@
 
 .input:focus {
   outline: none;
-  border-color: var(--color-purple-500);
-  box-shadow: 0 0 0 3px rgba(147, 51, 234, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1);
 }
 
 .input-dark {
@@ -495,8 +510,8 @@
 
 .input-dark:focus {
   outline: none;
-  border-color: var(--color-purple-500);
-  box-shadow: 0 0 0 3px rgba(147, 51, 234, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1);
 }
 
 /* ========================================

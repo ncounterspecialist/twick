@@ -48,4 +48,32 @@
     
     /* Transitions */
     --transition-all: all 0.2s ease;
+
+    /* Elevation system */
+    --elevation-panel: 0 0 0 1px rgba(255,255,255,0.04), 0 8px 32px rgba(0,0,0,0.4);
+    --elevation-canvas: 0 0 0 1px rgba(255,255,255,0.04), 0 8px 32px rgba(0,0,0,0.4);
+    --elevation-scrubber: 0 0 8px rgba(139,92,246,0.8);
+
+    /* Motion */
+    --duration-fast: 120ms;
+    --duration-normal: 150ms;
+    --duration-medium: 180ms;
+    --ease-default: cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* Muted purple for hover (reduce primary purple overuse) */
+    --color-purple-muted: rgba(139, 92, 246, 0.15);
+
+    /* Typography – Level 1 Section Headers */
+    --typography-h1: 16px;
+    --typography-h1-weight: 600;
+    --typography-h1-spacing: 0.3px;
+    --typography-h1-margin: 8px 0 12px 0;
+
+    /* Typography – Level 2 Sub Labels */
+    --typography-label: 13px;
+    --typography-label-opacity: 0.8;
+
+    /* Typography – Level 3 Values */
+    --typography-value: 13px;
+    --typography-value-weight: 500;
   }

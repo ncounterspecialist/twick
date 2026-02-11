@@ -1,91 +1,131 @@
 import { ElementProps } from "../properties/element-props";
 import { TextEffects } from "../properties/text-effects";
 import { Animation } from "../properties/animation";
-import { VideoElement, type TrackElement } from "@twick/timeline";
+import { VideoElement, TextElement, AudioElement, type TrackElement, Size } from "@twick/timeline";
 import { PlaybackPropsPanel } from "../properties/playback-props";
-import { GenerateCaptionsPanel } from "../properties/generate-captions";
+import { GenerateCaptionsPanel } from "../properties/generate-captions.tsx";
+import { TextPropsPanel } from "../properties/text-props";
 import { ICaptionGenerationPollingResponse, CaptionEntry } from "../../types";
 
 interface PropertiesPanelContainerProps {
-  selectedProp: string;
   selectedElement: TrackElement | null;
   updateElement: (element: TrackElement) => void;
   addCaptionsToTimeline: (captions: CaptionEntry[]) => void;
   onGenerateCaptions: (videoElement: VideoElement) => Promise<string | null>;
   getCaptionstatus: (reqId: string) => Promise<ICaptionGenerationPollingResponse>;
+  videoResolution: Size;
 }
 
 export function PropertiesPanelContainer({
-  selectedProp,
   selectedElement,
   updateElement,
   addCaptionsToTimeline,
   onGenerateCaptions,
   getCaptionstatus,
+  videoResolution,
 }: PropertiesPanelContainerProps) {
-  if (!selectedElement) {
-    return (
-      <div className="panel-container">
-        <div className="properties-header">
-          <h3 className="properties-title">Select Element to see properties</h3>
-        </div>
-      </div>
-    );
-  }
 
-  if (selectedElement.getType() === "caption") {
-    return (
-      <div className="panel-container">
-        <div className="properties-header">
-          <h3 className="properties-title">Not available for sub-title</h3>
-        </div>
-      </div>
-    );
-  }
-  
+  const title = selectedElement instanceof TextElement ? selectedElement.getText() : selectedElement?.getName() || selectedElement?.getType() || "Element";
+
   return (
-    <>
-      {/* Element Properties */}
-      {selectedProp === "element-props" && (
-        <ElementProps
-          selectedElement={selectedElement}
-          updateElement={updateElement}
-        />
-      )}
+    <aside className="properties-panel" aria-label="Element properties inspector">
+      <div className="properties-header">
+        {!selectedElement && (
+          <h3 className="properties-title">Composition</h3>
+        )}
+        {selectedElement && selectedElement.getType() === "caption" && (
+          <h3 className="properties-title">Subtitles are edited from the captions panel</h3>
+        )}
+        {selectedElement && selectedElement.getType() !== "caption" && (
+          <h3 className="properties-title">
+            {title}
+          </h3>
+        )}
+      </div>
 
-      {/* Playback Properties */}
-      {selectedProp === "playback-props" && (
-        <PlaybackPropsPanel
-          selectedElement={selectedElement}
-          updateElement={updateElement}
-        />
-      )}
+      <div className="prop-content">
+        {/* Composition inspector when nothing selected */}
+        {!selectedElement && (
+          <div className="panel-container">
+            <div className="panel-title">Canvas & Render</div>
+            <div className="properties-group">
+              <div className="property-section">
+                <span className="property-label">Size</span>
+                <span className="properties-size-readonly">
+                  {videoResolution.width} × {videoResolution.height}
+                </span>
+              </div>
+            </div>
+          </div>
+        )}
 
-      {/* Text Effects */}
-      {selectedProp === "text-effects" && (
-        <TextEffects
-          selectedElement={selectedElement}
-          updateElement={updateElement}
-        />
-      )}
+        {/* Element inspector when something is selected */}
+        {selectedElement && selectedElement.getType() === "caption"
+          ? null
+          : selectedElement && (
+            <>
+              {(() => {
+                const isText = selectedElement instanceof TextElement;
+                const isVideo = selectedElement instanceof VideoElement;
+                const isAudio = selectedElement instanceof AudioElement;
 
-      {/* Animations */}
-      {selectedProp === "animations" && (
-        <Animation
-          selectedElement={selectedElement}
-          updateElement={updateElement}
-        />
-      )}
-      {
-        selectedProp === "generate-captions" && (
-          <GenerateCaptionsPanel
-            selectedElement={selectedElement}
-            addCaptionsToTimeline={addCaptionsToTimeline}
-            onGenerateCaptions={onGenerateCaptions}
-            getCaptionstatus={getCaptionstatus}
-          />
-        )
-      }
-    </>
+                return (
+                  <>
+                    {/* Typography (Text only) */}
+                    {isText && (
+                      <TextPropsPanel
+                        selectedElement={selectedElement}
+                        updateElement={updateElement}
+                      />
+                    )}
+
+                    {/* Transform – visual elements only (not audio) */}
+                    {!isAudio && (
+                      <ElementProps
+                        selectedElement={selectedElement}
+                        updateElement={updateElement}
+                      />
+                    )}
+
+                    {/* Playback + Volume – video and audio */}
+                    {(isVideo || isAudio) && (
+                      <PlaybackPropsPanel
+                        selectedElement={selectedElement}
+                        updateElement={updateElement}
+                      />
+                    )}
+
+                    {/* Text Effects – text only */}
+                    {isText && (
+                      <TextEffects
+                        selectedElement={selectedElement}
+                        updateElement={updateElement}
+                      />
+                    )}
+
+                    {/* Animations – visual elements only (not audio) */}
+                    {!isAudio && (
+                      <Animation
+                        selectedElement={selectedElement}
+                        updateElement={updateElement}
+                      />
+                    )}
+
+                    {/* Generate Captions – video only */}
+                    {isVideo && (
+                      <GenerateCaptionsPanel
+                        selectedElement={selectedElement}
+                        addCaptionsToTimeline={addCaptionsToTimeline}
+                        onGenerateCaptions={onGenerateCaptions}
+                        getCaptionstatus={getCaptionstatus}
+                      />
+                    )}
+                  </>
+                );
+              })()}
+            </>
+          )}
+      </div>
+    </aside>
   );
 }
