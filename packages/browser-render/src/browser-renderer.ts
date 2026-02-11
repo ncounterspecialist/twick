@@ -366,6 +366,13 @@ export interface BrowserRenderConfig {
     onProgress?: (progress: number) => void;
     onComplete?: (videoBlob: Blob) => void;
     onError?: (error: Error) => void;
+    /** Optional AbortSignal to cancel an in-progress render */
+    signal?: AbortSignal;
+    /**
+     * Optional preset to hint performance vs. quality behaviour.
+     * "draft" may trade some quality for faster renders.
+     */
+    preset?: "draft" | "standard" | "high";
   };
 }
 
@@ -455,10 +462,24 @@ export const renderTwickVideoInBrowser = async (
   try {
     const { projectFile, variables, settings = {} } = config;
 
+    const abortSignal = settings.signal;
+    const throwIfAborted = () => {
+      if (abortSignal?.aborted) {
+        // Prefer DOMException when available to align with AbortController semantics
+        const error =
+          typeof DOMException !== "undefined"
+            ? new DOMException("Rendering aborted", "AbortError")
+            : new Error("Rendering aborted");
+        throw error;
+      }
+    };
+
     if (!variables || !variables.input) {
       console.error('[BrowserRender] renderTwickVideoInBrowser: missing variables.input');
       throw new Error('Invalid configuration. "variables.input" is required.');
     }
+
+    throwIfAborted();
 
     const width = settings.width || variables.input.properties?.width || 1920;
     const height = settings.height || variables.input.properties?.height || 1080;
@@ -583,6 +604,8 @@ export const renderTwickVideoInBrowser = async (
     const mediaAssets: AssetInfo[][] = [];
     
     for (let frame = 0; frame < totalFrames; frame++) {
+      throwIfAborted();
+
       if (frame > 0) {
         await (renderer as any).playback.progress();
       }
@@ -596,6 +619,17 @@ export const renderTwickVideoInBrowser = async (
       await exporter.handleFrame(canvas, frame);
       // Video encoding: 0–90% so audio phase (90–100%) is visible
       if (settings.onProgress) settings.onProgress((frame / totalFrames) * 0.9);
+
+      // Yield periodically to keep the UI responsive during long renders
+      if (frame % 10 === 0) {
+        await new Promise<void>((resolve) => {
+          if (typeof requestAnimationFrame !== "undefined") {
+            requestAnimationFrame(() => resolve());
+          } else {
+            setTimeout(resolve, 0);
+          }
+        });
+      }
     }
 
     await exporter.stop();
@@ -628,6 +662,7 @@ export const renderTwickVideoInBrowser = async (
     let audioData: ArrayBuffer | null = null;
 
     if (settings.includeAudio && mediaAssets.length > 0 && hasAnyAudio) {
+      throwIfAborted();
       // Audio phase: 90–97%; progress callback maps generateAudio 0–1 to 0.90–0.97
       const reportAudioProgress = (p: number) => {
         if (settings.onProgress) settings.onProgress(0.9 + p * 0.07);

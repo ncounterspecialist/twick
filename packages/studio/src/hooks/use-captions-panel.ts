@@ -1,5 +1,10 @@
 import { useState, useEffect, useRef } from "react";
-import { CAPTION_STYLE, CaptionElement, Track, useTimelineContext } from "@twick/timeline";
+import {
+  CAPTION_STYLE,
+  CaptionElement,
+  Track,
+  useTimelineContext,
+} from "@twick/timeline";
 import { CAPTION_PROPS } from "../helpers/constant";
 
 interface CaptionEntry {

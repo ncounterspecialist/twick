@@ -40,7 +40,7 @@ const toolCategories: ToolCategory[] = [
   { id: 'icon', name: 'Icons', icon: 'Icon', description: 'Icon Element', shortcut: 'I' },
   { id: 'circle', name: 'Circle', icon: 'Circle', description: 'Circle Element', shortcut: 'C' },
   { id: 'rect', name: 'Rect', icon: 'Rect', description: 'Rect Element' },
-  { id: 'caption', name: 'Captions', icon: 'MessageSquare', description: 'Manage captions', shortcut: 'S' },
+  { id: 'caption', name: 'Caption', icon: 'MessageSquare', description: 'Manage captions', shortcut: 'S' },
 ]
 
 const getIcon = (iconName: string) => {

@@ -635,7 +635,7 @@ html {
 
 .toolbar-label {
   text-align: center;
-  font-size: smaller;
+  font-size: 0.75rem;
   color: rgba(203, 213, 225, 0.9); 
 }
 

@@ -272,6 +272,7 @@ export {
  * Timeline provider and editor
  */
 export { 
+  useTimelineContext,
   TimelineProvider,
   TimelineEditor,
   INITIAL_TIMELINE_DATA
