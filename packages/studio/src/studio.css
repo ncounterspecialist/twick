@@ -619,6 +619,8 @@ html {
 
 /* Sidebar styles */
 .sidebar {
+  position: relative;
+  z-index: 2;
   min-width: 3.8rem;
   max-width: 3.8rem;
   padding-top: 0.75rem;
@@ -1262,6 +1264,8 @@ html {
 
 /* Side panels */
 .studio-left-panel {
+  position: relative;
+  z-index: 1;
   width: 288px;
   flex-shrink: 0;
   height: 100%;
