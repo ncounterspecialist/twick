@@ -73,12 +73,14 @@ export function Toolbar({ selectedTool, setSelectedTool }: { selectedTool: strin
         const Icon = getIcon(tool.icon)
         const isSelected = selectedTool === tool.id
         
+        const tooltipText = `${tool.name}${tool.shortcut ? ` (${tool.shortcut})` : ''}`;
         return (
           <div
             key={tool.id}
             onClick={() => handleToolSelect(tool.id)}
             className={`toolbar-btn ${isSelected ? 'active' : ''}`}
-            title={`${tool.name}${tool.shortcut ? ` (${tool.shortcut})` : ''}`}
+            title={tooltipText}
+            data-tooltip={tooltipText}
           >
             <Icon className="icon-sm" />
             <span className="toolbar-label">

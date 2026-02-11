@@ -251,7 +251,7 @@ export default function SeekTrack({
             transform: `translateX(${seekPosition}px)`,
             top: 0,
             touchAction: "none",
-            transition: isDragging ? "none" : "transform 0.1s linear",
+            transition: isDragging ? "none" : "transform 150ms cubic-bezier(0.4, 0, 0.2, 1)",
             willChange: isDragging ? "transform" : "auto",
           }}
         >

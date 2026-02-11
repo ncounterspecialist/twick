@@ -1,6 +1,10 @@
 import { TEXT_EFFECTS } from "@twick/video-editor";
 import { ElementTextEffect, TextElement } from "@twick/timeline";
 import type { PropertiesPanelProps } from "../../types";
+import { AccordionItem } from "../shared/accordion-item";
+import { PropertyRow } from "./property-row";
+import { SparklesIcon } from "lucide-react";
+import { useState } from "react";
 
 export function TextEffects({
   selectedElement,
@@ -48,78 +52,95 @@ export function TextEffects({
     updateElement?.(selectedElement);
   };
 
+  const [isEffectsOpen, setIsEffectsOpen] = useState(false);
+
   return (
     <div className="panel-container">
       <div className="panel-title">Text Effects</div>
-      {/* Text Effect Selection */}
-      <div className="panel-section">
-        <label className="label-dark">Text Effect Type</label>
-        <select
-          value={currentEffect?.getName() || ""}
-          onChange={(e) => handleUpdateEffect({ name: e.target.value })}
-          className="select-dark w-full"
-        >
-          <option value="">No Effect</option>
-          {TEXT_EFFECTS.map((effect) => (
-            <option key={effect.name} value={effect.name}>
-              {effect.name.charAt(0).toUpperCase() + effect.name.slice(1)}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      {/* Text Effect Options */}
-      {currentEffect && (
-        <>
-          {/* Delay */}
-          <div className="panel-section">
-            <label className="label-dark">Delay (seconds)</label>
-            <input
-              type="number"
-              min="0"
-              max="5"
-              step="0.1"
-              value={currentEffect.getDelay() ?? 0}
-              onChange={(e) =>
-                handleUpdateEffect({ delay: Number(e.target.value) })
-              }
-              className="input-dark"
-            />
+      <AccordionItem
+        title="Effects"
+        icon={<SparklesIcon className="icon-sm" />}
+        isOpen={isEffectsOpen}
+        onToggle={() => setIsEffectsOpen((open) => !open)}
+      >
+        <div className="properties-group">
+          {/* Text Effect Selection */}
+          <div className="property-section">
+            <PropertyRow label="Preset">
+              <select
+                value={currentEffect?.getName() || ""}
+                onChange={(e) => handleUpdateEffect({ name: e.target.value })}
+                className="select-dark w-full"
+              >
+                <option value="">No Effect</option>
+                {TEXT_EFFECTS.map((effect) => (
+                  <option key={effect.name} value={effect.name}>
+                    {effect.name.charAt(0).toUpperCase() + effect.name.slice(1)}
+                  </option>
+                ))}
+              </select>
+            </PropertyRow>
           </div>
 
-          {/* Duration */}
-          <div className="panel-section">
-            <label className="label-dark">Duration (seconds)</label>
-            <input
-              type="number"
-              min="0.1"
-              max="10"
-              step="0.1"
-              value={currentEffect.getDuration() ?? 1}
-              onChange={(e) =>
-                handleUpdateEffect({ duration: Number(e.target.value) })
-              }
-              className="input-dark"
-            />
-          </div>
+          {/* Text Effect Options */}
+          {currentEffect && (
+            <>
+              {/* Delay */}
+              <div className="property-section">
+                <PropertyRow label="Delay (s)">
+                  <input
+                    type="number"
+                    min="0"
+                    max="5"
+                    step="0.1"
+                    value={currentEffect.getDelay() ?? 0}
+                    onChange={(e) =>
+                      handleUpdateEffect({ delay: Number(e.target.value) })
+                    }
+                    className="input-dark"
+                  />
+                </PropertyRow>
+              </div>
 
-          {/* Buffer Time */}
-          <div className="panel-section">
-            <label className="label-dark">Buffer Time (seconds)</label>
-            <input
-              type="number"
-              min="0.05"
-              max="1"
-              step="0.05"
-              value={currentEffect.getBufferTime() ?? 0.1}
-              onChange={(e) =>
-                handleUpdateEffect({ bufferTime: Number(e.target.value) })
-              }
-              className="input-dark"
-            />
-          </div>
-        </>
-      )}
+              {/* Duration */}
+              <div className="property-section">
+                <PropertyRow label="Duration (s)">
+                  <input
+                    type="number"
+                    min="0.1"
+                    max="10"
+                    step="0.1"
+                    value={currentEffect.getDuration() ?? 1}
+                    onChange={(e) =>
+                      handleUpdateEffect({ duration: Number(e.target.value) })
+                    }
+                    className="input-dark"
+                  />
+                </PropertyRow>
+              </div>
+
+              {/* Buffer Time */}
+              <div className="property-section">
+                <PropertyRow label="Buffer (s)">
+                  <input
+                    type="number"
+                    min="0.05"
+                    max="1"
+                    step="0.05"
+                    value={currentEffect.getBufferTime() ?? 0.1}
+                    onChange={(e) =>
+                      handleUpdateEffect({
+                        bufferTime: Number(e.target.value),
+                      })
+                    }
+                    className="input-dark"
+                  />
+                </PropertyRow>
+              </div>
+            </>
+          )}
+        </div>
+      </AccordionItem>
     </div>
   );
 }
