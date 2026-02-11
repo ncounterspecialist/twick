@@ -300,12 +300,14 @@ export function TextPanel({
         </div>
       </div>
 
-      {/* Operation button */}
-      <div className="flex panel-section">
-        <button onClick={handleApplyChanges} className="btn-primary w-full">
-          {operation}
-        </button>
-      </div>
+      {/* Operation button (only for creation, not edits) */}
+      {operation !== "Apply Changes" && (
+        <div className="flex panel-section">
+          <button onClick={handleApplyChanges} className="btn-primary w-full">
+            {operation}
+          </button>
+        </div>
+      )}
     </div>
   );
 }

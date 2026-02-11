@@ -733,6 +733,8 @@ export const addCircleElement = ({
     strokeWidth: (element.props?.lineWidth || 0) * canvasMetadata.scaleX,
     originX: "center",
     originY: "center",
+    // Respect element opacity (0–1). Defaults to fully opaque.
+    opacity: element.props?.opacity ?? 1,
   });
 
   // Set custom control for rotation

@@ -79,65 +79,176 @@ export const useTextPanel = ({
 
   const fonts = Object.values(AVAILABLE_TEXT_FONTS);
 
-  const handleApplyChanges = async () => {
-    let textElement;
-    if (selectedElement instanceof TextElement) {
-      textElement = selectedElement;
-      textElement.setText(textContent);
-      textElement.setFontSize(fontSize);
-      textElement.setFontFamily(selectedFont);
-      textElement.setFontWeight(isBold ? 700 : 400);
-      textElement.setFontStyle(isItalic ? "italic" : "normal");
-      textElement.setFill(textColor);
-      textElement.setStrokeColor(strokeColor);
-      textElement.setLineWidth(strokeWidth);
-      textElement.setTextAlign(DEFAULT_TEXT_PROPS.textAlign);
-      const nextProps = { ...textElement.getProps() };
-      if (applyShadow) {
-        nextProps.shadowColor = shadowColor;
-        nextProps.shadowOffset = DEFAULT_TEXT_PROPS.shadowOffset;
-        nextProps.shadowBlur = DEFAULT_TEXT_PROPS.shadowBlur;
-        nextProps.shadowOpacity = DEFAULT_TEXT_PROPS.shadowOpacity;
-      } else {
-        nextProps.shadowColor = undefined;
-        nextProps.shadowOffset = undefined;
-        nextProps.shadowBlur = undefined;
-        nextProps.shadowOpacity = undefined;
-      }
-      if (applyBackground) {
-        nextProps.backgroundColor = backgroundColor;
-        nextProps.backgroundOpacity = backgroundOpacity;
-      } else {
-        nextProps.backgroundColor = undefined;
-        nextProps.backgroundOpacity = undefined;
-      }
-      textElement.setProps(nextProps);
-      updateElement(textElement);
-    } else {
-      textElement = new TextElement(textContent)
-        .setFontSize(fontSize)
-        .setFontFamily(selectedFont)
-        .setFontWeight(isBold ? 700 : 400)
-        .setFontStyle(isItalic ? "italic" : "normal")
-        .setFill(textColor)
-        .setStrokeColor(strokeColor)
-        .setLineWidth(strokeWidth)
-        .setTextAlign("center");
-
-      const nextProps = { ...textElement.getProps() };
-      if (applyShadow) {
-        nextProps.shadowColor = shadowColor;
-        nextProps.shadowOffset = DEFAULT_TEXT_PROPS.shadowOffset;
-        nextProps.shadowBlur = DEFAULT_TEXT_PROPS.shadowBlur;
-        nextProps.shadowOpacity = DEFAULT_TEXT_PROPS.shadowOpacity;
-      }
-      if (applyBackground) {
-        nextProps.backgroundColor = backgroundColor;
-        nextProps.backgroundOpacity = backgroundOpacity;
-      }
-      textElement.setProps(nextProps);
-      await addElement(textElement);
+  const applyLiveChangesToExistingText = (overrides: Partial<TextPanelState> = {}) => {
+    if (!(selectedElement instanceof TextElement)) {
+      return;
     }
+
+    const textElement = selectedElement;
+
+    const nextState: Pick<
+      TextPanelState,
+      | "textContent"
+      | "fontSize"
+      | "selectedFont"
+      | "isBold"
+      | "isItalic"
+      | "textColor"
+      | "strokeColor"
+      | "strokeWidth"
+      | "applyShadow"
+      | "shadowColor"
+      | "applyBackground"
+      | "backgroundColor"
+      | "backgroundOpacity"
+    > = {
+      textContent,
+      fontSize,
+      selectedFont,
+      isBold,
+      isItalic,
+      textColor,
+      strokeColor,
+      strokeWidth,
+      applyShadow,
+      shadowColor,
+      applyBackground,
+      backgroundColor,
+      backgroundOpacity,
+      ...overrides,
+    };
+
+    textElement.setText(nextState.textContent);
+    textElement.setFontSize(nextState.fontSize);
+    textElement.setFontFamily(nextState.selectedFont);
+    textElement.setFontWeight(nextState.isBold ? 700 : 400);
+    textElement.setFontStyle(nextState.isItalic ? "italic" : "normal");
+    textElement.setFill(nextState.textColor);
+    textElement.setStrokeColor(nextState.strokeColor);
+    textElement.setLineWidth(nextState.strokeWidth);
+    textElement.setTextAlign(DEFAULT_TEXT_PROPS.textAlign);
+
+    const nextProps = { ...textElement.getProps() };
+
+    if (nextState.applyShadow) {
+      nextProps.shadowColor = nextState.shadowColor;
+      nextProps.shadowOffset = DEFAULT_TEXT_PROPS.shadowOffset;
+      nextProps.shadowBlur = DEFAULT_TEXT_PROPS.shadowBlur;
+      nextProps.shadowOpacity = DEFAULT_TEXT_PROPS.shadowOpacity;
+    } else {
+      nextProps.shadowColor = undefined;
+      nextProps.shadowOffset = undefined;
+      nextProps.shadowBlur = undefined;
+      nextProps.shadowOpacity = undefined;
+    }
+
+    if (nextState.applyBackground) {
+      nextProps.backgroundColor = nextState.backgroundColor;
+      nextProps.backgroundOpacity = nextState.backgroundOpacity;
+    } else {
+      nextProps.backgroundColor = undefined;
+      nextProps.backgroundOpacity = undefined;
+    }
+
+    textElement.setProps(nextProps);
+    updateElement(textElement);
+  };
+
+  const handleTextContentChange = (text: string) => {
+    setTextContent(text);
+    applyLiveChangesToExistingText({ textContent: text });
+  };
+
+  const handleFontSizeChange = (size: number) => {
+    setFontSize(size);
+    applyLiveChangesToExistingText({ fontSize: size });
+  };
+
+  const handleSelectedFontChange = (font: string) => {
+    setSelectedFont(font);
+    applyLiveChangesToExistingText({ selectedFont: font });
+  };
+
+  const handleIsBoldChange = (bold: boolean) => {
+    setIsBold(bold);
+    applyLiveChangesToExistingText({ isBold: bold });
+  };
+
+  const handleIsItalicChange = (italic: boolean) => {
+    setIsItalic(italic);
+    applyLiveChangesToExistingText({ isItalic: italic });
+  };
+
+  const handleTextColorChange = (color: string) => {
+    setTextColor(color);
+    applyLiveChangesToExistingText({ textColor: color });
+  };
+
+  const handleStrokeColorChange = (color: string) => {
+    setStrokeColor(color);
+    applyLiveChangesToExistingText({ strokeColor: color });
+  };
+
+  const handleStrokeWidthChange = (width: number) => {
+    setStrokeWidth(width);
+    applyLiveChangesToExistingText({ strokeWidth: width });
+  };
+
+  const handleApplyShadowChange = (shadow: boolean) => {
+    setApplyShadow(shadow);
+    applyLiveChangesToExistingText({ applyShadow: shadow });
+  };
+
+  const handleShadowColorChange = (color: string) => {
+    setShadowColor(color);
+    applyLiveChangesToExistingText({ shadowColor: color });
+  };
+
+  const handleApplyBackgroundChange = (apply: boolean) => {
+    setApplyBackground(apply);
+    applyLiveChangesToExistingText({ applyBackground: apply });
+  };
+
+  const handleBackgroundColorChange = (color: string) => {
+    setBackgroundColor(color);
+    applyLiveChangesToExistingText({ backgroundColor: color });
+  };
+
+  const handleBackgroundOpacityChange = (opacity: number) => {
+    setBackgroundOpacity(opacity);
+    applyLiveChangesToExistingText({ backgroundOpacity: opacity });
+  };
+
+  const handleApplyChanges = async () => {
+    // For existing text elements, changes are already applied live via the handlers above.
+    // The apply button is only meaningful when creating a new text element.
+    if (selectedElement instanceof TextElement) {
+      return;
+    }
+
+    const textElement = new TextElement(textContent)
+      .setFontSize(fontSize)
+      .setFontFamily(selectedFont)
+      .setFontWeight(isBold ? 700 : 400)
+      .setFontStyle(isItalic ? "italic" : "normal")
+      .setFill(textColor)
+      .setStrokeColor(strokeColor)
+      .setLineWidth(strokeWidth)
+      .setTextAlign("center");
+
+    const nextProps = { ...textElement.getProps() };
+    if (applyShadow) {
+      nextProps.shadowColor = shadowColor;
+      nextProps.shadowOffset = DEFAULT_TEXT_PROPS.shadowOffset;
+      nextProps.shadowBlur = DEFAULT_TEXT_PROPS.shadowBlur;
+      nextProps.shadowOpacity = DEFAULT_TEXT_PROPS.shadowOpacity;
+    }
+    if (applyBackground) {
+      nextProps.backgroundColor = backgroundColor;
+      nextProps.backgroundOpacity = backgroundOpacity;
+    }
+    textElement.setProps(nextProps);
+    await addElement(textElement);
   };
 
   useEffect(() => {
@@ -192,22 +303,22 @@ export const useTextPanel = ({
     strokeWidth,
     fonts,
     operation: selectedElement instanceof TextElement ? "Apply Changes": "Add Text",
-    setTextContent,
-    setFontSize,
-    setSelectedFont,
-    setIsBold,
-    setIsItalic,
-    setTextColor,
-    setStrokeColor,
-    setApplyShadow,
-    setShadowColor,
-    setStrokeWidth,
+    setTextContent: handleTextContentChange,
+    setFontSize: handleFontSizeChange,
+    setSelectedFont: handleSelectedFontChange,
+    setIsBold: handleIsBoldChange,
+    setIsItalic: handleIsItalicChange,
+    setTextColor: handleTextColorChange,
+    setStrokeColor: handleStrokeColorChange,
+    setApplyShadow: handleApplyShadowChange,
+    setShadowColor: handleShadowColorChange,
+    setStrokeWidth: handleStrokeWidthChange,
     applyBackground,
     backgroundColor,
     backgroundOpacity,
-    setApplyBackground,
-    setBackgroundColor,
-    setBackgroundOpacity,
+    setApplyBackground: handleApplyBackgroundChange,
+    setBackgroundColor: handleBackgroundColorChange,
+    setBackgroundOpacity: handleBackgroundOpacityChange,
     handleApplyChanges,
   };
 };
