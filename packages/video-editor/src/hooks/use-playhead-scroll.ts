@@ -39,19 +39,27 @@ export function usePlayheadScroll(
     const contentX = labelWidth + playheadPositionPx;
 
     const scrollToKeepPlayheadVisible = () => {
-      const { scrollLeft, clientWidth } = container;
+      const { scrollLeft, clientWidth, scrollWidth } = container;
+      const maxScrollLeft = Math.max(0, scrollWidth - clientWidth);
       const minVisible = scrollLeft + margin;
       const maxVisible = scrollLeft + clientWidth - margin;
 
       let newScrollLeft: number | null = null;
 
       if (contentX < minVisible) {
-        newScrollLeft = Math.max(0, contentX - margin);
+        // Scroll left just enough to bring playhead inside the left margin.
+        newScrollLeft = Math.max(0, Math.min(maxScrollLeft, contentX - margin));
       } else if (contentX > maxVisible) {
-        newScrollLeft = contentX - clientWidth + margin;
+        // Scroll right just enough to keep playhead inside the right margin,
+        // but never beyond the maximum scrollable range. This avoids jitter
+        // when the playhead reaches the far right edge of the content.
+        newScrollLeft = Math.max(
+          0,
+          Math.min(maxScrollLeft, contentX - clientWidth + margin)
+        );
       }
 
-      if (newScrollLeft !== null) {
+      if (newScrollLeft !== null && Math.abs(newScrollLeft - scrollLeft) > 0.5) {
         container.scrollLeft = newScrollLeft;
       }
     };

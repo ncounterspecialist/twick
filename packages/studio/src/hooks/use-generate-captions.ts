@@ -46,10 +46,14 @@ const useGenerateCaptions = (studioConfig?: StudioConfig) => {
     } as ICaptionGenerationPollingResponse;
   };
 
+  const pollingIntervalMs =
+    studioConfig?.captionGenerationService?.pollingIntervalMs ?? 5000;
+
   return {
     onGenerateCaptions,
     addCaptionsToTimeline,
     getCaptionstatus,
+    pollingIntervalMs,
   };
 };
 

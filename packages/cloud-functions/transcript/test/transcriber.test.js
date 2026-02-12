@@ -3,7 +3,7 @@ import { strict as assert } from 'node:assert';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import dotenv from 'dotenv';
-import { transcribeAudioUrl } from '../core/transcriber.js';
+import { transcribe } from '../core/workflow.js';
 
 // Load .env file from the test directory or parent directories
 const __filename = fileURLToPath(import.meta.url);
@@ -37,11 +37,11 @@ for (const envPath of envPaths) {
 
 const sampleVideoUrl = "https://firebasestorage.googleapis.com/v0/b/baatcheet-prod.firebasestorage.app/o/ME-VS-ME.mp4?alt=media&token=c53dac81-888a-41fb-a501-246c9e531c29";
 
-test('transcribeVideoUrl - basic transcription', async () => {
-  console.log('Starting transcription test with sample audio URL...');
+test('transcribe - video URL transcription', async () => {
+  console.log('Starting transcription test with sample video URL...');
   console.log('Video URL:', sampleVideoUrl.substring(0, 100) + '...');
 
-  const result = await transcribeVideoUrl({
+  const result = await transcribe({
     videoUrl: sampleVideoUrl,
     language: 'english',
     languageFont: 'english',
@@ -51,11 +51,12 @@ test('transcribeVideoUrl - basic transcription', async () => {
   assert(result, 'Result should be defined');
   assert(typeof result === 'object', 'Result should be an object');
   assert(Array.isArray(result.captions), 'Result should have captions array');
-  assert(typeof result.rawText === 'string', 'Result should have rawText string');
+  assert(typeof result.duration === 'number', 'Result should have duration number');
+  assert.strictEqual(result.videoUrl, sampleVideoUrl, 'Result should include videoUrl');
 
   console.log('Transcription completed successfully');
   console.log(`Captions count: ${result.captions.length}`);
-  console.log(`Raw text length: ${result.rawText.length} characters`);
+  console.log(`Duration: ${result.duration}s`);
 
   // If captions were parsed successfully, validate structure
   if (result.captions.length > 0) {
@@ -79,6 +80,6 @@ test('transcribeVideoUrl - basic transcription', async () => {
 
     console.log('First caption:', JSON.stringify(firstCaption, null, 2));
   } else {
-    console.warn('No captions parsed from response. Raw text:', result.rawText.substring(0, 200));
+    console.warn('No captions parsed from response');
   }
 });
