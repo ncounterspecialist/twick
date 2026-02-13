@@ -23,7 +23,7 @@
 
 #### Defined in
 
-[packages/video-editor/src/helpers/types.ts:29](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/video-editor/src/helpers/types.ts#L29)
+[packages/video-editor/src/helpers/types.ts:29](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/video-editor/src/helpers/types.ts#L29)
 
 ___
 
@@ -33,7 +33,7 @@ ___
 
 #### Defined in
 
-[packages/video-editor/src/helpers/types.ts:30](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/video-editor/src/helpers/types.ts#L30)
+[packages/video-editor/src/helpers/types.ts:30](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/video-editor/src/helpers/types.ts#L30)
 
 ___
 
@@ -43,7 +43,7 @@ ___
 
 #### Defined in
 
-[packages/video-editor/src/helpers/types.ts:31](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/video-editor/src/helpers/types.ts#L31)
+[packages/video-editor/src/helpers/types.ts:31](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/video-editor/src/helpers/types.ts#L31)
 
 ___
 
@@ -53,7 +53,7 @@ ___
 
 #### Defined in
 
-[packages/video-editor/src/helpers/types.ts:32](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/video-editor/src/helpers/types.ts#L32)
+[packages/video-editor/src/helpers/types.ts:32](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/video-editor/src/helpers/types.ts#L32)
 
 ___
 
@@ -63,7 +63,7 @@ ___
 
 #### Defined in
 
-[packages/video-editor/src/helpers/types.ts:33](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/video-editor/src/helpers/types.ts#L33)
+[packages/video-editor/src/helpers/types.ts:33](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/video-editor/src/helpers/types.ts#L33)
 
 ___
 
@@ -73,7 +73,7 @@ ___
 
 #### Defined in
 
-[packages/video-editor/src/helpers/types.ts:34](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/video-editor/src/helpers/types.ts#L34)
+[packages/video-editor/src/helpers/types.ts:34](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/video-editor/src/helpers/types.ts#L34)
 
 ___
 
@@ -83,7 +83,7 @@ ___
 
 #### Defined in
 
-[packages/video-editor/src/helpers/types.ts:35](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/video-editor/src/helpers/types.ts#L35)
+[packages/video-editor/src/helpers/types.ts:35](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/video-editor/src/helpers/types.ts#L35)
 
 ___
 
@@ -93,7 +93,7 @@ ___
 
 #### Defined in
 
-[packages/video-editor/src/helpers/types.ts:36](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/video-editor/src/helpers/types.ts#L36)
+[packages/video-editor/src/helpers/types.ts:36](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/video-editor/src/helpers/types.ts#L36)
 
 ___
 
@@ -113,7 +113,7 @@ ___
 
 #### Defined in
 
-[packages/video-editor/src/helpers/types.ts:37](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/video-editor/src/helpers/types.ts#L37)
+[packages/video-editor/src/helpers/types.ts:37](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/video-editor/src/helpers/types.ts#L37)
 
 ___
 
@@ -123,4 +123,4 @@ ___
 
 #### Defined in
 
-[packages/video-editor/src/helpers/types.ts:41](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/video-editor/src/helpers/types.ts#L41)
+[packages/video-editor/src/helpers/types.ts:41](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/video-editor/src/helpers/types.ts#L41)

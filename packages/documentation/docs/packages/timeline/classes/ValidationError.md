@@ -41,7 +41,7 @@ Error.constructor
 
 #### Defined in
 
-[core/visitor/element-validator.ts:21](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-validator.ts#L21)
+[core/visitor/element-validator.ts:21](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/visitor/element-validator.ts#L21)
 
 ## Properties
 
@@ -51,7 +51,7 @@ Error.constructor
 
 #### Defined in
 
-[core/visitor/element-validator.ts:23](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-validator.ts#L23)
+[core/visitor/element-validator.ts:23](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/visitor/element-validator.ts#L23)
 
 ___
 
@@ -61,4 +61,4 @@ ___
 
 #### Defined in
 
-[core/visitor/element-validator.ts:24](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-validator.ts#L24)
+[core/visitor/element-validator.ts:24](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/visitor/element-validator.ts#L24)

@@ -36,7 +36,7 @@ await renderTwickVideoInBrowser({
 
 #### Defined in
 
-[browser-renderer.ts:193](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/browser-render/src/browser-renderer.ts#L193)
+[browser-renderer.ts:348](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/browser-render/src/browser-renderer.ts#L348)
 
 ___
 
@@ -64,7 +64,7 @@ Render settings
 
 #### Defined in
 
-[browser-renderer.ts:201](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/browser-render/src/browser-renderer.ts#L201)
+[browser-renderer.ts:356](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/browser-render/src/browser-renderer.ts#L356)
 
 ___
 
@@ -87,4 +87,4 @@ Input variables containing project configuration
 
 #### Defined in
 
-[browser-renderer.ts:195](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/browser-render/src/browser-renderer.ts#L195)
+[browser-renderer.ts:350](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/browser-render/src/browser-renderer.ts#L350)

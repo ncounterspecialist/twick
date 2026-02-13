@@ -33,7 +33,7 @@ Minimum zoom level
 
 #### Defined in
 
-[packages/video-editor/src/components/video-editor.tsx:51](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/video-editor/src/components/video-editor.tsx#L51)
+[packages/video-editor/src/components/video-editor.tsx:51](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/video-editor/src/components/video-editor.tsx#L51)
 
 ___
 
@@ -45,7 +45,7 @@ Maximum zoom level
 
 #### Defined in
 
-[packages/video-editor/src/components/video-editor.tsx:53](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/video-editor/src/components/video-editor.tsx#L53)
+[packages/video-editor/src/components/video-editor.tsx:53](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/video-editor/src/components/video-editor.tsx#L53)
 
 ___
 
@@ -57,7 +57,7 @@ Zoom step increment/decrement
 
 #### Defined in
 
-[packages/video-editor/src/components/video-editor.tsx:55](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/video-editor/src/components/video-editor.tsx#L55)
+[packages/video-editor/src/components/video-editor.tsx:55](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/video-editor/src/components/video-editor.tsx#L55)
 
 ___
 
@@ -69,4 +69,4 @@ Default zoom level
 
 #### Defined in
 
-[packages/video-editor/src/components/video-editor.tsx:57](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/video-editor/src/components/video-editor.tsx#L57)
+[packages/video-editor/src/components/video-editor.tsx:57](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/video-editor/src/components/video-editor.tsx#L57)

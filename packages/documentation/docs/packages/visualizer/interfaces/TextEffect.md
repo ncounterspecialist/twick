@@ -39,7 +39,7 @@ Executes the text effect animation
 
 #### Defined in
 
-[helpers/types.ts:279](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/visualizer/src/helpers/types.ts#L279)
+[helpers/types.ts:293](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/visualizer/src/helpers/types.ts#L293)
 
 ## Properties
 
@@ -51,4 +51,4 @@ The unique name identifier for this text effect
 
 #### Defined in
 
-[helpers/types.ts:277](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/visualizer/src/helpers/types.ts#L277)
+[helpers/types.ts:291](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/visualizer/src/helpers/types.ts#L291)

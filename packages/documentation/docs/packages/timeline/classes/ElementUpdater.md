@@ -43,7 +43,7 @@ Implements the Friend Class Pattern for explicit access control
 
 #### Defined in
 
-[core/visitor/element-updater.ts:21](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-updater.ts#L21)
+[core/visitor/element-updater.ts:21](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/visitor/element-updater.ts#L21)
 
 ## Methods
 
@@ -67,7 +67,7 @@ Implements the Friend Class Pattern for explicit access control
 
 #### Defined in
 
-[core/visitor/element-updater.ts:25](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-updater.ts#L25)
+[core/visitor/element-updater.ts:25](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/visitor/element-updater.ts#L25)
 
 ___
 
@@ -91,7 +91,7 @@ ___
 
 #### Defined in
 
-[core/visitor/element-updater.ts:29](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-updater.ts#L29)
+[core/visitor/element-updater.ts:29](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/visitor/element-updater.ts#L29)
 
 ___
 
@@ -115,7 +115,7 @@ ___
 
 #### Defined in
 
-[core/visitor/element-updater.ts:33](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-updater.ts#L33)
+[core/visitor/element-updater.ts:33](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/visitor/element-updater.ts#L33)
 
 ___
 
@@ -139,7 +139,7 @@ ___
 
 #### Defined in
 
-[core/visitor/element-updater.ts:37](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-updater.ts#L37)
+[core/visitor/element-updater.ts:37](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/visitor/element-updater.ts#L37)
 
 ___
 
@@ -163,7 +163,7 @@ ___
 
 #### Defined in
 
-[core/visitor/element-updater.ts:41](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-updater.ts#L41)
+[core/visitor/element-updater.ts:41](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/visitor/element-updater.ts#L41)
 
 ___
 
@@ -187,7 +187,7 @@ ___
 
 #### Defined in
 
-[core/visitor/element-updater.ts:45](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-updater.ts#L45)
+[core/visitor/element-updater.ts:45](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/visitor/element-updater.ts#L45)
 
 ___
 
@@ -211,7 +211,7 @@ ___
 
 #### Defined in
 
-[core/visitor/element-updater.ts:49](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-updater.ts#L49)
+[core/visitor/element-updater.ts:49](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/visitor/element-updater.ts#L49)
 
 ___
 
@@ -235,4 +235,4 @@ ___
 
 #### Defined in
 
-[core/visitor/element-updater.ts:53](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-updater.ts#L53)
+[core/visitor/element-updater.ts:53](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/visitor/element-updater.ts#L53)

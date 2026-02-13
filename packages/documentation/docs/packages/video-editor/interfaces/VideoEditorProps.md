@@ -38,7 +38,7 @@ Custom left panel component (e.g., media library)
 
 #### Defined in
 
-[packages/video-editor/src/components/video-editor.tsx:129](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/video-editor/src/components/video-editor.tsx#L129)
+[packages/video-editor/src/components/video-editor.tsx:129](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/video-editor/src/components/video-editor.tsx#L129)
 
 ___
 
@@ -50,7 +50,7 @@ Custom right panel component (e.g., properties inspector)
 
 #### Defined in
 
-[packages/video-editor/src/components/video-editor.tsx:131](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/video-editor/src/components/video-editor.tsx#L131)
+[packages/video-editor/src/components/video-editor.tsx:131](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/video-editor/src/components/video-editor.tsx#L131)
 
 ___
 
@@ -62,7 +62,7 @@ Custom bottom panel component (e.g., effects library)
 
 #### Defined in
 
-[packages/video-editor/src/components/video-editor.tsx:133](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/video-editor/src/components/video-editor.tsx#L133)
+[packages/video-editor/src/components/video-editor.tsx:133](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/video-editor/src/components/video-editor.tsx#L133)
 
 ___
 
@@ -74,7 +74,7 @@ Whether to show default play controls if no custom controls provided
 
 #### Defined in
 
-[packages/video-editor/src/components/video-editor.tsx:135](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/video-editor/src/components/video-editor.tsx#L135)
+[packages/video-editor/src/components/video-editor.tsx:135](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/video-editor/src/components/video-editor.tsx#L135)
 
 ___
 
@@ -86,4 +86,4 @@ Editor configuration including video properties and mode settings
 
 #### Defined in
 
-[packages/video-editor/src/components/video-editor.tsx:137](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/video-editor/src/components/video-editor.tsx#L137)
+[packages/video-editor/src/components/video-editor.tsx:137](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/video-editor/src/components/video-editor.tsx#L137)

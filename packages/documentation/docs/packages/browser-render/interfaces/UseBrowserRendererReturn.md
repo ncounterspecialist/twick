@@ -38,7 +38,7 @@ Download the rendered video
 
 #### Defined in
 
-[hooks/use-browser-renderer.ts:54](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/browser-render/src/hooks/use-browser-renderer.ts#L54)
+[hooks/use-browser-renderer.ts:54](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/browser-render/src/hooks/use-browser-renderer.ts#L54)
 
 ___
 
@@ -50,7 +50,7 @@ Error if rendering failed
 
 #### Defined in
 
-[hooks/use-browser-renderer.ts:50](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/browser-render/src/hooks/use-browser-renderer.ts#L50)
+[hooks/use-browser-renderer.ts:50](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/browser-render/src/hooks/use-browser-renderer.ts#L50)
 
 ___
 
@@ -62,7 +62,7 @@ Whether rendering is in progress
 
 #### Defined in
 
-[hooks/use-browser-renderer.ts:48](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/browser-render/src/hooks/use-browser-renderer.ts#L48)
+[hooks/use-browser-renderer.ts:48](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/browser-render/src/hooks/use-browser-renderer.ts#L48)
 
 ___
 
@@ -74,7 +74,7 @@ Current rendering progress (0-1)
 
 #### Defined in
 
-[hooks/use-browser-renderer.ts:46](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/browser-render/src/hooks/use-browser-renderer.ts#L46)
+[hooks/use-browser-renderer.ts:46](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/browser-render/src/hooks/use-browser-renderer.ts#L46)
 
 ___
 
@@ -102,7 +102,7 @@ Start rendering the video
 
 #### Defined in
 
-[hooks/use-browser-renderer.ts:44](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/browser-render/src/hooks/use-browser-renderer.ts#L44)
+[hooks/use-browser-renderer.ts:44](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/browser-render/src/hooks/use-browser-renderer.ts#L44)
 
 ___
 
@@ -122,7 +122,7 @@ Reset the renderer state
 
 #### Defined in
 
-[hooks/use-browser-renderer.ts:56](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/browser-render/src/hooks/use-browser-renderer.ts#L56)
+[hooks/use-browser-renderer.ts:56](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/browser-render/src/hooks/use-browser-renderer.ts#L56)
 
 ___
 
@@ -134,4 +134,4 @@ The rendered video blob (available after rendering completes)
 
 #### Defined in
 
-[hooks/use-browser-renderer.ts:52](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/browser-render/src/hooks/use-browser-renderer.ts#L52)
+[hooks/use-browser-renderer.ts:52](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/browser-render/src/hooks/use-browser-renderer.ts#L52)

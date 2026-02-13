@@ -56,7 +56,7 @@ extractor.dispose();
 
 #### Defined in
 
-[video-frame-extractor.ts:58](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/media-utils/src/video-frame-extractor.ts#L58)
+[video-frame-extractor.ts:58](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/media-utils/src/video-frame-extractor.ts#L58)
 
 ## Methods
 
@@ -72,7 +72,7 @@ Clear the frame cache.
 
 #### Defined in
 
-[video-frame-extractor.ts:356](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/media-utils/src/video-frame-extractor.ts#L356)
+[video-frame-extractor.ts:356](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/media-utils/src/video-frame-extractor.ts#L356)
 
 ___
 
@@ -91,7 +91,7 @@ to prevent memory leaks.
 
 #### Defined in
 
-[video-frame-extractor.ts:385](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/media-utils/src/video-frame-extractor.ts#L385)
+[video-frame-extractor.ts:385](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/media-utils/src/video-frame-extractor.ts#L385)
 
 ___
 
@@ -118,7 +118,7 @@ Promise resolving to a thumbnail image URL (data URL or blob URL)
 
 #### Defined in
 
-[video-frame-extractor.ts:78](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/media-utils/src/video-frame-extractor.ts#L78)
+[video-frame-extractor.ts:78](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/media-utils/src/video-frame-extractor.ts#L78)
 
 ___
 
@@ -140,4 +140,4 @@ Remove a specific video element and clear its cached frames.
 
 #### Defined in
 
-[video-frame-extractor.ts:363](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/media-utils/src/video-frame-extractor.ts#L363)
+[video-frame-extractor.ts:363](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/media-utils/src/video-frame-extractor.ts#L363)

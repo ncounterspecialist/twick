@@ -15,7 +15,7 @@
 
 #### Defined in
 
-[types.ts:8](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/types.ts#L8)
+[types.ts:8](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/types.ts#L8)
 
 ___
 
@@ -25,4 +25,4 @@ ___
 
 #### Defined in
 
-[types.ts:9](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/types.ts#L9)
+[types.ts:9](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/types.ts#L9)

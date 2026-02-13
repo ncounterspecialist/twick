@@ -53,7 +53,7 @@ Video dimensions and properties
 
 #### Defined in
 
-[packages/video-editor/src/components/video-editor.tsx:86](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/video-editor/src/components/video-editor.tsx#L86)
+[packages/video-editor/src/components/video-editor.tsx:86](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/video-editor/src/components/video-editor.tsx#L86)
 
 ___
 
@@ -71,7 +71,7 @@ ___
 
 #### Defined in
 
-[packages/video-editor/src/components/video-editor.tsx:94](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/video-editor/src/components/video-editor.tsx#L94)
+[packages/video-editor/src/components/video-editor.tsx:94](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/video-editor/src/components/video-editor.tsx#L94)
 
 ___
 
@@ -83,7 +83,7 @@ Whether to use canvas mode for rendering
 
 #### Defined in
 
-[packages/video-editor/src/components/video-editor.tsx:100](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/video-editor/src/components/video-editor.tsx#L100)
+[packages/video-editor/src/components/video-editor.tsx:100](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/video-editor/src/components/video-editor.tsx#L100)
 
 ___
 
@@ -95,7 +95,7 @@ Custom timeline tick configurations for different duration ranges
 
 #### Defined in
 
-[packages/video-editor/src/components/video-editor.tsx:102](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/video-editor/src/components/video-editor.tsx#L102)
+[packages/video-editor/src/components/video-editor.tsx:102](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/video-editor/src/components/video-editor.tsx#L102)
 
 ___
 
@@ -107,7 +107,7 @@ Custom timeline zoom configuration (min, max, step, default)
 
 #### Defined in
 
-[packages/video-editor/src/components/video-editor.tsx:104](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/video-editor/src/components/video-editor.tsx#L104)
+[packages/video-editor/src/components/video-editor.tsx:104](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/video-editor/src/components/video-editor.tsx#L104)
 
 ___
 
@@ -119,4 +119,4 @@ Custom element colors for timeline elements
 
 #### Defined in
 
-[packages/video-editor/src/components/video-editor.tsx:106](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/video-editor/src/components/video-editor.tsx#L106)
+[packages/video-editor/src/components/video-editor.tsx:106](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/video-editor/src/components/video-editor.tsx#L106)

@@ -31,7 +31,7 @@ Duration threshold in seconds - this config applies when duration < threshold
 
 #### Defined in
 
-[packages/video-editor/src/components/video-editor.tsx:28](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/video-editor/src/components/video-editor.tsx#L28)
+[packages/video-editor/src/components/video-editor.tsx:28](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/video-editor/src/components/video-editor.tsx#L28)
 
 ___
 
@@ -43,7 +43,7 @@ Major tick interval in seconds
 
 #### Defined in
 
-[packages/video-editor/src/components/video-editor.tsx:30](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/video-editor/src/components/video-editor.tsx#L30)
+[packages/video-editor/src/components/video-editor.tsx:30](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/video-editor/src/components/video-editor.tsx#L30)
 
 ___
 
@@ -55,4 +55,4 @@ Number of minor ticks between major ticks
 
 #### Defined in
 
-[packages/video-editor/src/components/video-editor.tsx:32](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/video-editor/src/components/video-editor.tsx#L32)
+[packages/video-editor/src/components/video-editor.tsx:32](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/video-editor/src/components/video-editor.tsx#L32)

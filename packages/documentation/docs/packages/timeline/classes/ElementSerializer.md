@@ -50,7 +50,7 @@
 
 #### Defined in
 
-[core/visitor/element-serializer.ts:14](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-serializer.ts#L14)
+[core/visitor/element-serializer.ts:14](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/visitor/element-serializer.ts#L14)
 
 ___
 
@@ -74,7 +74,7 @@ ___
 
 #### Defined in
 
-[core/visitor/element-serializer.ts:26](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-serializer.ts#L26)
+[core/visitor/element-serializer.ts:26](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/visitor/element-serializer.ts#L26)
 
 ___
 
@@ -98,7 +98,7 @@ ___
 
 #### Defined in
 
-[core/visitor/element-serializer.ts:37](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-serializer.ts#L37)
+[core/visitor/element-serializer.ts:37](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/visitor/element-serializer.ts#L37)
 
 ___
 
@@ -122,7 +122,7 @@ ___
 
 #### Defined in
 
-[core/visitor/element-serializer.ts:44](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-serializer.ts#L44)
+[core/visitor/element-serializer.ts:44](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/visitor/element-serializer.ts#L44)
 
 ___
 
@@ -146,7 +146,7 @@ ___
 
 #### Defined in
 
-[core/visitor/element-serializer.ts:54](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-serializer.ts#L54)
+[core/visitor/element-serializer.ts:54](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/visitor/element-serializer.ts#L54)
 
 ___
 
@@ -170,7 +170,7 @@ ___
 
 #### Defined in
 
-[core/visitor/element-serializer.ts:61](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-serializer.ts#L61)
+[core/visitor/element-serializer.ts:61](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/visitor/element-serializer.ts#L61)
 
 ___
 
@@ -194,7 +194,7 @@ ___
 
 #### Defined in
 
-[core/visitor/element-serializer.ts:68](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-serializer.ts#L68)
+[core/visitor/element-serializer.ts:68](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/visitor/element-serializer.ts#L68)
 
 ___
 
@@ -218,7 +218,7 @@ ___
 
 #### Defined in
 
-[core/visitor/element-serializer.ts:74](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-serializer.ts#L74)
+[core/visitor/element-serializer.ts:74](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/visitor/element-serializer.ts#L74)
 
 ___
 
@@ -242,4 +242,4 @@ ___
 
 #### Defined in
 
-[core/visitor/element-serializer.ts:80](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-serializer.ts#L80)
+[core/visitor/element-serializer.ts:80](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/visitor/element-serializer.ts#L80)

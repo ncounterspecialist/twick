@@ -24,7 +24,7 @@ JPEG quality for thumbnails (0-1, default: 0.8)
 
 #### Defined in
 
-[video-frame-extractor.ts:14](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/media-utils/src/video-frame-extractor.ts#L14)
+[video-frame-extractor.ts:14](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/media-utils/src/video-frame-extractor.ts#L14)
 
 ___
 
@@ -36,7 +36,7 @@ Timeout for video loading in milliseconds (default: 15000)
 
 #### Defined in
 
-[video-frame-extractor.ts:12](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/media-utils/src/video-frame-extractor.ts#L12)
+[video-frame-extractor.ts:12](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/media-utils/src/video-frame-extractor.ts#L12)
 
 ___
 
@@ -48,7 +48,7 @@ Maximum number of cached frames (default: 50)
 
 #### Defined in
 
-[video-frame-extractor.ts:8](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/media-utils/src/video-frame-extractor.ts#L8)
+[video-frame-extractor.ts:8](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/media-utils/src/video-frame-extractor.ts#L8)
 
 ___
 
@@ -60,7 +60,7 @@ Maximum number of video elements to keep in memory (default: 5)
 
 #### Defined in
 
-[video-frame-extractor.ts:10](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/media-utils/src/video-frame-extractor.ts#L10)
+[video-frame-extractor.ts:10](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/media-utils/src/video-frame-extractor.ts#L10)
 
 ___
 
@@ -72,4 +72,4 @@ Playback rate for video (default: 1)
 
 #### Defined in
 
-[video-frame-extractor.ts:16](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/media-utils/src/video-frame-extractor.ts#L16)
+[video-frame-extractor.ts:16](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/media-utils/src/video-frame-extractor.ts#L16)

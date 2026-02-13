@@ -64,7 +64,7 @@
 
 #### Defined in
 
-[packages/video-editor/src/assets/index.ts:33](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/video-editor/src/assets/index.ts#L33)
+[packages/video-editor/src/assets/index.ts:33](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/video-editor/src/assets/index.ts#L33)
 
 ___
 
@@ -84,7 +84,7 @@ ___
 
 #### Defined in
 
-[packages/video-editor/src/components/controls/player-controls.tsx:74](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/video-editor/src/components/controls/player-controls.tsx#L74)
+[packages/video-editor/src/components/controls/player-controls.tsx:74](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/video-editor/src/components/controls/player-controls.tsx#L74)
 
 ___
 
@@ -107,7 +107,7 @@ ___
 
 #### Defined in
 
-[packages/video-editor/src/components/timeline/timeline-manager.tsx:7](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/video-editor/src/components/timeline/timeline-manager.tsx#L7)
+[packages/video-editor/src/components/timeline/timeline-manager.tsx:7](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/video-editor/src/components/timeline/timeline-manager.tsx#L7)
 
 ___
 
@@ -172,7 +172,7 @@ function MyVideoEditor() {
 
 #### Defined in
 
-[packages/video-editor/src/components/video-editor.tsx:185](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/video-editor/src/components/video-editor.tsx#L185)
+[packages/video-editor/src/components/video-editor.tsx:185](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/video-editor/src/components/video-editor.tsx#L185)
 
 ___
 
@@ -192,7 +192,7 @@ ___
 
 #### Defined in
 
-[packages/video-editor/src/helpers/editor.utils.ts:6](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/video-editor/src/helpers/editor.utils.ts#L6)
+[packages/video-editor/src/helpers/editor.utils.ts:6](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/video-editor/src/helpers/editor.utils.ts#L6)
 
 ___
 
@@ -230,7 +230,7 @@ updateElement(modifiedElement);
 
 #### Defined in
 
-[packages/video-editor/src/hooks/use-editor-manager.tsx:31](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/video-editor/src/hooks/use-editor-manager.tsx#L31)
+[packages/video-editor/src/hooks/use-editor-manager.tsx:31](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/video-editor/src/hooks/use-editor-manager.tsx#L31)
 
 ___
 
@@ -263,7 +263,7 @@ togglePlayback();
 
 #### Defined in
 
-[packages/video-editor/src/hooks/use-player-control.tsx:23](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/video-editor/src/hooks/use-player-control.tsx#L23)
+[packages/video-editor/src/hooks/use-player-control.tsx:23](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/video-editor/src/hooks/use-player-control.tsx#L23)
 
 ___
 
@@ -302,7 +302,7 @@ splitElement(element, 5.5);
 
 #### Defined in
 
-[packages/video-editor/src/hooks/use-timeline-control.tsx:25](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/video-editor/src/hooks/use-timeline-control.tsx#L25)
+[packages/video-editor/src/hooks/use-timeline-control.tsx:25](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/video-editor/src/hooks/use-timeline-control.tsx#L25)
 
 ## Variables
 
@@ -324,7 +324,7 @@ splitElement(element, 5.5);
 
 #### Defined in
 
-[packages/video-editor/src/assets/index.ts:11](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/video-editor/src/assets/index.ts#L11)
+[packages/video-editor/src/assets/index.ts:11](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/video-editor/src/assets/index.ts#L11)
 
 ___
 
@@ -370,7 +370,7 @@ element.setAnimation(customRise);
 
 #### Defined in
 
-[packages/video-editor/src/helpers/animation-manager.tsx:39](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/video-editor/src/helpers/animation-manager.tsx#L39)
+[packages/video-editor/src/helpers/animation-manager.tsx:39](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/video-editor/src/helpers/animation-manager.tsx#L39)
 
 ___
 
@@ -397,12 +397,12 @@ const newProject = {
 
 | Name | Type |
 | :------ | :------ |
-| `tracks` | `Track[]` |
+| `tracks` | \{ `type`: `string` = "element"; `id`: `string` = "t-sample"; `name`: `string` = "sample"; `elements`: \{ `id`: `string` = "e-sample"; `trackId`: `string` = "t-sample"; `name`: `string` = "sample"; `type`: `string` = "text"; `s`: `number` = 0; `e`: `number` = 5; `props`: \{ `text`: `string` = "Twick Video Editor"; `fill`: `string` = "#FFFFFF" }  }[]  }[] |
 | `version` | `number` |
 
 #### Defined in
 
-[packages/video-editor/src/helpers/constants.ts:19](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/video-editor/src/helpers/constants.ts#L19)
+[packages/video-editor/src/helpers/constants.ts:19](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/video-editor/src/helpers/constants.ts#L19)
 
 ___
 
@@ -424,7 +424,7 @@ const elementDuration = Math.max(duration, MIN_DURATION);
 
 #### Defined in
 
-[packages/video-editor/src/helpers/constants.ts:56](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/video-editor/src/helpers/constants.ts#L56)
+[packages/video-editor/src/helpers/constants.ts:56](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/video-editor/src/helpers/constants.ts#L56)
 
 ___
 
@@ -465,7 +465,7 @@ function handleDrag(type) {
 
 #### Defined in
 
-[packages/video-editor/src/helpers/constants.ts:81](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/video-editor/src/helpers/constants.ts#L81)
+[packages/video-editor/src/helpers/constants.ts:81](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/video-editor/src/helpers/constants.ts#L81)
 
 ___
 
@@ -487,7 +487,7 @@ const [zoom, setZoom] = useState(DEFAULT_TIMELINE_ZOOM);
 
 #### Defined in
 
-[packages/video-editor/src/helpers/constants.ts:102](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/video-editor/src/helpers/constants.ts#L102)
+[packages/video-editor/src/helpers/constants.ts:102](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/video-editor/src/helpers/constants.ts#L102)
 
 ___
 
@@ -523,7 +523,7 @@ import { DEFAULT_TIMELINE_ZOOM_CONFIG } from '@twick/video-editor';
 
 #### Defined in
 
-[packages/video-editor/src/helpers/constants.ts:121](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/video-editor/src/helpers/constants.ts#L121)
+[packages/video-editor/src/helpers/constants.ts:121](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/video-editor/src/helpers/constants.ts#L121)
 
 ___
 
@@ -554,7 +554,7 @@ import { DEFAULT_TIMELINE_TICK_CONFIGS } from '@twick/video-editor';
 
 #### Defined in
 
-[packages/video-editor/src/helpers/constants.ts:153](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/video-editor/src/helpers/constants.ts#L153)
+[packages/video-editor/src/helpers/constants.ts:153](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/video-editor/src/helpers/constants.ts#L153)
 
 ___
 
@@ -579,7 +579,7 @@ element.style.backgroundColor = DEFAULT_ELEMENT_COLORS[element.type];
 
 #### Defined in
 
-[packages/video-editor/src/helpers/constants.ts:216](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/video-editor/src/helpers/constants.ts#L216)
+[packages/video-editor/src/helpers/constants.ts:216](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/video-editor/src/helpers/constants.ts#L216)
 
 ___
 
@@ -634,7 +634,7 @@ textElement.style.fontFamily = AVAILABLE_TEXT_FONTS.POPPINS;
 
 #### Defined in
 
-[packages/video-editor/src/helpers/constants.ts:264](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/video-editor/src/helpers/constants.ts#L264)
+[packages/video-editor/src/helpers/constants.ts:264](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/video-editor/src/helpers/constants.ts#L264)
 
 ___
 
@@ -677,4 +677,4 @@ textElement.setTextEffect(customElastic);
 
 #### Defined in
 
-[packages/video-editor/src/helpers/text-effects-manager.tsx:35](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/video-editor/src/helpers/text-effects-manager.tsx#L35)
+[packages/video-editor/src/helpers/text-effects-manager.tsx:35](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/video-editor/src/helpers/text-effects-manager.tsx#L35)

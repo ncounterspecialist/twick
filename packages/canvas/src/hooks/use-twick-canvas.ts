@@ -3,9 +3,13 @@ import { Canvas as FabricCanvas, FabricObject, Textbox, ActiveSelection } from "
 import { Dimensions } from "@twick/media-utils";
 import {
   CanvasMetadata,
-  CanvasProps,
   CanvasElement,
   CaptionProps,
+  BuildCanvasOptions,
+  AddElementToCanvasOptions,
+  SetCanvasElementsOptions,
+  AddWatermarkToCanvasOptions,
+  ResizeCanvasOptions,
 } from "../types";
 import {
   changeZOrder,
@@ -92,10 +96,7 @@ export const useTwickCanvas = ({
   const resizeCanvas = ({
     canvasSize,
     videoSize = videoSizeRef.current,
-  }: {
-    canvasSize: Dimensions;
-    videoSize?: Dimensions;
-  }) => {
+  }: ResizeCanvasOptions) => {
     const canvas = twickCanvasRef.current;
     if (!canvas || !getCanvasContext(canvas)) return;
     if (!videoSize?.width || !videoSize?.height) return;
@@ -248,7 +249,7 @@ export const useTwickCanvas = ({
     enableRetinaScaling = true,
     touchZoomThreshold = 10,
     forceBuild = false,
-  }: CanvasProps & { forceBuild?: boolean }) => {
+  }: BuildCanvasOptions) => {
     if (!canvasRef) return;
 
     if (
@@ -424,15 +425,7 @@ export const useTwickCanvas = ({
     captionProps,
     cleanAndAdd = false,
     lockAspectRatio,
-  }: {
-    elements: CanvasElement[];
-    watermark?: CanvasElement;
-    seekTime?: number;
-    captionProps?: any;
-    cleanAndAdd?: boolean;
-    /** When true, element resize keeps aspect ratio. Overridable per element via props.lockAspectRatio. */
-    lockAspectRatio?: boolean;
-  }) => {
+  }: SetCanvasElementsOptions) => {
     if (!twickCanvas || !getCanvasContext(twickCanvas)) return;
 
     try {
@@ -517,14 +510,7 @@ export const useTwickCanvas = ({
     seekTime,
     captionProps,
     lockAspectRatio,
-  }: {
-    element: CanvasElement;
-    index: number;
-    reorder: boolean;
-    seekTime?: number;
-    captionProps?: any;
-    lockAspectRatio?: boolean;
-  }) => {
+  }: AddElementToCanvasOptions) => {
     if (!twickCanvas) return;
     const handler = elementController.get(element.type);
     if (handler) {
@@ -546,11 +532,7 @@ export const useTwickCanvas = ({
     }
   };
 
-  const addWatermarkToCanvas = ({
-    element,
-  }: {
-    element: CanvasElement;
-  }) => {
+  const addWatermarkToCanvas = ({ element }: AddWatermarkToCanvasOptions) => {
     if (!twickCanvas) return;
     const handler = elementController.get("watermark");
     if (handler) {

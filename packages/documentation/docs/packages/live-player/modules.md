@@ -50,7 +50,7 @@ A configured player UI component
 
 #### Defined in
 
-[components/live-player.tsx:74](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/live-player/src/components/live-player.tsx#L74)
+[components/live-player.tsx:74](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/live-player/src/components/live-player.tsx#L74)
 
 ___
 
@@ -86,7 +86,7 @@ Context provider with live player state management
 
 #### Defined in
 
-[context/live-player-context.tsx:61](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/live-player/src/context/live-player-context.tsx#L61)
+[context/live-player-context.tsx:61](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/live-player/src/context/live-player-context.tsx#L61)
 
 ___
 
@@ -127,7 +127,7 @@ setCurrentTime(30.5);
 
 #### Defined in
 
-[context/live-player-context.tsx:115](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/live-player/src/context/live-player-context.tsx#L115)
+[context/live-player-context.tsx:115](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/live-player/src/context/live-player-context.tsx#L115)
 
 ___
 
@@ -171,7 +171,7 @@ const project = getBaseProject({ width: 720, height: 1280 }, "player-123");
 
 #### Defined in
 
-[helpers/player.utils.ts:16](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/live-player/src/helpers/player.utils.ts#L16)
+[helpers/player.utils.ts:16](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/live-player/src/helpers/player.utils.ts#L16)
 
 ___
 
@@ -198,7 +198,7 @@ const id = generateId();
 
 #### Defined in
 
-[helpers/player.utils.ts:47](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/live-player/src/helpers/player.utils.ts#L47)
+[helpers/player.utils.ts:47](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/live-player/src/helpers/player.utils.ts#L47)
 
 ## Variables
 
@@ -229,4 +229,4 @@ if (playerState === PLAYER_STATE.PLAYING) {
 
 #### Defined in
 
-[helpers/constants.ts:14](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/live-player/src/helpers/constants.ts#L14)
+[helpers/constants.ts:14](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/live-player/src/helpers/constants.ts#L14)

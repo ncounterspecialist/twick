@@ -9,7 +9,7 @@ Response from GET /request-status when status is ready
 ### Properties
 
 - [status](RequestStatusCompleted.md#status)
-- [captions](RequestStatusCompleted.md#captions)
+- [subtitles](RequestStatusCompleted.md#subtitles)
 
 ## Properties
 
@@ -19,14 +19,14 @@ Response from GET /request-status when status is ready
 
 #### Defined in
 
-[studio/src/types/index.ts:63](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/studio/src/types/index.ts#L63)
+[studio/src/types/index.ts:63](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/studio/src/types/index.ts#L63)
 
 ___
 
-### captions
+### subtitles
 
-• **captions**: [`CaptionEntry`](CaptionEntry.md)[]
+• **subtitles**: [`SubtitleEntry`](SubtitleEntry.md)[]
 
 #### Defined in
 
-[studio/src/types/index.ts:64](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/studio/src/types/index.ts#L64)
+[studio/src/types/index.ts:64](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/studio/src/types/index.ts#L64)

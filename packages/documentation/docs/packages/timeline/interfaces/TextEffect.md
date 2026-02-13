@@ -17,7 +17,7 @@
 
 #### Defined in
 
-[types.ts:128](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/types.ts#L128)
+[types.ts:128](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/types.ts#L128)
 
 ___
 
@@ -27,7 +27,7 @@ ___
 
 #### Defined in
 
-[types.ts:129](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/types.ts#L129)
+[types.ts:129](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/types.ts#L129)
 
 ___
 
@@ -37,7 +37,7 @@ ___
 
 #### Defined in
 
-[types.ts:130](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/types.ts#L130)
+[types.ts:130](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/types.ts#L130)
 
 ___
 
@@ -47,4 +47,4 @@ ___
 
 #### Defined in
 
-[types.ts:131](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/types.ts#L131)
+[types.ts:131](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/types.ts#L131)

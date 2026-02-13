@@ -28,7 +28,7 @@ Automatically download the video when rendering completes
 
 #### Defined in
 
-[hooks/use-browser-renderer.ts:37](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/browser-render/src/hooks/use-browser-renderer.ts#L37)
+[hooks/use-browser-renderer.ts:37](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/browser-render/src/hooks/use-browser-renderer.ts#L37)
 
 ___
 
@@ -40,7 +40,7 @@ Download audio separately as WAV file
 
 #### Defined in
 
-[hooks/use-browser-renderer.ts:33](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/browser-render/src/hooks/use-browser-renderer.ts#L33)
+[hooks/use-browser-renderer.ts:33](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/browser-render/src/hooks/use-browser-renderer.ts#L33)
 
 ___
 
@@ -52,7 +52,7 @@ Default filename for downloads
 
 #### Defined in
 
-[hooks/use-browser-renderer.ts:39](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/browser-render/src/hooks/use-browser-renderer.ts#L39)
+[hooks/use-browser-renderer.ts:39](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/browser-render/src/hooks/use-browser-renderer.ts#L39)
 
 ___
 
@@ -64,7 +64,7 @@ Frames per second
 
 #### Defined in
 
-[hooks/use-browser-renderer.ts:25](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/browser-render/src/hooks/use-browser-renderer.ts#L25)
+[hooks/use-browser-renderer.ts:25](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/browser-render/src/hooks/use-browser-renderer.ts#L25)
 
 ___
 
@@ -76,7 +76,7 @@ Video height in pixels
 
 #### Defined in
 
-[hooks/use-browser-renderer.ts:23](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/browser-render/src/hooks/use-browser-renderer.ts#L23)
+[hooks/use-browser-renderer.ts:23](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/browser-render/src/hooks/use-browser-renderer.ts#L23)
 
 ___
 
@@ -88,7 +88,7 @@ Include audio in rendered video (experimental)
 
 #### Defined in
 
-[hooks/use-browser-renderer.ts:31](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/browser-render/src/hooks/use-browser-renderer.ts#L31)
+[hooks/use-browser-renderer.ts:31](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/browser-render/src/hooks/use-browser-renderer.ts#L31)
 
 ___
 
@@ -114,7 +114,7 @@ Callback when audio is ready
 
 #### Defined in
 
-[hooks/use-browser-renderer.ts:35](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/browser-render/src/hooks/use-browser-renderer.ts#L35)
+[hooks/use-browser-renderer.ts:35](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/browser-render/src/hooks/use-browser-renderer.ts#L35)
 
 ___
 
@@ -136,7 +136,7 @@ useBrowserRenderer({ projectFile: myProject })
 
 #### Defined in
 
-[hooks/use-browser-renderer.ts:19](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/browser-render/src/hooks/use-browser-renderer.ts#L19)
+[hooks/use-browser-renderer.ts:19](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/browser-render/src/hooks/use-browser-renderer.ts#L19)
 
 ___
 
@@ -148,7 +148,7 @@ Render quality
 
 #### Defined in
 
-[hooks/use-browser-renderer.ts:27](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/browser-render/src/hooks/use-browser-renderer.ts#L27)
+[hooks/use-browser-renderer.ts:27](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/browser-render/src/hooks/use-browser-renderer.ts#L27)
 
 ___
 
@@ -160,7 +160,7 @@ Time range to render [start, end] in seconds
 
 #### Defined in
 
-[hooks/use-browser-renderer.ts:29](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/browser-render/src/hooks/use-browser-renderer.ts#L29)
+[hooks/use-browser-renderer.ts:29](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/browser-render/src/hooks/use-browser-renderer.ts#L29)
 
 ___
 
@@ -172,4 +172,4 @@ Video width in pixels
 
 #### Defined in
 
-[hooks/use-browser-renderer.ts:21](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/browser-render/src/hooks/use-browser-renderer.ts#L21)
+[hooks/use-browser-renderer.ts:21](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/browser-render/src/hooks/use-browser-renderer.ts#L21)

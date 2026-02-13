@@ -36,7 +36,7 @@
 
 #### Defined in
 
-[core/addOns/frame-effect.ts:7](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/addOns/frame-effect.ts#L7)
+[core/addOns/frame-effect.ts:7](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/addOns/frame-effect.ts#L7)
 
 ## Methods
 
@@ -56,7 +56,7 @@
 
 #### Defined in
 
-[core/addOns/frame-effect.ts:12](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/addOns/frame-effect.ts#L12)
+[core/addOns/frame-effect.ts:12](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/addOns/frame-effect.ts#L12)
 
 ___
 
@@ -70,7 +70,7 @@ ___
 
 #### Defined in
 
-[core/addOns/frame-effect.ts:17](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/addOns/frame-effect.ts#L17)
+[core/addOns/frame-effect.ts:17](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/addOns/frame-effect.ts#L17)
 
 ___
 
@@ -84,7 +84,7 @@ ___
 
 #### Defined in
 
-[core/addOns/frame-effect.ts:21](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/addOns/frame-effect.ts#L21)
+[core/addOns/frame-effect.ts:21](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/addOns/frame-effect.ts#L21)
 
 ___
 
@@ -98,7 +98,7 @@ ___
 
 #### Defined in
 
-[core/addOns/frame-effect.ts:25](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/addOns/frame-effect.ts#L25)
+[core/addOns/frame-effect.ts:25](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/addOns/frame-effect.ts#L25)
 
 ___
 
@@ -118,7 +118,7 @@ ___
 
 #### Defined in
 
-[core/addOns/frame-effect.ts:29](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/addOns/frame-effect.ts#L29)
+[core/addOns/frame-effect.ts:29](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/addOns/frame-effect.ts#L29)
 
 ___
 
@@ -138,7 +138,7 @@ ___
 
 #### Defined in
 
-[core/addOns/frame-effect.ts:34](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/addOns/frame-effect.ts#L34)
+[core/addOns/frame-effect.ts:34](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/addOns/frame-effect.ts#L34)
 
 ___
 
@@ -152,7 +152,7 @@ ___
 
 #### Defined in
 
-[core/addOns/frame-effect.ts:39](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/addOns/frame-effect.ts#L39)
+[core/addOns/frame-effect.ts:39](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/addOns/frame-effect.ts#L39)
 
 ___
 
@@ -172,4 +172,4 @@ ___
 
 #### Defined in
 
-[core/addOns/frame-effect.ts:47](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/addOns/frame-effect.ts#L47)
+[core/addOns/frame-effect.ts:47](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/addOns/frame-effect.ts#L47)

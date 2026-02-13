@@ -111,9 +111,9 @@ export const CANVAS_OPERATIONS = {
   CAPTION_PROPS_UPDATED: "CAPTION_PROPS_UPDATED",
   /** Watermark has been updated */
   WATERMARK_UPDATED: "WATERMARK_UPDATED",
-  /** A new element was added via drop on canvas; payload is { element } */
+  /** A new element was added via drop on canvas; payload is &#123; element &#125; */
   ADDED_NEW_ELEMENT: "ADDED_NEW_ELEMENT",
-  /** Z-order changed (bring to front / send to back). Payload is { elementId, direction }. Timeline should reorder tracks. */
+  /** Z-order changed (bring to front / send to back). Payload is &#123; elementId, direction &#125;. Timeline should reorder tracks. */
   Z_ORDER_CHANGED: "Z_ORDER_CHANGED",
 }
 

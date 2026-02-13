@@ -54,7 +54,7 @@ const success = await adder.visitVideoElement(videoElement);
 
 #### Defined in
 
-[core/visitor/element-adder.ts:35](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-adder.ts#L35)
+[core/visitor/element-adder.ts:35](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/visitor/element-adder.ts#L35)
 
 ## Methods
 
@@ -91,7 +91,7 @@ const success = await adder.visitVideoElement(videoElement);
 
 #### Defined in
 
-[core/visitor/element-adder.ts:54](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-adder.ts#L54)
+[core/visitor/element-adder.ts:54](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/visitor/element-adder.ts#L54)
 
 ___
 
@@ -128,7 +128,7 @@ const success = await adder.visitAudioElement(audioElement);
 
 #### Defined in
 
-[core/visitor/element-adder.ts:84](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-adder.ts#L84)
+[core/visitor/element-adder.ts:84](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/visitor/element-adder.ts#L84)
 
 ___
 
@@ -165,7 +165,7 @@ const success = await adder.visitImageElement(imageElement);
 
 #### Defined in
 
-[core/visitor/element-adder.ts:114](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-adder.ts#L114)
+[core/visitor/element-adder.ts:114](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/visitor/element-adder.ts#L114)
 
 ___
 
@@ -201,7 +201,7 @@ const success = await adder.visitTextElement(textElement);
 
 #### Defined in
 
-[core/visitor/element-adder.ts:143](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-adder.ts#L143)
+[core/visitor/element-adder.ts:143](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/visitor/element-adder.ts#L143)
 
 ___
 
@@ -237,7 +237,7 @@ const success = await adder.visitCaptionElement(captionElement);
 
 #### Defined in
 
-[core/visitor/element-adder.ts:171](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-adder.ts#L171)
+[core/visitor/element-adder.ts:171](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/visitor/element-adder.ts#L171)
 
 ___
 
@@ -273,7 +273,7 @@ const success = await adder.visitIconElement(iconElement);
 
 #### Defined in
 
-[core/visitor/element-adder.ts:199](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-adder.ts#L199)
+[core/visitor/element-adder.ts:199](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/visitor/element-adder.ts#L199)
 
 ___
 
@@ -309,7 +309,7 @@ const success = await adder.visitCircleElement(circleElement);
 
 #### Defined in
 
-[core/visitor/element-adder.ts:227](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-adder.ts#L227)
+[core/visitor/element-adder.ts:227](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/visitor/element-adder.ts#L227)
 
 ___
 
@@ -345,4 +345,4 @@ const success = await adder.visitRectElement(rectElement);
 
 #### Defined in
 
-[core/visitor/element-adder.ts:255](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-adder.ts#L255)
+[core/visitor/element-adder.ts:255](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/visitor/element-adder.ts#L255)

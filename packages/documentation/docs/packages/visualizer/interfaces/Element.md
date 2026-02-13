@@ -39,7 +39,7 @@ Creates and manages the element in the scene
 
 #### Defined in
 
-[helpers/types.ts:242](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/visualizer/src/helpers/types.ts#L242)
+[helpers/types.ts:256](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/visualizer/src/helpers/types.ts#L256)
 
 ## Properties
 
@@ -51,4 +51,4 @@ The unique name identifier for this element type
 
 #### Defined in
 
-[helpers/types.ts:240](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/visualizer/src/helpers/types.ts#L240)
+[helpers/types.ts:254](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/visualizer/src/helpers/types.ts#L254)
