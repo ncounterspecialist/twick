@@ -11,12 +11,15 @@
 ### Interfaces
 
 - [BrowserRenderConfig](interfaces/BrowserRenderConfig.md)
+- [NormalizeVideoOptions](interfaces/NormalizeVideoOptions.md)
+- [NormalizeVideoResult](interfaces/NormalizeVideoResult.md)
 - [UseBrowserRendererOptions](interfaces/UseBrowserRendererOptions.md)
 - [UseBrowserRendererReturn](interfaces/UseBrowserRendererReturn.md)
 
 ### Functions
 
 - [downloadVideoBlob](modules.md#downloadvideoblob)
+- [normalizeVideoBlob](modules.md#normalizevideoblob)
 - [renderTwickVideoInBrowser](modules.md#rendertwickvideoinbrowser)
 - [useBrowserRenderer](modules.md#usebrowserrenderer)
 
@@ -54,7 +57,35 @@ downloadVideoBlob(blob, 'my-video.mp4');
 
 #### Defined in
 
-[browser-renderer.ts:473](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/browser-render/src/browser-renderer.ts#L473)
+[browser-renderer.ts:736](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/browser-render/src/browser-renderer.ts#L736)
+
+___
+
+### normalizeVideoBlob
+
+▸ **normalizeVideoBlob**(`input`, `options?`): `Promise`\<[`NormalizeVideoResult`](interfaces/NormalizeVideoResult.md)\>
+
+Normalize a video Blob into a browser- and WebCodecs-friendly MP4.
+
+Typical usage:
+- Call this after file upload (e.g. from an <input type="file" />)
+- Upload the returned Blob to your storage (S3, etc.)
+- Use that URL in your Twick project instead of the raw source
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `input` | `Blob` |
+| `options` | [`NormalizeVideoOptions`](interfaces/NormalizeVideoOptions.md) |
+
+#### Returns
+
+`Promise`\<[`NormalizeVideoResult`](interfaces/NormalizeVideoResult.md)\>
+
+#### Defined in
+
+[audio/video-normalizer.ts:56](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/browser-render/src/audio/video-normalizer.ts#L56)
 
 ___
 
@@ -122,7 +153,7 @@ URL.revokeObjectURL(url);
 
 #### Defined in
 
-[browser-renderer.ts:268](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/browser-render/src/browser-renderer.ts#L268)
+[browser-renderer.ts:423](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/browser-render/src/browser-renderer.ts#L423)
 
 ___
 
@@ -199,4 +230,4 @@ function CustomProjectComponent() {
 
 #### Defined in
 
-[hooks/use-browser-renderer.ts:117](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/browser-render/src/hooks/use-browser-renderer.ts#L117)
+[hooks/use-browser-renderer.ts:117](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/browser-render/src/hooks/use-browser-renderer.ts#L117)

@@ -39,7 +39,7 @@ Executes the frame effect
 
 #### Defined in
 
-[helpers/types.ts:342](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/visualizer/src/helpers/types.ts#L342)
+[helpers/types.ts:356](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/visualizer/src/helpers/types.ts#L356)
 
 ## Properties
 
@@ -51,4 +51,4 @@ The unique name identifier for this frame effect
 
 #### Defined in
 
-[helpers/types.ts:340](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/visualizer/src/helpers/types.ts#L340)
+[helpers/types.ts:354](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/visualizer/src/helpers/types.ts#L354)

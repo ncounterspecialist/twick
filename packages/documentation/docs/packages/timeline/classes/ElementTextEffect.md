@@ -36,7 +36,7 @@
 
 #### Defined in
 
-[core/addOns/text-effect.ts:9](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/addOns/text-effect.ts#L9)
+[core/addOns/text-effect.ts:9](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/addOns/text-effect.ts#L9)
 
 ## Methods
 
@@ -50,7 +50,7 @@
 
 #### Defined in
 
-[core/addOns/text-effect.ts:13](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/addOns/text-effect.ts#L13)
+[core/addOns/text-effect.ts:13](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/addOns/text-effect.ts#L13)
 
 ___
 
@@ -64,7 +64,7 @@ ___
 
 #### Defined in
 
-[core/addOns/text-effect.ts:17](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/addOns/text-effect.ts#L17)
+[core/addOns/text-effect.ts:17](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/addOns/text-effect.ts#L17)
 
 ___
 
@@ -78,7 +78,7 @@ ___
 
 #### Defined in
 
-[core/addOns/text-effect.ts:21](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/addOns/text-effect.ts#L21)
+[core/addOns/text-effect.ts:21](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/addOns/text-effect.ts#L21)
 
 ___
 
@@ -92,7 +92,7 @@ ___
 
 #### Defined in
 
-[core/addOns/text-effect.ts:25](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/addOns/text-effect.ts#L25)
+[core/addOns/text-effect.ts:25](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/addOns/text-effect.ts#L25)
 
 ___
 
@@ -112,7 +112,7 @@ ___
 
 #### Defined in
 
-[core/addOns/text-effect.ts:29](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/addOns/text-effect.ts#L29)
+[core/addOns/text-effect.ts:29](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/addOns/text-effect.ts#L29)
 
 ___
 
@@ -132,7 +132,7 @@ ___
 
 #### Defined in
 
-[core/addOns/text-effect.ts:34](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/addOns/text-effect.ts#L34)
+[core/addOns/text-effect.ts:34](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/addOns/text-effect.ts#L34)
 
 ___
 
@@ -152,7 +152,7 @@ ___
 
 #### Defined in
 
-[core/addOns/text-effect.ts:39](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/addOns/text-effect.ts#L39)
+[core/addOns/text-effect.ts:39](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/addOns/text-effect.ts#L39)
 
 ___
 
@@ -166,7 +166,7 @@ ___
 
 #### Defined in
 
-[core/addOns/text-effect.ts:44](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/addOns/text-effect.ts#L44)
+[core/addOns/text-effect.ts:44](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/addOns/text-effect.ts#L44)
 
 ___
 
@@ -186,4 +186,4 @@ ___
 
 #### Defined in
 
-[core/addOns/text-effect.ts:53](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/addOns/text-effect.ts#L53)
+[core/addOns/text-effect.ts:53](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/addOns/text-effect.ts#L53)

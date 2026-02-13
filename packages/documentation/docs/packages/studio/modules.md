@@ -15,9 +15,9 @@
 
 ### Interfaces
 
-- [GenerateCaptionsResponse](interfaces/GenerateCaptionsResponse.md)
-- [ICaptionGenerationPollingResponse](interfaces/ICaptionGenerationPollingResponse.md)
-- [ICaptionGenerationService](interfaces/ICaptionGenerationService.md)
+- [GenerateSubtitlesResponse](interfaces/GenerateSubtitlesResponse.md)
+- [ISubtitleGenerationPollingResponse](interfaces/ISubtitleGenerationPollingResponse.md)
+- [ISubtitleGenerationService](interfaces/ISubtitleGenerationService.md)
 - [PanelProps](interfaces/PanelProps.md)
 - [PropertiesPanelProps](interfaces/PropertiesPanelProps.md)
 - [RequestStatus](interfaces/RequestStatus.md)
@@ -25,7 +25,7 @@
 - [RequestStatusPending](interfaces/RequestStatusPending.md)
 - [Result](interfaces/Result.md)
 - [StudioConfig](interfaces/StudioConfig.md)
-- [CaptionEntry](interfaces/CaptionEntry.md)
+- [SubtitleEntry](interfaces/SubtitleEntry.md)
 - [Timeline](interfaces/Timeline.md)
 - [TimelineElement](interfaces/TimelineElement.md)
 - [ToolCategory](interfaces/ToolCategory.md)
@@ -48,12 +48,12 @@
 - [ImagePanel](modules.md#imagepanel)
 - [RectPanel](modules.md#rectpanel)
 - [StudioHeader](modules.md#studioheader)
-- [CaptionsPanel](modules.md#captionspanel)
+- [SubtitlesPanel](modules.md#subtitlespanel)
 - [TextPanel](modules.md#textpanel)
 - [Toolbar](modules.md#toolbar)
 - [TwickStudio](modules.md#twickstudio)
 - [VideoPanel](modules.md#videopanel)
-- [useGenerateCaptions](modules.md#usegeneratecaptions)
+- [useGenerateSubtitles](modules.md#usegeneratesubtitles)
 - [useStudioManager](modules.md#usestudiomanager)
 
 ## References
@@ -102,7 +102,7 @@ Union type for request status responses
 
 #### Defined in
 
-[studio/src/types/index.ts:70](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/studio/src/types/index.ts#L70)
+[studio/src/types/index.ts:70](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/studio/src/types/index.ts#L70)
 
 ## Variables
 
@@ -158,7 +158,7 @@ Union type for request status responses
 
 #### Defined in
 
-[studio/src/helpers/constant.ts:3](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/studio/src/helpers/constant.ts#L3)
+[studio/src/helpers/constant.ts:3](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/studio/src/helpers/constant.ts#L3)
 
 ___
 
@@ -184,7 +184,7 @@ ___
 
 #### Defined in
 
-[studio/src/components/panel/audio-panel.tsx:37](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/studio/src/components/panel/audio-panel.tsx#L37)
+[studio/src/components/panel/audio-panel.tsx:37](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/studio/src/components/panel/audio-panel.tsx#L37)
 
 ___
 
@@ -204,7 +204,7 @@ ___
 
 #### Defined in
 
-[studio/src/components/panel/circle-panel.tsx:46](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/studio/src/components/panel/circle-panel.tsx#L46)
+[studio/src/components/panel/circle-panel.tsx:46](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/studio/src/components/panel/circle-panel.tsx#L46)
 
 ___
 
@@ -224,7 +224,7 @@ ___
 
 #### Defined in
 
-[studio/src/components/panel/icon-panel.tsx:46](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/studio/src/components/panel/icon-panel.tsx#L46)
+[studio/src/components/panel/icon-panel.tsx:46](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/studio/src/components/panel/icon-panel.tsx#L46)
 
 ___
 
@@ -244,7 +244,7 @@ ___
 
 #### Defined in
 
-[studio/src/components/panel/image-panel.tsx:33](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/studio/src/components/panel/image-panel.tsx#L33)
+[studio/src/components/panel/image-panel.tsx:33](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/studio/src/components/panel/image-panel.tsx#L33)
 
 ___
 
@@ -264,7 +264,7 @@ ___
 
 #### Defined in
 
-[studio/src/components/panel/rect-panel.tsx:43](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/studio/src/components/panel/rect-panel.tsx#L43)
+[studio/src/components/panel/rect-panel.tsx:43](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/studio/src/components/panel/rect-panel.tsx#L43)
 
 ___
 
@@ -284,24 +284,24 @@ ___
 
 #### Defined in
 
-[studio/src/components/header.tsx:30](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/studio/src/components/header.tsx#L30)
+[studio/src/components/header.tsx:30](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/studio/src/components/header.tsx#L30)
 
 ___
 
-### CaptionsPanel
+### SubtitlesPanel
 
-▸ **CaptionsPanel**(`«destructured»`): `Element`
+▸ **SubtitlesPanel**(`«destructured»`): `Element`
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `«destructured»` | `Object` |
-| › `addCaption` | () => `void` |
-| › `deleteCaption` | (`index`: `number`) => `void` |
-| › `splitCaption` | (`index`: `number`) => `void` |
-| › `captions` | `CaptionEntry`[] |
-| › `updateCaption` | (`index`: `number`, `caption`: `CaptionEntry`) => `void` |
+| › `addSubtitle` | () => `void` |
+| › `deleteSubtitle` | (`index`: `number`) => `void` |
+| › `splitSubtitle` | (`index`: `number`) => `void` |
+| › `subtitles` | `SubtitleEntry`[] |
+| › `updateSubtitle` | (`index`: `number`, `subtitle`: `SubtitleEntry`) => `void` |
 
 #### Returns
 
@@ -309,7 +309,7 @@ ___
 
 #### Defined in
 
-[studio/src/components/panel/captions-panel.tsx:43](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/studio/src/components/panel/captions-panel.tsx#L43)
+[studio/src/components/panel/subtitles-panel.tsx:43](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/studio/src/components/panel/subtitles-panel.tsx#L43)
 
 ___
 
@@ -329,7 +329,7 @@ ___
 
 #### Defined in
 
-[studio/src/components/panel/text-panel.tsx:57](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/studio/src/components/panel/text-panel.tsx#L57)
+[studio/src/components/panel/text-panel.tsx:57](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/studio/src/components/panel/text-panel.tsx#L57)
 
 ___
 
@@ -351,7 +351,7 @@ ___
 
 #### Defined in
 
-[studio/src/components/toolbar.tsx:63](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/studio/src/components/toolbar.tsx#L63)
+[studio/src/components/toolbar.tsx:63](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/studio/src/components/toolbar.tsx#L63)
 
 ___
 
@@ -372,7 +372,7 @@ ___
 
 #### Defined in
 
-[studio/src/components/twick-studio.tsx:33](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/studio/src/components/twick-studio.tsx#L33)
+[studio/src/components/twick-studio.tsx:33](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/studio/src/components/twick-studio.tsx#L33)
 
 ___
 
@@ -392,13 +392,13 @@ ___
 
 #### Defined in
 
-[studio/src/components/panel/video-panel.tsx:35](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/studio/src/components/panel/video-panel.tsx#L35)
+[studio/src/components/panel/video-panel.tsx:35](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/studio/src/components/panel/video-panel.tsx#L35)
 
 ___
 
-### useGenerateCaptions
+### useGenerateSubtitles
 
-▸ **useGenerateCaptions**(`studioConfig?`): `Object`
+▸ **useGenerateSubtitles**(`studioConfig?`): `Object`
 
 #### Parameters
 
@@ -412,13 +412,13 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `addCaptionsToTimeline` | (`captions`: [`CaptionEntry`](interfaces/CaptionEntry.md)[]) => `void` |
-| `getCaptionstatus` | (`reqId`: `string`) => `Promise`\<[`ICaptionGenerationPollingResponse`](interfaces/ICaptionGenerationPollingResponse.md)\> |
-| `onGenerateCaptions` | (`videoElement`: `VideoElement`) => `Promise`\<``null`` \| `string`\> |
+| `addSubtitlesToTimeline` | (`subtitles`: [`SubtitleEntry`](interfaces/SubtitleEntry.md)[]) => `void` |
+| `getSubtitleStatus` | (`reqId`: `string`) => `Promise`\<[`ISubtitleGenerationPollingResponse`](interfaces/ISubtitleGenerationPollingResponse.md)\> |
+| `onGenerateSubtitles` | (`videoElement`: `VideoElement`) => `Promise`\<``null`` \| `string`\> |
 
 #### Defined in
 
-[studio/src/hooks/use-generate-captions.ts:8](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/studio/src/hooks/use-generate-captions.ts#L8)
+[studio/src/hooks/use-generate-subtitles.ts:8](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/studio/src/hooks/use-generate-subtitles.ts#L8)
 
 ___
 
@@ -442,4 +442,4 @@ ___
 
 #### Defined in
 
-[studio/src/hooks/use-studio-manager.tsx:30](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/studio/src/hooks/use-studio-manager.tsx#L30)
+[studio/src/hooks/use-studio-manager.tsx:30](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/studio/src/hooks/use-studio-manager.tsx#L30)

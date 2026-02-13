@@ -46,7 +46,7 @@
 
 #### Defined in
 
-[core/visitor/element-deserializer.ts:26](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-deserializer.ts#L26)
+[core/visitor/element-deserializer.ts:26](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/visitor/element-deserializer.ts#L26)
 
 ___
 
@@ -66,7 +66,7 @@ ___
 
 #### Defined in
 
-[core/visitor/element-deserializer.ts:43](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-deserializer.ts#L43)
+[core/visitor/element-deserializer.ts:43](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/visitor/element-deserializer.ts#L43)
 
 ___
 
@@ -86,7 +86,7 @@ ___
 
 #### Defined in
 
-[core/visitor/element-deserializer.ts:52](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-deserializer.ts#L52)
+[core/visitor/element-deserializer.ts:52](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/visitor/element-deserializer.ts#L52)
 
 ___
 
@@ -106,7 +106,7 @@ ___
 
 #### Defined in
 
-[core/visitor/element-deserializer.ts:68](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-deserializer.ts#L68)
+[core/visitor/element-deserializer.ts:68](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/visitor/element-deserializer.ts#L68)
 
 ___
 
@@ -126,7 +126,7 @@ ___
 
 #### Defined in
 
-[core/visitor/element-deserializer.ts:77](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-deserializer.ts#L77)
+[core/visitor/element-deserializer.ts:77](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/visitor/element-deserializer.ts#L77)
 
 ___
 
@@ -146,7 +146,7 @@ ___
 
 #### Defined in
 
-[core/visitor/element-deserializer.ts:88](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-deserializer.ts#L88)
+[core/visitor/element-deserializer.ts:88](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/visitor/element-deserializer.ts#L88)
 
 ___
 
@@ -166,7 +166,7 @@ ___
 
 #### Defined in
 
-[core/visitor/element-deserializer.ts:101](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-deserializer.ts#L101)
+[core/visitor/element-deserializer.ts:101](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/visitor/element-deserializer.ts#L101)
 
 ___
 
@@ -186,7 +186,7 @@ ___
 
 #### Defined in
 
-[core/visitor/element-deserializer.ts:111](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-deserializer.ts#L111)
+[core/visitor/element-deserializer.ts:111](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/visitor/element-deserializer.ts#L111)
 
 ___
 
@@ -206,4 +206,4 @@ ___
 
 #### Defined in
 
-[core/visitor/element-deserializer.ts:124](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-deserializer.ts#L124)
+[core/visitor/element-deserializer.ts:124](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/visitor/element-deserializer.ts#L124)

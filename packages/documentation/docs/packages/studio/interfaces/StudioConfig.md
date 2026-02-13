@@ -15,7 +15,7 @@
 - [exportVideo](StudioConfig.md#exportvideo)
 - [loadProject](StudioConfig.md#loadproject)
 - [saveProject](StudioConfig.md#saveproject)
-- [captionGenerationService](StudioConfig.md#captiongenerationservice)
+- [subtitleGenerationService](StudioConfig.md#subtitlegenerationservice)
 
 ## Properties
 
@@ -40,7 +40,7 @@
 
 #### Defined in
 
-[studio/src/types/index.ts:106](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/studio/src/types/index.ts#L106)
+[studio/src/types/index.ts:106](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/studio/src/types/index.ts#L106)
 
 ___
 
@@ -58,7 +58,7 @@ ___
 
 #### Defined in
 
-[studio/src/types/index.ts:100](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/studio/src/types/index.ts#L100)
+[studio/src/types/index.ts:100](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/studio/src/types/index.ts#L100)
 
 ___
 
@@ -83,17 +83,17 @@ ___
 
 #### Defined in
 
-[studio/src/types/index.ts:99](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/studio/src/types/index.ts#L99)
+[studio/src/types/index.ts:99](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/studio/src/types/index.ts#L99)
 
 ___
 
-### captionGenerationService
+### subtitleGenerationService
 
-• `Optional` **captionGenerationService**: [`ICaptionGenerationService`](ICaptionGenerationService.md)
+• `Optional` **subtitleGenerationService**: [`ISubtitleGenerationService`](ISubtitleGenerationService.md)
 
-Caption generation service for polling-based async caption generation
+Subtitle generation service for polling-based async subtitle generation
 Implement this in your application code to provide API endpoints
 
 #### Defined in
 
-[studio/src/types/index.ts:105](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/studio/src/types/index.ts#L105)
+[studio/src/types/index.ts:105](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/studio/src/types/index.ts#L105)

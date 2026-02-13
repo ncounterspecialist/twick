@@ -86,7 +86,7 @@
 
 #### Defined in
 
-[core/elements/video.element.ts:18](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/video.element.ts#L18)
+[core/elements/video.element.ts:18](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/elements/video.element.ts#L18)
 
 ## Methods
 
@@ -104,7 +104,7 @@
 
 #### Defined in
 
-[core/elements/base.element.ts:29](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/base.element.ts#L29)
+[core/elements/base.element.ts:29](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/elements/base.element.ts#L29)
 
 ___
 
@@ -122,7 +122,7 @@ ___
 
 #### Defined in
 
-[core/elements/base.element.ts:33](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/base.element.ts#L33)
+[core/elements/base.element.ts:33](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/elements/base.element.ts#L33)
 
 ___
 
@@ -140,7 +140,7 @@ ___
 
 #### Defined in
 
-[core/elements/base.element.ts:37](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/base.element.ts#L37)
+[core/elements/base.element.ts:37](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/elements/base.element.ts#L37)
 
 ___
 
@@ -158,7 +158,7 @@ ___
 
 #### Defined in
 
-[core/elements/base.element.ts:41](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/base.element.ts#L41)
+[core/elements/base.element.ts:41](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/elements/base.element.ts#L41)
 
 ___
 
@@ -176,7 +176,7 @@ ___
 
 #### Defined in
 
-[core/elements/base.element.ts:45](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/base.element.ts#L45)
+[core/elements/base.element.ts:45](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/elements/base.element.ts#L45)
 
 ___
 
@@ -194,7 +194,7 @@ ___
 
 #### Defined in
 
-[core/elements/base.element.ts:49](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/base.element.ts#L49)
+[core/elements/base.element.ts:49](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/elements/base.element.ts#L49)
 
 ___
 
@@ -212,7 +212,7 @@ ___
 
 #### Defined in
 
-[core/elements/base.element.ts:53](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/base.element.ts#L53)
+[core/elements/base.element.ts:53](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/elements/base.element.ts#L53)
 
 ___
 
@@ -230,7 +230,7 @@ ___
 
 #### Defined in
 
-[core/elements/base.element.ts:57](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/base.element.ts#L57)
+[core/elements/base.element.ts:57](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/elements/base.element.ts#L57)
 
 ___
 
@@ -248,7 +248,7 @@ ___
 
 #### Defined in
 
-[core/elements/base.element.ts:61](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/base.element.ts#L61)
+[core/elements/base.element.ts:61](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/elements/base.element.ts#L61)
 
 ___
 
@@ -266,7 +266,7 @@ ___
 
 #### Defined in
 
-[core/elements/base.element.ts:76](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/base.element.ts#L76)
+[core/elements/base.element.ts:76](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/elements/base.element.ts#L76)
 
 ___
 
@@ -290,7 +290,7 @@ ___
 
 #### Defined in
 
-[core/elements/base.element.ts:80](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/base.element.ts#L80)
+[core/elements/base.element.ts:80](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/elements/base.element.ts#L80)
 
 ___
 
@@ -314,7 +314,7 @@ ___
 
 #### Defined in
 
-[core/elements/base.element.ts:85](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/base.element.ts#L85)
+[core/elements/base.element.ts:85](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/elements/base.element.ts#L85)
 
 ___
 
@@ -338,7 +338,7 @@ ___
 
 #### Defined in
 
-[core/elements/base.element.ts:90](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/base.element.ts#L90)
+[core/elements/base.element.ts:90](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/elements/base.element.ts#L90)
 
 ___
 
@@ -362,7 +362,7 @@ ___
 
 #### Defined in
 
-[core/elements/base.element.ts:95](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/base.element.ts#L95)
+[core/elements/base.element.ts:95](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/elements/base.element.ts#L95)
 
 ___
 
@@ -386,7 +386,7 @@ ___
 
 #### Defined in
 
-[core/elements/base.element.ts:100](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/base.element.ts#L100)
+[core/elements/base.element.ts:100](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/elements/base.element.ts#L100)
 
 ___
 
@@ -410,7 +410,7 @@ ___
 
 #### Defined in
 
-[core/elements/base.element.ts:105](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/base.element.ts#L105)
+[core/elements/base.element.ts:105](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/elements/base.element.ts#L105)
 
 ___
 
@@ -434,7 +434,7 @@ ___
 
 #### Defined in
 
-[core/elements/base.element.ts:110](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/base.element.ts#L110)
+[core/elements/base.element.ts:110](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/elements/base.element.ts#L110)
 
 ___
 
@@ -458,7 +458,7 @@ ___
 
 #### Defined in
 
-[core/elements/base.element.ts:126](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/base.element.ts#L126)
+[core/elements/base.element.ts:126](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/elements/base.element.ts#L126)
 
 ___
 
@@ -472,7 +472,7 @@ ___
 
 #### Defined in
 
-[core/elements/video.element.ts:32](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/video.element.ts#L32)
+[core/elements/video.element.ts:32](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/elements/video.element.ts#L32)
 
 ___
 
@@ -486,7 +486,7 @@ ___
 
 #### Defined in
 
-[core/elements/video.element.ts:36](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/video.element.ts#L36)
+[core/elements/video.element.ts:36](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/elements/video.element.ts#L36)
 
 ___
 
@@ -500,7 +500,7 @@ ___
 
 #### Defined in
 
-[core/elements/video.element.ts:40](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/video.element.ts#L40)
+[core/elements/video.element.ts:40](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/elements/video.element.ts#L40)
 
 ___
 
@@ -514,7 +514,7 @@ ___
 
 #### Defined in
 
-[core/elements/video.element.ts:44](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/video.element.ts#L44)
+[core/elements/video.element.ts:44](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/elements/video.element.ts#L44)
 
 ___
 
@@ -528,7 +528,7 @@ ___
 
 #### Defined in
 
-[core/elements/video.element.ts:48](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/video.element.ts#L48)
+[core/elements/video.element.ts:48](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/elements/video.element.ts#L48)
 
 ___
 
@@ -542,7 +542,7 @@ ___
 
 #### Defined in
 
-[core/elements/video.element.ts:52](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/video.element.ts#L52)
+[core/elements/video.element.ts:52](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/elements/video.element.ts#L52)
 
 ___
 
@@ -556,7 +556,7 @@ ___
 
 #### Defined in
 
-[core/elements/video.element.ts:56](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/video.element.ts#L56)
+[core/elements/video.element.ts:56](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/elements/video.element.ts#L56)
 
 ___
 
@@ -570,7 +570,7 @@ ___
 
 #### Defined in
 
-[core/elements/video.element.ts:60](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/video.element.ts#L60)
+[core/elements/video.element.ts:60](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/elements/video.element.ts#L60)
 
 ___
 
@@ -584,7 +584,7 @@ ___
 
 #### Defined in
 
-[core/elements/video.element.ts:64](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/video.element.ts#L64)
+[core/elements/video.element.ts:64](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/elements/video.element.ts#L64)
 
 ___
 
@@ -598,7 +598,7 @@ ___
 
 #### Defined in
 
-[core/elements/video.element.ts:68](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/video.element.ts#L68)
+[core/elements/video.element.ts:68](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/elements/video.element.ts#L68)
 
 ___
 
@@ -612,7 +612,7 @@ ___
 
 #### Defined in
 
-[core/elements/video.element.ts:72](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/video.element.ts#L72)
+[core/elements/video.element.ts:72](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/elements/video.element.ts#L72)
 
 ___
 
@@ -630,7 +630,7 @@ ___
 
 #### Defined in
 
-[core/elements/video.element.ts:76](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/video.element.ts#L76)
+[core/elements/video.element.ts:76](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/elements/video.element.ts#L76)
 
 ___
 
@@ -654,7 +654,7 @@ ___
 
 #### Defined in
 
-[core/elements/video.element.ts:80](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/video.element.ts#L80)
+[core/elements/video.element.ts:80](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/elements/video.element.ts#L80)
 
 ___
 
@@ -672,7 +672,7 @@ ___
 
 #### Defined in
 
-[core/elements/video.element.ts:85](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/video.element.ts#L85)
+[core/elements/video.element.ts:85](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/elements/video.element.ts#L85)
 
 ___
 
@@ -692,7 +692,7 @@ ___
 
 #### Defined in
 
-[core/elements/video.element.ts:93](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/video.element.ts#L93)
+[core/elements/video.element.ts:93](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/elements/video.element.ts#L93)
 
 ___
 
@@ -716,7 +716,7 @@ ___
 
 #### Defined in
 
-[core/elements/video.element.ts:110](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/video.element.ts#L110)
+[core/elements/video.element.ts:110](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/elements/video.element.ts#L110)
 
 ___
 
@@ -736,7 +736,7 @@ ___
 
 #### Defined in
 
-[core/elements/video.element.ts:116](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/video.element.ts#L116)
+[core/elements/video.element.ts:116](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/elements/video.element.ts#L116)
 
 ___
 
@@ -756,7 +756,7 @@ ___
 
 #### Defined in
 
-[core/elements/video.element.ts:122](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/video.element.ts#L122)
+[core/elements/video.element.ts:122](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/elements/video.element.ts#L122)
 
 ___
 
@@ -776,7 +776,7 @@ ___
 
 #### Defined in
 
-[core/elements/video.element.ts:127](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/video.element.ts#L127)
+[core/elements/video.element.ts:127](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/elements/video.element.ts#L127)
 
 ___
 
@@ -796,7 +796,7 @@ ___
 
 #### Defined in
 
-[core/elements/video.element.ts:132](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/video.element.ts#L132)
+[core/elements/video.element.ts:132](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/elements/video.element.ts#L132)
 
 ___
 
@@ -816,7 +816,7 @@ ___
 
 #### Defined in
 
-[core/elements/video.element.ts:137](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/video.element.ts#L137)
+[core/elements/video.element.ts:137](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/elements/video.element.ts#L137)
 
 ___
 
@@ -836,7 +836,7 @@ ___
 
 #### Defined in
 
-[core/elements/video.element.ts:142](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/video.element.ts#L142)
+[core/elements/video.element.ts:142](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/elements/video.element.ts#L142)
 
 ___
 
@@ -856,7 +856,7 @@ ___
 
 #### Defined in
 
-[core/elements/video.element.ts:147](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/video.element.ts#L147)
+[core/elements/video.element.ts:147](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/elements/video.element.ts#L147)
 
 ___
 
@@ -876,7 +876,7 @@ ___
 
 #### Defined in
 
-[core/elements/video.element.ts:152](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/video.element.ts#L152)
+[core/elements/video.element.ts:152](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/elements/video.element.ts#L152)
 
 ___
 
@@ -896,7 +896,7 @@ ___
 
 #### Defined in
 
-[core/elements/video.element.ts:157](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/video.element.ts#L157)
+[core/elements/video.element.ts:157](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/elements/video.element.ts#L157)
 
 ___
 
@@ -916,7 +916,7 @@ ___
 
 #### Defined in
 
-[core/elements/video.element.ts:162](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/video.element.ts#L162)
+[core/elements/video.element.ts:162](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/elements/video.element.ts#L162)
 
 ___
 
@@ -940,7 +940,7 @@ ___
 
 #### Defined in
 
-[core/elements/video.element.ts:167](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/video.element.ts#L167)
+[core/elements/video.element.ts:167](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/elements/video.element.ts#L167)
 
 ___
 
@@ -960,7 +960,7 @@ ___
 
 #### Defined in
 
-[core/elements/video.element.ts:175](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/video.element.ts#L175)
+[core/elements/video.element.ts:175](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/elements/video.element.ts#L175)
 
 ___
 
@@ -980,7 +980,7 @@ ___
 
 #### Defined in
 
-[core/elements/video.element.ts:180](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/video.element.ts#L180)
+[core/elements/video.element.ts:180](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/elements/video.element.ts#L180)
 
 ___
 
@@ -1010,4 +1010,4 @@ ___
 
 #### Defined in
 
-[core/elements/video.element.ts:185](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/elements/video.element.ts#L185)
+[core/elements/video.element.ts:185](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/elements/video.element.ts#L185)

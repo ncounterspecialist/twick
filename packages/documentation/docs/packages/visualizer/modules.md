@@ -258,6 +258,7 @@ Features:
 - [CaptionFont](modules.md#captionfont)
 - [VisualizerElement](modules.md#visualizerelement)
 - [VisualizerTrack](modules.md#visualizertrack)
+- [ContainerProps](modules.md#containerprops)
 - [ElementParams](modules.md#elementparams)
 - [TextEffectParams](modules.md#texteffectparams)
 - [TextEffectProps](modules.md#texteffectprops)
@@ -366,10 +367,10 @@ const elements = [
     animation: { name: "fade", animate: "enter", duration: 2 }
   },
   {
-    id: "caption", 
+    id: "subtitle", 
     type: "text",
     s: 1, e: 8,
-    t: "Caption",
+    t: "Subtitle",
     animation: { name: "fade", animate: "enter", duration: 2 }
   },
   {
@@ -431,7 +432,7 @@ animation: {
 
 #### Defined in
 
-[animations/fade.tsx:118](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/visualizer/src/animations/fade.tsx#L118)
+[animations/fade.tsx:118](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/visualizer/src/animations/fade.tsx#L118)
 
 ## VideoElement
 
@@ -658,7 +659,7 @@ The main scene view for rendering
 
 #### Defined in
 
-[elements/video.element.tsx:209](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/visualizer/src/elements/video.element.tsx#L209)
+[elements/video.element.tsx:209](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/visualizer/src/elements/video.element.tsx#L209)
 
 ## AudioElement
 AudioElement creates and manages audio content in the visualizer scene.
@@ -724,7 +725,7 @@ The main scene view for rendering
 
 #### Defined in
 
-[elements/audio.element.tsx:50](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/visualizer/src/elements/audio.element.tsx#L50)
+[elements/audio.element.tsx:50](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/visualizer/src/elements/audio.element.tsx#L50)
 
 ## BlurAnimation
 BlurAnimation applies a blur effect to an element or its container during enter,
@@ -793,7 +794,7 @@ animation: {
 
 #### Defined in
 
-[animations/blur.tsx:41](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/visualizer/src/animations/blur.tsx#L41)
+[animations/blur.tsx:41](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/visualizer/src/animations/blur.tsx#L41)
 
 ## BreatheAnimation
 BreatheAnimation applies a smooth scale in/out effect to simulate a &quot;breathing&quot; motion.
@@ -857,7 +858,7 @@ animation: {
 
 #### Defined in
 
-[animations/breathe.tsx:40](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/visualizer/src/animations/breathe.tsx#L40)
+[animations/breathe.tsx:40](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/visualizer/src/animations/breathe.tsx#L40)
 
 ## CaptionElement
 CaptionElement creates and manages styled text overlays in the visualizer scene.
@@ -943,7 +944,7 @@ Caption configuration including text, styling, and timing
 
 #### Defined in
 
-[elements/caption.element.tsx:74](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/visualizer/src/elements/caption.element.tsx#L74)
+[elements/caption.element.tsx:74](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/visualizer/src/elements/caption.element.tsx#L74)
 
 ## CircleElement
 CircleElement creates and manages circular shape elements in the visualizer scene.
@@ -1017,7 +1018,7 @@ The main scene view for rendering
 
 #### Defined in
 
-[elements/circle.element.tsx:57](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/visualizer/src/elements/circle.element.tsx#L57)
+[elements/circle.element.tsx:57](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/visualizer/src/elements/circle.element.tsx#L57)
 
 ## ElasticEffect
 ElasticEffect applies a scaling animation to text elements with an elastic easing 
@@ -1071,7 +1072,7 @@ textEffect: {
 
 #### Defined in
 
-[text-effects/elastic.tsx:35](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/visualizer/src/text-effects/elastic.tsx#L35)
+[text-effects/elastic.tsx:35](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/visualizer/src/text-effects/elastic.tsx#L35)
 
 ## EraseEffect
 EraseEffect animates text disappearing letter by letter, simulating an &quot;erasing&quot;
@@ -1130,7 +1131,7 @@ textEffect: {
 
 #### Defined in
 
-[text-effects/erase.tsx:37](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/visualizer/src/text-effects/erase.tsx#L37)
+[text-effects/erase.tsx:37](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/visualizer/src/text-effects/erase.tsx#L37)
 
 ## IconElement
 IconElement creates and manages icon elements in the visualizer scene.
@@ -1204,7 +1205,7 @@ The main scene view for rendering
 
 #### Defined in
 
-[elements/icon.element.tsx:57](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/visualizer/src/elements/icon.element.tsx#L57)
+[elements/icon.element.tsx:57](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/visualizer/src/elements/icon.element.tsx#L57)
 
 ## ImageElement
 ImageElement creates and manages image content in the visualizer scene.
@@ -1290,7 +1291,7 @@ The main scene view for rendering
 
 #### Defined in
 
-[elements/image.element.tsx:71](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/visualizer/src/elements/image.element.tsx#L71)
+[elements/image.element.tsx:71](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/visualizer/src/elements/image.element.tsx#L71)
 
 ## PhotoRiseAnimation
 PhotoRiseAnimation applies a smooth directional movement to a photo element.
@@ -1360,7 +1361,7 @@ animation: {
 
 #### Defined in
 
-[animations/photo-rise.tsx:44](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/visualizer/src/animations/photo-rise.tsx#L44)
+[animations/photo-rise.tsx:44](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/visualizer/src/animations/photo-rise.tsx#L44)
 
 ## PhotoZoomAnimation
 PhotoZoomAnimation applies a smooth zoom-in or zoom-out effect on a photo element.
@@ -1424,7 +1425,7 @@ animation: {
 
 #### Defined in
 
-[animations/photo-zoom.tsx:39](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/visualizer/src/animations/photo-zoom.tsx#L39)
+[animations/photo-zoom.tsx:39](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/visualizer/src/animations/photo-zoom.tsx#L39)
 
 ## RectElement
 RectElement creates and manages rectangular shape elements in the visualizer scene.
@@ -1500,7 +1501,7 @@ The main scene view for rendering
 
 #### Defined in
 
-[elements/rect.element.tsx:60](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/visualizer/src/elements/rect.element.tsx#L60)
+[elements/rect.element.tsx:60](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/visualizer/src/elements/rect.element.tsx#L60)
 
 ## RiseAnimation
 RiseAnimation combines vertical motion and opacity transitions to create a &quot;rising&quot;
@@ -1575,7 +1576,7 @@ animation: {
 
 #### Defined in
 
-[animations/rise.tsx:44](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/visualizer/src/animations/rise.tsx#L44)
+[animations/rise.tsx:44](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/visualizer/src/animations/rise.tsx#L44)
 
 ## SceneElement
 SceneElement creates and manages scene container elements in the visualizer.
@@ -1649,7 +1650,7 @@ The main scene view for rendering
 
 #### Defined in
 
-[elements/scene.element.tsx:60](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/visualizer/src/elements/scene.element.tsx#L60)
+[elements/scene.element.tsx:60](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/visualizer/src/elements/scene.element.tsx#L60)
 
 ## StreamWordEffect
 StreamWordEffect animates text appearing word by word, creating a smooth
@@ -1709,7 +1710,7 @@ textEffect: {
 
 #### Defined in
 
-[text-effects/stream-word.tsx:38](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/visualizer/src/text-effects/stream-word.tsx#L38)
+[text-effects/stream-word.tsx:38](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/visualizer/src/text-effects/stream-word.tsx#L38)
 
 ## SuccessionAnimation
 SuccessionAnimation combines scaling and opacity transitions to create an appearing
@@ -1774,7 +1775,7 @@ animation: {
 
 #### Defined in
 
-[animations/succession.tsx:40](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/visualizer/src/animations/succession.tsx#L40)
+[animations/succession.tsx:40](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/visualizer/src/animations/succession.tsx#L40)
 
 ## TextElement
 TextElement creates and manages text content in the visualizer scene.
@@ -1853,7 +1854,7 @@ The main scene view for rendering
 
 #### Defined in
 
-[elements/text.element.tsx:63](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/visualizer/src/elements/text.element.tsx#L63)
+[elements/text.element.tsx:63](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/visualizer/src/elements/text.element.tsx#L63)
 
 ## Type Aliases
 
@@ -1878,7 +1879,7 @@ for creating complete video visualizations.
 
 #### Defined in
 
-[helpers/types.ts:9](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/visualizer/src/helpers/types.ts#L9)
+[helpers/types.ts:9](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/visualizer/src/helpers/types.ts#L9)
 
 ___
 
@@ -1891,7 +1892,7 @@ Defines the types of media content that can be displayed.
 
 #### Defined in
 
-[helpers/types.ts:23](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/visualizer/src/helpers/types.ts#L23)
+[helpers/types.ts:23](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/visualizer/src/helpers/types.ts#L23)
 
 ___
 
@@ -1904,7 +1905,7 @@ Controls how content is sized and positioned within its container.
 
 #### Defined in
 
-[helpers/types.ts:29](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/visualizer/src/helpers/types.ts#L29)
+[helpers/types.ts:29](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/visualizer/src/helpers/types.ts#L29)
 
 ___
 
@@ -1924,7 +1925,7 @@ Used for representing width and height dimensions.
 
 #### Defined in
 
-[helpers/types.ts:35](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/visualizer/src/helpers/types.ts#L35)
+[helpers/types.ts:35](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/visualizer/src/helpers/types.ts#L35)
 
 ___
 
@@ -1944,7 +1945,7 @@ Standard size representation for elements and containers.
 
 #### Defined in
 
-[helpers/types.ts:44](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/visualizer/src/helpers/types.ts#L44)
+[helpers/types.ts:44](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/visualizer/src/helpers/types.ts#L44)
 
 ___
 
@@ -1957,7 +1958,7 @@ Alternative size representation as a tuple.
 
 #### Defined in
 
-[helpers/types.ts:53](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/visualizer/src/helpers/types.ts#L53)
+[helpers/types.ts:53](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/visualizer/src/helpers/types.ts#L53)
 
 ___
 
@@ -1977,7 +1978,7 @@ Represents 2D positioning for elements in the scene.
 
 #### Defined in
 
-[helpers/types.ts:59](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/visualizer/src/helpers/types.ts#L59)
+[helpers/types.ts:59](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/visualizer/src/helpers/types.ts#L59)
 
 ___
 
@@ -1999,7 +2000,7 @@ Defines timing and properties for frame effects like circles and rectangles.
 
 #### Defined in
 
-[helpers/types.ts:68](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/visualizer/src/helpers/types.ts#L68)
+[helpers/types.ts:68](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/visualizer/src/helpers/types.ts#L68)
 
 ___
 
@@ -2025,7 +2026,7 @@ Controls frame size, shape, position, and transition behavior.
 
 #### Defined in
 
-[helpers/types.ts:79](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/visualizer/src/helpers/types.ts#L79)
+[helpers/types.ts:79](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/visualizer/src/helpers/types.ts#L79)
 
 ___
 
@@ -2063,7 +2064,7 @@ Defines visual appearance of captions including layout and text styling.
 
 #### Defined in
 
-[helpers/types.ts:94](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/visualizer/src/helpers/types.ts#L94)
+[helpers/types.ts:94](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/visualizer/src/helpers/types.ts#L94)
 
 ___
 
@@ -2086,7 +2087,7 @@ Defines text content, timing, styling, and display properties for captions.
 
 #### Defined in
 
-[helpers/types.ts:123](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/visualizer/src/helpers/types.ts#L123)
+[helpers/types.ts:123](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/visualizer/src/helpers/types.ts#L123)
 
 ___
 
@@ -2109,12 +2110,13 @@ Controls colors, fonts, background, and positioning for caption text.
 | `bgMargin?` | [`number`, `number`] |
 | `bgRadius?` | `number` |
 | `bgPadding?` | [`number`, `number`] |
+| `maxWidth?` | `number` |
 | `x?` | `number` |
 | `y?` | `number` |
 
 #### Defined in
 
-[helpers/types.ts:135](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/visualizer/src/helpers/types.ts#L135)
+[helpers/types.ts:135](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/visualizer/src/helpers/types.ts#L135)
 
 ___
 
@@ -2135,7 +2137,7 @@ Defines text color, background color, and highlight colors.
 
 #### Defined in
 
-[helpers/types.ts:152](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/visualizer/src/helpers/types.ts#L152)
+[helpers/types.ts:153](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/visualizer/src/helpers/types.ts#L153)
 
 ___
 
@@ -2157,7 +2159,7 @@ Controls font family, size, weight, and style.
 
 #### Defined in
 
-[helpers/types.ts:162](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/visualizer/src/helpers/types.ts#L162)
+[helpers/types.ts:163](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/visualizer/src/helpers/types.ts#L163)
 
 ___
 
@@ -2191,7 +2193,7 @@ including videos, images, text, and captions with their animations and effects.
 
 #### Defined in
 
-[helpers/types.ts:174](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/visualizer/src/helpers/types.ts#L174)
+[helpers/types.ts:175](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/visualizer/src/helpers/types.ts#L175)
 
 ___
 
@@ -2210,6 +2212,7 @@ Tracks organize elements into logical groups for better scene management.
 | `id` | `string` |
 | `type` | `string` |
 | `elements` | [`VisualizerElement`](modules.md#visualizerelement)[] |
+| `containerProps?` | [`ContainerProps`](modules.md#containerprops) |
 | `props?` | \{ `capStyle?`: `string` ; `bgOpacity?`: `number` ; `x?`: `number` ; `y?`: `number` ; `colors?`: \{ `text?`: `string` ; `background?`: `string` ; `highlight?`: `string`  } ; `font?`: \{ `family?`: `string` ; `size?`: `number` ; `weight?`: `number` ; `style?`: `string`  } ; `applyToAll?`: `boolean` ; `captionProps?`: [`CaptionProps`](modules.md#captionprops)  } |
 | `props.capStyle?` | `string` |
 | `props.bgOpacity?` | `number` |
@@ -2229,7 +2232,29 @@ Tracks organize elements into logical groups for better scene management.
 
 #### Defined in
 
-[helpers/types.ts:197](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/visualizer/src/helpers/types.ts#L197)
+[helpers/types.ts:198](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/visualizer/src/helpers/types.ts#L198)
+
+___
+
+### ContainerProps
+
+Ƭ **ContainerProps**: `Object`
+
+Container properties for layout and positioning of elements.
+Controls the layout and positioning of elements in the container.
+
+#### Type declaration
+
+| Name | Type |
+| :------ | :------ |
+| `maxWidth?` | `number` |
+| `wrap?` | ``"wrap"`` \| ``"nowrap"`` \| ``"wrap-reverse"`` |
+| `justifyContent?` | ``"flex-start"`` \| ``"flex-end"`` \| ``"center"`` \| ``"space-between"`` \| ``"space-around"`` \| ``"space-evenly"`` |
+| `alignItems?` | ``"flex-start"`` \| ``"flex-end"`` \| ``"center"`` \| ``"stretch"`` \| ``"baseline"`` |
+
+#### Defined in
+
+[helpers/types.ts:228](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/visualizer/src/helpers/types.ts#L228)
 
 ___
 
@@ -2249,10 +2274,11 @@ Contains all necessary references and configuration for element creation.
 | `element?` | [`VisualizerElement`](modules.md#visualizerelement) |
 | `caption?` | [`Caption`](modules.md#caption) |
 | `waitOnStart?` | `boolean` |
+| `containerProps?` | [`ContainerProps`](modules.md#containerprops) |
 
 #### Defined in
 
-[helpers/types.ts:226](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/visualizer/src/helpers/types.ts#L226)
+[helpers/types.ts:239](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/visualizer/src/helpers/types.ts#L239)
 
 ___
 
@@ -2276,7 +2302,7 @@ Controls timing and behavior of text animation effects.
 
 #### Defined in
 
-[helpers/types.ts:249](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/visualizer/src/helpers/types.ts#L249)
+[helpers/types.ts:263](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/visualizer/src/helpers/types.ts#L263)
 
 ___
 
@@ -2300,7 +2326,7 @@ Defines how text effects should behave and appear.
 
 #### Defined in
 
-[helpers/types.ts:262](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/visualizer/src/helpers/types.ts#L262)
+[helpers/types.ts:276](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/visualizer/src/helpers/types.ts#L276)
 
 ___
 
@@ -2327,7 +2353,7 @@ Controls timing, direction, and behavior of element animations.
 
 #### Defined in
 
-[helpers/types.ts:286](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/visualizer/src/helpers/types.ts#L286)
+[helpers/types.ts:300](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/visualizer/src/helpers/types.ts#L300)
 
 ___
 
@@ -2352,7 +2378,7 @@ Defines how animations should behave and appear.
 
 #### Defined in
 
-[helpers/types.ts:302](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/visualizer/src/helpers/types.ts#L302)
+[helpers/types.ts:316](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/visualizer/src/helpers/types.ts#L316)
 
 ___
 
@@ -2374,7 +2400,7 @@ Controls frame transformations and visual masking effects.
 
 #### Defined in
 
-[helpers/types.ts:327](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/visualizer/src/helpers/types.ts#L327)
+[helpers/types.ts:341](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/visualizer/src/helpers/types.ts#L341)
 
 ___
 
@@ -2402,7 +2428,7 @@ Contains size, position, and transformation data for frame effects.
 
 #### Defined in
 
-[helpers/types.ts:349](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/visualizer/src/helpers/types.ts#L349)
+[helpers/types.ts:363](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/visualizer/src/helpers/types.ts#L363)
 
 ## TypewriterEffect
 TypewriterEffect animates text appearing one character at a time, mimicking the
@@ -2462,7 +2488,7 @@ textEffect: {
 
 #### Defined in
 
-[text-effects/typewriter.tsx:38](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/visualizer/src/text-effects/typewriter.tsx#L38)
+[text-effects/typewriter.tsx:38](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/visualizer/src/text-effects/typewriter.tsx#L38)
 
 ## Core Variables
 
@@ -2530,7 +2556,7 @@ const videoScene = makeScene2D("video-scene", function* (view) {
 
 #### Defined in
 
-[visualizer.tsx:116](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/visualizer/src/visualizer.tsx#L116)
+[visualizer.tsx:116](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/visualizer/src/visualizer.tsx#L116)
 
 ___
 
@@ -2595,7 +2621,7 @@ frameEffects: [{
 
 #### Defined in
 
-[frame-effects/circle.frame.tsx:82](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/visualizer/src/frame-effects/circle.frame.tsx#L82)
+[frame-effects/circle.frame.tsx:82](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/visualizer/src/frame-effects/circle.frame.tsx#L82)
 
 ___
 
@@ -2673,4 +2699,4 @@ frameEffects: [{
 
 #### Defined in
 
-[frame-effects/rect.frame.tsx:112](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/visualizer/src/frame-effects/rect.frame.tsx#L112)
+[frame-effects/rect.frame.tsx:112](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/visualizer/src/frame-effects/rect.frame.tsx#L112)

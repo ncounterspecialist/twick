@@ -54,7 +54,7 @@
 
 #### Defined in
 
-[types.ts:1](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/media-utils/src/types.ts#L1)
+[types.ts:1](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/media-utils/src/types.ts#L1)
 
 ___
 
@@ -71,7 +71,7 @@ ___
 
 #### Defined in
 
-[types.ts:3](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/media-utils/src/types.ts#L3)
+[types.ts:3](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/media-utils/src/types.ts#L3)
 
 ___
 
@@ -81,7 +81,7 @@ ___
 
 #### Defined in
 
-[types.ts:5](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/media-utils/src/types.ts#L5)
+[types.ts:5](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/media-utils/src/types.ts#L5)
 
 ## Functions
 
@@ -115,7 +115,7 @@ const file = await blobUrlToFile("blob:http://localhost:3000/abc123", "image.jpg
 
 #### Defined in
 
-[file-helper.ts:16](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/media-utils/src/file-helper.ts#L16)
+[file-helper.ts:16](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/media-utils/src/file-helper.ts#L16)
 
 ___
 
@@ -161,7 +161,7 @@ const type = await detectMediaTypeFromUrl("https://example.com/invalid");
 
 #### Defined in
 
-[url-helper.ts:28](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/media-utils/src/url-helper.ts#L28)
+[url-helper.ts:28](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/media-utils/src/url-helper.ts#L28)
 
 ___
 
@@ -196,7 +196,7 @@ await downloadFile("https://example.com/image.jpg", "downloaded-image.jpg");
 
 #### Defined in
 
-[file-helper.ts:122](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/media-utils/src/file-helper.ts#L122)
+[file-helper.ts:122](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/media-utils/src/file-helper.ts#L122)
 
 ___
 
@@ -237,7 +237,7 @@ audio.play();
 
 #### Defined in
 
-[audio-utils.ts:32](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/media-utils/src/audio-utils.ts#L32)
+[audio-utils.ts:32](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/media-utils/src/audio-utils.ts#L32)
 
 ___
 
@@ -276,7 +276,7 @@ const duration = await getAudioDuration("blob:http://localhost:3000/abc123");
 
 #### Defined in
 
-[get-audio-duration.ts:23](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/media-utils/src/get-audio-duration.ts#L23)
+[get-audio-duration.ts:23](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/media-utils/src/get-audio-duration.ts#L23)
 
 ___
 
@@ -299,7 +299,7 @@ Creates one if it doesn't exist.
 
 #### Defined in
 
-[video-frame-extractor.ts:404](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/media-utils/src/video-frame-extractor.ts#L404)
+[video-frame-extractor.ts:404](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/media-utils/src/video-frame-extractor.ts#L404)
 
 ___
 
@@ -342,7 +342,7 @@ const cachedDimensions = await getImageDimensions("https://example.com/image.jpg
 
 #### Defined in
 
-[get-image-dimensions.ts:53](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/media-utils/src/get-image-dimensions.ts#L53)
+[get-image-dimensions.ts:53](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/media-utils/src/get-image-dimensions.ts#L53)
 
 ___
 
@@ -387,7 +387,7 @@ const filled = getObjectFitSize("fill", {width: 1000, height: 500}, {width: 400,
 
 #### Defined in
 
-[dimension-handler.ts:97](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/media-utils/src/dimension-handler.ts#L97)
+[dimension-handler.ts:97](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/media-utils/src/dimension-handler.ts#L97)
 
 ___
 
@@ -433,7 +433,7 @@ const scaled = getScaledDimensions(1001, 1001, 1000, 1000);
 
 #### Defined in
 
-[dimension-handler.ts:30](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/media-utils/src/dimension-handler.ts#L30)
+[dimension-handler.ts:30](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/media-utils/src/dimension-handler.ts#L30)
 
 ___
 
@@ -473,7 +473,7 @@ const thumbnail = await getThumbnail("https://example.com/video.mp4", 2.5, 1.5);
 
 #### Defined in
 
-[get-thumbnail.ts:22](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/media-utils/src/get-thumbnail.ts#L22)
+[get-thumbnail.ts:22](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/media-utils/src/get-thumbnail.ts#L22)
 
 ___
 
@@ -500,7 +500,7 @@ Promise resolving to a thumbnail image URL
 
 #### Defined in
 
-[video-frame-extractor.ts:422](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/media-utils/src/video-frame-extractor.ts#L422)
+[video-frame-extractor.ts:422](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/media-utils/src/video-frame-extractor.ts#L422)
 
 ___
 
@@ -539,7 +539,7 @@ const metadata = await getVideoMeta("blob:http://localhost:3000/abc123");
 
 #### Defined in
 
-[get-video-metadata.ts:24](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/media-utils/src/get-video-metadata.ts#L24)
+[get-video-metadata.ts:24](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/media-utils/src/get-video-metadata.ts#L24)
 
 ___
 
@@ -576,7 +576,7 @@ if (hasSound) {
 
 #### Defined in
 
-[audio-utils.ts:104](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/media-utils/src/audio-utils.ts#L104)
+[audio-utils.ts:104](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/media-utils/src/audio-utils.ts#L104)
 
 ___
 
@@ -630,7 +630,7 @@ const results = await Promise.all([
 
 #### Defined in
 
-[limit.ts:57](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/media-utils/src/limit.ts#L57)
+[limit.ts:57](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/media-utils/src/limit.ts#L57)
 
 ___
 
@@ -664,7 +664,7 @@ const data = JSON.parse(text);
 
 #### Defined in
 
-[file-helper.ts:37](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/media-utils/src/file-helper.ts#L37)
+[file-helper.ts:37](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/media-utils/src/file-helper.ts#L37)
 
 ___
 
@@ -704,7 +704,7 @@ saveAsFile(imageBlob, "image/png", "screenshot.png");
 
 #### Defined in
 
-[file-helper.ts:93](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/media-utils/src/file-helper.ts#L93)
+[file-helper.ts:93](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/media-utils/src/file-helper.ts#L93)
 
 ___
 
@@ -742,4 +742,4 @@ const url = await stitchAudio(segments, 15);
 
 #### Defined in
 
-[audio-utils.ts:151](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/media-utils/src/audio-utils.ts#L151)
+[audio-utils.ts:151](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/media-utils/src/audio-utils.ts#L151)

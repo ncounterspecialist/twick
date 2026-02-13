@@ -2,6 +2,10 @@
 
 ## Table of contents
 
+### Classes
+
+- [ElementController](classes/ElementController.md)
+
 ### Functions
 
 - [addTextElement](modules.md#addtextelement)
@@ -25,18 +29,30 @@
 - [CanvasElement](modules.md#canvaselement)
 - [CanvasElementProps](modules.md#canvaselementprops)
 - [CaptionProps](modules.md#captionprops)
+- [BuildCanvasOptions](modules.md#buildcanvasoptions)
+- [AddElementToCanvasOptions](modules.md#addelementtocanvasoptions)
+- [SetCanvasElementsOptions](modules.md#setcanvaselementsoptions)
+- [AddWatermarkToCanvasOptions](modules.md#addwatermarktocanvasoptions)
+- [ResizeCanvasOptions](modules.md#resizecanvasoptions)
+- [CanvasElementAddParams](modules.md#canvaselementaddparams)
+- [CanvasElementUpdateContext](modules.md#canvaselementupdatecontext)
+- [CanvasElementUpdateResult](modules.md#canvaselementupdateresult)
+- [WatermarkUpdatePayload](modules.md#watermarkupdatepayload)
+- [CanvasElementHandler](modules.md#canvaselementhandler)
 
 ### Variables
 
 - [disabledControl](modules.md#disabledcontrol)
 - [rotateControl](modules.md#rotatecontrol)
+- [elementController](modules.md#elementcontroller)
 - [CANVAS\_OPERATIONS](modules.md#canvas_operations)
+- [ELEMENT\_TYPES](modules.md#element_types)
 
 ## Functions
 
 ### addTextElement
 
-▸ **addTextElement**(`«destructured»`): `Textbox`\<\{ `left`: `Position` = x; `top`: `Position` = y; `originX`: ``"center"`` = "center"; `originY`: ``"center"`` = "center"; `angle`: `number` ; `fontSize`: `number` ; `fontFamily`: `string` ; `fontStyle`: `string` ; `fontWeight`: `string` ; `fill`: `string` ; `opacity`: `number` ; `width`: `number` = width; `splitByGrapheme`: ``false`` = false; `textAlign`: ``"left"`` \| ``"center"`` \| ``"right"`` ; `stroke`: `string` ; `strokeWidth`: `number` ; `shadow`: `undefined` \| `Shadow`  }, `SerializedTextboxProps`, `ITextEvents`\>
+▸ **addTextElement**(`«destructured»`): `Textbox`\<\{ `left`: `Position` = x; `top`: `Position` = y; `originX`: ``"center"`` = "center"; `originY`: ``"center"`` = "center"; `angle`: `number` ; `fontSize`: `number` ; `fontFamily`: `string` ; `fontStyle`: `string` ; `fontWeight`: `string` ; `fill`: `string` ; `opacity`: `number` ; `width`: `number` ; `splitByGrapheme`: ``false`` = false; `textAlign`: ``"left"`` \| ``"center"`` \| ``"right"`` ; `stroke`: `string` ; `strokeWidth`: `number` ; `backgroundColor`: `undefined` \| `string` ; `shadow`: `undefined` \| `Shadow`  }, `SerializedTextboxProps`, `ITextEvents`\>
 
 Add a text element to the canvas.
 Creates and configures a Fabric.js Textbox object with specified properties
@@ -54,7 +70,7 @@ including position, styling, interactive controls, and text wrapping support.
 
 #### Returns
 
-`Textbox`\<\{ `left`: `Position` = x; `top`: `Position` = y; `originX`: ``"center"`` = "center"; `originY`: ``"center"`` = "center"; `angle`: `number` ; `fontSize`: `number` ; `fontFamily`: `string` ; `fontStyle`: `string` ; `fontWeight`: `string` ; `fill`: `string` ; `opacity`: `number` ; `width`: `number` = width; `splitByGrapheme`: ``false`` = false; `textAlign`: ``"left"`` \| ``"center"`` \| ``"right"`` ; `stroke`: `string` ; `strokeWidth`: `number` ; `shadow`: `undefined` \| `Shadow`  }, `SerializedTextboxProps`, `ITextEvents`\>
+`Textbox`\<\{ `left`: `Position` = x; `top`: `Position` = y; `originX`: ``"center"`` = "center"; `originY`: ``"center"`` = "center"; `angle`: `number` ; `fontSize`: `number` ; `fontFamily`: `string` ; `fontStyle`: `string` ; `fontWeight`: `string` ; `fill`: `string` ; `opacity`: `number` ; `width`: `number` ; `splitByGrapheme`: ``false`` = false; `textAlign`: ``"left"`` \| ``"center"`` \| ``"right"`` ; `stroke`: `string` ; `strokeWidth`: `number` ; `backgroundColor`: `undefined` \| `string` ; `shadow`: `undefined` \| `Shadow`  }, `SerializedTextboxProps`, `ITextEvents`\>
 
 The configured Fabric.js Textbox object with text wrapping enabled
 
@@ -71,40 +87,41 @@ const textElement = addTextElement({
 
 #### Defined in
 
-[components/elements.tsx:46](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/canvas/src/components/elements.tsx#L46)
+[components/elements.tsx:51](https://github.com/ncounterspecialist/twick/blob/e704aa51eb3c92196579baf390f2a1b40f250b1e/packages/canvas/src/components/elements.tsx#L51)
 
 ___
 
 ### addCaptionElement
 
-▸ **addCaptionElement**(`«destructured»`): `FabricText`\<\{ `left`: `Position` = x; `top`: `Position` = y; `originX`: ``"center"`` = "center"; `originY`: ``"center"`` = "center"; `angle`: `number` ; `fontSize`: `number` ; `fontFamily`: `string` ; `fill`: `string` ; `fontWeight`: `string` \| `number` ; `stroke`: `string` ; `opacity`: `number` ; `shadow`: `Shadow` ; `strokeWidth`: `number`  }, `SerializedTextProps`, `ObjectEvents`\>
+▸ **addCaptionElement**(`«destructured»`): `Textbox`\<\{ `left`: `Position` = x; `top`: `Position` = y; `originX`: ``"center"`` = "center"; `originY`: ``"center"`` = "center"; `angle`: `number` ; `fontSize`: `number` ; `fontFamily`: `string` ; `fill`: `string` ; `fontWeight`: `string` \| `number` ; `stroke`: `string` ; `opacity`: `number` ; `width`: `number` ; `splitByGrapheme`: ``false`` = false; `textAlign`: ``"left"`` \| ``"center"`` \| ``"right"`` ; `shadow`: `Shadow` ; `strokeWidth`: `number`  }, `SerializedTextboxProps`, `ITextEvents`\>
 
 Add a caption element to the canvas based on provided props.
-Creates a text element with caption-specific styling including
-shadows, positioning, and font properties.
+Creates a Fabric.js Textbox with caption-specific styling including
+shadows, positioning, font properties, and text wrapping (same as text element).
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `«destructured»` | `Object` |
-| › `element` | [`CanvasElement`](modules.md#canvaselement) |
-| › `index` | `number` |
-| › `canvas` | `Canvas` |
-| › `captionProps` | [`CaptionProps`](modules.md#captionprops) |
-| › `canvasMetadata` | [`CanvasMetadata`](modules.md#canvasmetadata) |
+| Name | Type | Default value |
+| :------ | :------ | :------ |
+| `«destructured»` | `Object` | `undefined` |
+| › `element` | [`CanvasElement`](modules.md#canvaselement) | `undefined` |
+| › `index` | `number` | `undefined` |
+| › `canvas` | `Canvas` | `undefined` |
+| › `captionProps` | [`CaptionProps`](modules.md#captionprops) | `undefined` |
+| › `canvasMetadata` | [`CanvasMetadata`](modules.md#canvasmetadata) | `undefined` |
+| › `lockAspectRatio?` | `boolean` | `false` |
 
 #### Returns
 
-`FabricText`\<\{ `left`: `Position` = x; `top`: `Position` = y; `originX`: ``"center"`` = "center"; `originY`: ``"center"`` = "center"; `angle`: `number` ; `fontSize`: `number` ; `fontFamily`: `string` ; `fill`: `string` ; `fontWeight`: `string` \| `number` ; `stroke`: `string` ; `opacity`: `number` ; `shadow`: `Shadow` ; `strokeWidth`: `number`  }, `SerializedTextProps`, `ObjectEvents`\>
+`Textbox`\<\{ `left`: `Position` = x; `top`: `Position` = y; `originX`: ``"center"`` = "center"; `originY`: ``"center"`` = "center"; `angle`: `number` ; `fontSize`: `number` ; `fontFamily`: `string` ; `fill`: `string` ; `fontWeight`: `string` \| `number` ; `stroke`: `string` ; `opacity`: `number` ; `width`: `number` ; `splitByGrapheme`: ``false`` = false; `textAlign`: ``"left"`` \| ``"center"`` \| ``"right"`` ; `shadow`: `Shadow` ; `strokeWidth`: `number`  }, `SerializedTextboxProps`, `ITextEvents`\>
 
-The configured Fabric.js caption object
+The configured Fabric.js Textbox caption object with wrapping enabled
 
 **`Example`**
 
 ```js
 const captionElement = addCaptionElement({
-  element: { id: "caption1", props: { text: "Caption", pos: { x: 100, y: 100 } } },
+  element: { id: "caption1", props: { text: "Caption", x: 100, y: 100, width: 200 } },
   index: 3,
   canvas: fabricCanvas,
   captionProps: { font: { size: 24, family: "Arial" } },
@@ -114,13 +131,13 @@ const captionElement = addCaptionElement({
 
 #### Defined in
 
-[components/elements.tsx:200](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/canvas/src/components/elements.tsx#L200)
+[components/elements.tsx:239](https://github.com/ncounterspecialist/twick/blob/e704aa51eb3c92196579baf390f2a1b40f250b1e/packages/canvas/src/components/elements.tsx#L239)
 
 ___
 
 ### addVideoElement
 
-▸ **addVideoElement**(`«destructured»`): `Promise`\<`undefined` \| `FabricImage`\<`Partial`\<`ImageProps`\>, `SerializedImageProps`, `ObjectEvents`\> \| `Group`\>
+▸ **addVideoElement**(`«destructured»`): `Promise`\<`undefined` \| `Group` \| `FabricImage`\<`Partial`\<`ImageProps`\>, `SerializedImageProps`, `ObjectEvents`\>\>
 
 Add a video frame as element into a Fabric.js image object and optionally groups it with a frame.
 Creates a video element by extracting a frame at the specified time and applying
@@ -140,7 +157,7 @@ optional frame effects for enhanced visual presentation.
 
 #### Returns
 
-`Promise`\<`undefined` \| `FabricImage`\<`Partial`\<`ImageProps`\>, `SerializedImageProps`, `ObjectEvents`\> \| `Group`\>
+`Promise`\<`undefined` \| `Group` \| `FabricImage`\<`Partial`\<`ImageProps`\>, `SerializedImageProps`, `ObjectEvents`\>\>
 
 A Fabric.js image object or a group with an image and frame
 
@@ -162,13 +179,13 @@ const videoElement = await addVideoElement({
 
 #### Defined in
 
-[components/elements.tsx:322](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/canvas/src/components/elements.tsx#L322)
+[components/elements.tsx:372](https://github.com/ncounterspecialist/twick/blob/e704aa51eb3c92196579baf390f2a1b40f250b1e/packages/canvas/src/components/elements.tsx#L372)
 
 ___
 
 ### addImageElement
 
-▸ **addImageElement**(`«destructured»`): `Promise`\<`undefined` \| `FabricImage`\<`Partial`\<`ImageProps`\>, `SerializedImageProps`, `ObjectEvents`\> \| `Group`\>
+▸ **addImageElement**(`«destructured»`): `Promise`\<`undefined` \| `Group` \| `FabricImage`\<`Partial`\<`ImageProps`\>, `SerializedImageProps`, `ObjectEvents`\>\>
 
 Add an image element to the canvas and optionally group it with a frame.
 Loads an image from URL and creates a Fabric.js image object with proper
@@ -176,19 +193,20 @@ positioning, scaling, and optional frame effects.
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `«destructured»` | `Object` |
-| › `imageUrl?` | `string` |
-| › `element` | [`CanvasElement`](modules.md#canvaselement) |
-| › `index` | `number` |
-| › `canvas` | `Canvas` |
-| › `canvasMetadata` | [`CanvasMetadata`](modules.md#canvasmetadata) |
-| › `currentFrameEffect?` | [`FrameEffect`](modules.md#frameeffect) |
+| Name | Type | Default value | Description |
+| :------ | :------ | :------ | :------ |
+| `«destructured»` | `Object` | `undefined` | - |
+| › `imageUrl?` | `string` | `undefined` | - |
+| › `element` | [`CanvasElement`](modules.md#canvaselement) | `undefined` | - |
+| › `index` | `number` | `undefined` | - |
+| › `canvas` | `Canvas` | `undefined` | - |
+| › `canvasMetadata` | [`CanvasMetadata`](modules.md#canvasmetadata) | `undefined` | - |
+| › `currentFrameEffect?` | [`FrameEffect`](modules.md#frameeffect) | `undefined` | - |
+| › `lockAspectRatio?` | `boolean` | `true` | When true, resize keeps aspect ratio (uniform scaling). Default true for images. |
 
 #### Returns
 
-`Promise`\<`undefined` \| `FabricImage`\<`Partial`\<`ImageProps`\>, `SerializedImageProps`, `ObjectEvents`\> \| `Group`\>
+`Promise`\<`undefined` \| `Group` \| `FabricImage`\<`Partial`\<`ImageProps`\>, `SerializedImageProps`, `ObjectEvents`\>\>
 
 A Fabric.js image object or a group with an image and frame
 
@@ -206,7 +224,7 @@ const imageElement = await addImageElement({
 
 #### Defined in
 
-[components/elements.tsx:384](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/canvas/src/components/elements.tsx#L384)
+[components/elements.tsx:434](https://github.com/ncounterspecialist/twick/blob/e704aa51eb3c92196579baf390f2a1b40f250b1e/packages/canvas/src/components/elements.tsx#L434)
 
 ___
 
@@ -220,13 +238,14 @@ position, size, styling, and interactive controls.
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `«destructured»` | `Object` |
-| › `element` | [`CanvasElement`](modules.md#canvaselement) |
-| › `index` | `number` |
-| › `canvas` | `Canvas` |
-| › `canvasMetadata` | [`CanvasMetadata`](modules.md#canvasmetadata) |
+| Name | Type | Default value |
+| :------ | :------ | :------ |
+| `«destructured»` | `Object` | `undefined` |
+| › `element` | [`CanvasElement`](modules.md#canvaselement) | `undefined` |
+| › `index` | `number` | `undefined` |
+| › `canvas` | `Canvas` | `undefined` |
+| › `canvasMetadata` | [`CanvasMetadata`](modules.md#canvasmetadata) | `undefined` |
+| › `lockAspectRatio?` | `boolean` | `false` |
 
 #### Returns
 
@@ -247,7 +266,7 @@ const rectElement = addRectElement({
 
 #### Defined in
 
-[components/elements.tsx:601](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/canvas/src/components/elements.tsx#L601)
+[components/elements.tsx:658](https://github.com/ncounterspecialist/twick/blob/e704aa51eb3c92196579baf390f2a1b40f250b1e/packages/canvas/src/components/elements.tsx#L658)
 
 ___
 
@@ -288,7 +307,7 @@ const bgElement = addBackgroundColor({
 
 #### Defined in
 
-[components/elements.tsx:710](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/canvas/src/components/elements.tsx#L710)
+[components/elements.tsx:775](https://github.com/ncounterspecialist/twick/blob/e704aa51eb3c92196579baf390f2a1b40f250b1e/packages/canvas/src/components/elements.tsx#L775)
 
 ___
 
@@ -331,7 +350,7 @@ const { canvas, canvasMetadata } = createCanvas({
 
 #### Defined in
 
-[helpers/canvas.util.ts:33](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/canvas/src/helpers/canvas.util.ts#L33)
+[helpers/canvas.util.ts:33](https://github.com/ncounterspecialist/twick/blob/e704aa51eb3c92196579baf390f2a1b40f250b1e/packages/canvas/src/helpers/canvas.util.ts#L33)
 
 ___
 
@@ -362,7 +381,7 @@ reorderElementsByZIndex(canvas);
 
 #### Defined in
 
-[helpers/canvas.util.ts:102](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/canvas/src/helpers/canvas.util.ts#L102)
+[helpers/canvas.util.ts:143](https://github.com/ncounterspecialist/twick/blob/e704aa51eb3c92196579baf390f2a1b40f250b1e/packages/canvas/src/helpers/canvas.util.ts#L143)
 
 ___
 
@@ -397,7 +416,7 @@ const canvasPos = convertToCanvasPosition(100, 200, canvasMetadata);
 
 #### Defined in
 
-[helpers/canvas.util.ts:167](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/canvas/src/helpers/canvas.util.ts#L167)
+[helpers/canvas.util.ts:272](https://github.com/ncounterspecialist/twick/blob/e704aa51eb3c92196579baf390f2a1b40f250b1e/packages/canvas/src/helpers/canvas.util.ts#L272)
 
 ___
 
@@ -433,7 +452,7 @@ const videoPos = convertToVideoPosition(450, 500, canvasMetadata, videoSize);
 
 #### Defined in
 
-[helpers/canvas.util.ts:195](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/canvas/src/helpers/canvas.util.ts#L195)
+[helpers/canvas.util.ts:331](https://github.com/ncounterspecialist/twick/blob/e704aa51eb3c92196579baf390f2a1b40f250b1e/packages/canvas/src/helpers/canvas.util.ts#L331)
 
 ___
 
@@ -467,7 +486,7 @@ const currentEffect = getCurrentFrameEffect(videoElement, 5.5);
 
 #### Defined in
 
-[helpers/canvas.util.ts:222](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/canvas/src/helpers/canvas.util.ts#L222)
+[helpers/canvas.util.ts:374](https://github.com/ncounterspecialist/twick/blob/e704aa51eb3c92196579baf390f2a1b40f250b1e/packages/canvas/src/helpers/canvas.util.ts#L374)
 
 ___
 
@@ -481,11 +500,12 @@ and event handling for interactive canvas operations.
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `«destructured»` | `Object` |
-| › `onCanvasReady?` | (`canvas`: `Canvas`) => `void` |
-| › `onCanvasOperation?` | (`operation`: `string`, `data`: `any`) => `void` |
+| Name | Type | Default value |
+| :------ | :------ | :------ |
+| `«destructured»` | `Object` | `undefined` |
+| › `onCanvasReady?` | (`canvas`: `Canvas`) => `void` | `undefined` |
+| › `onCanvasOperation?` | (`operation`: `string`, `data`: `any`) => `void` | `undefined` |
+| › `enableShiftAxisLock?` | `boolean` | `false` |
 
 #### Returns
 
@@ -496,10 +516,16 @@ Object containing canvas-related functions and state
 | Name | Type |
 | :------ | :------ |
 | `twickCanvas` | ``null`` \| `Canvas` |
-| `buildCanvas` | (`props`: [`CanvasProps`](modules.md#canvasprops) & \{ `forceBuild?`: `boolean`  }) => `void` |
+| `buildCanvas` | (`props`: [`BuildCanvasOptions`](modules.md#buildcanvasoptions)) => `void` |
+| `resizeCanvas` | (`canvasSize`: [`ResizeCanvasOptions`](modules.md#resizecanvasoptions)) => `void` |
 | `onVideoSizeChange` | (`videoSize`: `Dimensions`) => `void` |
-| `addElementToCanvas` | (`options`: \{ `element`: [`CanvasElement`](modules.md#canvaselement) ; `index`: `number` ; `reorder`: `boolean` = true; `seekTime?`: `number` ; `captionProps?`: `any`  }) => `Promise`\<`void`\> |
-| `setCanvasElements` | (`options`: \{ `elements`: [`CanvasElement`](modules.md#canvaselement)[] ; `seekTime?`: `number` = 0; `captionProps?`: `any` ; `cleanAndAdd?`: `boolean` = false }) => `Promise`\<`void`\> |
+| `addWatermarkToCanvas` | (`__namedParameters`: [`AddWatermarkToCanvasOptions`](modules.md#addwatermarktocanvasoptions)) => `void` |
+| `addElementToCanvas` | (`options`: [`AddElementToCanvasOptions`](modules.md#addelementtocanvasoptions)) => `Promise`\<`void`\> |
+| `setCanvasElements` | (`options`: [`SetCanvasElementsOptions`](modules.md#setcanvaselementsoptions)) => `Promise`\<`void`\> |
+| `bringToFront` | (`elementId`: `string`) => `boolean` |
+| `sendToBack` | (`elementId`: `string`) => `boolean` |
+| `bringForward` | (`elementId`: `string`) => `boolean` |
+| `sendBackward` | (`elementId`: `string`) => `boolean` |
 
 **`Example`**
 
@@ -512,7 +538,7 @@ const { twickCanvas, buildCanvas, addElementToCanvas } = useTwickCanvas({
 
 #### Defined in
 
-[hooks/use-twick-canvas.ts:46](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/canvas/src/hooks/use-twick-canvas.ts#L46)
+[hooks/use-twick-canvas.ts:43](https://github.com/ncounterspecialist/twick/blob/e704aa51eb3c92196579baf390f2a1b40f250b1e/packages/canvas/src/hooks/use-twick-canvas.ts#L43)
 
 ## Type Aliases
 
@@ -552,10 +578,11 @@ const canvasProps: CanvasProps = {
 | `uniScaleTransform?` | `boolean` | Ensures uniform scaling of objects |
 | `enableRetinaScaling?` | `boolean` | Enables retina scaling for higher DPI displays |
 | `touchZoomThreshold?` | `number` | Threshold for touch zoom interactions |
+| `lockAspectRatio?` | `boolean` | Default lock aspect ratio when resizing elements (uniform scaling). Can be overridden per element via props.lockAspectRatio. |
 
 #### Defined in
 
-[types.ts:28](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/canvas/src/types.ts#L28)
+[types.ts:28](https://github.com/ncounterspecialist/twick/blob/e704aa51eb3c92196579baf390f2a1b40f250b1e/packages/canvas/src/types.ts#L28)
 
 ___
 
@@ -590,7 +617,7 @@ const metadata: CanvasMetadata = {
 
 #### Defined in
 
-[types.ts:64](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/canvas/src/types.ts#L64)
+[types.ts:66](https://github.com/ncounterspecialist/twick/blob/e704aa51eb3c92196579baf390f2a1b40f250b1e/packages/canvas/src/types.ts#L66)
 
 ___
 
@@ -634,7 +661,7 @@ const frameEffect: FrameEffect = {
 
 #### Defined in
 
-[types.ts:96](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/canvas/src/types.ts#L96)
+[types.ts:98](https://github.com/ncounterspecialist/twick/blob/e704aa51eb3c92196579baf390f2a1b40f250b1e/packages/canvas/src/types.ts#L98)
 
 ___
 
@@ -687,10 +714,11 @@ const canvasElement: CanvasElement = {
 | `frame.radius?` | `number` | Corner radius for rounded rectangles |
 | `frame.x` | `number` | X coordinate |
 | `frame.y` | `number` | Y coordinate |
+| `zIndex?` | `number` | Layering order on the canvas (higher = on top). Updated by bring to front / send to back. |
 
 #### Defined in
 
-[types.ts:142](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/canvas/src/types.ts#L142)
+[types.ts:144](https://github.com/ncounterspecialist/twick/blob/e704aa51eb3c92196579baf390f2a1b40f250b1e/packages/canvas/src/types.ts#L144)
 
 ___
 
@@ -763,12 +791,15 @@ const elementProps: CanvasElementProps = {
 | `shadowColor?` | `string` | Shadow color |
 | `shadowBlur?` | `number` | Shadow blur radius |
 | `shadowOffset?` | [`number`, `number`] | Shadow offset [x, y] |
+| `backgroundColor?` | `string` | Background color for text elements |
+| `backgroundOpacity?` | `number` | Background opacity for text elements (0-1) |
 | `playbackRate?` | `number` | Playback rate for video elements |
 | `time?` | `number` | Current time for video elements |
+| `lockAspectRatio?` | `boolean` | When true, resize preserves aspect ratio (uniform scaling). When false, allows non-uniform scale. |
 
 #### Defined in
 
-[types.ts:208](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/canvas/src/types.ts#L208)
+[types.ts:212](https://github.com/ncounterspecialist/twick/blob/e704aa51eb3c92196579baf390f2a1b40f250b1e/packages/canvas/src/types.ts#L212)
 
 ___
 
@@ -826,7 +857,225 @@ const captionProps: CaptionProps = {
 
 #### Defined in
 
-[types.ts:320](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/canvas/src/types.ts#L320)
+[types.ts:330](https://github.com/ncounterspecialist/twick/blob/e704aa51eb3c92196579baf390f2a1b40f250b1e/packages/canvas/src/types.ts#L330)
+
+___
+
+### BuildCanvasOptions
+
+Ƭ **BuildCanvasOptions**: [`CanvasProps`](modules.md#canvasprops) & \{ `forceBuild?`: `boolean`  }
+
+Options for buildCanvas from useTwickCanvas.
+CanvasProps plus optional forceBuild to recreate the canvas even when dimensions match.
+
+#### Defined in
+
+[types.ts:376](https://github.com/ncounterspecialist/twick/blob/e704aa51eb3c92196579baf390f2a1b40f250b1e/packages/canvas/src/types.ts#L376)
+
+___
+
+### AddElementToCanvasOptions
+
+Ƭ **AddElementToCanvasOptions**: `Object`
+
+Options for addElementToCanvas from useTwickCanvas.
+
+#### Type declaration
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `element` | [`CanvasElement`](modules.md#canvaselement) | The canvas element to add |
+| `index` | `number` | Z-index / layer order |
+| `reorder?` | `boolean` | Whether to reorder canvas objects by zIndex after adding (default true) |
+| `seekTime?` | `number` | Seek time for video/frame snap (optional) |
+| `captionProps?` | `any` | Caption styling (optional) |
+| `lockAspectRatio?` | `boolean` | When true, element resize keeps aspect ratio (optional) |
+
+#### Defined in
+
+[types.ts:384](https://github.com/ncounterspecialist/twick/blob/e704aa51eb3c92196579baf390f2a1b40f250b1e/packages/canvas/src/types.ts#L384)
+
+___
+
+### SetCanvasElementsOptions
+
+Ƭ **SetCanvasElementsOptions**: `Object`
+
+Options for setCanvasElements from useTwickCanvas.
+
+#### Type declaration
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `elements` | [`CanvasElement`](modules.md#canvaselement)[] | Canvas elements to set |
+| `watermark?` | [`CanvasElement`](modules.md#canvaselement) | Optional watermark element |
+| `seekTime?` | `number` | Seek time for video/frame snap (default 0) |
+| `captionProps?` | `any` | Caption styling (optional) |
+| `cleanAndAdd?` | `boolean` | When true, clear canvas before adding (default false) |
+| `lockAspectRatio?` | `boolean` | When true, element resize keeps aspect ratio (optional) |
+
+#### Defined in
+
+[types.ts:402](https://github.com/ncounterspecialist/twick/blob/e704aa51eb3c92196579baf390f2a1b40f250b1e/packages/canvas/src/types.ts#L402)
+
+___
+
+### AddWatermarkToCanvasOptions
+
+Ƭ **AddWatermarkToCanvasOptions**: `Object`
+
+Options for addWatermarkToCanvas from useTwickCanvas.
+
+#### Type declaration
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `element` | [`CanvasElement`](modules.md#canvaselement) | The watermark canvas element to add |
+
+#### Defined in
+
+[types.ts:420](https://github.com/ncounterspecialist/twick/blob/e704aa51eb3c92196579baf390f2a1b40f250b1e/packages/canvas/src/types.ts#L420)
+
+___
+
+### ResizeCanvasOptions
+
+Ƭ **ResizeCanvasOptions**: `Object`
+
+Options for resizeCanvas from useTwickCanvas.
+
+#### Type declaration
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `canvasSize` | `Dimensions` | New canvas dimensions (e.g. from ResizeObserver) |
+| `videoSize?` | `Dimensions` | Optional video dimensions; defaults to current video size ref |
+
+#### Defined in
+
+[types.ts:428](https://github.com/ncounterspecialist/twick/blob/e704aa51eb3c92196579baf390f2a1b40f250b1e/packages/canvas/src/types.ts#L428)
+
+___
+
+### CanvasElementAddParams
+
+Ƭ **CanvasElementAddParams**: `Object`
+
+Parameters passed to a canvas element handler when adding an element.
+
+#### Type declaration
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `element` | [`CanvasElement`](modules.md#canvaselement) | - |
+| `index` | `number` | - |
+| `canvas` | `Canvas` | - |
+| `canvasMetadata` | [`CanvasMetadata`](modules.md#canvasmetadata) | - |
+| `seekTime?` | `number` | - |
+| `captionProps?` | [`CaptionProps`](modules.md#captionprops) \| ``null`` | - |
+| `elementFrameMapRef?` | \{ `current`: `Record`\<`string`, [`FrameEffect`](modules.md#frameeffect) \| `undefined`\>  } | - |
+| `elementFrameMapRef.current` | `Record`\<`string`, [`FrameEffect`](modules.md#frameeffect) \| `undefined`\> | - |
+| `getCurrentFrameEffect?` | (`item`: [`CanvasElement`](modules.md#canvaselement), `seekTime`: `number`) => [`FrameEffect`](modules.md#frameeffect) \| `undefined` | - |
+| `watermarkPropsRef?` | \{ `current`: `any`  } | Used by watermark handler to store props for WATERMARK_UPDATED |
+| `watermarkPropsRef.current` | `any` | - |
+| `lockAspectRatio?` | `boolean` | When true, resize keeps aspect ratio (uniform scaling). Overridable by element.props.lockAspectRatio. |
+
+#### Defined in
+
+[types.ts:438](https://github.com/ncounterspecialist/twick/blob/e704aa51eb3c92196579baf390f2a1b40f250b1e/packages/canvas/src/types.ts#L438)
+
+___
+
+### CanvasElementUpdateContext
+
+Ƭ **CanvasElementUpdateContext**: `Object`
+
+Context passed when updating element state from a Fabric object (e.g. after transform).
+
+#### Type declaration
+
+| Name | Type |
+| :------ | :------ |
+| `canvasMetadata` | [`CanvasMetadata`](modules.md#canvasmetadata) |
+| `videoSize` | \{ `width`: `number` ; `height`: `number`  } |
+| `videoSize.width` | `number` |
+| `videoSize.height` | `number` |
+| `elementFrameMapRef` | \{ `current`: `Record`\<`string`, [`FrameEffect`](modules.md#frameeffect) \| `undefined`\>  } |
+| `elementFrameMapRef.current` | `Record`\<`string`, [`FrameEffect`](modules.md#frameeffect) \| `undefined`\> |
+| `captionPropsRef` | \{ `current`: [`CaptionProps`](modules.md#captionprops) \| ``null``  } |
+| `captionPropsRef.current` | [`CaptionProps`](modules.md#captionprops) \| ``null`` |
+| `watermarkPropsRef` | \{ `current`: `any`  } |
+| `watermarkPropsRef.current` | `any` |
+
+#### Defined in
+
+[types.ts:456](https://github.com/ncounterspecialist/twick/blob/e704aa51eb3c92196579baf390f2a1b40f250b1e/packages/canvas/src/types.ts#L456)
+
+___
+
+### CanvasElementUpdateResult
+
+Ƭ **CanvasElementUpdateResult**: `Object`
+
+Result of updateFromFabricObject; tells the hook which operation to emit.
+When operation is CAPTION_PROPS_UPDATED, payload is &#123; element, props &#125;.
+When operation is WATERMARK_UPDATED, payload is WatermarkUpdatePayload.
+
+#### Type declaration
+
+| Name | Type |
+| :------ | :------ |
+| `element` | [`CanvasElement`](modules.md#canvaselement) |
+| `operation?` | `string` |
+| `payload?` | `any` |
+
+#### Defined in
+
+[types.ts:469](https://github.com/ncounterspecialist/twick/blob/e704aa51eb3c92196579baf390f2a1b40f250b1e/packages/canvas/src/types.ts#L469)
+
+___
+
+### WatermarkUpdatePayload
+
+Ƭ **WatermarkUpdatePayload**: `Object`
+
+Canonical payload for WATERMARK_UPDATED. Matches timeline WatermarkJSON shape
+so video-editor can apply via setWatermark() and panel can update type/props.
+
+#### Type declaration
+
+| Name | Type |
+| :------ | :------ |
+| `position` | \{ `x`: `number` ; `y`: `number`  } |
+| `position.x` | `number` |
+| `position.y` | `number` |
+| `rotation?` | `number` |
+| `opacity?` | `number` |
+| `props?` | `Record`\<`string`, `unknown`\> |
+
+#### Defined in
+
+[types.ts:479](https://github.com/ncounterspecialist/twick/blob/e704aa51eb3c92196579baf390f2a1b40f250b1e/packages/canvas/src/types.ts#L479)
+
+___
+
+### CanvasElementHandler
+
+Ƭ **CanvasElementHandler**: `Object`
+
+Handler for a canvas element type. Register with ElementController for scalable dispatch.
+
+#### Type declaration
+
+| Name | Type |
+| :------ | :------ |
+| `name` | `string` |
+| `add` | (`params`: [`CanvasElementAddParams`](modules.md#canvaselementaddparams)) => `Promise`\<`void`\> |
+| `updateFromFabricObject?` | (`object`: `any`, `element`: [`CanvasElement`](modules.md#canvaselement), `context`: [`CanvasElementUpdateContext`](modules.md#canvaselementupdatecontext)) => [`CanvasElementUpdateResult`](modules.md#canvaselementupdateresult) \| ``null`` |
+
+#### Defined in
+
+[types.ts:489](https://github.com/ncounterspecialist/twick/blob/e704aa51eb3c92196579baf390f2a1b40f250b1e/packages/canvas/src/types.ts#L489)
 
 ## Variables
 
@@ -855,7 +1104,7 @@ object.setControlsVisibility({
 
 #### Defined in
 
-[components/element-controls.tsx:22](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/canvas/src/components/element-controls.tsx#L22)
+[components/element-controls.tsx:22](https://github.com/ncounterspecialist/twick/blob/e704aa51eb3c92196579baf390f2a1b40f250b1e/packages/canvas/src/components/element-controls.tsx#L22)
 
 ___
 
@@ -886,7 +1135,17 @@ object.set({
 
 #### Defined in
 
-[components/element-controls.tsx:71](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/canvas/src/components/element-controls.tsx#L71)
+[components/element-controls.tsx:71](https://github.com/ncounterspecialist/twick/blob/e704aa51eb3c92196579baf390f2a1b40f250b1e/packages/canvas/src/components/element-controls.tsx#L71)
+
+___
+
+### elementController
+
+• `Const` **elementController**: [`ElementController`](classes/ElementController.md)
+
+#### Defined in
+
+[controllers/element.controller.ts:30](https://github.com/ncounterspecialist/twick/blob/e704aa51eb3c92196579baf390f2a1b40f250b1e/packages/canvas/src/controllers/element.controller.ts#L30)
 
 ___
 
@@ -925,7 +1184,48 @@ function handleCanvasOperation(operation) {
 | `ITEM_GROUPED` | `string` | Items have been grouped together |
 | `ITEM_UNGROUPED` | `string` | Items have been ungrouped |
 | `CAPTION_PROPS_UPDATED` | `string` | Caption properties have been updated |
+| `WATERMARK_UPDATED` | `string` | Watermark has been updated |
+| `ADDED_NEW_ELEMENT` | `string` | A new element was added via drop on canvas; payload is &#123; element &#125; |
+| `Z_ORDER_CHANGED` | `string` | Z-order changed (bring to front / send to back). Payload is &#123; elementId, direction &#125;. Timeline should reorder tracks. |
 
 #### Defined in
 
-[helpers/constants.ts:97](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/canvas/src/helpers/constants.ts#L97)
+[helpers/constants.ts:97](https://github.com/ncounterspecialist/twick/blob/e704aa51eb3c92196579baf390f2a1b40f250b1e/packages/canvas/src/helpers/constants.ts#L97)
+
+___
+
+### ELEMENT\_TYPES
+
+• `Const` **ELEMENT\_TYPES**: `Object`
+
+Element type constants for canvas elements.
+Defines the different types of elements that can be added to the canvas.
+
+**`Example`**
+
+```js
+import { ELEMENT_TYPES } from '@twick/canvas';
+
+if (element.type === ELEMENT_TYPES.TEXT) {
+  // Handle text element
+} else if (element.type === ELEMENT_TYPES.IMAGE) {
+  // Handle image element
+}
+```
+
+#### Type declaration
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `TEXT` | `string` | Text element type |
+| `CAPTION` | `string` | Caption element type |
+| `IMAGE` | `string` | Image element type |
+| `VIDEO` | `string` | Video element type |
+| `RECT` | `string` | Rectangle element type |
+| `CIRCLE` | `string` | Circle element type |
+| `ICON` | `string` | Icon element type |
+| `BACKGROUND_COLOR` | `string` | Background color element type |
+
+#### Defined in
+
+[helpers/constants.ts:135](https://github.com/ncounterspecialist/twick/blob/e704aa51eb3c92196579baf390f2a1b40f250b1e/packages/canvas/src/helpers/constants.ts#L135)

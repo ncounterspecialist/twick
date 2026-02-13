@@ -370,6 +370,69 @@ export type CaptionProps = {
 };
 
 /**
+ * Options for buildCanvas from useTwickCanvas.
+ * CanvasProps plus optional forceBuild to recreate the canvas even when dimensions match.
+ */
+export type BuildCanvasOptions = CanvasProps & {
+  /** When true, rebuilds the canvas even if dimensions are unchanged */
+  forceBuild?: boolean;
+};
+
+/**
+ * Options for addElementToCanvas from useTwickCanvas.
+ */
+export type AddElementToCanvasOptions = {
+  /** The canvas element to add */
+  element: CanvasElement;
+  /** Z-index / layer order */
+  index: number;
+  /** Whether to reorder canvas objects by zIndex after adding (default true) */
+  reorder?: boolean;
+  /** Seek time for video/frame snap (optional) */
+  seekTime?: number;
+  /** Caption styling (optional) */
+  captionProps?: any;
+  /** When true, element resize keeps aspect ratio (optional) */
+  lockAspectRatio?: boolean;
+};
+
+/**
+ * Options for setCanvasElements from useTwickCanvas.
+ */
+export type SetCanvasElementsOptions = {
+  /** Canvas elements to set */
+  elements: CanvasElement[];
+  /** Optional watermark element */
+  watermark?: CanvasElement;
+  /** Seek time for video/frame snap (default 0) */
+  seekTime?: number;
+  /** Caption styling (optional) */
+  captionProps?: any;
+  /** When true, clear canvas before adding (default false) */
+  cleanAndAdd?: boolean;
+  /** When true, element resize keeps aspect ratio (optional) */
+  lockAspectRatio?: boolean;
+};
+
+/**
+ * Options for addWatermarkToCanvas from useTwickCanvas.
+ */
+export type AddWatermarkToCanvasOptions = {
+  /** The watermark canvas element to add */
+  element: CanvasElement;
+};
+
+/**
+ * Options for resizeCanvas from useTwickCanvas.
+ */
+export type ResizeCanvasOptions = {
+  /** New canvas dimensions (e.g. from ResizeObserver) */
+  canvasSize: Dimensions;
+  /** Optional video dimensions; defaults to current video size ref */
+  videoSize?: Dimensions;
+};
+
+/**
  * Parameters passed to a canvas element handler when adding an element.
  */
 export type CanvasElementAddParams = {
@@ -400,7 +463,7 @@ export type CanvasElementUpdateContext = {
 
 /**
  * Result of updateFromFabricObject; tells the hook which operation to emit.
- * When operation is CAPTION_PROPS_UPDATED, payload is { element, props }.
+ * When operation is CAPTION_PROPS_UPDATED, payload is &#123; element, props &#125;.
  * When operation is WATERMARK_UPDATED, payload is WatermarkUpdatePayload.
  */
 export type CanvasElementUpdateResult = {

@@ -81,7 +81,7 @@ const trackWithId = new Track("Audio Track", "element", "video-track-1");
 
 #### Defined in
 
-[core/track/track.ts:59](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/track/track.ts#L59)
+[core/track/track.ts:59](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/track/track.ts#L59)
 
 ## Methods
 
@@ -112,7 +112,7 @@ friend.addElement(element);
 
 #### Defined in
 
-[core/track/track.ts:85](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/track/track.ts#L85)
+[core/track/track.ts:85](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/track/track.ts#L85)
 
 ___
 
@@ -149,7 +149,7 @@ const success = track.addElementViaFriend(element);
 
 #### Defined in
 
-[core/track/track.ts:107](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/track/track.ts#L107)
+[core/track/track.ts:107](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/track/track.ts#L107)
 
 ___
 
@@ -182,7 +182,7 @@ track.removeElementViaFriend(element);
 
 #### Defined in
 
-[core/track/track.ts:129](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/track/track.ts#L129)
+[core/track/track.ts:129](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/track/track.ts#L129)
 
 ___
 
@@ -219,7 +219,7 @@ const success = track.updateElementViaFriend(element);
 
 #### Defined in
 
-[core/track/track.ts:151](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/track/track.ts#L151)
+[core/track/track.ts:151](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/track/track.ts#L151)
 
 ___
 
@@ -244,7 +244,7 @@ const id = track.getId(); // "track-123"
 
 #### Defined in
 
-[core/track/track.ts:166](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/track/track.ts#L166)
+[core/track/track.ts:166](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/track/track.ts#L166)
 
 ___
 
@@ -269,7 +269,7 @@ const name = track.getName(); // "Video Track"
 
 #### Defined in
 
-[core/track/track.ts:181](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/track/track.ts#L181)
+[core/track/track.ts:181](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/track/track.ts#L181)
 
 ___
 
@@ -294,7 +294,7 @@ const type = track.getType(); // "element"
 
 #### Defined in
 
-[core/track/track.ts:196](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/track/track.ts#L196)
+[core/track/track.ts:196](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/track/track.ts#L196)
 
 ___
 
@@ -325,7 +325,7 @@ elements.forEach(element => {
 
 #### Defined in
 
-[core/track/track.ts:217](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/track/track.ts#L217)
+[core/track/track.ts:217](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/track/track.ts#L217)
 
 ___
 
@@ -339,7 +339,7 @@ ___
 
 #### Defined in
 
-[core/track/track.ts:221](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/track/track.ts#L221)
+[core/track/track.ts:221](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/track/track.ts#L221)
 
 ___
 
@@ -359,7 +359,7 @@ ___
 
 #### Defined in
 
-[core/track/track.ts:225](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/track/track.ts#L225)
+[core/track/track.ts:225](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/track/track.ts#L225)
 
 ___
 
@@ -400,7 +400,7 @@ try {
 
 #### Defined in
 
-[core/track/track.ts:252](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/track/track.ts#L252)
+[core/track/track.ts:252](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/track/track.ts#L252)
 
 ___
 
@@ -431,7 +431,7 @@ const newDuration = track.getTrackDuration(); // 30
 
 #### Defined in
 
-[core/track/track.ts:273](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/track/track.ts#L273)
+[core/track/track.ts:273](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/track/track.ts#L273)
 
 ___
 
@@ -451,7 +451,7 @@ ___
 
 #### Defined in
 
-[core/track/track.ts:323](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/track/track.ts#L323)
+[core/track/track.ts:323](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/track/track.ts#L323)
 
 ___
 
@@ -486,7 +486,7 @@ const foundElement = track.getElementById(element.getId());
 
 #### Defined in
 
-[core/track/track.ts:406](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/track/track.ts#L406)
+[core/track/track.ts:406](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/track/track.ts#L406)
 
 ___
 
@@ -534,7 +534,7 @@ validation.results.forEach(result => {
 
 #### Defined in
 
-[core/track/track.ts:441](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/track/track.ts#L441)
+[core/track/track.ts:441](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/track/track.ts#L441)
 
 ___
 
@@ -572,7 +572,7 @@ localStorage.setItem('track-data', JSON.stringify(trackData));
 
 #### Defined in
 
-[core/track/track.ts:502](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/track/track.ts#L502)
+[core/track/track.ts:502](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/track/track.ts#L502)
 
 ___
 
@@ -620,4 +620,4 @@ console.log(track.getElements().length); // 1
 
 #### Defined in
 
-[core/track/track.ts:544](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/track/track.ts#L544)
+[core/track/track.ts:544](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/track/track.ts#L544)

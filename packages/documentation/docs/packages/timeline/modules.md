@@ -134,7 +134,7 @@ Disable analytics:
 
 #### Defined in
 
-[context/timeline-context.tsx:307](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/context/timeline-context.tsx#L307)
+[context/timeline-context.tsx:307](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/context/timeline-context.tsx#L307)
 
 ___
 
@@ -183,7 +183,7 @@ setTimelineAction(TIMELINE_ACTION.SET_PLAYER_STATE, { playing: true });
 
 #### Defined in
 
-[context/timeline-context.tsx:407](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/context/timeline-context.tsx#L407)
+[context/timeline-context.tsx:407](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/context/timeline-context.tsx#L407)
 
 ___
 
@@ -216,7 +216,7 @@ const rounded = getDecimalNumber(3.14159, 2);
 
 #### Defined in
 
-[utils/timeline.utils.ts:21](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/utils/timeline.utils.ts#L21)
+[utils/timeline.utils.ts:21](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/utils/timeline.utils.ts#L21)
 
 ___
 
@@ -249,7 +249,7 @@ const duration = getTotalDuration(tracks);
 
 #### Defined in
 
-[utils/timeline.utils.ts:39](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/utils/timeline.utils.ts#L39)
+[utils/timeline.utils.ts:39](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/utils/timeline.utils.ts#L39)
 
 ___
 
@@ -276,7 +276,7 @@ const id = generateShortUuid();
 
 #### Defined in
 
-[utils/timeline.utils.ts:66](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/utils/timeline.utils.ts#L66)
+[utils/timeline.utils.ts:66](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/utils/timeline.utils.ts#L66)
 
 ___
 
@@ -310,7 +310,7 @@ const activeElements = getCurrentElements(5.5, tracks);
 
 #### Defined in
 
-[utils/timeline.utils.ts:89](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/utils/timeline.utils.ts#L89)
+[utils/timeline.utils.ts:89](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/utils/timeline.utils.ts#L89)
 
 ___
 
@@ -344,7 +344,7 @@ const canSplit = canSplitElement(videoElement, 10.5);
 
 #### Defined in
 
-[utils/timeline.utils.ts:128](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/utils/timeline.utils.ts#L128)
+[utils/timeline.utils.ts:128](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/utils/timeline.utils.ts#L128)
 
 ___
 
@@ -376,7 +376,7 @@ const isElement = isElementId("e-abc123");
 
 #### Defined in
 
-[utils/timeline.utils.ts:145](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/utils/timeline.utils.ts#L145)
+[utils/timeline.utils.ts:145](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/utils/timeline.utils.ts#L145)
 
 ___
 
@@ -408,7 +408,7 @@ const isTrack = isTrackId("t-xyz789");
 
 #### Defined in
 
-[utils/timeline.utils.ts:160](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/utils/timeline.utils.ts#L160)
+[utils/timeline.utils.ts:160](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/utils/timeline.utils.ts#L160)
 
 ___
 
@@ -442,7 +442,7 @@ const audioUrl = await extractVideoAudio(tracks, 120);
 
 #### Defined in
 
-[utils/timeline.utils.ts:177](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/utils/timeline.utils.ts#L177)
+[utils/timeline.utils.ts:177](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/utils/timeline.utils.ts#L177)
 
 ## Type Aliases
 
@@ -491,7 +491,7 @@ const {
 
 #### Defined in
 
-[context/timeline-context.tsx:45](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/context/timeline-context.tsx#L45)
+[context/timeline-context.tsx:45](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/context/timeline-context.tsx#L45)
 
 ___
 
@@ -501,7 +501,7 @@ ___
 
 #### Defined in
 
-[types.ts:160](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/types.ts#L160)
+[types.ts:160](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/types.ts#L160)
 
 ___
 
@@ -511,7 +511,7 @@ ___
 
 #### Defined in
 
-[types.ts:161](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/types.ts#L161)
+[types.ts:161](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/types.ts#L161)
 
 ## Variables
 
@@ -532,7 +532,7 @@ ___
 
 #### Defined in
 
-[core/visitor/element-validator.ts:11](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/core/visitor/element-validator.ts#L11)
+[core/visitor/element-validator.ts:11](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/core/visitor/element-validator.ts#L11)
 
 ___
 
@@ -564,7 +564,7 @@ const newProject = {
 
 #### Defined in
 
-[utils/constants.ts:16](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/utils/constants.ts#L16)
+[utils/constants.ts:16](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/utils/constants.ts#L16)
 
 ___
 
@@ -595,7 +595,7 @@ if (playerState === PLAYER_STATE.PLAYING) {
 
 #### Defined in
 
-[utils/constants.ts:54](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/utils/constants.ts#L54)
+[utils/constants.ts:54](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/utils/constants.ts#L54)
 
 ___
 
@@ -626,7 +626,7 @@ const captionElement = new CaptionElement({
 
 #### Defined in
 
-[utils/constants.ts:76](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/utils/constants.ts#L76)
+[utils/constants.ts:76](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/utils/constants.ts#L76)
 
 ___
 
@@ -662,7 +662,7 @@ const options = Object.values(CAPTION_STYLE_OPTIONS);
 
 #### Defined in
 
-[utils/constants.ts:97](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/utils/constants.ts#L97)
+[utils/constants.ts:97](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/utils/constants.ts#L97)
 
 ___
 
@@ -689,7 +689,7 @@ const fontSize = CAPTION_FONT.size; // 40
 
 #### Defined in
 
-[utils/constants.ts:123](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/utils/constants.ts#L123)
+[utils/constants.ts:123](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/utils/constants.ts#L123)
 
 ___
 
@@ -719,7 +719,7 @@ const highlightColor = CAPTION_COLOR.highlight; // "#ff4081"
 
 #### Defined in
 
-[utils/constants.ts:140](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/utils/constants.ts#L140)
+[utils/constants.ts:140](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/utils/constants.ts#L140)
 
 ___
 
@@ -740,7 +740,7 @@ const phraseLength = WORDS_PER_PHRASE; // 4
 
 #### Defined in
 
-[utils/constants.ts:160](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/utils/constants.ts#L160)
+[utils/constants.ts:160](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/utils/constants.ts#L160)
 
 ___
 
@@ -772,7 +772,7 @@ if (action.type === TIMELINE_ACTION.SET_PLAYER_STATE) {
 
 #### Defined in
 
-[utils/constants.ts:175](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/utils/constants.ts#L175)
+[utils/constants.ts:175](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/utils/constants.ts#L175)
 
 ___
 
@@ -808,7 +808,7 @@ if (element.type === TIMELINE_ELEMENT_TYPE.VIDEO) {
 
 #### Defined in
 
-[utils/constants.ts:199](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/utils/constants.ts#L199)
+[utils/constants.ts:199](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/utils/constants.ts#L199)
 
 ___
 
@@ -840,4 +840,4 @@ if (processState === PROCESS_STATE.PROCESSING) {
 
 #### Defined in
 
-[utils/constants.ts:231](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/timeline/src/utils/constants.ts#L231)
+[utils/constants.ts:231](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/timeline/src/utils/constants.ts#L231)

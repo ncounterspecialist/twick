@@ -39,7 +39,7 @@ Executes the animation
 
 #### Defined in
 
-[helpers/types.ts:320](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/visualizer/src/helpers/types.ts#L320)
+[helpers/types.ts:334](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/visualizer/src/helpers/types.ts#L334)
 
 ## Properties
 
@@ -51,4 +51,4 @@ The unique name identifier for this animation
 
 #### Defined in
 
-[helpers/types.ts:318](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/visualizer/src/helpers/types.ts#L318)
+[helpers/types.ts:332](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/visualizer/src/helpers/types.ts#L332)

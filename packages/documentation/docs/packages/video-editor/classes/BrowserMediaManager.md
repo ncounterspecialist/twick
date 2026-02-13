@@ -61,7 +61,7 @@
 
 #### Defined in
 
-[packages/video-editor/src/helpers/media-manager/browser-media-manager.ts:41](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/video-editor/src/helpers/media-manager/browser-media-manager.ts#L41)
+[packages/video-editor/src/helpers/media-manager/browser-media-manager.ts:41](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/video-editor/src/helpers/media-manager/browser-media-manager.ts#L41)
 
 ___
 
@@ -85,7 +85,7 @@ ___
 
 #### Defined in
 
-[packages/video-editor/src/helpers/media-manager/browser-media-manager.ts:56](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/video-editor/src/helpers/media-manager/browser-media-manager.ts#L56)
+[packages/video-editor/src/helpers/media-manager/browser-media-manager.ts:56](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/video-editor/src/helpers/media-manager/browser-media-manager.ts#L56)
 
 ___
 
@@ -109,7 +109,7 @@ ___
 
 #### Defined in
 
-[packages/video-editor/src/helpers/media-manager/browser-media-manager.ts:76](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/video-editor/src/helpers/media-manager/browser-media-manager.ts#L76)
+[packages/video-editor/src/helpers/media-manager/browser-media-manager.ts:76](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/video-editor/src/helpers/media-manager/browser-media-manager.ts#L76)
 
 ___
 
@@ -133,7 +133,7 @@ ___
 
 #### Defined in
 
-[packages/video-editor/src/helpers/media-manager/browser-media-manager.ts:92](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/video-editor/src/helpers/media-manager/browser-media-manager.ts#L92)
+[packages/video-editor/src/helpers/media-manager/browser-media-manager.ts:92](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/video-editor/src/helpers/media-manager/browser-media-manager.ts#L92)
 
 ___
 
@@ -158,7 +158,7 @@ ___
 
 #### Defined in
 
-[packages/video-editor/src/helpers/media-manager/browser-media-manager.ts:125](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/video-editor/src/helpers/media-manager/browser-media-manager.ts#L125)
+[packages/video-editor/src/helpers/media-manager/browser-media-manager.ts:125](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/video-editor/src/helpers/media-manager/browser-media-manager.ts#L125)
 
 ___
 
@@ -182,7 +182,7 @@ ___
 
 #### Defined in
 
-[packages/video-editor/src/helpers/media-manager/browser-media-manager.ts:139](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/video-editor/src/helpers/media-manager/browser-media-manager.ts#L139)
+[packages/video-editor/src/helpers/media-manager/browser-media-manager.ts:139](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/video-editor/src/helpers/media-manager/browser-media-manager.ts#L139)
 
 ___
 
@@ -206,7 +206,7 @@ ___
 
 #### Defined in
 
-[packages/video-editor/src/helpers/media-manager/browser-media-manager.ts:161](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/video-editor/src/helpers/media-manager/browser-media-manager.ts#L161)
+[packages/video-editor/src/helpers/media-manager/browser-media-manager.ts:161](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/video-editor/src/helpers/media-manager/browser-media-manager.ts#L161)
 
 ___
 
@@ -230,7 +230,7 @@ ___
 
 #### Defined in
 
-[packages/video-editor/src/helpers/media-manager/browser-media-manager.ts:170](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/video-editor/src/helpers/media-manager/browser-media-manager.ts#L170)
+[packages/video-editor/src/helpers/media-manager/browser-media-manager.ts:170](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/video-editor/src/helpers/media-manager/browser-media-manager.ts#L170)
 
 ___
 
@@ -254,7 +254,7 @@ ___
 
 #### Defined in
 
-[packages/video-editor/src/helpers/media-manager/browser-media-manager.ts:179](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/video-editor/src/helpers/media-manager/browser-media-manager.ts#L179)
+[packages/video-editor/src/helpers/media-manager/browser-media-manager.ts:179](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/video-editor/src/helpers/media-manager/browser-media-manager.ts#L179)
 
 ___
 
@@ -272,4 +272,4 @@ ___
 
 #### Defined in
 
-[packages/video-editor/src/helpers/media-manager/browser-media-manager.ts:210](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/video-editor/src/helpers/media-manager/browser-media-manager.ts#L210)
+[packages/video-editor/src/helpers/media-manager/browser-media-manager.ts:210](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/video-editor/src/helpers/media-manager/browser-media-manager.ts#L210)
