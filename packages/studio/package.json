@@ -34,10 +34,10 @@
   },
   "dependencies": {
     "@twick/canvas": "workspace:*",
-    "@twick/core": "latest",
+    "@twick/core": "^0.15.17",
     "@twick/live-player": "workspace:*",
     "@twick/media-utils": "workspace:*",
-    "@twick/player-react": "latest",
+    "@twick/player-react": "^0.15.17",
     "@twick/timeline": "workspace:*",
     "@twick/video-editor": "workspace:*",
     "@twick/visualizer": "workspace:*",

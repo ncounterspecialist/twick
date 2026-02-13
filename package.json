@@ -71,16 +71,16 @@
     "overrides": {
       "typescript": "^5.4.2",
       "axios": "^1.12.2",
-      "@twick/core": "latest",
-      "@twick/2d": "latest",
-      "@twick/ui": "latest",
-      "@twick/player-react": "latest",
-      "@twick/ffmpeg": "latest",
-      "@twick/telemetry": "latest",
-      "@twick/vite-plugin": "latest",
-      "@twick/renderer": "latest",
-      "@twick/player": "latest",
-      "@twick/cli": "latest"
+      "@twick/core": "^0.15.17",
+      "@twick/2d": "^0.15.17",
+      "@twick/ui": "^0.15.17",
+      "@twick/player-react": "^0.15.17",
+      "@twick/ffmpeg": "^0.15.17",
+      "@twick/telemetry": "^0.15.17",
+      "@twick/vite-plugin": "^0.15.17",
+      "@twick/renderer": "^0.15.17",
+      "@twick/player": "^0.15.17",
+      "@twick/cli": "^0.15.17"
     }
   }
 }
