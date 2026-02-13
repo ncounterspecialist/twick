@@ -292,7 +292,7 @@ export const LivePlayer = ({
           baseProject?.input?.properties?.height || DEFAULT_VIDEO_SIZE.height
         }
         timeDisplayFormat="MM:SS.mm"
-        onDurationChange={(e) => {
+        onDurationChange={(e: number) => {
           if (onDurationChange) {
             onDurationChange(e);
           }
