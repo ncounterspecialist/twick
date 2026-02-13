@@ -4,12 +4,15 @@ import {
   useLivePlayerContext,
 } from "@twick/live-player";
 import { useTimelineContext } from "@twick/timeline";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import "../../styles/video-editor.css";
 import { usePlayerManager } from "../../hooks/use-player-manager";
 import { useCanvasDrop } from "../../hooks/use-canvas-drop";
+import { throttle } from "../../helpers/function.utils";
 import type { CanvasConfig } from "../../helpers/types";
 import { CanvasContextMenu } from "./canvas-context-menu";
+
+const RESIZE_THROTTLE_MS = 200;
 
 /**
  * PlayerManager component that manages video playback and canvas rendering.
@@ -48,6 +51,7 @@ export const PlayerManager = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const durationRef = useRef<number>(0);
+  const seekTimeRef = useRef<number>(0);
   const { changeLog } = useTimelineContext();
   const {
     playerState,
@@ -60,6 +64,7 @@ export const PlayerManager = ({
     twickCanvas,
     projectData,
     updateCanvas,
+    resizeCanvas,
     playerUpdating,
     onPlayerUpdate,
     buildCanvas,
@@ -83,19 +88,48 @@ export const PlayerManager = ({
   useEffect(() => {
     const container = containerRef.current;
     const canvasSize = {
-      width: container?.clientWidth,
-      height: container?.clientHeight,
+      width: container?.clientWidth ?? 0,
+      height: container?.clientHeight ?? 0,
     };
-    buildCanvas({
-      backgroundColor: videoProps.backgroundColor,
-      videoSize: {
-        width: videoProps.width,
-        height: videoProps.height,
-      },
-      canvasSize,
-      canvasRef: canvasRef.current,
-    });
+    if (canvasSize.width > 0 && canvasSize.height > 0) {
+      buildCanvas({
+        backgroundColor: videoProps.backgroundColor,
+        videoSize: {
+          width: videoProps.width,
+          height: videoProps.height,
+        },
+        canvasSize,
+        canvasRef: canvasRef.current,
+      });
+    }
   }, [videoProps]);
+
+  const handleResize = useMemo(
+    () =>
+      throttle(() => {
+        const container = containerRef.current;
+        if (!container || !canvasMode || !twickCanvas) return;
+        const width = container.clientWidth;
+        const height = container.clientHeight;
+        if (width <= 0 || height <= 0) return;
+        resizeCanvas({
+          canvasSize: { width, height },
+          videoSize: { width: videoProps.width, height: videoProps.height },
+        });
+        updateCanvas(seekTimeRef.current, true);
+      }, RESIZE_THROTTLE_MS),
+    [canvasMode, twickCanvas, resizeCanvas, updateCanvas, videoProps.width, videoProps.height]
+  );
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container || !canvasMode) return;
+    const resizeObserver = new ResizeObserver(handleResize);
+    resizeObserver.observe(container);
+    return () => resizeObserver.disconnect();
+  }, [canvasMode, handleResize]);
+
+  seekTimeRef.current = seekTime;
 
   useEffect(() => {
     if (twickCanvas && playerState === PLAYER_STATE.PAUSED) {

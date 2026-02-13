@@ -173,6 +173,7 @@ export const usePlayerManager = ({
   const {
     twickCanvas,
     buildCanvas,
+    resizeCanvas,
     setCanvasElements,
     bringToFront,
     sendToBack,
@@ -197,8 +198,9 @@ export const usePlayerManager = ({
    * // Updates canvas to show elements active at 5.5 seconds
    * ```
    */
-  const updateCanvas = (seekTime: number) => {
+  const updateCanvas = (seekTime: number, forceRefresh = false) => {
     if (
+      !forceRefresh &&
       changeLog === currentChangeLog.current &&
       seekTime === prevSeekTime.current
     ) {
@@ -313,6 +315,7 @@ export const usePlayerManager = ({
     projectData,
     updateCanvas,
     buildCanvas,
+    resizeCanvas,
     onPlayerUpdate,
     playerUpdating,
     handleDropOnCanvas,
