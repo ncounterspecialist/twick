@@ -1,5 +1,3 @@
 packages:
   - 'packages/*'
   - 'packages/agents/*'
-  # Local player-react for file linking (fixes TwickPlayer variables getter error)
-  - '../twick-base/packages/player-react'
