@@ -46,11 +46,12 @@ export const usePlayerManager = ({
     changeLog,
     videoResolution,
   } = useTimelineContext();
-  const { getCurrentTime } = useLivePlayerContext();
+  const { getCurrentTime, setSeekTime } = useLivePlayerContext();
 
   const currentChangeLog = useRef(changeLog);
   const prevSeekTime = useRef(0);
   const [playerUpdating, setPlayerUpdating] = useState(false);
+  const updateCanvasRef = useRef<(seekTime: number, forceRefresh?: boolean) => void>(() => {});
 
   /**
    * Handles canvas ready event and logs canvas initialization.
@@ -112,13 +113,14 @@ export const usePlayerManager = ({
       }
       editor.reorderTracks(reordered);
       currentChangeLog.current = currentChangeLog.current + 1;
+      updateCanvasRef.current(getCurrentTime(), true);
       return;
     }
     if (operation === CANVAS_OPERATIONS.CAPTION_PROPS_UPDATED) {
       const captionsTrack = editor.getCaptionsTrack();
       captionsTrack?.setProps(data.props);
-      setSelectedItem(data.element);
       editor.refresh();
+      updateCanvasRef.current(getCurrentTime(), true);
     } else if (operation === CANVAS_OPERATIONS.WATERMARK_UPDATED) {
       const w = editor.getWatermark();
       if (w && data) {
@@ -129,6 +131,7 @@ export const usePlayerManager = ({
         editor.setWatermark(w);
         currentChangeLog.current = currentChangeLog.current + 1;
       }
+      updateCanvasRef.current(getCurrentTime(), true);
     } else {
       const element = ElementDeserializer.fromJSON(data);
       switch (operation) {
@@ -140,6 +143,7 @@ export const usePlayerManager = ({
             const updatedElement = editor.updateElement(element);
             currentChangeLog.current = currentChangeLog.current + 1;
             setSelectedItem(updatedElement);
+            updateCanvasRef.current(getCurrentTime(), true);
           }
           break;
         default:
@@ -161,13 +165,15 @@ export const usePlayerManager = ({
         setSelectedItem(element);
         currentChangeLog.current = currentChangeLog.current + 1;
         editor.refresh();
+        setSeekTime(currentTime);
+        updateCanvasRef.current(currentTime, true);
         handleCanvasOperation(CANVAS_OPERATIONS.ADDED_NEW_ELEMENT, {
           element,
           canvasPosition: canvasX != null && canvasY != null ? { x: canvasX, y: canvasY } : undefined,
         });
       }
     },
-    [editor, videoResolution, getCurrentTime, setSelectedItem]
+    [editor, videoResolution, getCurrentTime, setSelectedItem, setSeekTime]
   );
 
   const {
@@ -244,6 +250,7 @@ export const usePlayerManager = ({
     });
     currentChangeLog.current = changeLog;
   };
+  updateCanvasRef.current = updateCanvas;
 
   /**
    * Handles player update events from the live player.

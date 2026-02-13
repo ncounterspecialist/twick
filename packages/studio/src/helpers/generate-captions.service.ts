@@ -1,4 +1,4 @@
-import { CAPTION_STYLE, ProjectJSON, VideoElement } from "@twick/timeline";
+import { CAPTION_STYLE, generateShortUuid, ProjectJSON, VideoElement } from "@twick/timeline";
 import {
   ICaptionGenerationPollingResponse,
   ICaptionGenerationService,
@@ -77,6 +77,7 @@ class GenerateCaptionsService implements ICaptionGenerationService {
       const newCaptionElements = captions.map((caption, index) => ({
         id: `captions-${index}`, // ensure unique ID
         type: "caption",
+        trackId: captionsTrack?.id,
         s: startTime + caption.s,
         e: startTime + caption.e,
         t: caption.t,
@@ -93,8 +94,9 @@ class GenerateCaptionsService implements ICaptionGenerationService {
           };
         });
     } else {
+      const captionTrackId = `t-${generateShortUuid()}`;
       captionsTrack = {
-        id: "caption",
+        id: captionTrackId,
         name: "Caption",
         elements: [],
         type: "caption",
@@ -110,6 +112,7 @@ class GenerateCaptionsService implements ICaptionGenerationService {
         return {
           id: `captions-${index}`,
           type: "caption",
+          trackId: captionTrackId,
           s: startTime + caption.s,
           e: startTime + caption.e,
           t: caption.t,

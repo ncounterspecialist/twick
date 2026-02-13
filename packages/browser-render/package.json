@@ -34,7 +34,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@twick/core": "^0.15.0",
+    "@twick/core": "latest",
     "@twick/media-utils": "workspace:*",
     "@twick/visualizer": "workspace:*",
     "mediabunny": "^1.31.0",

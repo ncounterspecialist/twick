@@ -10,6 +10,7 @@ export class CaptionElement extends TrackElement {
     this.t = t;
     this.s = start;
     this.e = end;
+    this.props = {};
   }
 
   getText(): string {

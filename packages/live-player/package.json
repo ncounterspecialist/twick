@@ -30,8 +30,8 @@
     "docs": "typedoc"
   },
   "dependencies": {
-    "@twick/core": "^0.15.0",
-    "@twick/player-react": "^0.15.0",
+    "@twick/core": "latest",
+    "@twick/player-react": "latest",
     "@twick/visualizer": "workspace:*"
   },
   "peerDependencies": {
