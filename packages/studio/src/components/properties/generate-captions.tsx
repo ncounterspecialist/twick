@@ -9,11 +9,13 @@ export function GenerateCaptionsPanel({
   addCaptionsToTimeline,
   onGenerateCaptions,
   getCaptionstatus,
+  pollingIntervalMs = 5000,
 }: {
   selectedElement: TrackElement;
   addCaptionsToTimeline: (captions: { s: number; e: number; t: string }[]) => void;
   onGenerateCaptions: (videoElement: VideoElement) => Promise<string | null>;
   getCaptionstatus: (reqId: string) => Promise<ICaptionGenerationPollingResponse>;
+  pollingIntervalMs?: number;
 }) {
   const [containsAudio, setContainsAudio] = useState<boolean | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -82,9 +84,9 @@ export function GenerateCaptionsPanel({
       }
     };
 
-    // Poll immediately, then every 2 seconds
+    // Poll immediately, then at configured interval (default 5 seconds)
     await poll();
-    pollingIntervalRef.current = setInterval(poll, 2000);
+    pollingIntervalRef.current = setInterval(poll, pollingIntervalMs);
   };
 
   const handleGenerateCaptions = async () => {
@@ -92,6 +94,8 @@ export function GenerateCaptionsPanel({
       return;
     }
 
+    setIsGenerating(true);
+    setPollingStatus("polling");
     const videoElement = selectedElement as VideoElement;
     
 

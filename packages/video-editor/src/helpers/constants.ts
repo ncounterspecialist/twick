@@ -4,17 +4,6 @@ import { TimelineTickConfig } from "../components/video-editor";
 /**
  * Initial timeline data structure for new video editor projects.
  * Provides a default timeline with a sample text element to get started.
- * 
- * @example
- * ```js
- * import { INITIAL_TIMELINE_DATA } from '@twick/video-editor';
- * 
- * // Use as starting point for new projects
- * const newProject = {
- *   ...INITIAL_TIMELINE_DATA,
- *   tracks: [...INITIAL_TIMELINE_DATA.tracks, newTrack]
- * };
- * ```
  */
 export const INITIAL_TIMELINE_DATA = {
   tracks: [
@@ -44,44 +33,9 @@ export const INITIAL_TIMELINE_DATA = {
 /**
  * Minimum duration for timeline elements in seconds.
  * Used to prevent elements from having zero or negative duration.
- * 
- * @example
- * ```js
- * import { MIN_DURATION } from '@twick/video-editor';
- * 
- * const elementDuration = Math.max(duration, MIN_DURATION);
- * // Ensures element has at least 0.1 seconds duration
- * ```
  */
 export const MIN_DURATION = 0.1;
 
-/**
- * Drag operation types for timeline interactions.
- * Defines the different phases of drag operations on timeline elements.
- * 
- * @example
- * ```js
- * import { DRAG_TYPE } from '@twick/video-editor';
- * 
- * function handleDrag(type) {
- *   switch (type) {
- *     case DRAG_TYPE.START:
- *       // Handle drag start
- *       break;
- *     case DRAG_TYPE.MOVE:
- *       // Handle drag move
- *       break;
- *     case DRAG_TYPE.END:
- *       // Handle drag end
- *       break;
- *   }
- * }
- * ```
- */
-/**
- * MIME type for media items dragged from the studio's media panels (video, audio, image)
- * to the timeline. The data format is JSON: { type: "video"|"audio"|"image", url: string }.
- */
 export const TIMELINE_DROP_MEDIA_TYPE = "application/x-twick-media";
 
 export const DRAG_TYPE = {
@@ -93,36 +47,11 @@ export const DRAG_TYPE = {
   END: "end",
 } as const;
 
-/**
- * Default zoom level for timeline view.
- * Controls the initial magnification of the timeline interface.
- * 
- * @example
- * ```js
- * import { DEFAULT_TIMELINE_ZOOM } from '@twick/video-editor';
- * 
- * const [zoom, setZoom] = useState(DEFAULT_TIMELINE_ZOOM);
- * // Timeline starts with 1.5x zoom
- * ```
- */
 export const DEFAULT_TIMELINE_ZOOM = 1.5;
 
 /**
  * Default timeline zoom configuration including min, max, step, and default values.
  * Controls the zoom behavior and constraints for the timeline view.
- * 
- * @example
- * ```js
- * import { DEFAULT_TIMELINE_ZOOM_CONFIG } from '@twick/video-editor';
- * 
- * // Use default zoom configuration
- * <VideoEditor
- *   editorConfig={{
- *     videoProps: { width: 1920, height: 1080 },
- *     timelineZoomConfig: DEFAULT_TIMELINE_ZOOM_CONFIG
- *   }}
- * />
- * ```
  */
 /**
  * Default frames per second for timeline time display.
@@ -148,22 +77,9 @@ export const DEFAULT_TIMELINE_ZOOM_CONFIG = {
  * Default timeline tick configurations for different duration ranges.
  * Defines major tick intervals and number of minor ticks between majors
  * to provide optimal timeline readability at various durations.
- * 
+ *
  * Each configuration applies when the duration is less than the specified threshold.
  * Configurations are ordered by duration threshold ascending.
- * 
- * @example
- * ```js
- * import { DEFAULT_TIMELINE_TICK_CONFIGS } from '@twick/video-editor';
- * 
- * // Use default configurations
- * <VideoEditor
- *   editorConfig={{
- *     videoProps: { width: 1920, height: 1080 },
- *     timelineTickConfigs: DEFAULT_TIMELINE_TICK_CONFIGS
- *   }}
- * />
- * ```
  */
 export const DEFAULT_TIMELINE_TICK_CONFIGS: TimelineTickConfig[] = [
   {
@@ -216,17 +132,6 @@ export const DEFAULT_TIMELINE_TICK_CONFIGS: TimelineTickConfig[] = [
 /**
  * Default color scheme for different element types in the timeline.
  * Provides consistent visual distinction between various timeline elements.
- * 
- * @example
- * ```js
- * import { DEFAULT_ELEMENT_COLORS } from '@twick/video-editor';
- * 
- * const videoColor = DEFAULT_ELEMENT_COLORS.video; // "#4B2E83"
- * const textColor = DEFAULT_ELEMENT_COLORS.text;   // "#375A7F"
- * 
- * // Apply colors to timeline elements
- * element.style.backgroundColor = DEFAULT_ELEMENT_COLORS[element.type];
- * ```
  */
 export const DEFAULT_ELEMENT_COLORS: ElementColors = {
     /** Fragment element color - deep charcoal matching UI background */
@@ -261,20 +166,6 @@ export const DEFAULT_ELEMENT_COLORS: ElementColors = {
 /**
  * Available text fonts for video editor text elements.
  * Includes Google Fonts, display fonts, and custom CDN fonts.
- * 
- * @example
- * ```js
- * import { AVAILABLE_TEXT_FONTS } from '@twick/video-editor';
- * 
- * // Use Google Fonts
- * const googleFont = AVAILABLE_TEXT_FONTS.ROBOTO; // "Roboto"
- * 
- * // Use decorative fonts
- * const decorativeFont = AVAILABLE_TEXT_FONTS.BANGERS; // "Bangers"
- * 
- * // Apply font to text element
- * textElement.style.fontFamily = AVAILABLE_TEXT_FONTS.POPPINS;
- * ```
  */
 export const AVAILABLE_TEXT_FONTS = {
   // Google Fonts

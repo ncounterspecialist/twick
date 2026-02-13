@@ -53,6 +53,7 @@ export { setElementColors };
 export type { MediaItem, PaginationOptions, SearchOptions, Animation, TextEffect, ElementColors };
 export type { PlayerControlsProps, VideoEditorProps, VideoEditorConfig, TimelineTickConfig, TimelineZoomConfig, CanvasConfig };
 
+export { throttle, debounce } from "./helpers/function.utils";
 // Constants and configurations
 export { ANIMATIONS, TEXT_EFFECTS };
 

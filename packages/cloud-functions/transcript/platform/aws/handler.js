@@ -1,4 +1,4 @@
-import { transcribeVideoUrl } from '@twick/cloud-transcript';
+import { transcribe } from '../../core/workflow.js';
 
 const jsonResponse = (statusCode, body) => ({
   statusCode,
@@ -16,18 +16,19 @@ const jsonResponse = (statusCode, body) => ({
  *
  * Expected JSON payload (e.g. via AppSync / Lambda resolver):
  * {
- *   "videoUrl": "https://example.com/audio.mp3", // or "gs://bucket/object"
- *   "languageCode": "en-US", // optional, defaults to "en-US"
- *   "encoding": "MP3",        // optional
- *   "sampleRateHertz": 16000  // optional
+ *   "videoUrl": "https://example.com/video.mp4",   // for video input
+ *   "audioUrl": "https://example.com/audio.mp3",   // OR for audio input
+ *   "videoSize": { "width": 720, "height": 1280 }, // optional
+ *   "language": "english",                         // optional
+ *   "languageFont": "english"                      // optional
  * }
  *
  * Environment variables:
  * - GOOGLE_CLOUD_PROJECT: Explicit Google Cloud project id.
- * - GOOGLE_CLOUD_LOCATION (optional): Location of the Google Cloud project.  
+ * - GOOGLE_CLOUD_LOCATION (optional): Location of the Google Cloud project.
  * - GOOGLE_VERTEX_MODEL (optional): Model to use for transcription.
  *
- * Returns: JSON payload containing transcript text, caption segments, and word-level timings.
+ * Returns: JSON payload with captions, duration, and project metadata.
  */
 export const handler = async (event) => {
   console.log('Transcript function invoked');
@@ -51,23 +52,26 @@ export const handler = async (event) => {
       (event?.body ? JSON.parse(event.body) : {}) ||
       {};
 
-    const { videoUrl, language,languageFont } =
+    const { videoUrl, audioUrl, videoSize, language, languageFont } =
       argumentsPayload;
 
-    if (!videoUrl) {
+    if (!videoUrl && !audioUrl) {
       return jsonResponse(400, {
-        error: 'Missing required field: videoUrl',
+        error: 'Missing required field: provide either videoUrl or audioUrl',
         expectedFormat: {
-          videoUrl:
-            'Publicly reachable audio URL or "gs://bucket/object" for GCS',
-          language: 'Optional language (e.g., "english", "hindi")',
-          languageFont: 'Optional font/script for captions (e.g., "english")',
+          videoUrl: 'Publicly reachable video URL (e.g. https://...)',
+          audioUrl: 'Publicly reachable audio URL (e.g. https://... or gs://...)',
+          videoSize: 'Optional { width, height }',
+          language: 'Optional (e.g. "english", "hindi")',
+          languageFont: 'Optional font/script (e.g. "english")',
         },
       });
     }
 
-    const result = await transcribeVideoUrl({
-      videoUrl,
+    const result = await transcribe({
+      videoUrl: videoUrl || undefined,
+      audioUrl: audioUrl || undefined,
+      videoSize,
       language,
       languageFont,
     });

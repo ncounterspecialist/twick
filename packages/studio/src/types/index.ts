@@ -93,6 +93,9 @@ export interface ICaptionGenerationService {
   getRequestStatus: (
     reqId: string
   ) => Promise<ICaptionGenerationPollingResponse>;
+
+  /** Polling interval in milliseconds for caption status checks. Defaults to 5000. */
+  pollingIntervalMs?: number;
 }
 
 export interface StudioConfig extends VideoEditorConfig {

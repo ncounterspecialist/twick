@@ -13,6 +13,7 @@ interface PropertiesPanelContainerProps {
   addCaptionsToTimeline: (captions: CaptionEntry[]) => void;
   onGenerateCaptions: (videoElement: VideoElement) => Promise<string | null>;
   getCaptionstatus: (reqId: string) => Promise<ICaptionGenerationPollingResponse>;
+  pollingIntervalMs: number;
   videoResolution: Size;
 }
 
@@ -22,6 +23,7 @@ export function PropertiesPanelContainer({
   addCaptionsToTimeline,
   onGenerateCaptions,
   getCaptionstatus,
+  pollingIntervalMs,
   videoResolution,
 }: PropertiesPanelContainerProps) {
 
@@ -118,6 +120,7 @@ export function PropertiesPanelContainer({
                         addCaptionsToTimeline={addCaptionsToTimeline}
                         onGenerateCaptions={onGenerateCaptions}
                         getCaptionstatus={getCaptionstatus}
+                        pollingIntervalMs={pollingIntervalMs}
                       />
                     )}
                   </>

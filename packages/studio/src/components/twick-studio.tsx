@@ -45,8 +45,12 @@ export function TwickStudio({ studioConfig }: { studioConfig?: StudioConfig }) {
     onExportVideo,
   } = useStudioOperation(studioConfig);
 
-  const { onGenerateCaptions, addCaptionsToTimeline, getCaptionstatus } =
-    useGenerateCaptions(studioConfig);
+  const {
+    onGenerateCaptions,
+    addCaptionsToTimeline,
+    getCaptionstatus,
+    pollingIntervalMs,
+  } = useGenerateCaptions(studioConfig);
 
   const twickStudiConfig: StudioConfig = useMemo(
     () => ({
@@ -114,6 +118,7 @@ export function TwickStudio({ studioConfig }: { studioConfig?: StudioConfig }) {
               addCaptionsToTimeline={addCaptionsToTimeline}
               onGenerateCaptions={onGenerateCaptions}
               getCaptionstatus={getCaptionstatus}
+              pollingIntervalMs={pollingIntervalMs}
               videoResolution={videoResolution}
             />
           </div>

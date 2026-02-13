@@ -8,6 +8,7 @@ export interface PlayheadState {
   isDragging: boolean;
 }
 
+
 interface SeekTrackProps {
   currentTime: number;
   duration: number; // in seconds
@@ -126,13 +127,26 @@ export default function SeekTrack({
 
   // Container width not needed; tick rendering uses CSS backgrounds sized by totalWidth
 
-  const handleSeek = (clientX: number) => {
-    if (!containerRef.current) return;
-    const rect = containerRef.current.getBoundingClientRect();
-    const x = clientX - rect.left + (containerRef.current.scrollLeft || 0);
-    const newTime = Math.max(0, Math.min(duration, x / pixelsPerSecond));
-    onSeek(newTime);
-  };
+  // Seek based on an absolute time value (seconds)
+  const seekToTime = React.useCallback(
+    (time: number) => {
+      const clamped = Math.max(0, Math.min(duration, time));
+      onSeek(clamped);
+    },
+    [duration, onSeek]
+  );
+
+  // Seek based on clientX coordinate (click or drag position)
+  const seekFromClientX = React.useCallback(
+    (clientX: number) => {
+      if (!containerRef.current) return;
+      const rect = containerRef.current.getBoundingClientRect();
+      const x = clientX - rect.left + (containerRef.current.scrollLeft || 0);
+      const newTime = Math.max(0, Math.min(duration, x / pixelsPerSecond));
+      seekToTime(newTime);
+    },
+    [duration, pixelsPerSecond, seekToTime]
+  );
 
   const bind = useDrag(({ event, xy: [x], active }) => {
     if (event) {
@@ -140,18 +154,20 @@ export default function SeekTrack({
     }
     
     setIsDragging(active);
-    
+
     if (!containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
     const xPos = x - rect.left + (containerRef.current.scrollLeft || 0);
     const newTime = Math.max(0, Math.min(duration, xPos / pixelsPerSecond));
-    
-    setDragPosition(xPos);
-    onSeek(newTime);
-    
-    // Clear drag position when drag ends
-    if (!active) {
+
+    if (active) {
+      // While dragging, update drag position for immediate visual feedback
+      setDragPosition(xPos);
+    } else {
+      // On drag end, clear drag position and perform an immediate seek
+      // so the playhead doesn't briefly snap back to the previous time (often 0).
       setDragPosition(null);
+      seekToTime(newTime);
     }
   });
 
@@ -160,7 +176,7 @@ export default function SeekTrack({
       <div
         ref={containerRef}
         className="twick-seek-track-container-no-scrollbar"
-        onClick={(e) => handleSeek(e.clientX)}
+        onClick={(e) => seekFromClientX(e.clientX)}
         style={{
           overflowX: "auto",
           overflowY: "hidden",
