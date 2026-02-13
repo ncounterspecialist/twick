@@ -102,7 +102,7 @@ export function TwickStudio({ studioConfig }: { studioConfig?: StudioConfig }) {
               <div
                 className="canvas-container"
                 style={{
-                  maxWidth: twickStudiConfig.playerProps?.maxWidth ?? 960,
+                  maxWidth: twickStudiConfig.playerProps?.maxWidth ?? "100%",
                 }}
               >
                 <VideoEditor editorConfig={twickStudiConfig} />

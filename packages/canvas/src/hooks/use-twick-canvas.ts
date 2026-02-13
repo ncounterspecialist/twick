@@ -76,6 +76,52 @@ export const useTwickCanvas = ({
   }); // Metadata for the canvas
 
   /**
+   * Resizes the canvas to match new container dimensions.
+   * Updates Fabric canvas dimensions and metadata (scaleX, scaleY) without
+   * recreating the canvas. Caller should refresh elements (e.g. setCanvasElements
+   * with cleanAndAdd) after resize so they are re-positioned with the new scale.
+   *
+   * @param canvasSize - New canvas dimensions (e.g. from ResizeObserver)
+   *
+   * @example
+   * ```js
+   * resizeCanvas({ width: 800, height: 600 });
+   * setCanvasElements({ elements, cleanAndAdd: true });
+   * ```
+   */
+  const resizeCanvas = ({
+    canvasSize,
+    videoSize = videoSizeRef.current,
+  }: {
+    canvasSize: Dimensions;
+    videoSize?: Dimensions;
+  }) => {
+    const canvas = twickCanvasRef.current;
+    if (!canvas || !getCanvasContext(canvas)) return;
+    if (!videoSize?.width || !videoSize?.height) return;
+    if (
+      canvasResolutionRef.current.width === canvasSize.width &&
+      canvasResolutionRef.current.height === canvasSize.height
+    ) {
+      return;
+    }
+
+    canvasMetadataRef.current = {
+      width: canvasSize.width,
+      height: canvasSize.height,
+      aspectRatio: canvasSize.width / canvasSize.height,
+      scaleX: Number((canvasSize.width / videoSize.width).toFixed(2)),
+      scaleY: Number((canvasSize.height / videoSize.height).toFixed(2)),
+    };
+    canvas.setDimensions({
+      width: canvasSize.width,
+      height: canvasSize.height,
+    });
+    canvasResolutionRef.current = canvasSize;
+    canvas.requestRenderAll();
+  };
+
+  /**
    * Updates canvas metadata when the video size changes.
    * Recalculates scale factors based on the new video dimensions
    * to maintain proper coordinate mapping between canvas and video.
@@ -541,6 +587,7 @@ export const useTwickCanvas = ({
   return {
     twickCanvas,
     buildCanvas,
+    resizeCanvas,
     onVideoSizeChange,
     addWatermarkToCanvas,
     addElementToCanvas,
