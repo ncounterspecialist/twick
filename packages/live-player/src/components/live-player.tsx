@@ -229,8 +229,14 @@ export const LivePlayer = ({
     // Only update if player has been initialized (after first render)
     if (isFirstRender.current && playerRef.current?.htmlElement) {
       setProjectData(projectData);
+      // Scrub to seekTime so the canvas shows the frame at current position (e.g. when
+      // a new video/element is added at 5:00, the player draws and shows that frame).
+      const el = playerRef.current.htmlElement;
+      requestAnimationFrame(() => {
+        el.dispatchEvent(new CustomEvent("seekto", { detail: seekTime }));
+      });
     }
-  }, [projectData, setProjectData]);
+  }, [projectData, setProjectData, seekTime]);
 
   // Play/pause player based on external prop
   useEffect(() => {
@@ -286,7 +292,7 @@ export const LivePlayer = ({
           baseProject?.input?.properties?.height || DEFAULT_VIDEO_SIZE.height
         }
         timeDisplayFormat="MM:SS.mm"
-        onDurationChange={(e) => {
+        onDurationChange={(e: number) => {
           if (onDurationChange) {
             onDurationChange(e);
           }

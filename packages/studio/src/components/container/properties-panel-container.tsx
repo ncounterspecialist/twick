@@ -36,7 +36,7 @@ export function PropertiesPanelContainer({
           <h3 className="properties-title">Composition</h3>
         )}
         {selectedElement && selectedElement.getType() === "caption" && (
-          <h3 className="properties-title">Subtitles are edited from the captions panel</h3>
+          <h3 className="properties-title">Edit from the captions panel</h3>
         )}
         {selectedElement && selectedElement.getType() !== "caption" && (
           <h3 className="properties-title">
