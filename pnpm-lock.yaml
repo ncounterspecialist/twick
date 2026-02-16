@@ -7,16 +7,16 @@ settings:
 overrides:
   typescript: ^5.4.2
   axios: ^1.12.2
-  '@twick/core': ^0.15.17
-  '@twick/2d': ^0.15.17
-  '@twick/ui': ^0.15.17
-  '@twick/player-react': ^0.15.17
-  '@twick/ffmpeg': ^0.15.17
-  '@twick/telemetry': ^0.15.17
-  '@twick/vite-plugin': ^0.15.17
-  '@twick/renderer': ^0.15.17
-  '@twick/player': ^0.15.17
-  '@twick/cli': ^0.15.17
+  '@twick/core': ^0.15.18
+  '@twick/2d': ^0.15.18
+  '@twick/ui': ^0.15.18
+  '@twick/player-react': ^0.15.18
+  '@twick/ffmpeg': ^0.15.18
+  '@twick/telemetry': ^0.15.18
+  '@twick/vite-plugin': ^0.15.18
+  '@twick/renderer': ^0.15.18
+  '@twick/player': ^0.15.18
+  '@twick/cli': ^0.15.18
 
 importers:
 
@@ -84,8 +84,8 @@ importers:
         specifier: ^0.12.1
         version: 0.12.2
       '@twick/core':
-        specifier: ^0.15.17
-        version: 0.15.17
+        specifier: ^0.15.18
+        version: 0.15.18
       '@twick/ffmpeg-web':
         specifier: workspace:*
         version: link:../ffmpeg-web
@@ -342,11 +342,11 @@ importers:
   packages/live-player:
     dependencies:
       '@twick/core':
-        specifier: ^0.15.17
-        version: 0.15.17
+        specifier: ^0.15.18
+        version: 0.15.18
       '@twick/player-react':
-        specifier: ^0.15.17
-        version: 0.15.17
+        specifier: ^0.15.18
+        version: 0.15.18
       '@twick/visualizer':
         specifier: workspace:*
         version: link:../visualizer
@@ -413,20 +413,20 @@ importers:
   packages/render-server:
     dependencies:
       '@twick/2d':
-        specifier: ^0.15.17
-        version: 0.15.17
+        specifier: ^0.15.18
+        version: 0.15.18
       '@twick/core':
-        specifier: ^0.15.17
-        version: 0.15.17
+        specifier: ^0.15.18
+        version: 0.15.18
       '@twick/ffmpeg':
-        specifier: ^0.15.17
-        version: 0.15.17
+        specifier: ^0.15.18
+        version: 0.15.18
       '@twick/renderer':
-        specifier: ^0.15.17
-        version: 0.15.17(@types/node@20.19.29)(typescript@5.9.3)
+        specifier: ^0.15.18
+        version: 0.15.18(@types/node@20.19.29)(typescript@5.9.3)
       '@twick/ui':
-        specifier: ^0.15.17
-        version: 0.15.17
+        specifier: ^0.15.18
+        version: 0.15.18
       '@twick/visualizer':
         specifier: workspace:*
         version: link:../visualizer
@@ -474,8 +474,8 @@ importers:
         specifier: workspace:*
         version: link:../canvas
       '@twick/core':
-        specifier: ^0.15.17
-        version: 0.15.17
+        specifier: ^0.15.18
+        version: 0.15.18
       '@twick/live-player':
         specifier: workspace:*
         version: link:../live-player
@@ -483,8 +483,8 @@ importers:
         specifier: workspace:*
         version: link:../media-utils
       '@twick/player-react':
-        specifier: ^0.15.17
-        version: 0.15.17
+        specifier: ^0.15.18
+        version: 0.15.18
       '@twick/timeline':
         specifier: workspace:*
         version: link:../timeline
@@ -642,20 +642,20 @@ importers:
         specifier: ^1.2.1
         version: 1.3.2(preact@10.28.2)
       '@twick/2d':
-        specifier: ^0.15.17
-        version: 0.15.17
+        specifier: ^0.15.18
+        version: 0.15.18
       '@twick/core':
-        specifier: ^0.15.17
-        version: 0.15.17
+        specifier: ^0.15.18
+        version: 0.15.18
       '@twick/media-utils':
         specifier: workspace:*
         version: link:../media-utils
       '@twick/renderer':
-        specifier: ^0.15.17
-        version: 0.15.17(@types/node@20.19.29)(typescript@5.9.3)
+        specifier: ^0.15.18
+        version: 0.15.18(@types/node@20.19.29)(typescript@5.9.3)
       '@twick/vite-plugin':
-        specifier: ^0.15.17
-        version: 0.15.17
+        specifier: ^0.15.18
+        version: 0.15.18
       crelt:
         specifier: ^1.0.6
         version: 1.0.6
@@ -667,11 +667,11 @@ importers:
         version: 10.28.2
     devDependencies:
       '@twick/cli':
-        specifier: ^0.15.17
-        version: 0.15.17(typescript@5.9.3)
+        specifier: ^0.15.18
+        version: 0.15.18(typescript@5.9.3)
       '@twick/ui':
-        specifier: ^0.15.17
-        version: 0.15.17
+        specifier: ^0.15.18
+        version: 0.15.18
       typedoc:
         specifier: ^0.25.8
         version: 0.25.13(typescript@5.9.3)
@@ -7131,14 +7131,14 @@ packages:
     resolution: {integrity: sha512-vxhUy4J8lyeyinH7Azl1pdd43GJhZH/tP2weN8TntQblOY+A0XbT8DJk1/oCPuOOyg/Ja757rG0CgHcWC8OfMA==}
     dev: true
 
-  /@twick/2d@0.15.17:
-    resolution: {integrity: sha512-TlgPNOPOYErof6k4Bu+4yI+w9ztOB+x2MtwJCGd8YHndQZg1AAB6g1Zfiy8a622J+D/sV0FT/SrKZfCXWWVjnQ==}
+  /@twick/2d@0.15.18:
+    resolution: {integrity: sha512-dHlIxIMtfO8Kqd3Y1XuetqNIbdY/vTpeuYRneVHYTLjcsSEfQFqF+LOarC9ske8DeKBhZA+RXRFJnk+NbPYB9w==}
     dependencies:
       '@codemirror/language': 6.12.1
       '@lezer/common': 1.5.0
       '@lezer/highlight': 1.2.3
       '@rive-app/canvas-advanced': 2.7.3
-      '@twick/core': 0.15.17
+      '@twick/core': 0.15.18
       code-fns: 0.8.2
       hls.js: 1.6.15
       mathjax-full: 3.2.2
@@ -7146,13 +7146,13 @@ packages:
       parse-svg-path: 0.1.2
     dev: false
 
-  /@twick/cli@0.15.17(typescript@5.9.3):
-    resolution: {integrity: sha512-4rEV3Rx/Xs+RmlRNlBikmtdCcn3NLJBukYv4Eb6F20Dk3Anw6jQYc5tYd1uPim3ZX59m8QvjT1KV8Q3+FC4+bQ==}
+  /@twick/cli@0.15.18(typescript@5.9.3):
+    resolution: {integrity: sha512-Z/G4Nsn+4rHFugH66Ta+/lPlUOPfzIBtOfb+6VsnleiMiFM7wZdRNZ6tDqJ0dMSVArooSvx12eN35O2ssAzgGg==}
     hasBin: true
     dependencies:
-      '@twick/renderer': 0.15.17(@types/node@20.19.29)(typescript@5.9.3)
-      '@twick/telemetry': 0.15.17
-      '@twick/vite-plugin': 0.15.17
+      '@twick/renderer': 0.15.18(@types/node@20.19.29)(typescript@5.9.3)
+      '@twick/telemetry': 0.15.18
+      '@twick/vite-plugin': 0.15.18
       axios: 1.13.2
       chokidar: 3.6.0
       commander: 12.1.0
@@ -7177,39 +7177,39 @@ packages:
       - utf-8-validate
     dev: true
 
-  /@twick/core@0.15.17:
-    resolution: {integrity: sha512-UPPQ7MpPqQ/8TrhzqtgxHBUgM42DMevV8TMqB91WvQJjoVhV8qVSevm+W2DB9OmsKfTL1fnWRbZO4u+uqUZZ+Q==}
+  /@twick/core@0.15.18:
+    resolution: {integrity: sha512-jtKQeTiOL+YVBvFJq58taC6OCAiYIYGYEzCNJvAWIhbAIwTl/sZ5aZ+h+a6+WVJSwwYNp0DaPxGDptgkvdZQ4w==}
     dependencies:
       culori: 4.0.2
       mp4-wasm: 1.0.6
 
-  /@twick/ffmpeg@0.15.17:
-    resolution: {integrity: sha512-4yt3HEBnL4Z736llpTo9V6QnCwpxF81c+LhUEmXeJRxvQRXsQnWfdsZWHMxegol8Bp69RSnAXeRfZMMd8pP3rg==}
+  /@twick/ffmpeg@0.15.18:
+    resolution: {integrity: sha512-a8y5QVD5EEltOSyPDSKEAtemTXeFbZZ5Nn2XM0BKH2sYW6jEZ3NUoM1GqpKxdYwOyeM9U2rYO1kYwJc+EjwKug==}
     dependencies:
       '@ffmpeg-installer/ffmpeg': 1.1.0
       '@ffprobe-installer/ffprobe': 2.1.2
-      '@twick/core': 0.15.17
-      '@twick/telemetry': 0.15.17
+      '@twick/core': 0.15.18
+      '@twick/telemetry': 0.15.18
       fluent-ffmpeg: 2.1.3
       uuid: 10.0.0
     transitivePeerDependencies:
       - debug
 
-  /@twick/player-react@0.15.17:
-    resolution: {integrity: sha512-YifVYizOCF7M4tZ2pH7BmatuSfRjl1+wF54UzoypG4WYHXG38r8/CQ0Ei+9Cyido9X36HlxeVgxVfqiT9OeRuQ==}
+  /@twick/player-react@0.15.18:
+    resolution: {integrity: sha512-90yE4Ro43FtOv0VhIpPWCyjvR1xfhtrNC1EB7oWnQ5So2BaKDcGi5B56F8F4i5+Z3701y8odiZB9ynvZUh9pfQ==}
     dependencies:
-      '@twick/core': 0.15.17
+      '@twick/core': 0.15.18
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
       uuid: 10.0.0
     dev: false
 
-  /@twick/renderer@0.15.17(@types/node@20.19.29)(typescript@5.9.3):
-    resolution: {integrity: sha512-6E6czskRsYOLrBsfWfDTpHI2UyL5dzK/MQmcO4EHgOzTqa4lMUfzsDbV3Zt6QPVLvXLUUMRkIdtWkmMfRaDIrA==}
+  /@twick/renderer@0.15.18(@types/node@20.19.29)(typescript@5.9.3):
+    resolution: {integrity: sha512-q/eAOjC1Nq6/IEVFKtlGumXvn5m5i/k0nRlAOUFYnRZwCYNqSIpuzeR/XlGxmgp93IxV6NhYAmCBrr9VQFZoFg==}
     dependencies:
-      '@twick/ffmpeg': 0.15.17
-      '@twick/telemetry': 0.15.17
-      '@twick/vite-plugin': 0.15.17
+      '@twick/ffmpeg': 0.15.18
+      '@twick/telemetry': 0.15.18
+      '@twick/vite-plugin': 0.15.18
       puppeteer: 23.11.1(typescript@5.9.3)
       uuid: 10.0.0
       vite: 4.5.2(@types/node@20.19.29)
@@ -7230,8 +7230,8 @@ packages:
       - typescript
       - utf-8-validate
 
-  /@twick/telemetry@0.15.17:
-    resolution: {integrity: sha512-qsGGFY5nmx2CsiN6ZaVXaWYJ+JLcgLlkhMaollWlu2M8TKDaXjfZwL32HQEe0SKA5zbDS31GbGN/HcwmiumiBg==}
+  /@twick/telemetry@0.15.18:
+    resolution: {integrity: sha512-6IefzFJ2XtV4NurWs+vOWrolNKJqE88RQCTa8uP8/tednX/8EJB0Gw8zbWOjnSXGmRAgo2iw8/jEUZltX1cVGA==}
     requiresBuild: true
     dependencies:
       posthog-node: 4.18.0
@@ -7239,18 +7239,18 @@ packages:
     transitivePeerDependencies:
       - debug
 
-  /@twick/ui@0.15.17:
-    resolution: {integrity: sha512-6uo8z38nC0xKh4LOTHRC9mBZj9m/SfvdGoAI4XJhasZc3M8rFujFw8v2Y+hzMa99NKTuzhASZ2bX4vcvt/ahgQ==}
+  /@twick/ui@0.15.18:
+    resolution: {integrity: sha512-IGDw474ZB4UwvrZ4Y0ObbjHcS+OIxE8/va4jgSvKl2NLhqUaTGbJHkUqfP7WSHItwHybS4r5H9VVUukBJpsaLA==}
     dependencies:
       '@preact/signals': 1.3.2(preact@10.28.2)
-      '@twick/core': 0.15.17
+      '@twick/core': 0.15.18
       preact: 10.28.2
 
-  /@twick/vite-plugin@0.15.17:
-    resolution: {integrity: sha512-tvEil2ZgM40c8ZpX75VnODF5fHT1zsUgLs19e4jOsmHH9gaf2YhV7K78R0nWszl8F4/offUbs+jpc7qL3A7gdg==}
+  /@twick/vite-plugin@0.15.18:
+    resolution: {integrity: sha512-Y0iw3oZBkKZKGao0wpr28AE7OthyhtNJsURF+gxQ/6rcc9zDYjbLGln9Fbdq/M9zxIh86SULCKR2BGyu/1zvzQ==}
     dependencies:
-      '@twick/ffmpeg': 0.15.17
-      '@twick/telemetry': 0.15.17
+      '@twick/ffmpeg': 0.15.18
+      '@twick/telemetry': 0.15.18
       fast-glob: 3.3.3
       follow-redirects: 1.15.11
       formidable: 3.5.4
