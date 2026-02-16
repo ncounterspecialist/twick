@@ -231,8 +231,8 @@ export const VideoElement = {
     const frameElementRef = createRef<any>();
     const trimStart = element.props?.time ?? 0;
     const playbackRate = element.props?.playbackRate ?? 1;
-    // Reactive time so during play fastSeekedVideo() reads correct time and does not reset to 0.
-    const time = () => (trimStart + view.globalTime()) * playbackRate;
+    // Clip-relative time so video content starts at 0 when clip starts at element.s.
+    const time = (trimStart + (view.globalTime() - element.s)) * playbackRate;
     yield containerRef().add(
       <Rect ref={frameContainerRef} key={element.id} {...element.frame}>
         <Video
@@ -241,6 +241,8 @@ export const VideoElement = {
           play={true}
           {...element.props}
           time={time}
+          clipStart={element.s}
+          trimStart={trimStart}
         />
       </Rect>
     );

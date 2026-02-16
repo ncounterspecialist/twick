@@ -93,16 +93,6 @@ export const useTimelineManager = (): TimelineManagerReturn => {
       for (const el of elements) {
         const newStart = el.getStart() + clampedDelta;
         const newEnd = el.getEnd() + clampedDelta;
-        if (el instanceof VideoElement || el instanceof AudioElement) {
-          const elementProps = el.getProps();
-          const startDelta =
-            newStart - el.getStart() * (elementProps?.playbackRate || 1);
-          if (el instanceof AudioElement) {
-            (el as AudioElement).setStartAt(el.getStartAt() + startDelta);
-          } else {
-            (el as VideoElement).setStartAt(el.getStartAt() + startDelta);
-          }
-        }
         el.setStart(newStart);
         el.setEnd(newEnd);
         editor.updateElement(el);

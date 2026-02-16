@@ -51,7 +51,7 @@
     "@twick/renderer": "^0.15.17",
     "@twick/ui": "^0.15.17",
     "@twick/vite-plugin": "^0.15.17",
-    "@twick/visualizer":  "^0.15.17",
+    "@twick/visualizer":  "latest",
     "@aws-sdk/client-s3": "^3.620.0",
     "ffmpeg-static": "^5.2.0",
     "fluent-ffmpeg": "^2.1.3"

@@ -1,6 +1,31 @@
 # Contributing to Twick
 
-Thank you for your interest in contributing to Twick! This guide will help you get started with the development setup and contribution process.
+Thank you for your interest in contributing to Twick! This guide covers how to report issues, request features, and contribute code.
+
+## Reporting bugs
+
+If you've found a bug, please open a [GitHub issue](https://github.com/ncounterspecialist/twick/issues) and choose **Bug report**. Include:
+
+- A clear description of the bug
+- Steps to reproduce
+- Expected vs actual behavior
+- Your environment (OS, browser, Node version, package versions)
+- Screenshots or error messages if relevant
+
+Checking [existing issues](https://github.com/ncounterspecialist/twick/issues) first helps avoid duplicates.
+
+## Requesting features
+
+Have an idea for a new feature or improvement? Open a [GitHub issue](https://github.com/ncounterspecialist/twick/issues) and choose **Feature request**. Please include:
+
+- The problem or use case you're trying to solve
+- Your proposed solution
+- Any alternatives you've considered
+- Relevant context (e.g. which package, workflow)
+
+For quick questions or discussion, you can also ask in [Discord](https://discord.gg/DQ4f9TyGW8).
+
+---
 
 ## Development Setup
 

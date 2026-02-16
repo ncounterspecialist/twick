@@ -69,8 +69,20 @@ export const AudioElement = {
   *create({ containerRef, element, view }: ElementParams) {
     const elementRef = createRef<any>();
     yield* waitFor(element?.s);
+    const trimStart = element.props?.time ?? 0;
+    const playbackRate = element.props?.playbackRate ?? 1;
+    // Clip-relative time so audio content starts at 0 when clip starts at element.s.
+    const time = (trimStart + (view.globalTime() - element.s)) * playbackRate;
     yield containerRef().add(
-      <Audio ref={elementRef} key={element.id} play={true} {...element.props} />
+      <Audio
+        ref={elementRef}
+        key={element.id}
+        play={true}
+        {...element.props}
+        time={time}
+        clipStart={element.s}
+        trimStart={trimStart}
+      />
     );
     yield* waitFor(Math.max(0, element.e - element.s));
     yield elementRef().play(false);

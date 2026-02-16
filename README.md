@@ -464,7 +464,8 @@ For full details, see the `@twick/render-server` README.
 - **Discord (primary support channel)** – talk directly to the maintainers, share ideas, and get real-time help:  
   **[Join the Twick Discord](https://discord.gg/DQ4f9TyGW8)**
 
-- **GitHub Issues** – bug reports, feature requests, and roadmap discussion.
+- **GitHub Issues** – bug reports, feature requests, and roadmap discussion.  
+  See the [Contributing guide](https://github.com/ncounterspecialist/twick/blob/main/CONTRIBUTING.md) for how to report a bug or request a feature (including what to include and which issue template to use).
 
 If you are evaluating Twick for a production product and need architectural guidance, please start in Discord – we’re happy to discuss design options and trade-offs.
 
@@ -482,7 +483,7 @@ pnpm build:media-utils
 pnpm dev
 ```
 
-For detailed contribution guidelines, see [Contribution Guide](https://github.com/ncounterspecialist/twick/blob/main/CONTRIBUTING.md)
+For contribution guidelines—including how to **report bugs**, **request features**, and **submit pull requests**—see the [Contributing guide](https://github.com/ncounterspecialist/twick/blob/main/CONTRIBUTING.md).
 
 ---
 
