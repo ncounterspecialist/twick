@@ -48,18 +48,6 @@ export function VideoPanel({
         <UrlInput type="video" onSubmit={onUrlAdd} />
       </div>
 
-      {/* Import Button */}
-      {/* <div className="flex panel-section">
-        <FileInput
-          id="video-upload"
-          acceptFileTypes={acceptFileTypes}
-          onFileLoad={onFileUpload}
-          buttonText="Import media"
-          className="btn-primary w-full"
-          icon={<Upload className="icon-sm" />}
-        />
-      </div> */}
-
       {/* Media Grid */}
       <div className="media-content">
         <div className="media-grid">

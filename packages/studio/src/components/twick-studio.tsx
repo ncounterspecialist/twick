@@ -93,6 +93,7 @@ export function TwickStudio({ studioConfig }: { studioConfig?: StudioConfig }) {
               selectedElement={selectedElement}
               addElement={addElement}
               updateElement={updateElement}
+              uploadConfig={twickStudiConfig.uploadConfig}
             />
           </div>
 

@@ -1,5 +1,6 @@
 import React from "react";
 import { Size, TrackElement } from "@twick/timeline";
+import type { UploadConfig } from "../../types";
 import { AudioPanelContainer } from "./audio-panel-container";
 import { ImagePanelContainer } from "./image-panel-container";
 import { VideoPanelContainer } from "./video-panel-container";
@@ -20,6 +21,7 @@ interface ElementPanelContainerProps {
   setSelectedTool: (tool: string) => void;
   addElement: (element: TrackElement) => void;
   updateElement: (element: TrackElement) => void;
+  uploadConfig?: UploadConfig;
 }
 
 /**
@@ -49,6 +51,7 @@ const ElementPanelContainer = ({
   selectedElement,
   addElement,
   updateElement,
+  uploadConfig,
 }: ElementPanelContainerProps): React.ReactElement => {
   const addNewElement = async (element: TrackElement) => {
     await addElement(element);
@@ -64,6 +67,7 @@ const ElementPanelContainer = ({
             selectedElement={selectedElement}
             addElement={addNewElement}
             updateElement={updateElement}
+            uploadConfig={uploadConfig}
           />
         );
       case "audio":
@@ -73,6 +77,7 @@ const ElementPanelContainer = ({
             selectedElement={selectedElement}
             addElement={addNewElement}
             updateElement={updateElement}
+            uploadConfig={uploadConfig}
           />
         );
       case "video":
@@ -82,6 +87,7 @@ const ElementPanelContainer = ({
             selectedElement={selectedElement}
             addElement={addNewElement}
             updateElement={updateElement}
+            uploadConfig={uploadConfig}
           />
         );
       case "text":
