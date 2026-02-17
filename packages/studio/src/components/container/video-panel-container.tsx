@@ -2,7 +2,7 @@ import type { PanelProps } from "../../types";
 import { VideoPanel } from "../panel/video-panel";
 import { useMediaPanel } from "../../hooks/use-media-panel";
 import { useMedia } from "../../context/media-context";
-import { getMediaManager } from "../shared";
+import { getMediaManager, CloudMediaUpload } from "../shared";
 
 export function VideoPanelContainer(props: PanelProps) {
   const { addItem } = useMedia("video");
@@ -40,14 +40,38 @@ export function VideoPanelContainer(props: PanelProps) {
     addItem(newItem);
   };
 
+  const onCloudUploadSuccess = async (url: string, file: File) => {
+    const newItem = await mediaManager.addItem({
+      name: file.name,
+      url,
+      type: "video",
+      metadata: { source: props.uploadConfig?.provider ?? "s3" },
+    });
+    addItem(newItem);
+  };
+
   return (
-    <VideoPanel
-      items={items}
-      onItemSelect={handleSelection}
-      onFileUpload={handleFileUpload}
-      isLoading={isLoading}
-      acceptFileTypes={acceptFileTypes}
-      onUrlAdd={onUrlAdd}
-    />
+    <>
+      {props.uploadConfig && (
+        <div className="flex panel-section">
+          <CloudMediaUpload
+            uploadApiUrl={props.uploadConfig.uploadApiUrl}
+            provider={props.uploadConfig.provider}
+            accept="video/*"
+            onSuccess={onCloudUploadSuccess}
+            buttonText="Upload video"
+            className="btn-ghost w-full"
+          />
+        </div>
+      )}
+      <VideoPanel
+        items={items}
+        onItemSelect={handleSelection}
+        onFileUpload={handleFileUpload}
+        isLoading={isLoading}
+        acceptFileTypes={acceptFileTypes}
+        onUrlAdd={onUrlAdd}
+      />
+    </>
   );
 }

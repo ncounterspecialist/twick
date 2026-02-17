@@ -175,6 +175,8 @@ export default function App() {
 
 For Next.js or more advanced setups, refer to the docs.
 
+**Storage upload (S3 / GCS)** – To let users upload media from Studio panels to cloud storage, set `studioConfig.uploadConfig` with `uploadApiUrl` and `provider` (`"s3"` or `"gcs"`). Configure backend env (S3: file-uploader vars; GCS: `GOOGLE_CLOUD_*` / gc.utils) and apply CORS to your bucket. See [AI_Builder.md](AI_Builder.md#24-cloud-media-upload-s3--gcs) and [packages/cloud-functions/cors/](packages/cloud-functions/cors/).
+
 ---
 
 ## Video export options

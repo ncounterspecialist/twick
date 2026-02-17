@@ -2,7 +2,7 @@ import type { PanelProps } from "../../types";
 import { ImagePanel } from "../panel/image-panel";
 import { useMediaPanel } from "../../hooks/use-media-panel";
 import { useMedia } from "../../context/media-context";
-import { getMediaManager } from "../shared";
+import { getMediaManager, CloudMediaUpload } from "../shared";
 
 export function ImagePanelContainer(props: PanelProps) {
   const { addItem } = useMedia("image");
@@ -42,16 +42,40 @@ export function ImagePanelContainer(props: PanelProps) {
     addItem(newItem);
   };
 
+  const onCloudUploadSuccess = async (url: string, file: File) => {
+    const newItem = await mediaManager.addItem({
+      name: file.name,
+      url,
+      type: "image",
+      metadata: { source: props.uploadConfig?.provider ?? "s3" },
+    });
+    addItem(newItem);
+  };
+
   return (
-    <ImagePanel
-      items={items}
-      searchQuery={searchQuery}
-      onSearchChange={setSearchQuery}
-      onItemSelect={handleSelection}
-      onFileUpload={handleFileUpload}
-      isLoading={isLoading}
-      acceptFileTypes={acceptFileTypes}
-      onUrlAdd={onUrlAdd}
-    />
+    <>
+      {props.uploadConfig && (
+        <div className="flex panel-section">
+          <CloudMediaUpload
+            uploadApiUrl={props.uploadConfig.uploadApiUrl}
+            provider={props.uploadConfig.provider}
+            accept="image/*"
+            onSuccess={onCloudUploadSuccess}
+            buttonText="Upload image"
+            className="btn-ghost w-full"
+          />
+        </div>
+      )}
+      <ImagePanel
+        items={items}
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}
+        onItemSelect={handleSelection}
+        onFileUpload={handleFileUpload}
+        isLoading={isLoading}
+        acceptFileTypes={acceptFileTypes}
+        onUrlAdd={onUrlAdd}
+      />
+    </>
   );
 }

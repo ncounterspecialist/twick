@@ -94,6 +94,16 @@ import { RectPanel } from "./components/panel/rect-panel";
  */
 import { CaptionsPanel } from "./components/panel/captions-panel";
 
+/**
+ * Cloud media upload component (S3/GCS).
+ */
+import { CloudMediaUpload } from "./components/shared/cloud-media-upload";
+
+/**
+ * Hook for cloud media upload (S3 presigned or GCS server-side).
+ */
+import { useCloudMediaUpload } from "./hooks/use-cloud-media-upload";
+
 // Main exported UI components
 export {
   /** Main studio editing environment */
@@ -128,12 +138,28 @@ export {
   useStudioManager,
   /** Hook for polling-based caption generation */
   useGenerateCaptions,
+  /** Hook for S3/GCS cloud media upload */
+  useCloudMediaUpload,
+};
+
+// Shared components for custom panels
+export {
+  /** Cloud media upload (S3 or GCS) for use in media panels */
+  CloudMediaUpload,
 };
 
 // Utilities and types
 export * from "./helpers/generate-captions.service";
 export * from "./helpers/constant";
 export * from "./types";
+export type {
+  CloudUploadProvider,
+  UseCloudMediaUploadConfig,
+  UseCloudMediaUploadReturn,
+  S3PresignResponse,
+  GCSUploadResponse,
+} from "./hooks/use-cloud-media-upload";
+export type { CloudMediaUploadProps } from "./components/shared/cloud-media-upload";
 
 /**
  * ============================================================================

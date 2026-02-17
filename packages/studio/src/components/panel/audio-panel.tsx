@@ -50,18 +50,6 @@ export const AudioPanel = ({
         <UrlInput type="audio" onSubmit={onUrlAdd} />
       </div>
 
-      {/* Upload */}
-      {/* <div className="flex panel-section">
-        <FileInput
-          id="audio-upload"
-          acceptFileTypes={acceptFileTypes}
-          onFileLoad={onFileUpload}
-          buttonText="Import media"
-          className="btn-primary w-full"
-          icon={<Upload className="icon-sm" />}
-        />
-      </div> */}
-
       {/* Audio List */}
       <div className="media-content">
         <div className="media-list">

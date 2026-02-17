@@ -2,7 +2,7 @@ import { useMediaPanel } from "../../hooks/use-media-panel";
 import { AudioPanel } from "../panel/audio-panel";
 import type { PanelProps } from "../../types";
 import { useMedia } from "../../context/media-context";
-import { getMediaManager } from "../shared";
+import { getMediaManager, CloudMediaUpload } from "../shared";
 
 export const AudioPanelContainer = (props: PanelProps) => {
   const { addItem } = useMedia("audio");
@@ -42,16 +42,40 @@ export const AudioPanelContainer = (props: PanelProps) => {
     addItem(newItem);
   };
 
+  const onCloudUploadSuccess = async (url: string, file: File) => {
+    const newItem = await mediaManager.addItem({
+      name: file.name,
+      url,
+      type: "audio",
+      metadata: { source: props.uploadConfig?.provider ?? "s3" },
+    });
+    addItem(newItem);
+  };
+
   return (
-    <AudioPanel
-      items={items}
-      searchQuery={searchQuery}
-      onSearchChange={setSearchQuery}
-      onItemSelect={handleSelection}
-      onFileUpload={handleFileUpload}
-      isLoading={isLoading}
-      acceptFileTypes={acceptFileTypes}
-      onUrlAdd={onUrlAdd}
-    />
+    <>
+      {props.uploadConfig && (
+        <div className="flex panel-section">
+          <CloudMediaUpload
+            uploadApiUrl={props.uploadConfig.uploadApiUrl}
+            provider={props.uploadConfig.provider}
+            accept="audio/*"
+            onSuccess={onCloudUploadSuccess}
+            buttonText="Upload audio"
+            className="btn-ghost w-full"
+          />
+        </div>
+      )}
+      <AudioPanel
+        items={items}
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}
+        onItemSelect={handleSelection}
+        onFileUpload={handleFileUpload}
+        isLoading={isLoading}
+        acceptFileTypes={acceptFileTypes}
+        onUrlAdd={onUrlAdd}
+      />
+    </>
   );
 };

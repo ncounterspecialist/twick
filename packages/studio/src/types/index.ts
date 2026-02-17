@@ -98,6 +98,12 @@ export interface ICaptionGenerationService {
   pollingIntervalMs?: number;
 }
 
+/** Configuration for cloud media upload (S3 or GCS). Credentials are configured via env on the upload API backend. */
+export interface UploadConfig {
+  uploadApiUrl: string;
+  provider: "s3" | "gcs";
+}
+
 export interface StudioConfig extends VideoEditorConfig {
   /** Canvas behavior options (e.g. enableShiftAxisLock). Same as editorConfig.canvasConfig in TwickEditor. */
   canvasConfig?: CanvasConfig;
@@ -109,13 +115,19 @@ export interface StudioConfig extends VideoEditorConfig {
    */
   captionGenerationService?: ICaptionGenerationService;
   exportVideo? : (project: ProjectJSON, videoSettings: VideoSettings) => Promise<Result>;
+  /**
+   * When set, media panels show cloud upload (S3 or GCS). Backend must be configured with env (e.g. FILE_UPLOADER_S3_* or GOOGLE_CLOUD_*).
+   * See cloud-functions/cors/ and file-uploader README for CORS and credentials.
+   */
+  uploadConfig?: UploadConfig;
 }
 
 export interface PanelProps {
   selectedElement?: TrackElement | null;
-  videoResolution: Size,
+  videoResolution: Size;
   addElement?: (item: TrackElement) => void;
   updateElement?: (item: TrackElement) => void;
+  uploadConfig?: UploadConfig;
 }
 
 export interface PropertiesPanelProps {
