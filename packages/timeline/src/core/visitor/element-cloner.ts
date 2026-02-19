@@ -7,6 +7,7 @@ import { CaptionElement } from "../elements/caption.element";
 import { RectElement } from "../elements/rect.element";
 import { CircleElement } from "../elements/circle.element";
 import { IconElement } from "../elements/icon.element";
+import { PlaceholderElement } from "../elements/placeholder.element";
 import { TrackElement } from "../elements/base.element";
 
 export class ElementCloner implements ElementVisitor<TrackElement> {
@@ -97,6 +98,16 @@ export class ElementCloner implements ElementVisitor<TrackElement> {
       element.getProps()!.src,
       element.getProps()!.size,
       element.getProps()!.fill
+    );
+    this.cloneElementProperties(element, clonedElement);
+    return clonedElement;
+  }
+
+  visitPlaceholderElement(element: PlaceholderElement): TrackElement {
+    const clonedElement = new PlaceholderElement(
+      element.getSrc(),
+      element.getParentSize(),
+      element.getExpectedDuration()
     );
     this.cloneElementProperties(element, clonedElement);
     return clonedElement;

@@ -28,10 +28,7 @@
 import { TIMELINE_ELEMENT_TYPE, TRACK_TYPES } from "./utils/constants";
 import type { TrackType } from "./utils/constants";
 import { TimelineEditor } from "./core/editor/timeline.editor";
-import {
-  TimelineProvider,
-  TimelineProviderProps,
-} from "./context/timeline-context";
+import { TimelineProvider } from "./context/timeline-context";
 import { Track } from "./core/track/track";
 import { ElementDeserializer } from "./core/visitor/element-deserializer";
 import { ElementSerializer } from "./core/visitor/element-serializer";
@@ -49,6 +46,7 @@ import { AudioElement } from "./core/elements/audio.element";
 import { CircleElement } from "./core/elements/circle.element";
 import { IconElement } from "./core/elements/icon.element";
 import { VideoElement } from "./core/elements/video.element";
+import { PlaceholderElement } from "./core/elements/placeholder.element";
 import {
   generateShortUuid,
   getTotalDuration,
@@ -74,6 +72,7 @@ export {
   AudioElement,
   CircleElement,
   VideoElement,
+  PlaceholderElement,
   ElementAnimation,
   ElementFrameEffect,
   ElementTextEffect,
@@ -87,7 +86,8 @@ export {
 };
 
 // Types and interfaces
-export type { TimelineProviderProps };
+export type { TimelineProviderProps } from "./context/timeline-context";
+export type { TimelineEditorEvent } from "./core/editor/timeline.editor";
 export { TIMELINE_ELEMENT_TYPE, TRACK_TYPES };
 export type { TrackType };
 
@@ -139,6 +139,7 @@ if (typeof window !== "undefined") {
     CircleElement,
     IconElement,
     VideoElement,
+    PlaceholderElement,
     ElementAnimation,
     ElementFrameEffect,
     ElementTextEffect,

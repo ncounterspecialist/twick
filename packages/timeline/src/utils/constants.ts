@@ -241,6 +241,8 @@ export const TIMELINE_ELEMENT_TYPE = {
   CIRCLE: "circle",
   /** Icon element type */
   ICON: "icon",
+  /** Placeholder element type (e.g. for lazy-loaded media) */
+  PLACEHOLDER: "placeholder",
 } as const;
 
 /**

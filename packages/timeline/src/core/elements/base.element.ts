@@ -1,6 +1,7 @@
 import { generateShortUuid } from "../../utils/timeline.utils";
 import type { ElementVisitor } from "../visitor/element-visitor";
 import { ElementAnimation } from "../addOns/animation";
+import type { ElementTransitionJSON } from "../../types";
 import { Position } from "../../types";
 
 export abstract class TrackElement {
@@ -130,6 +131,16 @@ export abstract class TrackElement {
 
   setProps(props: Record<string, any>) {
     this.props = structuredClone(props);
+    return this;
+  }
+
+  getTransition(): ElementTransitionJSON | undefined {
+    return this.props?.transition;
+  }
+
+  setTransition(transition: ElementTransitionJSON | undefined): this {
+    if (!this.props) this.props = {};
+    this.props.transition = transition;
     return this;
   }
 }

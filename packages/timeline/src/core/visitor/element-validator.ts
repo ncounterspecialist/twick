@@ -7,6 +7,7 @@ import { CaptionElement } from "../elements/caption.element";
 import { IconElement } from "../elements/icon.element";
 import { CircleElement } from "../elements/circle.element";
 import { RectElement } from "../elements/rect.element";
+import { PlaceholderElement } from "../elements/placeholder.element";
 
 export const VALIDATION_ERROR_CODE = {
   ELEMENT_NOT_FOUND: "ELEMENT_NOT_FOUND",
@@ -325,6 +326,18 @@ export class ElementValidator implements ElementVisitor<boolean> {
       );
     }
     
+    return true;
+  }
+
+  visitPlaceholderElement(element: PlaceholderElement): boolean {
+    const validation = this.validateBasicProperties(element);
+    if (validation.errors.length > 0) {
+      throw new ValidationError(
+        `Placeholder element validation failed: ${validation.errors.join(", ")}`,
+        validation.errors,
+        validation.warnings
+      );
+    }
     return true;
   }
 } 

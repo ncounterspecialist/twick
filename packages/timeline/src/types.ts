@@ -18,6 +18,13 @@ export interface Frame {
   size?: [number, number]; // For image/video elements
 }
 
+/** Optional transition metadata on an element (e.g. crossfade to the next clip). */
+export interface ElementTransitionJSON {
+  toElementId: string;
+  duration: number;
+  kind: string;
+}
+
 // Element Types
 export interface ElementJSON {
   id: string;
@@ -28,6 +35,7 @@ export interface ElementJSON {
   position?: Position;
   rotation?: number;
   opacity?: number;
+  transition?: ElementTransitionJSON;
   [key: string]: any; // Additional properties based on element type
 }
 

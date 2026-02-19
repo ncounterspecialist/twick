@@ -204,13 +204,16 @@ export function* makeElementTrack({
   const sequence: ThreadGenerator[] = [];
   try {
     for (const element of track.elements) {
-      sequence.push(
-        elementController.get(element.type)?.create({
-          containerRef: elementTrackRef,
-          element,
-          view,
-        })
-      );
+      const handler = elementController.get(element.type);
+      if (handler) {
+        sequence.push(
+          handler.create({
+            containerRef: elementTrackRef,
+            element,
+            view,
+          })
+        );
+      }
     }
   } catch (error) {
     logger("Error creating element track", error);

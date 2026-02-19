@@ -7,6 +7,7 @@ import { CaptionElement } from "../elements/caption.element";
 import { IconElement } from "../elements/icon.element";
 import { CircleElement } from "../elements/circle.element";
 import { RectElement } from "../elements/rect.element";
+import { PlaceholderElement } from "../elements/placeholder.element";
 import { TrackElement } from "../elements/base.element";
 import { ElementAnimation } from "../addOns/animation";
 import { ElementFrameEffect } from "../addOns/frame-effect";
@@ -22,6 +23,7 @@ export class ElementDeserializer {
     const props = { ...(json.props || {}) };
     if (json.zIndex !== undefined) props.zIndex = json.zIndex;
     if (Object.keys(props).length) element.setProps(props);
+    if (json.transition) element.setTransition(json.transition);
     if (json.animation) element.setAnimation(ElementAnimation.fromJSON(json.animation));
   }
 
@@ -123,6 +125,21 @@ export class ElementDeserializer {
     return rectElement;
   }
 
+  static deserializePlaceholderElement(json: ElementJSON): PlaceholderElement {
+    const parentSize =
+      json.props?.parentSize ??
+      (json.frame?.size
+        ? { width: json.frame.size[0], height: json.frame.size[1] }
+        : { width: 0, height: 0 });
+    const placeholderElement = new PlaceholderElement(
+      json.props?.src ?? "",
+      parentSize,
+      json.props?.expectedDuration
+    );
+    ElementDeserializer.deserializeBaseElement(placeholderElement, json);
+    return placeholderElement;
+  }
+
   static fromJSON(json: ElementJSON): TrackElement | null{
     try {
     switch (json.type) {
@@ -142,6 +159,8 @@ export class ElementDeserializer {
         return ElementDeserializer.deserializeCircleElement(json);
       case "rect":
         return ElementDeserializer.deserializeRectElement(json);
+      case "placeholder":
+        return ElementDeserializer.deserializePlaceholderElement(json);
       default:
         throw new Error(`Unknown element type: ${json.type}`);
     }

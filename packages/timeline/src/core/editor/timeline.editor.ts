@@ -15,10 +15,22 @@ import { ElementRemover } from "../visitor/element-remover";
 import { ElementUpdater } from "../visitor/element-updater";
 import { ElementSplitter, SplitResult } from "../visitor/element-splitter";
 import { ElementCloner } from "../visitor/element-cloner";
+import { ElementDeserializer } from "../visitor/element-deserializer";
 import { TrackElement } from "../elements/base.element";
-import { ProjectJSON, TrackJSON } from "../../types";
+import { ElementJSON, ElementTransitionJSON, ProjectJSON, TrackJSON } from "../../types";
 import { ValidationError } from "../visitor/element-validator";
 import Watermark from "../addOns/watermark";
+
+/** Event names emitted by TimelineEditor after mutations */
+export type TimelineEditorEvent =
+  | "element:added"
+  | "element:removed"
+  | "element:updated"
+  | "elements:removed"
+  | "track:added"
+  | "track:removed"
+  | "track:reordered"
+  | "project:loaded";
 
 /**
  * Type for timeline operation context
@@ -44,11 +56,38 @@ export interface TimelineOperationContext {
 export class TimelineEditor {
   private context: TimelineOperationContext;
   private totalDuration: number = 0;
+  private eventListeners = new Map<
+    TimelineEditorEvent,
+    Set<(payload: unknown) => void>
+  >();
 
   constructor(context: TimelineOperationContext) {
     this.context = context;
     // Ensure context is initialized in timelineContextStore
     timelineContextStore.initializeContext(this.context.contextId);
+  }
+
+  /**
+   * Subscribe to timeline mutation events.
+   */
+  on(event: TimelineEditorEvent, handler: (payload: unknown) => void): void {
+    let set = this.eventListeners.get(event);
+    if (!set) {
+      set = new Set();
+      this.eventListeners.set(event, set);
+    }
+    set.add(handler);
+  }
+
+  /**
+   * Unsubscribe from timeline mutation events.
+   */
+  off(event: TimelineEditorEvent, handler: (payload: unknown) => void): void {
+    this.eventListeners.get(event)?.delete(handler);
+  }
+
+  private emit(event: TimelineEditorEvent, payload: unknown): void {
+    this.eventListeners.get(event)?.forEach((h) => h(payload));
   }
 
   getContext(): TimelineOperationContext {
@@ -117,6 +156,7 @@ export class TimelineEditor {
     const track = new Track(name, type, id);
     const updatedTimelines = [...(prevTimelineData?.tracks || []), track];
     this.setTimelineData({ tracks: updatedTimelines, updatePlayerData: true });
+    this.emit("track:added", { track: track.serialize(), index: updatedTimelines.length - 1 });
     return track;
   }
 
@@ -142,12 +182,14 @@ export class TimelineEditor {
     const tracks = this.getTimelineData()?.tracks || [];
     const updatedTracks = tracks.filter((t) => t.getId() !== id);
     this.setTimelineData({ tracks: updatedTracks, updatePlayerData: true });
+    this.emit("track:removed", { trackId: id });
   }
 
   removeTrack(track: Track): void {
     const tracks = this.getTimelineData()?.tracks || [];
     const updatedTracks = tracks.filter((t) => t.getId() !== track.getId());
     this.setTimelineData({ tracks: updatedTracks, updatePlayerData: true });
+    this.emit("track:removed", { trackId: track.getId() });
   }
 
   /**
@@ -184,6 +226,7 @@ export class TimelineEditor {
         if (currentData) {
           this.setTimelineData({tracks: currentData.tracks, updatePlayerData: true});
         }
+        this.emit("element:added", { element, trackId: track.getId() });
         return true;
       } else {
         return false;
@@ -219,6 +262,7 @@ export class TimelineEditor {
         if (currentData) {
           this.setTimelineData({tracks: currentData.tracks, updatePlayerData: true});
         }
+        this.emit("element:removed", { elementId: element.getId(), trackId: element.getTrackId() });
       }
 
       return result;
@@ -249,6 +293,7 @@ export class TimelineEditor {
         if (currentData) {
           this.setTimelineData({ tracks: currentData.tracks, updatePlayerData: true });
         }
+        this.emit("element:updated", { element });
       }
 
       return element;
@@ -315,6 +360,7 @@ export class TimelineEditor {
 
   reorderTracks(tracks: Track[]): void {
     this.setTimelineData({tracks, updatePlayerData: true});
+    this.emit("track:reordered", { tracks: tracks.map((t) => t.serialize()) });
   }
 
   updateHistory(timelineTrackData: TimelineTrackData): void {
@@ -428,6 +474,7 @@ export class TimelineEditor {
         forceUpdate: true,
       });
     }
+    this.emit("project:loaded", { tracks, version });
   }
 
   getWatermark(): Watermark | null {
@@ -460,5 +507,332 @@ export class TimelineEditor {
     const tracks = this.getTimelineData()?.tracks || [];
     const audioBlobUrl = await extractVideoAudio(tracks, this.totalDuration);
     return audioBlobUrl;
+  }
+
+  /**
+   * Add transition metadata from one element to the next (e.g. crossfade).
+   * Sets optional transition on the "from" element; visualizer can interpret it when implemented.
+   */
+  addTransition(
+    fromElementId: string,
+    toElementId: string,
+    kind: string,
+    duration: number
+  ): boolean {
+    const fromElement = this.findElementById(fromElementId);
+    if (!fromElement) return false;
+    const transition: ElementTransitionJSON = {
+      toElementId,
+      duration,
+      kind,
+    };
+    fromElement.setTransition(transition);
+    this.updateElement(fromElement);
+    return true;
+  }
+
+  /**
+   * Remove transition metadata from an element.
+   */
+  removeTransition(elementId: string): boolean {
+    const element = this.findElementById(elementId);
+    if (!element) return false;
+    element.setTransition(undefined);
+    this.updateElement(element);
+    return true;
+  }
+
+  private findElementById(elementId: string): TrackElement | null {
+    const tracks = this.getTimelineData()?.tracks ?? [];
+    for (const track of tracks) {
+      const el = track.getElementById(elementId);
+      if (el) return el as TrackElement;
+    }
+    return null;
+  }
+
+  /**
+   * Get the current project as ProjectJSON (same shape consumed by visualizer).
+   */
+  getProject(): ProjectJSON {
+    const data = this.getTimelineData();
+    if (!data) {
+      return { tracks: [], version: 0 };
+    }
+    return {
+      tracks: data.tracks.map((t) => t.serialize()),
+      version: data.version,
+      watermark:
+        data.watermark != null
+          ? (data.watermark as any).toJSON?.()
+          : undefined,
+    };
+  }
+
+  /**
+   * Ripple delete: remove content in [fromTime, toTime] and shift later content left.
+   * Single undo step.
+   */
+  async rippleDelete(fromTime: number, toTime: number): Promise<void> {
+    if (fromTime >= toTime) return;
+    const durationToRemove = toTime - fromTime;
+    const currentTracks = this.getTimelineData()?.tracks ?? [];
+    const newTracks: Track[] = [];
+
+    for (const track of currentTracks) {
+      const newTrack = Track.fromJSON(track.serialize());
+      const friend = newTrack.createFriend();
+      const elementsCopy = newTrack.getElements();
+
+      for (const element of elementsCopy) {
+        const start = element.getStart();
+        const end = element.getEnd();
+
+        if (end <= fromTime) {
+          continue;
+        }
+        if (start >= toTime) {
+          element.setStart(start - durationToRemove);
+          element.setEnd(end - durationToRemove);
+          continue;
+        }
+        if (start >= fromTime && end <= toTime) {
+          friend.removeElement(element);
+          continue;
+        }
+        if (start < fromTime && end > toTime) {
+          const splitter = new ElementSplitter(fromTime);
+          const result = element.accept(splitter);
+          friend.removeElement(element);
+          if (result.success && result.firstElement && result.secondElement) {
+            result.secondElement.setEnd(fromTime + (end - toTime));
+            friend.addElement(result.firstElement, true);
+            friend.addElement(result.secondElement, true);
+          }
+          continue;
+        }
+        if (start < fromTime && end <= toTime) {
+          element.setEnd(fromTime);
+          continue;
+        }
+        if (start >= fromTime && end > toTime) {
+          element.setStart(fromTime);
+          element.setEnd(fromTime + (end - toTime));
+        }
+      }
+      newTracks.push(newTrack);
+    }
+
+    this.setTimelineData({ tracks: newTracks, updatePlayerData: true });
+  }
+
+  /**
+   * Trim an element to new start and end times. Validates bounds and updates via updateElement.
+   */
+  trimElement(
+    element: TrackElement,
+    newStart: number,
+    newEnd: number
+  ): boolean {
+    if (newStart >= newEnd) return false;
+    const start = element.getStart();
+    const end = element.getEnd();
+    if (newStart < start || newEnd > end) return false;
+    element.setStart(newStart);
+    element.setEnd(newEnd);
+    this.updateElement(element);
+    return true;
+  }
+
+  /**
+   * Apply multiple element updates in one batch; single setTimelineData and undo step.
+   */
+  updateElements(
+    updates: Array<{ elementId: string; updates: Partial<ElementJSON> }>
+  ): void {
+    const currentData = this.getTimelineData();
+    if (!currentData) return;
+    const tracks = currentData.tracks;
+    let changed = false;
+
+    for (const { elementId, updates: patch } of updates) {
+      for (const track of tracks) {
+        const element = track.getElementById(elementId) as
+          | TrackElement
+          | undefined;
+        if (!element) continue;
+        if (patch.s !== undefined) element.setStart(patch.s);
+        if (patch.e !== undefined) element.setEnd(patch.e);
+        if (patch.props != null) element.setProps(patch.props);
+        if (patch.t != null) (element as any).setText?.(patch.t);
+        if (patch.position != null) element.setPosition(patch.position);
+        if (patch.rotation != null) element.setRotation(patch.rotation);
+        if (patch.opacity != null) element.setOpacity(patch.opacity);
+        Object.keys(patch).forEach((key) => {
+          if (
+            !["id", "type", "s", "e", "t", "position", "rotation", "opacity", "props"].includes(key) &&
+            (patch as Record<string, unknown>)[key] !== undefined
+          ) {
+            (element as any)[key] = (patch as Record<string, unknown>)[key];
+          }
+        });
+        const updater = new ElementUpdater(track);
+        element.accept(updater);
+        changed = true;
+        break;
+      }
+    }
+    if (changed) {
+      this.setTimelineData({ tracks, updatePlayerData: true });
+    }
+  }
+
+  /**
+   * Remove multiple elements by id in one batch; single setTimelineData and undo step.
+   */
+  removeElements(elementIds: string[]): void {
+    const currentData = this.getTimelineData();
+    if (!currentData) return;
+    const tracks = currentData.tracks;
+    const idsSet = new Set(elementIds);
+    let changed = false;
+
+    for (const track of tracks) {
+      const elements = track.getElements();
+      for (const el of elements) {
+        if (idsSet.has(el.getId())) {
+          const remover = new ElementRemover(track);
+          el.accept(remover);
+          changed = true;
+        }
+      }
+    }
+    if (changed) {
+      this.setTimelineData({ tracks, updatePlayerData: true });
+      this.emit("elements:removed", { elementIds });
+    }
+  }
+
+  /**
+   * Replace all elements with the given src (e.g. placeholder or same URL) with a new element definition.
+   * Preserves id, s, e, and track for each replaced element. Single setTimelineData at end.
+   */
+  replaceElementsBySource(
+    src: string,
+    newElementJson: ElementJSON
+  ): number {
+    const currentData = this.getTimelineData();
+    if (!currentData) return 0;
+    const tracks = currentData.tracks;
+    let replacedCount = 0;
+
+    for (const track of tracks) {
+      const elements = track.getElements();
+      for (const element of elements) {
+        const elementSrc =
+          (element.getProps()?.src as string) ?? (element as any).getSrc?.();
+        if (elementSrc !== src) continue;
+
+        const newElement = ElementDeserializer.fromJSON(newElementJson);
+        if (!newElement) continue;
+
+        newElement.setId(element.getId());
+        newElement.setStart(element.getStart());
+        newElement.setEnd(element.getEnd());
+        newElement.setTrackId(track.getId());
+
+        const friend = track.createFriend();
+        friend.removeElement(element);
+        friend.addElement(newElement, true);
+        replacedCount++;
+      }
+    }
+    if (replacedCount > 0) {
+      this.setTimelineData({ tracks, updatePlayerData: true });
+    }
+    return replacedCount;
+  }
+
+  /**
+   * Center an element in the scene by setting its position to the center of scene dimensions.
+   */
+  centerElementInScene(
+    elementId: string,
+    sceneWidth: number,
+    sceneHeight: number
+  ): boolean {
+    const element = this.findElementById(elementId);
+    if (!element) return false;
+    const props = element.getProps() ?? {};
+    const w = props.width ?? (element as any).getFrame?.()?.size?.[0] ?? 0;
+    const h = props.height ?? (element as any).getFrame?.()?.size?.[1] ?? 0;
+    const x = sceneWidth / 2 - w / 2;
+    const y = sceneHeight / 2 - h / 2;
+    element.setPosition({ x, y });
+    this.updateElement(element);
+    return true;
+  }
+
+  /**
+   * Scale an element to fit within scene dimensions while preserving aspect ratio.
+   * Updates width/height in props or frame when present.
+   */
+  scaleElementToFit(
+    elementId: string,
+    sceneWidth: number,
+    sceneHeight: number
+  ): boolean {
+    const element = this.findElementById(elementId);
+    if (!element) return false;
+    const props = element.getProps() ?? {};
+    const frame = (element as any).getFrame?.();
+    const w = props.width ?? frame?.size?.[0] ?? sceneWidth;
+    const h = props.height ?? frame?.size?.[1] ?? sceneHeight;
+    if (w <= 0 || h <= 0) return false;
+    const scale = Math.min(sceneWidth / w, sceneHeight / h);
+    const newW = w * scale;
+    const newH = h * scale;
+    if (frame && Array.isArray(frame.size)) {
+      (element as any).setFrame?.({ ...frame, size: [newW, newH] });
+    } else {
+      element.setProps({ ...props, width: newW, height: newH });
+    }
+    const x = sceneWidth / 2 - newW / 2;
+    const y = sceneHeight / 2 - newH / 2;
+    element.setPosition({ x, y });
+    this.updateElement(element);
+    return true;
+  }
+
+  /**
+   * Duplicate multiple elements by id; adds clones to the same track. Single setTimelineData at end.
+   */
+  async duplicateElements(elementIds: string[]): Promise<TrackElement[]> {
+    const currentData = this.getTimelineData();
+    if (!currentData) return [];
+    const tracks = currentData.tracks;
+    const added: TrackElement[] = [];
+    const elementCloner = new ElementCloner();
+
+    for (const elementId of elementIds) {
+      for (const track of tracks) {
+        const element = track.getElementById(elementId) as
+          | TrackElement
+          | undefined;
+        if (!element) continue;
+        const clone = element.accept(elementCloner);
+        if (clone) {
+          clone.setId(`e-${generateShortUuid()}`);
+          const adder = new ElementAdder(track);
+          const result = await clone.accept(adder);
+          if (result) added.push(clone);
+        }
+        break;
+      }
+    }
+    if (added.length > 0) {
+      this.setTimelineData({ tracks, updatePlayerData: true });
+    }
+    return added;
   }
 }
