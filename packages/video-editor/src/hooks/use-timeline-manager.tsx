@@ -6,22 +6,28 @@ import {
   VideoElement,
   AudioElement,
   resolveIds,
+  TRACK_TYPES,
 } from "@twick/timeline";
 import { useMemo } from "react";
 import { DRAG_TYPE } from "../helpers/constants";
+import type { DropTarget } from "../utils/drop-target";
+
+export interface ElementDropParams {
+  element: TrackElement;
+  dragType: string;
+  updates: { start: number; end: number };
+  dropTarget: DropTarget | null;
+}
 
 interface TimelineManagerReturn {
   timelineData: { tracks: Track[]; version: number } | null;
   onAddTrack: () => void;
-  onElementDrag: ({
-    element,
-    dragType,
-    updates,
-  }: {
-    updates: { start: number; end: number };
+  onElementDrag: (params: {
     element: TrackElement;
     dragType: string;
+    updates: { start: number; end: number };
   }) => void;
+  onElementDrop: (params: ElementDropParams) => Promise<void>;
   onReorder: (reorderedItems: Track[]) => void;
   onSeek: (time: number) => void;
   onSelectionChange: (selectedItem: TrackElement | Track | null) => void;
@@ -124,6 +130,89 @@ export const useTimelineManager = (): TimelineManagerReturn => {
     editor.refresh();
   };
 
+  /** Cross-track drop is only allowed when track type is element (not video/audio). */
+  const isElementTrackType = (track: Track): boolean =>
+    track.getType() === TRACK_TYPES.ELEMENT;
+
+  /** Only allow separator drop when the new track would be element type (text, caption, shapes, etc.). */
+  const wouldBeElementTrack = (el: TrackElement): boolean => {
+    const elType = el.getType().toLowerCase();
+    return elType !== "video" && elType !== "image" && elType !== "audio";
+  };
+
+  const onElementDrop = async (params: ElementDropParams): Promise<void> => {
+    const { element, dragType, updates, dropTarget } = params;
+    const tracks = editor.getTimelineData()?.tracks ?? [];
+
+    if (!dropTarget) {
+      return;
+    }
+
+    if (dropTarget.type === "separator") {
+      if (!wouldBeElementTrack(element)) {
+        return;
+      }
+      await editor.moveElementToNewTrackAt(
+        element,
+        dropTarget.separatorIndex,
+        updates.start
+      );
+      setSelectedItem(element);
+      editor.refresh();
+      return;
+    }
+
+    const targetTrack = tracks[dropTarget.trackIndex];
+    if (!targetTrack) {
+      return;
+    }
+
+    if (!isElementTrackType(targetTrack)) {
+      return;
+    }
+
+    const start = updates.start;
+    const end = updates.end;
+    const elementId = element.getId();
+    const currentTrackId = element.getTrackId();
+
+    let hasOverlap = false;
+    const others = targetTrack.getElements().filter((el) => el.getId() !== elementId);
+    for (const other of others) {
+      const oStart = other.getStart();
+      const oEnd = other.getEnd();
+      if (start < oEnd && end > oStart) {
+        hasOverlap = true;
+        break;
+      }
+    }
+
+    if (hasOverlap) {
+      await editor.moveElementToNewTrackAt(
+        element,
+        dropTarget.trackIndex + 1,
+        updates.start
+      );
+      setSelectedItem(element);
+      editor.refresh();
+      return;
+    }
+
+    if (currentTrackId === targetTrack.getId()) {
+      onElementDrag({ element, dragType, updates });
+      return;
+    }
+
+    editor.removeElement(element);
+    element.setStart(updates.start);
+    element.setEnd(updates.end);
+    const added = await editor.addElementToTrack(targetTrack, element);
+    if (added) {
+      setSelectedItem(element);
+      editor.refresh();
+    }
+  };
+
   // Get timeline data from editor
   const timelineData = useMemo(() => editor.getTimelineData(), [changeLog]);
 
@@ -192,6 +281,7 @@ export const useTimelineManager = (): TimelineManagerReturn => {
     timelineData,
     onAddTrack,
     onElementDrag,
+    onElementDrop,
     onReorder,
     onSeek,
     onSelectionChange,

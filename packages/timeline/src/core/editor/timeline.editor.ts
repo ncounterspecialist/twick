@@ -363,6 +363,52 @@ export class TimelineEditor {
     this.emit("track:reordered", { tracks: tracks.map((t) => t.serialize()) });
   }
 
+  /**
+   * Move an element to a new track inserted at the given index (OpenVideo-style separator drop).
+   * Removes the element from its current track, creates a new track at targetTrackIndex,
+   * sets element start/end, and adds the element to the new track.
+   */
+  async moveElementToNewTrackAt(
+    element: TrackElement,
+    targetTrackIndex: number,
+    startSec: number
+  ): Promise<boolean> {
+    const removed = this.removeElement(element);
+    if (!removed) return false;
+
+    const currentData = this.getTimelineData();
+    const currentTracks = currentData?.tracks ?? [];
+    const elType = element.getType().toLowerCase();
+    let trackType: string = TRACK_TYPES.ELEMENT;
+    if (elType === "video" || elType === "image") trackType = TRACK_TYPES.VIDEO;
+    else if (elType === "audio") trackType = TRACK_TYPES.AUDIO;
+    else if (elType === "caption" || elType === "text") trackType = TRACK_TYPES.ELEMENT;
+
+    const newTrack = new Track(
+      `${trackType.charAt(0).toUpperCase() + trackType.slice(1)} Track`,
+      trackType
+    );
+
+    const duration = element.getDuration();
+    element.setStart(startSec);
+    element.setEnd(startSec + duration);
+
+    const elementAdder = new ElementAdder(newTrack);
+    await element.accept(elementAdder);
+
+    const insertIndex = Math.max(0, Math.min(targetTrackIndex, currentTracks.length));
+    const newTracks = [
+      ...currentTracks.slice(0, insertIndex),
+      newTrack,
+      ...currentTracks.slice(insertIndex),
+    ];
+
+    this.setTimelineData({ tracks: newTracks, updatePlayerData: true });
+    this.emit("element:added", { element, trackId: newTrack.getId() });
+    this.emit("element:updated", { element });
+    return true;
+  }
+
   updateHistory(timelineTrackData: TimelineTrackData): void {
     const tracks = timelineTrackData.tracks.map((t) => t.serialize());
     this.totalDuration = getTotalDuration(tracks);

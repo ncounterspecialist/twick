@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import "../../styles/timeline.css";
 import TrackHeader from "../track/track-header";
 import TrackBase from "../track/track-base";
@@ -8,12 +8,16 @@ import { ElementColors } from "../../helpers/types";
 import { usePlayheadScroll } from "../../hooks/use-playhead-scroll";
 import { useMarqueeSelection } from "../../hooks/use-marquee-selection";
 import { useTimelineDrop } from "../../hooks/use-timeline-drop";
+import { useEdgeAutoScroll } from "../../hooks/use-edge-auto-scroll";
 import { MarqueeOverlay } from "./marquee-overlay";
+import { getTrackOrSeparatorAt, type DropTarget } from "../../utils/drop-target";
 import type { Size } from "@twick/timeline";
+import type { TrackElementDragPayload } from "../track/track-element";
 
 /** Width of sticky left area (add track button + track headers) in pixels */
 const LABEL_WIDTH = 40;
 const TRACK_HEIGHT = 44;
+const SEPARATOR_HEIGHT = 6;
 
 function TimelineView({
   zoomLevel,
@@ -27,6 +31,7 @@ function TimelineView({
   onEmptyClick,
   onMarqueeSelect,
   onElementDrag,
+  onElementDrop,
   elementColors,
   selectedIds,
   playheadPositionPx = 0,
@@ -42,15 +47,17 @@ function TimelineView({
   seekTrack?: React.ReactNode;
   onAddTrack: () => void; 
   onReorder: (tracks: Track[]) => void;
-  onElementDrag: ({
-    element,
-    dragType,
-    updates,
-  }: {
+  onElementDrag: (params: {
     element: TrackElement;
     dragType: string;
     updates: { start: number; end: number };
   }) => void;
+  onElementDrop?: (params: {
+    element: TrackElement;
+    dragType: string;
+    updates: { start: number; end: number };
+    dropTarget: DropTarget | null;
+  }) => Promise<void>;
   onSeek: (time: number) => void;
   onItemSelect: (item: Track | TrackElement, event: React.MouseEvent) => void;
   onEmptyClick: () => void;
@@ -78,8 +85,11 @@ function TimelineView({
   const seekContainerRef = useRef<HTMLDivElement>(null);
   const timelineContentRef = useRef<HTMLDivElement>(null);
   const [, setScrollLeft] = useState(0);
+  const pointerRef = useRef<{ clientX: number; clientY: number } | null>(null);
 
   const [draggedTimeline, setDraggedTimeline] = useState<Track | null>(null);
+  const [draggingElementId, setDraggingElementId] = useState<string | null>(null);
+  const [activeDropTarget, setActiveDropTarget] = useState<DropTarget | null>(null);
 
   const { selectedTrackElement } = useMemo(() => {
     if (selectedItem && "elements" in selectedItem) {
@@ -87,6 +97,56 @@ function TimelineView({
     }
     return { selectedTrackElement: selectedItem };
   }, [selectedItem]);
+
+  const handleDragWithDrop = useCallback(
+    (payload: TrackElementDragPayload, dropPointer?: { clientX: number; clientY: number }) => {
+      if (dropPointer && onElementDrop) {
+        const rect = timelineContentRef.current?.getBoundingClientRect();
+        const dropTarget = rect
+          ? getTrackOrSeparatorAt(dropPointer.clientY, rect.top, TRACK_HEIGHT)
+          : null;
+        onElementDrop({ ...payload, dropTarget });
+      } else {
+        onElementDrag(payload);
+      }
+    },
+    [onElementDrag, onElementDrop]
+  );
+
+  useEdgeAutoScroll({
+    isActive: !!draggingElementId,
+    getMouseClientX: () => pointerRef.current?.clientX ?? 0,
+    scrollContainerRef: containerRef,
+    contentWidth: Math.max(100, duration * zoomLevel * 100),
+  });
+
+  useEffect(() => {
+    if (!draggingElementId) return;
+    const onMove = (e: MouseEvent | TouchEvent) => {
+      const pt = "touches" in e ? e.touches[0] : e;
+      if (pt) {
+        pointerRef.current = { clientX: pt.clientX, clientY: pt.clientY };
+        const rect = timelineContentRef.current?.getBoundingClientRect();
+        if (rect) {
+          setActiveDropTarget(getTrackOrSeparatorAt(pt.clientY, rect.top, TRACK_HEIGHT));
+        }
+      }
+    };
+    const onUp = () => {
+      pointerRef.current = null;
+      setActiveDropTarget(null);
+    };
+    document.addEventListener("mousemove", onMove);
+    document.addEventListener("touchmove", onMove, { passive: true });
+    document.addEventListener("mouseup", onUp);
+    document.addEventListener("touchend", onUp);
+    return () => {
+      document.removeEventListener("mousemove", onMove);
+      document.removeEventListener("touchmove", onMove);
+      document.removeEventListener("mouseup", onUp);
+      document.removeEventListener("touchend", onUp);
+    };
+  }, [draggingElementId]);
 
   // Calculate track width - using the same calculation for all tracks
   const timelineWidth = Math.max(100, duration * zoomLevel * 100);
@@ -255,35 +315,58 @@ function TimelineView({
           />
         )}
         <div style={{ position: "relative", zIndex: 10 }}>
-        {(tracks || []).map((track: Track) => (
-          <div className="twick-timeline-container" key={track.getId()}>
-            {/* Track header with drag support */}
-            <div className="twick-timeline-header-container">
-              <TrackHeader
-                track={track}
-                selectedIds={selectedIds}
-                onSelect={handleItemSelection}
-                onDragStart={handleTrackDragStart}
-                onDragOver={handleTrackDragOver}
-                onDrop={handleTrackDrop}
+          {/* Top separator (drop zone above first track) */}
+          <div
+            className="twick-timeline-separator"
+            style={{
+              height: SEPARATOR_HEIGHT,
+              background:
+                activeDropTarget?.type === "separator" && activeDropTarget.separatorIndex === 0
+                  ? "rgba(255,255,255,0.2)"
+                  : "transparent",
+            }}
+          />
+          {(tracks || []).map((track: Track, index: number) => (
+            <div key={track.getId()}>
+              <div className="twick-timeline-container">
+                <div className="twick-timeline-header-container">
+                  <TrackHeader
+                    track={track}
+                    selectedIds={selectedIds}
+                    onSelect={handleItemSelection}
+                    onDragStart={handleTrackDragStart}
+                    onDragOver={handleTrackDragOver}
+                    onDrop={handleTrackDrop}
+                  />
+                </div>
+                <TrackBase
+                  track={track}
+                  duration={duration}
+                  selectedItem={selectedTrackElement}
+                  selectedIds={selectedIds}
+                  zoom={zoomLevel}
+                  allowOverlap={false}
+                  trackWidth={timelineWidth - LABEL_WIDTH}
+                  onItemSelection={handleItemSelection}
+                  onDrag={handleDragWithDrop}
+                  onDragStateChange={(isDragging, el) => {
+                    setDraggingElementId(isDragging && el ? el.getId() : null);
+                  }}
+                  elementColors={elementColors}
+                />
+              </div>
+              <div
+                className="twick-timeline-separator"
+                style={{
+                  height: SEPARATOR_HEIGHT,
+                  background:
+                    activeDropTarget?.type === "separator" && activeDropTarget.separatorIndex === index + 1
+                      ? "rgba(255,255,255,0.2)"
+                      : "transparent",
+                }}
               />
             </div>
-
-            {/* Track content */}
-            <TrackBase
-              track={track}
-              duration={duration}
-              selectedItem={selectedTrackElement}
-              selectedIds={selectedIds}
-              zoom={zoomLevel}
-              allowOverlap={false}
-              trackWidth={timelineWidth - LABEL_WIDTH}
-              onItemSelection={handleItemSelection}
-              onDrag={onElementDrag}
-              elementColors={elementColors}
-            />
-          </div>
-        ))}
+          ))}
         </div>
       </div>
     </div>

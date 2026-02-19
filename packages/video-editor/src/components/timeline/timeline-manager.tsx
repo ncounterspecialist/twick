@@ -34,6 +34,7 @@ const TimelineManager = ({
     onAddTrack,
     onReorder,
     onElementDrag,
+    onElementDrop,
     onSeek,
   } = useTimelineManager();
   const { selectedIds } = useTimelineContext();
@@ -105,6 +106,7 @@ const TimelineManager = ({
       onAddTrack={onAddTrack}
       onReorder={onReorder}
       onElementDrag={onElementDrag}
+      onElementDrop={onElementDrop}
       onSeek={onSeek}
       onItemSelect={handleItemSelect}
       onEmptyClick={handleEmptyClick}
