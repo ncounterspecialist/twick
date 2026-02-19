@@ -33,6 +33,7 @@
     "access": "public"
   },
   "dependencies": {
+    "@twick/ai-models": "workspace:*",
     "@twick/canvas": "workspace:*",
     "@twick/core": "^0.15.17",
     "@twick/live-player": "workspace:*",

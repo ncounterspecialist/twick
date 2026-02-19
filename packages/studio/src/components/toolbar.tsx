@@ -28,6 +28,7 @@ import {
   MessageSquare,
   Plus,
   Square,
+  Wand2,
 } from 'lucide-react'
 import type { ToolCategory } from '../types'
 
@@ -39,6 +40,7 @@ const toolCategories: ToolCategory[] = [
   { id: 'circle', name: 'Circle', icon: 'Circle', description: 'Add a circle element'},
   { id: 'rect', name: 'Rect', icon: 'Rect', description: 'Add a rectangle element' },
   { id: 'caption', name: 'Caption', icon: 'MessageSquare', description: 'Manage captions'},
+  { id: 'generate-media', name: 'Generate', icon: 'Wand2', description: 'Generate image or video with AI'},
 ]
 
 const getIcon = (iconName: string) => {
@@ -53,6 +55,7 @@ const getIcon = (iconName: string) => {
     case 'Circle': return Circle
     case 'Rect': return Square
     case 'MessageSquare': return MessageSquare
+    case 'Wand2': return Wand2
     default: return Plus
   }
 }

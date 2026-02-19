@@ -1,6 +1,6 @@
 import React from "react";
 import { Size, TrackElement } from "@twick/timeline";
-import type { UploadConfig } from "../../types";
+import type { StudioConfig, UploadConfig } from "../../types";
 import { AudioPanelContainer } from "./audio-panel-container";
 import { ImagePanelContainer } from "./image-panel-container";
 import { VideoPanelContainer } from "./video-panel-container";
@@ -9,6 +9,7 @@ import { RectPanelContainer } from "./rect-panel-container";
 import { CirclePanelContainer } from "./circle-panel-container";
 import { Wand2 } from "lucide-react";
 import { CaptionsPanelContainer } from "./captions-panel-container";
+import { GenerateMediaPanelContainer } from "./generate-media-panel-container";
 
 /**
  * Props interface for the ElementPanelContainer component.
@@ -22,6 +23,7 @@ interface ElementPanelContainerProps {
   addElement: (element: TrackElement) => void;
   updateElement: (element: TrackElement) => void;
   uploadConfig?: UploadConfig;
+  studioConfig?: StudioConfig;
 }
 
 /**
@@ -52,6 +54,7 @@ const ElementPanelContainer = ({
   addElement,
   updateElement,
   uploadConfig,
+  studioConfig,
 }: ElementPanelContainerProps): React.ReactElement => {
   const addNewElement = async (element: TrackElement) => {
     await addElement(element);
@@ -118,6 +121,16 @@ const ElementPanelContainer = ({
         );
       case "caption":
         return <CaptionsPanelContainer />;
+      case "generate-media":
+        return (
+          <GenerateMediaPanelContainer
+            videoResolution={videoResolution}
+            selectedElement={selectedElement}
+            addElement={addNewElement}
+            updateElement={updateElement}
+            studioConfig={studioConfig}
+          />
+        );
       default:
         return (
           <div className="panel-container">

@@ -41,7 +41,8 @@
     "pack:cloud-export-video:aws": "pnpm --filter @twick/cloud-export-video run pack:aws",
     "release:cloud-export-video:aws": "pnpm --filter @twick/cloud-export-video run release:aws",
     "permissions": "node scripts/fix-binary-permissions.js",
-    "rebuild": "pnpm run clean:packages && pnpm run clean && pnpm install && pnpm run build"
+    "rebuild": "pnpm run clean:packages && pnpm run clean && pnpm install && pnpm run build",
+    "validate:fal": "node scripts/validate-fal.mjs"
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.1",
@@ -53,6 +54,7 @@
   },
   "packageManager": "pnpm@8.15.4",
   "workspaces": [
+    "packages/ai-models",
     "packages/media-utils",
     "packages/visualizer",
     "packages/canvas",

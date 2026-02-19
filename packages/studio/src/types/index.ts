@@ -1,4 +1,11 @@
 import type { ProjectJSON, Size, TrackElement, VideoElement } from "@twick/timeline"
+
+export type {
+  IImageGenerationService,
+  IVideoGenerationService,
+  GenerateImageParams,
+  GenerateVideoParams,
+} from "./generation"
 import type { CanvasConfig, VideoEditorConfig } from "@twick/video-editor"
 
 export interface MediaItem {
@@ -114,6 +121,10 @@ export interface StudioConfig extends VideoEditorConfig {
    * Implement this in your application code to provide API endpoints
    */
   captionGenerationService?: ICaptionGenerationService;
+  /** Image generation service for polling-based async image generation */
+  imageGenerationService?: import("./generation").IImageGenerationService;
+  /** Video generation service for polling-based async video generation */
+  videoGenerationService?: import("./generation").IVideoGenerationService;
   exportVideo? : (project: ProjectJSON, videoSettings: VideoSettings) => Promise<Result>;
   /**
    * When set, media panels show cloud upload (S3 or GCS). Backend must be configured with env (e.g. FILE_UPLOADER_S3_* or GOOGLE_CLOUD_*).
