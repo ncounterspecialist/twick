@@ -251,9 +251,13 @@ export const addCaptionElement = ({
   canvasMetadata: CanvasMetadata;
   lockAspectRatio?: boolean;
 }) => {
+  const applyToAll = captionProps?.applyToAll ?? false;
+  const captionTextColor =
+    captionProps?.colors?.text ?? captionProps?.color?.text;
+
   const { x, y } = convertToCanvasPosition(
-    (captionProps?.applyToAll ? captionProps?.x : element.props?.x ?? captionProps?.x) ?? 0,
-    (captionProps?.applyToAll ? captionProps?.y : element.props?.y ?? captionProps?.y) ?? 0,
+    (applyToAll ? captionProps?.x : element.props?.x ?? captionProps?.x) ?? 0,
+    (applyToAll ? captionProps?.y : element.props?.y ?? captionProps?.y) ?? 0,
     canvasMetadata
   );
 
@@ -262,6 +266,13 @@ export const addCaptionElement = ({
     width = Math.min(width, element.props.maxWidth * canvasMetadata.scaleX);
   }
 
+  const elementColors = (element.props as { colors?: { text?: string } })?.colors;
+  const resolvedFill =
+    (applyToAll
+      ? captionTextColor
+      : element.props?.fill ?? elementColors?.text ?? captionTextColor) ??
+    DEFAULT_CAPTION_PROPS.fill;
+
   const caption = new Textbox(element.props?.text || element.t || "", {
     left: x,
     top: y,
@@ -269,30 +280,26 @@ export const addCaptionElement = ({
     originY: "center",
     angle: element.props?.rotation || 0,
     fontSize: Math.round(
-      ((captionProps?.applyToAll
+      ((applyToAll
         ? captionProps?.font?.size
         : element.props?.font?.size ?? captionProps?.font?.size) ??
         DEFAULT_CAPTION_PROPS.size) * canvasMetadata.scaleX
     ),
     fontFamily:
-      (captionProps?.applyToAll
+      (applyToAll
         ? captionProps?.font?.family
         : element.props?.font?.family ?? captionProps?.font?.family) ??
       DEFAULT_CAPTION_PROPS.family,
-    fill:
-      (captionProps?.applyToAll
-        ? captionProps.color?.text
-        : element.props?.fill ?? captionProps.color?.text) ??
-      DEFAULT_CAPTION_PROPS.fill,
-    fontWeight: (captionProps?.applyToAll
+    fill: resolvedFill,
+    fontWeight: (applyToAll
       ? captionProps?.font?.weight
       : element.props?.fontWeight ?? captionProps?.font?.weight) ??
     DEFAULT_CAPTION_PROPS.fontWeight,
-    stroke: (captionProps?.applyToAll
+    stroke: (applyToAll
       ? captionProps?.stroke
       : element.props?.stroke ?? captionProps?.stroke) ??
     DEFAULT_CAPTION_PROPS.stroke,
-    opacity: (captionProps?.applyToAll
+    opacity: (applyToAll
       ? captionProps?.opacity
       : element.props?.opacity ?? captionProps?.opacity) ?? 1,
     width,
@@ -300,25 +307,25 @@ export const addCaptionElement = ({
     textAlign: element.props?.textAlign ?? "center",
     shadow: new Shadow({
       offsetX:
-      (captionProps?.applyToAll
+      (applyToAll
         ? captionProps?.shadowOffset?.[0]
-        : element.props?.shadowOffset?.[0] ?? captionProps?.shadowOffset?.[0]) ?? 
+        : element.props?.shadowOffset?.[0] ?? captionProps?.shadowOffset?.[0]) ??
         DEFAULT_CAPTION_PROPS.shadowOffset?.[0],
       offsetY:
-        (captionProps?.applyToAll
+        (applyToAll
           ? captionProps?.shadowOffset?.[1]
           : element.props?.shadowOffset?.[1] ?? captionProps?.shadowOffset?.[1]) ??
         DEFAULT_CAPTION_PROPS.shadowOffset?.[1],
-      blur: (captionProps?.applyToAll
+      blur: (applyToAll
         ? captionProps?.shadowBlur
         : element.props?.shadowBlur ?? captionProps?.shadowBlur) ?? DEFAULT_CAPTION_PROPS.shadowBlur,
-      color: (captionProps?.applyToAll
+      color: (applyToAll
         ? captionProps?.shadowColor
         : element.props?.shadowColor ?? captionProps?.shadowColor) ?? DEFAULT_CAPTION_PROPS.shadowColor,
     }),
-        strokeWidth: (captionProps?.applyToAll 
-          ? captionProps?.lineWidth
-          : element.props?.lineWidth ?? captionProps?.lineWidth) ?? DEFAULT_CAPTION_PROPS.lineWidth,
+    strokeWidth: (applyToAll
+      ? captionProps?.lineWidth
+      : element.props?.lineWidth ?? captionProps?.lineWidth) ?? DEFAULT_CAPTION_PROPS.lineWidth,
   });
 
   // Assign metadata and custom controls

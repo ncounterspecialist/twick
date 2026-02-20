@@ -357,7 +357,16 @@ export type CaptionProps = {
   x: number;
   /** Y coordinate */
   y: number;
-  /** Color configuration for caption styling */
+  /** Color configuration for caption styling (alias: use when from track/element) */
+  colors?: {
+    /** Text color */
+    text?: string;
+    /** Highlight color */
+    highlight?: string;
+    /** Background color */
+    bgColor?: string;
+  };
+  /** Color configuration for caption styling (alias: use when from canvas) */
   color?: {
     /** Text color */
     text?: string;

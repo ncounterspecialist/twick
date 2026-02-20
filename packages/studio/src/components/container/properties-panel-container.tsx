@@ -1,7 +1,8 @@
 import { ElementProps } from "../properties/element-props";
 import { TextEffects } from "../properties/text-effects";
 import { Animation } from "../properties/animation";
-import { VideoElement, TextElement, AudioElement, type TrackElement, Size } from "@twick/timeline";
+import { VideoElement, TextElement, AudioElement, CaptionElement, type TrackElement, Size } from "@twick/timeline";
+import { CaptionPropPanel } from "../properties/caption-prop";
 import { PlaybackPropsPanel } from "../properties/playback-props";
 import { GenerateCaptionsPanel } from "../properties/generate-captions.tsx";
 import { TextPropsPanel } from "../properties/text-props";
@@ -36,7 +37,7 @@ export function PropertiesPanelContainer({
           <h3 className="properties-title">Composition</h3>
         )}
         {selectedElement && selectedElement.getType() === "caption" && (
-          <h3 className="properties-title">Edit from the captions panel</h3>
+          <h3 className="properties-title">Caption</h3>
         )}
         {selectedElement && selectedElement.getType() !== "caption" && (
           <h3 className="properties-title">
@@ -61,10 +62,18 @@ export function PropertiesPanelContainer({
           </div>
         )}
 
-        {/* Element inspector when something is selected */}
-        {selectedElement && selectedElement.getType() === "caption"
-          ? null
-          : selectedElement && (
+        {/* Caption inspector when caption is selected */}
+        {selectedElement instanceof CaptionElement && (
+            <>
+              <CaptionPropPanel
+                selectedElement={selectedElement}
+                updateElement={updateElement}
+              />
+            </>
+          )}
+
+        {/* Element inspector when non-caption is selected */}
+        {selectedElement && !(selectedElement instanceof CaptionElement) && (
             <>
               {(() => {
                 const isText = selectedElement instanceof TextElement;
