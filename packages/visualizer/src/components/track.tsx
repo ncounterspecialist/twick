@@ -5,7 +5,7 @@
 
 import { Layout, Rect, View2D, Audio, Img, Txt } from "@twick/2d";
 import { VisualizerTrack, WatermarkInput } from "../helpers/types";
-import { all, Color, createRef, ThreadGenerator, waitFor } from "@twick/core";
+import { all, createRef, ThreadGenerator, waitFor } from "@twick/core";
 import {
   CAPTION_STYLE,
   DEFAULT_CAPTION_COLORS,
@@ -14,7 +14,7 @@ import {
 import { logger } from "../helpers/log.utils";
 import elementController from "../controllers/element.controller";
 import watermarkController from "../controllers/watermark.controller";
-import { hexToRGB } from "../helpers/utils";
+import { getCaptionStyleHandler } from "../caption-styles";
 
 /**
  * Creates a video track with specified configuration
@@ -135,12 +135,13 @@ export function* makeCaptionTrack({
         layout
       />
     );
-    if (tProps?.capStyle === "word_by_word_with_bg") {
-      const _color = new Color({
-        ...hexToRGB(phraseProps.bgColor),
-        a: phraseProps?.bgOpacity ?? 1,
+    const resolvedCapStyle = eProps?.capStyle ?? tProps?.capStyle;
+    const styleHandler = getCaptionStyleHandler(resolvedCapStyle ?? "");
+    if (styleHandler?.preparePhraseContainer) {
+      styleHandler.preparePhraseContainer({
+        phraseRef,
+        phraseProps,
       });
-      phraseRef().fill(_color);
     }
     yield* elementController.get("caption")?.create({
       containerRef: phraseRef,

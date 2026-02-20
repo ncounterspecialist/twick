@@ -1,27 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import { CaptionElement } from "@twick/timeline";
+import { CaptionElement, CAPTION_STYLE, CAPTION_STYLE_OPTIONS } from "@twick/timeline";
 import { PropertiesPanelProps } from "../../types";
 
-export const CAPTION_STYLE = {
-  WORD_BG_HIGHLIGHT: "highlight_bg",
-  WORD_BY_WORD: "word_by_word",
-  WORD_BY_WORD_WITH_BG: "word_by_word_with_bg",
-};
-
-export const CAPTION_STYLE_OPTIONS = {
-  [CAPTION_STYLE.WORD_BG_HIGHLIGHT]: {
-    label: "Highlight Background",
-    value: CAPTION_STYLE.WORD_BG_HIGHLIGHT,
-  },
-  [CAPTION_STYLE.WORD_BY_WORD]: {
-    label: "Word by Word",
-    value: CAPTION_STYLE.WORD_BY_WORD,
-  },
-  [CAPTION_STYLE.WORD_BY_WORD_WITH_BG]: {
-    label: "Word with Background",
-    value: CAPTION_STYLE.WORD_BY_WORD_WITH_BG,
-  },
-};
+export { CAPTION_STYLE, CAPTION_STYLE_OPTIONS };
 
 export const CAPTION_FONT = {
   size: 40,
@@ -64,7 +45,7 @@ export function CaptionPropPanel({
   const [applyPropsToAllCaption] = useState(false);
   const captionRef = useRef<HTMLInputElement>(null);
   const [editedText, setEditedText] = useState("");
-  const [capStyle, setCapStyle] = useState(
+  const [capStyle, setCapStyle] = useState<(typeof CAPTION_STYLE_OPTIONS)[keyof typeof CAPTION_STYLE_OPTIONS]>(
     CAPTION_STYLE_OPTIONS[CAPTION_STYLE.WORD_BG_HIGHLIGHT]
   );
   const [fontSize, setFontSize] = useState(CAPTION_FONT.size);
@@ -108,8 +89,8 @@ export function CaptionPropPanel({
         }
         const captionProps = captionElement.getProps();
         const _capStyle = captionProps?.capStyle || captionProps.capStyle;
-        if (_capStyle) {
-          setCapStyle(CAPTION_STYLE_OPTIONS[_capStyle]);
+        if (_capStyle && _capStyle in CAPTION_STYLE_OPTIONS) {
+          setCapStyle(CAPTION_STYLE_OPTIONS[_capStyle as keyof typeof CAPTION_STYLE_OPTIONS]);
         }
         setFontSize(captionProps?.font?.size || captionProps.font.size);
         setFontFamily(
@@ -150,7 +131,10 @@ export function CaptionPropPanel({
           <select
             value={capStyle.value}
             onChange={(e) => {
-              setCapStyle(CAPTION_STYLE_OPTIONS[e.target.value]);
+              const val = e.target.value as keyof typeof CAPTION_STYLE_OPTIONS;
+              if (val in CAPTION_STYLE_OPTIONS) {
+                setCapStyle(CAPTION_STYLE_OPTIONS[val]);
+              }
               handleUpdateCaption({ style: e.target.value });
             }}
             className="w-full bg-neutral-700/60 border border-gray-600/40 rounded-md text-white text-xs px-2 py-1.5 focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500/30 transition-all duration-200"
