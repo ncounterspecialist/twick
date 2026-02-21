@@ -52,6 +52,18 @@ export { AudioElement } from './elements/audio.element';
 export { TextElement } from './elements/text.element';
 export { CaptionElement } from './elements/caption.element';
 
+/**
+ * @group Caption Styles
+ * @description Plugin-based caption style handlers for extensible caption rendering
+ */
+export {
+  registerCaptionStyle,
+  registerCaptionStyles,
+  getCaptionStyleHandler,
+  getDefaultCaptionStyleHandler,
+} from './caption-styles';
+export type { CaptionStyleHandler, WordRefs, WordTiming } from './caption-styles';
+
 // Shape and UI elements
 export { RectElement } from './elements/rect.element';
 export { CircleElement } from './elements/circle.element';

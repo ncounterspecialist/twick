@@ -7,6 +7,7 @@ import { CaptionElement } from "../elements/caption.element";
 import { IconElement } from "../elements/icon.element";
 import { CircleElement } from "../elements/circle.element";
 import { RectElement } from "../elements/rect.element";
+import { PlaceholderElement } from "../elements/placeholder.element";
 import { Track } from "../track/track";
 import { TrackFriend } from "../track/track.friend";
 
@@ -58,6 +59,11 @@ export class ElementRemover implements ElementVisitor<boolean> {
   }
 
   visitRectElement(element: RectElement): boolean {
+    this.trackFriend.removeElement(element);
+    return true;
+  }
+
+  visitPlaceholderElement(element: PlaceholderElement): boolean {
     this.trackFriend.removeElement(element);
     return true;
   }

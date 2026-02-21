@@ -32,6 +32,8 @@ export default function SeekTrack({
   const containerRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [dragPosition, setDragPosition] = useState<number | null>(null);
+  // After drag end, keep playhead at release position until currentTime catches up (avoids snap-back + transition shake)
+  const [pendingSeekTime, setPendingSeekTime] = useState<number | null>(null);
 
   const pixelsPerSecond = 100 * zoom;
   const totalWidth = duration * pixelsPerSecond;
@@ -39,15 +41,24 @@ export default function SeekTrack({
   // Calculate pin height based on number of timeline
   const pinHeight = 2 + timelineCount * (2.75 + 0.5); // 2.75rem height + 0.5rem margin per timeline
 
-  // Calculate seek position: use drag position when dragging, otherwise calculate from currentTime
-  // This ensures the position always reflects the current time when not dragging
+  // Clear pending seek once context currentTime has caught up
+  React.useEffect(() => {
+    if (pendingSeekTime === null) return;
+    if (Math.abs(currentTime - pendingSeekTime) < 0.05) {
+      setPendingSeekTime(null);
+    }
+  }, [currentTime, pendingSeekTime]);
+
+  // Calculate seek position: when dragging use dragPosition; when we have a pending seek use that; else use currentTime
   const seekPosition = useMemo(() => {
-    const position =
-      isDragging && dragPosition !== null
-        ? dragPosition
-        : currentTime * pixelsPerSecond;
-    return Math.max(0, position); // Ensure position is never negative
-  }, [isDragging, dragPosition, currentTime, pixelsPerSecond]);
+    if (isDragging && dragPosition !== null) {
+      return Math.max(0, dragPosition);
+    }
+    if (pendingSeekTime !== null) {
+      return Math.max(0, pendingSeekTime * pixelsPerSecond);
+    }
+    return Math.max(0, currentTime * pixelsPerSecond);
+  }, [isDragging, dragPosition, currentTime, pendingSeekTime, pixelsPerSecond]);
 
   // Notify parent of playhead state for auto-scroll during playback/drag
   React.useEffect(() => {
@@ -161,12 +172,11 @@ export default function SeekTrack({
     const newTime = Math.max(0, Math.min(duration, xPos / pixelsPerSecond));
 
     if (active) {
-      // While dragging, update drag position for immediate visual feedback
       setDragPosition(xPos);
     } else {
-      // On drag end, clear drag position and perform an immediate seek
-      // so the playhead doesn't briefly snap back to the previous time (often 0).
+      // On drag end: keep playhead at release position until currentTime catches up (avoids snap-back and transition shake)
       setDragPosition(null);
+      setPendingSeekTime(newTime);
       seekToTime(newTime);
     }
   });

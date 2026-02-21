@@ -8,12 +8,14 @@ import { CaptionElement } from "../elements/caption.element";
 import { RectElement } from "../elements/rect.element";
 import { CircleElement } from "../elements/circle.element";
 import { IconElement } from "../elements/icon.element";
+import { PlaceholderElement } from "../elements/placeholder.element";
 import { TrackElement } from "../elements/base.element";
 
 export class ElementSerializer implements ElementVisitor<ElementJSON> {
   serializeElement(element: TrackElement): ElementJSON {
     const props = structuredClone(element.getProps());
     const zIndex = props?.zIndex;
+    const transition = element.getTransition?.();
     return {
       id: element.getId(),
       trackId: element.getTrackId(),
@@ -23,6 +25,7 @@ export class ElementSerializer implements ElementVisitor<ElementJSON> {
       e: element.getEnd(),
       props,
       ...(zIndex !== undefined && { zIndex }),
+      ...(transition !== undefined && { transition }),
       animation: element.getAnimation()?.toJSON(),
     };
   }
@@ -84,5 +87,9 @@ export class ElementSerializer implements ElementVisitor<ElementJSON> {
     return {
       ...this.serializeElement(element),
     };
+  }
+
+  visitPlaceholderElement(element: PlaceholderElement): ElementJSON {
+    return this.serializeElement(element);
   }
 }

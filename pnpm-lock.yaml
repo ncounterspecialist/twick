@@ -75,6 +75,24 @@ importers:
         specifier: ^5.4.2
         version: 5.9.3
 
+  packages/ai-models:
+    devDependencies:
+      '@types/node':
+        specifier: ^20.11.24
+        version: 20.19.29
+      rimraf:
+        specifier: ^5.0.5
+        version: 5.0.10
+      typescript:
+        specifier: ^5.4.2
+        version: 5.9.3
+      vite:
+        specifier: ^5.4.21
+        version: 5.4.21(@types/node@20.19.29)
+      vite-plugin-dts:
+        specifier: ^3.7.3
+        version: 3.9.1(@types/node@20.19.29)(typescript@5.9.3)(vite@5.4.21)
+
   packages/browser-render:
     dependencies:
       '@ffmpeg/core':
@@ -470,6 +488,9 @@ importers:
 
   packages/studio:
     dependencies:
+      '@twick/ai-models':
+        specifier: workspace:*
+        version: link:../ai-models
       '@twick/canvas':
         specifier: workspace:*
         version: link:../canvas
@@ -12297,7 +12318,7 @@ packages:
 
   /glob@7.2.3:
     resolution: {integrity: sha512-nFR0zLpU2YCaRxwoCJvL6UvCH2JFyFVIvwTLsIf21AuHlMskA1hhTdk+LlYJtOlYt9v6dvszD2BGRqBL+iQK9Q==}
-    deprecated: Glob versions prior to v9 are no longer supported
+    deprecated: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
     dependencies:
       fs.realpath: 1.0.0
       inflight: 1.0.6

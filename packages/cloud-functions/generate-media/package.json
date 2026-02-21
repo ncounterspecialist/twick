@@ -1,0 +1,30 @@
+{
+  "name": "@twick/cloud-generate-media",
+  "version": "0.15.0",
+  "description": "Twick cloud functions for generative AI image and video via FAL and Runware",
+  "type": "module",
+  "main": "core/generator-image.js",
+  "exports": {
+    ".": "./core/generator-image.js",
+    "./image": "./core/generator-image.js",
+    "./video": "./core/generator-video.js",
+    "./aws/image": "./platform/aws/handler-image.js",
+    "./aws/video": "./platform/aws/handler-video.js"
+  },
+  "files": ["core", "platform", "README.md"],
+  "scripts": {
+    "test": "node --test test/generator-image.test.js test/generator-video.test.js",
+    "verify:aws": "node -e \"require('fs').accessSync('platform/aws/handler-image.js'); require('fs').accessSync('platform/aws/handler-video.js'); console.log('AWS handlers present')\""
+  },
+  "keywords": ["twick", "fal", "runware", "lambda", "aws", "generative-ai", "image", "video"],
+  "license": "https://github.com/ncounterspecialist/twick/blob/main/LICENSE.md",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "dependencies": {
+    "@fal-ai/client": "^1.2.1"
+  },
+  "devDependencies": {
+    "dotenv": "^16.4.5"
+  }
+}

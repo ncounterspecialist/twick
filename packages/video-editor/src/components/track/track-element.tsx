@@ -14,6 +14,17 @@ import {
 import { ElementColors } from "../../helpers/types";
 import "../../styles/timeline.css";
 
+export interface TrackElementDragPayload {
+  element: TrackElement;
+  dragType: string;
+  updates: { start: number; end: number };
+}
+
+export interface DropPointer {
+  clientX: number;
+  clientY: number;
+}
+
 export const TrackElementView: React.FC<{
   element: TrackElement;
   selectedItem: TrackElement | null;
@@ -24,15 +35,8 @@ export const TrackElementView: React.FC<{
   prevEnd: number;
   allowOverlap: boolean;
   onSelection: (element: TrackElement, event: React.MouseEvent) => void;
-  onDrag: ({
-    element,
-    dragType,
-    updates,
-  }: {
-    element: TrackElement;
-    dragType: string;
-    updates: { start: number; end: number };
-  }) => void;
+  onDrag: (payload: TrackElementDragPayload, dropPointer?: DropPointer) => void;
+  onDragStateChange?: (isDragging: boolean, element?: TrackElement) => void;
   elementColors?: ElementColors;
 }> = ({
   element,
@@ -45,6 +49,7 @@ export const TrackElementView: React.FC<{
   onSelection,
   onDrag,
   allowOverlap = false,
+  onDragStateChange,
   elementColors,
 }) => {
   const ref = useRef<HTMLDivElement>(null);
@@ -67,7 +72,10 @@ export const TrackElementView: React.FC<{
   const bind = useDrag(({ delta: [dx] }) => {
     if (!parentWidth) return;
     if (dx == 0) return;
-    setIsDragging(true);
+    if (!isDragging) {
+      setIsDragging(true);
+      onDragStateChange?.(true, element);
+    }
     dragType.current = DRAG_TYPE.MOVE;
     setPosition((prev) => {
       const span = prev.end - prev.start;
@@ -99,6 +107,7 @@ export const TrackElementView: React.FC<{
     if (dx === 0) return;
     if (isDragging) {
       setIsDragging(false);
+      onDragStateChange?.(false, element);
     }
     dragType.current = DRAG_TYPE.START;
     setPosition((prev) => {
@@ -121,6 +130,7 @@ export const TrackElementView: React.FC<{
     if (dx === 0) return;
     if (isDragging) {
       setIsDragging(false);
+      onDragStateChange?.(false, element);
     }
     dragType.current = DRAG_TYPE.END;
     setPosition((prev) => {
@@ -142,20 +152,31 @@ export const TrackElementView: React.FC<{
     lastPosRef.current = position;
   };
 
-  const sendUpdate = () => {
+  const sendUpdate = (e?: React.MouseEvent | React.TouchEvent) => {
+    let dropPointer: DropPointer | undefined;
+    if (e) {
+      if ("clientX" in e) {
+        dropPointer = { clientX: e.clientX, clientY: e.clientY };
+      } else if ("changedTouches" in e && e.changedTouches?.[0]) {
+        const t = e.changedTouches[0];
+        dropPointer = { clientX: t.clientX, clientY: t.clientY };
+      }
+    }
     setIsDragging(false);
-    if (
+    onDragStateChange?.(false, element);
+    const payload: TrackElementDragPayload = {
+      element,
+      updates: {
+        start: getDecimalNumber(position.start),
+        end: getDecimalNumber(position.end),
+      },
+      dragType: dragType.current || "",
+    };
+    const didChange =
       lastPosRef.current?.start !== position.start ||
-      lastPosRef.current?.end !== position.end
-    ) {
-      onDrag({
-        element,
-        updates: {
-          start: getDecimalNumber(position.start),
-          end: getDecimalNumber(position.end),
-        },
-        dragType: dragType.current || "",
-      });
+      lastPosRef.current?.end !== position.end;
+    if (didChange || dropPointer) {
+      onDrag(payload, dropPointer);
     }
   };
 
@@ -191,8 +212,8 @@ export const TrackElementView: React.FC<{
         setLastPos();
       }
     },
-    onMouseUp: sendUpdate,
-    onTouchEnd: sendUpdate,
+    onMouseUp: (e) => sendUpdate(e),
+    onTouchEnd: (e) => sendUpdate(e),
     onClick: (e: React.MouseEvent) => {
       if (onSelection) {
         onSelection(element, e);

@@ -108,6 +108,10 @@ export const CAPTION_STYLE = {
   WORD_BY_WORD: "word_by_word",
   /** Animates text word by word with background highlighting */
   WORD_BY_WORD_WITH_BG: "word_by_word_with_bg",
+  /** Classic outline: white text with black stroke, no background */
+  OUTLINE_ONLY: "outline_only",
+  /** Soft box: full phrase in semi-transparent rounded box */
+  SOFT_BOX: "soft_box",
 } as const;
 
 /**
@@ -134,6 +138,14 @@ export const CAPTION_STYLE_OPTIONS = {
   [CAPTION_STYLE.WORD_BY_WORD_WITH_BG]: {
     label: "Word with Background",
     value: CAPTION_STYLE.WORD_BY_WORD_WITH_BG,
+  },
+  [CAPTION_STYLE.OUTLINE_ONLY]: {
+    label: "Classic Outline",
+    value: CAPTION_STYLE.OUTLINE_ONLY,
+  },
+  [CAPTION_STYLE.SOFT_BOX]: {
+    label: "Soft Box",
+    value: CAPTION_STYLE.SOFT_BOX,
   },
 } as const;
 
@@ -241,6 +253,8 @@ export const TIMELINE_ELEMENT_TYPE = {
   CIRCLE: "circle",
   /** Icon element type */
   ICON: "icon",
+  /** Placeholder element type (e.g. for lazy-loaded media) */
+  PLACEHOLDER: "placeholder",
 } as const;
 
 /**

@@ -1,0 +1,30 @@
+{
+  "name": "@twick/ai-models",
+  "version": "0.15.0",
+  "description": "Model catalog and types for Twick generative AI integration",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "sideEffects": false,
+  "license": "https://github.com/ncounterspecialist/twick/blob/main/LICENSE.md",
+  "files": ["dist"],
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "build": "tsc --noEmit && vite build",
+    "dev": "vite build --watch",
+    "lint": "eslint src/",
+    "clean": "rimraf .turbo node_modules dist"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.24",
+    "rimraf": "^5.0.5",
+    "typescript": "^5.4.2",
+    "vite": "^5.4.21",
+    "vite-plugin-dts": "^3.7.3"
+  }
+}

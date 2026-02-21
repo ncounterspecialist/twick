@@ -161,6 +161,9 @@ interface StudioConfig {
   saveProject?: (project: ProjectJSON, fileName: string) => Promise<Result>;
   loadProject?: () => Promise<ProjectJSON>;
   exportVideo?: (project: ProjectJSON, videoSettings: VideoSettings) => Promise<Result>;
+  // Generative AI (optional; enables generate-media toolbar)
+  imageGenerationService?: IImageGenerationService;
+  videoGenerationService?: IVideoGenerationService;
 }
 
 interface TimelineTickConfig {
@@ -199,10 +202,32 @@ The studio includes specialized panels for different element types:
 - **RectPanel**: Rectangle shape creation and editing
 - **IconPanel**: Icon library with search and customization
 
+### Generative AI Services
+
+Implement `IImageGenerationService` and/or `IVideoGenerationService` to enable the generate-media tool (toolbar icon Wand2):
+
+```ts
+interface IImageGenerationService {
+  generateImage: (params: GenerateImageParams) => Promise<string>; // returns requestId
+  getRequestStatus: (reqId: string) => Promise<IGenerationPollingResponse>;
+  getAvailableModels?: () => ModelInfo[];
+}
+
+interface IVideoGenerationService {
+  generateVideo: (params: GenerateVideoParams) => Promise<string>;
+  getRequestStatus: (reqId: string) => Promise<IGenerationPollingResponse>;
+  getAvailableModels?: () => ModelInfo[];
+}
+```
+
+Types (`GenerateImageParams`, `GenerateVideoParams`, `IGenerationPollingResponse`, `ModelInfo`) come from `@twick/ai-models`. Pass your implementation via `studioConfig.imageGenerationService` and `studioConfig.videoGenerationService`. If neither is provided, the generate-media tool is hidden.
+
 ### Hooks
 
 - **useStudioManager**: Hook for managing studio state, selected tools, and element manipulation
 - **useGenerateCaptions**: Hook for caption generation and polling
+- **useGenerateImage**: Hook for image generation (returns `generateImage`, `addImageToTimeline`, `isGenerating`, `error`)
+- **useGenerateVideo**: Hook for video generation (returns `generateVideo`, `addVideoToTimeline`, `isGenerating`, `error`)
 
 ### Re-exported Components
 

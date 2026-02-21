@@ -7,6 +7,7 @@ import { CaptionElement } from "../elements/caption.element";
 import { IconElement } from "../elements/icon.element";
 import { CircleElement } from "../elements/circle.element";
 import { RectElement } from "../elements/rect.element";
+import { PlaceholderElement } from "../elements/placeholder.element";
 import { Track } from "../track/track";
 import { TrackFriend } from "../track/track.friend";
 
@@ -264,6 +265,21 @@ export class ElementAdder implements ElementVisitor<Promise<boolean>> {
       element.setEnd(element.getStart() + 1);
     }
     
+    return this.trackFriend.addElement(element);
+  }
+
+  async visitPlaceholderElement(element: PlaceholderElement): Promise<boolean> {
+    const elements = this.track.getElements();
+    const lastEndtime = elements?.length
+      ? elements[elements.length - 1].getEnd()
+      : 0;
+    if (isNaN(element.getStart())) {
+      element.setStart(lastEndtime);
+    }
+    if (isNaN(element.getEnd())) {
+      const duration = element.getExpectedDuration();
+      element.setEnd(element.getStart() + (duration ?? 1));
+    }
     return this.trackFriend.addElement(element);
   }
 }

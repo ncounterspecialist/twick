@@ -400,3 +400,87 @@ editor.setWatermark(w);
 ```
 
 This gives you a single video clip, a text overlay, and a text watermark. The same pattern extends to all other element types and to update/delete as above.
+
+---
+
+## 12. Single mutation path
+
+**All timeline mutations must go through TimelineEditor.** Studio, canvas, and any other consumers must not call visitors (ElementAdder, ElementRemover, etc.) or mutate track/element state directly. Use the editor methods so that undo/redo, history, and the visualizer stay in sync.
+
+- Add/remove/update tracks: `editor.addTrack`, `editor.removeTrackById`, `editor.removeTrack`, `editor.reorderTracks`
+- Add/remove/update elements: `editor.addElementToTrack`, `editor.removeElement`, `editor.updateElement`
+- Split, clone: `editor.splitElement`, `editor.cloneElement`
+- Batch and selection: `editor.removeElements`, `editor.duplicateElements`, `editor.updateElements`
+- Time range: `editor.rippleDelete`, `editor.trimElement`
+- Project snapshot: `editor.getProject()`
+
+---
+
+## 13. Project snapshot and batch operations
+
+### getProject()
+
+Returns the current project as `ProjectJSON` (same shape consumed by the visualizer and for save/export):
+
+```ts
+const project = editor.getProject();
+// project: { tracks: TrackJSON[], version: number, watermark?: WatermarkJSON }
+```
+
+### rippleDelete(fromTime, toTime)
+
+Removes all content in the time range `[fromTime, toTime]` and shifts later content left. One undo step.
+
+```ts
+await editor.rippleDelete(5, 10);
+```
+
+### trimElement(element, newStart, newEnd)
+
+Trims an element to new start/end times (within its current bounds). Returns `true` if applied.
+
+```ts
+editor.trimElement(element, 2, 8);
+```
+
+### updateElements(updates)
+
+Applies multiple element updates in one batch (one setTimelineData and undo step):
+
+```ts
+editor.updateElements([
+  { elementId: "e-1", updates: { s: 0, e: 5 } },
+  { elementId: "e-2", updates: { s: 5, e: 12 } },
+]);
+```
+
+### removeElements(elementIds) / duplicateElements(elementIds)
+
+Remove or duplicate multiple elements by id in one batch:
+
+```ts
+editor.removeElements(["e-1", "e-2"]);
+const added = editor.duplicateElements(["e-1"]);
+```
+
+---
+
+## 14. Events
+
+Subscribe to timeline mutation events for reactive UI or logging:
+
+```ts
+import type { TimelineEditorEvent } from "@twick/timeline";
+
+editor.on("element:added", ({ element, trackId }) => { ... });
+editor.on("element:removed", ({ elementId, trackId }) => { ... });
+editor.on("element:updated", ({ element }) => { ... });
+editor.on("elements:removed", ({ elementIds }) => { ... });
+editor.on("track:added", ({ track, index }) => { ... });
+editor.on("track:removed", ({ trackId }) => { ... });
+editor.on("track:reordered", ({ tracks }) => { ... });
+editor.on("project:loaded", ({ tracks, version }) => { ... });
+
+// Unsubscribe
+editor.off("element:added", handler);
+```

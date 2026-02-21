@@ -106,6 +106,45 @@ export const CAPTION_STYLE: Record<string, CaptionStyle> = {
       fontSize: 46,
     },
   },
+  outline_only: {
+    rect: {
+      alignItems: "center",
+      justifyContent: "center",
+      gap: 8,
+    },
+    word: {
+      lineWidth: 0.5,
+      stroke: "#000000",
+      fontWeight: 600,
+      strokeFirst: true,
+      shadowOffset: [0, 0],
+      shadowBlur: 0,
+      fontFamily: "Arial",
+      fill: "#FFFFFF",
+      fontSize: 42,
+    },
+  },
+  soft_box: {
+    rect: {
+      alignItems: "center",
+      justifyContent: "center",
+      gap: 8,
+      padding: [12, 24],
+      radius: 12,
+    },
+    word: {
+      lineWidth: 0.2,
+      stroke: "#000000",
+      fontWeight: 600,
+      strokeFirst: true,
+      shadowOffset: [-1, 1],
+      shadowColor: "rgba(0,0,0,0.3)",
+      shadowBlur: 3,
+      fontFamily: "Montserrat",
+      fill: "#FFFFFF",
+      fontSize: 40,
+    },
+  },
 };
 
 export const DEFAULT_CAPTION_COLORS = {
