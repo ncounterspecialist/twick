@@ -93,16 +93,18 @@ export function* makeCaptionTrack({
   view.add(<Layout size={"100%"} ref={captionTrackRef} />);
 
   const tProps = track?.props;
+  const defaultCapStyle = "highlight_bg";
 
   const applyToAll = tProps?.applyToAll ?? false;
 
   const trackDefaultProps =
-    (CAPTION_STYLE[tProps?.capStyle ?? ""] || {}).word || {};
+    (CAPTION_STYLE[tProps?.capStyle ?? defaultCapStyle] || CAPTION_STYLE[defaultCapStyle] || {}).word || {};
 
   for (const element of track.elements) {
     const eProps = element.props;
+    const resolvedCapStyle = eProps?.capStyle ?? tProps?.capStyle ?? defaultCapStyle;
     const rectStyle =
-      (CAPTION_STYLE[eProps?.capStyle ?? tProps?.capStyle ?? ""] || {}).rect ||
+      (CAPTION_STYLE[resolvedCapStyle] || CAPTION_STYLE[defaultCapStyle] || {}).rect ||
       {};
     // Cast alignItems/justifyContent as any to satisfy RectProps
     const mappedRectStyle = {
@@ -113,11 +115,16 @@ export function* makeCaptionTrack({
 
     const phraseColors = applyToAll ? tProps?.colors : eProps?.colors ?? tProps?.colors ?? DEFAULT_CAPTION_COLORS;
 
+    const resolvedFont = applyToAll ? tProps?.font : eProps?.font ?? tProps?.font ?? DEFAULT_CAPTION_FONT;
+    const defaults = trackDefaultProps as { fontFamily?: string; fontSize?: number; fontWeight?: number };
     const phraseProps = {
       ...trackDefaultProps,
       ...(tProps?.captionProps || {}),
       colors: phraseColors,
-      font: applyToAll ? tProps?.font : eProps?.font ?? tProps?.font ?? DEFAULT_CAPTION_FONT,
+      font: resolvedFont,
+      fontFamily: resolvedFont?.family ?? defaults?.fontFamily ?? DEFAULT_CAPTION_FONT.family,
+      fontSize: resolvedFont?.size ?? defaults?.fontSize ?? DEFAULT_CAPTION_FONT.size,
+      fontWeight: resolvedFont?.weight ?? defaults?.fontWeight ?? DEFAULT_CAPTION_FONT.weight,
       fill: phraseColors.text,
       bgColor: phraseColors.bgColor,
       bgOpacity: tProps?.bgOpacity ?? 1,
@@ -135,12 +142,21 @@ export function* makeCaptionTrack({
         layout
       />
     );
-    const resolvedCapStyle = eProps?.capStyle ?? tProps?.capStyle;
+    // Allow styles to tweak how phrase-level props are interpreted.
+    // For classic outline, use explicit outlineColor so it is independent
+    // from per-word highlight color.
+    const styledPhraseProps = {
+      ...phraseProps,
+      ...(resolvedCapStyle === "outline_only" && phraseColors?.outlineColor
+        ? { stroke: phraseColors.outlineColor }
+        : {}),
+    };
+
     const styleHandler = getCaptionStyleHandler(resolvedCapStyle ?? "");
     if (styleHandler?.preparePhraseContainer) {
       styleHandler.preparePhraseContainer({
         phraseRef,
-        phraseProps,
+        phraseProps: styledPhraseProps,
       });
     }
     yield* elementController.get("caption")?.create({
@@ -149,7 +165,7 @@ export function* makeCaptionTrack({
         ...element,
         t: element.t ?? "",
         capStyle: eProps?.capStyle ?? tProps?.capStyle,
-        props: phraseProps,
+        props: styledPhraseProps,
       },
       view,
     });

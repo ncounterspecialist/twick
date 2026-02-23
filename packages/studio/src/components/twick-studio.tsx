@@ -37,7 +37,8 @@ export function TwickStudio({ studioConfig }: { studioConfig?: StudioConfig }) {
     addElement,
     updateElement,
   } = useStudioManager();
-  const { videoResolution, setVideoResolution } = useTimelineContext();
+  const { editor, present, videoResolution, setVideoResolution } =
+    useTimelineContext();
   const {
     onNewProject,
     onLoadProject,
@@ -60,9 +61,13 @@ export function TwickStudio({ studioConfig }: { studioConfig?: StudioConfig }) {
         ...(studioConfig?.videoProps || {}),
         width: videoResolution.width,
         height: videoResolution.height,
+        backgroundColor:
+          present?.backgroundColor ??
+          editor.getBackgroundColor() ??
+          studioConfig?.videoProps?.backgroundColor,
       },
     }),
-    [videoResolution, studioConfig]
+    [videoResolution, studioConfig, present?.backgroundColor, editor]
   );
 
   return (

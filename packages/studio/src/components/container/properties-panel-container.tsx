@@ -1,12 +1,15 @@
 import { ElementProps } from "../properties/element-props";
 import { TextEffects } from "../properties/text-effects";
 import { Animation } from "../properties/animation";
-import { VideoElement, TextElement, AudioElement, CaptionElement, type TrackElement, Size } from "@twick/timeline";
+import { VideoElement, TextElement, AudioElement, CaptionElement, type TrackElement, Size, useTimelineContext } from "@twick/timeline";
 import { CaptionPropPanel } from "../properties/caption-prop";
 import { PlaybackPropsPanel } from "../properties/playback-props";
 import { GenerateCaptionsPanel } from "../properties/generate-captions.tsx";
 import { TextPropsPanel } from "../properties/text-props";
 import { ICaptionGenerationPollingResponse, CaptionEntry } from "../../types";
+import { useCallback } from "react";
+
+const DEFAULT_CANVAS_BACKGROUND = "#000000";
 
 interface PropertiesPanelContainerProps {
   selectedElement: TrackElement | null;
@@ -27,6 +30,18 @@ export function PropertiesPanelContainer({
   pollingIntervalMs,
   videoResolution,
 }: PropertiesPanelContainerProps) {
+  const { editor, present } = useTimelineContext();
+  const backgroundColor =
+    present?.backgroundColor ??
+    editor.getBackgroundColor() ??
+    DEFAULT_CANVAS_BACKGROUND;
+
+  const handleBackgroundColorChange = useCallback(
+    (value: string) => {
+      editor.setBackgroundColor(value);
+    },
+    [editor]
+  );
 
   const title = selectedElement instanceof TextElement ? selectedElement.getText() : selectedElement?.getName() || selectedElement?.getType() || "Element";
 
@@ -57,6 +72,25 @@ export function PropertiesPanelContainer({
                 <span className="properties-size-readonly">
                   {videoResolution.width} × {videoResolution.height}
                 </span>
+              </div>
+              <div className="color-control">
+                <label className="label-small">Background Color</label>
+                <div className="color-inputs">
+                  <input
+                    type="color"
+                    value={backgroundColor}
+                    onChange={(e) =>
+                      handleBackgroundColorChange(e.target.value)}
+                    className="color-picker"
+                  />
+                  <input
+                    type="text"
+                    value={backgroundColor}
+                    onChange={(e) =>
+                      handleBackgroundColorChange(e.target.value)}
+                    className="color-text"
+                  />
+                </div>
               </div>
             </div>
           </div>

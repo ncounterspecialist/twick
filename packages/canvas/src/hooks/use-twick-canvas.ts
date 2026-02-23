@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { Canvas as FabricCanvas, FabricObject, Textbox, ActiveSelection } from "fabric";
 import { Dimensions } from "@twick/media-utils";
 import {
@@ -566,10 +566,23 @@ export const useTwickCanvas = ({
   const bringForward = (elementId: string) => applyZOrder(elementId, "forward");
   const sendBackward = (elementId: string) => applyZOrder(elementId, "backward");
 
+  /**
+   * Updates the canvas background color (e.g. when project backgroundColor changes).
+   * Keeps the editor canvas in sync with project/visualizer background.
+   */
+  const setBackgroundColor = useCallback((color: string) => {
+    const canvas = twickCanvasRef.current;
+    if (canvas) {
+      canvas.backgroundColor = color;
+      canvas.requestRenderAll();
+    }
+  }, []);
+
   return {
     twickCanvas,
     buildCanvas,
     resizeCanvas,
+    setBackgroundColor,
     onVideoSizeChange,
     addWatermarkToCanvas,
     addElementToCanvas,

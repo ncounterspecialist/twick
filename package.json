@@ -18,7 +18,7 @@
     "docs": "turbo run docs",
     "docs:copy": "./scripts/copy-docs.sh",
     "docs:build": "pnpm run docs && pnpm run docs:copy",
-    "dev": "turbo run dev --filter=./packages/* --filter=./packages/agents/*",
+    "dev": "turbo run dev --filter=./packages/* --filter=./packages/agents/* --concurrency 12",
     "dev:media-utils": "turbo run dev --filter=@twick/media-utils",
     "dev:canvas": "turbo run dev --filter=@twick/canvas",
     "dev:documentation": "pnpm run docs && pnpm run docs:copy && turbo run dev --filter=@twick/documentation",

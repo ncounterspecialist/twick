@@ -145,6 +145,83 @@ export const CAPTION_STYLE: Record<string, CaptionStyle> = {
       fontSize: 40,
     },
   },
+  lower_third: {
+    rect: {
+      alignItems: "center",
+      justifyContent: "center",
+      gap: 8,
+      padding: [14, 32],
+      radius: 0,
+    },
+    word: {
+      lineWidth: 0.2,
+      stroke: "#000000",
+      fontWeight: 600,
+      strokeFirst: true,
+      shadowOffset: [0, 1],
+      shadowColor: "rgba(0,0,0,0.5)",
+      shadowBlur: 2,
+      fontFamily: "Arial",
+      fill: "#FFFFFF",
+      fontSize: 38,
+    },
+  },
+  typewriter: {
+    rect: {
+      alignItems: "center",
+      justifyContent: "center",
+      gap: 8,
+    },
+    word: {
+      lineWidth: 0.3,
+      stroke: "#000000",
+      fontWeight: 600,
+      strokeFirst: true,
+      shadowOffset: [0, 0],
+      shadowBlur: 0,
+      fontFamily: "Monaco",
+      fill: "#FFFFFF",
+      fontSize: 40,
+    },
+  },
+  karaoke: {
+    rect: {
+      alignItems: "center",
+      justifyContent: "center",
+      gap: 8,
+    },
+    word: {
+      lineWidth: 0.35,
+      stroke: "#000000",
+      fontWeight: 700,
+      strokeFirst: true,
+      shadowOffset: [-2, 2],
+      shadowColor: "#000000",
+      shadowBlur: 4,
+      fontFamily: "Bangers",
+      fill: "#FFFFFF",
+      fontSize: 46,
+    },
+  },
+  pop_scale: {
+    rect: {
+      alignItems: "center",
+      justifyContent: "center",
+      gap: 8,
+    },
+    word: {
+      lineWidth: 0.35,
+      stroke: "#000000",
+      fontWeight: 700,
+      strokeFirst: true,
+      shadowOffset: [-2, 2],
+      shadowColor: "#000000",
+      shadowBlur: 5,
+      fontFamily: "Bangers",
+      fill: "#FFFFFF",
+      fontSize: 46,
+    },
+  },
 };
 
 export const DEFAULT_CAPTION_COLORS = {
@@ -153,9 +230,9 @@ export const DEFAULT_CAPTION_COLORS = {
 };
 
 export const DEFAULT_CAPTION_FONT = {
-  family: "Poppins",
-  size: 48,
-  weight: 400,
+  family: "Bangers",
+  size: 46,
+  weight: 700,
 };
 
 export const TRANSPARENT_COLOR = "#FFFFFF00";

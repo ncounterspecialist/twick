@@ -45,8 +45,8 @@ export const DEFAULT_TEXT_PROPS = {
  * ```
  */
 export const DEFAULT_CAPTION_PROPS = {
-    /** Font family for caption elements */
-    family: "Poppins",
+    /** Font family for caption elements (matches highlight_bg default) */
+    family: "Bangers",
     /** Font size in pixels */
     size: 48,
     /** Text fill color */

@@ -49,6 +49,7 @@ export interface TrackJSON {
 
 export interface ProjectJSON {
   watermark?: WatermarkJSON;
+  backgroundColor?: string;
   tracks: TrackJSON[];
   version: number;
 }

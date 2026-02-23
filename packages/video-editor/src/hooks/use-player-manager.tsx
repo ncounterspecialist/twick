@@ -180,6 +180,7 @@ export const usePlayerManager = ({
     twickCanvas,
     buildCanvas,
     resizeCanvas,
+    setBackgroundColor,
     setCanvasElements,
     bringToFront,
     sendToBack,
@@ -301,6 +302,8 @@ export const usePlayerManager = ({
                 properties: videoProps,
                 tracks: timelineAction.payload?.tracks ?? [],
                 version: timelineAction.payload?.version ?? 0,
+                backgroundColor:
+                  timelineAction.payload?.backgroundColor ?? "#000000",
               },
             };
             setProjectData(_latestProjectData);
@@ -323,6 +326,7 @@ export const usePlayerManager = ({
     updateCanvas,
     buildCanvas,
     resizeCanvas,
+    setBackgroundColor,
     onPlayerUpdate,
     playerUpdating,
     handleDropOnCanvas,

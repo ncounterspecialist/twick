@@ -118,19 +118,24 @@ export class TimelineEditor {
     tracks,
     version,
     watermark,
+    backgroundColor,
     updatePlayerData,
   }: {
     tracks: Track[];
     version?: number;
     updatePlayerData?: boolean;
     watermark?: Watermark;
+    backgroundColor?: string;
   }) {
     const prevTimelineData = this.getTimelineData();
     const updatedVersion = version ?? (prevTimelineData?.version || 0) + 1;
+    const resolvedBackgroundColor =
+      backgroundColor !== undefined ? backgroundColor : prevTimelineData?.backgroundColor;
     const updatedTimelineData = {
       tracks,
       version: updatedVersion,
       watermark,
+      backgroundColor: resolvedBackgroundColor,
     };
     timelineContextStore.setTimelineData(
       this.context.contextId,
@@ -145,6 +150,7 @@ export class TimelineEditor {
         tracks: serializedTracks,
         version: updatedVersion,
         watermark: watermark != null ? (watermark as any).toJSON?.() : undefined,
+        backgroundColor: resolvedBackgroundColor,
       });
     }
     return updatedTimelineData as TimelineTrackData;
@@ -417,6 +423,9 @@ export class TimelineEditor {
     this.context.setPresent({
       tracks,
       version,
+      ...(timelineTrackData.backgroundColor !== undefined && {
+        backgroundColor: timelineTrackData.backgroundColor,
+      }),
     });
   }
 
@@ -431,6 +440,9 @@ export class TimelineEditor {
       timelineContextStore.setTimelineData(this.context.contextId, {
         tracks,
         version: result.version,
+        ...(result.backgroundColor !== undefined && {
+          backgroundColor: result.backgroundColor,
+        }),
       });
 
       // Update total duration
@@ -443,6 +455,9 @@ export class TimelineEditor {
         this.context.setTimelineAction(TIMELINE_ACTION.UPDATE_PLAYER_DATA, {
           tracks: result.tracks,
           version: result.version,
+          ...(result.backgroundColor !== undefined && {
+            backgroundColor: result.backgroundColor,
+          }),
         });
       }
     }
@@ -459,6 +474,9 @@ export class TimelineEditor {
       timelineContextStore.setTimelineData(this.context.contextId, {
         tracks,
         version: result.version,
+        ...(result.backgroundColor !== undefined && {
+          backgroundColor: result.backgroundColor,
+        }),
       });
 
       // Update total duration
@@ -471,6 +489,9 @@ export class TimelineEditor {
         this.context.setTimelineAction(TIMELINE_ACTION.UPDATE_PLAYER_DATA, {
           tracks: result.tracks,
           version: result.version,
+          ...(result.backgroundColor !== undefined && {
+            backgroundColor: result.backgroundColor,
+          }),
         });
       }
     }
@@ -504,19 +525,27 @@ export class TimelineEditor {
   loadProject({
     tracks,
     version,
+    backgroundColor,
   }: {
     tracks: TrackJSON[];
     version: number;
+    backgroundColor?: string;
   }): void {
     this.pauseVideo();
     this.context.handleResetHistory();
     // Convert Timeline[] to Track[] and set
     const timelineTracks = tracks.map((t) => Track.fromJSON(t));
-    this.setTimelineData({tracks: timelineTracks, version, updatePlayerData: true});
+    this.setTimelineData({
+      tracks: timelineTracks,
+      version,
+      backgroundColor,
+      updatePlayerData: true,
+    });
     if (this.context?.setTimelineAction) {
       this.context.setTimelineAction(TIMELINE_ACTION.UPDATE_PLAYER_DATA, {
         tracks: tracks,
         version: version,
+        backgroundColor,
         forceUpdate: true,
       });
     }
@@ -612,7 +641,25 @@ export class TimelineEditor {
         data.watermark != null
           ? (data.watermark as any).toJSON?.()
           : undefined,
+      ...(data.backgroundColor !== undefined && {
+        backgroundColor: data.backgroundColor,
+      }),
     };
+  }
+
+  getBackgroundColor(): string | undefined {
+    return this.getTimelineData()?.backgroundColor;
+  }
+
+  setBackgroundColor(backgroundColor: string): void {
+    const currentData = this.getTimelineData();
+    if (currentData) {
+      this.setTimelineData({
+        tracks: currentData.tracks,
+        backgroundColor,
+        updatePlayerData: true,
+      });
+    }
   }
 
   /**
