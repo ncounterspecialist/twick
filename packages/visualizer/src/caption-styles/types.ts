@@ -13,11 +13,17 @@ export interface WordTiming {
 
 /**
  * Refs returned by renderWords for animation.
+ * - textRef: main text element (required).
+ * - bgRef: optional background rect (e.g. highlight_bg).
+ * - highlightRef: optional overlay Txt in highlight color (e.g. karaoke current word).
+ * - prefixRefs: optional refs per character-step for letter-by-letter reveal (e.g. typewriter).
  */
 export interface WordRefs {
   refs: Array<{
     textRef: Reference<Txt>;
     bgRef?: Reference<Rect>;
+    highlightRef?: Reference<Txt>;
+    prefixRefs?: Reference<Txt>[];
   }>;
 }
 

@@ -180,9 +180,14 @@ export type CaptionProps = {
  * Defines text color, background color, and highlight colors.
  */
 export type CaptionColors = {
+  /** Main text fill color */
   text?: string;
+  /** Background color behind words/boxes */
   bgColor?: string;
+  /** Color used for per-word highlights (e.g. karaoke-style) */
   highlight?: string;
+  /** Stroke/outline color around text (e.g. classic outline style) */
+  outlineColor?: string;
 };
 
 /**

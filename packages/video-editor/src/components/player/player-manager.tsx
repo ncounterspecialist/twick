@@ -65,6 +65,7 @@ export const PlayerManager = ({
     projectData,
     updateCanvas,
     resizeCanvas,
+    setBackgroundColor,
     playerUpdating,
     onPlayerUpdate,
     buildCanvas,
@@ -93,7 +94,10 @@ export const PlayerManager = ({
     };
     if (canvasSize.width > 0 && canvasSize.height > 0) {
       buildCanvas({
-        backgroundColor: videoProps.backgroundColor,
+        backgroundColor:
+          videoProps.backgroundColor ??
+          projectData?.input?.backgroundColor ??
+          "#000000",
         videoSize: {
           width: videoProps.width,
           height: videoProps.height,
@@ -103,6 +107,15 @@ export const PlayerManager = ({
       });
     }
   }, [videoProps]);
+
+  // Keep canvas background in sync with project (e.g. when user changes it in Composition panel)
+  useEffect(() => {
+    const color =
+      projectData?.input?.backgroundColor ??
+      videoProps.backgroundColor ??
+      "#000000";
+    setBackgroundColor(color);
+  }, [projectData?.input?.backgroundColor, videoProps.backgroundColor, setBackgroundColor]);
 
   const handleResize = useMemo(
     () =>

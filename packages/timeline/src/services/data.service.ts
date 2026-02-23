@@ -5,6 +5,7 @@ import { Track } from "../core/track/track";
 type TimelineStore = {
   tracks: Track[];
   version: number;
+  backgroundColor?: string;
   elementMap: Record<string, TrackElement>;
   trackMap: Record<string, any>;
   captionProps: Record<string, any>;
@@ -13,6 +14,7 @@ type TimelineStore = {
 export type TimelineTrackData = {
     tracks: Track[];
     version: number;
+    backgroundColor?: string;
     watermark?: Watermark;
 }
 
@@ -48,13 +50,18 @@ export class TimelineContextStore {
     return timelineStore ? {
         tracks: timelineStore.tracks,
         version: timelineStore.version,
+        backgroundColor: timelineStore.backgroundColor,
     } : null;
   }
 
   public setTimelineData(contextId: string, timelineData: TimelineTrackData): TimelineTrackData {
     this.ensureContext(contextId);
-    this.storeMap.get(contextId)!.tracks = timelineData.tracks;
-    this.storeMap.get(contextId)!.version = timelineData.version;
+    const store = this.storeMap.get(contextId)!;
+    store.tracks = timelineData.tracks;
+    store.version = timelineData.version;
+    if (timelineData.backgroundColor !== undefined) {
+      store.backgroundColor = timelineData.backgroundColor;
+    }
     return timelineData;
   }
 

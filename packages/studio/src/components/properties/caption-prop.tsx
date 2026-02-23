@@ -18,6 +18,7 @@ export const CAPTION_COLOR = {
   text: "#ffffff",
   highlight: "#ff4081",
   bgColor: "#8C52FF",
+  outlineColor: "#000000",
 };
 
 interface CaptionPropPanelProps {
@@ -40,6 +41,7 @@ export function CaptionPropPanel({
     text: CAPTION_COLOR.text,
     highlight: CAPTION_COLOR.highlight,
     bgColor: CAPTION_COLOR.bgColor,
+    outlineColor: CAPTION_COLOR.outlineColor,
   });
 
   const track = selectedElement instanceof CaptionElement
@@ -106,6 +108,7 @@ export function CaptionPropPanel({
         text: c?.text ?? CAPTION_COLOR.text,
         highlight: c?.highlight ?? CAPTION_COLOR.highlight,
         bgColor: c?.bgColor ?? CAPTION_COLOR.bgColor,
+        outlineColor: c?.outlineColor ?? CAPTION_COLOR.outlineColor,
       });
     }
   }, [selectedElement, applyToAll, changeLog]);
@@ -208,31 +211,6 @@ export function CaptionPropPanel({
             </div>
           </div>
           <div className="color-control">
-            <label className="label-small">Highlight Color</label>
-            <div className="color-inputs">
-              <input
-                type="color"
-                value={colors.highlight}
-                onChange={(e) => {
-                  const newColors = { ...colors, highlight: e.target.value };
-                  setColors(newColors);
-                  handleUpdateCaption({ colors: newColors });
-                }}
-                className="color-picker"
-              />
-              <input
-                type="text"
-                value={colors.highlight}
-                onChange={(e) => {
-                  const newColors = { ...colors, highlight: e.target.value };
-                  setColors(newColors);
-                  handleUpdateCaption({ colors: newColors });
-                }}
-                className="color-text"
-              />
-            </div>
-          </div>
-          <div className="color-control">
             <label className="label-small">Background Color</label>
             <div className="color-inputs">
               <input
@@ -250,6 +228,31 @@ export function CaptionPropPanel({
                 value={colors.bgColor}
                 onChange={(e) => {
                   const newColors = { ...colors, bgColor: e.target.value };
+                  setColors(newColors);
+                  handleUpdateCaption({ colors: newColors });
+                }}
+                className="color-text"
+              />
+            </div>
+          </div>
+          <div className="color-control">
+            <label className="label-small">Outline Color</label>
+            <div className="color-inputs">
+              <input
+                type="color"
+                value={colors.outlineColor}
+                onChange={(e) => {
+                  const newColors = { ...colors, outlineColor: e.target.value };
+                  setColors(newColors);
+                  handleUpdateCaption({ colors: newColors });
+                }}
+                className="color-picker"
+              />
+              <input
+                type="text"
+                value={colors.outlineColor}
+                onChange={(e) => {
+                  const newColors = { ...colors, outlineColor: e.target.value };
                   setColors(newColors);
                   handleUpdateCaption({ colors: newColors });
                 }}

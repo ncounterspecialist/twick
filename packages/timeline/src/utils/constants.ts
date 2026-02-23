@@ -112,6 +112,14 @@ export const CAPTION_STYLE = {
   OUTLINE_ONLY: "outline_only",
   /** Soft box: full phrase in semi-transparent rounded box */
   SOFT_BOX: "soft_box",
+  /** Lower third: single line with optional bar (broadcast style) */
+  LOWER_THIRD: "lower_third",
+  /** Typewriter: characters appear one by one */
+  TYPEWRITER: "typewriter",
+  /** Karaoke: one word highlighted at a time */
+  KARAOKE: "karaoke",
+  /** Pop / scale: words pop in with a short scale animation */
+  POP_SCALE: "pop_scale",
 } as const;
 
 /**
@@ -146,6 +154,22 @@ export const CAPTION_STYLE_OPTIONS = {
   [CAPTION_STYLE.SOFT_BOX]: {
     label: "Soft Box",
     value: CAPTION_STYLE.SOFT_BOX,
+  },
+  [CAPTION_STYLE.LOWER_THIRD]: {
+    label: "Lower Third",
+    value: CAPTION_STYLE.LOWER_THIRD,
+  },
+  [CAPTION_STYLE.TYPEWRITER]: {
+    label: "Typewriter",
+    value: CAPTION_STYLE.TYPEWRITER,
+  },
+  [CAPTION_STYLE.KARAOKE]: {
+    label: "Karaoke",
+    value: CAPTION_STYLE.KARAOKE,
+  },
+  [CAPTION_STYLE.POP_SCALE]: {
+    label: "Pop / Scale",
+    value: CAPTION_STYLE.POP_SCALE,
   },
 } as const;
 

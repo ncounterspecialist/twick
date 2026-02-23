@@ -4,6 +4,10 @@ import { wordByWordHandler } from "./word-by-word.handler";
 import { wordByWordWithBgHandler } from "./word-by-word-with-bg.handler";
 import { outlineOnlyHandler } from "./outline-only.handler";
 import { softBoxHandler } from "./soft-box.handler";
+import { lowerThirdHandler } from "./lower-third.handler";
+import { typewriterHandler } from "./typewriter.handler";
+import { karaokeHandler } from "./karaoke.handler";
+import { popScaleHandler } from "./pop-scale.handler";
 
 /**
  * Register all built-in caption style handlers.
@@ -15,6 +19,10 @@ export function registerCaptionStyles(): void {
   registerCaptionStyle(wordByWordWithBgHandler);
   registerCaptionStyle(outlineOnlyHandler);
   registerCaptionStyle(softBoxHandler);
+  registerCaptionStyle(lowerThirdHandler);
+  registerCaptionStyle(typewriterHandler);
+  registerCaptionStyle(karaokeHandler);
+  registerCaptionStyle(popScaleHandler);
 }
 
 // Auto-register on module load so handlers are available
