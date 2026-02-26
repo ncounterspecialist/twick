@@ -78,7 +78,6 @@
       "@twick/2d": "^0.15.21",
       "@twick/ui": "^0.15.21",
       "@twick/gl-runtime": "^0.15.21",
-      "@twick/effects": "^0.15.21",
       "@twick/player-react": "^0.15.21",
       "@twick/ffmpeg": "^0.15.21",
       "@twick/telemetry": "^0.15.21",
