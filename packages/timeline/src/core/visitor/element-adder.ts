@@ -8,6 +8,8 @@ import { IconElement } from "../elements/icon.element";
 import { CircleElement } from "../elements/circle.element";
 import { RectElement } from "../elements/rect.element";
 import { PlaceholderElement } from "../elements/placeholder.element";
+import { ArrowElement } from "../elements/arrow.element";
+import { LineElement } from "../elements/line.element";
 import { Track } from "../track/track";
 import { TrackFriend } from "../track/track.friend";
 
@@ -282,4 +284,37 @@ export class ElementAdder implements ElementVisitor<Promise<boolean>> {
     }
     return this.trackFriend.addElement(element);
   }
+
+  /**
+   * Adds a line element to the track.
+   * Uses the same default duration semantics as other simple shapes.
+   */
+  async visitLineElement(element: LineElement): Promise<boolean> {
+    const elements = this.track.getElements();
+    const lastEndtime = elements?.length
+      ? elements[elements.length - 1].getEnd()
+      : 0;
+    if (isNaN(element.getStart())) {
+      element.setStart(lastEndtime);
+    }
+    if (isNaN(element.getEnd())) {
+      element.setEnd(element.getStart() + 1);
+    }
+    return this.trackFriend.addElement(element);
+  }
+
+  async visitArrowElement(element: ArrowElement): Promise<boolean> {
+    const elements = this.track.getElements();
+    const lastEndtime = elements?.length
+      ? elements[elements.length - 1].getEnd()
+      : 0;
+    if (isNaN(element.getStart())) {
+      element.setStart(lastEndtime);
+    }
+    if (isNaN(element.getEnd())) {
+      element.setEnd(element.getStart() + 1);
+    }
+    return this.trackFriend.addElement(element);
+  }
+
 }

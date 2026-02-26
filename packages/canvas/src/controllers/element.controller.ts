@@ -6,6 +6,8 @@ import { CircleElement } from "../elements/circle.element";
 import { TextElement } from "../elements/text.element";
 import { CaptionElement } from "../elements/caption.element";
 import { WatermarkElement } from "../elements/watermark.element";
+import { ArrowElement } from "../elements/arrow.element";
+import { LineElement } from "../elements/line.element";
 
 /**
  * Registry for canvas element handlers. Enables scalable dispatch by type:
@@ -37,8 +39,18 @@ function registerElements() {
   elementController.register(TextElement);
   elementController.register(CaptionElement);
   elementController.register(WatermarkElement);
+  elementController.register(ArrowElement);
+  elementController.register(LineElement);
 }
 
 registerElements();
+
+export function registerCanvasHandler(handler: CanvasElementHandler): void {
+  elementController.register(handler);
+}
+
+export function getCanvasHandler(name: string): CanvasElementHandler | undefined {
+  return elementController.get(name);
+}
 
 export default elementController;

@@ -40,6 +40,7 @@ export class Track {
   private id: string;
   private name: string;
   private type: string;
+  private language?: string;
   private props: Record<string, any>;
   private elements: TrackElement[];
   private validator: ElementValidator;
@@ -196,6 +197,15 @@ export class Track {
    */
   getType(): string {
     return this.type;
+  }
+
+  getLanguage(): string | undefined {
+    return this.language;
+  }
+
+  setLanguage(language?: string) {
+    this.language = language;
+    return this;
   }
 
   /**
@@ -506,6 +516,7 @@ export class Track {
       id: this.id,
       name: this.name,
       type: this.type,
+      language: this.language,
       props: this.props,
       elements: this.elements.map(
         (element) => element.accept(serializer) as ElementJSON
@@ -548,6 +559,7 @@ export class Track {
     }
     const track = new Track(json.name || '', json.type ?? TRACK_TYPES.ELEMENT, json.id);
     track.type = json.type;
+    track.language = json.language;
     track.props = json.props || {};
     track.elements = (json.elements || [])
       .map(ElementDeserializer.fromJSON)

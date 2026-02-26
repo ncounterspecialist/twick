@@ -9,6 +9,8 @@ import { CircleElement } from "../elements/circle.element";
 import { IconElement } from "../elements/icon.element";
 import { PlaceholderElement } from "../elements/placeholder.element";
 import { TrackElement } from "../elements/base.element";
+import { ArrowElement } from "../elements/arrow.element";
+import { LineElement } from "../elements/line.element";
 
 export class ElementCloner implements ElementVisitor<TrackElement> {
   cloneElementProperties(srcElement: TrackElement, destElement: TrackElement) {
@@ -18,6 +20,7 @@ export class ElementCloner implements ElementVisitor<TrackElement> {
       .setStart(srcElement.getStart())
       .setEnd(srcElement.getEnd())
       .setProps(srcElement.getProps())
+      .setMetadata(srcElement.getMetadata?.())
       .setAnimation(srcElement.getAnimation());
   }
 
@@ -108,6 +111,24 @@ export class ElementCloner implements ElementVisitor<TrackElement> {
       element.getSrc(),
       element.getParentSize(),
       element.getExpectedDuration()
+    );
+    this.cloneElementProperties(element, clonedElement);
+    return clonedElement;
+  }
+
+  visitArrowElement(element: ArrowElement): TrackElement {
+    const clonedElement = new ArrowElement(
+      element.getProps()!.fill,
+      { width: element.getProps()!.width, height: element.getProps()!.height }
+    );
+    this.cloneElementProperties(element, clonedElement);
+    return clonedElement;
+  }
+
+  visitLineElement(element: LineElement): TrackElement {
+    const clonedElement = new LineElement(
+      element.getProps()!.fill,
+      { width: element.getProps()!.width, height: element.getProps()!.height }
     );
     this.cloneElementProperties(element, clonedElement);
     return clonedElement;

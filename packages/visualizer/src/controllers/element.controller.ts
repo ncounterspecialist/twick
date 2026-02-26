@@ -3,6 +3,8 @@ import { CaptionElement } from "../elements/caption.element";
 import { CircleElement } from "../elements/circle.element";
 import { ImageElement } from "../elements/image.element";
 import { RectElement } from "../elements/rect.element";
+import { ArrowElement } from "../elements/arrow.element";
+import { LineElement } from "../elements/line.element";
 import { SceneElement } from "../elements/scene.element";
 import { TextElement } from "../elements/text.element";
 import { VideoElement } from "../elements/video.element";
@@ -33,6 +35,8 @@ export class ElementController {
     elementController.register(AudioElement);
     elementController.register(CircleElement);
     elementController.register(RectElement);
+    elementController.register(ArrowElement);
+    elementController.register(LineElement);
   }
 
   const elementController = new ElementController();  

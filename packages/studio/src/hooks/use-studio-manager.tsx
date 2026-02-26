@@ -27,6 +27,8 @@ import { Track, TrackElement, useTimelineContext } from "@twick/timeline";
 import { useEditorManager } from "@twick/video-editor";
 import { useEffect, useRef, useState } from "react";
 
+const SHAPES_TOOLS = ["rect", "circle", "line", "arrow"] as string[];
+
 export const useStudioManager = () => {
   const [selectedProp, setSelectedProp] = useState("element-props");
 
@@ -43,7 +45,12 @@ export const useStudioManager = () => {
 
   useEffect(() => {
     if (selectedItem instanceof TrackElement) {
-      setSelectedTool(selectedItem.getType());
+      const elementType = selectedItem.getType();
+      if(SHAPES_TOOLS.includes(elementType)) {
+        setSelectedTool("shapes");
+      } else {
+        setSelectedTool(selectedItem.getType());
+      }
       isToolChanged.current = true;
     } else if (selectedItem instanceof Track) {
       // do-nothing

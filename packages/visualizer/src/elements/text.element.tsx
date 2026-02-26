@@ -122,6 +122,10 @@ export const TextElement = {
           alignItems={"center"}
           justifyContent={"center"}
           layout
+          x={element.props?.x}
+          y={element.props?.y}
+          rotation={element.props?.rotation}
+          opacity={element.props?.opacity}
         >
           <Txt
             ref={innerTextRef}

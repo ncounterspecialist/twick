@@ -18,18 +18,30 @@ export const useCaptionsPanel = () => {
   const captionsTrack = useRef<Track | null>(null);
   const { editor } = useTimelineContext();
 
+  const resolveCaptionTracks = (): Track[] => {
+    return (editor.getTimelineData()?.tracks || []).filter(
+      (track) => track.getType() === "caption"
+    );
+  };
+
   const fetchCaptions = async () => {
-    const editorCaptionsTrack = editor.getCaptionsTrack();
-    if (editorCaptionsTrack) {
-      captionsTrack.current = editorCaptionsTrack;
-      setCaptions(
-        editorCaptionsTrack.getElements().map((element) => ({
-          s: element.getStart(),
-          e: element.getEnd(),
-          t: (element as CaptionElement).getText(),
-        }))
-      );
+    const captionTracks = resolveCaptionTracks();
+    const editorCaptionsTrack = captionTracks[0];
+
+    if (!editorCaptionsTrack) {
+      captionsTrack.current = null;
+      setCaptions([]);
+      return;
     }
+
+    captionsTrack.current = editorCaptionsTrack;
+    setCaptions(
+      editorCaptionsTrack.getElements().map((element) => ({
+        s: element.getStart(),
+        e: element.getEnd(),
+        t: (element as CaptionElement).getText(),
+      }))
+    );
   };
 
   useEffect(() => {

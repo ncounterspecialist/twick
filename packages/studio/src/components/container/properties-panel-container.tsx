@@ -1,11 +1,24 @@
 import { ElementProps } from "../properties/element-props";
 import { TextEffects } from "../properties/text-effects";
 import { Animation } from "../properties/animation";
-import { VideoElement, TextElement, AudioElement, CaptionElement, type TrackElement, Size, useTimelineContext } from "@twick/timeline";
+import {
+  VideoElement,
+  TextElement,
+  AudioElement,
+  CaptionElement,
+  ArrowElement,
+  LineElement,
+  RectElement,
+  CircleElement,
+  type TrackElement,
+  Size,
+  useTimelineContext,
+} from "@twick/timeline";
 import { CaptionPropPanel } from "../properties/caption-prop";
 import { PlaybackPropsPanel } from "../properties/playback-props";
 import { GenerateCaptionsPanel } from "../properties/generate-captions.tsx";
 import { TextPropsPanel } from "../properties/text-props";
+import { AnnotationStylePanel } from "../properties/annotation-style-panel";
 import { ICaptionGenerationPollingResponse, CaptionEntry } from "../../types";
 import { useCallback } from "react";
 
@@ -43,7 +56,21 @@ export function PropertiesPanelContainer({
     [editor]
   );
 
-  const title = selectedElement instanceof TextElement ? selectedElement.getText() : selectedElement?.getName() || selectedElement?.getType() || "Element";
+  const annotationTitle =
+    selectedElement instanceof ArrowElement
+      ? "Arrow callout"
+      : selectedElement instanceof LineElement
+        ? "Line"
+        : selectedElement instanceof RectElement
+          ? "Box"
+          : selectedElement instanceof CircleElement
+            ? "Circle"
+            : null;
+  const title = annotationTitle
+    ?? (selectedElement instanceof TextElement ? selectedElement.getText() : null)
+    ?? selectedElement?.getName()
+    ?? selectedElement?.getType()
+    ?? "Element";
 
   return (
     <aside className="properties-panel" aria-label="Element properties inspector">
@@ -114,6 +141,12 @@ export function PropertiesPanelContainer({
                 const isVideo = selectedElement instanceof VideoElement;
                 const isAudio = selectedElement instanceof AudioElement;
 
+                const isAnnotation =
+                  selectedElement instanceof ArrowElement ||
+                  selectedElement instanceof LineElement ||
+                  selectedElement instanceof RectElement ||
+                  selectedElement instanceof CircleElement;
+
                 return (
                   <>
                     {/* Typography (Text only) */}
@@ -127,6 +160,14 @@ export function PropertiesPanelContainer({
                     {/* Transform – visual elements only (not audio) */}
                     {!isAudio && (
                       <ElementProps
+                        selectedElement={selectedElement}
+                        updateElement={updateElement}
+                      />
+                    )}
+
+                    {/* Annotation style – color & opacity (arrow, highlight, blur) */}
+                    {isAnnotation && (
+                      <AnnotationStylePanel
                         selectedElement={selectedElement}
                         updateElement={updateElement}
                       />

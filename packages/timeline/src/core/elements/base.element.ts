@@ -1,7 +1,7 @@
 import { generateShortUuid } from "../../utils/timeline.utils";
 import type { ElementVisitor } from "../visitor/element-visitor";
 import { ElementAnimation } from "../addOns/animation";
-import type { ElementTransitionJSON } from "../../types";
+import type { ElementMetadata, ElementTransitionJSON } from "../../types";
 import { Position } from "../../types";
 
 export abstract class TrackElement {
@@ -13,6 +13,7 @@ export abstract class TrackElement {
   protected name!: string;
   protected animation?: ElementAnimation;
   protected props: Record<string, any>;
+  protected metadata?: ElementMetadata;
 
   constructor(type: string, id?: string) {
     this.id = id ?? `e-${generateShortUuid()}`;
@@ -53,6 +54,10 @@ export abstract class TrackElement {
 
   getProps(): Record<string, any> {
     return this.props;
+  }
+
+  getMetadata(): ElementMetadata | undefined {
+    return this.metadata;
   }
 
   getName(): string {
@@ -131,6 +136,11 @@ export abstract class TrackElement {
 
   setProps(props: Record<string, any>) {
     this.props = structuredClone(props);
+    return this;
+  }
+
+  setMetadata(metadata?: ElementMetadata) {
+    this.metadata = metadata ? structuredClone(metadata) : undefined;
     return this;
   }
 

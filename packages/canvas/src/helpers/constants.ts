@@ -147,6 +147,10 @@ export const ELEMENT_TYPES = {
   CIRCLE: "circle",
   /** Icon element type */
   ICON: "icon",
+  /** Arrow annotation element type */
+  ARROW: "arrow",
+  /** Line annotation / shape element type */
+  LINE: "line",
   /** Background color element type */
   BACKGROUND_COLOR: "backgroundColor",
 }

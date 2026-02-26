@@ -57,7 +57,6 @@ export function CaptionsPanel({
   return (
     <div className="panel-container">
       <h3 className="panel-title">Captions</h3>
-
       {/* Caption Entries */}
       {captions.map((caption, i) => (
         <div

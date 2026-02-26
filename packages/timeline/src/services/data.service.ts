@@ -1,11 +1,13 @@
 import Watermark from "../core/addOns/watermark";
 import { TrackElement } from "../core/elements/base.element";
 import { Track } from "../core/track/track";
+import { ProjectMetadata } from "../types";
 
 type TimelineStore = {
   tracks: Track[];
   version: number;
   backgroundColor?: string;
+  metadata?: ProjectMetadata;
   elementMap: Record<string, TrackElement>;
   trackMap: Record<string, any>;
   captionProps: Record<string, any>;
@@ -16,6 +18,7 @@ export type TimelineTrackData = {
     version: number;
     backgroundColor?: string;
     watermark?: Watermark;
+    metadata?: ProjectMetadata;
 }
 
 export class TimelineContextStore {
@@ -51,6 +54,7 @@ export class TimelineContextStore {
         tracks: timelineStore.tracks,
         version: timelineStore.version,
         backgroundColor: timelineStore.backgroundColor,
+        metadata: timelineStore.metadata,
     } : null;
   }
 
@@ -61,6 +65,9 @@ export class TimelineContextStore {
     store.version = timelineData.version;
     if (timelineData.backgroundColor !== undefined) {
       store.backgroundColor = timelineData.backgroundColor;
+    }
+    if (timelineData.metadata !== undefined) {
+      store.metadata = timelineData.metadata;
     }
     return timelineData;
   }

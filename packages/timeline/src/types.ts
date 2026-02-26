@@ -36,6 +36,7 @@ export interface ElementJSON {
   rotation?: number;
   opacity?: number;
   transition?: ElementTransitionJSON;
+  metadata?: ElementMetadata;
   [key: string]: any; // Additional properties based on element type
 }
 
@@ -43,6 +44,7 @@ export interface TrackJSON {
   id: string;
   name: string;
   type?: string; // Added for track serialization
+  language?: string;
   props?: Record<string, any>;
   elements: ElementJSON[];
 }
@@ -50,9 +52,29 @@ export interface TrackJSON {
 export interface ProjectJSON {
   watermark?: WatermarkJSON;
   backgroundColor?: string;
+  metadata?: ProjectMetadata;
   tracks: TrackJSON[];
   version: number;
 }
+
+export interface ChapterMarker {
+  id: string;
+  title: string;
+  time: number;
+  description?: string;
+}
+
+export interface ProjectMetadata {
+  title?: string;
+  description?: string;
+  tags?: string[];
+  templateId?: string;
+  profile?: string;
+  chapters?: ChapterMarker[];
+  custom?: Record<string, unknown>;
+}
+
+export type ElementMetadata = Record<string, unknown>;
 
 export interface WatermarkJSON {
   id: string;
@@ -143,6 +165,26 @@ export interface CircleProps {
 export interface IconProps {
   fill: string;
   size?: number;
+}
+
+export interface ArrowProps {
+  fill: string;
+  width: number;
+  height: number;
+  lineWidth?: number;
+}
+
+export interface LineProps {
+  /** Stroke/fill color for the line body */
+  fill: string;
+  /** Line length in pixels (mapped to width) */
+  width: number;
+  /** Line thickness in pixels (mapped to height) */
+  height: number;
+  /** Corner radius / rounded caps */
+  radius?: number;
+  /** Optional stroke width for outlines */
+  lineWidth?: number;
 }
 
 // Effect Types

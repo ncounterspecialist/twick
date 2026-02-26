@@ -3,8 +3,20 @@
  * Aligned with videosos-main ApiInfo structure.
  */
 
-export type AIModelCategory = "image" | "video" | "music" | "voiceover";
-export type AIModelProvider = "fal" | "runware";
+export type AIModelCategory =
+  | "image"
+  | "video"
+  | "music"
+  | "voiceover"
+  | "translation"
+  | "script";
+export type AIModelProvider =
+  | "fal"
+  | "runware"
+  | "openai"
+  | "gemini"
+  | "bedrock"
+  | "local";
 
 export interface ModelDimension {
   width: number;

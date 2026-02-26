@@ -12,6 +12,7 @@ import { useEdgeAutoScroll } from "../../hooks/use-edge-auto-scroll";
 import { MarqueeOverlay } from "./marquee-overlay";
 import { getTrackOrSeparatorAt, type DropTarget } from "../../utils/drop-target";
 import type { Size } from "@twick/timeline";
+import type { ChapterMarker } from "@twick/timeline";
 import type { TrackElementDragPayload } from "../track/track-element";
 
 /** Width of sticky left area (add track button + track headers) in pixels */
@@ -32,6 +33,7 @@ function TimelineView({
   onMarqueeSelect,
   onElementDrag,
   onElementDrop,
+  onSeek,
   elementColors,
   selectedIds,
   playheadPositionPx = 0,
@@ -39,6 +41,7 @@ function TimelineView({
   onDropOnTimeline,
   videoResolution,
   enableDropOnTimeline = true,
+  chapters = [],
 }: {
   zoomLevel: number;
   duration: number;
@@ -80,6 +83,7 @@ function TimelineView({
   videoResolution?: Size;
   /** Whether to enable drop-on-timeline */
   enableDropOnTimeline?: boolean;
+  chapters?: ChapterMarker[];
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const seekContainerRef = useRef<HTMLDivElement>(null);
@@ -285,11 +289,38 @@ function TimelineView({
     >
       <div style={{ width: timelineWidthPx }}>
         {seekTrack ? (
-          <div style={{ display: "flex", position: "relative" }}>
+          <div style={{ display: "flex", position: "relative", minHeight: 34 }}>
             <div className="twick-seek-track-empty-space" onClick={onAddTrack}>
               <Plus color="white" size={20}/>
             </div>
             <div style={{ flexGrow: 1 }}>{seekTrack}</div>
+            {chapters.map((chapter) => {
+              const left = LABEL_WIDTH + (chapter.time / Math.max(duration, 0.001)) * (timelineWidth - LABEL_WIDTH);
+              return (
+                <button
+                  key={chapter.id}
+                  className="btn-ghost"
+                  title={chapter.title}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onSeek(chapter.time);
+                  }}
+                  style={{
+                    position: "absolute",
+                    left,
+                    top: 0,
+                    height: "100%",
+                    padding: "0 4px",
+                    borderRadius: 0,
+                    borderLeft: "1px solid rgba(255,255,255,0.4)",
+                    borderRight: "none",
+                    minWidth: 0,
+                  }}
+                >
+                  <span style={{ fontSize: 10, opacity: 0.9 }}>{chapter.title}</span>
+                </button>
+              );
+            })}
           </div>
         ) : null}
       </div>

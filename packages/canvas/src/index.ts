@@ -60,7 +60,11 @@ export { CANVAS_OPERATIONS, ELEMENT_TYPES } from "./helpers/constants";
 
 // Element controller (registry pattern – register custom element types)
 export { default as elementController } from "./controllers/element.controller";
-export { ElementController } from "./controllers/element.controller";
+export {
+  ElementController,
+  registerCanvasHandler,
+  getCanvasHandler,
+} from "./controllers/element.controller";
 
 // Utility functions
 export {

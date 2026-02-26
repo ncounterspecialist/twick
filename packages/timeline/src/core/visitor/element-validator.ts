@@ -8,6 +8,8 @@ import { IconElement } from "../elements/icon.element";
 import { CircleElement } from "../elements/circle.element";
 import { RectElement } from "../elements/rect.element";
 import { PlaceholderElement } from "../elements/placeholder.element";
+import { ArrowElement } from "../elements/arrow.element";
+import { LineElement } from "../elements/line.element";
 
 export const VALIDATION_ERROR_CODE = {
   ELEMENT_NOT_FOUND: "ELEMENT_NOT_FOUND",
@@ -340,4 +342,29 @@ export class ElementValidator implements ElementVisitor<boolean> {
     }
     return true;
   }
+
+  visitArrowElement(element: ArrowElement): boolean {
+    const validation = this.validateBasicProperties(element);
+    if (validation.errors.length > 0) {
+      throw new ValidationError(
+        `Arrow element validation failed: ${validation.errors.join(", ")}`,
+        validation.errors,
+        validation.warnings
+      );
+    }
+    return true;
+  }
+
+  visitLineElement(element: LineElement): boolean {
+    const validation = this.validateBasicProperties(element);
+    if (validation.errors.length > 0) {
+      throw new ValidationError(
+        `Line element validation failed: ${validation.errors.join(", ")}`,
+        validation.errors,
+        validation.warnings
+      );
+    }
+    return true;
+  }
+
 } 

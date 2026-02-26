@@ -44,6 +44,8 @@ export function TwickStudio({ studioConfig }: { studioConfig?: StudioConfig }) {
     onLoadProject,
     onSaveProject,
     onExportVideo,
+    onExportCaptions,
+    onExportChapters,
   } = useStudioOperation(studioConfig);
 
   const {
@@ -80,6 +82,8 @@ export function TwickStudio({ studioConfig }: { studioConfig?: StudioConfig }) {
           onLoadProject={onLoadProject}
           onSaveProject={onSaveProject}
           onExportVideo={onExportVideo}
+          onExportCaptions={onExportCaptions}
+          onExportChapters={onExportChapters}
         />
         {/* Main Content */}
         <div className="studio-content">
@@ -87,6 +91,8 @@ export function TwickStudio({ studioConfig }: { studioConfig?: StudioConfig }) {
           <Toolbar
             selectedTool={selectedTool}
             setSelectedTool={setSelectedTool}
+            customTools={twickStudiConfig.customTools}
+            hiddenTools={twickStudiConfig.hiddenTools}
           />
 
           {/* Left Panel (Element Library) */}

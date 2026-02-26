@@ -33,32 +33,38 @@ export interface AnalyticsConfig {
  * Check if analytics should be enabled
  */
 export function isAnalyticsEnabled(config?: AnalyticsConfig): boolean {
-  // Check environment variable first
+  // Explicit disable always wins.
   if (typeof window !== "undefined") {
-    const envDisabled = 
+    const envDisabled =
       (window as any).__TWICK_ANALYTICS_DISABLED__ === true ||
       (import.meta as any).env?.VITE_TWICK_ANALYTICS_ENABLED === "false" ||
       (typeof process !== "undefined" && (process as any).env?.TWICK_ANALYTICS_ENABLED === "false");
-    
+
     if (envDisabled) return false;
   }
 
-  // Check config prop
+  // Explicit config disable
   if (config?.enabled === false) return false;
 
-  return true;
+  // Opt-in behavior: enabled only when explicitly requested via config or env.
+  if (config?.enabled === true) return true;
+
+  const envEnabled =
+    (typeof window !== "undefined" && (import.meta as any).env?.VITE_TWICK_ANALYTICS_ENABLED === "true") ||
+    (typeof process !== "undefined" && (process as any).env?.TWICK_ANALYTICS_ENABLED === "true");
+
+  return envEnabled;
 }
 
 /**
  * Get PostHog API key from config or environment
  */
 export function getPostHogApiKey(config?: AnalyticsConfig): string | undefined {
-  // Priority: config prop > environment variable > default
+  // Priority: config prop > environment variable
   return (
     config?.apiKey ||
     (typeof window !== "undefined" && (import.meta as any).env?.VITE_POSTHOG_API_KEY) ||
-    (typeof process !== "undefined" && (process as any).env?.POSTHOG_API_KEY) ||
-    "phc_v92Ybiir6eGbEOXmI60g7n0MhUZ1zSknfaf9a3wpAU0" // Default key
+    (typeof process !== "undefined" && (process as any).env?.POSTHOG_API_KEY)
   );
 }
 

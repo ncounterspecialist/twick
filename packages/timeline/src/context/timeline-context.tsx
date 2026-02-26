@@ -12,7 +12,7 @@ import { UndoRedoProvider, useUndoRedo } from "./undo-redo-context";
 import { Track } from "../core/track/track";
 import { TrackElement } from "../core/elements/base.element";
 import { resolveId } from "../utils/selection";
-import { ProjectJSON, Size, TrackJSON } from "../types";
+import { ProjectJSON, Size } from "../types";
 import { TimelineEditor } from "../core/editor/timeline.editor";
 import { editorRegistry } from "../utils/register-editor";
 import { PostHogProvider } from "posthog-js/react";
@@ -114,10 +114,7 @@ export interface TimelineProviderProps {
   /** resolution of the video */
   resolution?: Size;
   /** Initial timeline data to load */
-  initialData?: {
-    tracks: TrackJSON[];
-    version: number;
-  };
+  initialData?: ProjectJSON;
   /** Key for persisting undo/redo state */
   undoRedoPersistenceKey?: string;
   /** Maximum number of history states to keep */

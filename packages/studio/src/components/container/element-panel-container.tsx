@@ -5,11 +5,15 @@ import { AudioPanelContainer } from "./audio-panel-container";
 import { ImagePanelContainer } from "./image-panel-container";
 import { VideoPanelContainer } from "./video-panel-container";
 import { TextPanelContainer } from "./text-panel-container";
-import { RectPanelContainer } from "./rect-panel-container";
-import { CirclePanelContainer } from "./circle-panel-container";
+import { TextStylePanelContainer } from "./text-style-panel-container";
 import { Wand2 } from "lucide-react";
 import { CaptionsPanelContainer } from "./captions-panel-container";
 import { GenerateMediaPanelContainer } from "./generate-media-panel-container";
+import { TemplateGalleryPanel } from "../panel/template-gallery-panel";
+import { RecordPanel } from "../panel/record-panel";
+import { AnnotationsPanel } from "../panel/annotations-panel";
+import { ChaptersPanel } from "../panel/chapters-panel";
+import { ScriptPanel } from "../panel/script-panel";
 
 /**
  * Props interface for the ElementPanelContainer component.
@@ -53,6 +57,7 @@ const ElementPanelContainer = ({
   selectedElement,
   addElement,
   updateElement,
+  setSelectedTool,
   uploadConfig,
   studioConfig,
 }: ElementPanelContainerProps): React.ReactElement => {
@@ -62,6 +67,22 @@ const ElementPanelContainer = ({
 
   // Render appropriate library based on selected tool
   const renderLibrary = () => {
+    const CustomPanel = studioConfig?.customPanels?.[selectedTool];
+    if (CustomPanel) {
+      return (
+        <CustomPanel
+          selectedElement={selectedElement}
+          videoResolution={videoResolution}
+          addElement={addNewElement}
+          updateElement={updateElement}
+          uploadConfig={uploadConfig}
+          selectedTool={selectedTool}
+          setSelectedTool={setSelectedTool}
+          studioConfig={studioConfig}
+        />
+      );
+    }
+
     switch (selectedTool) {
       case "image":
         return (
@@ -101,19 +122,9 @@ const ElementPanelContainer = ({
             updateElement={updateElement}
           />
         );
-      case "rect":
+      case "text-style":
         return (
-          <RectPanelContainer
-            videoResolution={videoResolution}
-            selectedElement={selectedElement}
-            addElement={addNewElement}
-            updateElement={updateElement}
-          />
-        );
-      case "circle":
-        return (
-          <CirclePanelContainer
-            videoResolution={videoResolution}
+          <TextStylePanelContainer
             selectedElement={selectedElement}
             addElement={addNewElement}
             updateElement={updateElement}
@@ -128,6 +139,60 @@ const ElementPanelContainer = ({
             selectedElement={selectedElement}
             addElement={addNewElement}
             updateElement={updateElement}
+            studioConfig={studioConfig}
+          />
+        );
+      case "templates":
+        return <TemplateGalleryPanel studioConfig={studioConfig} />;
+      case "record":
+        return (
+          <RecordPanel
+            selectedElement={selectedElement}
+            videoResolution={videoResolution}
+            addElement={addNewElement}
+            updateElement={updateElement}
+            uploadConfig={uploadConfig}
+            selectedTool={selectedTool}
+            setSelectedTool={setSelectedTool}
+            studioConfig={studioConfig}
+          />
+        );
+      case "shapes":
+        return (
+          <AnnotationsPanel
+            selectedElement={selectedElement}
+            videoResolution={videoResolution}
+            addElement={addNewElement}
+            updateElement={updateElement}
+            uploadConfig={uploadConfig}
+            selectedTool={selectedTool}
+            setSelectedTool={setSelectedTool}
+            studioConfig={studioConfig}
+          />
+        );
+      case "chapters":
+        return (
+          <ChaptersPanel
+            selectedElement={selectedElement}
+            videoResolution={videoResolution}
+            addElement={addNewElement}
+            updateElement={updateElement}
+            uploadConfig={uploadConfig}
+            selectedTool={selectedTool}
+            setSelectedTool={setSelectedTool}
+            studioConfig={studioConfig}
+          />
+        );
+      case "script":
+        return (
+          <ScriptPanel
+            selectedElement={selectedElement}
+            videoResolution={videoResolution}
+            addElement={addNewElement}
+            updateElement={updateElement}
+            uploadConfig={uploadConfig}
+            selectedTool={selectedTool}
+            setSelectedTool={setSelectedTool}
             studioConfig={studioConfig}
           />
         );
