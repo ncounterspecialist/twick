@@ -24,151 +24,82 @@ const __dirname = dirname(__filename);
 const exampleProject = {
   input: {
     properties: {
-      width: 1920,
-      height: 1080,
+      width: 720,
+      height: 1280,
       fps: 30,
     },
-    tracks: [
-      {
-        id: "t-background",
-        type: "element",
-        name: "background",
-        elements: [
+      "tracks": [
           {
-            id: "e-bg-1",
-            trackId: "t-background",
-            type: "rect",
-            s: 0,
-            e: 10,
-            props: {
-              width: 1920,
-              height: 1080,
-              fill: "#1a1a2e",
-            },
-          },
-        ],
-      },
-      {
-        id: "t-text",
-        type: "element",
-        name: "text",
-        elements: [
-          {
-            id: "e-text-1",
-            trackId: "t-text",
-            type: "text",
-            s: 1,
-            e: 4,
-            t: "Welcome to Twick!",
-            props: {
-              fill: "#ffffff",
-              fontSize: 72,
-              fontFamily: "Arial",
-              fontWeight: "bold",
-              x: 0,
-              y: -200,
-            },
-            animation: {
-              name: "fade",
-              animate: "enter",
-              duration: 1,
-            },
-            textEffect: {
-              name: "typewriter",
-              duration: 2,
-            },
+              "id": "t-sample",
+              "name": "sample",
+              "type": "element",
+              "props": {},
+              "elements": [
+                  {
+                      "id": "e-sample",
+                      "trackId": "t-sample",
+                      "type": "text",
+                      "name": "sample",
+                      "s": 0,
+                      "e": 5,
+                      "props": {
+                          "text": "Twick SDK",
+                          "fill": "#FFFFFF"
+                      }
+                  }
+              ]
           },
           {
-            id: "e-text-2",
-            trackId: "t-text",
-            type: "text",
-            s: 4,
-            e: 7,
-            t: "Create Amazing Videos",
-            props: {
-              fill: "#4ecdc4",
-              fontSize: 64,
-              fontFamily: "Arial",
-              fontWeight: "bold",
-              x: 0,
-              y: 0,
-            },
-            animation: {
-              name: "rise",
-              animate: "enter",
-              duration: 1,
-            },
+              "id": "t-948a8e683ebb",
+              "name": "Track_1772121198607",
+              "type": "element",
+              "props": {},
+              "elements": [
+                  {
+                      "id": "e-cc0401034d3e",
+                      "trackId": "t-948a8e683ebb",
+                      "type": "image",
+                      "s": 0,
+                      "e": 3,
+                      "props": {
+                          "src": "https://images.pexels.com/photos/358457/pexels-photo-358457.jpeg",
+                          "mediaFilter": "none"
+                      },
+                      "frame": {
+                          "size": [
+                              720,
+                              1080.2700675168792
+                          ],
+                          "x": 0,
+                          "y": 0
+                      },
+                      "frameEffects": [],
+                      "objectFit": "cover"
+                  }
+              ]
           },
           {
-            id: "e-text-3",
-            trackId: "t-text",
-            type: "text",
-            s: 7,
-            e: 10,
-            t: "Programmatically!",
-            props: {
-              fill: "#ffd700",
-              fontSize: 80,
-              fontFamily: "Arial",
-              fontWeight: "bold",
-              x: 0,
-              y: 200,
-            },
-            animation: {
-              name: "fade",
-              animate: "enter",
-              duration: 1,
-            },
-          },
-        ],
-      },
-      {
-        id: "t-shapes",
-        type: "element",
-        name: "shapes",
-        elements: [
-          {
-            id: "e-circle-1",
-            trackId: "t-shapes",
-            type: "circle",
-            s: 2,
-            e: 8,
-            props: {
-              width: 200,
-              height: 200,
-              fill: "#ff6b6b",
-              x: -400,
-              y: 0,
-            },
-            animation: {
-              name: "fade",
-              animate: "enter",
-              duration: 1,
-            },
-          },
-          {
-            id: "e-rect-1",
-            trackId: "t-shapes",
-            type: "rect",
-            s: 5,
-            e: 10,
-            props: {
-              width: 300,
-              height: 150,
-              fill: "#4ecdc4",
-              x: 400,
-              y: 0,
-            },
-            animation: {
-              name: "rise",
-              animate: "enter",
-              duration: 1,
-            },
-          },
-        ],
-      },
-    ],
-    version: 1,
+              "id": "t-85e232b36bd0",
+              "name": "Track_1772121202675",
+              "type": "element",
+              "props": {},
+              "elements": [
+                  {
+                      "id": "e-b262ef2b4ff1",
+                      "trackId": "t-85e232b36bd0",
+                      "type": "effect",
+                      "s": 0,
+                      "e": 1,
+                      "props": {
+                          "effectKey": "vignette",
+                          "intensity": 1
+                      }
+                  }
+              ]
+          }
+      ],
+      "version": 6,
+      "metadata": {}
   },
 };
 

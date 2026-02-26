@@ -14,6 +14,7 @@ import { ElementFrameEffect } from "../addOns/frame-effect";
 import { ElementTextEffect } from "../addOns/text-effect";
 import { ArrowElement } from "../elements/arrow.element";
 import { LineElement } from "../elements/line.element";
+import { EffectElement } from "../elements/effect.element";
 
 export class ElementDeserializer {
   private static customDeserializers: Record<
@@ -180,6 +181,13 @@ export class ElementDeserializer {
     return lineElement;
   }
 
+  static deserializeEffectElement(json: ElementJSON): EffectElement {
+    const effectKey = (json.props as any)?.effectKey ?? "";
+    const effectElement = new EffectElement(effectKey, json.props as any);
+    ElementDeserializer.deserializeBaseElement(effectElement, json);
+    return effectElement;
+  }
+
   static fromJSON(json: ElementJSON): TrackElement | null{
     try {
     const customDeserializer = ElementDeserializer.customDeserializers[json.type];
@@ -209,6 +217,8 @@ export class ElementDeserializer {
         return ElementDeserializer.deserializeLineElement(json);
       case "arrow":
         return ElementDeserializer.deserializeArrowElement(json);
+      case "effect":
+        return ElementDeserializer.deserializeEffectElement(json);
       default:
         return ElementDeserializer.deserializePlaceholderElement({
           ...json,

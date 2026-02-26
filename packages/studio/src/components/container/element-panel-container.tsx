@@ -6,6 +6,7 @@ import { ImagePanelContainer } from "./image-panel-container";
 import { VideoPanelContainer } from "./video-panel-container";
 import { TextPanelContainer } from "./text-panel-container";
 import { TextStylePanelContainer } from "./text-style-panel-container";
+import { EffectStylePanelContainer } from "./effect-style-panel-container";
 import { Wand2 } from "lucide-react";
 import { CaptionsPanelContainer } from "./captions-panel-container";
 import { GenerateMediaPanelContainer } from "./generate-media-panel-container";
@@ -130,6 +131,14 @@ const ElementPanelContainer = ({
             updateElement={updateElement}
           />
         );
+      case "effect":
+        return (
+          <EffectStylePanelContainer
+            selectedElement={selectedElement}
+            addElement={addNewElement}
+            updateElement={updateElement}
+          />
+        );
       case "caption":
         return <CaptionsPanelContainer />;
       case "generate-media":
@@ -157,7 +166,7 @@ const ElementPanelContainer = ({
             studioConfig={studioConfig}
           />
         );
-      case "shapes":
+      case "shape":
         return (
           <AnnotationsPanel
             selectedElement={selectedElement}

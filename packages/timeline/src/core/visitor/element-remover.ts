@@ -10,6 +10,7 @@ import { RectElement } from "../elements/rect.element";
 import { PlaceholderElement } from "../elements/placeholder.element";
 import { ArrowElement } from "../elements/arrow.element";
 import { LineElement } from "../elements/line.element";
+import { EffectElement } from "../elements/effect.element";
 import { Track } from "../track/track";
 import { TrackFriend } from "../track/track.friend";
 
@@ -76,6 +77,11 @@ export class ElementRemover implements ElementVisitor<boolean> {
   }
 
   visitLineElement(element: LineElement): boolean {
+    this.trackFriend.removeElement(element);
+    return true;
+  }
+
+  visitEffectElement(element: EffectElement): boolean {
     this.trackFriend.removeElement(element);
     return true;
   }

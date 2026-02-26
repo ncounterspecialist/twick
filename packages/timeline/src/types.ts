@@ -209,6 +209,19 @@ export interface FrameEffect {
   props: FrameEffectProps;
 }
 
+export interface EffectProps {
+  /**
+   * Unique key identifying the effect in the GL effects catalog.
+   * This should map to an EffectKey in @twick/effects.
+   */
+  effectKey: string;
+  /**
+   * Overall effect intensity, typically in the range [0, 1].
+   * Renderers should clamp values into this range.
+   */
+  intensity?: number;
+}
+
 // Animation Types
 export interface Animation {
   name: string;

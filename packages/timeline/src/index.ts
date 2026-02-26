@@ -49,6 +49,7 @@ import { VideoElement } from "./core/elements/video.element";
 import { PlaceholderElement } from "./core/elements/placeholder.element";
 import { ArrowElement } from "./core/elements/arrow.element";
 import { LineElement } from "./core/elements/line.element";
+import { EffectElement } from "./core/elements/effect.element";
 import {
   generateShortUuid,
   getTotalDuration,
@@ -77,6 +78,7 @@ export {
   PlaceholderElement,
   ArrowElement,
   LineElement,
+  EffectElement,
   ElementAnimation,
   ElementFrameEffect,
   ElementTextEffect,

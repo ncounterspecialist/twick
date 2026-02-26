@@ -4,6 +4,8 @@ import { resolve } from 'path';
 
 export default defineConfig({
   build: {
+    // Inline effect preview images so the library is self-contained; consumers get images automatically.
+    assetsInlineLimit: 10 * 1024 * 1024,
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
       name: 'TwickStudio',

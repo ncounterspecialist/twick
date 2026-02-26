@@ -34,15 +34,17 @@
     "access": "public"
   },
   "dependencies": {
-    "@twick/core": "^0.15.17",
+    "@twick/core": "^0.15.21",
     "@twick/media-utils": "workspace:*",
     "@twick/visualizer": "workspace:*",
+    "@twick/effects": "workspace:*",
     "mediabunny": "^1.31.0",
     "mp4-wasm": "^1.0.6",
     "mp4box": "^0.5.2",
     "@twick/ffmpeg-web": "workspace:*",
     "@ffmpeg/util": "^0.12.1",
-    "@ffmpeg/core": "^0.12.6"
+    "@ffmpeg/core": "^0.12.6",
+    "@twick/gl-runtime": "^0.15.21"
   },
   "peerDependencies": {
     "react": ">=17.0.0"

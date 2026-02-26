@@ -12,6 +12,7 @@ import { PlaceholderElement } from "../elements/placeholder.element";
 import { TrackElement } from "../elements/base.element";
 import { ArrowElement } from "../elements/arrow.element";
 import { LineElement } from "../elements/line.element";
+import { EffectElement } from "../elements/effect.element";
 
 export class ElementSerializer implements ElementVisitor<ElementJSON> {
   serializeElement(element: TrackElement): ElementJSON {
@@ -101,6 +102,10 @@ export class ElementSerializer implements ElementVisitor<ElementJSON> {
   }
 
   visitArrowElement(element: ArrowElement): ElementJSON {
+    return this.serializeElement(element);
+  }
+
+  visitEffectElement(element: EffectElement): ElementJSON {
     return this.serializeElement(element);
   }
 }

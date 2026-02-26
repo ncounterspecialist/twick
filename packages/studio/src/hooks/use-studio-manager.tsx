@@ -47,7 +47,7 @@ export const useStudioManager = () => {
     if (selectedItem instanceof TrackElement) {
       const elementType = selectedItem.getType();
       if(SHAPES_TOOLS.includes(elementType)) {
-        setSelectedTool("shapes");
+        setSelectedTool("shape");
       } else {
         setSelectedTool(selectedItem.getType());
       }

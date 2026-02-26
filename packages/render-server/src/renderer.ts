@@ -76,7 +76,7 @@ const renderTwickVideo = async (variables: any, settings: any) => {
       quality: "medium",
       projectSettings: {
         exporter: {
-          name: "@twick/core/wasm",
+          name: "@twick/core/wasm-effects",
         },
         size: {
           x: width,

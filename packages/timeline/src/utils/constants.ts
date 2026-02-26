@@ -283,6 +283,8 @@ export const TIMELINE_ELEMENT_TYPE = {
   LINE: "line",
   /** Arrow annotation element type */
   ARROW: "arrow",
+  /** Global / adjustment-layer style effect element */
+  EFFECT: "effect",
 } as const;
 
 /**

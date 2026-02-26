@@ -162,6 +162,8 @@ export const DEFAULT_ELEMENT_COLORS: ElementColors = {
     icon: "#A76CD4",
     /** Circle element color - deep byzantium */
     circle: "#703D8B",
+    /** Effect element color - cyan accent for global effects */
+    effect: "#22C3EE",
   };
 /**
  * Available text fonts for video editor text elements.

@@ -32,7 +32,8 @@
   "dependencies": {
     "@twick/core": "^0.15.17",
     "@twick/player-react": "^0.15.17",
-    "@twick/visualizer": "workspace:*"
+    "@twick/visualizer": "workspace:*",
+    "@twick/effects": "workspace:*"
   },
   "peerDependencies": {
     "react": "^18.0.0 || ^19.0.0"

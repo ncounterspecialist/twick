@@ -10,6 +10,7 @@ import { RectElement } from "../elements/rect.element";
 import { PlaceholderElement } from "../elements/placeholder.element";
 import { ArrowElement } from "../elements/arrow.element";
 import { LineElement } from "../elements/line.element";
+import { EffectElement } from "../elements/effect.element";
 import { Track } from "../track/track";
 import { TrackFriend } from "../track/track.friend";
 
@@ -66,6 +67,10 @@ export class ElementUpdater implements ElementVisitor<boolean> {
   }
 
   visitLineElement(element: LineElement): boolean {
+    return this.trackFriend.updateElement(element);
+  }
+
+  visitEffectElement(element: EffectElement): boolean {
     return this.trackFriend.updateElement(element);
   }
 } 

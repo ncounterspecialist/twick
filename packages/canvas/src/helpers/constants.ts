@@ -153,4 +153,6 @@ export const ELEMENT_TYPES = {
   LINE: "line",
   /** Background color element type */
   BACKGROUND_COLOR: "backgroundColor",
-}
+  /** Global / adjustment-layer style effect element */
+  EFFECT: "effect",
+} as const;

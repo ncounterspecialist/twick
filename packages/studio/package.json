@@ -42,6 +42,7 @@
     "@twick/timeline": "workspace:*",
     "@twick/video-editor": "workspace:*",
     "@twick/visualizer": "workspace:*",
+    "@twick/effects": "workspace:*",
     "lucide-react": "^0.511.0"
   },
   "peerDependencies": {

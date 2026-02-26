@@ -1,49 +1,49 @@
 {
-  "name": "@twick/examples-cra",
-  "version": "0.15.0",
-  "private": true,
-  "dependencies": {
-    "@twick/browser-render": "workspace:*",
-    "@twick/canvas": "workspace:*",
-    "@twick/media-utils": "workspace:*",
-    "@twick/live-player": "workspace:*",
-    "@twick/timeline": "workspace:*",
-    "@twick/video-editor": "workspace:*",
-    "@twick/studio": "workspace:*",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "react-router-dom": "^7.6.1",
-    "react-scripts": "5.0.1",
-    "typescript": "~5.8.3",
-    "web-vitals": "^3.5.0"
-  },
-  "scripts": {
-    "start": "pnpm exec craco start",
-    "build": "pnpm exec craco build",
-    "test": "pnpm exec craco test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
-  "devDependencies": {
-    "@craco/craco": "^7.1.0",
-    "@types/node": "^20.11.24",
-    "@types/react": "^19.0.0",
-    "@types/react-dom": "^19.0.0"
-  }
+    "name": "@twick/examples-cra",
+    "version": "0.15.0",
+    "private": true,
+    "dependencies": {
+        "@twick/browser-render": "workspace:*",
+        "@twick/canvas": "workspace:*",
+        "@twick/media-utils": "workspace:*",
+        "@twick/live-player": "workspace:*",
+        "@twick/timeline": "workspace:*",
+        "@twick/video-editor": "workspace:*",
+        "@twick/studio": "workspace:*",
+        "react": "^19.0.0",
+        "react-dom": "^19.0.0",
+        "react-router-dom": "^7.6.1",
+        "react-scripts": "5.0.1",
+        "typescript": "~5.8.3",
+        "web-vitals": "^3.5.0"
+    },
+    "scripts": {
+        "start": "pnpm exec craco start",
+        "build": "pnpm exec craco build",
+        "test": "pnpm exec craco test",
+        "eject": "react-scripts eject"
+    },
+    "eslintConfig": {
+        "extends": [
+            "react-app"
+        ]
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    },
+    "devDependencies": {
+        "@craco/craco": "^7.1.0",
+        "@types/node": "^20.11.24",
+        "@types/react": "^19.0.0",
+        "@types/react-dom": "^19.0.0"
+    }
 }
