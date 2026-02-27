@@ -8,6 +8,7 @@ Twick enables developers to build professional video editing experiences with **
 - AI caption generation
 - React timeline editor
 - Canvas-based video editing
+- **GPU-accelerated GL effects** (WebGL-based video post-processing)
 - Client-side rendering
 - Serverless MP4 export
 - Open-source video SDK
@@ -85,6 +86,7 @@ Twick is a modular **React video editor library** and cloud toolchain that helps
 - **`@twick/browser-render`** – WebCodecs-based browser MP4 rendering (uses `@twick/ffmpeg-web` for audio muxing)  
 - **`@twick/ffmpeg-web`** – FFmpeg.wasm wrapper for webpack, Next.js, CRA, and Vite (used by `@twick/browser-render`)  
 - **`@twick/render-server`** – Node + Puppeteer + FFmpeg rendering server  
+- **`@twick/effects`** – GL shader-based video effects (sepia, vignette, pixelate, warp, and more coming), powered by `@twick/gl-runtime`  
 - **`@twick/cloud-transcript`** – AI transcription to JSON captions 
 - **`@twick/cloud-caption-video`** – Fully automated caption project generation from a video URL  
 - **`@twick/cloud-export-video`** – Serverless MP4 export via AWS Lambda containers  
@@ -190,6 +192,9 @@ Twick supports **two primary export paths**:
 - **Server rendering (`@twick/render-server`)**  
   - Node-based rendering with Puppeteer + FFmpeg  
   - Best for production workloads, long videos, and full audio support  
+
+Both browser and server rendering paths support **GL effects** via `@twick/effects` + `@twick/gl-runtime`.  
+Effects are applied as WebGL fragment-shader passes (sepia, vignette, pixelate, warp today, with more GPU effects coming), and can be configured per element in `@twick/studio` or used directly from your own React components.
 
 High-level guidance:
 
