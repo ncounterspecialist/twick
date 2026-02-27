@@ -299,14 +299,14 @@ jobs:
             echo "Error running get-publish-order.js:"
             echo "$SCRIPT_OUTPUT"
             echo "Using fallback order"
-            PUBLISH_ORDER="media-utils canvas timeline effects live-player visualizer video-editor render-server ffmpeg-web browser-render studio"
+            PUBLISH_ORDER="media-utils canvas timeline effects ai-models live-player visualizer video-editor render-server ffmpeg-web browser-render studio"
           else
             PUBLISH_ORDER=$(echo "$SCRIPT_OUTPUT" | grep "Publish order string:" | cut -d: -f2 | xargs)
             
             # Fallback order if script fails to output expected format
             if [ -z "$PUBLISH_ORDER" ]; then
               echo "Warning: Could not determine dependency order, using fallback order"
-              PUBLISH_ORDER="media-utils canvas timeline effects live-player visualizer video-editor render-server ffmpeg-web browser-render"
+              PUBLISH_ORDER="media-utils canvas timeline effects ai-models live-player visualizer video-editor render-server ffmpeg-web browser-render"
             fi
           fi
           
