@@ -1,0 +1,86 @@
+name: Publish Single Package
+
+on:
+  workflow_dispatch:
+    inputs:
+      package:
+        description: 'Package path (e.g. ai-models, cloud-functions/export-video)'
+        required: true
+        type: string
+      version:
+        description: 'Version to publish (e.g. 0.15.21)'
+        required: true
+        type: string
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8.15.4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          registry-url: 'https://registry.npmjs.org'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Update version and prepare for publish
+        run: |
+          PKG_DIR="packages/${{ github.event.inputs.package }}"
+          if [ ! -f "$PKG_DIR/package.json" ]; then
+            echo "❌ Package not found: $PKG_DIR"
+            exit 1
+          fi
+          VERSION="${{ github.event.inputs.version }}"
+          echo "Preparing $PKG_DIR for publish at version $VERSION..."
+
+          # Update version
+          jq --arg v "$VERSION" '.version = $v' "$PKG_DIR/package.json" > "$PKG_DIR/package.json.tmp" && mv "$PKG_DIR/package.json.tmp" "$PKG_DIR/package.json"
+
+          # Replace workspace:* with version for @twick/* deps
+          jq --arg v "$VERSION" '
+            if .dependencies then
+              .dependencies |= with_entries(
+                if .key | startswith("@twick/") then
+                  (.value | tostring) as $val |
+                  if $val == "workspace:*" or ($val | startswith("workspace:")) then
+                    .value = $v
+                  else
+                    .
+                  end
+                else
+                  .
+                end
+              )
+            else
+              .
+            end
+          ' "$PKG_DIR/package.json" > "$PKG_DIR/package.json.tmp" && mv "$PKG_DIR/package.json.tmp" "$PKG_DIR/package.json"
+
+          echo "✓ Version and dependencies updated"
+
+      - name: Build package
+        run: pnpm run build --filter "./packages/${{ github.event.inputs.package }}"
+
+      - name: Publish to npm
+        run: |
+          cd "packages/${{ github.event.inputs.package }}"
+          echo "Publishing $(jq -r '.name' package.json)@$(jq -r '.version' package.json)..."
+          npm publish --access public --ignore-scripts
+          echo "✓ Published successfully"
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
