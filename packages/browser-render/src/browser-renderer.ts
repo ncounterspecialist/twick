@@ -1,7 +1,14 @@
 import { Renderer, Vector2 } from "@twick/core";
+import { getActiveEffectsForFrame } from "@twick/effects";
 import type { Project, RendererSettings } from "@twick/core";
 import defaultProject from "@twick/visualizer/dist/project.js";
 import { hasAudio } from "@twick/media-utils";
+import {
+  applyEffects,
+  createEffectContext,
+  type ActiveEffect,
+  type EffectContext,
+} from "@twick/gl-runtime";
 import { BrowserAudioProcessor, getAssetPlacement, type AssetInfo } from './audio/audio-processor';
 import { muxAudioVideo } from './audio/audio-video-muxer';
 
@@ -35,6 +42,12 @@ class BrowserWasmExporter {
   private nativePacketSource: { add(packet: unknown, meta?: EncodedVideoChunkMetadata): Promise<void>; close(): void } | null = null;
   private nativeAddPromise: Promise<void> = Promise.resolve();
   private nativeFirstChunk = true;
+
+  // GL effects state (post-processing pipeline). WebGL uses effectCanvas; 2D readback uses effectOutputCanvas (a canvas can only have one context).
+  private effectContext: EffectContext | null = null;
+  private effectCanvas: HTMLCanvasElement | null = null;
+  private effectOutputCanvas: HTMLCanvasElement | null = null;
+  private effectReadbackFbo: WebGLFramebuffer | null = null;
 
   public static async create(settings: RendererSettings) {
     return new BrowserWasmExporter(settings);
@@ -149,24 +162,117 @@ class BrowserWasmExporter {
     }
   }
 
-  public async handleFrame(canvas: HTMLCanvasElement, frameNumber?: number): Promise<void> {
+  public async handleFrame(
+    canvas: HTMLCanvasElement,
+    frameNumber?: number,
+    effects?: ActiveEffect[],
+  ): Promise<void> {
     const frameIndex = frameNumber !== undefined ? frameNumber : this.currentFrame;
     const timestampMicroseconds = Math.round((frameIndex / this.fps) * 1_000_000);
     const durationMicroseconds = Math.round((1 / this.fps) * 1_000_000);
 
     let sourceCanvas: HTMLCanvasElement = canvas;
-    if (this.copyCanvas) {
-      if (
-        this.copyCanvas.width !== canvas.width ||
-        this.copyCanvas.height !== canvas.height
+
+    // Apply GL post-processing effects if configured for this frame
+    if (effects && effects.length > 0) {
+      const w = canvas.width;
+      const h = canvas.height;
+
+      if (!this.effectCanvas) {
+        this.effectCanvas = document.createElement("canvas");
+        this.effectCanvas.width = w;
+        this.effectCanvas.height = h;
+      } else if (
+        this.effectCanvas.width !== w ||
+        this.effectCanvas.height !== h
       ) {
-        this.copyCanvas.width = canvas.width;
-        this.copyCanvas.height = canvas.height;
+        this.effectCanvas.width = w;
+        this.effectCanvas.height = h;
+      }
+
+      if (!this.effectContext) {
+        this.effectContext = createEffectContext(this.effectCanvas);
+      }
+
+      const gl = this.effectContext.gl;
+      const texture = gl.createTexture();
+      if (texture) {
+        gl.bindTexture(gl.TEXTURE_2D, texture);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+        gl.texImage2D(
+          gl.TEXTURE_2D,
+          0,
+          gl.RGBA,
+          gl.RGBA,
+          gl.UNSIGNED_BYTE,
+          canvas,
+        );
+
+        const finalTexture = applyEffects({
+          ctx: this.effectContext,
+          sourceTexture: texture,
+          width: w,
+          height: h,
+          effects,
+        });
+
+        // Read back from the result texture via a readback FBO (result is in an FBO, not default framebuffer)
+        if (!this.effectReadbackFbo) {
+          this.effectReadbackFbo = gl.createFramebuffer();
+        }
+        gl.bindFramebuffer(gl.FRAMEBUFFER, this.effectReadbackFbo);
+        gl.framebufferTexture2D(
+          gl.FRAMEBUFFER,
+          gl.COLOR_ATTACHMENT0,
+          gl.TEXTURE_2D,
+          finalTexture,
+          0,
+        );
+        const pixels = new Uint8Array(w * h * 4);
+        gl.readPixels(0, 0, w, h, gl.RGBA, gl.UNSIGNED_BYTE, pixels);
+        gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+
+        // Use a separate canvas for 2D readback (effectCanvas already has WebGL context; a canvas can only have one context)
+        if (!this.effectOutputCanvas) {
+          this.effectOutputCanvas = document.createElement("canvas");
+        }
+        this.effectOutputCanvas.width = w;
+        this.effectOutputCanvas.height = h;
+        const ctx2d = this.effectOutputCanvas.getContext("2d");
+        if (ctx2d) {
+          const imageData = ctx2d.createImageData(w, h);
+          const rowBytes = w * 4;
+          for (let y = 0; y < h; y++) {
+            imageData.data.set(
+              pixels.subarray((h - 1 - y) * rowBytes, (h - y) * rowBytes),
+              y * rowBytes,
+            );
+          }
+          ctx2d.putImageData(imageData, 0, 0);
+          sourceCanvas = this.effectOutputCanvas;
+        }
+
+        gl.deleteTexture(texture);
+      }
+    }
+    if (this.copyCanvas) {
+      // Always copy from the current sourceCanvas (which may already have GL
+      // effects applied) rather than the original stage canvas.
+      if (
+        this.copyCanvas.width !== sourceCanvas.width ||
+        this.copyCanvas.height !== sourceCanvas.height
+      ) {
+        this.copyCanvas.width = sourceCanvas.width;
+        this.copyCanvas.height = sourceCanvas.height;
       }
       const ctx = this.copyCanvas.getContext('2d');
       if (ctx) {
         ctx.imageSmoothingEnabled = false;
-        ctx.drawImage(canvas, 0, 0);
+        ctx.drawImage(sourceCanvas, 0, 0);
         sourceCanvas = this.copyCanvas;
       }
     }
@@ -548,8 +654,8 @@ export const renderTwickVideoInBrowser = async (
       variables.input.tracks.forEach((track: any) => {
         if (track.elements) {
           track.elements.forEach((el: any) => {
-            if (el.type === 'video') videoElements.push(el);
-            if (el.type === 'audio') audioElements.push(el);
+            if (el.type === "video") videoElements.push(el);
+            if (el.type === "audio") audioElements.push(el);
           });
         }
       });
@@ -616,7 +722,14 @@ export const renderTwickVideoInBrowser = async (
       const currentAssets = (renderer as any).playback.currentScene.getMediaAssets?.() || [];
       mediaAssets.push(currentAssets);
       const canvas = (renderer as any).stage.finalBuffer;
-      await exporter.handleFrame(canvas, frame);
+
+      // Same logic as render-server: get active GL effects for this frame from variables.input.tracks
+      const activeEffects = getActiveEffectsForFrame(variables, frame, fps);
+      await exporter.handleFrame(
+        canvas,
+        frame,
+        activeEffects.length > 0 ? activeEffects : undefined,
+      );
       // Video encoding: 0–90% so audio phase (90–100%) is visible
       if (settings.onProgress) settings.onProgress((frame / totalFrames) * 0.9);
 

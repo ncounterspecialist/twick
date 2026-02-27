@@ -291,10 +291,11 @@ export const addCaptionElement = ({
         : element.props?.font?.family ?? captionProps?.font?.family) ??
       DEFAULT_CAPTION_PROPS.family,
     fill: resolvedFill,
-    fontWeight: (applyToAll
-      ? captionProps?.font?.weight
-      : element.props?.fontWeight ?? captionProps?.font?.weight) ??
-    DEFAULT_CAPTION_PROPS.fontWeight,
+    fontWeight:
+      (applyToAll
+        ? captionProps?.font?.weight
+        : element.props?.font?.weight ?? captionProps?.font?.weight) ??
+      DEFAULT_CAPTION_PROPS.fontWeight,
     stroke: (applyToAll
       ? captionProps?.stroke
       : element.props?.stroke ?? captionProps?.stroke) ??

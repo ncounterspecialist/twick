@@ -4,6 +4,7 @@ import { PLAYER_STATE } from "@twick/live-player";
 import SeekControl from "../controls/seek-control";
 import TimelineView from "./timeline-view";
 import {
+  ChapterMarker,
   useTimelineContext,
   VALIDATION_ERROR_CODE,
   ValidationError,
@@ -114,6 +115,7 @@ const TimelineManager = ({
       elementColors={elementColors}
       playheadPositionPx={playheadState.positionPx}
       isPlayheadActive={isPlayheadActive}
+      chapters={(timelineData?.metadata?.chapters as ChapterMarker[] | undefined) ?? []}
       onDropOnTimeline={handleDropOnTimeline}
       videoResolution={videoResolution}
       enableDropOnTimeline={true}

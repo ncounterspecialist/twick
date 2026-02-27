@@ -10,6 +10,7 @@ import {
   FrameEffect,
   getDecimalNumber,
   TrackElement,
+  TIMELINE_ELEMENT_TYPE,
 } from "@twick/timeline";
 import { ElementColors } from "../../helpers/types";
 import "../../styles/timeline.css";
@@ -182,8 +183,30 @@ export const TrackElementView: React.FC<{
 
   const getElementColor = (elementType: string) => {
     const colors = elementColors || ELEMENT_COLORS;
-    if (elementType in colors) {
-      return colors[elementType as keyof typeof colors];
+
+    const key =
+      elementType === TIMELINE_ELEMENT_TYPE.VIDEO
+        ? "video"
+        : elementType === TIMELINE_ELEMENT_TYPE.AUDIO
+        ? "audio"
+        : elementType === TIMELINE_ELEMENT_TYPE.IMAGE
+        ? "image"
+        : elementType === TIMELINE_ELEMENT_TYPE.TEXT
+        ? "text"
+        : elementType === TIMELINE_ELEMENT_TYPE.CAPTION
+        ? "caption"
+        : elementType === TIMELINE_ELEMENT_TYPE.RECT
+        ? "rect"
+        : elementType === TIMELINE_ELEMENT_TYPE.CIRCLE
+        ? "circle"
+        : elementType === TIMELINE_ELEMENT_TYPE.ICON
+        ? "icon"
+        : elementType === TIMELINE_ELEMENT_TYPE.EFFECT
+        ? "effect"
+        : "element";
+
+    if (key in colors) {
+      return colors[key as keyof typeof colors];
     }
     return ELEMENT_COLORS.element;
   };
@@ -238,7 +261,9 @@ export const TrackElementView: React.FC<{
           />
         ) : null}
         <div className="twick-track-element-content">
-          {(element as any).getText
+          {element.getType() === TIMELINE_ELEMENT_TYPE.EFFECT
+            ? (element as any).getProps?.()?.effectKey ?? "Effect"
+            : (element as any).getText
             ? (element as any).getText()
             : element.getName() || element.getType()}
         </div>

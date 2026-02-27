@@ -10,6 +10,9 @@ import { CircleElement } from "../elements/circle.element";
 import { IconElement } from "../elements/icon.element";
 import { PlaceholderElement } from "../elements/placeholder.element";
 import { TrackElement } from "../elements/base.element";
+import { ArrowElement } from "../elements/arrow.element";
+import { LineElement } from "../elements/line.element";
+import { EffectElement } from "../elements/effect.element";
 
 export class ElementSerializer implements ElementVisitor<ElementJSON> {
   serializeElement(element: TrackElement): ElementJSON {
@@ -24,6 +27,7 @@ export class ElementSerializer implements ElementVisitor<ElementJSON> {
       s: element.getStart(),
       e: element.getEnd(),
       props,
+      metadata: element.getMetadata?.(),
       ...(zIndex !== undefined && { zIndex }),
       ...(transition !== undefined && { transition }),
       animation: element.getAnimation()?.toJSON(),
@@ -90,6 +94,18 @@ export class ElementSerializer implements ElementVisitor<ElementJSON> {
   }
 
   visitPlaceholderElement(element: PlaceholderElement): ElementJSON {
+    return this.serializeElement(element);
+  }
+
+  visitLineElement(element: LineElement): ElementJSON {
+    return this.serializeElement(element);
+  }
+
+  visitArrowElement(element: ArrowElement): ElementJSON {
+    return this.serializeElement(element);
+  }
+
+  visitEffectElement(element: EffectElement): ElementJSON {
     return this.serializeElement(element);
   }
 }

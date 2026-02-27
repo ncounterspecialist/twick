@@ -7,6 +7,9 @@ import { IconElement } from "../elements/icon.element";
 import { CircleElement } from "../elements/circle.element";
 import { RectElement } from "../elements/rect.element";
 import { PlaceholderElement } from "../elements/placeholder.element";
+import { ArrowElement } from "../elements/arrow.element";
+import { LineElement } from "../elements/line.element";
+import { EffectElement } from "../elements/effect.element";
 
 export interface ElementVisitor<T> {
   visitVideoElement(element: VideoElement): T;
@@ -18,4 +21,7 @@ export interface ElementVisitor<T> {
   visitCircleElement(element: CircleElement): T;
   visitRectElement(element: RectElement): T;
   visitPlaceholderElement(element: PlaceholderElement): T;
+  visitLineElement(element: LineElement): T;
+  visitArrowElement(element: ArrowElement): T;
+  visitEffectElement(element: EffectElement): T;
 } 

@@ -10,6 +10,9 @@ import { IconElement } from "../elements/icon.element";
 import { PlaceholderElement } from "../elements/placeholder.element";
 import { ElementCloner } from "./element-cloner";
 import { canSplitElement } from "../../utils/timeline.utils";
+import { ArrowElement } from "../elements/arrow.element";
+import { LineElement } from "../elements/line.element";
+import { EffectElement } from "../elements/effect.element";
 
 export interface SplitResult {
   firstElement: any;
@@ -190,6 +193,43 @@ export class ElementSplitter implements ElementVisitor<SplitResult> {
     }
     const firstElement = this.elementCloner.visitPlaceholderElement(element);
     const secondElement = this.elementCloner.visitPlaceholderElement(element);
+    firstElement.setEnd(this.splitTime);
+    secondElement.setStart(this.splitTime);
+    return { firstElement, secondElement, success: true };
+  }
+
+  visitArrowElement(element: ArrowElement): SplitResult {
+    if (!canSplitElement(element, this.splitTime)) {
+      return { firstElement: null, secondElement: null, success: false };
+    }
+    const firstElement = this.elementCloner.visitArrowElement(element);
+    const secondElement = this.elementCloner.visitArrowElement(element);
+    firstElement.setEnd(this.splitTime);
+    secondElement.setStart(this.splitTime);
+    return { firstElement, secondElement, success: true };
+  }
+
+  visitLineElement(element: LineElement): SplitResult {
+    if (!canSplitElement(element, this.splitTime)) {
+      return { firstElement: null, secondElement: null, success: false };
+    }
+    const firstElement = this.elementCloner.visitLineElement(element) as LineElement;
+    const secondElement = this.elementCloner.visitLineElement(element) as LineElement;
+    firstElement.setEnd(this.splitTime);
+    secondElement.setStart(this.splitTime);
+    return { firstElement, secondElement, success: true };
+  }
+
+  visitEffectElement(element: EffectElement): SplitResult {
+    if (!canSplitElement(element, this.splitTime)) {
+      return { firstElement: null, secondElement: null, success: false };
+    }
+    const firstElement = this.elementCloner.visitEffectElement(
+      element
+    ) as EffectElement;
+    const secondElement = this.elementCloner.visitEffectElement(
+      element
+    ) as EffectElement;
     firstElement.setEnd(this.splitTime);
     secondElement.setStart(this.splitTime);
     return { firstElement, secondElement, success: true };

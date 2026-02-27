@@ -47,6 +47,9 @@ import { CircleElement } from "./core/elements/circle.element";
 import { IconElement } from "./core/elements/icon.element";
 import { VideoElement } from "./core/elements/video.element";
 import { PlaceholderElement } from "./core/elements/placeholder.element";
+import { ArrowElement } from "./core/elements/arrow.element";
+import { LineElement } from "./core/elements/line.element";
+import { EffectElement } from "./core/elements/effect.element";
 import {
   generateShortUuid,
   getTotalDuration,
@@ -73,6 +76,9 @@ export {
   CircleElement,
   VideoElement,
   PlaceholderElement,
+  ArrowElement,
+  LineElement,
+  EffectElement,
   ElementAnimation,
   ElementFrameEffect,
   ElementTextEffect,
@@ -96,6 +102,9 @@ export * from "./types";
 export * from "./utils/constants";
 export * from "./utils/timeline.utils";
 export * from "./utils/time-format";
+export * from "./utils/caption-export";
+export * from "./utils/chapter-export";
+export * from "./utils/migrations";
 export * from "./utils/selection";
 export * from "./utils/snap";
 export * from "./context/timeline-context";
@@ -140,6 +149,8 @@ if (typeof window !== "undefined") {
     IconElement,
     VideoElement,
     PlaceholderElement,
+    ArrowElement,
+    LineElement,
     ElementAnimation,
     ElementFrameEffect,
     ElementTextEffect,

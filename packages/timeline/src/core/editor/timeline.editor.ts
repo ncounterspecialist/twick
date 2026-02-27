@@ -3,6 +3,7 @@ import {
   generateShortUuid,
   getTotalDuration,
 } from "../../utils/timeline.utils";
+import { migrateProject, CURRENT_PROJECT_VERSION } from "../../utils/migrations";
 import { TRACK_TYPES } from "../../utils/constants";
 import { Track } from "../track/track";
 import {
@@ -17,7 +18,13 @@ import { ElementSplitter, SplitResult } from "../visitor/element-splitter";
 import { ElementCloner } from "../visitor/element-cloner";
 import { ElementDeserializer } from "../visitor/element-deserializer";
 import { TrackElement } from "../elements/base.element";
-import { ElementJSON, ElementTransitionJSON, ProjectJSON, TrackJSON } from "../../types";
+import {
+  ElementJSON,
+  ElementTransitionJSON,
+  ProjectJSON,
+  ProjectMetadata,
+  TrackJSON,
+} from "../../types";
 import { ValidationError } from "../visitor/element-validator";
 import Watermark from "../addOns/watermark";
 
@@ -65,6 +72,17 @@ export class TimelineEditor {
     this.context = context;
     // Ensure context is initialized in timelineContextStore
     timelineContextStore.initializeContext(this.context.contextId);
+  }
+
+  registerElementType(
+    type: string,
+    deserializer: (json: ElementJSON) => TrackElement | null
+  ): void {
+    ElementDeserializer.registerCustomType(type, deserializer);
+  }
+
+  unregisterElementType(type: string): void {
+    ElementDeserializer.unregisterCustomType(type);
   }
 
   /**
@@ -119,6 +137,7 @@ export class TimelineEditor {
     version,
     watermark,
     backgroundColor,
+    metadata,
     updatePlayerData,
   }: {
     tracks: Track[];
@@ -126,16 +145,20 @@ export class TimelineEditor {
     updatePlayerData?: boolean;
     watermark?: Watermark;
     backgroundColor?: string;
+    metadata?: ProjectMetadata;
   }) {
     const prevTimelineData = this.getTimelineData();
     const updatedVersion = version ?? (prevTimelineData?.version || 0) + 1;
     const resolvedBackgroundColor =
       backgroundColor !== undefined ? backgroundColor : prevTimelineData?.backgroundColor;
+    const resolvedMetadata =
+      metadata !== undefined ? metadata : prevTimelineData?.metadata;
     const updatedTimelineData = {
       tracks,
       version: updatedVersion,
       watermark,
       backgroundColor: resolvedBackgroundColor,
+      metadata: resolvedMetadata,
     };
     timelineContextStore.setTimelineData(
       this.context.contextId,
@@ -151,6 +174,7 @@ export class TimelineEditor {
         version: updatedVersion,
         watermark: watermark != null ? (watermark as any).toJSON?.() : undefined,
         backgroundColor: resolvedBackgroundColor,
+        metadata: resolvedMetadata,
       });
     }
     return updatedTimelineData as TimelineTrackData;
@@ -426,6 +450,9 @@ export class TimelineEditor {
       ...(timelineTrackData.backgroundColor !== undefined && {
         backgroundColor: timelineTrackData.backgroundColor,
       }),
+      ...(timelineTrackData.metadata !== undefined && {
+        metadata: timelineTrackData.metadata,
+      }),
     });
   }
 
@@ -443,6 +470,9 @@ export class TimelineEditor {
         ...(result.backgroundColor !== undefined && {
           backgroundColor: result.backgroundColor,
         }),
+        ...(result.metadata !== undefined && {
+          metadata: result.metadata,
+        }),
       });
 
       // Update total duration
@@ -457,6 +487,9 @@ export class TimelineEditor {
           version: result.version,
           ...(result.backgroundColor !== undefined && {
             backgroundColor: result.backgroundColor,
+          }),
+          ...(result.metadata !== undefined && {
+            metadata: result.metadata,
           }),
         });
       }
@@ -477,6 +510,9 @@ export class TimelineEditor {
         ...(result.backgroundColor !== undefined && {
           backgroundColor: result.backgroundColor,
         }),
+        ...(result.metadata !== undefined && {
+          metadata: result.metadata,
+        }),
       });
 
       // Update total duration
@@ -491,6 +527,9 @@ export class TimelineEditor {
           version: result.version,
           ...(result.backgroundColor !== undefined && {
             backgroundColor: result.backgroundColor,
+          }),
+          ...(result.metadata !== undefined && {
+            metadata: result.metadata,
           }),
         });
       }
@@ -507,6 +546,7 @@ export class TimelineEditor {
     timelineContextStore.setTimelineData(this.context.contextId, {
       tracks: [],
       version: 0,
+      metadata: undefined,
     });
 
     // Reset total duration and version
@@ -518,6 +558,7 @@ export class TimelineEditor {
       this.context.setTimelineAction(TIMELINE_ACTION.UPDATE_PLAYER_DATA, {
         tracks: [],
         version: 0,
+        metadata: undefined,
       });
     }
   }
@@ -526,30 +567,46 @@ export class TimelineEditor {
     tracks,
     version,
     backgroundColor,
+    metadata,
   }: {
     tracks: TrackJSON[];
     version: number;
     backgroundColor?: string;
+    metadata?: ProjectMetadata;
   }): void {
+    const migratedProject = migrateProject(
+      {
+        tracks,
+        version,
+        backgroundColor,
+        metadata,
+      },
+      CURRENT_PROJECT_VERSION
+    );
     this.pauseVideo();
     this.context.handleResetHistory();
     // Convert Timeline[] to Track[] and set
-    const timelineTracks = tracks.map((t) => Track.fromJSON(t));
+    const timelineTracks = migratedProject.tracks.map((t) => Track.fromJSON(t));
     this.setTimelineData({
       tracks: timelineTracks,
-      version,
-      backgroundColor,
+      version: migratedProject.version,
+      backgroundColor: migratedProject.backgroundColor,
+      metadata: migratedProject.metadata,
       updatePlayerData: true,
     });
     if (this.context?.setTimelineAction) {
       this.context.setTimelineAction(TIMELINE_ACTION.UPDATE_PLAYER_DATA, {
-        tracks: tracks,
-        version: version,
-        backgroundColor,
+        tracks: migratedProject.tracks,
+        version: migratedProject.version,
+        backgroundColor: migratedProject.backgroundColor,
+        metadata: migratedProject.metadata,
         forceUpdate: true,
       });
     }
-    this.emit("project:loaded", { tracks, version });
+    this.emit("project:loaded", {
+      tracks: migratedProject.tracks,
+      version: migratedProject.version,
+    });
   }
 
   getWatermark(): Watermark | null {
@@ -644,6 +701,9 @@ export class TimelineEditor {
       ...(data.backgroundColor !== undefined && {
         backgroundColor: data.backgroundColor,
       }),
+      ...(data.metadata !== undefined && {
+        metadata: data.metadata,
+      }),
     };
   }
 
@@ -657,6 +717,23 @@ export class TimelineEditor {
       this.setTimelineData({
         tracks: currentData.tracks,
         backgroundColor,
+        metadata: currentData.metadata,
+        updatePlayerData: true,
+      });
+    }
+  }
+
+  getMetadata(): ProjectMetadata | undefined {
+    return this.getTimelineData()?.metadata;
+  }
+
+  setMetadata(metadata: ProjectMetadata): void {
+    const currentData = this.getTimelineData();
+    if (currentData) {
+      this.setTimelineData({
+        tracks: currentData.tracks,
+        backgroundColor: currentData.backgroundColor,
+        metadata,
         updatePlayerData: true,
       });
     }

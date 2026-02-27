@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef } from "react";
 import { Player as CorePlayer } from "@twick/core";
 import { Player } from "@twick/player-react";
+import { getActiveEffectsForTime } from "@twick/effects";
 import { generateId, getBaseProject } from "../helpers/player.utils";
 //@ts-ignore
 import project from "@twick/visualizer/dist/project";
@@ -184,11 +185,15 @@ export const LivePlayer = ({
    * ```
    */
   const handlePlayerReady = useCallback((player: CorePlayer) => {
+    const el = playerContainerRef.current?.querySelector("twick-player");
+    const htmlElement = el ? (el as HTMLElement) : null;
+    if (htmlElement) {
+      (htmlElement as any).getActiveEffectsForTime = getActiveEffectsForTime;
+    }
     playerRef.current = {
       player,
       id: playerRef.current.id,
-      htmlElement:
-        playerContainerRef.current?.querySelector("twick-player") || null,
+      htmlElement,
     };
 
     if (!isFirstRender.current) {

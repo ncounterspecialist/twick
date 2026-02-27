@@ -93,6 +93,11 @@ import { RectPanel } from "./components/panel/rect-panel";
  * Panel for managing captions/captions.
  */
 import { CaptionsPanel } from "./components/panel/captions-panel";
+import { TemplateGalleryPanel } from "./components/panel/template-gallery-panel";
+import { RecordPanel } from "./components/panel/record-panel";
+import { AnnotationsPanel } from "./components/panel/annotations-panel";
+import { ChaptersPanel } from "./components/panel/chapters-panel";
+import { ScriptPanel } from "./components/panel/script-panel";
 
 /**
  * Cloud media upload component (S3/GCS).
@@ -103,6 +108,14 @@ import { CloudMediaUpload } from "./components/shared/cloud-media-upload";
  * Hook for cloud media upload (S3 presigned or GCS server-side).
  */
 import { useCloudMediaUpload } from "./hooks/use-cloud-media-upload";
+import { useScreenRecorder } from "./hooks/use-screen-recorder";
+import { DEFAULT_PROJECT_TEMPLATES } from "./templates/default-templates";
+import {
+  DEFAULT_STUDIO_CONFIG,
+  DEMO_STUDIO_CONFIG,
+  EDU_STUDIO_CONFIG,
+  MARKETING_STUDIO_CONFIG,
+} from "./profiles";
 
 // Main exported UI components
 export {
@@ -126,6 +139,16 @@ export {
   TextPanel,
   /** Panel for caption/caption management */
   CaptionsPanel,
+  /** Panel for project templates */
+  TemplateGalleryPanel,
+  /** Panel for screen recording */
+  RecordPanel,
+  /** Panel for annotation callouts */
+  AnnotationsPanel,
+  /** Panel for chapter markers */
+  ChaptersPanel,
+  /** Panel for outline/script workflow */
+  ScriptPanel,
   /** Panel for adding circles */
   CirclePanel,
   /** Panel for adding rectangles */
@@ -134,12 +157,25 @@ export {
 
 // Hook exports for external logic integration
 export {
+  DEFAULT_PROJECT_TEMPLATES,
+};
+
+export {
+  DEFAULT_STUDIO_CONFIG,
+  EDU_STUDIO_CONFIG,
+  DEMO_STUDIO_CONFIG,
+  MARKETING_STUDIO_CONFIG,
+};
+
+export {
   /** Hook for managing studio state and selections */
   useStudioManager,
   /** Hook for polling-based caption generation */
   useGenerateCaptions,
   /** Hook for S3/GCS cloud media upload */
   useCloudMediaUpload,
+  /** Hook for browser screen recording */
+  useScreenRecorder,
 };
 
 // Shared components for custom panels
@@ -150,6 +186,7 @@ export {
 
 // Utilities and types
 export * from "./helpers/generate-captions.service";
+export * from "./helpers/export-project-bundle";
 export * from "./helpers/constant";
 export * from "./types";
 export type {

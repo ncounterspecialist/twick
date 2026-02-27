@@ -56,6 +56,7 @@
   "workspaces": [
     "packages/ai-models",
     "packages/media-utils",
+    "packages/effects",
     "packages/visualizer",
     "packages/canvas",
     "packages/timeline",
@@ -73,16 +74,17 @@
     "overrides": {
       "typescript": "^5.4.2",
       "axios": "^1.12.2",
-      "@twick/core": "^0.15.18",
-      "@twick/2d": "^0.15.18",
-      "@twick/ui": "^0.15.18",
-      "@twick/player-react": "^0.15.18",
-      "@twick/ffmpeg": "^0.15.18",
-      "@twick/telemetry": "^0.15.18",
-      "@twick/vite-plugin": "^0.15.18",
-      "@twick/renderer": "^0.15.18",
-      "@twick/player": "^0.15.18",
-      "@twick/cli": "^0.15.18"
+      "@twick/core": "^0.15.21",
+      "@twick/2d": "^0.15.21",
+      "@twick/ui": "^0.15.21",
+      "@twick/gl-runtime": "^0.15.21",
+      "@twick/player-react": "^0.15.21",
+      "@twick/ffmpeg": "^0.15.21",
+      "@twick/telemetry": "^0.15.21",
+      "@twick/vite-plugin": "^0.15.21",
+      "@twick/renderer": "^0.15.21",
+      "@twick/player": "^0.15.21",
+      "@twick/cli": "^0.15.21"
     }
   }
 }

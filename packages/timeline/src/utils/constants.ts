@@ -279,6 +279,12 @@ export const TIMELINE_ELEMENT_TYPE = {
   ICON: "icon",
   /** Placeholder element type (e.g. for lazy-loaded media) */
   PLACEHOLDER: "placeholder",
+  /** Line annotation / shape element type */
+  LINE: "line",
+  /** Arrow annotation element type */
+  ARROW: "arrow",
+  /** Global / adjustment-layer style effect element */
+  EFFECT: "effect",
 } as const;
 
 /**

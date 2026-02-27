@@ -2,6 +2,7 @@ import { useLivePlayerContext } from "@twick/live-player";
 import {
   TrackElement,
   Track,
+  ProjectMetadata,
   useTimelineContext,
   VideoElement,
   AudioElement,
@@ -20,7 +21,7 @@ export interface ElementDropParams {
 }
 
 interface TimelineManagerReturn {
-  timelineData: { tracks: Track[]; version: number } | null;
+  timelineData: { tracks: Track[]; version: number; metadata?: ProjectMetadata } | null;
   onAddTrack: () => void;
   onElementDrag: (params: {
     element: TrackElement;

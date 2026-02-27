@@ -1,4 +1,14 @@
-import { PLAYER_STATE, ProjectJSON, useTimelineContext, VideoElement } from "@twick/timeline";
+import {
+  PLAYER_STATE,
+  ProjectJSON,
+  exportChaptersAsJSON,
+  exportChaptersAsYouTube,
+  exportCaptionsAsSRT,
+  exportCaptionsAsVTT,
+  getCaptionLanguages,
+  useTimelineContext,
+  VideoElement,
+} from "@twick/timeline";
 import { ICaptionGenerationPollingResponse, StudioConfig, CaptionEntry } from "../types";
 import { loadFile, saveAsFile } from "@twick/media-utils";
 import { useState } from "react";
@@ -71,6 +81,41 @@ const useStudioOperation = (studioConfig?: StudioConfig) => {
     }
   };
 
+  const onExportCaptions = async (format: "srt" | "vtt") => {
+    if (!present) return;
+    const baseName = (projectName || "captions").replace(/\.json$/i, "");
+    const languages = getCaptionLanguages(present);
+
+    if (languages.length <= 1) {
+      const content =
+        format === "srt"
+          ? exportCaptionsAsSRT(present, languages[0])
+          : exportCaptionsAsVTT(present, languages[0]);
+      await saveAsFile(content, "text/plain", `${baseName}.${format}`);
+      return;
+    }
+
+    for (const language of languages) {
+      const content =
+        format === "srt"
+          ? exportCaptionsAsSRT(present, language)
+          : exportCaptionsAsVTT(present, language);
+      await saveAsFile(content, "text/plain", `${baseName}.${language}.${format}`);
+    }
+  };
+
+  const onExportChapters = async (format: "youtube" | "json") => {
+    if (!present) return;
+    const content =
+      format === "youtube"
+        ? exportChaptersAsYouTube(present)
+        : exportChaptersAsJSON(present);
+    const fileName = `${(projectName || "chapters").replace(/\.json$/i, "")}.${
+      format === "youtube" ? "txt" : "json"
+    }`;
+    await saveAsFile(content, "text/plain", fileName);
+  };
+
 
 
   /**
@@ -111,6 +156,8 @@ const useStudioOperation = (studioConfig?: StudioConfig) => {
     onSaveProject, 
     onExportVideo, 
     onNewProject,
+    onExportCaptions,
+    onExportChapters,
     onGenerateCaptions,
     addCaptionsToTimeline,
     getCaptionstatus,

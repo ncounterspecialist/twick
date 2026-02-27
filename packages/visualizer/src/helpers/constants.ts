@@ -41,6 +41,7 @@ export const TRACK_TYPES = {
   CAPTION: "caption",
   SCENE: "scene",
   ELEMENT: "element",
+  EFFECT: "effect",
 } as const;
 
 export const CAPTION_STYLE: Record<string, CaptionStyle> = {

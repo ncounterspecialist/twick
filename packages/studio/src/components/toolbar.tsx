@@ -29,16 +29,22 @@ import {
   Plus,
   Square,
   Wand2,
+  File,
 } from 'lucide-react'
 import type { ToolCategory } from '../types'
 
-const toolCategories: ToolCategory[] = [
+const defaultToolCategories: ToolCategory[] = [
+  // { id: 'templates', name: 'Templates', icon: 'Plus', description: 'Start from a project template' },
+  // { id: 'record', name: 'Record', icon: 'Upload', description: 'Record screen and import clip' },
   { id: 'video', name: 'Video', icon: 'Video', description: 'Add a video element' },
   { id: 'image', name: 'Image', icon: 'Image', description: 'Add an image element' },
   { id: 'audio', name: 'Audio', icon: 'Audio', description: 'Add an audio element' },
   { id: 'text', name: 'Text', icon: 'Type', description: 'Add text elements' },
-  { id: 'circle', name: 'Circle', icon: 'Circle', description: 'Add a circle element'},
-  { id: 'rect', name: 'Rect', icon: 'Rect', description: 'Add a rectangle element' },
+  { id: 'text-style', name: 'Text Style', icon: 'Type', description: 'Apply text style presets' },
+  { id: 'effect', name: 'Effect', icon: 'Wand2', description: 'Apply GL video effects' },
+  { id: 'shape', name: 'Shape', icon: 'Square', description: 'Add lines, arrows, boxes, and circles' },
+  // { id: 'chapters', name: 'Chapters', icon: 'File', description: 'Manage chapter markers' },
+  // { id: 'script', name: 'Script', icon: 'Type', description: 'Build timeline from a script outline' },
   { id: 'caption', name: 'Caption', icon: 'MessageSquare', description: 'Manage captions'},
   { id: 'generate-media', name: 'Generate', icon: 'Wand2', description: 'Generate image or video with AI'},
 ]
@@ -56,12 +62,26 @@ const getIcon = (iconName: string) => {
     case 'Rect': return Square
     case 'MessageSquare': return MessageSquare
     case 'Wand2': return Wand2
+    case 'File': return File
     default: return Plus
   }
 }
 
-export function Toolbar({ selectedTool, setSelectedTool }: { selectedTool: string, setSelectedTool: (tool: string) => void }) {
+export function Toolbar({
+  selectedTool,
+  setSelectedTool,
+  customTools = [],
+  hiddenTools = [],
+}: {
+  selectedTool: string;
+  setSelectedTool: (tool: string) => void;
+  customTools?: ToolCategory[];
+  hiddenTools?: string[];
+}) {
 
+  const mergedTools = [...defaultToolCategories, ...customTools].filter(
+    (tool) => !hiddenTools.includes(tool.id)
+  );
   const handleToolSelect = (toolId: string) => {
     setSelectedTool(toolId)
   }
@@ -69,7 +89,7 @@ export function Toolbar({ selectedTool, setSelectedTool }: { selectedTool: strin
   return (
     <div className="sidebar">
       {/* Main Tools */}
-      {toolCategories.map((tool) => {
+      {mergedTools.map((tool) => {
         const Icon = getIcon(tool.icon)
         const isSelected = selectedTool === tool.id
         

@@ -8,6 +8,9 @@ import { IconElement } from "../elements/icon.element";
 import { CircleElement } from "../elements/circle.element";
 import { RectElement } from "../elements/rect.element";
 import { PlaceholderElement } from "../elements/placeholder.element";
+import { ArrowElement } from "../elements/arrow.element";
+import { LineElement } from "../elements/line.element";
+import { EffectElement } from "../elements/effect.element";
 
 export const VALIDATION_ERROR_CODE = {
   ELEMENT_NOT_FOUND: "ELEMENT_NOT_FOUND",
@@ -217,6 +220,25 @@ export class ElementValidator implements ElementVisitor<boolean> {
     return { errors, warnings };
   }
 
+  private validateEffectElement(element: EffectElement): { errors: string[]; warnings: string[] } {
+    const basicValidation = this.validateBasicProperties(element);
+    const errors = [...basicValidation.errors];
+    const warnings = [...basicValidation.warnings];
+
+    const props = element.getProps();
+    if (!props?.effectKey || typeof props.effectKey !== "string") {
+      errors.push("Effect element must have a valid effectKey");
+    }
+
+    if (props?.intensity !== undefined) {
+      if (props.intensity < 0 || props.intensity > 1) {
+        errors.push("Effect intensity must be between 0 and 1");
+      }
+    }
+
+    return { errors, warnings };
+  }
+
   visitVideoElement(element: VideoElement): boolean {
     const validation = this.validateVideoElement(element);
     
@@ -340,4 +362,41 @@ export class ElementValidator implements ElementVisitor<boolean> {
     }
     return true;
   }
+
+  visitArrowElement(element: ArrowElement): boolean {
+    const validation = this.validateBasicProperties(element);
+    if (validation.errors.length > 0) {
+      throw new ValidationError(
+        `Arrow element validation failed: ${validation.errors.join(", ")}`,
+        validation.errors,
+        validation.warnings
+      );
+    }
+    return true;
+  }
+
+  visitLineElement(element: LineElement): boolean {
+    const validation = this.validateBasicProperties(element);
+    if (validation.errors.length > 0) {
+      throw new ValidationError(
+        `Line element validation failed: ${validation.errors.join(", ")}`,
+        validation.errors,
+        validation.warnings
+      );
+    }
+    return true;
+  }
+
+  visitEffectElement(element: EffectElement): boolean {
+    const validation = this.validateEffectElement(element);
+    if (validation.errors.length > 0) {
+      throw new ValidationError(
+        `Effect element validation failed: ${validation.errors.join(", ")}`,
+        validation.errors,
+        validation.warnings
+      );
+    }
+    return true;
+  }
+
 } 

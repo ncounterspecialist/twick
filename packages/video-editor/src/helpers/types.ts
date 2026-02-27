@@ -71,6 +71,7 @@ export interface ElementColors {
   filters: string;
   transition: string;
   animation: string;
+  effect?: string;
 }
 
 /**

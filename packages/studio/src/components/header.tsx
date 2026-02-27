@@ -26,6 +26,8 @@ interface StudioHeaderProps {
   onLoadProject: () => void;
   onSaveProject: () => void;
   onExportVideo: () => void;
+  onExportCaptions: (format: "srt" | "vtt") => void;
+  onExportChapters: (format: "youtube" | "json") => void;
 }
 export const StudioHeader = ({
   setVideoResolution,
@@ -123,6 +125,38 @@ export const StudioHeader = ({
           <Save className="icon-sm" />
           Save Draft
         </button>
+        {/* <button
+          className="btn-ghost"
+          title="Export captions as SRT"
+          onClick={() => onExportCaptions("srt")}
+        >
+          <Download className="icon-sm" />
+          SRT
+        </button>
+        <button
+          className="btn-ghost"
+          title="Export captions as VTT"
+          onClick={() => onExportCaptions("vtt")}
+        >
+          <Download className="icon-sm" />
+          VTT
+        </button>
+        <button
+          className="btn-ghost"
+          title="Export chapters as YouTube timestamps"
+          onClick={() => onExportChapters("youtube")}
+        >
+          <Download className="icon-sm" />
+          Chapters TXT
+        </button>
+        <button
+          className="btn-ghost"
+          title="Export chapters as JSON"
+          onClick={() => onExportChapters("json")}
+        >
+          <Download className="icon-sm" />
+          Chapters JSON
+        </button> */}
         <button
           className="btn-primary"
           title="Export"

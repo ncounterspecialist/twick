@@ -1,7 +1,11 @@
 import type { ProjectJSON, Size, TrackElement, VideoElement } from "@twick/timeline"
+import type { ComponentType } from "react";
 
 export type {
   IImageGenerationService,
+  IScriptToTimelineService,
+  ITranslationService,
+  IVoiceoverService,
   IVideoGenerationService,
   GenerateImageParams,
   GenerateVideoParams,
@@ -111,6 +115,15 @@ export interface UploadConfig {
   provider: "s3" | "gcs";
 }
 
+export interface ProjectTemplate {
+  id: string;
+  name: string;
+  description: string;
+  category: "edu" | "marketing" | "demo" | "social" | "blank" | string;
+  thumbnail?: string;
+  project: ProjectJSON;
+}
+
 export interface StudioConfig extends VideoEditorConfig {
   /** Canvas behavior options (e.g. enableShiftAxisLock). Same as editorConfig.canvasConfig in TwickEditor. */
   canvasConfig?: CanvasConfig;
@@ -125,12 +138,26 @@ export interface StudioConfig extends VideoEditorConfig {
   imageGenerationService?: import("./generation").IImageGenerationService;
   /** Video generation service for polling-based async video generation */
   videoGenerationService?: import("./generation").IVideoGenerationService;
+  /** Voiceover generation service for narration generation. */
+  voiceoverGenerationService?: import("./generation").IVoiceoverService;
+  /** Caption translation service for multi-language workflows. */
+  translationService?: import("./generation").ITranslationService;
+  /** Script-to-timeline service for AI outline expansion. */
+  scriptToTimelineService?: import("./generation").IScriptToTimelineService;
   exportVideo? : (project: ProjectJSON, videoSettings: VideoSettings) => Promise<Result>;
   /**
    * When set, media panels show cloud upload (S3 or GCS). Backend must be configured with env (e.g. FILE_UPLOADER_S3_* or GOOGLE_CLOUD_*).
    * See cloud-functions/cors/ and file-uploader README for CORS and credentials.
    */
   uploadConfig?: UploadConfig;
+  /** Extra tool definitions injected into the left toolbar. */
+  customTools?: ToolCategory[];
+  /** Tool ids that should be hidden from the default toolbar. */
+  hiddenTools?: string[];
+  /** Custom panel renderers keyed by tool id. */
+  customPanels?: Record<string, ComponentType<PanelProps>>;
+  /** Optional project templates shown in Template Gallery. */
+  templates?: ProjectTemplate[];
 }
 
 export interface PanelProps {
@@ -139,6 +166,9 @@ export interface PanelProps {
   addElement?: (item: TrackElement) => void;
   updateElement?: (item: TrackElement) => void;
   uploadConfig?: UploadConfig;
+  selectedTool?: string;
+  setSelectedTool?: (tool: string) => void;
+  studioConfig?: StudioConfig;
 }
 
 export interface PropertiesPanelProps {

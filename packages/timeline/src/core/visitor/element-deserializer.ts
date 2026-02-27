@@ -12,8 +12,30 @@ import { TrackElement } from "../elements/base.element";
 import { ElementAnimation } from "../addOns/animation";
 import { ElementFrameEffect } from "../addOns/frame-effect";
 import { ElementTextEffect } from "../addOns/text-effect";
+import { ArrowElement } from "../elements/arrow.element";
+import { LineElement } from "../elements/line.element";
+import { EffectElement } from "../elements/effect.element";
 
 export class ElementDeserializer {
+  private static customDeserializers: Record<
+    string,
+    (json: ElementJSON) => TrackElement | null
+  > = {};
+
+  static registerCustomType(
+    type: string,
+    deserializer: (json: ElementJSON) => TrackElement | null
+  ): void {
+    if (!type?.trim()) {
+      throw new Error("Element type is required for custom deserializer registration");
+    }
+    this.customDeserializers[type] = deserializer;
+  }
+
+  static unregisterCustomType(type: string): void {
+    delete this.customDeserializers[type];
+  }
+
   private static deserializeBaseElement(element: TrackElement, json: ElementJSON): void {
     if (json.id) element.setId(json.id);
     if (json.trackId) element.setTrackId(json.trackId);
@@ -23,6 +45,7 @@ export class ElementDeserializer {
     const props = { ...(json.props || {}) };
     if (json.zIndex !== undefined) props.zIndex = json.zIndex;
     if (Object.keys(props).length) element.setProps(props);
+    if (json.metadata) element.setMetadata(json.metadata);
     if (json.transition) element.setTransition(json.transition);
     if (json.animation) element.setAnimation(ElementAnimation.fromJSON(json.animation));
   }
@@ -140,8 +163,37 @@ export class ElementDeserializer {
     return placeholderElement;
   }
 
+  static deserializeArrowElement(json: ElementJSON): ArrowElement {
+    const arrowElement = new ArrowElement(json.props?.fill || "#ffcc00", {
+      width: json.props?.width || 180,
+      height: json.props?.height || 30,
+    });
+    ElementDeserializer.deserializeBaseElement(arrowElement, json);
+    return arrowElement;
+  }
+
+  static deserializeLineElement(json: ElementJSON): LineElement {
+    const lineElement = new LineElement(json.props?.fill || "#f97316", {
+      width: json.props?.width || 200,
+      height: json.props?.height || 4,
+    });
+    ElementDeserializer.deserializeBaseElement(lineElement, json);
+    return lineElement;
+  }
+
+  static deserializeEffectElement(json: ElementJSON): EffectElement {
+    const effectKey = (json.props as any)?.effectKey ?? "";
+    const effectElement = new EffectElement(effectKey, json.props as any);
+    ElementDeserializer.deserializeBaseElement(effectElement, json);
+    return effectElement;
+  }
+
   static fromJSON(json: ElementJSON): TrackElement | null{
     try {
+    const customDeserializer = ElementDeserializer.customDeserializers[json.type];
+    if (customDeserializer) {
+      return customDeserializer(json);
+    }
     switch (json.type) {
       case "video":
         return ElementDeserializer.deserializeVideoElement(json);
@@ -161,8 +213,23 @@ export class ElementDeserializer {
         return ElementDeserializer.deserializeRectElement(json);
       case "placeholder":
         return ElementDeserializer.deserializePlaceholderElement(json);
+      case "line":
+        return ElementDeserializer.deserializeLineElement(json);
+      case "arrow":
+        return ElementDeserializer.deserializeArrowElement(json);
+      case "effect":
+        return ElementDeserializer.deserializeEffectElement(json);
       default:
-        throw new Error(`Unknown element type: ${json.type}`);
+        return ElementDeserializer.deserializePlaceholderElement({
+          ...json,
+          type: "placeholder",
+          props: {
+            ...(json.props || {}),
+            src: json.props?.src ?? "",
+            parentSize: json.props?.parentSize,
+            expectedDuration: json.e - json.s,
+          },
+        });
     }
    } catch(error) {
     console.error("Error deserializing element:", error);
