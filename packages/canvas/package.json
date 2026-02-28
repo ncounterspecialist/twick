@@ -31,7 +31,7 @@
   },
   "dependencies": {
     "@twick/media-utils": "workspace:*",
-    "fabric": "^6.6.2"
+    "fabric": "^7.2.0"
   },
   "peerDependencies": {
     "react": "^18.0.0 || ^19.0.0"
