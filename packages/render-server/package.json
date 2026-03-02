@@ -19,6 +19,7 @@
     "build": "tsup",
     "dev": "tsx watch src/server.ts",
     "start": "node dist/server.js",
+    "test": "echo \"No tests for @twick/render-server\" && exit 0",
     "test:render": "tsx src/test-render.ts",
     "clean": "rimraf dist"
   },

@@ -27,7 +27,8 @@
     "dev": "vite build --watch",
     "lint": "eslint src/",
     "clean": "rimraf .turbo node_modules dist",
-    "docs": "typedoc"
+    "docs": "typedoc",
+    "test": "echo \"No tests for @twick/live-player\" && exit 0"
   },
   "dependencies": {
     "@twick/core": "^0.15.17",

@@ -24,7 +24,8 @@
     "dev": "vite build --watch",
     "lint": "eslint src/",
     "clean": "rimraf .turbo node_modules dist",
-    "docs": "typedoc"
+    "docs": "typedoc",
+    "test": "echo \"No tests for @twick/video-editor\" && exit 0"
   },
   "engines": {
     "node": ">=20.0.0"

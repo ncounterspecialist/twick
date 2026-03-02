@@ -77,6 +77,39 @@ Twick is a modular **React video editor library** and cloud toolchain that helps
 
 ---
 
+## Support matrix
+
+- **Node**: >= 20 (LTS or newer)
+- **Package manager**: pnpm 8.x (repo is configured with `pnpm-lock.yaml`)
+- **OS (dev/CI)**: macOS, Linux (Ubuntu/Debian). Windows is possible but not officially tested.
+- **Browsers (editor UI)**: Latest Chrome/Chromium, Firefox, Safari.
+- **Browsers (browser MP4 export)**: Requires WebCodecs (Chrome / Edge). Firefox / Safari are not supported for browser-side MP4 export.
+
+See `ENVIRONMENT.md` for environment variables and cloud-function configuration details.
+
+---
+
+## Choose your path
+
+Pick the integration path that best matches your use case:
+
+- **Full Studio (fastest to production)**  
+  Use `@twick/studio` for a complete, opinionated editor UI (timeline + canvas + export).  
+  - **Best for**: SaaS products and internal tools that want a full editor quickly.  
+  - **Get started**: follow **“Quick start – Use Twick Studio in your app”** below.
+
+- **Core editor shell (custom UI)**  
+  Compose your own UI using `@twick/timeline`, `@twick/canvas`, `@twick/live-player`, and friends.  
+  - **Best for**: teams that need deep customization of the editor surface.  
+  - **Get started**: start from the examples in `packages/examples` and wire timeline/canvas/player into your own components.
+
+- **Headless / pipeline (no UI)**  
+  Use `@twick/browser-render`, `@twick/render-server`, and Twick Cloud Functions (`@twick/cloud-*`) to build programmatic video workflows.  
+  - **Best for**: automation, batch rendering, backend-heavy products, and AI pipelines.  
+  - **Get started**: see **“Video export options”** and the cloud function packages in `packages/cloud-functions/*`.
+
+---
+
 ## Key packages
 
 - **`@twick/studio`** – All-in-one, production-ready React video editor UI  

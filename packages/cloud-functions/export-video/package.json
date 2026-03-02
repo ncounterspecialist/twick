@@ -1,6 +1,6 @@
 {
   "name": "@twick/cloud-export-video",
-  "version": "0.15.21",
+  "version": "0.15.22",
   "description": "Twick cloud function for exporting video with platform-specific templates (AWS Lambda container)",
   "type": "module",
   "main": "core/renderer.js",
@@ -24,7 +24,8 @@
     "pack:aws": "npm run verify:aws && npm pack",
     "release:aws": "npm run verify:aws && npm publish --access public --tag aws",
     "deploy:aws": "node scripts/deploy-aws.js",
-    "prepublishOnly": "npm run verify:aws"
+    "prepublishOnly": "npm run verify:aws",
+    "test": "echo \"No tests for @twick/cloud-export-video\" && exit 0"
   },
   "publishConfig": {
     "access": "public",
@@ -45,12 +46,12 @@
   },
   "dependencies": {
     "@sparticuz/chromium": "^129.0.0",
-    "@twick/2d": "^0.15.21",
-    "@twick/core": "^0.15.21",
-    "@twick/ffmpeg": "^0.15.21",
-    "@twick/renderer": "^0.15.21",
-    "@twick/ui": "^0.15.21",
-    "@twick/vite-plugin": "^0.15.21",
+    "@twick/2d": "^0.15.22",
+    "@twick/core": "^0.15.22",
+    "@twick/ffmpeg": "^0.15.22",
+    "@twick/renderer": "^0.15.22",
+    "@twick/ui": "^0.15.22",
+    "@twick/vite-plugin": "^0.15.22",
     "@twick/visualizer":  "latest",
     "@aws-sdk/client-s3": "^3.620.0",
     "ffmpeg-static": "^5.2.0",

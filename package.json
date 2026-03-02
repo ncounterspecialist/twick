@@ -32,6 +32,7 @@
     "lint": "turbo run lint",
     "lint:fix": "turbo run lint --fix",
     "test": "turbo run test",
+    "test:smoke": "pnpm --filter @twick/cloud-export-video test",
     "clean": "rimraf node_modules .turbo",
     "clean:packages": "turbo run clean --filter=./packages/* --filter=./packages/agents/*",
     "changeset": "changeset",
