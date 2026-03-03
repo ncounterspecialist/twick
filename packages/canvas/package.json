@@ -27,7 +27,8 @@
     "dev": "vite build --watch",
     "lint": "eslint src/",
     "clean": "rimraf .turbo node_modules dist",
-    "docs": "typedoc"  
+    "docs": "typedoc",
+    "test": "echo \"No tests for @twick/canvas\" && exit 0"
   },
   "dependencies": {
     "@twick/media-utils": "workspace:*",

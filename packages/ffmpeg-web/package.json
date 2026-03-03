@@ -21,7 +21,8 @@
   "files": ["dist"],
   "scripts": {
     "build": "node scripts/copy-and-patch.js",
-    "prepare": "node scripts/copy-and-patch.js"
+    "prepare": "node scripts/copy-and-patch.js",
+    "test": "echo \"No tests for @twick/ffmpeg-web\" && exit 0"
   },
   "dependencies": {
     "@ffmpeg/types": "^0.12.4"

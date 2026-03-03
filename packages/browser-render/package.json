@@ -26,6 +26,7 @@
   "scripts": {
     "build": "tsup && node scripts/copy-wasm.js",
     "dev": "tsup --watch",
+    "test": "echo \"No tests for @twick/browser-render\" && exit 0",
     "test:browser": "tsx src/test-browser-render.ts",
     "clean": "rimraf dist",
     "docs": "typedoc"

@@ -1,12 +1,9 @@
 import type { TrackElement } from "@twick/timeline";
 import { EFFECT_OPTIONS } from "@twick/effects";
 import type { EffectKey } from "@twick/effects";
+import { useEffect, useState } from "react";
 import { useEffectPanel } from "../../hooks/use-effect-panel";
-
-import vignetteImg from "../../assets/effects/vignette.png";
-import sepiaImg from "../../assets/effects/sepia.png";
-import pixelateImg from "../../assets/effects/pixelate.png";
-import warpImg from "../../assets/effects/warp.png";
+import { getEffectPreviewForEffect } from "../../helpers/effect-preview-manager";
 
 interface EffectStylePanelProps {
   selectedElement: TrackElement | null;
@@ -14,15 +11,49 @@ interface EffectStylePanelProps {
   updateElement: (element: TrackElement) => void;
 }
 
-/** Effect preview images bundled with the studio so consumers get them automatically. */
-const EFFECT_PREVIEW_IMAGES: Record<EffectKey, string> = {
-  vignette: vignetteImg,
-  sepia: sepiaImg,
-  pixelate: pixelateImg,
-  warp: warpImg,
-};
+interface EffectPreviewProps {
+  effectKey: EffectKey;
+  label: string;
+}
 
-const getEffectPreviewSrc = (key: EffectKey): string => EFFECT_PREVIEW_IMAGES[key] ?? "";
+function EffectPreview({ effectKey, label }: EffectPreviewProps) {
+  const [src, setSrc] = useState<string | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    getEffectPreviewForEffect(effectKey).then((url) => {
+      if (!cancelled && url) {
+        setSrc(url);
+      }
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [effectKey]);
+
+  if (!src) {
+    return (
+      <div className="effect-preview-box-inner flex items-center justify-center text-xs text-neutral-400">
+        {label}
+      </div>
+    );
+  }
+
+  return (
+    <img
+      src={src}
+      alt={label}
+      className="effect-preview-box-inner object-cover"
+      loading="lazy"
+    />
+  );
+}
 
 export function EffectStylePanel({
   selectedElement,
@@ -59,12 +90,7 @@ export function EffectStylePanel({
                 onClick={() => handleClick(effect.key)}
               >
                 <div className="effect-preview-box">
-                  <img
-                    src={getEffectPreviewSrc(effect.key) || undefined}
-                    alt=""
-                    className="effect-preview-box-inner object-cover"
-                    loading="lazy"
-                  />
+                  <EffectPreview effectKey={effect.key} label={effect.label} />
                   <div className="effect-preview-label">{effect.label}</div>
                 </div>
               </button>

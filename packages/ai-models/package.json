@@ -18,7 +18,8 @@
     "build": "tsc --noEmit && vite build",
     "dev": "vite build --watch",
     "lint": "eslint src/",
-    "clean": "rimraf .turbo node_modules dist"
+    "clean": "rimraf .turbo node_modules dist",
+    "test": "echo \"No tests for @twick/ai-models\" && exit 0"
   },
   "devDependencies": {
     "@types/node": "^20.11.24",
