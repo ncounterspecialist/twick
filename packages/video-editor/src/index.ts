@@ -40,6 +40,7 @@ import { usePlayerControl } from "./hooks/use-player-control";
 import { useEditorManager } from "./hooks/use-editor-manager";
 import BrowserMediaManager from "./helpers/media-manager/browser-media-manager";
 import { MediaItem, PaginationOptions, SearchOptions, Animation, TextEffect, ElementColors, CanvasConfig } from "./helpers/types";
+import type { AssetLibrary, AssetListParams, AssetProviderConfig, Paginated as AssetPaginated } from "./helpers/asset-library";
 import BaseMediaManager from "./helpers/media-manager/base-media-manager";
 import { animationGifs, getAnimationGif } from "./assets";
 import { ANIMATIONS } from "./helpers/animation-manager";
@@ -50,7 +51,18 @@ import { setElementColors } from "./helpers/editor.utils";
 export { setElementColors };
 
 // Types and interfaces
-export type { MediaItem, PaginationOptions, SearchOptions, Animation, TextEffect, ElementColors };
+export type {
+  MediaItem,
+  PaginationOptions,
+  SearchOptions,
+  Animation,
+  TextEffect,
+  ElementColors,
+  AssetLibrary,
+  AssetListParams,
+  AssetProviderConfig,
+  AssetPaginated,
+};
 export type { PlayerControlsProps, VideoEditorProps, VideoEditorConfig, TimelineTickConfig, TimelineZoomConfig, CanvasConfig };
 
 export { throttle, debounce } from "./helpers/function.utils";

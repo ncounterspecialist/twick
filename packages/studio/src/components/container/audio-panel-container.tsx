@@ -1,10 +1,50 @@
+import { useEffect, useMemo, useState } from "react";
 import { useMediaPanel } from "../../hooks/use-media-panel";
 import { AudioPanel } from "../panel/audio-panel";
 import type { PanelProps } from "../../types";
 import { useMedia } from "../../context/media-context";
 import { getMediaManager, CloudMediaUpload } from "../shared";
+import SearchInput from "../shared/search-input";
+import type { AssetProviderConfig, MediaItem } from "@twick/video-editor";
+import { getAssetLibrary } from "../../helpers/asset-library";
+import { throttle } from "@twick/video-editor";
 
 export const AudioPanelContainer = (props: PanelProps) => {
+  const [activeSource, setActiveSource] = useState<"user" | "public">("user");
+
+  return (
+    <>
+      <div className="panel-section">
+        <div className="flex gap-2">
+          <button
+            type="button"
+            className={`btn-ghost w-full ${activeSource === "user" ? "btn-primary" : ""
+              }`}
+            onClick={() => setActiveSource("user")}
+          >
+            My assets
+          </button>
+          <button
+            type="button"
+            className={`btn-ghost w-full ${activeSource === "public" ? "btn-primary" : ""
+              }`}
+            onClick={() => setActiveSource("public")}
+          >
+            Public
+          </button>
+        </div>
+      </div>
+
+      {activeSource === "user" ? (
+        <AudioUserAssetsSection {...props} />
+      ) : (
+        <AudioPublicAssetsSection />
+      )}
+    </>
+  );
+};
+
+function AudioUserAssetsSection(props: PanelProps) {
   const { addItem } = useMedia("audio");
   const mediaManager = getMediaManager();
   const {
@@ -15,12 +55,15 @@ export const AudioPanelContainer = (props: PanelProps) => {
     handleFileUpload,
     isLoading,
     acceptFileTypes,
-  } = useMediaPanel("audio", {
-    selectedElement: props.selectedElement ?? null,
-    addElement: props.addElement!,
-    updateElement: props.updateElement!,
-  },
-  props.videoResolution);
+  } = useMediaPanel(
+    "audio",
+    {
+      selectedElement: props.selectedElement ?? null,
+      addElement: props.addElement!,
+      updateElement: props.updateElement!,
+    },
+    props.videoResolution,
+  );
 
   const onUrlAdd = async (url: string) => {
     const nameFromUrl = (() => {
@@ -78,4 +121,111 @@ export const AudioPanelContainer = (props: PanelProps) => {
       />
     </>
   );
-};
+}
+
+function AudioPublicAssetsSection() {
+  const assetLibrary = getAssetLibrary();
+  const [providerConfigs, setProviderConfigs] = useState<AssetProviderConfig[]>(
+    [],
+  );
+  const [activeProviderId, setActiveProviderId] = useState<string | "all">(
+    "all",
+  );
+  const [publicItems, setPublicItems] = useState<MediaItem[]>([]);
+  const [publicSearchQuery, setPublicSearchQuery] = useState("");
+  const [isPublicLoading, setIsPublicLoading] = useState(false);
+
+  useEffect(() => {
+    const loadProviders = async () => {
+      try {
+        const configs = await assetLibrary.listPublicProviders();
+        // Only show providers that actually support audio
+        setProviderConfigs(
+          configs.filter((c) => c.supportedTypes?.includes("audio")),
+        );
+      } catch (err) {
+        console.error("Failed to load asset providers", err);
+      }
+    };
+    void loadProviders();
+  }, [assetLibrary]);
+
+  const loadPublicAssets = async (query: string) => {
+    setIsPublicLoading(true);
+    try {
+      const result = await assetLibrary.listAssets({
+        source: "public",
+        type: "audio",
+        query,
+        provider: activeProviderId === "all" ? undefined : activeProviderId,
+      });
+      setPublicItems(result.items);
+    } catch (err) {
+      console.error("Failed to load public audio assets", err);
+      setPublicItems([]);
+    } finally {
+      setIsPublicLoading(false);
+    }
+  };
+
+  const throttledLoadPublicAssets = useMemo(
+    () => throttle(loadPublicAssets, 1000),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [assetLibrary, activeProviderId],
+  );
+
+  useEffect(() => {
+    if (publicSearchQuery) {
+      void throttledLoadPublicAssets(publicSearchQuery);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeProviderId, publicSearchQuery]);
+
+  return (
+    <>
+      <div className="panel-section">
+        <div className="property-row">
+          <div className="property-row-label">
+            <span className="property-label">Provider</span>
+          </div>
+          <div className="property-row-control">
+            <select
+              className="select-dark"
+              value={activeProviderId}
+              onChange={(e) =>
+                setActiveProviderId(e.target.value as string | "all")
+              }
+            >
+              <option value="all">All providers</option>
+              {providerConfigs
+                .filter((p) => p.enabled)
+                .map((p) => (
+                  <option key={p.id} value={p.id}>
+                    {p.label}
+                  </option>
+                ))}
+            </select>
+          </div>
+        </div>
+        <div className="property-row-control">
+          <SearchInput
+            searchQuery={publicSearchQuery}
+            setSearchQuery={(q) => {
+              setPublicSearchQuery(q);
+            }}
+          />
+        </div>
+      </div>
+      <AudioPanel
+        items={publicItems}
+        searchQuery={publicSearchQuery}
+        onSearchChange={setPublicSearchQuery}
+        onItemSelect={() => { }}
+        onFileUpload={() => { }}
+        isLoading={isPublicLoading}
+        acceptFileTypes={[]}
+        onUrlAdd={() => { }}
+      />
+    </>
+  );
+}

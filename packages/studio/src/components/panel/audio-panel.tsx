@@ -39,6 +39,9 @@ export const AudioPanel = ({
   items,
   onItemSelect,
   onUrlAdd,
+  isLoading,
+  canLoadMore,
+  onLoadMore,
 }: AudioPanelProps) => {
   const { playingAudio, togglePlayPause } = useAudioPreview();
   return (
@@ -116,6 +119,19 @@ export const AudioPanel = ({
               <Wand2 className="empty-state-icon" />
               <p className="empty-state-text">No audio files found</p>
             </div>
+          </div>
+        )}
+
+        {onLoadMore && canLoadMore && (
+          <div className="panel-section">
+            <button
+              type="button"
+              className="btn-ghost w-full"
+              onClick={onLoadMore}
+              disabled={isLoading}
+            >
+              {isLoading ? "Loading..." : "Load more"}
+            </button>
           </div>
         )}
       </div>

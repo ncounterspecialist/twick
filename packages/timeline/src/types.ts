@@ -49,10 +49,61 @@ export interface TrackJSON {
   elements: ElementJSON[];
 }
 
+/**
+ * Lightweight asset descriptor that can be embedded in ProjectJSON to make
+ * projects more portable across environments.
+ *
+ * This mirrors the core fields of the editor MediaItem/MediaAsset type but
+ * intentionally omits heavy or provider-specific details.
+ */
+export interface ProjectAssetJSON {
+  /** Stable asset id used by timeline elements (e.g. video/image/audio). */
+  id: string;
+  /** Logical media type (video, audio, image). */
+  type: string;
+  /** Primary render URL for this asset. */
+  url: string;
+  /** Optional preview image URL (thumbnail/poster frame). */
+  previewUrl?: string;
+  /** Optional duration in milliseconds for audio/video assets. */
+  duration?: number;
+  /** Pixel dimensions for image/video assets (if known). */
+  width?: number;
+  height?: number;
+  /**
+   * Optional high-level source/origin hints.
+   * These are advisory only; renderers should rely primarily on `url`.
+   */
+  source?: "user" | "public";
+  origin?: string;
+  /**
+   * Provider attribution hints for public assets.
+   * Useful for UI and export workflows that need to show credits.
+   */
+  attribution?: {
+    text?: string;
+    author?: string;
+    authorUrl?: string;
+    licenseUrl?: string;
+  };
+}
+
 export interface ProjectJSON {
   watermark?: WatermarkJSON;
   backgroundColor?: string;
   metadata?: ProjectMetadata;
+  /**
+   * Optional portable asset manifest for this project.
+   *
+   * - Keys are assetIds referenced from element props (e.g. VideoProps.srcAssetId).
+   * - Values are lightweight asset descriptors that allow projects to be moved
+   *   between environments while still rendering correctly, even if the host
+   *   does not have a separate asset library backing store.
+   *
+   * Renderers and editors SHOULD gracefully handle the case where this is
+   * undefined (legacy projects) or partially populated.
+   */
+  assets?: Record<string, ProjectAssetJSON>;
   tracks: TrackJSON[];
   version: number;
 }
