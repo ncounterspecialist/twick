@@ -35,15 +35,21 @@ export function ImagePanel({
   items,
   onItemSelect,
   onUrlAdd,
+  isLoading,
+  canLoadMore,
+  onLoadMore,
+  showAddByUrl = true,
 }: ImagePanelProps) {
   return (
     <div className="panel-container">
       <div className="panel-title">Image Library</div>
 
       {/* Add by URL */}
-      <div className="panel-section">
-        <UrlInput type="image" onSubmit={onUrlAdd} />
-      </div>
+      {showAddByUrl && (
+        <div className="panel-section">
+          <UrlInput type="image" onSubmit={onUrlAdd} />
+        </div>
+      )}
 
       {/* Media Grid */}
       <div className="media-content">
@@ -85,6 +91,19 @@ export function ImagePanel({
               <Wand2 className="empty-state-icon" />
               <p className="empty-state-text">No images found</p>
             </div>
+          </div>
+        )}
+
+        {onLoadMore && canLoadMore && (
+          <div className="panel-section">
+            <button
+              type="button"
+              className="btn-ghost w-full"
+              onClick={onLoadMore}
+              disabled={isLoading}
+            >
+              {isLoading ? "Loading..." : "Load more"}
+            </button>
           </div>
         )}
       </div>

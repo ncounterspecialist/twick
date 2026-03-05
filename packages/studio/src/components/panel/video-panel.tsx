@@ -37,16 +37,22 @@ export function VideoPanel({
   items,
   onItemSelect,
   onUrlAdd,
+  showAddByUrl = true,
+  isLoading,
+  canLoadMore,
+  onLoadMore,
 }: VideoPanelProps) {
   const { playingVideo, togglePlayPause } = useVideoPreview();
   return (
     <div className="panel-container">
       <div className="panel-title">Video Library</div>
-
-      {/* Add by URL */}
-      <div className="flex panel-section">
-        <UrlInput type="video" onSubmit={onUrlAdd} />
-      </div>
+     
+     {/* Add by URL */}
+      {showAddByUrl && (
+        <div className="flex panel-section">
+          <UrlInput type="video" onSubmit={onUrlAdd} />
+        </div>
+      )}
 
       {/* Media Grid */}
       <div className="media-content">
@@ -123,6 +129,19 @@ export function VideoPanel({
               <Wand2 className="empty-state-icon" />
               <p className="empty-state-text">No videos found</p>
             </div>
+          </div>
+        )}
+
+        {onLoadMore && canLoadMore && (
+          <div className="panel-section">
+            <button
+              type="button"
+              className="btn-ghost w-full"
+              onClick={onLoadMore}
+              disabled={isLoading}
+            >
+              {isLoading ? "Loading..." : "Load more"}
+            </button>
           </div>
         )}
       </div>

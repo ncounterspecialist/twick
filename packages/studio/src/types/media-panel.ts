@@ -8,6 +8,8 @@ export interface MediaPanelBasePropsCommon {
   acceptFileTypes: string[];
   onItemSelect: (item: MediaItem, forceAdd?: boolean) => void;
   onFileUpload: (fileData: { file: File; blobUrl: string }) => void;
+  canLoadMore?: boolean;
+  onLoadMore?: () => void;
 }
 
 export interface SearchablePanelProps {
@@ -17,6 +19,7 @@ export interface SearchablePanelProps {
 
 export interface VideoPanelProps extends MediaPanelBasePropsCommon {
   onUrlAdd: (url: string) => void;
+  showAddByUrl?: boolean;
 }
 
 export interface AudioPanelProps extends MediaPanelBasePropsCommon, SearchablePanelProps {
@@ -24,4 +27,5 @@ export interface AudioPanelProps extends MediaPanelBasePropsCommon, SearchablePa
 }
 export interface ImagePanelProps extends MediaPanelBasePropsCommon, SearchablePanelProps {
   onUrlAdd: (url: string) => void;
+  showAddByUrl?: boolean;
 }
