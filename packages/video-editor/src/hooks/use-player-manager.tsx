@@ -45,6 +45,7 @@ export const usePlayerManager = ({
     editor,
     changeLog,
     videoResolution,
+    selectedIds,
   } = useTimelineContext();
   const { getCurrentTime, setSeekTime } = useLivePlayerContext();
 
@@ -248,8 +249,23 @@ export const usePlayerManager = ({
       captionProps,
       cleanAndAdd: true,
       lockAspectRatio: canvasConfig?.lockAspectRatio,
+    }).then(() => {
+      currentChangeLog.current = changeLog;
+
+      // After a full canvas rebuild (which clears Fabric selection),
+      // restore the visual selection so it matches TimelineContext.selectedIds.
+      if (twickCanvas && selectedIds.size > 0) {
+        const primaryId = [...selectedIds][0];
+        const objects = twickCanvas.getObjects();
+        const activeObject = objects.find(
+          (obj: any) => obj?.get?.("id") === primaryId
+        );
+        if (activeObject && twickCanvas.getActiveObject() !== activeObject) {
+          twickCanvas.setActiveObject(activeObject as any);
+          twickCanvas.requestRenderAll();
+        }
+      }
     });
-    currentChangeLog.current = changeLog;
   };
   updateCanvasRef.current = updateCanvas;
 

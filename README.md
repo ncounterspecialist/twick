@@ -1,3 +1,38 @@
+## Twick Monorepo
+
+Twick is a modular SDK for building timeline‑based video editors. The main packages live under `packages/` (timeline, canvas, live‑player, video‑editor, studio, etc.) and are wired together in the example apps and in `twick-web`.
+
+### Public assets & providers
+
+Twick supports both **user assets** (local uploads, URLs) and **public assets** from providers like Pexels, Unsplash, and Pixabay. Studio surfaces these under the **My assets** and **Public** tabs in the media panels.
+
+- **How it works**:
+  - Frontend uses an `AssetLibrary` abstraction to list, search, and upload assets.
+  - Studio’s implementation calls `twick-web` API routes (`/api/assets/providers/config`, `/api/assets/search`) for public assets and uses IndexedDB for user uploads.
+  - Timeline elements (video, audio, image) just store the resolved `url` and optional asset metadata.
+
+- **How to configure public providers**:
+  1. Set provider API keys in the `twick-web` environment:
+     ```bash
+     # Pexels
+     PEXELS_API_KEY=your_pexels_api_key
+
+     # Unsplash
+     UNSPLASH_ACCESS_KEY=your_unsplash_access_key
+
+     # Pixabay
+     PIXABAY_API_KEY=your_pixabay_api_key
+     ```
+  2. Restart `twick-web`:
+     ```bash
+     cd twick-web
+     pnpm dev            # or next start in production
+     ```
+  3. Open Studio (see `packages/studio`) → any media panel (Video / Audio / Image) → switch to **Public** and use the provider dropdown + search to browse assets.
+
+- **Extending providers / asset manager**:
+  - See `ASSET_MANAGER.md` in the repo root for a full architecture overview and a step‑by‑step guide to adding new providers or changing how assets are stored and surfaced in Studio.
+
 # Twick – React Video Editor SDK with AI Caption Generation
 
 **Twick** is an open-source **React Video Editor Library & SDK** featuring AI caption generation, timeline editing, canvas tools, and MP4 export for building custom video applications.
@@ -233,6 +268,35 @@ High-level guidance:
 
 - **Development / prototyping:** start with `@twick/browser-render`  
 - **Production:** use `@twick/render-server` (or `@twick/cloud-export-video` on AWS Lambda)  
+
+### Export decision tree (when to use which path)
+
+**Start with a few hard checks:**
+
+- **Does the user’s browser support WebCodecs?**  
+  - If **no / unknown**: **do not attempt browser export.** Route the export through `@twick/render-server` or `@twick/cloud-export-video` instead.  
+  - If **yes (modern Chromium, WebCodecs present)**: browser export is allowed for smaller jobs (see below).
+- **Do you need guaranteed export on Safari / Firefox?**  
+  - If **yes**: use server export; these browsers do not support WebCodecs today.
+
+**Then decide based on workload:**
+
+- **Use browser export (`@twick/browser-render`) when:**
+  - Clips are **short** (rough guidance: ≤ 2–3 minutes of HD) and mostly simple cuts/text.  
+  - You are in **prototype or low-volume SaaS** where occasional client failures are acceptable.  
+  - You want **instant download** without involving your backend.
+
+- **Use server export (`@twick/render-server` or cloud export) when:**
+  - Videos are **longer** (several minutes+), or projects have **many tracks/effects**.  
+  - You need **predictable completion** across browsers and devices.  
+  - You are charging customers for exports or embedding Twick in a production SaaS.  
+  - You need to **queue, rate-limit, or retry** jobs server-side.
+
+**Hard limits / things to watch:**
+
+- Browser export is constrained by **client RAM/CPU**; large timelines can fail with OOM or tab crashes.  
+- WebCodecs is **Chromium-only**; Firefox/Safari must be treated as “server-only” for export.  
+- For **batch pipelines, background jobs, or compliance-heavy use cases**, always prefer server export.
 
 See the individual package READMEs for full examples and configuration.
 
@@ -537,6 +601,32 @@ This **React Video Editor SDK** is licensed under the **Sustainable Use License 
 
 For resale or SaaS redistribution of this library, please contact `contact@kifferai.com`.  
 Full terms: see [License](https://github.com/ncounterspecialist/twick/blob/main/LICENSE.md).
+
+### Sustainable Use License – plain English and SaaS examples
+
+**What you are allowed to do (typical good use):**
+
+- **Build and ship your own product:**  
+  - Example: a video editing SaaS where Twick powers the editor UI and export behind your own branding.  
+  - Example: an internal tool your team uses to generate onboarding videos or marketing clips.  
+  - Example: an AI video-generation feature inside a broader app (LMS, CRM, creator tool, etc.).
+- **Run Twick anywhere you control:** self-host on your own infra, bundle it in a Next.js app, or deploy the render server and cloud functions in your cloud account.
+- **Charge for your product:** you can sell subscriptions, seats, or usage of your app that happens to use Twick under the hood.
+
+**What you are not allowed to do without a separate license:**
+
+- **Resell Twick itself as an SDK / API / “video platform for developers”.**  
+  - Not allowed: cloning this repo, lightly rebranding it, and marketing it as your own video editor SDK.  
+  - Not allowed: offering a hosted “Twick-as-a-service” for other developers to embed as their editor without adding substantial product around it.
+- **Repackage Twick as a generic dev tool.**  
+  - Not allowed: shipping a low-friction “drop-in React video editor component” that is basically Twick with a new name and price tag.
+
+**Quick rule of thumb for SaaS:**
+
+- If your users are **end users / creators** using video features inside your product → **you’re in the clear.**  
+- If your primary customers are **other developers** and you’re selling them “a video editor SDK / API” that competes with Twick → **reach out for a commercial license** first.
+
+When in doubt, start a thread at `contact@kifferai.com` or in Discord and we can confirm whether your planned use fits the Sustainable Use License.
 
 ---
 
