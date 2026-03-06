@@ -53,6 +53,20 @@ export interface TimelineOperationContext {
   setTimelineAction?: (action: string, payload?: unknown) => void;
 }
 
+export interface TrackUpsertInput {
+  id?: string;
+  name: string;
+  type?: string;
+  language?: string;
+  props?: Record<string, unknown>;
+}
+
+export interface TrackOverlapIssue {
+  elementId: string;
+  overlapsWithElementId: string;
+  trackId: string;
+}
+
 /**
  * TimelineEditor
  *
@@ -206,6 +220,109 @@ export class TimelineEditor {
     const prevTimelineData = this.getTimelineData();
     const track = prevTimelineData?.tracks.find((t) => t.getType() === TRACK_TYPES.CAPTION);
     return track as Track | null;
+  }
+
+  getTracksByType(type: string): Track[] {
+    const prevTimelineData = this.getTimelineData();
+    return (prevTimelineData?.tracks.filter((track) => track.getType() === type) ??
+      []) as Track[];
+  }
+
+  getTracksByPredicate(predicate: (track: Track, index: number) => boolean): Track[] {
+    const prevTimelineData = this.getTimelineData();
+    return (prevTimelineData?.tracks.filter((track, index) => predicate(track, index)) ??
+      []) as Track[];
+  }
+
+  updateTrackProps(
+    trackId: string,
+    propsPatch: Record<string, unknown>
+  ): Track | null {
+    const track = this.getTrackById(trackId);
+    if (!track) {
+      return null;
+    }
+    const currentProps = track.getProps() ?? {};
+    track.setProps({
+      ...currentProps,
+      ...propsPatch,
+    });
+    this.refresh();
+    return track;
+  }
+
+  replaceTrackProps(trackId: string, nextProps: Record<string, unknown>): Track | null {
+    const track = this.getTrackById(trackId);
+    if (!track) {
+      return null;
+    }
+    track.setProps(nextProps);
+    this.refresh();
+    return track;
+  }
+
+  upsertTrack(input: TrackUpsertInput): Track {
+    if (input.id) {
+      const existing = this.getTrackById(input.id);
+      if (existing) {
+        if (input.name) {
+          existing.setName(input.name);
+        }
+        if (input.type) {
+          existing.setType(input.type);
+        }
+        if (input.language !== undefined) {
+          existing.setLanguage(input.language);
+        }
+        if (input.props !== undefined) {
+          existing.setProps(input.props);
+        }
+        this.refresh();
+        return existing;
+      }
+    }
+
+    const created = this.addTrack(input.name, input.type ?? TRACK_TYPES.ELEMENT);
+    if (input.language !== undefined) {
+      created.setLanguage(input.language);
+    }
+    if (input.props !== undefined) {
+      created.setProps(input.props);
+    }
+    this.refresh();
+    return created;
+  }
+
+  validateTrackOverlaps(trackId: string): {
+    valid: boolean;
+    issues: TrackOverlapIssue[];
+  } {
+    const track = this.getTrackById(trackId);
+    if (!track) {
+      return {
+        valid: true,
+        issues: [],
+      };
+    }
+    const elements = [...track.getElements()].sort(
+      (a, b) => a.getStart() - b.getStart()
+    );
+    const issues: TrackOverlapIssue[] = [];
+    for (let index = 0; index < elements.length - 1; index += 1) {
+      const current = elements[index];
+      const next = elements[index + 1];
+      if (current.getEnd() > next.getStart()) {
+        issues.push({
+          elementId: current.getId(),
+          overlapsWithElementId: next.getId(),
+          trackId,
+        });
+      }
+    }
+    return {
+      valid: issues.length === 0,
+      issues,
+    };
   }
 
   removeTrackById(id: string): void {
@@ -603,6 +720,40 @@ export class TimelineEditor {
         forceUpdate: true,
       });
     }
+    this.emit("project:loaded", {
+      tracks: migratedProject.tracks,
+      version: migratedProject.version,
+    });
+  }
+
+  loadProjectSnapshot({
+    tracks,
+    version,
+    backgroundColor,
+    metadata,
+  }: {
+    tracks: TrackJSON[];
+    version: number;
+    backgroundColor?: string;
+    metadata?: ProjectMetadata;
+  }): void {
+    const migratedProject = migrateProject(
+      {
+        tracks,
+        version,
+        backgroundColor,
+        metadata,
+      },
+      CURRENT_PROJECT_VERSION
+    );
+    const timelineTracks = migratedProject.tracks.map((track) => Track.fromJSON(track));
+    this.setTimelineData({
+      tracks: timelineTracks,
+      version: migratedProject.version,
+      backgroundColor: migratedProject.backgroundColor,
+      metadata: migratedProject.metadata,
+      updatePlayerData: true,
+    });
     this.emit("project:loaded", {
       tracks: migratedProject.tracks,
       version: migratedProject.version,

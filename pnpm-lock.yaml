@@ -84,6 +84,12 @@ importers:
       rimraf:
         specifier: ^5.0.5
         version: 5.0.10
+      typedoc:
+        specifier: ^0.25.8
+        version: 0.25.13(typescript@5.9.3)
+      typedoc-plugin-markdown:
+        specifier: ^3.17.1
+        version: 3.17.1(typedoc@0.25.13)
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -229,7 +235,7 @@ importers:
         version: 0.15.21
       '@twick/visualizer':
         specifier: latest
-        version: 0.15.22(typescript@5.9.3)
+        version: 0.15.23(typescript@5.9.3)
       '@twick/vite-plugin':
         specifier: ^0.15.21
         version: 0.15.21
@@ -287,6 +293,12 @@ importers:
       '@google-cloud/storage':
         specifier: ^7.18.0
         version: 7.19.0
+      '@twick/ai-models':
+        specifier: workspace:*
+        version: link:../../ai-models
+      '@twick/workflow':
+        specifier: workspace:*
+        version: link:../../workflow
       fluent-ffmpeg:
         specifier: ^2.1.2
         version: 2.1.3
@@ -315,6 +327,9 @@ importers:
       '@google-cloud/storage':
         specifier: ^7.18.0
         version: 7.19.0
+      '@twick/ai-models':
+        specifier: workspace:*
+        version: link:../../ai-models
       fluent-ffmpeg:
         specifier: ^2.1.2
         version: 2.1.3
@@ -669,6 +684,9 @@ importers:
       '@twick/visualizer':
         specifier: workspace:*
         version: link:../visualizer
+      '@twick/workflow':
+        specifier: workspace:*
+        version: link:../workflow
       lucide-react:
         specifier: ^0.511.0
         version: 0.511.0(react@19.2.3)
@@ -850,6 +868,37 @@ importers:
       '@twick/ui':
         specifier: ^0.15.21
         version: 0.15.21
+      typedoc:
+        specifier: ^0.25.8
+        version: 0.25.13(typescript@5.9.3)
+      typedoc-plugin-markdown:
+        specifier: ^3.17.1
+        version: 3.17.1(typedoc@0.25.13)
+      typescript:
+        specifier: ^5.4.2
+        version: 5.9.3
+      vite:
+        specifier: ^5.4.21
+        version: 5.4.21(@types/node@20.19.29)
+      vite-plugin-dts:
+        specifier: ^3.7.3
+        version: 3.9.1(@types/node@20.19.29)(typescript@5.9.3)(vite@5.4.21)
+
+  packages/workflow:
+    dependencies:
+      '@twick/ai-models':
+        specifier: workspace:*
+        version: link:../ai-models
+      '@twick/timeline':
+        specifier: workspace:*
+        version: link:../timeline
+    devDependencies:
+      '@types/node':
+        specifier: ^20.11.24
+        version: 20.19.29
+      rimraf:
+        specifier: ^5.0.5
+        version: 5.0.10
       typedoc:
         specifier: ^0.25.8
         version: 0.25.13(typescript@5.9.3)
@@ -8677,8 +8726,8 @@ packages:
       culori: 4.0.2
       mp4-wasm: 1.0.6
 
-  /@twick/effects@0.15.22:
-    resolution: {integrity: sha512-jCYJnqKpI4XCWb02QCWaV9pjJshY27EOz+JoYgq6PxQ3e78zwQN9fkQaXk5Atni0KuEh3vzA53vLjr5W3LwI9w==}
+  /@twick/effects@0.15.23:
+    resolution: {integrity: sha512-joakjlDsvaL4AYASnvpJNes1TVUKL2tV1spZWzw1VnAfJOiBfoabsE8Cu0Lbg2E40p3axsVZ5L8VXZbYMG/xeA==}
     dependencies:
       '@twick/gl-runtime': 0.15.21
     dev: false
@@ -8698,8 +8747,8 @@ packages:
   /@twick/gl-runtime@0.15.21:
     resolution: {integrity: sha512-vfm8vvB5XyFnQArEVZFH42lAZHq7Ft2fHzECMbHdxMNSy7xUHQ99k2uZC0eo578DL4ayGskIzN+eoWlrGsk0Bw==}
 
-  /@twick/media-utils@0.15.22:
-    resolution: {integrity: sha512-rubd2lSL2SOSULW//tobY3uCXCxuV+JDpws4GHY6zFgpr9qiY6PKAN3/oTQ0h3TRPxpisXHHFeeoY+SWKXW5HA==}
+  /@twick/media-utils@0.15.23:
+    resolution: {integrity: sha512-rPZAwl7vQhpPo1I6Cgyg59EEzqGGl+dl1RxklRuq1+ivooHBio1Ykf+0TgA5Xh/LZ933En/v4sz6wPwzUjW3MQ==}
     engines: {node: '>=20.0.0'}
     dependencies:
       lamejs: 1.2.1
@@ -8757,15 +8806,15 @@ packages:
       '@twick/core': 0.15.21
       preact: 10.28.2
 
-  /@twick/visualizer@0.15.22(typescript@5.9.3):
-    resolution: {integrity: sha512-gFTOl90ZQVeffP8WWI2xYZr0JJcK+gIMtjnhray8yHkVkqCKb7lJVLI76Fgw5lB+XTRrQELZspv7bW9Y8Adshg==}
+  /@twick/visualizer@0.15.23(typescript@5.9.3):
+    resolution: {integrity: sha512-H5T1EPS8Ma1PKAqjgUKoF/+wfz5NRh5YET+XsPnLnK8NpULl4quwL0YV2XJeloe7Iccb7z5DUZWG0bwINhUBrQ==}
     engines: {node: '>=20.0.0'}
     dependencies:
       '@preact/signals': 1.3.2(preact@10.28.2)
       '@twick/2d': 0.15.21
       '@twick/core': 0.15.21
-      '@twick/effects': 0.15.22
-      '@twick/media-utils': 0.15.22
+      '@twick/effects': 0.15.23
+      '@twick/media-utils': 0.15.23
       '@twick/renderer': 0.15.21(@types/node@20.19.29)(typescript@5.9.3)
       '@twick/vite-plugin': 0.15.21
       crelt: 1.0.6

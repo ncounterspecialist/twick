@@ -1,0 +1,40 @@
+{
+  "name": "@twick/workflow",
+  "version": "0.15.0",
+  "description": "Workflow builders and appliers for Twick AI and project assembly.",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "sideEffects": false,
+  "license": "https://github.com/ncounterspecialist/twick/blob/main/LICENSE.md",
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "build": "tsc --noEmit && vite build",
+    "dev": "vite build --watch",
+    "docs": "typedoc",
+    "lint": "eslint src/",
+    "clean": "rimraf .turbo node_modules dist",
+    "test": "echo \"No tests for @twick/workflow\" && exit 0"
+  },
+  "dependencies": {
+    "@twick/ai-models": "workspace:*",
+    "@twick/timeline": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.24",
+    "rimraf": "^5.0.5",
+    "typedoc": "^0.25.8",
+    "typedoc-plugin-markdown": "^3.17.1",
+    "typescript": "^5.4.2",
+    "vite": "^5.4.21",
+    "vite-plugin-dts": "^3.7.3"
+  }
+}

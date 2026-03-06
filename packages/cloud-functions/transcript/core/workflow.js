@@ -1,5 +1,6 @@
 import { extractAudioBufferFromAudioUrl, extractAudioBufferFromVideo } from "./audio.utils.js";
 import { transcribeLong, transcribeShort } from "./transcriber.js";
+import { normalizeCaptionEntries } from "@twick/ai-models";
 
 /**
  * Creates a complete caption video project from a video URL.
@@ -34,10 +35,17 @@ export const transcribe = async (params) => {
     throw new Error("No captions found");
   }
 
+  const normalizedCaptions = normalizeCaptionEntries(captions).map((segment) => ({
+    t: segment.text,
+    s: segment.startMs,
+    e: segment.endMs,
+    ...(segment.wordStartMs ? { w: segment.wordStartMs } : {}),
+  }));
+
   console.log("Transcription successful");
 
   return ({
-    captions,
+    captions: normalizedCaptions,
     duration,
     audioUrl,
     videoUrl,

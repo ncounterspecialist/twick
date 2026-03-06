@@ -3,11 +3,7 @@ import { Size, TrackElement } from "@twick/timeline";
 import { ImageElement, VideoElement } from "@twick/timeline";
 import { useLivePlayerContext } from "@twick/live-player";
 import type { StudioConfig } from "../../types";
-import {
-  FAL_IMAGE_ENDPOINTS,
-  FAL_VIDEO_ENDPOINTS,
-  type ModelInfo,
-} from "@twick/ai-models";
+import type { ModelInfo } from "@twick/ai-models";
 
 const DEFAULT_IMAGE_DURATION = 5;
 
@@ -36,8 +32,14 @@ export function GenerateMediaPanelContainer({
   const videoService = studioConfig?.videoGenerationService;
   const hasAnyService = !!imageService || !!videoService;
 
-  const endpoints = tab === "image" ? FAL_IMAGE_ENDPOINTS : FAL_VIDEO_ENDPOINTS;
+  const imageModels = imageService?.getAvailableModels?.() ?? [];
+  const videoModels = videoService?.getAvailableModels?.() ?? [];
+  const endpoints: ModelInfo[] = tab === "image" ? imageModels : videoModels;
   const defaultEndpointId = endpoints[0]?.endpointId ?? "";
+  const selectedEndpoint =
+    endpoints.find((endpoint: ModelInfo) => endpoint.endpointId === selectedEndpointId) ??
+    endpoints[0];
+  const selectedProvider = selectedEndpoint?.provider;
 
   useEffect(() => {
     if (!selectedEndpointId && defaultEndpointId) {
@@ -109,9 +111,18 @@ export function GenerateMediaPanelContainer({
 
     try {
       const endpointId = selectedEndpointId || defaultEndpointId;
+      const provider = selectedProvider;
+
+      if (!endpointId || !provider) {
+        setError("No model is configured for this tab");
+        setIsGenerating(false);
+        setStatus(null);
+        return;
+      }
+
       if (tab === "image" && imageService) {
         const requestId = await imageService.generateImage({
-          provider: "fal",
+          provider,
           endpointId,
           prompt: prompt.trim(),
         });
@@ -121,7 +132,7 @@ export function GenerateMediaPanelContainer({
         }
       } else if (tab === "video" && videoService) {
         const requestId = await videoService.generateVideo({
-          provider: "fal",
+          provider,
           endpointId,
           prompt: prompt.trim(),
         });
@@ -144,6 +155,7 @@ export function GenerateMediaPanelContainer({
     imageService,
     videoService,
     pollStatus,
+    selectedProvider,
   ]);
 
   if (!hasAnyService) {

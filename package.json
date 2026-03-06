@@ -4,6 +4,7 @@
   "scripts": {
     "build": "turbo run build --filter=./packages/* --filter=./packages/agents/*",
     "build:media-utils": "turbo run build --filter=@twick/media-utils",
+    "build:workflow": "turbo run build --filter=@twick/workflow",
     "build:canvas": "turbo run build --filter=@twick/canvas",
     "build:timeline": "turbo run build --filter=@twick/timeline",
     "build:documentation": "pnpm run docs && pnpm run docs:copy && turbo run build --filter=@twick/documentation",
@@ -20,6 +21,7 @@
     "docs:build": "pnpm run docs && pnpm run docs:copy",
     "dev": "turbo run dev --filter=./packages/* --filter=./packages/agents/* --concurrency 12",
     "dev:media-utils": "turbo run dev --filter=@twick/media-utils",
+    "dev:workflow": "turbo run dev --filter=@twick/workflow",
     "dev:canvas": "turbo run dev --filter=@twick/canvas",
     "dev:documentation": "pnpm run docs && pnpm run docs:copy && turbo run dev --filter=@twick/documentation",
     "dev:live-player": "turbo run dev --filter=@twick/live-player",
@@ -57,6 +59,7 @@
   "workspaces": [
     "packages/ai-models",
     "packages/media-utils",
+    "packages/workflow",
     "packages/effects",
     "packages/visualizer",
     "packages/canvas",

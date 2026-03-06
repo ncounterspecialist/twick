@@ -3,6 +3,7 @@
  * Invoked asynchronously by execute-job; updates request-log on completion.
  */
 import { generateVideo } from "../../core/generator-video.js";
+import { buildNormalizedMediaResult } from "../../core/contracts.js";
 
 const jsonResponse = (statusCode, body) => ({
   statusCode,
@@ -28,7 +29,18 @@ export const handler = async (event) => {
       return jsonResponse(400, { error: result.error });
     }
 
-    return jsonResponse(200, { url: result.url, duration: result.duration });
+    return jsonResponse(200, {
+      url: result.url,
+      duration: result.duration,
+      result: buildNormalizedMediaResult({
+        requestId: payload?.requestId,
+        type: "video",
+        provider: payload?.provider,
+        endpointId: payload?.endpointId,
+        url: result.url,
+        duration: result.duration,
+      }),
+    });
   } catch (err) {
     const msg = err instanceof Error ? err.message : "Unknown error";
     return jsonResponse(500, { error: msg });

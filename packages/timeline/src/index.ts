@@ -93,7 +93,11 @@ export {
 
 // Types and interfaces
 export type { TimelineProviderProps } from "./context/timeline-context";
-export type { TimelineEditorEvent } from "./core/editor/timeline.editor";
+export type {
+  TimelineEditorEvent,
+  TrackUpsertInput,
+  TrackOverlapIssue,
+} from "./core/editor/timeline.editor";
 export { TIMELINE_ELEMENT_TYPE, TRACK_TYPES };
 export type { TrackType };
 
