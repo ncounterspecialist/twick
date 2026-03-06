@@ -17,6 +17,16 @@ const sidebars = {
         },
         {
           type: 'doc',
+          label: '@twick/ai-models',
+          id: 'packages/ai-models/modules'
+        },
+        {
+          type: 'doc',
+          label: '@twick/workflow',
+          id: 'packages/workflow/modules'
+        },
+        {
+          type: 'doc',
           label: '@twick/canvas',
           id: 'packages/canvas/modules'
         },

@@ -38,6 +38,10 @@ export function GenerateMediaPanelContainer({
 
   const endpoints = tab === "image" ? FAL_IMAGE_ENDPOINTS : FAL_VIDEO_ENDPOINTS;
   const defaultEndpointId = endpoints[0]?.endpointId ?? "";
+  const selectedEndpoint =
+    endpoints.find((endpoint: ModelInfo) => endpoint.endpointId === selectedEndpointId) ??
+    endpoints[0];
+  const selectedProvider = selectedEndpoint?.provider ?? "fal";
 
   useEffect(() => {
     if (!selectedEndpointId && defaultEndpointId) {
@@ -111,7 +115,7 @@ export function GenerateMediaPanelContainer({
       const endpointId = selectedEndpointId || defaultEndpointId;
       if (tab === "image" && imageService) {
         const requestId = await imageService.generateImage({
-          provider: "fal",
+          provider: selectedProvider,
           endpointId,
           prompt: prompt.trim(),
         });
@@ -121,7 +125,7 @@ export function GenerateMediaPanelContainer({
         }
       } else if (tab === "video" && videoService) {
         const requestId = await videoService.generateVideo({
-          provider: "fal",
+          provider: selectedProvider,
           endpointId,
           prompt: prompt.trim(),
         });
@@ -144,6 +148,7 @@ export function GenerateMediaPanelContainer({
     imageService,
     videoService,
     pollStatus,
+    selectedProvider,
   ]);
 
   if (!hasAnyService) {

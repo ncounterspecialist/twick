@@ -1,4 +1,8 @@
-import { CAPTION_STYLE, generateShortUuid, ProjectJSON, VideoElement } from "@twick/timeline";
+import { CAPTION_STYLE, ProjectJSON, VideoElement } from "@twick/timeline";
+import {
+  applyCaptionsToProject as applyCaptionsToWorkflowProject,
+  buildCaptionProject,
+} from "@twick/workflow";
 import {
   ICaptionGenerationPollingResponse,
   ICaptionGenerationService,
@@ -8,6 +12,10 @@ import { CAPTION_PROPS } from "./constant";
 import { hasAudio } from "@twick/media-utils";
 
 class GenerateCaptionsService implements ICaptionGenerationService {
+  /**
+   * Compatibility wrapper for legacy Studio caption service flow.
+   * New AI workflows should prefer @twick/workflow directly.
+   */
   videoElement: VideoElement | null;
   projectJSON: ProjectJSON | null;
   generateSubtiltesApi: (videoUrl: string) => Promise<string>;
@@ -62,66 +70,26 @@ class GenerateCaptionsService implements ICaptionGenerationService {
     }
     const startTime = this.videoElement.getStart();
     const endTime = this.videoElement.getEnd();
-    let captionsTrack = this.projectJSON.tracks.find(
-      (track) => track.type === "caption"
-    );
-    if (captionsTrack) {
-      // Filter out existing overlapping caption elements
-      captionsTrack.elements = captionsTrack.elements.filter((el) => {
-        // Keep only non-caption OR captions completely outside the new range
-        if (el.type !== "caption") return true;
-        return el.e <= startTime || el.s >= endTime;
-      });
+    const workflowCaptions = captions.map((caption) => ({
+      t: caption.t,
+      s: Math.max(0, caption.s * 1000),
+      e: Math.max(0, caption.e * 1000),
+    }));
 
-      // Add new captions
-      const newCaptionElements = captions.map((caption, index) => ({
-        id: `captions-${index}`, // ensure unique ID
-        type: "caption",
-        trackId: captionsTrack?.id,
-        s: startTime + caption.s,
-        e: startTime + caption.e,
-        t: caption.t,
-      }));
-
-      captionsTrack.elements.push(...newCaptionElements);
-
-      captionsTrack.elements = captionsTrack.elements
-        .sort((a, b) => a.s - b.s)
-        .map((el, index) => {
-          return {
-            ...el,
-            id: `captions-${index}`,
-          };
-        });
-    } else {
-      const captionTrackId = `t-${generateShortUuid()}`;
-      captionsTrack = {
-        id: captionTrackId,
-        name: "Caption",
-        elements: [],
-        type: "caption",
-        props: {
-          capStyle: CAPTION_STYLE.WORD_BG_HIGHLIGHT,
-          ...CAPTION_PROPS[CAPTION_STYLE.WORD_BG_HIGHLIGHT],
-          x: 0,
-          y: 200,
-          applyToAll: true,
-        },
-      };
-      captionsTrack.elements = captions.map((caption, index) => {
-        return {
-          id: `captions-${index}`,
-          type: "caption",
-          trackId: captionTrackId,
-          s: startTime + caption.s,
-          e: startTime + caption.e,
-          t: caption.t,
-        };
-      });
-      this.projectJSON.tracks.push(captionsTrack);
-    }
-    this.projectJSON.version++;
-    return this.projectJSON as ProjectJSON;
+    const updated = applyCaptionsToWorkflowProject(this.projectJSON, {
+      captions: workflowCaptions,
+      insertionStartSec: startTime,
+      insertionEndSec: endTime,
+      captionTrackStyle: {
+        capStyle: CAPTION_STYLE.WORD_BG_HIGHLIGHT,
+        ...CAPTION_PROPS[CAPTION_STYLE.WORD_BG_HIGHLIGHT],
+        x: 0,
+        y: 200,
+        applyToAll: true,
+      },
+    });
+    this.projectJSON = updated;
+    return updated;
   }
 
   async generateCaptionVideo(
@@ -141,34 +109,12 @@ class GenerateCaptionsService implements ICaptionGenerationService {
     if (!videoHasAudio) {
       throw new Error("Video has no audio");
     }
-    this.projectJSON = {
-      tracks: [
-        {
-          type: "video",
-          id: "video",
-          name: "Video",
-          elements: [
-            {
-              id: "video",
-              type: "video",
-              src: videoUrl,
-              s: 0,
-              e: duration,
-              props: {
-                src: videoUrl,
-                playbackRate: 1,
-                width: videoSize?.width || 720,
-                height: videoSize?.height || 1280,
-                time: 0,
-                mediaFilter: "none",
-                volume: 1,
-              },
-            },
-          ],
-        },
-      ],
-      version: 1,
-    };
+    this.projectJSON = buildCaptionProject({
+      captions: [],
+      videoUrl,
+      durationSec: duration,
+      videoSize,
+    }) as ProjectJSON;
 
     const reqId = await this.generateCaptions(videoElement, this.projectJSON);
     return reqId;

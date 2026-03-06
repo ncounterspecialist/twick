@@ -184,6 +184,11 @@ export class Track {
     return this.name;
   }
 
+  setName(name: string) {
+    this.name = name;
+    return this;
+  }
+
   /**
    * Gets the type of the track.
    * 
@@ -197,6 +202,11 @@ export class Track {
    */
   getType(): string {
     return this.type;
+  }
+
+  setType(type: string) {
+    this.type = type;
+    return this;
   }
 
   getLanguage(): string | undefined {

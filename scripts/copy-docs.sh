@@ -5,6 +5,8 @@
 # Create documentation directories
 mkdir -p packages/documentation/docs/packages/canvas
 mkdir -p packages/documentation/docs/packages/media-utils
+mkdir -p packages/documentation/docs/packages/ai-models
+mkdir -p packages/documentation/docs/packages/workflow
 mkdir -p packages/documentation/docs/packages/live-player
 mkdir -p packages/documentation/docs/packages/visualizer
 mkdir -p packages/documentation/docs/packages/studio
@@ -17,6 +19,8 @@ mkdir -p packages/documentation/docs/packages/browser-render
 # Copy docs folders (if they exist)
 cp -r packages/canvas/docs/* packages/documentation/docs/packages/canvas/ 2>/dev/null || true
 cp -r packages/media-utils/docs/* packages/documentation/docs/packages/media-utils/ 2>/dev/null || true
+cp -r packages/ai-models/docs/* packages/documentation/docs/packages/ai-models/ 2>/dev/null || true
+cp -r packages/workflow/docs/* packages/documentation/docs/packages/workflow/ 2>/dev/null || true
 cp -r packages/live-player/docs/* packages/documentation/docs/packages/live-player/ 2>/dev/null || true
 cp -r packages/visualizer/docs/* packages/documentation/docs/packages/visualizer/ 2>/dev/null || true
 cp -r packages/studio/docs/* packages/documentation/docs/packages/studio/ 2>/dev/null || true
@@ -28,6 +32,8 @@ cp -r packages/browser-render/docs/* packages/documentation/docs/packages/browse
 # Copy README files
 cp packages/canvas/README.md packages/documentation/docs/packages/canvas/ 2>/dev/null || true
 cp packages/media-utils/README.md packages/documentation/docs/packages/media-utils/ 2>/dev/null || true
+cp packages/ai-models/README.md packages/documentation/docs/packages/ai-models/ 2>/dev/null || true
+cp packages/workflow/README.md packages/documentation/docs/packages/workflow/ 2>/dev/null || true
 cp packages/live-player/README.md packages/documentation/docs/packages/live-player/ 2>/dev/null || true
 cp packages/visualizer/README.md packages/documentation/docs/packages/visualizer/ 2>/dev/null || true
 cp packages/studio/README.md packages/documentation/docs/packages/studio/ 2>/dev/null || true

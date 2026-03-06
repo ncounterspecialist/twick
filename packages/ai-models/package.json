@@ -17,6 +17,7 @@
   "scripts": {
     "build": "tsc --noEmit && vite build",
     "dev": "vite build --watch",
+    "docs": "typedoc",
     "lint": "eslint src/",
     "clean": "rimraf .turbo node_modules dist",
     "test": "echo \"No tests for @twick/ai-models\" && exit 0"
@@ -24,6 +25,8 @@
   "devDependencies": {
     "@types/node": "^20.11.24",
     "rimraf": "^5.0.5",
+    "typedoc": "^0.25.8",
+    "typedoc-plugin-markdown": "^3.17.1",
     "typescript": "^5.4.2",
     "vite": "^5.4.21",
     "vite-plugin-dts": "^3.7.3"

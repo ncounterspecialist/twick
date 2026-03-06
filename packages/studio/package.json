@@ -37,6 +37,7 @@
     "@twick/ai-models": "workspace:*",
     "@twick/canvas": "workspace:*",
     "@twick/core": "^0.15.17",
+    "@twick/workflow": "workspace:*",
     "@twick/live-player": "workspace:*",
     "@twick/media-utils": "workspace:*",
     "@twick/player-react": "^0.15.17",
