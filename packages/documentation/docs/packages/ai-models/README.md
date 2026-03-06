@@ -1,15 +1,15 @@
 # @twick/ai-models
 
-Model catalog, provider adapters, and orchestration primitives for Twick generative integrations.
+Provider adapters and orchestration primitives for Twick generative AI integrations.
 
 ## What is included
 
-1. Existing model catalog exports (`FAL_*`, `RUNWARE_*`, `ALL_MODELS`)
-2. Provider adapter interface for generation workflows (caption, voice, avatar, media)
-3. Multi-provider orchestration with unified job status and fallback
-4. Job store interface with in-memory implementation
-5. Timeline injection helpers to normalize provider output into patch contracts
-6. Caption normalization helpers for legacy cloud payloads
+1. Provider adapter interface for generation workflows (caption, voice, avatar, media)
+2. Multi-provider orchestration with unified job status and fallback
+3. Job store interface with in-memory implementation
+4. Timeline injection helpers to normalize provider output into patch contracts
+5. Caption normalization helpers for legacy cloud payloads
+6. Types for `ModelInfo`, `AIModelProvider`, and patch/result DTOs (apps supply model lists via services)
 
 ## Core API
 
@@ -28,15 +28,14 @@ const avatarAdapter: ProviderAdapter = /* your implementation */;
 
 registry.registerAdapter(voiceAdapter);
 registry.registerAdapter(avatarAdapter);
-registry.setProviderConfig({ provider: "fal", apiKey: process.env.FAL_KEY });
-registry.setProviderConfig({ provider: "runware", apiKey: process.env.RUNWARE_KEY });
+registry.setProviderConfig({ provider: "your-provider", apiKey: process.env.API_KEY });
 
 const orchestrator = new GenerationOrchestrator(registry, new InMemoryJobStore());
 
 const voiceJob = await orchestrator.createJob({
   type: "voice",
-  provider: "fal",
-  fallbackProviders: ["runware"],
+  provider: "your-provider",
+  fallbackProviders: [],
   input: {
     text: "Welcome to this lesson.",
     language: "en-US",

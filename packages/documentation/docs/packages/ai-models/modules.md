@@ -65,16 +65,6 @@
 - [TimelinePatch](modules.md#timelinepatch)
 - [VoiceSegment](modules.md#voicesegment)
 
-### Variables
-
-- [ALL\_MODELS](modules.md#all_models)
-- [FAL\_ENDPOINTS](modules.md#fal_endpoints)
-- [FAL\_IMAGE\_ENDPOINTS](modules.md#fal_image_endpoints)
-- [FAL\_VIDEO\_ENDPOINTS](modules.md#fal_video_endpoints)
-- [RUNWARE\_ENDPOINTS](modules.md#runware_endpoints)
-- [RUNWARE\_IMAGE\_ENDPOINTS](modules.md#runware_image_endpoints)
-- [RUNWARE\_VIDEO\_ENDPOINTS](modules.md#runware_video_endpoints)
-
 ### Functions
 
 - [normalizeCaptionEntries](modules.md#normalizecaptionentries)
@@ -154,76 +144,6 @@ Backward compatible alias for existing voice-oriented naming.
 #### Defined in
 
 orchestration-types.ts:56
-
-## Variables
-
-### ALL\_MODELS
-
-• `Const` **ALL\_MODELS**: [`ModelInfo`](interfaces/ModelInfo.md)[]
-
-#### Defined in
-
-[catalog.ts:193](https://github.com/ncounterspecialist/twick/blob/f998aaef9e75e78c849ba1b6a0aeab58f07d5887/packages/ai-models/src/catalog.ts#L193)
-
-___
-
-### FAL\_ENDPOINTS
-
-• `Const` **FAL\_ENDPOINTS**: [`ModelInfo`](interfaces/ModelInfo.md)[]
-
-#### Defined in
-
-[catalog.ts:183](https://github.com/ncounterspecialist/twick/blob/f998aaef9e75e78c849ba1b6a0aeab58f07d5887/packages/ai-models/src/catalog.ts#L183)
-
-___
-
-### FAL\_IMAGE\_ENDPOINTS
-
-• `Const` **FAL\_IMAGE\_ENDPOINTS**: [`ModelInfo`](interfaces/ModelInfo.md)[]
-
-#### Defined in
-
-[catalog.ts:8](https://github.com/ncounterspecialist/twick/blob/f998aaef9e75e78c849ba1b6a0aeab58f07d5887/packages/ai-models/src/catalog.ts#L8)
-
-___
-
-### FAL\_VIDEO\_ENDPOINTS
-
-• `Const` **FAL\_VIDEO\_ENDPOINTS**: [`ModelInfo`](interfaces/ModelInfo.md)[]
-
-#### Defined in
-
-[catalog.ts:79](https://github.com/ncounterspecialist/twick/blob/f998aaef9e75e78c849ba1b6a0aeab58f07d5887/packages/ai-models/src/catalog.ts#L79)
-
-___
-
-### RUNWARE\_ENDPOINTS
-
-• `Const` **RUNWARE\_ENDPOINTS**: [`ModelInfo`](interfaces/ModelInfo.md)[]
-
-#### Defined in
-
-[catalog.ts:188](https://github.com/ncounterspecialist/twick/blob/f998aaef9e75e78c849ba1b6a0aeab58f07d5887/packages/ai-models/src/catalog.ts#L188)
-
-___
-
-### RUNWARE\_IMAGE\_ENDPOINTS
-
-• `Const` **RUNWARE\_IMAGE\_ENDPOINTS**: [`ModelInfo`](interfaces/ModelInfo.md)[]
-
-#### Defined in
-
-[catalog.ts:138](https://github.com/ncounterspecialist/twick/blob/f998aaef9e75e78c849ba1b6a0aeab58f07d5887/packages/ai-models/src/catalog.ts#L138)
-
-___
-
-### RUNWARE\_VIDEO\_ENDPOINTS
-
-• `Const` **RUNWARE\_VIDEO\_ENDPOINTS**: [`ModelInfo`](interfaces/ModelInfo.md)[]
-
-#### Defined in
-
-[catalog.ts:172](https://github.com/ncounterspecialist/twick/blob/f998aaef9e75e78c849ba1b6a0aeab58f07d5887/packages/ai-models/src/catalog.ts#L172)
 
 ## Functions
 

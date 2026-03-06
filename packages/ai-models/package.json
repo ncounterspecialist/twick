@@ -1,7 +1,7 @@
 {
   "name": "@twick/ai-models",
   "version": "0.15.0",
-  "description": "Model catalog and types for Twick generative AI integration",
+  "description": "Provider adapters and orchestration types for Twick generative AI integration",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
