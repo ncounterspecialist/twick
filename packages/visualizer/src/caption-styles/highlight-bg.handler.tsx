@@ -26,11 +26,11 @@ export const highlightBgHandler: CaptionStyleHandler = {
         <Rect
           ref={bgContainerRef}
           fill={_color}
-          width={textRef().width() + (captionProps.bgOffsetWidth ?? 30)}
-          height={textRef().height() + (captionProps.bgOffsetHeight ?? 10)}
+          width={textRef().width() + (captionProps.bgOffsetWidth ?? 20)}
+          height={textRef().height() + (captionProps.bgOffsetHeight ?? 8)}
           margin={captionProps.bgMargin ?? [0, -5]}
           radius={captionProps.bgRadius ?? 10}
-          padding={captionProps.bgPadding ?? [0, 15]}
+          padding={captionProps.bgPadding ?? [0, 10]}
           opacity={0}
           alignItems={"center"}
           justifyContent={"center"}

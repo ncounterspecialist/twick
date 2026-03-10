@@ -1,8 +1,8 @@
-import { createRef, waitFor } from "@twick/core";
+import { all, createRef, waitFor } from "@twick/core";
 import { Txt } from "@twick/2d";
 import type { CaptionStyleHandler, RenderWordsParams, AnimateWordsParams } from "./types";
 
-const POP_DURATION = 0.2;
+const POP_DURATION = 0.025;
 
 /**
  * Pop: words pop in with a quick opacity fade (same ref/animate pattern as word_by_word).
@@ -28,7 +28,12 @@ export const popScaleHandler: CaptionStyleHandler = {
 
   *animateWords({ words, refs }) {
     for (let i = 0; i < words.length; i++) {
-      yield* refs.refs[i].textRef().opacity(1, POP_DURATION);
+      const pos = refs.refs[i].textRef().position();
+      if (i > 0) {
+        yield* all(refs.refs[i - 1].textRef().scale(0.95, 0), refs.refs[i].textRef().opacity(0.8, 0));
+      }
+      yield* all(refs.refs[i].textRef().opacity(1, POP_DURATION),
+        refs.refs[i].textRef().scale(1.15, POP_DURATION));
       yield* waitFor(Math.max(0, words[i].e - words[i].s - POP_DURATION));
     }
   },

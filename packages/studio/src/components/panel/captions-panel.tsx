@@ -37,8 +37,19 @@ import { Trash2, Scissors } from "lucide-react";
 interface CaptionEntry {
   s: number;
   e: number;
-  t: string; 
+  t: string;
 }
+
+const formatTime = (seconds: number) => {
+  if (!Number.isFinite(seconds) || seconds < 0) return "0:00.00";
+  const totalMs = Math.round(seconds * 1000);
+  const totalSeconds = Math.floor(totalMs / 1000);
+  const minutes = Math.floor(totalSeconds / 60);
+  const secs = totalSeconds % 60;
+  const ms = Math.floor((totalMs % 1000) / 10);
+  const pad = (n: number, l = 2) => String(n).padStart(l, "0");
+  return `${minutes}:${pad(secs)}.${pad(ms)}`;
+};
 
 export function CaptionsPanel({
   captions,
@@ -53,53 +64,91 @@ export function CaptionsPanel({
   deleteCaption: (index: number) => void;
   updateCaption: (index: number, caption: CaptionEntry) => void;
 }) {
-
   return (
-    <div className="panel-container">
-      <h3 className="panel-title">Captions</h3>
-      {/* Caption Entries */}
-      {captions.map((caption, i) => (
-        <div
-          key={i}
-          className="panel-section gap-2"
-        >
-          {/* Caption Text Input */}
-          <div>
-            <input
-              type="text"
-              placeholder="Enter caption text"
-              value={caption.t}
-              onChange={(e) => updateCaption(i, { ...caption, t: e.target.value })}
-              className="input-dark"
-            />
-          </div>
-
-          {/* Action Buttons (bottom-right) */}
-          <div className="flex-container justify-between">
-            <button
-              onClick={() => splitCaption(i)}
-              className="btn-ghost"
-              title="Split caption"
-            >
-              <Scissors className="icon-sm" />
-            </button>
-            <button
-              onClick={() => deleteCaption(i)}
-              className="btn-ghost"
-              title="Delete caption"
-            >
-              <Trash2 className="icon-sm" color="var(--color-red-500)"/>
-            </button>
-          </div>
-        </div>
-      ))}
-
-      {/* Common Add Button */}
-      <div className="panel-section">
-          <button onClick={addCaption} className="btn-primary w-full" title="Add caption">
-            Add
+    <div className="panel-container captions-panel">
+      {/* Header */}
+      <div className="captions-panel-header">
+        <h3 className="panel-title">Captions</h3>
+        <div className="captions-panel-header-meta">
+          {captions.length === 0 ? (
+            <span className="captions-panel-count">No captions yet</span>
+          ) : null}
+          <button
+            onClick={addCaption}
+            className="btn-primary captions-panel-add-button"
+            title="Add caption"
+          >
+            Add caption
           </button>
+        </div>
       </div>
+
+      {/* Caption list */}
+      {captions.length === 0 ? (
+        <div className="panel-section captions-panel-empty">
+          <p className="captions-panel-empty-title">Start your first caption</p>
+          <p className="captions-panel-empty-subtitle">
+            Use the button above to add the first caption block for the active track.
+          </p>
+          <button
+            onClick={addCaption}
+            className="btn-primary captions-panel-empty-button"
+            title="Add first caption"
+          >
+            Add caption
+          </button>
+        </div>
+      ) : (
+        <div className="panel-section captions-panel-list">
+          {captions.map((caption, i) => {
+            return (
+              <div
+                key={i}
+                className="captions-panel-item"
+              >
+                <div className="captions-panel-item-header">
+                  <span className="captions-panel-time captions-panel-time-start">
+                    {formatTime(caption.s)}
+                  </span>
+                  <span className="captions-panel-time captions-panel-time-end">
+                    {formatTime(caption.e)}
+                  </span>
+                </div>
+
+                <div className="captions-panel-item-body">
+                  <textarea
+                    placeholder="Enter caption text"
+                    value={caption.t}
+                    onChange={(e) =>
+                      updateCaption(i, { ...caption, t: e.target.value })
+                    }
+                    className="input-dark captions-panel-textarea"
+                  />
+                  <div className="captions-panel-actions">
+                    <button
+                      onClick={() => splitCaption(i)}
+                      className="btn-ghost captions-panel-action-button"
+                      title="Split caption at midpoint"
+                    >
+                      <Scissors className="icon-sm" />
+                    </button>
+                    <button
+                      onClick={() => deleteCaption(i)}
+                      className="btn-ghost captions-panel-action-button"
+                      title="Delete caption"
+                    >
+                      <Trash2
+                        className="icon-sm"
+                        color="var(--color-red-500)"
+                      />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }

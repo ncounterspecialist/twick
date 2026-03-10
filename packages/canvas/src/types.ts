@@ -365,6 +365,8 @@ export type CaptionProps = {
     highlight?: string;
     /** Background color */
     bgColor?: string;
+    /** Outline / stroke color for caption text */
+    outlineColor?: string;
   };
   /** Color configuration for caption styling (alias: use when from canvas) */
   color?: {
@@ -374,6 +376,8 @@ export type CaptionProps = {
     background?: string;
     /** Highlight color */
     highlight?: string;
+    /** Outline / stroke color for caption text */
+    outlineColor?: string;
   };
   applyToAll?: boolean;
 };

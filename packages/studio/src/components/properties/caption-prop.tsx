@@ -3,8 +3,10 @@ import {
   CaptionElement,
   CAPTION_STYLE,
   CAPTION_STYLE_OPTIONS,
+  computeCaptionGeometry,
   useTimelineContext,
 } from "@twick/timeline";
+import { AVAILABLE_TEXT_FONTS } from "@twick/video-editor";
 import { PropertiesPanelProps } from "../../types";
 
 export { CAPTION_STYLE, CAPTION_STYLE_OPTIONS };
@@ -20,6 +22,110 @@ export const CAPTION_COLOR = {
   bgColor: "#8C52FF",
   outlineColor: "#000000",
 };
+
+type CaptionColorKey = keyof typeof CAPTION_COLOR;
+
+type CaptionStyleColorMeta = {
+  usedColors: CaptionColorKey[];
+  labels: Partial<Record<CaptionColorKey, string>>;
+};
+
+const CAPTION_STYLE_COLOR_META: Record<string, CaptionStyleColorMeta> = {
+  // Word background highlight - white text on colored pill
+  highlight_bg: {
+    usedColors: ["text", "bgColor"],
+    labels: {
+      text: "Text Color",
+      bgColor: "Highlight Background",
+    },
+  },
+  // Simple word-by-word – text only
+  word_by_word: {
+    usedColors: ["text", "outlineColor"],
+    labels: {
+      text: "Text Color",
+      outlineColor: "Outline Color",
+    },
+  },
+  // Word-by-word with a phrase bar background
+  word_by_word_with_bg: {
+    usedColors: ["text", "bgColor", "outlineColor"],
+    labels: {
+      text: "Text Color",
+      bgColor: "Bar Background",
+      outlineColor: "Outline Color",
+    },
+  },
+  // Classic outlined text
+  outline_only: {
+    usedColors: ["text", "outlineColor"],
+    labels: {
+      text: "Fill Color",
+      outlineColor: "Outline Color",
+    },
+  },
+  // Soft rounded box behind text
+  soft_box: {
+    usedColors: ["text", "bgColor", "outlineColor"],
+    labels: {
+      text: "Text Color",
+      bgColor: "Box Background",
+      outlineColor: "Outline Color",
+    },
+  },
+  // Broadcast style lower-third bar
+  lower_third: {
+    usedColors: ["text", "bgColor", "outlineColor"],
+    labels: {
+      text: "Title Text Color",
+      bgColor: "Bar Background",
+      outlineColor: "Outline Color",
+    },
+  },
+  // Typewriter – text only
+  typewriter: {
+    usedColors: ["text", "outlineColor"],
+    labels: {
+      text: "Text Color",
+      outlineColor: "Outline Color",
+    },
+  },
+  // Karaoke – base text plus active word highlight
+  karaoke: {
+    usedColors: ["text", "outlineColor"],
+    labels: {
+      text: "Text Color",
+      outlineColor: "Outline Color",
+    },
+  },
+  // Karaoke-word – single active word, previous words dimmed
+  "karaoke-word": {
+    usedColors: ["text", "outlineColor"],
+    labels: {
+      text: "Text Color",
+      outlineColor: "Outline Color",
+    },
+  },
+  // Pop / scale – text only
+  pop_scale: {
+    usedColors: ["text", "outlineColor"],
+    labels: {
+      text: "Text Color",
+      outlineColor: "Outline Color",
+    },
+  },
+};
+
+const DEFAULT_COLOR_META: CaptionStyleColorMeta = {
+  usedColors: ["text", "bgColor", "outlineColor"],
+  labels: {
+    text: "Text Color",
+    bgColor: "Background Color",
+    outlineColor: "Outline Color",
+  },
+};
+
+const CAPTION_FONTS = Object.values(AVAILABLE_TEXT_FONTS);
 
 interface CaptionPropPanelProps {
   /** No-op when using fixed config. Kept for API compatibility. */
@@ -60,9 +166,12 @@ export function CaptionPropPanel({
     const captionElement = selectedElement as CaptionElement;
     if (!captionElement) return;
 
+    const nextFontSize = updates.fontSize ?? fontSize;
+    const geometry = computeCaptionGeometry(nextFontSize, updates.style ?? capStyle?.value ?? "");
+
     if (applyToAll && track) {
       const nextFont = {
-        size: updates.fontSize ?? fontSize,
+        size: nextFontSize,
         family: updates.fontFamily ?? fontFamily,
       };
       const nextColors = updates.colors ?? colors;
@@ -73,6 +182,8 @@ export function CaptionPropPanel({
         capStyle: nextCapStyle,
         font: { ...(trackProps?.font ?? {}), ...nextFont },
         colors: nextColors,
+        lineWidth: geometry.lineWidth,
+        rectProps: geometry.rectProps,
       });
       editor.refresh();
     } else {
@@ -81,10 +192,11 @@ export function CaptionPropPanel({
         ...elementProps,
         capStyle: updates.style ?? capStyle?.value,
         font: {
-          size: updates.fontSize ?? fontSize,
+          size: nextFontSize,
           family: updates.fontFamily ?? fontFamily,
         },
         colors: updates.colors ?? colors,
+        lineWidth: geometry.lineWidth,
       });
       updateElement?.(captionElement);
     }
@@ -116,6 +228,53 @@ export function CaptionPropPanel({
   if (!(selectedElement instanceof CaptionElement)) {
     return null;
   }
+
+  const currentStyleKey = capStyle?.value as string | undefined;
+  const currentColorMeta =
+    (currentStyleKey && CAPTION_STYLE_COLOR_META[currentStyleKey]) ||
+    DEFAULT_COLOR_META;
+
+  const defaultColorLabels: Record<CaptionColorKey, string> = {
+    text: "Text Color",
+    bgColor: "Background Color",
+    highlight: "Highlight Color",
+    outlineColor: "Outline Color",
+  };
+
+  const renderColorControl = (key: CaptionColorKey) => {
+    const label = currentColorMeta.labels[key] ?? defaultColorLabels[key];
+    const value = colors[key];
+
+    const handleChange = (next: string) => {
+      const nextColors = { ...colors, [key]: next };
+      setColors(nextColors);
+      handleUpdateCaption({ colors: nextColors });
+    };
+
+    if (value == null) {
+      return null;
+    }
+
+    return (
+      <div className="color-control" key={key}>
+        <label className="label-small">{label}</label>
+        <div className="color-inputs">
+          <input
+            type="color"
+            value={value}
+            onChange={(e) => handleChange(e.target.value)}
+            className="color-picker"
+          />
+          <input
+            type="text"
+            value={value}
+            onChange={(e) => handleChange(e.target.value)}
+            className="color-text"
+          />
+        </div>
+      </div>
+    );
+  };
 
   return (
     <div className="panel-container">
@@ -174,10 +333,11 @@ export function CaptionPropPanel({
           }}
           className="select-dark w-full"
         >
-          <option value="Bangers">Bangers</option>
-          <option value="Arial">Arial</option>
-          <option value="Helvetica">Helvetica</option>
-          <option value="Times New Roman">Times New Roman</option>
+          {CAPTION_FONTS.map((font) => (
+            <option key={font} value={font}>
+              {font}
+            </option>
+          ))}
         </select>
       </div>
 
@@ -185,81 +345,7 @@ export function CaptionPropPanel({
       <div className="panel-section">
         <label className="label-dark">Colors</label>
         <div className="color-section">
-          <div className="color-control">
-            <label className="label-small">Text Color</label>
-            <div className="color-inputs">
-              <input
-                type="color"
-                value={colors.text}
-                onChange={(e) => {
-                  const newColors = { ...colors, text: e.target.value };
-                  setColors(newColors);
-                  handleUpdateCaption({ colors: newColors });
-                }}
-                className="color-picker"
-              />
-              <input
-                type="text"
-                value={colors.text}
-                onChange={(e) => {
-                  const newColors = { ...colors, text: e.target.value };
-                  setColors(newColors);
-                  handleUpdateCaption({ colors: newColors });
-                }}
-                className="color-text"
-              />
-            </div>
-          </div>
-          <div className="color-control">
-            <label className="label-small">Background Color</label>
-            <div className="color-inputs">
-              <input
-                type="color"
-                value={colors.bgColor}
-                onChange={(e) => {
-                  const newColors = { ...colors, bgColor: e.target.value };
-                  setColors(newColors);
-                  handleUpdateCaption({ colors: newColors });
-                }}
-                className="color-picker"
-              />
-              <input
-                type="text"
-                value={colors.bgColor}
-                onChange={(e) => {
-                  const newColors = { ...colors, bgColor: e.target.value };
-                  setColors(newColors);
-                  handleUpdateCaption({ colors: newColors });
-                }}
-                className="color-text"
-              />
-            </div>
-          </div>
-          <div className="color-control">
-            <label className="label-small">Outline Color</label>
-            <div className="color-inputs">
-              <input
-                type="color"
-                value={colors.outlineColor}
-                onChange={(e) => {
-                  const newColors = { ...colors, outlineColor: e.target.value };
-                  setColors(newColors);
-                  handleUpdateCaption({ colors: newColors });
-                }}
-                className="color-picker"
-              />
-              <input
-                type="text"
-                value={colors.outlineColor}
-                onChange={(e) => {
-                  const newColors = { ...colors, outlineColor: e.target.value };
-                  setColors(newColors);
-                  handleUpdateCaption({ colors: newColors });
-                }}
-                className="color-text"
-              />
-            </div>
-          </div>
+          {currentColorMeta.usedColors.map((key) => renderColorControl(key))}
         </div>
       </div>
     </div>

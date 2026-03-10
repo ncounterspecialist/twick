@@ -118,6 +118,8 @@ export const CAPTION_STYLE = {
   TYPEWRITER: "typewriter",
   /** Karaoke: one word highlighted at a time */
   KARAOKE: "karaoke",
+  /** Karaoke-word: previous words dim while current stays highlighted */
+  KARAOKE_WORD: "karaoke-word",
   /** Pop / scale: words pop in with a short scale animation */
   POP_SCALE: "pop_scale",
 } as const;
@@ -166,6 +168,10 @@ export const CAPTION_STYLE_OPTIONS = {
   [CAPTION_STYLE.KARAOKE]: {
     label: "Karaoke",
     value: CAPTION_STYLE.KARAOKE,
+  },
+  [CAPTION_STYLE.KARAOKE_WORD]: {
+    label: "Karaoke (Word Fade)",
+    value: CAPTION_STYLE.KARAOKE_WORD,
   },
   [CAPTION_STYLE.POP_SCALE]: {
     label: "Pop / Scale",

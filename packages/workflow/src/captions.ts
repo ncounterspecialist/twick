@@ -7,6 +7,7 @@ import {
   type ProjectJSON,
   type TrackJSON,
   generateShortUuid,
+  computeCaptionGeometry,
 } from "@twick/timeline";
 import type {
   ApplyCaptionToEditorInput,
@@ -20,10 +21,11 @@ import type {
 
 const DEFAULT_VIDEO_SIZE = { width: 720, height: 1280 };
 
+const DEFAULT_CAPTION_FONT_SIZE = 46;
 const DEFAULT_CAPTION_STYLE: CaptionTrackStyle = {
   capStyle: CAPTION_STYLE.WORD_BG_HIGHLIGHT,
   font: {
-    size: 46,
+    size: DEFAULT_CAPTION_FONT_SIZE,
     weight: 700,
     family: "Bangers",
   },
@@ -32,14 +34,7 @@ const DEFAULT_CAPTION_STYLE: CaptionTrackStyle = {
     highlight: "#ff4081",
     bgColor: "#444444",
   },
-  lineWidth: 0.35,
-  stroke: "#000000",
-  fontWeight: 700,
-  shadowOffset: [-3, 3],
-  shadowColor: "#000000",
-  x: 0,
-  y: 200,
-  applyToAll: true,
+  ...computeCaptionGeometry(DEFAULT_CAPTION_FONT_SIZE, CAPTION_STYLE.WORD_BG_HIGHLIGHT),
 };
 
 function createId(prefix: "t" | "e", idFactory?: () => string): string {

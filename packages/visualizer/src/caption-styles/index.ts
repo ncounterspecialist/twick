@@ -7,6 +7,7 @@ import { softBoxHandler } from "./soft-box.handler";
 import { lowerThirdHandler } from "./lower-third.handler";
 import { typewriterHandler } from "./typewriter.handler";
 import { karaokeHandler } from "./karaoke.handler";
+import { karaokeWordHandler } from "./karaoke-word.handler";
 import { popScaleHandler } from "./pop-scale.handler";
 
 /**
@@ -22,6 +23,7 @@ export function registerCaptionStyles(): void {
   registerCaptionStyle(lowerThirdHandler);
   registerCaptionStyle(typewriterHandler);
   registerCaptionStyle(karaokeHandler);
+  registerCaptionStyle(karaokeWordHandler);
   registerCaptionStyle(popScaleHandler);
 }
 

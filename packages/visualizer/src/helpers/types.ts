@@ -164,6 +164,7 @@ export type Caption = {
 export type CaptionProps = {
   colors: CaptionColors;
   font: CaptionFont;
+  lineWidth?: number;
   bgOpacity?: number;
   bgOffsetWidth?: number;
   bgOffsetHeight?: number;
@@ -235,6 +236,7 @@ export type VisualizerTrack = {
   elements: VisualizerElement[];
   containerProps?: ContainerProps;
   props?: {
+    rectProps?: any;
     capStyle?: string;
     bgOpacity?: number;
     x?: number;

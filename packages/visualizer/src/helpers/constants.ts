@@ -111,15 +111,15 @@ export const CAPTION_STYLE: Record<string, CaptionStyle> = {
     rect: {
       alignItems: "center",
       justifyContent: "center",
-      gap: 8,
+      gap: 12,
     },
     word: {
-      lineWidth: 0.5,
+      lineWidth: 15,
       stroke: "#000000",
       fontWeight: 600,
       strokeFirst: true,
       shadowOffset: [0, 0],
-      shadowBlur: 0,
+      shadowBlur: 1.25,
       fontFamily: "Arial",
       fill: "#FFFFFF",
       fontSize: 42,
