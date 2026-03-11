@@ -30,8 +30,20 @@ export const karaokeHandler: CaptionStyleHandler = {
   },
 
   *animateWords({ words, refs, caption }) {
+    const textColor = caption.props.colors?.text;
+    const highlightColor = caption.props.colors?.highlight ?? textColor;
     for (let i = 0; i < words.length; i++) {
-      yield* refs.refs[i].textRef().opacity(1, 0);
+      if (i > 0) {
+        yield* all(
+          refs.refs[i - 1].textRef().lineWidth(0, 0),
+          refs.refs[i - 1].textRef().fill(textColor, 0),
+        );
+      }
+      yield* all(
+        refs.refs[i].textRef().lineWidth(0, 0),
+        refs.refs[i].textRef().fill(highlightColor, 0),
+        refs.refs[i].textRef().opacity(1, 0)
+      );
       yield* waitFor(Math.max(0, words[i].e - words[i].s));
     }
   },

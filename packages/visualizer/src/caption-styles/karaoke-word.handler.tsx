@@ -29,13 +29,25 @@ export const karaokeWordHandler: CaptionStyleHandler = {
 
     return { refs };
   },
-
   *animateWords({ words, refs, caption }) {
+    const textColor = caption.props.colors?.text;
+    const highlightColor = caption.props.colors?.highlight ?? textColor;
     for (let i = 0; i < words.length; i++) {
+      // Turn the previous word back to base color and remove outline,
+      // so its fill is clearly visible and not dominated by stroke.
       if (i > 0) {
-        yield* refs.refs[i - 1].textRef().opacity(INACTIVE_OPACITY, 0);
+        yield* all(
+          refs.refs[i - 1].textRef().fill(textColor, 0),
+          refs.refs[i - 1].textRef().opacity(INACTIVE_OPACITY, 0)
+        );
       }
-      yield* refs.refs[i].textRef().opacity(1, 0);
+      // Highlight the current word using the highlight color.
+      // Keep its existing lineWidth/stroke so it feels “active”.
+      yield* all(
+        refs.refs[i].textRef().lineWidth(0, 0),
+        refs.refs[i].textRef().fill(highlightColor, 0),
+        refs.refs[i].textRef().opacity(1, 0)
+      );
       yield* waitFor(Math.max(0, words[i].e - words[i].s));
     }
   },

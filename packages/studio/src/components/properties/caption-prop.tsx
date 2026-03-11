@@ -30,9 +30,17 @@ type CaptionStyleColorMeta = {
   labels: Partial<Record<CaptionColorKey, string>>;
 };
 
+type CaptionColorsState = {
+  text: string;
+  highlight?: string;
+  bgColor?: string;
+  outlineColor?: string;
+};
+
 const CAPTION_STYLE_COLOR_META: Record<string, CaptionStyleColorMeta> = {
   // Word background highlight - white text on colored pill
   highlight_bg: {
+    // Text color, and background pill color used in animation.
     usedColors: ["text", "bgColor"],
     labels: {
       text: "Text Color",
@@ -41,23 +49,28 @@ const CAPTION_STYLE_COLOR_META: Record<string, CaptionStyleColorMeta> = {
   },
   // Simple word-by-word – text only
   word_by_word: {
-    usedColors: ["text", "outlineColor"],
+    // Visualizer uses text as fill + outlineColor for stroke, and highlight for active word.
+    usedColors: ["text", "highlight", "outlineColor"],
     labels: {
       text: "Text Color",
+      highlight: "Highlight Color",
       outlineColor: "Outline Color",
     },
   },
   // Word-by-word with a phrase bar background
   word_by_word_with_bg: {
-    usedColors: ["text", "bgColor", "outlineColor"],
+    // Text color (fill), highlight for active word, outlineColor (stroke), bgColor used by phrase rect.
+    usedColors: ["text", "highlight", "bgColor", "outlineColor"],
     labels: {
       text: "Text Color",
       bgColor: "Bar Background",
+      highlight: "Highlight Color",
       outlineColor: "Outline Color",
     },
   },
   // Classic outlined text
   outline_only: {
+    // Outline-only style: fill + outline color; highlight not used in animation.
     usedColors: ["text", "outlineColor"],
     labels: {
       text: "Fill Color",
@@ -66,24 +79,28 @@ const CAPTION_STYLE_COLOR_META: Record<string, CaptionStyleColorMeta> = {
   },
   // Soft rounded box behind text
   soft_box: {
-    usedColors: ["text", "bgColor", "outlineColor"],
+    usedColors: ["text", "bgColor", "highlight", "outlineColor", ],
     labels: {
       text: "Text Color",
+      highlight: "Highlight Color",
       bgColor: "Box Background",
       outlineColor: "Outline Color",
     },
   },
   // Broadcast style lower-third bar
   lower_third: {
+    // Title text, bar background, highlight color and outline color.
     usedColors: ["text", "bgColor", "outlineColor"],
     labels: {
       text: "Title Text Color",
       bgColor: "Bar Background",
+      highlight: "Highlight Color",
       outlineColor: "Outline Color",
     },
   },
   // Typewriter – text only
   typewriter: {
+    // Text color and outline color (stroke) used by visualizer; highlight not animated.
     usedColors: ["text", "outlineColor"],
     labels: {
       text: "Text Color",
@@ -92,25 +109,31 @@ const CAPTION_STYLE_COLOR_META: Record<string, CaptionStyleColorMeta> = {
   },
   // Karaoke – base text plus active word highlight
   karaoke: {
-    usedColors: ["text", "outlineColor"],
+    // Base text color, active word highlight color, outline color.
+    usedColors: ["text", "highlight", "outlineColor"],
     labels: {
       text: "Text Color",
+      highlight: "Highlight Color",
       outlineColor: "Outline Color",
     },
   },
   // Karaoke-word – single active word, previous words dimmed
   "karaoke-word": {
-    usedColors: ["text", "outlineColor"],
+    // Same color needs as karaoke.
+    usedColors: ["text", "highlight", "outlineColor"],
     labels: {
       text: "Text Color",
+      highlight: "Highlight Color",
       outlineColor: "Outline Color",
     },
   },
   // Pop / scale – text only
   pop_scale: {
-    usedColors: ["text", "outlineColor"],
+    // Text color, highlight color for active word, and outline color; no background.
+    usedColors: ["text", "highlight", "outlineColor"],
     labels: {
       text: "Text Color",
+      highlight: "Highlight Color",
       outlineColor: "Outline Color",
     },
   },
@@ -143,12 +166,14 @@ export function CaptionPropPanel({
   );
   const [fontSize, setFontSize] = useState(CAPTION_FONT.size);
   const [fontFamily, setFontFamily] = useState(CAPTION_FONT.family);
-  const [colors, setColors] = useState({
+  const [colors, setColors] = useState<CaptionColorsState>({
     text: CAPTION_COLOR.text,
     highlight: CAPTION_COLOR.highlight,
     bgColor: CAPTION_COLOR.bgColor,
     outlineColor: CAPTION_COLOR.outlineColor,
   });
+  const [useHighlight, setUseHighlight] = useState(true);
+  const [useOutline, setUseOutline] = useState(true);
 
   const track = selectedElement instanceof CaptionElement
     ? editor.getTrackById(selectedElement.getTrackId())
@@ -161,7 +186,9 @@ export function CaptionPropPanel({
     style?: string;
     fontSize?: number;
     fontFamily?: string;
-    colors?: typeof colors;
+    colors?: CaptionColorsState;
+    useHighlightOverride?: boolean;
+    useOutlineOverride?: boolean;
   }) => {
     const captionElement = selectedElement as CaptionElement;
     if (!captionElement) return;
@@ -169,12 +196,28 @@ export function CaptionPropPanel({
     const nextFontSize = updates.fontSize ?? fontSize;
     const geometry = computeCaptionGeometry(nextFontSize, updates.style ?? capStyle?.value ?? "");
 
+    // Decide which colors to persist based on highlight toggle.
+    const highlightEnabled = updates.useHighlightOverride ?? useHighlight;
+    const outlineEnabled = updates.useOutlineOverride ?? useOutline;
+    const rawNextColors: CaptionColorsState = updates.colors ?? colors;
+
+    // Start with raw colors, then drop highlight / outlineColor keys when disabled.
+    let effectiveColors: CaptionColorsState = { ...rawNextColors };
+    if (!highlightEnabled) {
+      const { highlight, ...rest } = effectiveColors;
+      effectiveColors = rest;
+    }
+    if (!outlineEnabled) {
+      const { outlineColor, ...rest } = effectiveColors;
+      effectiveColors = rest;
+    }
+
     if (applyToAll && track) {
       const nextFont = {
         size: nextFontSize,
         family: updates.fontFamily ?? fontFamily,
       };
-      const nextColors = updates.colors ?? colors;
+      const nextColors = effectiveColors;
       const nextCapStyle = updates.style ?? capStyle?.value;
 
       track.setProps({
@@ -195,7 +238,7 @@ export function CaptionPropPanel({
           size: nextFontSize,
           family: updates.fontFamily ?? fontFamily,
         },
-        colors: updates.colors ?? colors,
+        colors: effectiveColors,
         lineWidth: geometry.lineWidth,
       });
       updateElement?.(captionElement);
@@ -222,6 +265,8 @@ export function CaptionPropPanel({
         bgColor: c?.bgColor ?? CAPTION_COLOR.bgColor,
         outlineColor: c?.outlineColor ?? CAPTION_COLOR.outlineColor,
       });
+      setUseHighlight(c?.highlight != null);
+      setUseOutline(c?.outlineColor != null);
     }
   }, [selectedElement, applyToAll, changeLog]);
 
@@ -242,6 +287,13 @@ export function CaptionPropPanel({
   };
 
   const renderColorControl = (key: CaptionColorKey) => {
+    // Hide highlight / outline pickers entirely when disabled for this style.
+    if (key === "highlight" && !useHighlight) {
+      return null;
+    }
+    if (key === "outlineColor" && !useOutline) {
+      return null;
+    }
     const label = currentColorMeta.labels[key] ?? defaultColorLabels[key];
     const value = colors[key];
 
@@ -345,6 +397,61 @@ export function CaptionPropPanel({
       <div className="panel-section">
         <label className="label-dark">Colors</label>
         <div className="color-section">
+          {/* Highlight toggle only when style supports highlight color */}
+          {currentColorMeta.usedColors.includes("highlight") && (
+            <div className="checkbox-control">
+              <label className="checkbox-label">
+                <input
+                  type="checkbox"
+                  checked={useHighlight}
+                  onChange={(e) => {
+                    const enabled = e.target.checked;
+                    setUseHighlight(enabled);
+                    // Keep colors state typed (highlight is always a string in local state),
+                    // but when highlight is disabled we omit it when writing to timeline data.
+                    const nextColors = enabled
+                      ? { ...colors, highlight: colors.highlight || CAPTION_COLOR.highlight }
+                      : { ...colors };
+                    setColors(nextColors);
+                    handleUpdateCaption({
+                      colors: nextColors,
+                      useHighlightOverride: enabled,
+                    });
+                  }}
+                  className="checkbox-purple"
+                />
+                Use Highlight Color
+              </label>
+            </div>
+          )}
+          {/* Outline toggle only when style supports outline color */}
+          {currentColorMeta.usedColors.includes("outlineColor") && (
+            <div className="checkbox-control">
+              <label className="checkbox-label">
+                <input
+                  type="checkbox"
+                  checked={useOutline}
+                  onChange={(e) => {
+                    const enabled = e.target.checked;
+                    setUseOutline(enabled);
+                    const nextColors = enabled
+                      ? {
+                          ...colors,
+                          outlineColor: colors.outlineColor || CAPTION_COLOR.outlineColor,
+                        }
+                      : { ...colors };
+                    setColors(nextColors);
+                    handleUpdateCaption({
+                      colors: nextColors,
+                      useOutlineOverride: enabled,
+                    });
+                  }}
+                  className="checkbox-purple"
+                />
+                Use Outline Color
+              </label>
+            </div>
+          )}
           {currentColorMeta.usedColors.map((key) => renderColorControl(key))}
         </div>
       </div>

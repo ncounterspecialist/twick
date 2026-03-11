@@ -274,15 +274,13 @@ export const addCaptionElement = ({
     DEFAULT_CAPTION_PROPS.fill;
 
   const trackColors = captionProps?.colors;
-  const trackStroke =
-    trackColors?.outlineColor ??
-    captionProps?.stroke;
+  const trackStroke = trackColors?.outlineColor;
   const elementStroke =
     elementColors?.outlineColor ??
     element.props?.stroke;
   const resolvedStroke =
-    (applyToAll ? trackStroke : elementStroke ?? trackStroke) ??
-    DEFAULT_CAPTION_PROPS.stroke;
+    (applyToAll ? trackStroke ?? elementStroke : elementStroke ?? trackStroke) ??
+    undefined;
 
   const caption = new Textbox(element.props?.text || element.t || "", {
     left: x,
@@ -307,7 +305,7 @@ export const addCaptionElement = ({
         ? captionProps?.font?.weight
         : element.props?.font?.weight ?? captionProps?.font?.weight) ??
       DEFAULT_CAPTION_PROPS.fontWeight,
-    stroke: resolvedStroke,
+    ...(resolvedStroke ? { stroke: resolvedStroke } : {}),
     opacity: (applyToAll
       ? captionProps?.opacity
       : element.props?.opacity ?? captionProps?.opacity) ?? 1,

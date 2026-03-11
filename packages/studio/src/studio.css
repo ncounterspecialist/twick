@@ -1459,7 +1459,7 @@ html {
 }
 
 .checkbox-purple:checked {
-  background-color: var(--color-neutral-500);
+  background: linear-gradient(135deg, var(--color-purple-600), var(--color-purple-700));
   border-color: var(--color-neutral-400);
 }
 
