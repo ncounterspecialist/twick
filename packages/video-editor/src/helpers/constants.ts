@@ -205,16 +205,8 @@ export const AVAILABLE_TEXT_FONTS = {
   // CDN Fonts
   /** Unique display font */
   PERALTA: "Peralta",
-  /** Bold impact font */
-  IMPACT: "Impact",
   /** Handwritten-style font */
   LUMANOSIMO: "Lumanosimo",
   /** Custom display font */
   KAPAKANA: "Kapakana",
-  /** Handwritten font */
-  HANDYRUSH: "HandyRush",
-  /** Decorative font */
-  DASHER: "Dasher",
-  /** Signature-style font */
-  BRITTANY_SIGNATURE: "Brittany Signature"
 } as const;
