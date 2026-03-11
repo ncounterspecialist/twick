@@ -74,6 +74,11 @@ class GenerateCaptionsService implements ICaptionGenerationService {
       t: caption.t,
       s: Math.max(0, caption.s * 1000),
       e: Math.max(0, caption.e * 1000),
+      ...(Array.isArray(caption.w) && caption.w.length
+        ? {
+            w: caption.w.map((sec) => Math.max(0, sec * 1000)),
+          }
+        : {}),
     }));
 
     const updated = applyCaptionsToWorkflowProject(this.projectJSON, {

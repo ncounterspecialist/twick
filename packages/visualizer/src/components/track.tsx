@@ -5,7 +5,7 @@
 
 import { Layout, Rect, View2D, Audio, Img, Txt } from "@twick/2d";
 import { VisualizerTrack, WatermarkInput } from "../helpers/types";
-import { all, createRef, ThreadGenerator, waitFor } from "@twick/core";
+import { all, createRef, ThreadGenerator, useLogger, waitFor } from "@twick/core";
 import {
   CAPTION_STYLE,
   DEFAULT_CAPTION_COLORS,
@@ -89,74 +89,93 @@ export function* makeCaptionTrack({
   track: VisualizerTrack;
 }) {
   let prevTime = 0;
+
   const captionTrackRef = createRef<any>();
   view.add(<Layout size={"100%"} ref={captionTrackRef} />);
 
   const tProps = track?.props;
   const defaultCapStyle = "highlight_bg";
-
-  const applyToAll = tProps?.applyToAll ?? false;
-
-  const trackDefaultProps =
-    (CAPTION_STYLE[tProps?.capStyle ?? defaultCapStyle] || CAPTION_STYLE[defaultCapStyle] || {}).word || {};
-
+  
   for (const element of track.elements) {
-    const eProps = element.props;
-    const resolvedCapStyle = eProps?.capStyle ?? tProps?.capStyle ?? defaultCapStyle;
-    const rectStyle =
-      (CAPTION_STYLE[resolvedCapStyle] || CAPTION_STYLE[defaultCapStyle] || {}).rect ||
-      {};
+    const eProps = element.props ?? {};
+    // wordsMs belongs to caption timing only – keep it out of visual style merging.
+    const { wordsMs, ...elementPropsWithoutWords } = eProps as any;
+
+    const resolvedCapStyle =
+      (elementPropsWithoutWords as any)?.capStyle ?? tProps?.capStyle ?? defaultCapStyle;
+
+    const styleConfig = CAPTION_STYLE[resolvedCapStyle] || CAPTION_STYLE[defaultCapStyle] || {};
+    const trackDefaultProps = (styleConfig as any).word || {};
+    const rectStyle = (styleConfig as any).rect || {};
     // Cast alignItems/justifyContent as any to satisfy RectProps
     const mappedRectStyle = {
       ...rectStyle,
       justifyContent: rectStyle.justifyContent as any,
       alignItems: rectStyle.alignItems as any,
+      ...(tProps?.rectProps ?? {}),
     };
 
-    const phraseColors = applyToAll ? tProps?.colors : eProps?.colors ?? tProps?.colors ?? DEFAULT_CAPTION_COLORS;
+    // Resolve colors with priority: element.props.colors > track.props.colors > defaults.
+    const elementColors = (elementPropsWithoutWords as any)?.colors;
+    const trackColors = tProps?.colors;
+    const phraseColors = elementColors ?? trackColors ?? DEFAULT_CAPTION_COLORS;
 
-    const resolvedFont = applyToAll ? tProps?.font : eProps?.font ?? tProps?.font ?? DEFAULT_CAPTION_FONT;
-    const defaults = trackDefaultProps as { fontFamily?: string; fontSize?: number; fontWeight?: number };
-    const phraseProps = {
+    // Resolve font with priority: element.props.font > track.props.font > defaults.
+    const elementFont = (elementPropsWithoutWords as any)?.font;
+    const trackFont = tProps?.font;
+    const resolvedFont = elementFont ?? trackFont ?? DEFAULT_CAPTION_FONT;
+
+
+    const basePhraseStyle = {
       ...trackDefaultProps,
-      ...(tProps?.captionProps || {}),
+      ...tProps,
+      ...elementPropsWithoutWords,
+    };
+
+    const bgOpacityFromBase = (basePhraseStyle as any)?.bgOpacity;
+
+    const phraseProps = {
+      ...basePhraseStyle,
       colors: phraseColors,
+      stroke: phraseColors.outlineColor,
       font: resolvedFont,
-      fontFamily: resolvedFont?.family ?? defaults?.fontFamily ?? DEFAULT_CAPTION_FONT.family,
-      fontSize: resolvedFont?.size ?? defaults?.fontSize ?? DEFAULT_CAPTION_FONT.size,
-      fontWeight: resolvedFont?.weight ?? defaults?.fontWeight ?? DEFAULT_CAPTION_FONT.weight,
+      fontFamily:
+        resolvedFont.family,
+      fontSize:
+        resolvedFont.size,
+      fontWeight:
+        resolvedFont.weight,
       fill: phraseColors.text,
       bgColor: phraseColors.bgColor,
-      bgOpacity: tProps?.bgOpacity ?? 1,
+      bgOpacity: bgOpacityFromBase ?? tProps?.bgOpacity ?? 1,
     };
 
     yield* waitFor(element?.s - prevTime);
     const phraseRef = createRef<any>();
+    const rectProps = tProps?.rectProps ?? {};
     captionTrackRef().add(
       <Rect
         ref={phraseRef}
         key={element.id}
         {...mappedRectStyle}
-        x={applyToAll ? tProps?.x : eProps?.x ?? tProps?.x}
-        y={applyToAll ? tProps?.y : eProps?.y ?? tProps?.y}
+        x={basePhraseStyle.x}
+        y={basePhraseStyle.y}
         layout
       />
     );
-    // Allow styles to tweak how phrase-level props are interpreted.
-    // For classic outline, use explicit outlineColor so it is independent
-    // from per-word highlight color.
-    const styledPhraseProps = {
+
+    // Ensure timing metadata (wordsMs) is preserved on the caption props
+    // while keeping it out of the visual style merging above.
+    const captionPropsForElement = {
       ...phraseProps,
-      ...(resolvedCapStyle === "outline_only" && phraseColors?.outlineColor
-        ? { stroke: phraseColors.outlineColor }
-        : {}),
+      ...(wordsMs ? { wordsMs } : {}),
     };
 
     const styleHandler = getCaptionStyleHandler(resolvedCapStyle ?? "");
     if (styleHandler?.preparePhraseContainer) {
       styleHandler.preparePhraseContainer({
         phraseRef,
-        phraseProps: styledPhraseProps,
+        phraseProps,
       });
     }
     yield* elementController.get("caption")?.create({
@@ -165,7 +184,7 @@ export function* makeCaptionTrack({
         ...element,
         t: element.t ?? "",
         capStyle: eProps?.capStyle ?? tProps?.capStyle,
-        props: styledPhraseProps,
+        props: captionPropsForElement,
       },
       view,
     });

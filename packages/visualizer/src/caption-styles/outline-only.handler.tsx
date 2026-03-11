@@ -9,10 +9,11 @@ export const outlineOnlyHandler: CaptionStyleHandler = {
     const captionProps = caption.props;
     const refs: Array<{ textRef: ReturnType<typeof createRef<Txt>> }> = [];
 
+
     for (const word of words) {
       const textRef = createRef<Txt>();
       containerRef().add(
-        <Txt ref={textRef} {...captionProps} text={word.t} opacity={0} />
+        <Txt ref={textRef} {...captionProps} text={word.t} opacity={1} lineWidth={0}/>
       );
       refs.push({ textRef });
     }
@@ -20,9 +21,12 @@ export const outlineOnlyHandler: CaptionStyleHandler = {
     return { refs };
   },
 
-  *animateWords({ words, refs }) {
+  *animateWords({ words, refs, caption }) {
     for (let i = 0; i < words.length; i++) {
-      yield* refs.refs[i].textRef().opacity(1, 0);
+      if(i > 0) {
+        yield* refs.refs[i-1].textRef().lineWidth(0, 0);
+      }
+      yield* refs.refs[i].textRef().lineWidth((caption.props.lineWidth ?? 0.4)*5, 0);
       yield* waitFor(Math.max(0, words[i].e - words[i].s));
     }
   },

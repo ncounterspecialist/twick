@@ -135,6 +135,123 @@ html {
   margin-bottom: 0.50rem;
 }
 
+/* Captions panel */
+.captions-panel {
+  gap: 0.75rem;
+}
+
+.captions-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.captions-panel-header-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.25rem;
+  font-size: 0.75rem;
+  color: rgba(148, 163, 184, 0.9);
+}
+
+.captions-panel-count {
+  opacity: 0.8;
+}
+
+.captions-panel-add-button {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.75rem;
+}
+
+.captions-panel-empty {
+  border-radius: 0.5rem;
+  border-width: 1px;
+  border-style: dashed;
+  border-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(148, 163, 184, 0.08);
+  padding: 1.25rem 1rem;
+  text-align: center;
+  font-size: 0.75rem;
+  color: rgba(209, 213, 219, 0.9);
+}
+
+.captions-panel-empty-title {
+  margin-bottom: 0.25rem;
+  font-weight: 600;
+}
+
+.captions-panel-empty-subtitle {
+  margin-bottom: 0.75rem;
+  color: rgba(148, 163, 184, 0.9);
+}
+
+.captions-panel-empty-button {
+  font-size: 0.75rem;
+  padding: 0.35rem 1rem;
+}
+
+.captions-panel-list {
+  overflow-y: auto;
+  padding-right: 0.25rem;
+  gap: 0.5rem;
+}
+
+.captions-panel-item {
+  border-radius: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(23, 23, 28, 0.96);
+  padding: 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 0.25rem;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+}
+
+.captions-panel-item-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.35rem;
+  font-size: 0.6875rem;
+  color: rgba(148, 163, 184, 0.9);
+}
+
+.captions-panel-time {
+  font-variant-numeric: tabular-nums;
+}
+
+.captions-panel-time-start {
+  color: rgba(226, 232, 240, 0.95);
+}
+
+.captions-panel-time-end {
+  opacity: 0.8;
+}
+
+.captions-panel-item-body {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.captions-panel-textarea {
+  min-height: 2.5rem;
+  resize: vertical;
+  font-size: 0.8125rem;
+}
+
+.captions-panel-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.captions-panel-action-button {
+  padding: 0.25rem 0.5rem;
+}
+
 .panel-content {
   flex: 1;
   overflow-y: auto;
@@ -1342,7 +1459,7 @@ html {
 }
 
 .checkbox-purple:checked {
-  background-color: var(--color-neutral-500);
+  background: linear-gradient(135deg, var(--color-purple-600), var(--color-purple-700));
   border-color: var(--color-neutral-400);
 }
 

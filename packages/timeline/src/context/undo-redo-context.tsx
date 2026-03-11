@@ -35,18 +35,23 @@ const UndoRedoContext = createContext<UndoRedoContextType | undefined>(
 
 // Local storage utilities
 const STORAGE_KEY_PREFIX = "twick_undo_redo_";
+const isBrowser = typeof window !== "undefined" && typeof window.localStorage !== "undefined";
 
 const saveToStorage = (key: string, state: UndoRedoState): void => {
+  if (!isBrowser) return;
+
   try {
-    localStorage.setItem(key, JSON.stringify(state));
+    window.localStorage.setItem(key, JSON.stringify(state));
   } catch (error) {
     console.warn("Failed to save undo-redo state to localStorage:", error);
   }
 };
 
 const loadFromStorage = (key: string): UndoRedoState | null => {
+  if (!isBrowser) return null;
+
   try {
-    const stored = localStorage.getItem(key);
+    const stored = window.localStorage.getItem(key);
     if (!stored) return null;
     return JSON.parse(stored);
   } catch (error) {
@@ -187,14 +192,14 @@ export const UndoRedoProvider: React.FC<UndoRedoProviderProps> = ({
     setState(newState);
 
     // Clear from storage too
-    if (persistenceKey) {
-      localStorage.removeItem(STORAGE_KEY_PREFIX + persistenceKey);
+    if (persistenceKey && isBrowser) {
+      window.localStorage.removeItem(STORAGE_KEY_PREFIX + persistenceKey);
     }
   };
 
   const disablePersistence = () => {
-    if (persistenceKey) {
-      localStorage.removeItem(STORAGE_KEY_PREFIX + persistenceKey);
+    if (persistenceKey && isBrowser) {
+      window.localStorage.removeItem(STORAGE_KEY_PREFIX + persistenceKey);
     }
   };
 

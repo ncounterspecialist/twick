@@ -111,6 +111,7 @@ export * from "./utils/chapter-export";
 export * from "./utils/migrations";
 export * from "./utils/selection";
 export * from "./utils/snap";
+export * from "./utils/caption-geometry";
 export * from "./context/timeline-context";
 
 // Core components

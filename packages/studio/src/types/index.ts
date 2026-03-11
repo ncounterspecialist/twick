@@ -47,6 +47,11 @@ export interface CaptionEntry {
   s: number; // start time in seconds
   e: number; // end time in seconds
   t: string; // caption text
+  /**
+   * Optional per-word start times in seconds (relative to full media timeline).
+   * When present, consumers can use this for precise karaoke-style word timing.
+   */
+  w?: number[];
 }
 
 /**

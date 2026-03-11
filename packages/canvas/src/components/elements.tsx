@@ -118,7 +118,7 @@ export const addTextElement = ({
     splitByGrapheme: false,
     textAlign: element.props?.textAlign || "center",
     stroke: element.props?.stroke || DEFAULT_TEXT_PROPS.stroke,
-    strokeWidth: element.props?.lineWidth || DEFAULT_TEXT_PROPS.lineWidth,
+    strokeWidth: (element.props?.lineWidth || DEFAULT_TEXT_PROPS.lineWidth) * 0.025,
     ...(backgroundColor && { backgroundColor }),
     shadow: element.props?.shadowColor
       ? new Shadow({
@@ -266,12 +266,21 @@ export const addCaptionElement = ({
     width = Math.min(width, element.props.maxWidth * canvasMetadata.scaleX);
   }
 
-  const elementColors = (element.props as { colors?: { text?: string } })?.colors;
+  const elementColors = (element.props as { colors?: { text?: string; outlineColor?: string } })?.colors;
   const resolvedFill =
     (applyToAll
       ? captionTextColor
       : element.props?.fill ?? elementColors?.text ?? captionTextColor) ??
     DEFAULT_CAPTION_PROPS.fill;
+
+  const trackColors = captionProps?.colors;
+  const trackStroke = trackColors?.outlineColor;
+  const elementStroke =
+    elementColors?.outlineColor ??
+    element.props?.stroke;
+  const resolvedStroke =
+    (applyToAll ? trackStroke ?? elementStroke : elementStroke ?? trackStroke) ??
+    undefined;
 
   const caption = new Textbox(element.props?.text || element.t || "", {
     left: x,
@@ -296,10 +305,7 @@ export const addCaptionElement = ({
         ? captionProps?.font?.weight
         : element.props?.font?.weight ?? captionProps?.font?.weight) ??
       DEFAULT_CAPTION_PROPS.fontWeight,
-    stroke: (applyToAll
-      ? captionProps?.stroke
-      : element.props?.stroke ?? captionProps?.stroke) ??
-    DEFAULT_CAPTION_PROPS.stroke,
+    ...(resolvedStroke ? { stroke: resolvedStroke } : {}),
     opacity: (applyToAll
       ? captionProps?.opacity
       : element.props?.opacity ?? captionProps?.opacity) ?? 1,
@@ -324,9 +330,9 @@ export const addCaptionElement = ({
         ? captionProps?.shadowColor
         : element.props?.shadowColor ?? captionProps?.shadowColor) ?? DEFAULT_CAPTION_PROPS.shadowColor,
     }),
-    strokeWidth: (applyToAll
+    strokeWidth: ((applyToAll
       ? captionProps?.lineWidth
-      : element.props?.lineWidth ?? captionProps?.lineWidth) ?? DEFAULT_CAPTION_PROPS.lineWidth,
+      : element.props?.lineWidth ?? captionProps?.lineWidth) ?? DEFAULT_CAPTION_PROPS.lineWidth) * 0.025,
   });
 
   // Assign metadata and custom controls
