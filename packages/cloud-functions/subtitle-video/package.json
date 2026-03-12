@@ -47,7 +47,8 @@
     "node": ">=20.0.0"
   },
   "dependencies": {
-    "@twick/workflow": "^0.15.25",
+    "@twick/ai-models": "workspace:*",
+    "@twick/workflow": "workspace:*",
     "@aws-sdk/client-secrets-manager": "^3.679.0",
     "fluent-ffmpeg": "^2.1.2",
     "@ffmpeg-installer/ffmpeg": "^1.1.0",
