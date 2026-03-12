@@ -10,10 +10,20 @@ import { AUDIO_CONFIG } from "./audio.utils.js";
 
 /**
  * Language code mapping for Google Speech-to-Text API.
+ * Keys are human-readable language identifiers used by the rest of the
+ * Twick pipeline; values are BCP-47 codes understood by Google STT.
  * @type {Object<string, string>}
  */
 const LANGUAGE_CODE = {
   english: "en-US",
+  italian: "it-IT",
+  spanish: "es-ES",
+  portuguese: "pt-PT",
+  french: "fr-FR",
+  german: "de-DE",
+  turkish: "tr-TR",
+  indonesian: "id-ID",
+  hindi: "hi-IN",
 };
 
 /**
@@ -47,12 +57,13 @@ export const getSpeechClient = async () => {
 const recognizer = `projects/${CLOUD_PROJECT_ID}/locations/${CLOUD_REGION}/recognizers/_`;
 
 /**
- * Processes Speech-to-Text API response and groups words into phrases of 4 words each.
+ * Processes Speech-to-Text API response and groups words into phrases.
  * 
  * @param {Object} results - API response results object
+ * @param {number} [wordsPerPhrase=4] - Desired number of words per phrase
  * @returns {Array<Object>} Array of phrase objects with text, start time, end time, and word timings
  */
-const processResponse = (results) => {
+const processResponse = (results, wordsPerPhrase = 4) => {
   // Extract words from response
   const words = results?.alternatives?.[0]?.words || [];
 
@@ -75,10 +86,11 @@ const processResponse = (results) => {
     endMs: convertToMs(w.endOffset),
   }));
 
-  // Group words into phrases of 4 words each
+  // Group words into phrases of N words each
   const phrases = [];
-  for (let i = 0; i < processedWords.length; i += 4) {
-    const group = processedWords.slice(i, i + 4);
+  const groupSize = Math.max(1, Math.min(10, Math.floor(wordsPerPhrase) || 4));
+  for (let i = 0; i < processedWords.length; i += groupSize) {
+    const group = processedWords.slice(i, i + groupSize);
     const text = group.map((w) => w.word).join(" ");
     const startMs = group[0].startMs;
     const endMs = group[group.length - 1].endMs;
@@ -109,10 +121,15 @@ export async function transcribeShort({
   audioBuffer,
   language = "english",
   format = "FLAC",
+  wordsPerPhrase = 4,
 }) {
   const client = await getSpeechClient();
 
   const audioContent = audioBuffer.toString("base64");
+
+  const languageCodes = LANGUAGE_CODE[language]
+    ? [LANGUAGE_CODE[language]]
+    : Object.values(LANGUAGE_CODE);
 
   const request = {
     recognizer: recognizer,
@@ -122,7 +139,9 @@ export async function transcribeShort({
         sampleRateHertz: AUDIO_CONFIG[format].sampleRate,
         audioChannelCount: 1,
       },
-      languageCodes: [LANGUAGE_CODE[language]],
+      // When language is not recognized, fall back to trying all known
+      // language codes so Google can auto-detect among them.
+      languageCodes,
       model: MODEL,
       features: {
         enableWordTimeOffsets: true,
@@ -133,7 +152,7 @@ export async function transcribeShort({
 
   try {
     const [response] = await client.recognize(request);
-    return processResponse(response.results?.[0]);
+    return processResponse(response.results?.[0], wordsPerPhrase);
   } catch (err) {
     console.error("Transcription Error:", err.message);
     throw err;
@@ -157,6 +176,7 @@ export async function transcribeLong({
   audioUrl,
   language = "english",
   format = "FLAC",
+  wordsPerPhrase = 4,
 }) {
   let gcsUri;
   if (audioUrl) {
@@ -174,6 +194,10 @@ export async function transcribeLong({
   console.log("GCS URI:", gcsUri);
   const client = await getSpeechClient();
 
+  const languageCodes = LANGUAGE_CODE[language]
+    ? [LANGUAGE_CODE[language]]
+    : Object.values(LANGUAGE_CODE);
+
   const request = {
     recognizer: recognizer,
     config: {
@@ -182,7 +206,9 @@ export async function transcribeLong({
         sampleRateHertz: AUDIO_CONFIG[format].sampleRate,
         audioChannelCount: 1,
       },
-      languageCodes: [LANGUAGE_CODE[language]],
+      // When language is not recognized, fall back to trying all known
+      // language codes so Google can auto-detect among them.
+      languageCodes,
       model: MODEL,
       features: {
         enableWordTimeOffsets: true,
@@ -214,7 +240,7 @@ export async function transcribeLong({
     const results = fileResult.transcript.results || [];
 
     for (const result of results) {
-      const phrases = processResponse(result);
+      const phrases = processResponse(result, wordsPerPhrase);
       console.log("Phrases:", phrases);
       console.log("Transcription Result:", result);
       allPhrases.push(...phrases);

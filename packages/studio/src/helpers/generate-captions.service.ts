@@ -92,6 +92,8 @@ class GenerateCaptionsService implements ICaptionGenerationService {
         y: 200,
         applyToAll: true,
       },
+      // For now, rely on auto-detected language in the backend; language
+      // wiring is handled when applying patches at the workflow level.
     });
     this.projectJSON = updated;
     return updated;

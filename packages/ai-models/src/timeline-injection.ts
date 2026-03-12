@@ -8,6 +8,7 @@ import type {
   TimelineVoicePatch,
   TimedTextSegment,
 } from "./orchestration-types";
+import { getDefaultFontForLanguage } from "./language-font-map";
 
 function buildFallbackSegments(job: GenerationJob): TimedTextSegment[] {
   if (job.type !== "voice") {
@@ -40,11 +41,14 @@ export function toTimelinePatch(job: GenerationJob): TimelinePatch {
 
   if (job.type === "caption") {
     const captionInput = job.input as CaptionGenerationInput;
+    const language = captionInput.language;
+    const languageFont =
+      captionInput.languageFont ?? getDefaultFontForLanguage(language);
     const captionPatch: TimelineCaptionPatch = {
       type: "caption",
       captions: job.output.captions ?? job.output.segments ?? [],
-      language: captionInput.language,
-      languageFont: captionInput.languageFont,
+      language,
+      languageFont,
     };
     return captionPatch;
   }

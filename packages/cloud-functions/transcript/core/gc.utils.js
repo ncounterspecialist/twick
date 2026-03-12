@@ -3,7 +3,6 @@ import {
   SecretsManagerClient,
   GetSecretValueCommand,
 } from "@aws-sdk/client-secrets-manager";
-import fs from "fs";
 
 /**
  * Google Cloud Project ID. Can be set via GOOGLE_CLOUD_PROJECT environment variable.

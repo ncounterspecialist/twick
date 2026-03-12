@@ -13,7 +13,11 @@ export function GenerateCaptionsPanel({
 }: {
   selectedElement: TrackElement;
   addCaptionsToTimeline: (captions: { s: number; e: number; t: string }[]) => void;
-  onGenerateCaptions: (videoElement: VideoElement) => Promise<string | null>;
+  onGenerateCaptions: (
+    videoElement: VideoElement,
+    language?: string,
+    wordsPerPhrase?: number,
+  ) => Promise<string | null>;
   getCaptionstatus: (reqId: string) => Promise<ICaptionGenerationPollingResponse>;
   pollingIntervalMs?: number;
 }) {
@@ -22,6 +26,8 @@ export function GenerateCaptionsPanel({
   const [isGenerating, setIsGenerating] = useState(false);
   const [pollingStatus, setPollingStatus] = useState<"idle" | "polling" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [selectedLanguage, setSelectedLanguage] = useState<string>("auto");
+  const [wordsPerPhrase, setWordsPerPhrase] = useState<number>(4);
   const pollingIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const currentReqIdRef = useRef<string | null>(null);
 
@@ -100,7 +106,13 @@ export function GenerateCaptionsPanel({
     
 
     try {
-      const reqId = await onGenerateCaptions(videoElement);
+      const language =
+        selectedLanguage === "auto" ? undefined : selectedLanguage;
+      const reqId = await onGenerateCaptions(
+        videoElement,
+        language,
+        wordsPerPhrase,
+      );
       if (!reqId) {
         setPollingStatus("error");
         setIsGenerating(false);
@@ -186,6 +198,55 @@ export function GenerateCaptionsPanel({
               <p className="empty-state-text">Audio detected! You can now generate captions</p>
             </div>
           </div>
+        </div>
+      )}
+
+      {/* Language selection */}
+      {!isLoading && containsAudio === true && (
+        <div className="panel-section">
+          <label className="label-dark" htmlFor="caption-language">
+            Audio Language
+          </label>
+          <select
+            id="caption-language"
+            className="select-dark"
+            value={selectedLanguage}
+            onChange={(e) => setSelectedLanguage(e.target.value)}
+          >
+            <option value="auto">Auto (detect)</option>
+            <option value="english">English</option>
+            <option value="italian">Italian</option>
+            <option value="spanish">Spanish</option>
+            <option value="portuguese">Portuguese</option>
+            <option value="french">French</option>
+            <option value="german">German</option>
+            <option value="turkish">Turkish</option>
+            <option value="indonesian">Indonesian</option>
+            <option value="hindi">Hindi</option>
+          </select>
+        </div>
+      )}
+      {/* Words-per-phrase selection */}
+      {!isLoading && containsAudio === true && (
+        <div className="panel-section">
+          <label className="label-dark" htmlFor="caption-words-per-phrase">
+            Words per phrase
+          </label>
+          <select
+            id="caption-words-per-phrase"
+            className="select-dark"
+            value={String(wordsPerPhrase)}
+            onChange={(e) => setWordsPerPhrase(Number(e.target.value) || 4)}
+          >
+            {Array.from({ length: 10 }).map((_, index) => {
+              const value = index + 1;
+              return (
+                <option key={value} value={value}>
+                  {value}
+                </option>
+              );
+            })}
+          </select>
         </div>
       )}
 

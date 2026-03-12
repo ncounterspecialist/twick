@@ -52,7 +52,14 @@ export const handler = async (event) => {
       (event?.body ? JSON.parse(event.body) : {}) ||
       {};
 
-    const { videoUrl, audioUrl, videoSize, language, languageFont } =
+    const {
+      videoUrl,
+      audioUrl,
+      videoSize,
+      language,
+      languageFont,
+      wordsPerPhrase,
+    } =
       argumentsPayload;
 
     if (!videoUrl && !audioUrl) {
@@ -74,6 +81,7 @@ export const handler = async (event) => {
       videoSize,
       language,
       languageFont,
+      wordsPerPhrase,
     });
 
     console.log('Transcription completed successfully');
