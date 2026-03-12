@@ -23,6 +23,7 @@ const LANGUAGE_CODE = {
   german: "de-DE",
   turkish: "tr-TR",
   indonesian: "id-ID",
+  hindi: "hi-IN",
 };
 
 /**

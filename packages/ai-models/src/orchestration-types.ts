@@ -61,6 +61,12 @@ export interface CaptionGenerationInput {
   language?: string;
   languageFont?: string;
   /**
+   * Desired number of words per caption phrase. When provided, the
+   * transcript lambda will attempt to group STT words into phrases
+   * of approximately this length (default: 4).
+   */
+  wordsPerPhrase?: number;
+  /**
    * When true (default for ai-caption jobs), the backend should attempt to
    * auto-detect the spoken language from the audio instead of relying solely
    * on the explicit language field.

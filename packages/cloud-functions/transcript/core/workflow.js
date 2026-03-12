@@ -1,6 +1,7 @@
 import { extractAudioBufferFromAudioUrl, extractAudioBufferFromVideo } from "./audio.utils.js";
 import { transcribeLong, transcribeShort } from "./transcriber.js";
 import { normalizeCaptionEntries } from "@twick/ai-models";
+import Sanscript from "@indic-transliteration/sanscript";
 
 /**
  * Creates a complete caption video project from a video URL.
@@ -19,6 +20,22 @@ import { normalizeCaptionEntries } from "@twick/ai-models";
  * @returns {Promise<Object>} Twick project JSON structure
  * @throws {Error} If video processing, transcription, or project building fails
  */
+const transliterateToLatinIfNeeded = (captions, language) => {
+  if (!Array.isArray(captions) || language !== "hindi") {
+    return captions;
+  }
+  return captions.map((caption) => {
+    if (!caption?.t) return caption;
+    try {
+      // Convert Devanagari to Latin script (Hinglish) while preserving timings.
+      const text = Sanscript.t(caption.t, "devanagari", "itrans");
+      return { ...caption, t: text };
+    } catch {
+      return caption;
+    }
+  });
+};
+
 export const transcribe = async (params) => {
   const {
     videoSize,
@@ -27,6 +44,7 @@ export const transcribe = async (params) => {
     language,
     languageFont,
     autoDetectLanguage,
+    wordsPerPhrase,
   } = params;
 
   const { audioBuffer, duration } = audioUrl
@@ -44,18 +62,27 @@ export const transcribe = async (params) => {
       // pass through an undefined language so the transcriber can fall
       // back to trying all known language codes.
       language: autoDetectLanguage && !language ? undefined : language,
+      wordsPerPhrase,
     });
   } else {
     captions = await transcribeShort({
       audioBuffer,
       language: autoDetectLanguage && !language ? undefined : language,
+      wordsPerPhrase,
     });
   }
   if (!captions.length) {
     throw new Error("No captions found");
   }
 
-  const normalizedCaptions = normalizeCaptionEntries(captions).map((segment) => ({
+  const maybeTransliterated = transliterateToLatinIfNeeded(captions, language);
+  const lowercasedCaptions = Array.isArray(maybeTransliterated)
+    ? maybeTransliterated.map((caption) =>
+        caption?.t ? { ...caption, t: caption.t.toLowerCase() } : caption
+      )
+    : maybeTransliterated;
+
+  const normalizedCaptions = normalizeCaptionEntries(lowercasedCaptions).map((segment) => ({
     t: segment.text,
     s: segment.startMs,
     e: segment.endMs,

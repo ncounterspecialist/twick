@@ -15,7 +15,8 @@ export function GenerateCaptionsPanel({
   addCaptionsToTimeline: (captions: { s: number; e: number; t: string }[]) => void;
   onGenerateCaptions: (
     videoElement: VideoElement,
-    language?: string
+    language?: string,
+    wordsPerPhrase?: number,
   ) => Promise<string | null>;
   getCaptionstatus: (reqId: string) => Promise<ICaptionGenerationPollingResponse>;
   pollingIntervalMs?: number;
@@ -26,6 +27,7 @@ export function GenerateCaptionsPanel({
   const [pollingStatus, setPollingStatus] = useState<"idle" | "polling" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [selectedLanguage, setSelectedLanguage] = useState<string>("auto");
+  const [wordsPerPhrase, setWordsPerPhrase] = useState<number>(4);
   const pollingIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const currentReqIdRef = useRef<string | null>(null);
 
@@ -106,7 +108,11 @@ export function GenerateCaptionsPanel({
     try {
       const language =
         selectedLanguage === "auto" ? undefined : selectedLanguage;
-      const reqId = await onGenerateCaptions(videoElement, language);
+      const reqId = await onGenerateCaptions(
+        videoElement,
+        language,
+        wordsPerPhrase,
+      );
       if (!reqId) {
         setPollingStatus("error");
         setIsGenerating(false);
@@ -199,7 +205,7 @@ export function GenerateCaptionsPanel({
       {!isLoading && containsAudio === true && (
         <div className="panel-section">
           <label className="label-dark" htmlFor="caption-language">
-            Caption language
+            Audio Language
           </label>
           <select
             id="caption-language"
@@ -216,6 +222,30 @@ export function GenerateCaptionsPanel({
             <option value="german">German</option>
             <option value="turkish">Turkish</option>
             <option value="indonesian">Indonesian</option>
+            <option value="hindi">Hindi</option>
+          </select>
+        </div>
+      )}
+      {/* Words-per-phrase selection */}
+      {!isLoading && containsAudio === true && (
+        <div className="panel-section">
+          <label className="label-dark" htmlFor="caption-words-per-phrase">
+            Words per phrase
+          </label>
+          <select
+            id="caption-words-per-phrase"
+            className="select-dark"
+            value={String(wordsPerPhrase)}
+            onChange={(e) => setWordsPerPhrase(Number(e.target.value) || 4)}
+          >
+            {Array.from({ length: 10 }).map((_, index) => {
+              const value = index + 1;
+              return (
+                <option key={value} value={value}>
+                  {value}
+                </option>
+              );
+            })}
           </select>
         </div>
       )}

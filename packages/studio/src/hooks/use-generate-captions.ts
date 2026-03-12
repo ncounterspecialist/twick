@@ -13,7 +13,8 @@ const useGenerateCaptions = (studioConfig?: StudioConfig) => {
    */
   const onGenerateCaptions = async (
     videoElement: VideoElement,
-    language?: string
+    language?: string,
+    wordsPerPhrase?: number,
   ) => {
     // Use new polling-based service if available
     if (studioConfig?.captionGenerationService) {
@@ -21,7 +22,8 @@ const useGenerateCaptions = (studioConfig?: StudioConfig) => {
       const reqId = await service.generateCaptions(
         videoElement,
         present as ProjectJSON,
-        language
+        language,
+        wordsPerPhrase,
       );
       return reqId;
     }

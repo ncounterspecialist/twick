@@ -7,7 +7,6 @@ import {
   exportCaptionsAsVTT,
   getCaptionLanguages,
   useTimelineContext,
-  VideoElement,
 } from "@twick/timeline";
 import { ICaptionGenerationPollingResponse, StudioConfig, CaptionEntry } from "../types";
 import { loadFile, saveAsFile } from "@twick/media-utils";
@@ -116,23 +115,6 @@ const useStudioOperation = (studioConfig?: StudioConfig) => {
     await saveAsFile(content, "text/plain", fileName);
   };
 
-
-
-  /**
-   * Generates captions using the new polling-based service
-   * Returns a function that can be called to start the generation process
-   */
-  const onGenerateCaptions = async (videoElement: VideoElement) => {
-    // Use new polling-based service if available
-    if (studioConfig?.captionGenerationService) {
-      const service = studioConfig.captionGenerationService;
-      const reqId = await service.generateCaptions(videoElement, present as ProjectJSON);
-      return reqId;
-    }
-    alert("Generate captions not supported in demo mode");
-    return null;
-  };
-
   const addCaptionsToTimeline = (captions: CaptionEntry[]) => {
     const updatedProjectJSON = studioConfig?.captionGenerationService?.updateProjectWithCaptions(captions);
     if (updatedProjectJSON) {
@@ -158,7 +140,6 @@ const useStudioOperation = (studioConfig?: StudioConfig) => {
     onNewProject,
     onExportCaptions,
     onExportChapters,
-    onGenerateCaptions,
     addCaptionsToTimeline,
     getCaptionstatus,
   };

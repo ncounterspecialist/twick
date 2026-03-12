@@ -10,7 +10,7 @@
     "./platform/aws/*": "./platform/aws/*"
   },
   "bin": {
-    "twick-caption-video": "bin/twick-caption-video.js"
+    "twick-subtitle-video": "bin/twick-subtitle-video.js"
   },
   "files": [
     "core",
@@ -47,14 +47,14 @@
     "node": ">=20.0.0"
   },
   "dependencies": {
-    "@twick/ai-models": "workspace:*",
-    "@twick/workflow": "workspace:*",
+    "@twick/workflow": "^0.15.25",
     "@aws-sdk/client-secrets-manager": "^3.679.0",
     "fluent-ffmpeg": "^2.1.2",
     "@ffmpeg-installer/ffmpeg": "^1.1.0",
     "@ffprobe-installer/ffprobe": "^1.1.0",
     "@google-cloud/speech": "^7.2.1",
-    "@google-cloud/storage": "^7.18.0"
+    "@google-cloud/storage": "^7.18.0",
+    "@indic-transliteration/sanscript": "^1.3.3"
   },
   "devDependencies": {
     "typescript": "~5.4.5",

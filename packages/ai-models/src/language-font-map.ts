@@ -9,6 +9,8 @@ export const LANGUAGE_TO_SCRIPT: Record<string, CaptionScript> = {
   german: "Latin",
   turkish: "Latin",
   indonesian: "Latin",
+  // Hindi audio rendered as Latin-script captions (Hinglish).
+  hindi: "Latin",
 };
 
 export const SCRIPT_DEFAULT_FONTS: Record<CaptionScript, string[]> = {

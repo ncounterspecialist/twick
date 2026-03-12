@@ -49,13 +49,13 @@ npm install -D @twick/cloud-caption-video
 ### 1. Scaffold AWS Lambda Template
 
 ```bash
-npx twick-caption-video init
+npx twick-subtitle-video init
 ```
 
 ### 2. Build Docker Image
 
 ```bash
-npx twick-caption-video build twick-caption-video:latest
+npx twick-subtitle-video build twick-subtitle-video:latest
 ```
 
 ### 3. Configure Google Cloud
@@ -82,10 +82,10 @@ npx twick-caption-video build twick-caption-video:latest
 
 ```bash
 # Login to ECR
-npx twick-caption-video ecr-login us-east-1 YOUR_ACCOUNT_ID
+npx twick-subtitle-video ecr-login us-east-1 YOUR_ACCOUNT_ID
 
 # Push to ECR
-npx twick-caption-video push twick-caption-video:latest us-east-1 YOUR_ACCOUNT_ID
+npx twick-subtitle-video push twick-subtitle-video:latest us-east-1 YOUR_ACCOUNT_ID
 ```
 
 ## Deployment (High Level)

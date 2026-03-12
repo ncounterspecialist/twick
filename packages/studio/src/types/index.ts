@@ -95,7 +95,8 @@ export interface ICaptionGenerationService {
   generateCaptions: (
     videoElement: VideoElement,
     project: ProjectJSON,
-    language?: string
+    language?: string,
+    wordsPerPhrase?: number
   ) => Promise<string>;
 
   updateProjectWithCaptions: (

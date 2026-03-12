@@ -32,7 +32,7 @@ function copyTemplate(destDir) {
   const pkgJsonPath = join(destDir, 'package.json');
   if (!fs.existsSync(pkgJsonPath)) {
     const pkg = {
-      name: 'twick-caption-video-runtime',
+      name: 'twick-subtitle-video-runtime',
       type: 'module',
       dependencies: {
         '@twick/cloud-caption-video': 'latest',
@@ -59,25 +59,25 @@ async function main() {
 
   if (!command || ['-h', '--help', 'help'].includes(command)) {
     console.log(`
-Usage: twick-caption-video <command> [options]
+Usage: twick-subtitle-video <command> [options]
 
 Commands:
-  init [dir]             Scaffold AWS container template into [dir] (default: ./twick-caption-video-aws)
-  build <image> [dir]    Docker build image from [dir] (default: ./twick-caption-video-aws)
+  init [dir]             Scaffold AWS container template into [dir] (default: ./twick-subtitle-video-aws)
+  build <image> [dir]    Docker build image from [dir] (default: ./twick-subtitle-video-aws)
   ecr-login <region> <accountId>  Login docker to ECR
   push <image> <region> <accountId>  Push image to ECR (repo must exist)
 
 Examples:
-  twick-caption-video init
-  twick-caption-video build my-repo:latest
-  twick-caption-video ecr-login us-east-1 123456789012
-  twick-caption-video push my-repo:latest us-east-1 123456789012
+  twick-subtitle-video init
+  twick-subtitle-video build my-repo:latest
+  twick-subtitle-video ecr-login us-east-1 123456789012
+  twick-subtitle-video push my-repo:latest us-east-1 123456789012
 `);
     return;
   }
 
   if (command === 'init') {
-    const dir = rest[0] || 'twick-caption-video-aws';
+    const dir = rest[0] || 'twick-subtitle-video-aws';
     copyTemplate(dir);
     console.log(`✔ Scaffolded AWS runtime into ./${dir}`);
     return;
@@ -85,7 +85,7 @@ Examples:
 
   if (command === 'build') {
     const image = rest[0];
-    const dir = rest[1] || 'twick-caption-video-aws';
+    const dir = rest[1] || 'twick-subtitle-video-aws';
     if (!image) throw new Error('Image name required. e.g., my-repo:latest');
     // Build for linux/amd64 platform to avoid creating multi-arch manifest index
     // This reduces the number of artifacts pushed to the registry
