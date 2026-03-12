@@ -1,12 +1,155 @@
-@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200..1000;1,200..1000&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Mulish:ital,wght@0,200..1000;1,200..1000&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Bangers&family=Birthstone&family=Corinthia:wght@400;700&family=Imperial+Script&family=Kumar+One+Outline&family=Londrina+Outline&family=Marck+Script&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Pattaya&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-@import url('https://fonts.cdnfonts.com/css/peralta');
-@import url('https://fonts.cdnfonts.com/css/impact');
-@import url('https://fonts.cdnfonts.com/css/lumanosimo');
-@import url('https://fonts.cdnfonts.com/css/kapakana');
-@import url('https://fonts.cdnfonts.com/css/handyrush');
-@import url('https://fonts.cdnfonts.com/css/dasher');
-@import url('https://fonts.cdnfonts.com/css/brittany-signature');
+/* Local fonts for player, renderer, and export (Docker).
+ * Font files are in src/fonts/ and bundled into dist/ by the build.
+ * Single source of truth: used in Studio, live-player, and Lambda.
+ */
+@font-face {
+  font-family: 'Pattaya';
+  src: url('./fonts/Pattaya-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: optional;
+}
+
+@font-face {
+  font-family: 'Bangers';
+  src: url('./fonts/Bangers-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: optional;
+}
+
+@font-face {
+  font-family: 'Birthstone';
+  src: url('./fonts/Birthstone-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: optional;
+}
+
+@font-face {
+  font-family: 'Corinthia';
+  font-weight: 400;
+  font-style: normal;
+  font-display: optional;
+  src: url('./fonts/Corinthia-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Corinthia';
+  font-weight: 700;
+  font-style: normal;
+  font-display: optional;
+  src: url('./fonts/Corinthia-Bold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Imperial Script';
+  src: url('./fonts/ImperialScript-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: optional;
+}
+
+@font-face {
+  font-family: 'Kapakana';
+  src: url('./fonts/Kapakana.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: optional;
+}
+
+@font-face {
+  font-family: 'Kumar One Outline';
+  src: url('./fonts/KumarOneOutline-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: optional;
+}
+
+@font-face {
+  font-family: 'Londrina Outline';
+  src: url('./fonts/LondrinaOutline-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: optional;
+}
+
+@font-face {
+  font-family: 'Luckiest Guy';
+  src: url('./fonts/LuckiestGuy-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: optional;
+}
+
+@font-face {
+  font-family: 'Lumanosimo';
+  src: url('./fonts/Lumanosimo-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: optional;
+}
+
+@font-face {
+  font-family: 'Marck Script';
+  src: url('./fonts/MarckScript-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: optional;
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  src: url('./fonts/Montserrat-VariableFont_wght.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: optional;
+}
+
+@font-face {
+  font-family: 'Mulish';
+  src: url('./fonts/Mulish-VariableFont_wght.ttf') format('truetype');
+  font-weight: 200 1000;
+  font-style: normal;
+  font-display: optional;
+}
+
+@font-face {
+  font-family: 'Peralta';
+  src: url('./fonts/Peralta-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: optional;
+}
+
+@font-face {
+  font-family: 'Playfair Display';
+  src: url('./fonts/PlayfairDisplay-VariableFont_wght.ttf') format('truetype');
+  font-weight: 400 900;
+  font-style: normal;
+  font-display: optional;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('./fonts/Poppins-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: optional;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url('./fonts/Roboto-VariableFont_wdth,wght.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: optional;
+}
+
+@font-face {
+  font-family: 'Rubik';
+  src: url('./fonts/Rubik.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: optional;
+}

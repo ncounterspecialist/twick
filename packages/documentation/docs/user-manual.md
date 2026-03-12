@@ -618,7 +618,7 @@ textElement
 **Available Fonts:**
 - Google Fonts: Roboto, Poppins, Playfair Display, etc.
 - Display Fonts: Bangers, Birthstone, Corinthia, etc.
-- CDN Fonts: Peralta, Impact, Lumanosimo, etc.
+- CDN Fonts: Peralta, Lumanosimo, Kapakana, etc.
 
 **Text Stroke/Outline Properties:**
 - `setStrokeColor(color)`: Sets the color of the text outline/stroke (e.g., "#000000" for black outline)

@@ -3,6 +3,7 @@ import { defineConfig } from "vite";
 import motionCanvas from '@twick/vite-plugin';
 
 export default defineConfig({
+  base: './',
   plugins: [motionCanvas()],
   resolve: {
     alias: {

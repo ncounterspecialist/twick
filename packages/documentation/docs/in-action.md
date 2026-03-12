@@ -26,7 +26,7 @@ This document demonstrates how to create videos programmatically using the Twick
 - `setStrokeColor(color)`: Text outline/stroke color
 - `setLineWidth(width)`: Text outline/stroke thickness in pixels
 - `setFontSize(size)`: Text size in pixels
-- `setFontFamily(family)`: Font family (e.g., "Impact")
+- `setFontFamily(family)`: Font family (e.g., "Roboto")
 
 ## Getting Started
 
@@ -159,7 +159,7 @@ const text2 = new Twick.TextElement("Have a nice day!")
   .setFill("#000000")    // Black color
   .setStrokeColor("#FFD700") // Golden outline
   .setLineWidth(0.5)    // Outline thickness
-  .setFontFamily("handyrush") // Font Family Impact
+  .setFontFamily("Roboto")
   .setFontSize(64)       // Large text
   .setPosition({x: 0, y: 580}); // Set position
 

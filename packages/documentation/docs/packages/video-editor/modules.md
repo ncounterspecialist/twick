@@ -625,12 +625,8 @@ textElement.style.fontFamily = AVAILABLE_TEXT_FONTS.POPPINS;
 | `MONTSERRAT` | ``"Montserrat"`` | Modern sans-serif font |
 | `PATTAYA` | ``"Pattaya"`` | Stylish display font |
 | `PERALTA` | ``"Peralta"`` | Unique display font |
-| `IMPACT` | ``"Impact"`` | Bold impact font |
 | `LUMANOSIMO` | ``"Lumanosimo"`` | Handwritten-style font |
 | `KAPAKANA` | ``"Kapakana"`` | Custom display font |
-| `HANDYRUSH` | ``"HandyRush"`` | Handwritten font |
-| `DASHER` | ``"Dasher"`` | Decorative font |
-| `BRITTANY_SIGNATURE` | ``"Brittany Signature"`` | Signature-style font |
 
 #### Defined in
 
