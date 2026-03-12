@@ -10,10 +10,19 @@ import { AUDIO_CONFIG } from "./audio.utils.js";
 
 /**
  * Language code mapping for Google Speech-to-Text API.
+ * Keys are human-readable language identifiers used by the rest of the
+ * Twick pipeline; values are BCP-47 codes understood by Google STT.
  * @type {Object<string, string>}
  */
 const LANGUAGE_CODE = {
   english: "en-US",
+  italian: "it-IT",
+  spanish: "es-ES",
+  portuguese: "pt-PT",
+  french: "fr-FR",
+  german: "de-DE",
+  turkish: "tr-TR",
+  indonesian: "id-ID",
 };
 
 /**

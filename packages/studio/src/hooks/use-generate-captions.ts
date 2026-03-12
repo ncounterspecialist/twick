@@ -11,13 +11,17 @@ const useGenerateCaptions = (studioConfig?: StudioConfig) => {
    * Generates captions using the new polling-based service
    * Returns a function that can be called to start the generation process
    */
-  const onGenerateCaptions = async (videoElement: VideoElement) => {
+  const onGenerateCaptions = async (
+    videoElement: VideoElement,
+    language?: string
+  ) => {
     // Use new polling-based service if available
     if (studioConfig?.captionGenerationService) {
       const service = studioConfig.captionGenerationService;
       const reqId = await service.generateCaptions(
         videoElement,
-        present as ProjectJSON
+        present as ProjectJSON,
+        language
       );
       return reqId;
     }

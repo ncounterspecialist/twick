@@ -94,7 +94,8 @@ export interface ICaptionGenerationPollingResponse {
 export interface ICaptionGenerationService {
   generateCaptions: (
     videoElement: VideoElement,
-    project: ProjectJSON
+    project: ProjectJSON,
+    language?: string
   ) => Promise<string>;
 
   updateProjectWithCaptions: (

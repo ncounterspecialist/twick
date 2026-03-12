@@ -60,6 +60,12 @@ export interface CaptionGenerationInput {
   audioUrl?: string;
   language?: string;
   languageFont?: string;
+  /**
+   * When true (default for ai-caption jobs), the backend should attempt to
+   * auto-detect the spoken language from the audio instead of relying solely
+   * on the explicit language field.
+   */
+  autoDetectLanguage?: boolean;
 }
 
 export interface TranslationGenerationInput {

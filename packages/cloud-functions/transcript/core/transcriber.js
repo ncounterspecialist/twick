@@ -10,10 +10,19 @@ import { AUDIO_CONFIG } from "./audio.utils.js";
 
 /**
  * Language code mapping for Google Speech-to-Text API.
+ * Keys are human-readable language identifiers used by the rest of the
+ * Twick pipeline; values are BCP-47 codes understood by Google STT.
  * @type {Object<string, string>}
  */
 const LANGUAGE_CODE = {
   english: "en-US",
+  italian: "it-IT",
+  spanish: "es-ES",
+  portuguese: "pt-PT",
+  french: "fr-FR",
+  german: "de-DE",
+  turkish: "tr-TR",
+  indonesian: "id-ID",
 };
 
 /**
@@ -114,6 +123,10 @@ export async function transcribeShort({
 
   const audioContent = audioBuffer.toString("base64");
 
+  const languageCodes = LANGUAGE_CODE[language]
+    ? [LANGUAGE_CODE[language]]
+    : Object.values(LANGUAGE_CODE);
+
   const request = {
     recognizer: recognizer,
     config: {
@@ -122,7 +135,9 @@ export async function transcribeShort({
         sampleRateHertz: AUDIO_CONFIG[format].sampleRate,
         audioChannelCount: 1,
       },
-      languageCodes: [LANGUAGE_CODE[language]],
+      // When language is not recognized, fall back to trying all known
+      // language codes so Google can auto-detect among them.
+      languageCodes,
       model: MODEL,
       features: {
         enableWordTimeOffsets: true,
@@ -174,6 +189,10 @@ export async function transcribeLong({
   console.log("GCS URI:", gcsUri);
   const client = await getSpeechClient();
 
+  const languageCodes = LANGUAGE_CODE[language]
+    ? [LANGUAGE_CODE[language]]
+    : Object.values(LANGUAGE_CODE);
+
   const request = {
     recognizer: recognizer,
     config: {
@@ -182,7 +201,9 @@ export async function transcribeLong({
         sampleRateHertz: AUDIO_CONFIG[format].sampleRate,
         audioChannelCount: 1,
       },
-      languageCodes: [LANGUAGE_CODE[language]],
+      // When language is not recognized, fall back to trying all known
+      // language codes so Google can auto-detect among them.
+      languageCodes,
       model: MODEL,
       features: {
         enableWordTimeOffsets: true,
