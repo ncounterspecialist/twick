@@ -57,8 +57,15 @@ export const handler = async (event) => {
       (event?.body ? JSON.parse(event.body) : {}) ||
       {};
 
-    const { videoUrl, videoSize, language, languageFont, shouldExport } =
-      argumentsPayload;
+    const {
+      videoUrl,
+      videoSize,
+      language,
+      languageFont,
+      phraseLength,
+      wordsPerPhrase,
+      shouldExport,
+    } = argumentsPayload;
 
     if (!videoUrl) {
       return jsonResponse(400, {
@@ -78,6 +85,8 @@ export const handler = async (event) => {
       videoSize,
       language,
       languageFont,
+      phraseLength,
+      wordsPerPhrase,
     });
 
     console.log('Caption video project created successfully');

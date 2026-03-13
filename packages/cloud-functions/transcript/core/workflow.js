@@ -36,6 +36,28 @@ const transliterateToLatinIfNeeded = (captions, language) => {
   });
 };
 
+const resolvePhraseLength = (phraseLength, wordsPerPhrase) => {
+  if (
+    phraseLength === "short" ||
+    phraseLength === "medium" ||
+    phraseLength === "long"
+  ) {
+    return phraseLength;
+  }
+
+  if (typeof wordsPerPhrase === "number") {
+    if (wordsPerPhrase <= 3) {
+      return "short";
+    }
+    if (wordsPerPhrase <= 6) {
+      return "medium";
+    }
+    return "long";
+  }
+
+  return "medium";
+};
+
 export const transcribe = async (params) => {
   const {
     videoSize,
@@ -44,12 +66,18 @@ export const transcribe = async (params) => {
     language,
     languageFont,
     autoDetectLanguage,
+    phraseLength,
     wordsPerPhrase,
   } = params;
 
   const { audioBuffer, duration } = audioUrl
     ? await extractAudioBufferFromAudioUrl(audioUrl)
     : await extractAudioBufferFromVideo(videoUrl);
+  const resolvedPhraseLength = resolvePhraseLength(
+    phraseLength,
+    wordsPerPhrase,
+  );
+
   let captions = [];
   if (!duration) {
     throw new Error("Failed to get duration of video");
@@ -62,13 +90,13 @@ export const transcribe = async (params) => {
       // pass through an undefined language so the transcriber can fall
       // back to trying all known language codes.
       language: autoDetectLanguage && !language ? undefined : language,
-      wordsPerPhrase,
+      phraseLength: resolvedPhraseLength,
     });
   } else {
     captions = await transcribeShort({
       audioBuffer,
       language: autoDetectLanguage && !language ? undefined : language,
-      wordsPerPhrase,
+      phraseLength: resolvedPhraseLength,
     });
   }
   if (!captions.length) {

@@ -14,6 +14,7 @@ export type {
   GenerationType,
   JobStatus,
   TimedTextSegment,
+  CaptionPhraseLength,
   CaptionGenerationInput,
   TranslationGenerationInput,
   ImageGenerationInput,

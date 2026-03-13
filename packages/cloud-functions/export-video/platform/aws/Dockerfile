@@ -21,6 +21,9 @@ RUN npx puppeteer browsers install chrome
 # Copy source code
 COPY . ./
 
+# Ensure local font directory exists and copy everything from visualizer's fonts
+RUN mkdir -p fonts && \
+    cp -r node_modules/@twick/visualizer/dist/fonts/. fonts/
 
 # Install Puppeteer (if needed)
 RUN node node_modules/puppeteer/install.mjs

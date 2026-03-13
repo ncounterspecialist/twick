@@ -8,12 +8,6 @@ import {
 } from "./gc.utils.js";
 import { AUDIO_CONFIG } from "./audio.utils.js";
 
-/**
- * Language code mapping for Google Speech-to-Text API.
- * Keys are human-readable language identifiers used by the rest of the
- * Twick pipeline; values are BCP-47 codes understood by Google STT.
- * @type {Object<string, string>}
- */
 const LANGUAGE_CODE = {
   english: "en-US",
   italian: "it-IT",
@@ -26,19 +20,37 @@ const LANGUAGE_CODE = {
   hindi: "hi-IN",
 };
 
-/**
- * Speech recognition model to use. "long" model is optimized for longer audio files.
- * @type {string}
- */
 const MODEL = "long";
+
+const PHRASE_PRESET_CONFIG = {
+  short: {
+    minWords: 3,
+    maxWords: 4,
+    targetDurationMs: 1400,
+    maxDurationMs: 2600,
+    pauseBreakMs: 260,
+  },
+  medium: {
+    minWords: 5,
+    maxWords: 7,
+    targetDurationMs: 2300,
+    maxDurationMs: 3900,
+    pauseBreakMs: 380,
+  },
+  long: {
+    minWords: 8,
+    maxWords: 12,
+    targetDurationMs: 3300,
+    maxDurationMs: 5600,
+    pauseBreakMs: 520,
+  },
+};
+
+const STRONG_PUNCTUATION_REGEX = /[.!?]$/;
+const SOFT_PUNCTUATION_REGEX = /[,;:]$/;
 
 let speechClient = null;
 
-/**
- * Gets or initializes the Google Cloud Speech-to-Text client.
- * 
- * @returns {Promise<SpeechClient>} Initialized SpeechClient instance
- */
 export const getSpeechClient = async () => {
   if (!speechClient) {
     speechClient = new SpeechClient({
@@ -50,125 +62,165 @@ export const getSpeechClient = async () => {
   return speechClient;
 };
 
-/**
- * Recognizer resource path for Google Speech-to-Text API v2.
- * @type {string}
- */
 const recognizer = `projects/${CLOUD_PROJECT_ID}/locations/${CLOUD_REGION}/recognizers/_`;
 
-/**
- * Processes Speech-to-Text API response and groups words into phrases of 4 words each.
- * 
- * @param {Object} results - API response results object
- * @returns {Array<Object>} Array of phrase objects with text, start time, end time, and word timings
- */
-const processResponse = (results) => {
-  // Extract words from response
-  const words = results?.alternatives?.[0]?.words || [];
+const resolvePhraseLength = (phraseLength) =>
+  phraseLength === "short" || phraseLength === "medium" || phraseLength === "long"
+    ? phraseLength
+    : "medium";
 
-  if (words.length === 0) {
+const convertToMs = (offset) => {
+  if (!offset) return 0;
+  const seconds = Number(offset.seconds || 0);
+  const nanos = Number(offset.nanos || 0);
+  return seconds * 1000 + nanos / 1e6;
+};
+
+const processWordsToPhrases = (processedWords, phraseLength = "medium") => {
+  if (!processedWords.length) {
     return [];
   }
 
-  // Convert time offsets to milliseconds
-  const convertToMs = (offset) => {
-    if (!offset) return 0;
-    const seconds = Number(offset.seconds || 0);
-    const nanos = Number(offset.nanos || 0);
-    return seconds * 1000 + nanos / 1e6;
+  const config = PHRASE_PRESET_CONFIG[resolvePhraseLength(phraseLength)];
+  const phrases = [];
+  let group = [];
+
+  const shouldBreak = (currentGroup, nextWord) => {
+    const count = currentGroup.length;
+    const firstWord = currentGroup[0];
+    const lastWord = currentGroup[currentGroup.length - 1];
+    const durationMs = Math.max(0, lastWord.endMs - firstWord.startMs);
+    const gapToNextMs = nextWord
+      ? Math.max(0, nextWord.startMs - lastWord.endMs)
+      : Number.POSITIVE_INFINITY;
+    const token = String(lastWord.word || "");
+
+    if (count >= config.maxWords) {
+      return true;
+    }
+
+    if (durationMs >= config.maxDurationMs) {
+      return true;
+    }
+
+    if (count >= config.minWords) {
+      if (durationMs >= config.targetDurationMs) {
+        return true;
+      }
+
+      if (gapToNextMs >= config.pauseBreakMs) {
+        return true;
+      }
+
+      if (STRONG_PUNCTUATION_REGEX.test(token)) {
+        return true;
+      }
+
+      if (
+        SOFT_PUNCTUATION_REGEX.test(token) &&
+        durationMs >= config.targetDurationMs * 0.7
+      ) {
+        return true;
+      }
+    }
+
+    if (!nextWord) {
+      return true;
+    }
+
+    return false;
   };
 
-  // Process words into individual word timings
-  const processedWords = words.map((w) => ({
-    word: w.word,
-    startMs: convertToMs(w.startOffset),
-    endMs: convertToMs(w.endOffset),
-  }));
+  for (let i = 0; i < processedWords.length; i += 1) {
+    const current = processedWords[i];
+    const next = processedWords[i + 1];
 
-  // Group words into phrases of 4 words each
-  const phrases = [];
-  for (let i = 0; i < processedWords.length; i += 4) {
-    const group = processedWords.slice(i, i + 4);
-    const text = group.map((w) => w.word).join(" ");
-    const startMs = group[0].startMs;
-    const endMs = group[group.length - 1].endMs;
-    const wordStarts = group.map((w) => w.startMs);
+    group.push(current);
+
+    if (!shouldBreak(group, next)) {
+      continue;
+    }
 
     phrases.push({
-      t: text,
-      s: Math.round(startMs),
-      e: Math.round(endMs),
-      w: wordStarts.map((ms) => Math.round(ms)),
+      t: group.map((w) => w.word).join(" "),
+      s: Math.round(group[0].startMs),
+      e: Math.round(group[group.length - 1].endMs),
+      w: group.map((w) => Math.round(w.startMs)),
     });
+
+    group = [];
   }
+
   return phrases;
 };
 
-/**
- * Transcribes short audio (typically under 60 seconds) using Google Speech-to-Text API.
- * Uses synchronous recognize method for faster processing.
- * 
- * @param {Object} params - Transcription parameters
- * @param {Buffer} params.audioBuffer - Audio data buffer (FLAC format)
- * @param {string} [params.language="english"] - Language code (e.g., "english")
- * @param {string} [params.format="FLAC"] - Audio format (currently only "FLAC" supported)
- * @returns {Promise<Array<Object>>} Array of phrase objects with text, timings, and word offsets
- * @throws {Error} If transcription fails
- */
+const processResponseResults = (results = [], phraseLength = "medium") => {
+  const processedWords = [];
+
+  for (const result of results) {
+    const words = result?.alternatives?.[0]?.words || [];
+
+    for (const w of words) {
+      processedWords.push({
+        word: w.word,
+        startMs: convertToMs(w.startOffset),
+        endMs: convertToMs(w.endOffset),
+      });
+    }
+  }
+
+  return processWordsToPhrases(processedWords, phraseLength);
+};
+
+const getLanguageCodes = (language) =>
+  LANGUAGE_CODE[language] ? [LANGUAGE_CODE[language]] : Object.values(LANGUAGE_CODE);
+
+const getRequestConfig = ({ language, format }) => ({
+  explicitDecodingConfig: {
+    encoding: AUDIO_CONFIG[format].encoding,
+    sampleRateHertz: AUDIO_CONFIG[format].sampleRate,
+    audioChannelCount: 1,
+  },
+  languageCodes: getLanguageCodes(language),
+  model: MODEL,
+  features: {
+    enableWordTimeOffsets: true,
+    enableAutomaticPunctuation: true,
+  },
+});
+
 export async function transcribeShort({
   audioBuffer,
   language = "english",
   format = "FLAC",
+  phraseLength = "medium",
 }) {
   const client = await getSpeechClient();
 
-  const audioContent = audioBuffer.toString("base64");
-
   const request = {
-    recognizer: recognizer,
-    config: {
-      explicitDecodingConfig: {
-        encoding: AUDIO_CONFIG[format].encoding,
-        sampleRateHertz: AUDIO_CONFIG[format].sampleRate,
-        audioChannelCount: 1,
-      },
-      languageCodes: [LANGUAGE_CODE[language]],
-      model: MODEL,
-      features: {
-        enableWordTimeOffsets: true,
-      },
-    },
-    content: audioContent,
+    recognizer,
+    config: getRequestConfig({ language, format }),
+    content: audioBuffer.toString("base64"),
   };
 
   try {
     const [response] = await client.recognize(request);
-    return processResponse(response.results?.[0]);
+    return processResponseResults(response.results || [], phraseLength);
   } catch (err) {
     console.error("Transcription Error:", err.message);
     throw err;
   }
 }
 
-/**
- * Transcribes long audio (typically over 60 seconds) using Google Speech-to-Text API.
- * Uses asynchronous batchRecognize method and requires audio to be uploaded to GCS first.
- * 
- * @param {Object} params - Transcription parameters
- * @param {Buffer} [params.audioBuffer] - Audio data buffer (required if audioUrl not provided)
- * @param {string} [params.audioUrl] - GCS URI (gs://) or HTTPS URL to audio file (required if audioBuffer not provided)
- * @param {string} [params.language="english"] - Language code (e.g., "english")
- * @param {string} [params.format="FLAC"] - Audio format (currently only "FLAC" supported)
- * @returns {Promise<Array<Object>>} Array of phrase objects with text, timings, and word offsets
- * @throws {Error} If transcription fails
- */
 export async function transcribeLong({
   audioBuffer,
   audioUrl,
   language = "english",
   format = "FLAC",
+  phraseLength = "medium",
 }) {
   let gcsUri;
+
   if (audioUrl) {
     gcsUri = getGCSUri(audioUrl);
   } else {
@@ -181,59 +233,28 @@ export async function transcribeLong({
     gcsUri = getGCSUri(audioUri);
   }
 
-  console.log("GCS URI:", gcsUri);
   const client = await getSpeechClient();
 
   const request = {
-    recognizer: recognizer,
-    config: {
-      explicitDecodingConfig: {
-        encoding: AUDIO_CONFIG[format].encoding,
-        sampleRateHertz: AUDIO_CONFIG[format].sampleRate,
-        audioChannelCount: 1,
-      },
-      languageCodes: [LANGUAGE_CODE[language]],
-      model: MODEL,
-      features: {
-        enableWordTimeOffsets: true,
-      },
-    },
-    files: [
-      {
-        uri: gcsUri,
-      },
-    ],
+    recognizer,
+    config: getRequestConfig({ language, format }),
+    files: [{ uri: gcsUri }],
     recognitionOutputConfig: {
       inlineResponseConfig: {},
     },
   };
 
   try {
-    console.log("Waiting for operation to complete...");
     const [operation] = await client.batchRecognize(request);
     const [response] = await operation.promise();
 
-    // Extract results for the audio URI (use the GCS URI as the key)
     const fileResult = response.results?.[gcsUri];
-    if (!fileResult || !fileResult.transcript) {
+    if (!fileResult?.transcript) {
       return [];
     }
 
-    // Extract words from all results (batchRecognize can return multiple result segments)
-    const allPhrases = [];
     const results = fileResult.transcript.results || [];
-
-    for (const result of results) {
-      const phrases = processResponse(result);
-      console.log("Phrases:", phrases);
-      console.log("Transcription Result:", result);
-      allPhrases.push(...phrases);
-    }
-
-    if (allPhrases.length === 0) {
-      return [];
-    }
-    return allPhrases;
+    return processResponseResults(results, phraseLength);
   } catch (err) {
     console.error("Transcription Error:", err.message);
     throw err;

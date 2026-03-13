@@ -3,6 +3,7 @@ import {
   ICaptionGenerationPollingResponse,
   StudioConfig,
   CaptionEntry,
+  CaptionPhraseLength,
 } from "../types";
 
 const useGenerateCaptions = (studioConfig?: StudioConfig) => {
@@ -14,7 +15,7 @@ const useGenerateCaptions = (studioConfig?: StudioConfig) => {
   const onGenerateCaptions = async (
     videoElement: VideoElement,
     language?: string,
-    wordsPerPhrase?: number,
+    phraseLength?: CaptionPhraseLength,
   ) => {
     // Use new polling-based service if available
     if (studioConfig?.captionGenerationService) {
@@ -23,7 +24,7 @@ const useGenerateCaptions = (studioConfig?: StudioConfig) => {
         videoElement,
         present as ProjectJSON,
         language,
-        wordsPerPhrase,
+        phraseLength,
       );
       return reqId;
     }
