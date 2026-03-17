@@ -536,9 +536,13 @@ export class TimelineEditor {
       trackType
     );
 
-    const duration = element.getDuration();
+    const prevStart = element.getStart();
+    const prevEnd = element.getEnd();
+    const duration = prevEnd - prevStart;
     element.setStart(startSec);
     element.setEnd(startSec + duration);
+
+    this.adjustCaptionWordsForTimeChange(element, prevStart, prevEnd);
 
     const elementAdder = new ElementAdder(newTrack);
     await element.accept(elementAdder);
@@ -982,6 +986,10 @@ export class TimelineEditor {
           | TrackElement
           | undefined;
         if (!element) continue;
+
+        const prevStart = element.getStart();
+        const prevEnd = element.getEnd();
+
         if (patch.s !== undefined) element.setStart(patch.s);
         if (patch.e !== undefined) element.setEnd(patch.e);
         if (patch.props != null) element.setProps(patch.props);
@@ -989,6 +997,9 @@ export class TimelineEditor {
         if (patch.position != null) element.setPosition(patch.position);
         if (patch.rotation != null) element.setRotation(patch.rotation);
         if (patch.opacity != null) element.setOpacity(patch.opacity);
+
+        this.adjustCaptionWordsForTimeChange(element, prevStart, prevEnd);
+
         Object.keys(patch).forEach((key) => {
           if (
             !["id", "type", "s", "e", "t", "position", "rotation", "opacity", "props"].includes(key) &&
@@ -1005,6 +1016,109 @@ export class TimelineEditor {
     }
     if (changed) {
       this.setTimelineData({ tracks, updatePlayerData: true });
+    }
+  }
+
+  /**
+   * For caption elements with existing wordsMs arrays, keep word timings aligned
+   * when their time range changes. If the wordsMs length matches the word count,
+   * shift/scale existing timings into the new [s, e] interval. If the length no
+   * longer matches, regenerate wordsMs using a letter-weighted distribution.
+   */
+  private adjustCaptionWordsForTimeChange(
+    element: TrackElement,
+    prevStart: number,
+    prevEnd: number
+  ): void {
+    if (element.getType().toLowerCase() !== "caption") return;
+
+    const props = element.getProps() ?? {};
+    const metadata = element.getMetadata() ?? {};
+
+    const propsWords = (props as Record<string, unknown>).wordsMs;
+    const metaWords = (metadata as Record<string, unknown>).wordsMs;
+
+    const hasPropsWords = Array.isArray(propsWords);
+    const hasMetaWords = Array.isArray(metaWords);
+
+    const text = (element as any).getText?.() ?? "";
+    const words = String(text)
+      .split(" ")
+      .map((w) => w.trim())
+      .filter((w) => w.length > 0);
+    if (!words.length || (!hasPropsWords && !hasMetaWords)) return;
+
+    const existingLength = hasPropsWords
+      ? (propsWords as unknown[]).length
+      : hasMetaWords
+      ? (metaWords as unknown[]).length
+      : 0;
+
+    const startSec = element.getStart();
+    const endSec = element.getEnd();
+    if (!(endSec > startSec)) return;
+
+    const prevDuration = prevEnd - prevStart;
+    const nextDuration = endSec - startSec;
+
+    // Case 1: lengths match and durations are valid → shift/scale existing timings.
+    if (existingLength === words.length && prevDuration > 0 && nextDuration > 0) {
+      const adjustWords = (wordsArr: unknown): number[] | null => {
+        if (!Array.isArray(wordsArr) || wordsArr.length === 0) return null;
+        const prevDurationMs = prevDuration * 1000;
+        const nextDurationMs = nextDuration * 1000;
+        const startMsPrev = prevStart * 1000;
+        const startMsNext = startSec * 1000;
+
+        if (Math.abs(prevDuration - nextDuration) < 1e-6) {
+          const deltaMs = startMsNext - startMsPrev;
+          return (wordsArr as number[]).map((w) => w + deltaMs);
+        }
+
+        return (wordsArr as number[]).map((w) => {
+          const rel = prevDurationMs ? (w - startMsPrev) / prevDurationMs : 0;
+          const clampedRel = Math.max(0, Math.min(1, rel));
+          return startMsNext + clampedRel * nextDurationMs;
+        });
+      };
+
+      const nextPropsWords = adjustWords(propsWords);
+      const nextMetaWords = adjustWords(metaWords);
+
+      if (nextPropsWords) {
+        (props as Record<string, unknown>).wordsMs = nextPropsWords;
+        element.setProps(props);
+      }
+      if (nextMetaWords) {
+        (metadata as Record<string, unknown>).wordsMs = nextMetaWords;
+        element.setMetadata(metadata);
+      }
+      return;
+    }
+
+    // Case 2: we have wordsMs but the length no longer matches word count →
+    // regenerate it using letter-weighted distribution across the clip.
+    const totalDurationMs = (endSec - startSec) * 1000;
+    const baseMs = startSec * 1000;
+
+    const letterCounts = words.map((w) => w.replace(/\s+/g, "").length || 1);
+    const totalLetters = letterCounts.reduce((sum, n) => sum + n, 0);
+    if (totalLetters <= 0) return;
+
+    let accumulatedLetters = 0;
+    const newWordsMs = letterCounts.map((count) => {
+      const t = baseMs + (accumulatedLetters / totalLetters) * totalDurationMs;
+      accumulatedLetters += count;
+      return t;
+    });
+
+    if (hasPropsWords) {
+      (props as Record<string, unknown>).wordsMs = newWordsMs;
+      element.setProps(props);
+    }
+    if (hasMetaWords) {
+      (metadata as Record<string, unknown>).wordsMs = newWordsMs;
+      element.setMetadata(metadata);
     }
   }
 

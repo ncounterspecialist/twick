@@ -90,23 +90,25 @@ export const useTimelineManager = (): TimelineManagerReturn => {
       const resolved = resolveIds(selectedIds, tracks);
       const elements = resolved.filter((item): item is TrackElement => item instanceof TrackElement);
       if (elements.length > 1) {
-      const minStart = Math.min(...elements.map((el) => el.getStart()));
-      const maxEnd = Math.max(...elements.map((el) => el.getEnd()));
-      const delta = updates.start - element.getStart();
-      const deltaMin = -minStart;
-      const deltaMax = duration - maxEnd;
-      const clampedDelta = Math.max(deltaMin, Math.min(deltaMax, delta));
+        const minStart = Math.min(...elements.map((el) => el.getStart()));
+        const maxEnd = Math.max(...elements.map((el) => el.getEnd()));
+        const delta = updates.start - element.getStart();
+        const deltaMin = -minStart;
+        const deltaMax = duration - maxEnd;
+        const clampedDelta = Math.max(deltaMin, Math.min(deltaMax, delta));
 
-      for (const el of elements) {
-        const newStart = el.getStart() + clampedDelta;
-        const newEnd = el.getEnd() + clampedDelta;
-        el.setStart(newStart);
-        el.setEnd(newEnd);
-        editor.updateElement(el);
-      }
-      setSelectedItem(element);
-      editor.refresh();
-      return;
+        const batchUpdates = elements.map((el) => ({
+          elementId: el.getId(),
+          updates: {
+            s: el.getStart() + clampedDelta,
+            e: el.getEnd() + clampedDelta,
+          },
+        }));
+
+        editor.updateElements(batchUpdates);
+        setSelectedItem(element);
+        editor.refresh();
+        return;
       }
     }
 
@@ -124,10 +126,10 @@ export const useTimelineManager = (): TimelineManagerReturn => {
         }
       }
     }
-    element.setStart(updates.start);
-    element.setEnd(updates.end);
-    const updatedElement = editor.updateElement(element);
-    setSelectedItem(updatedElement);
+    editor.updateElements([
+      { elementId: element.getId(), updates: { s: updates.start, e: updates.end } },
+    ]);
+    setSelectedItem(element);
     editor.refresh();
   };
 
