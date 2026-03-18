@@ -19,7 +19,13 @@ export default defineConfig({
       output: {
         entryFileNames: '[name].js',
         chunkFileNames: '[name].js',
-        assetFileNames: '[name].[ext]'
+        assetFileNames: (assetInfo) => {
+          const ext = path.extname(assetInfo.name ?? '').toLowerCase();
+          if (ext === '.ttf' || ext === '.woff' || ext === '.woff2' || ext === '.otf') {
+            return 'fonts/[name].[ext]';
+          }
+          return '[name].[ext]';
+        }
       }
     }
   }

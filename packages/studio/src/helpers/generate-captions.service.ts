@@ -4,9 +4,10 @@ import {
   buildCaptionProject,
 } from "@twick/workflow";
 import {
+  CaptionEntry,
+  CaptionPhraseLength,
   ICaptionGenerationPollingResponse,
   ICaptionGenerationService,
-  CaptionEntry,
 } from "../types";
 import { CAPTION_PROPS } from "./constant";
 import { hasAudio } from "@twick/media-utils";
@@ -18,14 +19,22 @@ class GenerateCaptionsService implements ICaptionGenerationService {
    */
   videoElement: VideoElement | null;
   projectJSON: ProjectJSON | null;
-  generateSubtiltesApi: (videoUrl: string) => Promise<string>;
+  generateSubtiltesApi: (
+    videoUrl: string,
+    language?: string,
+    phraseLength?: CaptionPhraseLength
+  ) => Promise<string>;
   requestStatusApi: (reqId: string) => Promise<ICaptionGenerationPollingResponse>;
 
   constructor({
     generateSubtiltesApi,
     requestStatusApi,
   }: {
-    generateSubtiltesApi: (videoUrl: string) => Promise<string>;
+    generateSubtiltesApi: (
+    videoUrl: string,
+    language?: string,
+    phraseLength?: CaptionPhraseLength
+  ) => Promise<string>;
     requestStatusApi: (reqId: string) => Promise<ICaptionGenerationPollingResponse>;
   }) {
     this.videoElement = null;
@@ -36,7 +45,9 @@ class GenerateCaptionsService implements ICaptionGenerationService {
 
   async generateCaptions(
     videoElement: VideoElement,
-    projectJSON: ProjectJSON
+    projectJSON: ProjectJSON,
+    language?: string,
+    phraseLength?: CaptionPhraseLength
   ): Promise<string> {
     if (!videoElement || !projectJSON) {
       throw new Error("Video element or project not set");
@@ -46,7 +57,11 @@ class GenerateCaptionsService implements ICaptionGenerationService {
     this.projectJSON = projectJSON;
 
     try {
-      return await this.generateSubtiltesApi(videoElement.getSrc());
+      return await this.generateSubtiltesApi(
+        videoElement.getSrc(),
+        language,
+        phraseLength
+      );
     } catch (error) {
       console.error("Error generating captions:", error);
       throw error;

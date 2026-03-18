@@ -234,8 +234,8 @@ importers:
         specifier: ^0.15.25
         version: 0.15.25
       '@twick/visualizer':
-        specifier: latest
-        version: 0.15.25(typescript@5.9.3)
+        specifier: ^0.15.26
+        version: 0.15.26(typescript@5.9.3)
       '@twick/vite-plugin':
         specifier: ^0.15.25
         version: 0.15.25
@@ -297,11 +297,11 @@ importers:
         specifier: ^1.3.3
         version: 1.3.3
       '@twick/ai-models':
-        specifier: workspace:*
-        version: link:../../ai-models
+        specifier: ^0.15.26
+        version: 0.15.26
       '@twick/workflow':
-        specifier: workspace:*
-        version: link:../../workflow
+        specifier: ^0.15.26
+        version: 0.15.26
       fluent-ffmpeg:
         specifier: ^2.1.2
         version: 2.1.3
@@ -334,8 +334,8 @@ importers:
         specifier: ^1.3.3
         version: 1.3.3
       '@twick/ai-models':
-        specifier: workspace:*
-        version: link:../../ai-models
+        specifier: ^0.15.26
+        version: 0.15.26
       fluent-ffmpeg:
         specifier: ^2.1.2
         version: 2.1.3
@@ -8705,6 +8705,11 @@ packages:
       parse-svg-path: 0.1.2
     dev: false
 
+  /@twick/ai-models@0.15.26:
+    resolution: {integrity: sha512-wyMmeC4fsM4PPjiLDvh8upaZOashMRciqcJmw1cTL+bc6WnWZVzrDKYo2AOnvF2Z/Hon9htxgicebG1tL8lKUA==}
+    engines: {node: '>=20.0.0'}
+    dev: false
+
   /@twick/cli@0.15.25(typescript@5.9.3):
     resolution: {integrity: sha512-eBRyEU5fD8XSTaq1/sipSDAXzxamEA5Ykt276wZcfQ4eTvO8wg1nzIneiMMN9szga7svebFAbcxcjEPh868+lA==}
     hasBin: true
@@ -8743,8 +8748,8 @@ packages:
       culori: 4.0.2
       mp4-wasm: 1.0.6
 
-  /@twick/effects@0.15.25:
-    resolution: {integrity: sha512-cDSx9gZDKqtLF6aGFJCgx2AEcZUx2SUHZSqleboox66hpzqLKnzXKfOWxiPYkAJKC3UVDeJKzF+LZRTPFII3gg==}
+  /@twick/effects@0.15.26:
+    resolution: {integrity: sha512-MX0EaSmIRLyvfhsOeGXmOtsZlaDthFQxSpCIQpqvPtrdvNmRouzZj1rp+lWS8a1qYpywbUSOVWNoKAXIe2dL+Q==}
     dependencies:
       '@twick/gl-runtime': 0.15.25
     dev: false
@@ -8764,8 +8769,8 @@ packages:
   /@twick/gl-runtime@0.15.25:
     resolution: {integrity: sha512-6qWXk1xyWgSQvH/dw++DBHLsuF3Rbi5AevEhb339MZsvqRyNfQNPeNpJXgsDbhKGWYA3fCbObTyR8tohrOsTLQ==}
 
-  /@twick/media-utils@0.15.25:
-    resolution: {integrity: sha512-YeCSc9t86v9yU8sLH8wjOAbBXVclOWrpL1IMWptVDGjKqk5GSJI4iehrmcA1WMchSmbONNPQ+G60doHGMIG97w==}
+  /@twick/media-utils@0.15.26:
+    resolution: {integrity: sha512-u5T7IqPukXkyYBLlVgN5ZarInXdVdnM3ichkTHgasZUmhp6eqSz/EL+GdoWMm/I3RvLTu/Acqy0tDFt6m0OX6Q==}
     engines: {node: '>=20.0.0'}
     dependencies:
       lamejs: 1.2.1
@@ -8816,6 +8821,14 @@ packages:
     transitivePeerDependencies:
       - debug
 
+  /@twick/timeline@0.15.26:
+    resolution: {integrity: sha512-pdpG/6RY03OyvbeIUzeQ+Oo4bpYUecfKnkgY/cuf/afG65bnNtneJb4oi4vOAJyJArQF4C1hds2DAnSYrN/vyA==}
+    engines: {node: '>=20.0.0'}
+    dependencies:
+      '@twick/media-utils': 0.15.26
+      posthog-js: 1.335.5
+    dev: false
+
   /@twick/ui@0.15.25:
     resolution: {integrity: sha512-D187KOE8zDdc5JnJg4opDpQRMNzgqOGl9QpTVEv1zzQbXBaeeQFxtjeWgfifJCBUK6vEo5R1OJFZCF5mVpMF2w==}
     dependencies:
@@ -8823,15 +8836,15 @@ packages:
       '@twick/core': 0.15.25
       preact: 10.28.2
 
-  /@twick/visualizer@0.15.25(typescript@5.9.3):
-    resolution: {integrity: sha512-En8TmvHrC2lQAnX1ilLuI49dFqIwTvcAth3RSPZZiUqf6lu7tGTEQDr90YWmigIixnV6KwEyVrCLrOp69xHBfg==}
+  /@twick/visualizer@0.15.26(typescript@5.9.3):
+    resolution: {integrity: sha512-Eqx0PAe93si3s9KnDlrnwqolIqRHAHKE8PyeF3pRdsm9LQl2e+mmkMCs6AMbAJUPn+dqB0WInBITUZcogpq/Dw==}
     engines: {node: '>=20.0.0'}
     dependencies:
       '@preact/signals': 1.3.2(preact@10.28.2)
       '@twick/2d': 0.15.25
       '@twick/core': 0.15.25
-      '@twick/effects': 0.15.25
-      '@twick/media-utils': 0.15.25
+      '@twick/effects': 0.15.26
+      '@twick/media-utils': 0.15.26
       '@twick/renderer': 0.15.25(@types/node@20.19.29)(typescript@5.9.3)
       '@twick/vite-plugin': 0.15.25
       crelt: 1.0.6
@@ -8867,6 +8880,14 @@ packages:
       source-map: 0.6.1
     transitivePeerDependencies:
       - debug
+
+  /@twick/workflow@0.15.26:
+    resolution: {integrity: sha512-Hlsyu9/FO5uSreILOhnn8y/3Q6+3jttu88DeoNsban7Uzez9Ucy1Zc16JZG4nnJwpK8LOAAaBBACUQa+xX98tg==}
+    engines: {node: '>=20.0.0'}
+    dependencies:
+      '@twick/ai-models': 0.15.26
+      '@twick/timeline': 0.15.26
+    dev: false
 
   /@types/argparse@1.0.38:
     resolution: {integrity: sha512-ebDJ9b0e702Yr7pWgB0jzm+CX4Srzz8RcXtLJDJB+BSccqMa36uyH/zUsSYao5+BD1ytv3k3rPYCq4mAE1hsXA==}

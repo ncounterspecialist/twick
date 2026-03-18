@@ -55,15 +55,21 @@ export interface TimedTextSegment {
  */
 export type VoiceSegment = TimedTextSegment;
 
+export type CaptionPhraseLength = "short" | "medium" | "long";
+
 export interface CaptionGenerationInput {
   videoUrl?: string;
   audioUrl?: string;
   language?: string;
   languageFont?: string;
   /**
-   * Desired number of words per caption phrase. When provided, the
-   * transcript lambda will attempt to group STT words into phrases
-   * of approximately this length (default: 4).
+   * Desired subtitle phrase granularity. The backend maps this preset to
+   * pause and duration-aware segmentation thresholds instead of fixed word
+   * chunking.
+   */
+  phraseLength?: CaptionPhraseLength;
+  /**
+   * @deprecated Use phraseLength instead.
    */
   wordsPerPhrase?: number;
   /**

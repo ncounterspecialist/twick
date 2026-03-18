@@ -58,6 +58,7 @@ export const handler = async (event) => {
       videoSize,
       language,
       languageFont,
+      phraseLength,
       wordsPerPhrase,
     } =
       argumentsPayload;
@@ -81,6 +82,7 @@ export const handler = async (event) => {
       videoSize,
       language,
       languageFont,
+      phraseLength,
       wordsPerPhrase,
     });
 

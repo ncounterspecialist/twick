@@ -33,19 +33,61 @@ const transliterateToLatinIfNeeded = (captions, language) => {
   });
 };
 
+const resolvePhraseLength = (phraseLength, wordsPerPhrase) => {
+  if (
+    phraseLength === "short" ||
+    phraseLength === "medium" ||
+    phraseLength === "long"
+  ) {
+    return phraseLength;
+  }
+
+  if (typeof wordsPerPhrase === "number") {
+    if (wordsPerPhrase <= 3) {
+      return "short";
+    }
+    if (wordsPerPhrase <= 6) {
+      return "medium";
+    }
+    return "long";
+  }
+
+  return "medium";
+};
+
 export const createCaptionProject = async (params) => {
-  const { videoSize, videoUrl, language, languageFont } = params;
+  const {
+    videoSize,
+    videoUrl,
+    language,
+    languageFont,
+    phraseLength,
+    wordsPerPhrase,
+  } = params;
 
   const { audioBuffer, duration } = await extractAudioBufferFromVideo(videoUrl);
+  const resolvedPhraseLength = resolvePhraseLength(
+    phraseLength,
+    wordsPerPhrase,
+  );
+
   let captions = [];
   if (!duration) {
     throw new Error("Failed to get duration of video");
   } else if (!audioBuffer) {
     throw new Error("Failed to get audio buffer from video");
   } else if (duration > 6) {
-    captions = await transcribeLong({ audioBuffer, language });
+    captions = await transcribeLong({
+      audioBuffer,
+      language,
+      phraseLength: resolvedPhraseLength,
+    });
   } else {
-    captions = await transcribeShort({ audioBuffer, language });
+    captions = await transcribeShort({
+      audioBuffer,
+      language,
+      phraseLength: resolvedPhraseLength,
+    });
   }
   if (!captions.length) {
     throw new Error("No captions found");

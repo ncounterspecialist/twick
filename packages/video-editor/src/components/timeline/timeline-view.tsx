@@ -104,17 +104,38 @@ function TimelineView({
 
   const handleDragWithDrop = useCallback(
     (payload: TrackElementDragPayload, dropPointer?: { clientX: number; clientY: number }) => {
-      if (dropPointer && onElementDrop) {
-        const rect = timelineContentRef.current?.getBoundingClientRect();
-        const dropTarget = rect
-          ? getTrackOrSeparatorAt(dropPointer.clientY, rect.top, TRACK_HEIGHT)
-          : null;
-        onElementDrop({ ...payload, dropTarget });
-      } else {
+      // No drop pointer or no drop handler – treat as a simple drag (update s/e on same track).
+      if (!dropPointer || !onElementDrop) {
         onElementDrag(payload);
+        return;
       }
+
+      const rect = timelineContentRef.current?.getBoundingClientRect();
+      const dropTarget = rect
+        ? getTrackOrSeparatorAt(dropPointer.clientY, rect.top, TRACK_HEIGHT)
+        : null;
+
+      // If there is no valid drop target, or the target is the same track,
+      // treat this as an in-track drag (just update start/end).
+      if (dropTarget?.type === "track") {
+        const elementTrackId = payload.element.getTrackId();
+        const elementTrackIndex = (tracks || []).findIndex(
+          (t) => t.getId() === elementTrackId
+        );
+        if (elementTrackIndex === dropTarget.trackIndex) {
+          onElementDrag(payload);
+          return;
+        }
+      } else if (!dropTarget) {
+        onElementDrag(payload);
+        return;
+      }
+
+      // For separator drops or moves to a different track, use onElementDrop so
+      // cross-track behavior stays as implemented.
+      onElementDrop({ ...payload, dropTarget });
     },
-    [onElementDrag, onElementDrop]
+    [onElementDrag, onElementDrop, tracks]
   );
 
   useEdgeAutoScroll({

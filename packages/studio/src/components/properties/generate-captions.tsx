@@ -2,7 +2,10 @@ import { TrackElement, VideoElement } from "@twick/timeline";
 import { useEffect, useState, useRef } from "react";
 import { hasAudio } from "@twick/media-utils";
 import { Loader2, VolumeX, Volume2, CheckCircle2, XCircle } from "lucide-react";
-import { ICaptionGenerationPollingResponse } from "../../types";
+import {
+  CaptionPhraseLength,
+  ICaptionGenerationPollingResponse,
+} from "../../types";
 
 export function GenerateCaptionsPanel({
   selectedElement,
@@ -12,11 +15,13 @@ export function GenerateCaptionsPanel({
   pollingIntervalMs = 5000,
 }: {
   selectedElement: TrackElement;
-  addCaptionsToTimeline: (captions: { s: number; e: number; t: string }[]) => void;
+  addCaptionsToTimeline: (
+    captions: { s: number; e: number; t: string; w?: number[] }[]
+  ) => void;
   onGenerateCaptions: (
     videoElement: VideoElement,
     language?: string,
-    wordsPerPhrase?: number,
+    phraseLength?: CaptionPhraseLength,
   ) => Promise<string | null>;
   getCaptionstatus: (reqId: string) => Promise<ICaptionGenerationPollingResponse>;
   pollingIntervalMs?: number;
@@ -27,7 +32,8 @@ export function GenerateCaptionsPanel({
   const [pollingStatus, setPollingStatus] = useState<"idle" | "polling" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [selectedLanguage, setSelectedLanguage] = useState<string>("auto");
-  const [wordsPerPhrase, setWordsPerPhrase] = useState<number>(4);
+  const [phraseLength, setPhraseLength] =
+    useState<CaptionPhraseLength>("medium");
   const pollingIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const currentReqIdRef = useRef<string | null>(null);
 
@@ -111,7 +117,7 @@ export function GenerateCaptionsPanel({
       const reqId = await onGenerateCaptions(
         videoElement,
         language,
-        wordsPerPhrase,
+        phraseLength,
       );
       if (!reqId) {
         setPollingStatus("error");
@@ -226,26 +232,23 @@ export function GenerateCaptionsPanel({
           </select>
         </div>
       )}
-      {/* Words-per-phrase selection */}
+      {/* Caption length selection */}
       {!isLoading && containsAudio === true && (
         <div className="panel-section">
-          <label className="label-dark" htmlFor="caption-words-per-phrase">
-            Words per phrase
+          <label className="label-dark" htmlFor="caption-phrase-length">
+            Caption length
           </label>
           <select
-            id="caption-words-per-phrase"
+            id="caption-phrase-length"
             className="select-dark"
-            value={String(wordsPerPhrase)}
-            onChange={(e) => setWordsPerPhrase(Number(e.target.value) || 4)}
+            value={phraseLength}
+            onChange={(e) =>
+              setPhraseLength(e.target.value as CaptionPhraseLength)
+            }
           >
-            {Array.from({ length: 10 }).map((_, index) => {
-              const value = index + 1;
-              return (
-                <option key={value} value={value}>
-                  {value}
-                </option>
-              );
-            })}
+            <option value="short">Short</option>
+            <option value="medium">Medium</option>
+            <option value="long">Long</option>
           </select>
         </div>
       )}

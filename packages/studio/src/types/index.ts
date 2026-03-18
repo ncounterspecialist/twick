@@ -91,12 +91,14 @@ export interface ICaptionGenerationPollingResponse {
   error?: string;
 }
 
+export type CaptionPhraseLength = "short" | "medium" | "long";
+
 export interface ICaptionGenerationService {
   generateCaptions: (
     videoElement: VideoElement,
     project: ProjectJSON,
     language?: string,
-    wordsPerPhrase?: number
+    phraseLength?: CaptionPhraseLength
   ) => Promise<string>;
 
   updateProjectWithCaptions: (
