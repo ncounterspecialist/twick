@@ -1,0 +1,1471 @@
+:root {
+  color-scheme: dark;
+  --bg: #070b12;
+  --panel: #0d1422;
+  --panel2: #0a101c;
+  --text: #e7eefc;
+  --muted: rgba(231, 238, 252, 0.7);
+  --muted2: rgba(231, 238, 252, 0.45);
+  --border: rgba(255, 255, 255, 0.10);
+  --accent: #7c5cff;
+  --danger: #ff5c7a;
+  --warn: #f0b429;
+  --good: #22c55e;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial,
+    'Apple Color Emoji', 'Segoe UI Emoji';
+  background: radial-gradient(1200px 600px at 20% 0%, #101a33 0%, var(--bg) 55%);
+  color: var(--text);
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+.ccRoot {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+.ccTopBar {
+  height: 48px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 12px;
+  background: rgba(6, 10, 18, 0.7);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(10px);
+}
+
+.ccBrand {
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+.ccTitle {
+  margin-left: 8px;
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+  font-size: 12px;
+}
+
+.ccTopBarSpacer {
+  flex: 1;
+}
+
+.ccBtn,
+.ccBtnSmall {
+  appearance: none;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text);
+  border-radius: 10px;
+  padding: 8px 10px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.ccBtnSmall {
+  padding: 6px 10px;
+  border-radius: 9px;
+}
+
+.ccBtn:disabled,
+.ccBtnSmall:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.ccBtnPrimary {
+  border-color: rgba(124, 92, 255, 0.5);
+  background: rgba(124, 92, 255, 0.18);
+}
+
+.ccDanger {
+  border-color: rgba(255, 92, 122, 0.35);
+  background: rgba(255, 92, 122, 0.12);
+}
+
+.ccBtnGroup {
+  display: flex;
+  gap: 8px;
+}
+
+.ccBody {
+  flex: 1;
+  min-height: 0;
+  max-width: 100vw;
+  width: 100%;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.ccMainRow {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  overflow: hidden;
+}
+
+.ccLeft {
+  min-height: 0;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
+}
+
+.ccVideoColumn {
+  min-height: 0;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.ccTimelineRow {
+  flex: 0 0 auto;
+  min-height: 200px;
+  max-height: 280px;
+  overflow: hidden;
+  border-top: 1px solid var(--border);
+  padding: 0 12px 12px;
+}
+
+.ccListClamp {
+  max-height: none;
+  overflow: visible;
+  padding-right: 0;
+}
+
+.ccPanel {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 4px 8px;
+  max-width: 100%;
+}
+
+.ccRightPanel {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.ccRightPanel.isExpanded {
+  flex: 1 1 0;
+}
+
+.ccRightPanelBody {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding-right: 2px;
+}
+
+.ccPanelTitle {
+  font-weight: 650;
+  font-size: 12px;
+  color: rgba(231, 238, 252, 0.85);
+  margin-bottom: 10px;
+}
+
+.ccPanelHeaderRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+.ccCaptionHeaderRight {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ccCaptionFilterToggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.ccCheckboxInput {
+  width: 13px;
+  height: 13px;
+  cursor: pointer;
+}
+
+.ccOperationsHeaderRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 4px;
+  justify-content: space-between;
+}
+
+.ccOperationsHeaderRow .ccPanelTitle {
+  flex-shrink: 0;
+}
+
+.ccOperationsHeaderRow .ccCaptionSubPanelToggle {
+  flex: 1;
+  margin-bottom: 0;
+  justify-content: flex-end;
+  display: flex;
+}
+
+.ccOperationsHeaderRow .ccGhostIconBtn {
+  flex-shrink: 0;
+}
+
+.ccGhostIconRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ccGhostIconBtn {
+  appearance: none;
+  width: 1.5rem;
+  height: 1.5rem;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(231, 238, 252, 0.72);
+  border-radius: 0.5rem;
+  padding: 0;
+  cursor: pointer;
+  line-height: 1;
+  transition: background-color 120ms ease, border-color 120ms ease, color 120ms ease, box-shadow 120ms ease;
+}
+
+.ccGhostIconBtn:hover {
+  border-color: rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.07);
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.ccGhostIconBtn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.ccGhostDanger {
+  border-color: rgba(255, 92, 122, 0.22);
+  background: rgba(255, 92, 122, 0.10);
+  color: rgba(255, 92, 122, 0.90);
+}
+
+.ccGhostDanger:hover {
+  border-color: rgba(255, 92, 122, 0.38);
+  background: rgba(255, 92, 122, 0.16);
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.ccGhostIconBtn:active:not(:disabled) {
+  transform: translateY(0.5px);
+  box-shadow: 0 0 0 2px rgba(124, 92, 255, 0.18);
+}
+
+.ccRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.ccLabel {
+  color: var(--muted2);
+}
+
+.ccPill {
+  padding: 5px 10px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.03);
+  color: rgba(231, 238, 252, 0.85);
+  font-size: 12px;
+}
+
+.ccInputRow {
+  display: flex;
+  gap: 8px;
+}
+
+.ccInput,
+.ccSelect,
+.ccTextarea {
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: rgba(0, 0, 0, 0.22);
+  color: var(--text);
+  padding: 8px 10px;
+  font-size: 12px;
+  outline: none;
+}
+
+.ccTextarea {
+  min-height: 72px;
+  resize: vertical;
+}
+
+.ccBtnRow {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.flex-end {
+  justify-content: flex-end;
+}
+
+.ccBtnRowWrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.ccCaptionsPanel {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.ccEmpty {
+  color: var(--muted);
+  font-size: 12px;
+  padding: 10px 2px;
+}
+
+.ccCaptionCardList {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-right: 2px;
+}
+
+.ccCaptionCard {
+  width: 100%;
+  text-align: left;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: radial-gradient(120% 140% at 30% 10%, rgba(240, 180, 41, 0.12) 0%, rgba(0, 0, 0, 0.18) 55%);
+  color: var(--text);
+  border-radius: 4px;
+  padding: 4px 6px;
+  cursor: pointer;
+  position: relative;
+  box-shadow: 0 10px 34px rgba(0, 0, 0, 0.32);
+}
+
+.ccCaptionCard:hover {
+  border-color: rgba(255, 255, 255, 0.16);
+  background: radial-gradient(120% 140% at 30% 10%, rgba(240, 180, 41, 0.14) 0%, rgba(0, 0, 0, 0.20) 55%);
+}
+
+.ccCaptionCard.isFlagged {
+  background: radial-gradient(120% 140% at 30% 10%, rgba(240, 180, 41, 0.22) 0%, rgba(0, 0, 0, 0.20) 55%);
+  border-color: rgba(240, 180, 41, 0.22);
+}
+
+.ccCaptionCard.isOverlap {
+  background: radial-gradient(120% 140% at 30% 10%, rgba(255, 92, 122, 0.32) 0%, rgba(0, 0, 0, 0.24) 55%);
+  border-color: rgba(255, 92, 122, 0.55);
+}
+
+.ccCaptionCard.isSelected {
+  border-color: rgba(124, 92, 255, 0.55);
+  box-shadow: 0 12px 42px rgba(124, 92, 255, 0.10), 0 10px 34px rgba(0, 0, 0, 0.32);
+}
+
+.ccCaptionCard.isPrimary {
+  border-color: rgba(255, 255, 255, 0.90);
+  box-shadow: 0 0 0 2px rgba(124, 92, 255, 0.35), 0 14px 52px rgba(124, 92, 255, 0.12), 0 10px 34px rgba(0, 0, 0, 0.32);
+}
+
+.ccCaptionCardTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.ccCaptionSpeakerBadge {
+  font-size: 13px;
+  color: rgba(231, 238, 252, 0.92);
+  padding-right: 6px;
+}
+
+.ccCaptionCardTimes {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  opacity: 0.92;
+}
+
+.ccCaptionCardBody {
+  position: relative;
+}
+
+/* Subtitle-Edit style caption table (#, Start, End, Speaker, Text) */
+.ccCaptionTableWrap {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  margin-bottom: 10px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+
+.ccCaptionTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.ccCaptionTable th {
+  text-align: left;
+  padding: 8px 6px;
+  background: rgba(0, 0, 0, 0.3);
+  color: var(--muted);
+  font-weight: 600;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+.ccCaptionTableThNum { width: 36px; }
+.ccCaptionTableThTime { width: 56px; }
+.ccCaptionTableThSpeaker { width: 72px; }
+.ccCaptionTableThText { min-width: 0; }
+
+.ccCaptionTableRow {
+  cursor: pointer;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.ccCaptionTableRow:nth-child(even) {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.ccCaptionTableRow:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.ccCaptionTableRow.isSelected {
+  background: rgba(124, 92, 255, 0.15);
+}
+
+.ccCaptionTableRow.isPrimary {
+  background: rgba(124, 92, 255, 0.22);
+  box-shadow: inset 0 0 0 1px rgba(124, 92, 255, 0.4);
+}
+
+.ccCaptionTableRow.isOverlap {
+  background: rgba(222, 64, 93, 0.18);
+}
+
+.ccCaptionTableRow.ccHasSuggestion {
+  background: rgb(231 142 34 / 33%);
+}
+
+.ccCaptionTableRow.isOverlap.ccHasSuggestion {
+  background: rgba(222, 64, 93, 0.18);
+}
+
+/* Red underline for suggested text (table + popover); always red */
+.ccSuggestionUnderline {
+  text-decoration: underline wavy #c62828;
+  text-underline-offset: 2px;
+}
+
+.ccSuggestionTrigger {
+  cursor: default;
+}
+
+/* Hover overlay popover (Gmail-style) */
+.ccSuggestionPopover {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: var(--panel-bg, #1e1e2e);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.ccSuggestionPopoverHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.ccSuggestionPopoverHeaderIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 4px;
+  background: rgba(33, 150, 243, 0.25);
+  color: #64b5f6;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.ccSuggestionPopoverHeaderTitle {
+  color: var(--muted);
+}
+
+.ccSuggestionPopoverItems {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.ccSuggestionPopoverItem {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  font-size: 13px;
+}
+
+.ccSuggestionPopoverItem:last-child {
+  border-bottom: none;
+}
+
+.ccSuggestionPopoverLabel {
+  color: var(--muted);
+}
+
+.ccSuggestionPopoverActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.ccSuggestionList {
+  margin-top: 10px;
+  padding: 10px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.ccSuggestionListHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.ccSuggestionListHeaderIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 4px;
+  background: rgba(33, 150, 243, 0.25);
+  color: #64b5f6;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.ccSuggestionListItems {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.ccSuggestionListItem {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  font-size: 13px;
+}
+
+.ccSuggestionListItem:last-child {
+  border-bottom: none;
+}
+
+.ccSuggestionListLabel {
+  color: var(--muted);
+}
+
+.ccSuggestionListActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.ccSuggestionApplyBtn {
+  padding: 4px 10px;
+  border-radius: 4px;
+  border: 1px solid rgba(124, 92, 255, 0.4);
+  background: rgba(124, 92, 255, 0.15);
+  color: rgba(231, 238, 252, 0.95);
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.ccSuggestionApplyBtn:hover {
+  background: rgba(124, 92, 255, 0.25);
+}
+
+.ccSuggestionIgnoreBtn {
+  padding: 4px 10px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.ccSuggestionIgnoreBtn:hover {
+  color: rgba(231, 238, 252, 0.8);
+}
+
+.ccCaptionTable td {
+  padding: 6px;
+  vertical-align: middle;
+  color: var(--text);
+}
+
+.ccCaptionTableTdNum {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.ccCaptionTableTdTime { font-variant-numeric: tabular-nums; }
+.ccCaptionTableTdSpeaker { color: var(--muted); }
+.ccCaptionTableTdText {
+  max-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ccCaptionSubPanelToggle {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 8px;
+  flex-shrink: 0;
+}
+
+.ccCaptionSubPanelBtn {
+  flex: 1;
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--muted);
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.ccCaptionSubPanelBtn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(231, 238, 252, 0.9);
+}
+
+.ccCaptionSubPanelBtn.isActive {
+  background: rgba(124, 92, 255, 0.2);
+  border-color: rgba(124, 92, 255, 0.5);
+  color: rgba(231, 238, 252, 0.95);
+}
+
+.ccCaptionEditorSection {
+  flex-shrink: 0;
+  margin-top: 0;
+}
+
+.ccCaptionEditorSection .ccPanelTitle {
+  margin-bottom: 6px;
+}
+
+.ccCaptionTextareaWrap {
+  position: relative;
+  width: calc(100% - 20px);
+}
+
+.ccCaptionEditorTextarea {
+  width: 100%;
+  min-height: 36px;
+  resize: vertical;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.25);
+  color: var(--text);
+  font: inherit;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.ccCaptionSuggestionOverlay {
+  position: absolute;
+  inset: 0;
+  padding: 8px 10px;
+  overflow: auto;
+  pointer-events: none;
+  font-size: 13px;
+  line-height: 1.4;
+  color: transparent;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.ccCaptionSuggestionOverlay .ccSuggestionTrigger {
+  pointer-events: auto;
+  color: transparent;
+  cursor: default;
+}
+
+.ccCaptionSuggestionOverlayContent {
+  min-height: 100%;
+}
+
+.ccCaptionEditorTextarea:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.ccCaptionEditorTextarea:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.ccCaptionCheckbox {
+  width: 20px;
+  height: 20px;
+  border-radius: 7px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(0, 0, 0, 0.22);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.ccCaptionCheckbox:hover {
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+.ccCaptionCheckbox.isChecked {
+  border-color: rgba(124, 92, 255, 0.55);
+  box-shadow: 0 0 0 2px rgba(124, 92, 255, 0.18);
+}
+
+.ccCaptionCheckboxInner {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.0);
+}
+
+.ccCaptionCheckbox.isChecked .ccCaptionCheckboxInner {
+  background: rgba(124, 92, 255, 0.95);
+}
+
+.ccCaptionCardTextInput {
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  line-height: 1.25;
+  padding: 18px 14px 16px 14px;
+  color: rgba(231, 238, 252, 0.94);
+  background: rgba(0, 0, 0, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  outline: none;
+  resize: none;
+  min-height: 78px;
+}
+
+.ccCaptionCardTextInput:focus {
+  border-color: rgba(124, 92, 255, 0.45);
+  box-shadow: 0 0 0 2px rgba(124, 92, 255, 0.14);
+}
+
+.ccSpeakerPanel {
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: rgba(0, 0, 0, 0.12);
+}
+
+.ccSpeakerPanelHeader {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.ccSpeakerPanelTitle {
+  font-size: 12px;
+  font-weight: 650;
+  color: rgba(231, 238, 252, 0.82);
+}
+
+.ccSpeakerPanelMeta {
+  font-size: 11px;
+  color: rgba(231, 238, 252, 0.55);
+}
+
+.ccSpeakerPanelRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ccCaptionCardBottom {
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ccCaptionCardSpeakerLabel {
+  font-size: 12px;
+  color: rgba(231, 238, 252, 0.55);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 6px 10px;
+}
+
+.ccCaptionCardSpeaker {
+  font-size: 14px;
+  color: rgba(231, 238, 252, 0.88);
+}
+
+.ccMono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
+    'Courier New', monospace;
+  font-size: 11px;
+  color: rgba(231, 238, 252, 0.8);
+}
+
+.ccPreview {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.02));
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  flex: 0 0 auto;
+}
+
+.ccPreviewVideoWrap {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  max-height: min(56vh, 520px);
+  background: #0a0f1b;
+}
+
+.ccVideo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #0a0f1b;
+}
+
+.ccBurnedInCaption {
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 14px;
+  background: rgba(0, 0, 0, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 10px;
+  padding: 10px 12px;
+  text-align: center;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  font-size: 18px;
+  line-height: 1.2;
+}
+
+.ccBurnedInCaptionInput {
+  width: 100%;
+  resize: none;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.92);
+  text-align: center;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  line-height: inherit;
+}
+
+.ccTransport {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.ccScrubber {
+  flex: 1;
+  min-width: 120px;
+  accent-color: var(--accent);
+}
+
+.ccTransportRight {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ccTransportMeta {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.ccTransportSpacer {
+  flex: 1;
+}
+
+.ccInlineLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.ccWordPills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.ccWordPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: rgba(255, 255, 255, 0.03);
+  font-size: 12px;
+}
+
+.ccWordPill.isLow {
+  border-color: rgba(240, 180, 41, 0.4);
+  background: rgba(240, 180, 41, 0.10);
+}
+
+.ccWordConf {
+  font-size: 11px;
+  color: rgba(231, 238, 252, 0.7);
+}
+
+.ccTimeline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.ccTimelineShell {
+  position: relative;
+  height: 56px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: rgba(0, 0, 0, 0.18);
+  overflow: hidden;
+}
+
+.ccTimelinePlayhead {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: rgba(124, 92, 255, 0.9);
+  box-shadow: 0 0 10px rgba(124, 92, 255, 0.55);
+  pointer-events: none;
+}
+
+.ccTimelineScroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.ccTimelineGrid {
+  display: flex;
+  align-items: stretch;
+}
+
+.ccTimelineLabelCol {
+  position: sticky;
+  left: 0;
+  z-index: 3;
+  border-right: 1px solid rgba(255, 255, 255, 0.10);
+  background: rgba(0, 0, 0, 0.20);
+  backdrop-filter: blur(10px);
+}
+
+.ccTimelineLabelRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  color: rgba(231, 238, 252, 0.75);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  user-select: none;
+}
+
+.ccTimelineContentCol {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.ccTimelineTrackRow {
+  position: relative;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.ccTimelineTrackShell {
+  position: relative;
+  height: 100%;
+}
+
+.ccTimelineVideoBlock {
+  position: absolute;
+  left: 0;
+  top: 8px;
+  height: 28px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: rgba(124, 92, 255, 0.10);
+}
+
+.ccTimelineEl {
+  position: absolute;
+  top: 4px;
+  height: 48px;
+  border-radius: 10px;
+  z-index: 1;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgb(113 109 103 / 26%);
+}
+
+.ccTimelineEl.isOverlap {
+  background: rgba(255, 92, 122, 0.40);
+  border-color: rgba(255, 92, 122, 0.65);
+}
+
+.ccTimelineEl.ccHasSuggestion {
+  background: rgba(255, 165, 0, 0.22);
+  border-color: rgba(255, 165, 0, 0.5);
+}
+
+.ccTimelineEl.isOverlap.ccHasSuggestion {
+  background: rgba(255, 92, 122, 0.40);
+  border-color: rgba(255, 92, 122, 0.65);
+}
+
+.ccTimelineEl.isSelected {
+  outline: 2px solid rgba(255, 255, 255, 0.85);
+  outline-offset: -1px;
+  z-index: 2;
+}
+
+.ccTimelineEl.isInSelection {
+  outline: 2px solid rgba(124, 92, 255, 0.55);
+  outline-offset: -1px;
+}
+
+.ccTimelineElMove {
+  position: absolute;
+  inset: 0;
+  cursor: grab;
+  touch-action: none;
+}
+
+.ccTimelineElText {
+  position: absolute;
+  inset: 6px 10px 6px 10px;
+  display: -webkit-box;
+  line-clamp: 2;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 11px;
+  line-height: 1.2;
+  color: rgba(255, 255, 255, 0.92);
+  pointer-events: none;
+  user-select: none;
+}
+
+.ccTimelineHandle {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 70%;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+  cursor: ew-resize;
+  touch-action: none;
+}
+
+.ccTimelineHandleStart {
+  left: 0;
+}
+
+.ccTimelineHandleEnd {
+  right: 0;
+}
+
+/* Closed-captions specific timeline styling (not shared) */
+.ccTlScroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: rgba(0, 0, 0, 0.18);
+  width: 100%;
+  max-width: 100%;
+}
+
+.ccTlGrid {
+  display: flex;
+  align-items: stretch;
+  min-height: 88px;
+  min-width: 100%;
+}
+
+.ccTlLabels {
+  position: sticky;
+  left: 0;
+  z-index: 4;
+  border-right: 1px solid rgba(255, 255, 255, 0.10);
+  background: rgba(10, 16, 28, 0.85);
+  backdrop-filter: blur(10px);
+}
+
+.ccTlScaleLabelRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  color: rgba(231, 238, 252, 0.55);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  user-select: none;
+  letter-spacing: 0.22px;
+}
+
+.ccTlLabelRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  color: rgba(231, 238, 252, 0.70);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  user-select: none;
+  letter-spacing: 0.2px;
+}
+
+.ccTlContent {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.ccTlScaleRow {
+  position: relative;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.ccTlScaleRail {
+  position: relative;
+  height: 100%;
+}
+
+.ccTlScaleTick {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  transform: translateX(-0.5px);
+}
+
+.ccTlScaleLine {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.ccTlScaleTick.isMinor .ccTlScaleLine {
+  top: 10px;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.10);
+}
+
+.ccTlScaleTick.isMinor .ccTlScaleText {
+  display: none;
+}
+
+.ccTlScaleText {
+  position: absolute;
+  top: 4px;
+  left: 6px;
+  font-size: 10px;
+  color: rgba(231, 238, 252, 0.55);
+  user-select: none;
+  white-space: nowrap;
+}
+
+.ccTlTrackRow {
+  position: relative;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.ccTlTrackShell {
+  position: relative;
+  height: 100%;
+}
+
+.ccTlVideoBar {
+  position: absolute;
+  left: 0;
+  top: 8px;
+  height: 28px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: linear-gradient(90deg, rgba(124, 92, 255, 0.10), rgba(124, 92, 255, 0.03));
+}
+
+.ccTlWaveformShell {
+  position: relative;
+  height: 100%;
+}
+
+.ccTlWaveformCanvas {
+  display: block;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+}
+
+.ccTlPlayhead {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: rgba(124, 92, 255, 0.95);
+  box-shadow: 0 0 10px rgba(124, 92, 255, 0.55);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.ccTlPlayheadHandle {
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 18px;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+}
+
+.ccInspectorSection {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.ccInspectorHeading {
+  font-weight: 650;
+  font-size: 12px;
+  margin-bottom: 6px;
+}
+
+.ccHint {
+  font-size: 11px;
+  color: var(--muted);
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+
+.ccInspectorList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ccInspectorRow {
+  display: flex;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: rgba(0, 0, 0, 0.16);
+}
+
+.ccInspectorBadge {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  color: rgba(231, 238, 252, 0.8);
+  height: fit-content;
+}
+
+.ccInspectorText {
+  font-size: 12px;
+  color: rgba(231, 238, 252, 0.85);
+  line-height: 1.35;
+}
+
+.ccSuggestionCard {
+  padding: 10px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: rgba(0, 0, 0, 0.16);
+}
+
+.ccSuggestionTitle {
+  font-weight: 650;
+  font-size: 12px;
+  margin-bottom: 8px;
+}
+
+.ccSuggestionBeforeAfter {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.ccSuggestionBefore,
+.ccSuggestionAfter {
+  font-size: 12px;
+  color: rgba(231, 238, 252, 0.88);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+  padding: 8px 10px;
+}
+
+.ccSuggestionBefore {
+  opacity: 0.75;
+}
+
+.ccScoreRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.ccScoreLabel {
+  font-size: 12px;
+  color: rgba(231, 238, 252, 0.72);
+}
+
+.ccScoreValue {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+}
+
+.ccScoreMeta {
+  margin-top: 6px;
+  font-size: 11px;
+  color: rgba(231, 238, 252, 0.55);
+}
+
+.ccZoomPill {
+  padding: 6px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.18);
+  color: rgba(231, 238, 252, 0.75);
+  font-size: 11px;
+  user-select: none;
+}
+
+.ccToast {
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(0, 0, 0, 0.55);
+  color: rgba(231, 238, 252, 0.92);
+  font-size: 12px;
+  backdrop-filter: blur(10px);
+}
+

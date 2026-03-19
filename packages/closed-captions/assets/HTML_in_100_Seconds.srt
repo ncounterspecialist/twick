@@ -1,0 +1,299 @@
+1
+00:00:00,390 --> 00:00:03,970
+Hypertext Markup Language, or HTML, is a language
+
+2
+00:00:03,970 --> 00:00:06,550
+that defines the structure of content on a
+
+3
+00:00:06,450 --> 00:00:06,950
+web page.
+
+4
+00:00:07,029 --> 00:00:10,370
+Development started in 1989 at SERN by Tim
+
+5
+00:00:10,370 --> 00:00:12,370
+Berners-Lee, who had just invented the world's
+
+6
+00:00:12,370 --> 00:00:14,850
+first web browser, World Wide Web, the origin
+
+7
+00:00:14,850 --> 00:00:15,930
+of www.
+
+8
+00:00:16,570 --> 00:00:18,710
+But he needed a publishing language to display
+
+9
+00:00:18,710 --> 00:00:20,770
+content within it, so he chose a syntax
+
+10
+00:00:20,770 --> 00:00:23,890
+based on the standard generalized markup language, which
+
+11
+00:00:23,890 --> 00:00:26,410
+uses opening and closing tags to provide meaning
+
+12
+00:00:26,410 --> 00:00:29,510
+to otherwise unorganized text, like h for heading,
+
+13
+00:00:29,810 --> 00:00:32,550
+p for paragraph, and most importantly, a for
+
+14
+00:00:32,550 --> 00:00:34,670
+anchor to link to a different web page.
+
+15
+00:00:34,810 --> 00:00:37,070
+The language underwent many changes during the initial
+
+16
+00:00:37,070 --> 00:00:39,170
+rise of the internet and was standardized as
+
+17
+00:00:39,170 --> 00:00:42,110
+HTML5 in 2008, the version we know and
+
+18
+00:00:42,110 --> 00:00:42,670
+love today.
+
+19
+00:00:42,930 --> 00:00:45,710
+Modern HTML contains tags to handle a variety
+
+20
+00:00:45,710 --> 00:00:48,710
+of different media types, like video, audio, and
+
+21
+00:00:48,710 --> 00:00:51,050
+canvas to draw custom graphics on the fly.
+
+22
+00:00:51,170 --> 00:00:53,690
+The typical HTML element starts with an opening
+
+23
+00:00:53,690 --> 00:00:54,910
+and closing tag.
+
+24
+00:00:55,090 --> 00:00:57,010
+In the middle, we have content, which might
+
+25
+00:00:57,010 --> 00:00:59,990
+be text, or additional HTML elements called children.
+
+26
+00:01:00,310 --> 00:01:02,370
+The opening tag may also have one or
+
+27
+00:01:02,370 --> 00:01:04,810
+more attributes, which are key value pairs that
+
+28
+00:01:04,810 --> 00:01:07,190
+can customize the appearance or behavior of the
+
+29
+00:01:07,190 --> 00:01:07,490
+element.
+
+30
+00:01:07,690 --> 00:01:09,410
+To build your first web page, create a
+
+31
+00:01:09,410 --> 00:01:12,750
+file named index.html. This file contains a
+
+32
+00:01:12,750 --> 00:01:15,130
+hierarchy of nodes based on the document object
+
+33
+00:01:15,130 --> 00:01:16,250
+model, or DOM.
+
+34
+00:01:16,530 --> 00:01:18,710
+A web page starts with an HTML tag
+
+35
+00:01:18,710 --> 00:01:21,510
+and has exactly two children, a head and
+
+36
+00:01:21,510 --> 00:01:21,930
+a body.
+
+37
+00:01:22,150 --> 00:01:24,610
+The head contains things that aren't directly shown
+
+38
+00:01:24,610 --> 00:01:26,750
+in the web page, like a title or
+
+39
+00:01:26,750 --> 00:01:28,570
+a meta tag, to give the page a
+
+40
+00:01:28,570 --> 00:01:28,950
+description.
+
+41
+00:01:29,290 --> 00:01:31,250
+But notice how the meta element has no
+
+42
+00:01:31,250 --> 00:01:32,030
+closing tag.
+
+43
+00:01:32,270 --> 00:01:34,510
+Closing tags are generally optional when an element
+
+44
+00:01:34,510 --> 00:01:35,830
+is fully self-contained.
+
+45
+00:01:36,010 --> 00:01:38,310
+The body contains the actual UI for the
+
+46
+00:01:38,310 --> 00:01:38,850
+end user.
+
+47
+00:01:39,010 --> 00:01:40,890
+We might start with an h1 heading, followed
+
+48
+00:01:40,890 --> 00:01:42,310
+by a paragraph of content.
+
+49
+00:01:42,590 --> 00:01:44,270
+To add an image, we use an image
+
+50
+00:01:44,270 --> 00:01:46,370
+tag, which you'll notice is self-closing.
+
+51
+00:01:46,690 --> 00:01:48,970
+Then define the source attribute as the file
+
+52
+00:01:48,970 --> 00:01:50,490
+path to the image, and you'll want to
+
+53
+00:01:50,490 --> 00:01:51,930
+give it an old description to make it
+
+54
+00:01:51,930 --> 00:01:53,930
+accessible to robots and screen readers.
+
+55
+00:01:54,190 --> 00:01:56,290
+What makes web pages revolutionary, though, is their
+
+56
+00:01:56,290 --> 00:01:58,370
+ability to link to other web pages on
+
+57
+00:01:58,370 --> 00:01:59,810
+the information superhighway.
+
+58
+00:01:59,970 --> 00:02:01,650
+Use an anchor tag to create a link,
+
+59
+00:02:01,770 --> 00:02:03,970
+then define the href attribute as the web
+
+60
+00:02:03,970 --> 00:02:05,750
+page that you want to navigate to when
+
+61
+00:02:05,750 --> 00:02:06,110
+clicked.
+
+62
+00:02:06,350 --> 00:02:09,490
+HTML also provides structural tags like division or
+
+63
+00:02:09,490 --> 00:02:11,770
+div, which are often used to group elements
+
+64
+00:02:11,770 --> 00:02:13,850
+together, where they can be styled to represent
+
+65
+00:02:13,850 --> 00:02:15,990
+complex UI elements like navbars.
+
+66
+00:02:16,230 --> 00:02:17,690
+When you're happy with your code, grab the
+
+67
+00:02:17,690 --> 00:02:19,890
+full file path to the HTML file and
+
+68
+00:02:19,890 --> 00:02:21,470
+paste it into any web browser.
+
+69
+00:02:21,770 --> 00:02:24,110
+Congratulations, you just built your first website!
+
+70
+00:02:24,430 --> 00:02:26,810
+This has been Hypertext Markup Language in 100
+
+71
+00:02:26,810 --> 00:02:27,330
+seconds.
+
+72
+00:02:27,470 --> 00:02:29,030
+Hit the subscribe button so you don't miss
+
+73
+00:02:29,030 --> 00:02:30,110
+the upcoming sequels.
+
+74
+00:02:30,250 --> 00:02:32,050
+Thanks for watching, and I will see you
+
+75
+00:02:32,050 --> 00:02:32,730
+in the next one.
