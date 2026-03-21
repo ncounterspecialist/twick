@@ -53,3 +53,5 @@ packages/examples-cra/public/audio-worker.js
 packages/examples-cra/public/ffmpeg/ffmpeg-core.js
 packages/examples-cra/public/ffmpeg/ffmpeg-core.wasm
 packages/examples-cra/public/mp4-wasm.wasm
+/content
+/output

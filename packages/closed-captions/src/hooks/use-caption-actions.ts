@@ -1,7 +1,7 @@
 import { useState, useCallback, type MouseEvent } from 'react';
 import type { CaptionDoc, CaptionSegmentId } from '../utils/captions/types';
 import type { EditorActionResult } from '../utils/captions/types';
-import type { CaptionSaveState } from './useCaptionState';
+import type { CaptionSaveState } from './use-caption-state';
 import {
   applyEditText,
   applyFindNext,

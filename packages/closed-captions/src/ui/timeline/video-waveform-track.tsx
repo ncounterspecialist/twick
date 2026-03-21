@@ -1,25 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-
-type PeaksKey = string;
-const peaksCache = new Map<PeaksKey, Float32Array>();
-
-const buildPeaksKey = (url: string, buckets: number) => `${url}::${buckets}`;
-
-const computePeaks = (channel: Float32Array, buckets: number) => {
-  const peaks = new Float32Array(buckets);
-  const step = Math.max(1, Math.floor(channel.length / buckets));
-  for (let i = 0; i < buckets; i += 1) {
-    const start = i * step;
-    const end = Math.min(channel.length, start + step);
-    let max = 0;
-    for (let j = start; j < end; j += 1) {
-      const v = Math.abs(channel[j]);
-      if (v > max) max = v;
-    }
-    peaks[i] = max;
-  }
-  return peaks;
-};
+import { computePeaks } from '../../utils/audio/compute-peaks';
+import { loadMonoFromMediaUrl } from '../../utils/audio/load-mono-from-media-url';
 
 export const VideoWaveformTrack = ({
   mediaUrl,
@@ -44,28 +25,15 @@ export const VideoWaveformTrack = ({
         setPeaks(null);
         return;
       }
-      const key = buildPeaksKey(mediaUrl, buckets);
-      const cached = peaksCache.get(key);
-      if (cached) {
-        setPeaks(cached);
+
+      const loaded = await loadMonoFromMediaUrl(mediaUrl);
+      if (cancelled) return;
+      if (!loaded) {
+        setPeaks(null);
         return;
       }
-
-      try {
-        const buf = await fetch(mediaUrl).then((r) => r.arrayBuffer());
-        // WebAudio decode
-        const ctx = new AudioContext();
-        const audio = await ctx.decodeAudioData(buf.slice(0));
-        // Prefer mono mix for waveform readability
-        const ch0 = audio.getChannelData(0);
-        const computed = computePeaks(ch0, buckets);
-        peaksCache.set(key, computed);
-        if (!cancelled) setPeaks(computed);
-        // Close to free resources
-        await ctx.close();
-      } catch {
-        if (!cancelled) setPeaks(null);
-      }
+      const computed = computePeaks(loaded.samples, buckets);
+      setPeaks(computed);
     };
     load();
     return () => {
@@ -131,4 +99,3 @@ export const VideoWaveformTrack = ({
     </div>
   );
 };
-

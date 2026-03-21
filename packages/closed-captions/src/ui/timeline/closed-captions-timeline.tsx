@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { CaptionDoc, CaptionSegmentId } from '../../utils/captions/types';
-import { getActiveSuggestionsForSegment } from '../../utils/mockAi/textSuggestions';
-import { CaptionTimelineElement } from './CaptionTimelineElement';
-import { VideoWaveformTrack } from './VideoWaveformTrack';
+import { getPlayheadPhase } from '../../utils/captions/playhead-phase';
+import { getActiveSuggestionsForSegment } from '../../utils/mock-ai/text-suggestions';
+import { CaptionTimelineElement } from './caption-timeline-element';
+import { VideoWaveformTrack } from './video-waveform-track';
 
 const SUBTITLE_TRACK_HEIGHT_PX = 56;
 const VIDEO_TRACK_HEIGHT_PX = 70;
@@ -38,6 +39,7 @@ export const ClosedCaptionsTimeline = ({
   durationMs,
   playheadMs,
   mediaUrl,
+  snapPointsMs,
   pxPerSecond,
   onSelect,
   onSeekMs,
@@ -51,6 +53,7 @@ export const ClosedCaptionsTimeline = ({
   durationMs: number;
   playheadMs: number;
   mediaUrl?: string;
+  snapPointsMs: number[];
   pxPerSecond: number;
   onSelect: (id: CaptionSegmentId) => void;
   onSeekMs: (ms: number) => void;
@@ -194,10 +197,22 @@ export const ClosedCaptionsTimeline = ({
 
           <div className="ccTlTrackRow" style={{ height: SUBTITLE_TRACK_HEIGHT_PX }}>
             <div className="ccTlTrackShell" style={{ width: contentWidthPx }}>
+              {snapPointsMs.length > 0 ? (
+                <div className="ccTlSnapGuides" aria-hidden>
+                  {snapPointsMs.map((tMs, idx) => (
+                    <div
+                      key={`${tMs}-${idx}`}
+                      className="ccTlSnapGuide"
+                      style={{ left: `${durationMs > 0 ? (tMs / durationMs) * 100 : 0}%` }}
+                    />
+                  ))}
+                </div>
+              ) : null}
               {segments.map((seg) => {
                 const hasSuggestions = segmentHasSuggestions.has(seg.id);
                 const isOverlap = overlapIds.has(seg.id);
                 if (showOnlyFlagged && !hasSuggestions && !isOverlap) return null;
+                const playheadPhase = getPlayheadPhase(seg.startMs, seg.endMs, playheadMs);
                 return (
                   <CaptionTimelineElement
                     key={seg.id}
@@ -206,8 +221,10 @@ export const ClosedCaptionsTimeline = ({
                     inSelection={selectedIds.has(seg.id)}
                     isOverlap={isOverlap}
                     hasSuggestions={hasSuggestions}
+                    playheadPhase={playheadPhase}
                     parentWidthPx={contentWidthPx}
                     durationMs={durationMs}
+                    snapPointsMs={snapPointsMs}
                     onSelect={() => onSelect(seg.id)}
                     onUpdateTiming={(p) => onUpdateTiming({ id: seg.id, ...p })}
                   />

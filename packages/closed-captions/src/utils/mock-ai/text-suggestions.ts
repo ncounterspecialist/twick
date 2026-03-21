@@ -15,7 +15,7 @@ export type TextSuggestion = {
  * - Grammar: "you're" → "you are"
  * - Glossary: "SERN" → "CERN"
  * - Technical: "p for paragraph" → "<p> for a paragraph"; "old description" → "alt description"
- * - Spelling (US→UK, from HTML_in_100_Seconds.srt): organized→organised, standardized→standardised, etc.
+ * - Spelling (US→UK, from html-in-100-seconds.srt): organized→organised, standardized→standardised, etc.
  */
 function getMockRules(): Array<{ pattern: RegExp | string; replacements: string[]; type: SuggestionType }> {
   return [
@@ -26,7 +26,7 @@ function getMockRules(): Array<{ pattern: RegExp | string; replacements: string[
     { pattern: /\bh for heading\b/gi, replacements: ['<h1> for a heading', "'h' for a heading"], type: 'technical' },
     { pattern: /\ba for\s+(?:anchor|link)\b/gi, replacements: ['<a> for anchor', "'a' for anchor"], type: 'technical' },
     { pattern: /\bold description\b/gi, replacements: ['alt description'], type: 'technical' },
-    // Spelling US → UK (from HTML_in_100_Seconds.srt)
+    // Spelling US → UK (from html-in-100-seconds.srt)
     { pattern: /\borganized\b/gi, replacements: ['organised'], type: 'spelling' },
     { pattern: /\bunorganized\b/gi, replacements: ['unorganised'], type: 'spelling' },
     { pattern: /\bstandardized\b/gi, replacements: ['standardised'], type: 'spelling' },

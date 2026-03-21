@@ -1,4 +1,4 @@
-import type { TextSuggestion } from '../../utils/mockAi/textSuggestions';
+import type { TextSuggestion } from '../../utils/mock-ai/text-suggestions';
 
 type SuggestionListProps = {
   suggestions: TextSuggestion[];

@@ -1,10 +1,11 @@
 import { Pause, Play, SkipBack, SkipForward, Square } from 'lucide-react';
 import type { CaptionDoc, CaptionSegmentId } from '../utils/captions/types';
-import { formatClock } from './formatClock';
+import { formatClock } from './format-clock';
 import { BurnedInCaption } from './burned-in-caption';
 
 type Props = {
   doc: CaptionDoc | null;
+  ignoredSuggestionIds: Set<string>;
   currentTimeMs: number;
   durationMs: number;
   isPlaying: boolean;
@@ -19,10 +20,12 @@ type Props = {
   burnedInCaptionSegmentId: CaptionSegmentId | null;
   burnedInCaptionText: string;
   onEditBurnedInCaptionText: (segmentId: CaptionSegmentId, nextText: string) => void;
+  onIgnoreSuggestion: (id: string) => void;
 };
 
 export const VideoPlayer = ({
   doc,
+  ignoredSuggestionIds,
   currentTimeMs,
   durationMs,
   isPlaying,
@@ -37,6 +40,7 @@ export const VideoPlayer = ({
   burnedInCaptionSegmentId,
   burnedInCaptionText,
   onEditBurnedInCaptionText,
+  onIgnoreSuggestion,
 }: Props) => {
   const canTransport = !!doc;
   return (
@@ -44,9 +48,12 @@ export const VideoPlayer = ({
       <div className="ccPreviewVideoWrap">
         <video ref={videoRef} className="ccVideo" controls={false} />
         <BurnedInCaption
+          doc={doc}
           segmentId={burnedInCaptionSegmentId}
           text={burnedInCaptionText}
-          onEditText={onEditBurnedInCaptionText}
+          ignoredSuggestionIds={ignoredSuggestionIds}
+          onEditCaptionText={onEditBurnedInCaptionText}
+          onIgnoreSuggestion={onIgnoreSuggestion}
         />
       </div>
 

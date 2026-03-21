@@ -28,6 +28,8 @@ export const LeftSidebar = ({
   onSplit,
   onMerge,
   onDelete,
+  onPlayCaption,
+  playheadMs,
 }: {
   doc: CaptionDoc | null;
   selectedId: CaptionSegmentId | null;
@@ -53,6 +55,8 @@ export const LeftSidebar = ({
   onSplit: () => void;
   onMerge: () => void;
   onDelete: () => void;
+  onPlayCaption: (id: CaptionSegmentId) => void;
+  playheadMs: number;
 }) => {
   const selectionCount = selectedIds.size;
   const selectionSpeaker = useMemo(() => {
@@ -97,6 +101,8 @@ export const LeftSidebar = ({
         onSplit={onSplit}
         onMerge={onMerge}
         onDelete={onDelete}
+        onPlayCaption={onPlayCaption}
+        playheadMs={playheadMs}
       />
     </aside>
   );

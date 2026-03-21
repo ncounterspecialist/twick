@@ -2,8 +2,11 @@ import type { FC } from 'react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useDrag } from '@use-gesture/react';
 import type { CaptionSegment } from '../../utils/captions/types';
+import type { PlayheadPhase } from '../../utils/captions/playhead-phase';
+import { snapSegmentTiming } from '../../utils/audio/snap-timing';
 
 const MIN_DURATION_MS = 200;
+const SNAP_TOLERANCE_MS = 120;
 
 export type CaptionTimelineElementProps = {
   segment: CaptionSegment;
@@ -11,8 +14,10 @@ export type CaptionTimelineElementProps = {
   inSelection: boolean;
   isOverlap: boolean;
   hasSuggestions: boolean;
+  playheadPhase: PlayheadPhase;
   parentWidthPx: number;
   durationMs: number;
+  snapPointsMs: number[];
   onSelect: () => void;
   onUpdateTiming: (params: { startMs: number; endMs: number; dragType: 'move' | 'start' | 'end' }) => void;
 };
@@ -23,14 +28,14 @@ export const CaptionTimelineElement: FC<CaptionTimelineElementProps> = ({
   inSelection,
   isOverlap,
   hasSuggestions,
+  playheadPhase,
   parentWidthPx,
   durationMs,
+  snapPointsMs,
   onSelect,
   onUpdateTiming,
 }) => {
   const ref = useRef<HTMLDivElement | null>(null);
-  const dragTypeRef = useRef<'move' | 'start' | 'end'>('move');
-  const lastPosRef = useRef<{ startMs: number; endMs: number } | null>(null);
 
   const [pos, setPos] = useState(() => ({ startMs: segment.startMs, endMs: segment.endMs }));
 
@@ -53,62 +58,86 @@ export const CaptionTimelineElement: FC<CaptionTimelineElementProps> = ({
     return { startMs: s, endMs: e };
   };
 
-  const bindMove = useDrag(({ delta: [dx], first, last }) => {
+  const bindMove = useDrag(({ delta: [dx], last }) => {
     if (!parentWidthPx) return;
-    if (first) {
-      dragTypeRef.current = 'move';
-      lastPosRef.current = pos;
-    }
     setPos((prev) => {
       const span = prev.endMs - prev.startMs;
       const nextStart = prev.startMs + toMs(dx);
       const next = clamp(nextStart, nextStart + span);
+      if (last) {
+        const snapped = snapSegmentTiming(
+          next.startMs,
+          next.endMs,
+          'move',
+          snapPointsMs,
+          SNAP_TOLERANCE_MS,
+          durationMs,
+          MIN_DURATION_MS
+        );
+        onUpdateTiming({ ...snapped, dragType: 'move' });
+        return snapped;
+      }
       return next;
     });
-    if (last) {
-      const finalPos = lastPosRef.current ? clamp(pos.startMs, pos.endMs) : clamp(pos.startMs, pos.endMs);
-      onUpdateTiming({ ...finalPos, dragType: 'move' });
-    }
   });
 
-  const bindStart = useDrag(({ delta: [dx], event, first, last }) => {
+  const bindStart = useDrag(({ delta: [dx], event, last }) => {
     event?.stopPropagation();
     if (!parentWidthPx) return;
-    if (first) {
-      dragTypeRef.current = 'start';
-      lastPosRef.current = pos;
-    }
-    setPos((prev) => clamp(prev.startMs + toMs(dx), prev.endMs));
-    if (last) {
-      const next = clamp(pos.startMs, pos.endMs);
-      onUpdateTiming({ ...next, dragType: 'start' });
-    }
+    setPos((prev) => {
+      const next = clamp(prev.startMs + toMs(dx), prev.endMs);
+      if (last) {
+        const snapped = snapSegmentTiming(
+          next.startMs,
+          next.endMs,
+          'start',
+          snapPointsMs,
+          SNAP_TOLERANCE_MS,
+          durationMs,
+          MIN_DURATION_MS
+        );
+        onUpdateTiming({ ...snapped, dragType: 'start' });
+        return snapped;
+      }
+      return next;
+    });
   });
 
-  const bindEnd = useDrag(({ delta: [dx], event, first, last }) => {
+  const bindEnd = useDrag(({ delta: [dx], event, last }) => {
     event?.stopPropagation();
     if (!parentWidthPx) return;
-    if (first) {
-      dragTypeRef.current = 'end';
-      lastPosRef.current = pos;
-    }
-    setPos((prev) => clamp(prev.startMs, prev.endMs + toMs(dx)));
-    if (last) {
-      const next = clamp(pos.startMs, pos.endMs);
-      onUpdateTiming({ ...next, dragType: 'end' });
-    }
+    setPos((prev) => {
+      const next = clamp(prev.startMs, prev.endMs + toMs(dx));
+      if (last) {
+        const snapped = snapSegmentTiming(
+          next.startMs,
+          next.endMs,
+          'end',
+          snapPointsMs,
+          SNAP_TOLERANCE_MS,
+          durationMs,
+          MIN_DURATION_MS
+        );
+        onUpdateTiming({ ...snapped, dragType: 'end' });
+        return snapped;
+      }
+      return next;
+    });
   });
 
   const leftPct = durationMs > 0 ? (pos.startMs / durationMs) * 100 : 0;
   const widthPct = durationMs > 0 ? ((pos.endMs - pos.startMs) / durationMs) * 100 : 0;
   const className = useMemo(() => {
     const parts = ['ccTimelineEl'];
+    if (playheadPhase === 'active') parts.push('ccPlayheadActive');
+    if (playheadPhase === 'past') parts.push('ccPlayheadPast');
+    if (playheadPhase === 'future') parts.push('ccPlayheadFuture');
     if (selected) parts.push('isSelected');
     else if (inSelection) parts.push('isInSelection');
     if (isOverlap) parts.push('isOverlap');
     if (hasSuggestions) parts.push('ccHasSuggestion');
     return parts.join(' ');
-  }, [selected, inSelection, isOverlap, hasSuggestions]);
+  }, [playheadPhase, selected, inSelection, isOverlap, hasSuggestions]);
 
   return (
     <div
@@ -117,7 +146,6 @@ export const CaptionTimelineElement: FC<CaptionTimelineElementProps> = ({
       style={{ left: `${leftPct}%`, width: `${widthPct}%` }}
       onMouseDown={(e) => {
         e.stopPropagation();
-        lastPosRef.current = pos;
         // Prevent timeline background seek when interacting with this element.
         // (We still allow seeking by clicking empty timeline space.)
       }}

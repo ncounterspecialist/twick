@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { CaptionDoc, CaptionSegmentId } from '../../utils/captions/types';
-import type { MockDocInsights, MockSegmentInsights } from '../../utils/mockAi/types';
+import type { MockDocInsights, MockSegmentInsights } from '../../utils/mock-ai/types';
 
 type Props = {
   doc: CaptionDoc | null;

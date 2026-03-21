@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { buildMockQualitySummary } from '../../utils/mockAi/quality';
+import { buildMockQualitySummary } from '../../utils/mock-ai/quality';
 
 type QualitySummary = ReturnType<typeof buildMockQualitySummary>;
 

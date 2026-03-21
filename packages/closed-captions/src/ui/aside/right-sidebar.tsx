@@ -1,6 +1,6 @@
 import type { CaptionDoc, CaptionSegmentId } from '../../utils/captions/types';
-import { buildMockQualitySummary } from '../../utils/mockAi/quality';
-import type { MockDocInsights, MockSegmentInsights } from '../../utils/mockAi/types';
+import { buildMockQualitySummary } from '../../utils/mock-ai/quality';
+import type { MockDocInsights, MockSegmentInsights } from '../../utils/mock-ai/types';
 import AISuggestionPanel from '../panels/ai-suggestion.panel';
 import QualityPanel from '../panels/quality.panel';
 

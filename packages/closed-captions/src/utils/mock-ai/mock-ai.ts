@@ -1,6 +1,6 @@
 import type { CaptionDoc, CaptionSegment } from '../captions/types';
 import type { MockDocInsights, MockSegmentInsights, MockSuggestion } from './types';
-import { hashToUnit } from '../mockWords/hash';
+import { hashToUnit } from '../mock-words/hash';
 
 export const buildMockInsightsForDoc = (doc: CaptionDoc): MockDocInsights => {
   const lowConfidenceWords = doc.segments.flatMap((seg) =>

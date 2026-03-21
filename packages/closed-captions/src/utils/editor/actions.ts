@@ -1,7 +1,8 @@
 import { computeSegmentFlags } from '../flags/flags';
-import { buildWordsForSegment } from '../mockWords/buildWordsForSegment';
+import { buildWordsForSegment } from '../mock-words/build-words-for-segment';
+import { snapStartEndBoundsToNearest } from '../audio/snap-timing';
 import type { CaptionDoc, CaptionSegment, CaptionSegmentId, EditorActionResult } from '../captions/types';
-import { segmentIdFromIndex } from '../captions/segmentId';
+import { segmentIdFromIndex } from '../captions/segment-id';
 
 const MIN_DURATION_MS = 200;
 
@@ -42,6 +43,73 @@ export const applyUpdateTiming = (
   next.segments[idx] = rehydrateSegment({ ...next.segments[idx], startMs, endMs });
   next.segments.sort((a, b) => a.startMs - b.startMs);
   return { doc: next, selectedId: id };
+};
+
+const SNAP_ALIGN_TOLERANCE_MS = 120;
+
+/**
+ * Snaps every caption start/end to the nearest detected pause boundary, then resolves overlaps in time order.
+ */
+export const applyAlignAllToPauseBoundaries = (
+  doc: CaptionDoc,
+  snapPointsMs: number[],
+  durationMs: number,
+  opts?: { toleranceMs?: number; selectedId?: CaptionSegmentId | null }
+): EditorActionResult => {
+  const toleranceMs = opts?.toleranceMs ?? SNAP_ALIGN_TOLERANCE_MS;
+  const selectedId = opts?.selectedId ?? null;
+
+  if (snapPointsMs.length === 0 || doc.segments.length === 0) {
+    return { doc, selectedId };
+  }
+
+  const next = cloneDoc(doc);
+  const sorted = [...next.segments].sort((a, b) => a.startMs - b.startMs);
+
+  const rows = sorted
+    .map((seg) => {
+      const { startMs, endMs } = snapStartEndBoundsToNearest(
+        seg.startMs,
+        seg.endMs,
+        snapPointsMs,
+        toleranceMs,
+        durationMs,
+        MIN_DURATION_MS
+      );
+      return { id: seg.id, startMs, endMs };
+    })
+    .sort((a, b) => a.startMs - b.startMs || a.id.localeCompare(b.id));
+
+  let prevEnd = 0;
+  for (let i = 0; i < rows.length; i += 1) {
+    const ceiling = i < rows.length - 1 ? rows[i + 1].startMs - 1 : durationMs;
+    let s = Math.max(rows[i].startMs, prevEnd);
+    let e = Math.max(rows[i].endMs, s + MIN_DURATION_MS);
+    e = Math.min(e, ceiling);
+    if (e < s + MIN_DURATION_MS) {
+      s = Math.max(prevEnd, e - MIN_DURATION_MS);
+    }
+    if (e < s + MIN_DURATION_MS) {
+      e = Math.min(ceiling, s + MIN_DURATION_MS);
+    }
+    rows[i] = { ...rows[i], startMs: s, endMs: e };
+    prevEnd = e;
+  }
+
+  const byId = new Map(rows.map((r) => [r.id, r]));
+  for (let i = 0; i < next.segments.length; i += 1) {
+    const u = byId.get(next.segments[i].id);
+    if (!u) continue;
+    next.segments[i] = rehydrateSegment({ ...next.segments[i], startMs: u.startMs, endMs: u.endMs });
+  }
+  next.segments.sort((a, b) => a.startMs - b.startMs);
+
+  const nextSelected =
+    selectedId && next.segments.some((s) => s.id === selectedId)
+      ? selectedId
+      : (next.segments[0]?.id ?? null);
+
+  return { doc: next, selectedId: nextSelected };
 };
 
 export const applyRevert = (baseline: CaptionDoc): EditorActionResult => {

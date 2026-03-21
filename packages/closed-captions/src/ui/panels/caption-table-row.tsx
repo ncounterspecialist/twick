@@ -1,8 +1,9 @@
-import { useCallback, useRef, useState, type MouseEvent as ReactMouseEvent } from 'react';
+import { useCallback, useEffect, useRef, useState, type MouseEvent as ReactMouseEvent } from 'react';
 import type { CaptionSegment, CaptionSegmentId } from '../../utils/captions/types';
-import type { TextSuggestion } from '../../utils/mockAi/textSuggestions';
-import { formatClock } from '../formatClock';
-import { SuggestionPopover } from './SuggestionPopover';
+import type { PlayheadPhase } from '../../utils/captions/playhead-phase';
+import type { TextSuggestion } from '../../utils/mock-ai/text-suggestions';
+import { formatClock } from '../format-clock';
+import { SuggestionPopover } from './suggestion-popover';
 
 export type TextPart = { text: string; suggestion: TextSuggestion | null };
 
@@ -10,34 +11,41 @@ const HOVER_CLOSE_DELAY_MS = 200;
 
 type CaptionTableRowProps = {
   segment: CaptionSegment;
-  index: number;
   isPrimary: boolean;
   isSelected: boolean;
   isOverlap: boolean;
   hasSuggestions: boolean;
+  playheadPhase: PlayheadPhase;
   textParts: TextPart[];
   onSelect: (id: CaptionSegmentId, event: ReactMouseEvent) => void;
   onToggleSelect: (id: CaptionSegmentId, event: ReactMouseEvent) => void;
+  onPlayCaption: (id: CaptionSegmentId) => void;
+  onEditCaptionText: (id: CaptionSegmentId, nextText: string) => void;
   onApplySuggestion: (suggestion: TextSuggestion, replacement: string) => void;
   onIgnoreSuggestion: (id: string) => void;
 };
 
 export function CaptionTableRow({
   segment,
-  index,
   isPrimary,
   isSelected,
   isOverlap,
   hasSuggestions,
+  playheadPhase,
   textParts,
   onSelect,
   onToggleSelect,
+  onPlayCaption,
+  onEditCaptionText,
   onApplySuggestion,
   onIgnoreSuggestion,
 }: CaptionTableRowProps) {
   const [hoveredSuggestion, setHoveredSuggestion] = useState<TextSuggestion | null>(null);
   const [anchorRect, setAnchorRect] = useState<DOMRect | null>(null);
   const closeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+  const overlayRef = useRef<HTMLDivElement | null>(null);
+  const overlayContentRef = useRef<HTMLDivElement | null>(null);
 
   const scheduleClose = useCallback(() => {
     if (closeTimeoutRef.current) clearTimeout(closeTimeoutRef.current);
@@ -68,9 +76,34 @@ export function CaptionTableRow({
     scheduleClose();
   }, [scheduleClose]);
 
+  const syncScroll = useCallback(() => {
+    const ta = textareaRef.current;
+    const ov = overlayRef.current;
+    if (ta && ov) {
+      ov.scrollTop = ta.scrollTop;
+      ov.scrollLeft = ta.scrollLeft;
+    }
+  }, []);
+
+  useEffect(() => {
+    syncScroll();
+    const ta = textareaRef.current;
+    const content = overlayContentRef.current;
+    if (ta && content) {
+      content.style.minHeight = `${ta.scrollHeight}px`;
+    }
+  }, [segment.text, syncScroll]);
+
+  useEffect(() => {
+    const el = textareaRef.current;
+    if (!el) return;
+    el.style.height = '0px';
+    el.style.height = `${Math.min(120, Math.max(36, el.scrollHeight))}px`;
+  }, [segment.text]);
+
   const speakerLabel = segment.speaker?.trim() ? segment.speaker.trim() : '-';
 
-  const textCellContent =
+  const overlaySpans =
     textParts.length > 0 ? (
       <>
         {textParts.map((part, i) =>
@@ -88,9 +121,7 @@ export function CaptionTableRow({
           )
         )}
       </>
-    ) : (
-      segment.text
-    );
+    ) : null;
 
   return (
     <>
@@ -98,13 +129,20 @@ export function CaptionTableRow({
         data-segment-id={segment.id}
         className={[
           'ccCaptionTableRow',
+          playheadPhase === 'active' ? 'ccPlayheadActive' : '',
+          playheadPhase === 'past' ? 'ccPlayheadPast' : '',
+          playheadPhase === 'future' ? 'ccPlayheadFuture' : '',
           isSelected ? 'isSelected' : '',
           isPrimary ? 'isPrimary' : '',
           isOverlap ? 'isOverlap' : '',
           hasSuggestions ? 'ccHasSuggestion' : '',
         ].join(' ')}
         onClick={(e) => onSelect(segment.id, e)}
-        title="Cmd/Ctrl-click to multi-select - Shift-click for range"
+        onDoubleClick={(e) => {
+          e.preventDefault();
+          onPlayCaption(segment.id);
+        }}
+        title="Cmd/Ctrl-click to multi-select · Shift-click for range · Double-click row to play"
       >
         <td className="ccCaptionTableTdNum">
           <button
@@ -115,14 +153,34 @@ export function CaptionTableRow({
           >
             <span className="ccCaptionCheckboxInner" />
           </button>
-          {index + 1}
         </td>
         <td className="ccCaptionTableTdTime ccMono">{formatClock(segment.startMs)}</td>
         <td className="ccCaptionTableTdTime ccMono">{formatClock(segment.endMs)}</td>
         <td className="ccCaptionTableTdSpeaker">{speakerLabel}</td>
-        <td className="ccCaptionTableTdText">{textCellContent}</td>
+        <td className="ccCaptionTableTdText ccCaptionTableTdTextEditor">
+          <div className="ccCaptionTableTextWrap">
+            <textarea
+              ref={textareaRef}
+              className="ccCaptionTableTextarea"
+              value={segment.text}
+              onChange={(e) => onEditCaptionText(segment.id, e.target.value)}
+              onScroll={syncScroll}
+              onDoubleClick={(e) => e.stopPropagation()}
+              spellCheck
+              rows={1}
+              aria-label="Caption text"
+            />
+            {overlaySpans ? (
+              <div ref={overlayRef} className="ccCaptionTableSuggestionOverlay" aria-hidden>
+                <div ref={overlayContentRef} className="ccCaptionTableSuggestionOverlayContent">
+                  {overlaySpans}
+                </div>
+              </div>
+            ) : null}
+          </div>
+        </td>
       </tr>
-      {hoveredSuggestion && (
+      {hoveredSuggestion && anchorRect ? (
         <SuggestionPopover
           suggestions={[hoveredSuggestion]}
           anchorRect={anchorRect}
@@ -132,7 +190,7 @@ export function CaptionTableRow({
           onPopoverMouseEnter={cancelClose}
           onPopoverMouseLeave={scheduleClose}
         />
-      )}
+      ) : null}
     </>
   );
 }

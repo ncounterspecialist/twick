@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type MouseEvent } from 'react';
-import demoMp4Url from '../../assets/HTML_in_100_Seconds.mp4?url';
-import demoSrtUrl from '../../assets/HTML_in_100_Seconds.srt?url';
+import demoMp4Url from '../../assets/html-in-100-seconds.mp4?url';
+import demoSrtUrl from '../../assets/html-in-100-seconds.srt?url';
 import { exportSrt, exportVtt } from '../utils/captions/export';
-import { parseSrt } from '../utils/captions/parseSrt';
+import { parseSrt } from '../utils/captions/parse-srt';
 import type { CaptionSegment, CaptionSegmentId } from '../utils/captions/types';
-import { buildMockInsightsForDoc, buildMockInsightsForSegment } from '../utils/mockAi/mockAi';
-import type { MockDocInsights, MockSegmentInsights } from '../utils/mockAi/types';
+import { buildMockInsightsForDoc, buildMockInsightsForSegment } from '../utils/mock-ai/mock-ai';
+import type { MockDocInsights, MockSegmentInsights } from '../utils/mock-ai/types';
 import { downloadTextFile } from '../utils/system/download';
 import {
   useToast,
@@ -13,10 +13,10 @@ import {
   useCaptionActions,
   useVideoPlayback,
 } from '../hooks';
-import { getActiveSuggestionsForSegment } from '../utils/mockAi/textSuggestions';
-import { LeftSidebar } from './aside/LeftSidebar';
-import { TopBar } from './layout/TopBar';
-import { VideoTimelinePanel } from './VideoTimelinePanel';
+import { getActiveSuggestionsForSegment } from '../utils/mock-ai/text-suggestions';
+import { LeftSidebar } from './aside/left-sidebar';
+import { TopBar } from './layout/top-bar';
+import { VideoTimelinePanel } from './video-timeline-panel';
 import { VideoPlayer } from './video-player';
 
 export const App = () => {
@@ -194,12 +194,17 @@ export const App = () => {
     ]
   );
 
-  const currentCaption = useMemo(() => {
+  /** Inline edit on video: prefer selected row, else caption at playhead. */
+  const burnedInCaption = useMemo(() => {
     if (!state.currentDoc) return { id: null as CaptionSegmentId | null, text: '' };
+    if (state.selectedId) {
+      const sel = state.currentDoc.segments.find((s) => s.id === state.selectedId);
+      if (sel) return { id: sel.id, text: sel.text };
+    }
     const tMs = currentTimeMs;
     const seg = state.currentDoc.segments.find((s) => s.startMs <= tMs && tMs < s.endMs) ?? null;
     return { id: seg?.id ?? null, text: seg?.text ?? '' };
-  }, [state.currentDoc, currentTimeMs]);
+  }, [state.currentDoc, state.selectedId, currentTimeMs]);
 
   const handleDocChangeFromTimeline = useCallback(
     (doc: typeof state.currentDoc, selectedId?: CaptionSegmentId | null) => {
@@ -210,6 +215,27 @@ export const App = () => {
       }));
     },
     [setState]
+  );
+
+  const handlePlayCaption = useCallback(
+    async (id: CaptionSegmentId) => {
+      if (!state.currentDoc || !videoRef.current) return;
+      const seg = state.currentDoc.segments.find((s) => s.id === id);
+      if (!seg) return;
+
+      setState((prev) => ({
+        ...prev,
+        selectedId: id,
+        selectedIds: new Set([id]),
+      }));
+      onAfterDocChange(state.currentDoc, id);
+
+      videoRef.current.currentTime = seg.startMs / 1000;
+      setCurrentTimeMs(seg.startMs);
+      await videoRef.current.play();
+      setSegmentPlayUntilMs(seg.endMs);
+    },
+    [state.currentDoc, setState, onAfterDocChange, videoRef, setCurrentTimeMs, setSegmentPlayUntilMs]
   );
 
   return (
@@ -251,11 +277,14 @@ export const App = () => {
             onSplit={handleSplit}
             onMerge={handleMerge}
             onDelete={handleDelete}
+            onPlayCaption={handlePlayCaption}
+            playheadMs={currentTimeMs}
           />
 
           <div className="ccVideoColumn">
             <VideoPlayer
               doc={state.currentDoc}
+              ignoredSuggestionIds={ignoredSuggestionIds}
               currentTimeMs={currentTimeMs}
               durationMs={videoDurationMs}
               isPlaying={isPlaying}
@@ -274,12 +303,13 @@ export const App = () => {
               onPlayPrevCaption={() => seekToCaptionByOffset(-1)}
               onPlayNextCaption={() => seekToCaptionByOffset(1)}
               videoRef={videoRef}
-              burnedInCaptionSegmentId={currentCaption.id}
-              burnedInCaptionText={currentCaption.text}
+              burnedInCaptionSegmentId={burnedInCaption.id}
+              burnedInCaptionText={burnedInCaption.text}
               onEditBurnedInCaptionText={(id, nextText) => {
                 if (!state.currentDoc) return;
                 handleEditText(id, nextText);
               }}
+              onIgnoreSuggestion={onIgnoreSuggestion}
             />
           </div>
         </div>

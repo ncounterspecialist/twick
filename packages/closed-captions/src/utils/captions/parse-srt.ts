@@ -1,6 +1,6 @@
 import type { CaptionDoc, CaptionSegment } from './types';
-import { buildWordsForSegment } from '../mockWords/buildWordsForSegment';
-import { segmentIdFromIndex } from './segmentId';
+import { buildWordsForSegment } from '../mock-words/build-words-for-segment';
+import { segmentIdFromIndex } from './segment-id';
 import { computeSegmentFlags } from '../flags/flags';
 
 const parseTimeToMs = (raw: string) => {

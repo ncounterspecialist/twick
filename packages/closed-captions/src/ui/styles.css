@@ -453,12 +453,14 @@ body {
 
 .ccCaptionTable {
   width: 100%;
+  table-layout: fixed;
   border-collapse: collapse;
   font-size: 12px;
 }
 
 .ccCaptionTable th {
   text-align: left;
+  height: 26px;
   padding: 8px 6px;
   background: rgba(0, 0, 0, 0.3);
   color: var(--muted);
@@ -467,10 +469,21 @@ body {
   white-space: nowrap;
 }
 
-.ccCaptionTableThNum { width: 36px; }
-.ccCaptionTableThTime { width: 56px; }
+.ccCaptionTableThNum {
+  width: 26px;
+  height: 50px;
+  min-width: 26px;
+  text-align: center;
+  padding: 8px 2px;
+}
+.ccCaptionTableThTime {
+  width: 48px;
+  min-width: 48px;
+  text-align: center;
+  padding: 8px 2px;
+}
 .ccCaptionTableThSpeaker { width: 72px; }
-.ccCaptionTableThText { min-width: 0; }
+.ccCaptionTableThText { min-width: 0; width: auto; }
 
 .ccCaptionTableRow {
   cursor: pointer;
@@ -505,6 +518,37 @@ body {
 
 .ccCaptionTableRow.isOverlap.ccHasSuggestion {
   background: rgba(222, 64, 93, 0.18);
+}
+
+/* Playhead: current caption vs past / future (list) */
+.ccCaptionTableRow {
+  transition: opacity 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.ccCaptionTableRow.ccPlayheadPast {
+  opacity: 0.44;
+}
+
+.ccCaptionTableRow.ccPlayheadFuture {
+  opacity: 0.52;
+}
+
+.ccCaptionTableRow.ccPlayheadActive {
+  opacity: 1;
+  background: rgba(124, 92, 255, 0.16);
+  box-shadow:
+    inset 0 0 0 1px rgba(167, 139, 255, 0.55),
+    0 0 22px rgba(124, 92, 255, 0.32);
+}
+
+.ccCaptionTableRow.isSelected.ccPlayheadPast,
+.ccCaptionTableRow.isSelected.ccPlayheadFuture {
+  opacity: 0.68;
+}
+
+.ccCaptionTableRow.isPrimary.ccPlayheadPast,
+.ccCaptionTableRow.isPrimary.ccPlayheadFuture {
+  opacity: 0.72;
 }
 
 /* Red underline for suggested text (table + popover); always red */
@@ -675,7 +719,7 @@ body {
 }
 
 .ccCaptionTable td {
-  padding: 6px;
+  padding: 6px 4px;
   vertical-align: middle;
   color: var(--text);
 }
@@ -683,17 +727,93 @@ body {
 .ccCaptionTableTdNum {
   display: flex;
   align-items: center;
-  gap: 6px;
+  justify-content: center;
+  width: 26px;
+  max-width: 26px;
+  height: 50px;
+  padding: 6px 2px;
+  box-sizing: border-box;
   white-space: nowrap;
 }
 
-.ccCaptionTableTdTime { font-variant-numeric: tabular-nums; }
+.ccCaptionTableTdTime {
+  font-variant-numeric: tabular-nums;
+  width: 48px;
+  max-width: 48px;
+  padding: 6px 2px;
+  box-sizing: border-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+}
 .ccCaptionTableTdSpeaker { color: var(--muted); }
 .ccCaptionTableTdText {
   max-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.ccCaptionTableTdText.ccCaptionTableTdTextEditor {
+  max-width: none;
+  min-width: 140px;
+  overflow: visible;
+  white-space: normal;
+  vertical-align: middle;
+}
+
+.ccCaptionTableTextWrap {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+}
+
+.ccCaptionTableTextarea {
+  width: 100%;
+  min-height: 36px;
+  max-height: 120px;
+  resize: vertical;
+  padding: 4px 6px;
+  margin: 0;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.18);
+  color: var(--text);
+  font: inherit;
+  font-size: 12px;
+  line-height: 1.35;
+  box-sizing: border-box;
+}
+
+.ccCaptionTableTextarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: rgba(0, 0, 0, 0.28);
+}
+
+.ccCaptionTableSuggestionOverlay {
+  position: absolute;
+  inset: 0;
+  padding: 4px 6px;
+  overflow: auto;
+  pointer-events: none;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  color: transparent;
+  font: inherit;
+  font-size: 12px;
+  line-height: 1.35;
+  box-sizing: border-box;
+}
+
+.ccCaptionTableSuggestionOverlay .ccSuggestionTrigger {
+  pointer-events: auto;
+  color: transparent;
+  cursor: default;
+}
+
+.ccCaptionTableSuggestionOverlayContent {
+  min-height: 100%;
 }
 
 .ccCaptionSubPanelToggle {
@@ -944,6 +1064,38 @@ body {
   line-height: 1.2;
 }
 
+.ccBurnedInCaptionTextareaWrap {
+  position: relative;
+  width: 100%;
+  max-height: 160px;
+}
+
+.ccBurnedInCaptionSuggestionOverlay {
+  position: absolute;
+  inset: 0;
+  overflow: auto;
+  pointer-events: none;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  color: transparent;
+  font: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  text-align: inherit;
+}
+
+.ccBurnedInCaptionSuggestionOverlay .ccSuggestionTrigger {
+  pointer-events: auto;
+  color: transparent;
+  cursor: default;
+}
+
+.ccBurnedInCaptionSuggestionOverlayContent {
+  min-height: 100%;
+}
+
 .ccBurnedInCaptionInput {
   width: 100%;
   resize: none;
@@ -956,6 +1108,10 @@ body {
   letter-spacing: inherit;
   text-transform: inherit;
   line-height: inherit;
+}
+
+.ccBurnedInCaptionInput:focus {
+  outline: none;
 }
 
 .ccTransport {
@@ -1111,6 +1267,46 @@ body {
   z-index: 1;
   border: 1px solid rgba(255, 255, 255, 0.12);
   background: rgb(113 109 103 / 26%);
+  transition: opacity 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease, top 0.18s ease, height 0.18s ease,
+    border-color 0.18s ease, background 0.18s ease;
+}
+
+.ccTimelineEl.ccPlayheadPast {
+  opacity: 0.4;
+  filter: saturate(0.72);
+}
+
+.ccTimelineEl.ccPlayheadFuture {
+  opacity: 0.48;
+  filter: saturate(0.82);
+}
+
+.ccTimelineEl.ccPlayheadActive {
+  top: 2px;
+  height: 52px;
+  z-index: 4;
+  opacity: 1;
+  filter: saturate(1);
+  border: 1px solid rgba(210, 190, 255, 0.9);
+  background: linear-gradient(165deg, rgba(124, 92, 255, 0.45), rgba(75, 50, 160, 0.28));
+  box-shadow:
+    0 0 0 2px rgba(124, 92, 255, 0.45),
+    0 0 26px rgba(124, 92, 255, 0.55),
+    0 8px 18px rgba(0, 0, 0, 0.38);
+}
+
+.ccTimelineEl.ccPlayheadActive .ccTimelineElText {
+  color: rgba(255, 255, 255, 0.98);
+  font-weight: 600;
+}
+
+.ccTimelineEl.ccPlayheadActive.isOverlap {
+  background: linear-gradient(165deg, rgba(255, 92, 122, 0.52), rgba(124, 92, 255, 0.28));
+  border-color: rgba(255, 92, 122, 0.88);
+  box-shadow:
+    0 0 0 2px rgba(124, 92, 255, 0.42),
+    0 0 22px rgba(255, 92, 122, 0.42),
+    0 8px 16px rgba(0, 0, 0, 0.36);
 }
 
 .ccTimelineEl.isOverlap {
@@ -1291,6 +1487,22 @@ body {
 .ccTlTrackShell {
   position: relative;
   height: 100%;
+}
+
+.ccTlSnapGuides {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.ccTlSnapGuide {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  margin-left: -0.5px;
+  background: rgba(124, 92, 255, 0.18);
 }
 
 .ccTlVideoBar {

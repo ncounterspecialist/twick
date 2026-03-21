@@ -1,5 +1,5 @@
 import { createPortal } from 'react-dom';
-import type { TextSuggestion } from '../../utils/mockAi/textSuggestions';
+import type { TextSuggestion } from '../../utils/mock-ai/text-suggestions';
 
 const POPOVER_OFFSET = 6;
 

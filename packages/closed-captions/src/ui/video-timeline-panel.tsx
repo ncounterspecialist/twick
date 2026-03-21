@@ -1,10 +1,11 @@
 import { useMemo, useState } from 'react';
-import { ZoomIn, ZoomOut } from 'lucide-react';
+import { Wand2, ZoomIn, ZoomOut } from 'lucide-react';
 import type { CaptionDoc, CaptionSegmentId } from '../utils/captions/types';
-import type { MockDocInsights, MockSegmentInsights } from '../utils/mockAi/types';
-import { ClosedCaptionsTimeline } from './timeline/ClosedCaptionsTimeline';
-import { applyUpdateTiming } from '../utils/editor/actions';
-import { buildMockInsightsForDoc, buildMockInsightsForSegment } from '../utils/mockAi/mockAi';
+import type { MockDocInsights, MockSegmentInsights } from '../utils/mock-ai/types';
+import { useAudioSnapPoints } from '../hooks/use-audio-snap-points';
+import { ClosedCaptionsTimeline } from './timeline/closed-captions-timeline';
+import { applyAlignAllToPauseBoundaries, applyUpdateTiming } from '../utils/editor/actions';
+import { buildMockInsightsForDoc, buildMockInsightsForSegment } from '../utils/mock-ai/mock-ai';
 
 export const VideoTimelinePanel = ({
   doc,
@@ -46,6 +47,8 @@ export const VideoTimelinePanel = ({
     return BASE_PX_PER_SECOND * z;
   }, [zoom]);
 
+  const snapPointsMs = useAudioSnapPoints(mediaUrl);
+
   return (
     !doc ? (
       <div className="ccEmpty">Import to view timeline.</div>
@@ -56,6 +59,27 @@ export const VideoTimelinePanel = ({
             Video Timeline
           </div>
           <div className="ccGhostIconRow">
+            <button
+              type="button"
+              className="ccGhostIconBtn"
+              disabled={snapPointsMs.length === 0}
+              onClick={() => {
+                const result = applyAlignAllToPauseBoundaries(doc, snapPointsMs, durationMs, { selectedId });
+                onDocChange(result.doc, result.selectedId ?? selectedId);
+                setMockDocInsights(buildMockInsightsForDoc(result.doc));
+                const seg =
+                  result.doc.segments.find((s) => s.id === (result.selectedId ?? selectedId)) ?? null;
+                setMockSegmentInsights(seg ? buildMockInsightsForSegment(seg) : null);
+                showToast('Aligned all captions to speech pauses');
+              }}
+              title={
+                snapPointsMs.length === 0
+                  ? 'Load video audio to detect pauses first'
+                  : 'Align all captions to detected speech pauses'
+              }
+            >
+              <Wand2 size={16} />
+            </button>
             <button
               className="ccGhostIconBtn"
               onClick={() => setZoom((z) => Math.max(0.25, Math.round((z - 0.25) * 100) / 100))}
@@ -85,6 +109,7 @@ export const VideoTimelinePanel = ({
           durationMs={durationMs}
           playheadMs={playheadMs}
           mediaUrl={mediaUrl ?? undefined}
+          snapPointsMs={snapPointsMs}
           pxPerSecond={pxPerSecond}
           onSelect={onSelect}
           onSeekMs={onSeekMs}

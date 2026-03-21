@@ -1,16 +1,16 @@
-import { useCallback, useEffect, useMemo, useRef, type MouseEvent } from 'react';
+import { useCallback, useEffect, useRef, type MouseEvent } from 'react';
 import type { CaptionDoc, CaptionSegmentId } from '../../utils/captions/types';
 import type { CaptionSegment } from '../../utils/captions/types';
-import type { TextSuggestion } from '../../utils/mockAi/textSuggestions';
+import type { TextSuggestion } from '../../utils/mock-ai/text-suggestions';
 import { GitMerge, Plus, Scissors, Trash2 } from 'lucide-react';
 import { useCaptionTableSelection } from '../../hooks';
 import {
   getActiveSuggestionsForSegment,
   getTextPartsWithSuggestions,
-} from '../../utils/mockAi/textSuggestions';
-import type { TextPart } from './CaptionTableRow';
-import { CaptionTextPanel } from './caption-text.panel';
-import { CaptionTableRow } from './CaptionTableRow';
+} from '../../utils/mock-ai/text-suggestions';
+import { getPlayheadPhase } from '../../utils/captions/playhead-phase';
+import type { TextPart } from './caption-table-row';
+import { CaptionTableRow } from './caption-table-row';
 
 function replaceFirstOccurrence(text: string, original: string, replacement: string): string {
   const idx = text.toLowerCase().indexOf(original.toLowerCase());
@@ -33,6 +33,8 @@ const CaptionPanel = ({
   onSplit,
   onMerge,
   onDelete,
+  onPlayCaption,
+  playheadMs,
 }: {
   doc: CaptionDoc | null;
   selectedId: CaptionSegmentId | null;
@@ -48,14 +50,10 @@ const CaptionPanel = ({
   onSplit: () => void;
   onMerge: () => void;
   onDelete: () => void;
+  onPlayCaption: (id: CaptionSegmentId) => void;
+  playheadMs: number;
 }) => {
   const { overlapIds, canMerge, canDelete, canSplit } = useCaptionTableSelection(doc, selectedId, selectedIds);
-
-  const selectedSegmentSuggestions = useMemo(() => {
-    if (!doc || !selectedId) return [];
-    const seg = doc.segments.find((s) => s.id === selectedId);
-    return seg ? getActiveSuggestionsForSegment(seg, ignoredSuggestionIds) : [];
-  }, [doc, selectedId, ignoredSuggestionIds]);
 
   const handleApplySuggestion = useCallback(
     (suggestion: TextSuggestion, replacement: string) => {
@@ -132,7 +130,7 @@ const CaptionPanel = ({
             {doc.segments
               .slice()
               .sort((a: CaptionSegment, b: CaptionSegment) => a.startMs - b.startMs)
-              .map((seg, idx) => {
+              .map((seg) => {
                 const segmentSuggestions = getActiveSuggestionsForSegment(seg, ignoredSuggestionIds);
                 const hasSuggestions = segmentSuggestions.length > 0;
                 const isOverlap = overlapIds.has(seg.id);
@@ -140,18 +138,21 @@ const CaptionPanel = ({
                 const textParts: TextPart[] = hasSuggestions
                   ? getTextPartsWithSuggestions(seg.text, segmentSuggestions)
                   : [];
+                const playheadPhase = getPlayheadPhase(seg.startMs, seg.endMs, playheadMs);
                 return (
                   <CaptionTableRow
                     key={seg.id}
                     segment={seg}
-                    index={idx}
                     isPrimary={seg.id === selectedId}
                     isSelected={selectedIds.has(seg.id)}
                     isOverlap={isOverlap}
                     hasSuggestions={hasSuggestions}
+                    playheadPhase={playheadPhase}
                     textParts={textParts}
                     onSelect={onSelect}
                     onToggleSelect={onToggleSelect}
+                    onPlayCaption={onPlayCaption}
+                    onEditCaptionText={onEditCaptionText}
                     onApplySuggestion={handleApplySuggestion}
                     onIgnoreSuggestion={onIgnoreSuggestion}
                   />
@@ -160,14 +161,6 @@ const CaptionPanel = ({
           </tbody>
         </table>
       </div>
-
-      <CaptionTextPanel
-        doc={doc}
-        selectedId={selectedId}
-        suggestions={selectedSegmentSuggestions}
-        onEditCaptionText={onEditCaptionText}
-        onIgnoreSuggestion={onIgnoreSuggestion}
-      />
     </>
   )}
 </div>
