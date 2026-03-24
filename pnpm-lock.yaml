@@ -297,11 +297,11 @@ importers:
         specifier: ^1.3.3
         version: 1.3.3
       '@twick/ai-models':
-        specifier: ^0.15.26
-        version: 0.15.26
+        specifier: ^0.15.27
+        version: 0.15.27
       '@twick/workflow':
-        specifier: ^0.15.26
-        version: 0.15.26
+        specifier: ^0.15.27
+        version: 0.15.27
       fluent-ffmpeg:
         specifier: ^2.1.2
         version: 2.1.3
@@ -334,8 +334,8 @@ importers:
         specifier: ^1.3.3
         version: 1.3.3
       '@twick/ai-models':
-        specifier: ^0.15.26
-        version: 0.15.26
+        specifier: ^0.15.27
+        version: 0.15.27
       fluent-ffmpeg:
         specifier: ^2.1.2
         version: 2.1.3
@@ -8705,8 +8705,8 @@ packages:
       parse-svg-path: 0.1.2
     dev: false
 
-  /@twick/ai-models@0.15.26:
-    resolution: {integrity: sha512-wyMmeC4fsM4PPjiLDvh8upaZOashMRciqcJmw1cTL+bc6WnWZVzrDKYo2AOnvF2Z/Hon9htxgicebG1tL8lKUA==}
+  /@twick/ai-models@0.15.27:
+    resolution: {integrity: sha512-alxzTrFpN8ef31A3YglaZYDtPtn9+Y+bAcg2pNHIMxdOs1isImFobr2MtgRK2yGclzpz39GuGTizAXAKEtoCtQ==}
     engines: {node: '>=20.0.0'}
     dev: false
 
@@ -8776,6 +8776,13 @@ packages:
       lamejs: 1.2.1
     dev: false
 
+  /@twick/media-utils@0.15.27:
+    resolution: {integrity: sha512-2q0ziR+qQLgwo7KJ84oL2IybQjg5n8cQ2AmPb8NdG7vVRdJHOSKbFXxWRe+zlsL28aDJ4/VSpUUWMFT7v0Dp9g==}
+    engines: {node: '>=20.0.0'}
+    dependencies:
+      lamejs: 1.2.1
+    dev: false
+
   /@twick/player-react@0.15.25:
     resolution: {integrity: sha512-4Km6o30mnCQKs9duvJQkli6oDYSqvUl0vpXY7c4eM5L1gj3mPFmEgvqxTcVB9jk/H9YRQAf5d6fpnnJr94HtmQ==}
     dependencies:
@@ -8821,11 +8828,11 @@ packages:
     transitivePeerDependencies:
       - debug
 
-  /@twick/timeline@0.15.26:
-    resolution: {integrity: sha512-pdpG/6RY03OyvbeIUzeQ+Oo4bpYUecfKnkgY/cuf/afG65bnNtneJb4oi4vOAJyJArQF4C1hds2DAnSYrN/vyA==}
+  /@twick/timeline@0.15.27:
+    resolution: {integrity: sha512-q99rpKWkWBzPSaxJZuQqhOpHVS3NjIs8s9NgST8QJINoNij+Ikp0BzWvWhg7wZUhnhZKqR+6yXXJGln5dpg2eg==}
     engines: {node: '>=20.0.0'}
     dependencies:
-      '@twick/media-utils': 0.15.26
+      '@twick/media-utils': 0.15.27
       posthog-js: 1.335.5
     dev: false
 
@@ -8881,12 +8888,12 @@ packages:
     transitivePeerDependencies:
       - debug
 
-  /@twick/workflow@0.15.26:
-    resolution: {integrity: sha512-Hlsyu9/FO5uSreILOhnn8y/3Q6+3jttu88DeoNsban7Uzez9Ucy1Zc16JZG4nnJwpK8LOAAaBBACUQa+xX98tg==}
+  /@twick/workflow@0.15.27:
+    resolution: {integrity: sha512-3TCkJ7N3T4VeiWYzSrcyZx3zOS2yA+kKJJRt+gnf+d78mv99O/eF2vQzD08mUMozk4EhQxSFMhYpYr8t+yzBFg==}
     engines: {node: '>=20.0.0'}
     dependencies:
-      '@twick/ai-models': 0.15.26
-      '@twick/timeline': 0.15.26
+      '@twick/ai-models': 0.15.27
+      '@twick/timeline': 0.15.27
     dev: false
 
   /@types/argparse@1.0.38:
