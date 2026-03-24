@@ -158,6 +158,7 @@ interface CaptionPropPanelProps {
 export function CaptionPropPanel({
   selectedElement,
   updateElement,
+  setApplyPropsToAllCaption,
 }: CaptionPropPanelProps & PropertiesPanelProps) {
   const { editor, changeLog } = useTimelineContext();
   const captionRef = useRef<HTMLInputElement>(null);
@@ -181,6 +182,95 @@ export function CaptionPropPanel({
   const trackProps = track?.getProps() ?? {};
   const applyToAll = trackProps?.applyToAll ?? false;
 
+  const getEffectiveColors = ({
+    nextColors,
+    highlightEnabled,
+    outlineEnabled,
+  }: {
+    nextColors: CaptionColorsState;
+    highlightEnabled: boolean;
+    outlineEnabled: boolean;
+  }): CaptionColorsState => {
+    let effectiveColors: CaptionColorsState = { ...nextColors };
+    if (!highlightEnabled) {
+      const { highlight, ...rest } = effectiveColors;
+      effectiveColors = rest;
+    }
+    if (!outlineEnabled) {
+      const { outlineColor, ...rest } = effectiveColors;
+      effectiveColors = rest;
+    }
+    return effectiveColors;
+  };
+
+  const handleApplyToAllChange = (enabled: boolean) => {
+    if (!track) return;
+
+    if (enabled) {
+      const nextCapStyle = capStyle?.value;
+      const nextFont = {
+        size: fontSize,
+        family: fontFamily,
+      };
+      const nextColors = getEffectiveColors({
+        nextColors: colors,
+        highlightEnabled: useHighlight,
+        outlineEnabled: useOutline,
+      });
+      const geometry = computeCaptionGeometry(fontSize, nextCapStyle ?? "");
+      editor.updateTrackProps(track.getId(), {
+        capStyle: nextCapStyle,
+        font: { ...(trackProps?.font ?? {}), ...nextFont },
+        colors: nextColors,
+        lineWidth: geometry.lineWidth,
+        rectProps: geometry.rectProps,
+        applyToAll: true,
+      });
+    } else {
+      const elements = track.getElements() as CaptionElement[];
+      const trackCapStyle = trackProps?.capStyle ?? capStyle?.value;
+      const trackFont = {
+        size: trackProps?.font?.size ?? fontSize,
+        family: trackProps?.font?.family ?? fontFamily,
+      };
+      const trackColors = {
+        text: trackProps?.colors?.text ?? colors.text,
+        highlight: trackProps?.colors?.highlight ?? colors.highlight,
+        bgColor: trackProps?.colors?.bgColor ?? colors.bgColor,
+        outlineColor: trackProps?.colors?.outlineColor ?? colors.outlineColor,
+      };
+      const effectiveTrackColors = getEffectiveColors({
+        nextColors: trackColors,
+        highlightEnabled: trackColors.highlight != null,
+        outlineEnabled: trackColors.outlineColor != null,
+      });
+      const geometry = computeCaptionGeometry(trackFont.size, trackCapStyle ?? "");
+
+      editor.updateElements(
+        elements.map((element) => {
+          const elementProps = element.getProps() ?? {};
+          return {
+            elementId: element.getId(),
+            updates: {
+              props: {
+                ...elementProps,
+                capStyle: trackCapStyle,
+                font: trackFont,
+                colors: effectiveTrackColors,
+                lineWidth: geometry.lineWidth,
+              },
+            },
+          };
+        })
+      );
+      editor.updateTrackProps(track.getId(), {
+        applyToAll: false,
+      });
+    }
+
+    setApplyPropsToAllCaption?.(enabled);
+  };
+
   const handleUpdateCaption = (updates: {
     text?: string;
     style?: string;
@@ -201,16 +291,11 @@ export function CaptionPropPanel({
     const outlineEnabled = updates.useOutlineOverride ?? useOutline;
     const rawNextColors: CaptionColorsState = updates.colors ?? colors;
 
-    // Start with raw colors, then drop highlight / outlineColor keys when disabled.
-    let effectiveColors: CaptionColorsState = { ...rawNextColors };
-    if (!highlightEnabled) {
-      const { highlight, ...rest } = effectiveColors;
-      effectiveColors = rest;
-    }
-    if (!outlineEnabled) {
-      const { outlineColor, ...rest } = effectiveColors;
-      effectiveColors = rest;
-    }
+    const effectiveColors = getEffectiveColors({
+      nextColors: rawNextColors,
+      highlightEnabled,
+      outlineEnabled,
+    });
 
     if (applyToAll && track) {
       const nextFont = {
@@ -220,15 +305,13 @@ export function CaptionPropPanel({
       const nextColors = effectiveColors;
       const nextCapStyle = updates.style ?? capStyle?.value;
 
-      track.setProps({
-        ...trackProps,
+      editor.updateTrackProps(track.getId(), {
         capStyle: nextCapStyle,
         font: { ...(trackProps?.font ?? {}), ...nextFont },
         colors: nextColors,
         lineWidth: geometry.lineWidth,
         rectProps: geometry.rectProps,
       });
-      editor.refresh();
     } else {
       const elementProps = captionElement.getProps() ?? {};
       captionElement.setProps({
@@ -251,14 +334,30 @@ export function CaptionPropPanel({
       if (captionRef.current) {
         captionRef.current.value = captionElement?.getText();
       }
-      const props = applyToAll ? trackProps : (captionElement.getProps() ?? {});
-      const _capStyle = props?.capStyle;
+      const elementProps = captionElement.getProps() ?? {};
+      const resolvedCapStyle = applyToAll
+        ? trackProps?.capStyle
+        : (elementProps?.capStyle ?? trackProps?.capStyle);
+      const resolvedFont = applyToAll
+        ? trackProps?.font
+        : {
+            ...(trackProps?.font ?? {}),
+            ...(elementProps?.font ?? {}),
+          };
+      const resolvedColors = applyToAll
+        ? trackProps?.colors
+        : {
+            ...(trackProps?.colors ?? {}),
+            ...(elementProps?.colors ?? {}),
+          };
+
+      const _capStyle = resolvedCapStyle;
       if (_capStyle && _capStyle in CAPTION_STYLE_OPTIONS) {
         setCapStyle(CAPTION_STYLE_OPTIONS[_capStyle as keyof typeof CAPTION_STYLE_OPTIONS]);
       }
-      setFontSize(props?.font?.size ?? CAPTION_FONT.size);
-      setFontFamily(props?.font?.family ?? CAPTION_FONT.family);
-      const c = props?.colors;
+      setFontSize(resolvedFont?.size ?? CAPTION_FONT.size);
+      setFontFamily(resolvedFont?.family ?? CAPTION_FONT.family);
+      const c = resolvedColors;
       setColors({
         text: c?.text ?? CAPTION_COLOR.text,
         highlight: c?.highlight ?? CAPTION_COLOR.highlight,
@@ -331,6 +430,20 @@ export function CaptionPropPanel({
   return (
     <div className="panel-container">
       {/* Caption Style */}
+      <div className="panel-section">
+        <div className="checkbox-control">
+          <label className="checkbox-label">
+            <input
+              type="checkbox"
+              checked={applyToAll}
+              onChange={(e) => handleApplyToAllChange(e.target.checked)}
+              className="checkbox-purple"
+            />
+            Apply style changes to all captions
+          </label>
+        </div>
+      </div>
+
       <div className="panel-section">
         <label className="label-dark">Caption Style</label>
         <select
