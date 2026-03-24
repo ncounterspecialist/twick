@@ -279,7 +279,7 @@ export const addCaptionElement = ({
     elementColors?.outlineColor ??
     element.props?.stroke;
   const resolvedStroke =
-    (applyToAll ? trackStroke ?? elementStroke : elementStroke ?? trackStroke) ??
+    (applyToAll ? trackStroke : elementStroke ?? trackStroke) ??
     undefined;
 
   const caption = new Textbox(element.props?.text || element.t || "", {
