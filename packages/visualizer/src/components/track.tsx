@@ -95,14 +95,14 @@ export function* makeCaptionTrack({
 
   const tProps = track?.props;
   const defaultCapStyle = "highlight_bg";
-  const applyToAll = tProps?.applyToAll ?? false;
   
   for (const element of track.elements) {
     const eProps = element.props ?? {};
     // wordsMs belongs to caption timing only – keep it out of visual style merging.
     const { wordsMs, ...elementPropsWithoutWords } = eProps as any;
 
-    const resolvedCapStyle = applyToAll
+    const useTrackDefaults = (elementPropsWithoutWords as any)?.useTrackDefaults ?? true;
+    const resolvedCapStyle = useTrackDefaults
       ? (tProps?.capStyle ?? defaultCapStyle)
       : ((elementPropsWithoutWords as any)?.capStyle ?? tProps?.capStyle ?? defaultCapStyle);
 
@@ -118,12 +118,12 @@ export function* makeCaptionTrack({
     };
 
     // Resolve colors with priority: element.props.colors > track.props.colors > defaults.
-    const elementColors = applyToAll ? undefined : (elementPropsWithoutWords as any)?.colors;
+    const elementColors = useTrackDefaults ? undefined : (elementPropsWithoutWords as any)?.colors;
     const trackColors = tProps?.colors;
     const phraseColors = elementColors ?? trackColors ?? DEFAULT_CAPTION_COLORS;
 
     // Resolve font with priority: element.props.font > track.props.font > defaults.
-    const elementFont = applyToAll ? undefined : (elementPropsWithoutWords as any)?.font;
+    const elementFont = useTrackDefaults ? undefined : (elementPropsWithoutWords as any)?.font;
     const trackFont = tProps?.font;
     const resolvedFont = elementFont ?? trackFont ?? DEFAULT_CAPTION_FONT;
 
@@ -131,7 +131,7 @@ export function* makeCaptionTrack({
     const basePhraseStyle = {
       ...trackDefaultProps,
       ...tProps,
-      ...(applyToAll ? {} : elementPropsWithoutWords),
+      ...(useTrackDefaults ? {} : elementPropsWithoutWords),
     };
 
     const bgOpacityFromBase = (basePhraseStyle as any)?.bgOpacity;
@@ -185,7 +185,7 @@ export function* makeCaptionTrack({
       caption: {
         ...element,
         t: element.t ?? "",
-        capStyle: applyToAll ? tProps?.capStyle : (eProps?.capStyle ?? tProps?.capStyle),
+        capStyle: useTrackDefaults ? tProps?.capStyle : (eProps?.capStyle ?? tProps?.capStyle),
         props: captionPropsForElement,
       },
       view,

@@ -180,7 +180,8 @@ export function CaptionPropPanel({
     ? editor.getTrackById(selectedElement.getTrackId())
     : null;
   const trackProps = track?.getProps() ?? {};
-  const applyToAll = trackProps?.applyToAll ?? false;
+  const elementProps = (selectedElement as CaptionElement | null)?.getProps?.() ?? {};
+  const useTrackDefaults = (elementProps as any)?.useTrackDefaults ?? true;
 
   const getEffectiveColors = ({
     nextColors,
@@ -203,71 +204,41 @@ export function CaptionPropPanel({
     return effectiveColors;
   };
 
-  const handleApplyToAllChange = (enabled: boolean) => {
-    if (!track) return;
+  const handleUseTrackDefaultsChange = (enabled: boolean) => {
+    const captionElement = selectedElement as CaptionElement;
+    if (!captionElement) return;
+
+    const prev = captionElement.getProps() ?? {};
+    const next: Record<string, unknown> = { ...(prev as any), useTrackDefaults: enabled };
 
     if (enabled) {
-      const nextCapStyle = capStyle?.value;
-      const nextFont = {
-        size: fontSize,
-        family: fontFamily,
-      };
-      const nextColors = getEffectiveColors({
-        nextColors: colors,
-        highlightEnabled: useHighlight,
-        outlineEnabled: useOutline,
-      });
-      const geometry = computeCaptionGeometry(fontSize, nextCapStyle ?? "");
-      editor.updateTrackProps(track.getId(), {
-        capStyle: nextCapStyle,
-        font: { ...(trackProps?.font ?? {}), ...nextFont },
-        colors: nextColors,
-        lineWidth: geometry.lineWidth,
-        rectProps: geometry.rectProps,
-        applyToAll: true,
-      });
-    } else {
-      const elements = track.getElements() as CaptionElement[];
-      const trackCapStyle = trackProps?.capStyle ?? capStyle?.value;
-      const trackFont = {
-        size: trackProps?.font?.size ?? fontSize,
-        family: trackProps?.font?.family ?? fontFamily,
-      };
-      const trackColors = {
-        text: trackProps?.colors?.text ?? colors.text,
-        highlight: trackProps?.colors?.highlight ?? colors.highlight,
-        bgColor: trackProps?.colors?.bgColor ?? colors.bgColor,
-        outlineColor: trackProps?.colors?.outlineColor ?? colors.outlineColor,
-      };
-      const effectiveTrackColors = getEffectiveColors({
-        nextColors: trackColors,
-        highlightEnabled: trackColors.highlight != null,
-        outlineEnabled: trackColors.outlineColor != null,
-      });
-      const geometry = computeCaptionGeometry(trackFont.size, trackCapStyle ?? "");
-
-      editor.updateElements(
-        elements.map((element) => {
-          const elementProps = element.getProps() ?? {};
-          return {
-            elementId: element.getId(),
-            updates: {
-              props: {
-                ...elementProps,
-                capStyle: trackCapStyle,
-                font: trackFont,
-                colors: effectiveTrackColors,
-                lineWidth: geometry.lineWidth,
-              },
-            },
-          };
-        })
-      );
-      editor.updateTrackProps(track.getId(), {
-        applyToAll: false,
-      });
+      // Clear style/layout overrides so this caption inherits from track defaults.
+      const keysToClear = [
+        "capStyle",
+        "x",
+        "y",
+        "width",
+        "maxWidth",
+        "textAlign",
+        "rotation",
+        "opacity",
+        "colors",
+        "font",
+        "lineWidth",
+        "rectProps",
+        "shadowColor",
+        "shadowBlur",
+        "shadowOffset",
+        "fill",
+        "stroke",
+      ];
+      for (const k of keysToClear) {
+        delete (next as any)[k];
+      }
     }
 
+    captionElement.setProps(next);
+    updateElement?.(captionElement);
     setApplyPropsToAllCaption?.(enabled);
   };
 
@@ -297,7 +268,7 @@ export function CaptionPropPanel({
       outlineEnabled,
     });
 
-    if (applyToAll && track) {
+    if (useTrackDefaults && track) {
       const nextFont = {
         size: nextFontSize,
         family: updates.fontFamily ?? fontFamily,
@@ -316,6 +287,7 @@ export function CaptionPropPanel({
       const elementProps = captionElement.getProps() ?? {};
       captionElement.setProps({
         ...elementProps,
+        useTrackDefaults: false,
         capStyle: updates.style ?? capStyle?.value,
         font: {
           size: nextFontSize,
@@ -335,20 +307,21 @@ export function CaptionPropPanel({
         captionRef.current.value = captionElement?.getText();
       }
       const elementProps = captionElement.getProps() ?? {};
-      const resolvedCapStyle = applyToAll
+      const elementUseTrackDefaults = (elementProps as any)?.useTrackDefaults ?? true;
+      const resolvedCapStyle = elementUseTrackDefaults
         ? trackProps?.capStyle
-        : (elementProps?.capStyle ?? trackProps?.capStyle);
-      const resolvedFont = applyToAll
-        ? trackProps?.font
+        : (elementProps as any)?.capStyle ?? trackProps?.capStyle;
+      const resolvedFont = elementUseTrackDefaults
+        ? (trackProps as any)?.font
         : {
-            ...(trackProps?.font ?? {}),
-            ...(elementProps?.font ?? {}),
+            ...((trackProps as any)?.font ?? {}),
+            ...((elementProps as any)?.font ?? {}),
           };
-      const resolvedColors = applyToAll
-        ? trackProps?.colors
+      const resolvedColors = elementUseTrackDefaults
+        ? (trackProps as any)?.colors
         : {
-            ...(trackProps?.colors ?? {}),
-            ...(elementProps?.colors ?? {}),
+            ...((trackProps as any)?.colors ?? {}),
+            ...((elementProps as any)?.colors ?? {}),
           };
 
       const _capStyle = resolvedCapStyle;
@@ -367,7 +340,7 @@ export function CaptionPropPanel({
       setUseHighlight(c?.highlight != null);
       setUseOutline(c?.outlineColor != null);
     }
-  }, [selectedElement, applyToAll, changeLog]);
+  }, [selectedElement, track, changeLog]);
 
   if (!(selectedElement instanceof CaptionElement)) {
     return null;
@@ -435,11 +408,11 @@ export function CaptionPropPanel({
           <label className="checkbox-label">
             <input
               type="checkbox"
-              checked={applyToAll}
-              onChange={(e) => handleApplyToAllChange(e.target.checked)}
+              checked={useTrackDefaults}
+              onChange={(e) => handleUseTrackDefaultsChange(e.target.checked)}
               className="checkbox-purple"
             />
-            Apply style changes to all captions
+            Use track defaults
           </label>
         </div>
       </div>

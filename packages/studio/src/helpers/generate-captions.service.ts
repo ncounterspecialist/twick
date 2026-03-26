@@ -105,7 +105,6 @@ class GenerateCaptionsService implements ICaptionGenerationService {
         ...CAPTION_PROPS[CAPTION_STYLE.WORD_BG_HIGHLIGHT],
         x: 0,
         y: 200,
-        applyToAll: true,
       },
       // For now, rely on auto-detected language in the backend; language
       // wiring is handled when applying patches at the workflow level.

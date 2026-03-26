@@ -27,7 +27,8 @@ export const CaptionElement: CanvasElementHandler = {
       context.canvasMetadata,
       context.videoSize
     );
-    if (context.captionPropsRef.current?.applyToAll) {
+    const useTrackDefaults = (element.props as any)?.useTrackDefaults ?? true;
+    if (useTrackDefaults) {
       return {
         element,
         operation: CANVAS_OPERATIONS.CAPTION_PROPS_UPDATED,

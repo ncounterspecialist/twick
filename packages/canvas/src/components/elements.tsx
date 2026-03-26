@@ -251,13 +251,24 @@ export const addCaptionElement = ({
   canvasMetadata: CanvasMetadata;
   lockAspectRatio?: boolean;
 }) => {
-  const applyToAll = captionProps?.applyToAll ?? false;
-  const captionTextColor =
-    captionProps?.colors?.text ?? captionProps?.color?.text;
+  const useTrackDefaults = (element.props as any)?.useTrackDefaults ?? true;
+  const trackColors = captionProps?.colors;
+  const elementColors = (element.props as {
+    colors?: {
+      text?: string;
+      outlineColor?: string;
+      highlight?: string;
+      bgColor?: string;
+    };
+  })?.colors;
+  const resolvedColors = useTrackDefaults
+    ? trackColors
+    : { ...(trackColors ?? {}), ...(elementColors ?? {}) };
+  const captionTextColor = resolvedColors?.text ?? captionProps?.color?.text;
 
   const { x, y } = convertToCanvasPosition(
-    (applyToAll ? captionProps?.x : element.props?.x ?? captionProps?.x) ?? 0,
-    (applyToAll ? captionProps?.y : element.props?.y ?? captionProps?.y) ?? 0,
+    ((useTrackDefaults ? captionProps?.x : element.props?.x) ?? captionProps?.x) ?? 0,
+    ((useTrackDefaults ? captionProps?.y : element.props?.y) ?? captionProps?.y) ?? 0,
     canvasMetadata
   );
 
@@ -266,21 +277,21 @@ export const addCaptionElement = ({
     width = Math.min(width, element.props.maxWidth * canvasMetadata.scaleX);
   }
 
-  const elementColors = (element.props as { colors?: { text?: string; outlineColor?: string } })?.colors;
   const resolvedFill =
-    (applyToAll
-      ? captionTextColor
-      : element.props?.fill ?? elementColors?.text ?? captionTextColor) ??
+    ((useTrackDefaults ? undefined : element.props?.fill) ?? captionTextColor) ??
     DEFAULT_CAPTION_PROPS.fill;
 
-  const trackColors = captionProps?.colors;
   const trackStroke = trackColors?.outlineColor;
   const elementStroke =
     elementColors?.outlineColor ??
     element.props?.stroke;
   const resolvedStroke =
-    (applyToAll ? trackStroke : elementStroke ?? trackStroke) ??
+    (useTrackDefaults ? trackStroke : elementStroke ?? trackStroke) ??
     undefined;
+
+  const trackFont = captionProps?.font ?? {};
+  const elementFont = (element.props as any)?.font ?? {};
+  const resolvedFont = useTrackDefaults ? trackFont : { ...trackFont, ...elementFont };
 
   const caption = new Textbox(element.props?.text || element.t || "", {
     left: x,
@@ -289,50 +300,38 @@ export const addCaptionElement = ({
     originY: "center",
     angle: element.props?.rotation || 0,
     fontSize: Math.round(
-      ((applyToAll
-        ? captionProps?.font?.size
-        : element.props?.font?.size ?? captionProps?.font?.size) ??
-        DEFAULT_CAPTION_PROPS.size) * canvasMetadata.scaleX
+      ((resolvedFont?.size ?? DEFAULT_CAPTION_PROPS.size) *
+        canvasMetadata.scaleX)
     ),
     fontFamily:
-      (applyToAll
-        ? captionProps?.font?.family
-        : element.props?.font?.family ?? captionProps?.font?.family) ??
-      DEFAULT_CAPTION_PROPS.family,
+      (resolvedFont?.family ?? DEFAULT_CAPTION_PROPS.family),
     fill: resolvedFill,
     fontWeight:
-      (applyToAll
-        ? captionProps?.font?.weight
-        : element.props?.font?.weight ?? captionProps?.font?.weight) ??
-      DEFAULT_CAPTION_PROPS.fontWeight,
+      (resolvedFont?.weight ?? DEFAULT_CAPTION_PROPS.fontWeight),
     ...(resolvedStroke ? { stroke: resolvedStroke } : {}),
-    opacity: (applyToAll
-      ? captionProps?.opacity
-      : element.props?.opacity ?? captionProps?.opacity) ?? 1,
+    opacity: (((useTrackDefaults ? undefined : element.props?.opacity) ?? captionProps?.opacity) ?? 1),
     width,
     splitByGrapheme: false,
     textAlign: element.props?.textAlign ?? "center",
     shadow: new Shadow({
       offsetX:
-      (applyToAll
-        ? captionProps?.shadowOffset?.[0]
-        : element.props?.shadowOffset?.[0] ?? captionProps?.shadowOffset?.[0]) ??
-        DEFAULT_CAPTION_PROPS.shadowOffset?.[0],
+        (((useTrackDefaults ? undefined : element.props?.shadowOffset?.[0]) ??
+          captionProps?.shadowOffset?.[0]) ??
+          DEFAULT_CAPTION_PROPS.shadowOffset?.[0]),
       offsetY:
-        (applyToAll
-          ? captionProps?.shadowOffset?.[1]
-          : element.props?.shadowOffset?.[1] ?? captionProps?.shadowOffset?.[1]) ??
-        DEFAULT_CAPTION_PROPS.shadowOffset?.[1],
-      blur: (applyToAll
-        ? captionProps?.shadowBlur
-        : element.props?.shadowBlur ?? captionProps?.shadowBlur) ?? DEFAULT_CAPTION_PROPS.shadowBlur,
-      color: (applyToAll
-        ? captionProps?.shadowColor
-        : element.props?.shadowColor ?? captionProps?.shadowColor) ?? DEFAULT_CAPTION_PROPS.shadowColor,
+        (((useTrackDefaults ? undefined : element.props?.shadowOffset?.[1]) ??
+          captionProps?.shadowOffset?.[1]) ??
+          DEFAULT_CAPTION_PROPS.shadowOffset?.[1]),
+      blur:
+        (((useTrackDefaults ? undefined : element.props?.shadowBlur) ??
+          captionProps?.shadowBlur) ??
+          DEFAULT_CAPTION_PROPS.shadowBlur),
+      color:
+        (((useTrackDefaults ? undefined : element.props?.shadowColor) ??
+          captionProps?.shadowColor) ??
+          DEFAULT_CAPTION_PROPS.shadowColor),
     }),
-    strokeWidth: ((applyToAll
-      ? captionProps?.lineWidth
-      : element.props?.lineWidth ?? captionProps?.lineWidth) ?? DEFAULT_CAPTION_PROPS.lineWidth) * 0.025,
+    strokeWidth: ((((useTrackDefaults ? undefined : element.props?.lineWidth) ?? captionProps?.lineWidth) ?? DEFAULT_CAPTION_PROPS.lineWidth) * 0.025),
   });
 
   // Assign metadata and custom controls

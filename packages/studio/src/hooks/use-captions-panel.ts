@@ -6,15 +6,10 @@ import {
   useTimelineContext,
 } from "@twick/timeline";
 import { CAPTION_PROPS } from "../helpers/constant";
-
-interface CaptionEntry {
-  s: number;
-  e: number;
-  t: string;
-}
+import type { CaptionPanelEntry } from "../types";
 
 export const useCaptionsPanel = () => {
-  const [captions, setCaptions] = useState<CaptionEntry[]>([]);
+  const [captions, setCaptions] = useState<CaptionPanelEntry[]>([]);
   const captionsTrack = useRef<Track | null>(null);
   const { editor } = useTimelineContext();
 
@@ -40,6 +35,7 @@ export const useCaptionsPanel = () => {
         s: element.getStart(),
         e: element.getEnd(),
         t: (element as CaptionElement).getText(),
+        isCustom: (element.getProps() as any)?.useTrackDefaults === false,
       }))
     );
   };
@@ -56,14 +52,13 @@ export const useCaptionsPanel = () => {
         ...CAPTION_PROPS[CAPTION_STYLE.WORD_BG_HIGHLIGHT],
         x: 0,
         y: 200,
-        applyToAll: true,
       };
       captionsTrack.current?.setProps(props);
     }
   };
 
   const addCaption = () => {
-    const newCaption: CaptionEntry = { s: 0, e: 0, t: "New Caption" };
+    const newCaption: CaptionPanelEntry = { s: 0, e: 0, t: "New Caption", isCustom: false };
     if (captions.length > 0) {
       newCaption.s = captions[captions.length - 1].e;
     }
@@ -100,7 +95,7 @@ export const useCaptionsPanel = () => {
     }
   };
 
-  const updateCaption = (index: number, caption: CaptionEntry) => {
+  const updateCaption = (index: number, caption: CaptionPanelEntry) => {
     setCaptions(captions.map((sub, i) => (i === index ? caption : sub)));
     if (captionsTrack.current) {
       const element = captionsTrack.current.getElements()[

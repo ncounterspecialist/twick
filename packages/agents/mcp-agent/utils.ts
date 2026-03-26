@@ -92,7 +92,6 @@ export const processCaptionsToProject = async ({
           shadowColor: "#000000",
           x: 0,
           y: 200,
-          applyToAll: true,
         },
         elements: captions.map((caption: any, index: number) => ({
           id: `caption-${index}`,

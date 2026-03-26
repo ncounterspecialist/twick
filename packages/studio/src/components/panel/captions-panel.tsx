@@ -33,12 +33,7 @@
  */
 
 import { Trash2, Scissors } from "lucide-react";
-
-interface CaptionEntry {
-  s: number;
-  e: number;
-  t: string;
-}
+import type { CaptionPanelEntry } from "../../types";
 
 const formatTime = (seconds: number) => {
   if (!Number.isFinite(seconds) || seconds < 0) return "0:00.00";
@@ -58,11 +53,11 @@ export function CaptionsPanel({
   deleteCaption,
   updateCaption,
 }: {
-  captions: CaptionEntry[];
+  captions: CaptionPanelEntry[];
   addCaption: () => void;
-  splitCaption: (index: number) => void;
+  splitCaption: (index: number) => void | Promise<void>;
   deleteCaption: (index: number) => void;
-  updateCaption: (index: number, caption: CaptionEntry) => void;
+  updateCaption: (index: number, caption: CaptionPanelEntry) => void;
 }) {
   return (
     <div className="panel-container captions-panel">
@@ -113,6 +108,14 @@ export function CaptionsPanel({
                   <span className="captions-panel-time captions-panel-time-end">
                     {formatTime(caption.e)}
                   </span>
+                  {caption.isCustom ? (
+                    <span
+                      className="captions-panel-custom"
+                      title="This caption overrides track defaults"
+                    >
+                      Custom
+                    </span>
+                  ) : null}
                 </div>
 
                 <div className="captions-panel-item-body">
