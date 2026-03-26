@@ -55,6 +55,12 @@ export interface CaptionEntry {
 }
 
 /**
+ * Caption entry used by Studio UI list rendering.
+ * `isCustom` indicates whether this caption overrides track defaults.
+ */
+export type CaptionPanelEntry = CaptionEntry & { isCustom?: boolean };
+
+/**
  * Response from POST /generate-captions
  */
 export interface GenerateCaptionsResponse {
