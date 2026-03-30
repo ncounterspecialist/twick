@@ -299,6 +299,8 @@ export type CanvasElementProps = {
   playbackRate?: number;
   /** Current time for video elements */
   time?: number;
+  /** Color preset for image/video; matches timeline `mediaFilter` / visualizer `applyColorFilter`. */
+  mediaFilter?: string;
   /** When true, resize preserves aspect ratio (uniform scaling). When false, allows non-uniform scale. */
   lockAspectRatio?: boolean;
 };

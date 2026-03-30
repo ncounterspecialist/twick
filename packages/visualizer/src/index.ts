@@ -179,6 +179,8 @@
 // Types
 export * from './helpers/types';
 
+export { COLOR_FILTERS } from './helpers/constants';
+
 // Components
 export * from './visualizer';
 

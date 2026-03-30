@@ -1,5 +1,6 @@
 // Types
 export type { Dimensions, VideoMeta, Position } from "./types";
+export { COLOR_FILTERS, type ColorFilterPreset } from "./color-filters";
 
 // Utility functions
 export { getAudioDuration } from "./get-audio-duration";

@@ -25,6 +25,7 @@ export default defineConfig({
         'react/jsx-runtime',
         'react/jsx-dev-runtime',
         '@twick/timeline',
+        '@twick/media-utils',
         '@twick/video-editor',
         '@twick/live-player' // External to prevent React context duplication
       ],
@@ -35,6 +36,7 @@ export default defineConfig({
           'react-dom': 'ReactDOM',
           'react/jsx-runtime': 'jsxRuntime',
           '@twick/timeline': 'TwickTimeline',
+          '@twick/media-utils': 'TwickMediaUtils',
           '@twick/video-editor': 'TwickVideoEditor'
         },
         assetFileNames: (assetInfo) => {
