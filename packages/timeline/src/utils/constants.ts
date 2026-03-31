@@ -315,4 +315,7 @@ export const PROCESS_STATE = {
   COMPLETED: "Completed",
   /** Process has failed */
   FAILED: "Failed",
-} as const; 
+} as const;
+
+/** Re-export from `@twick/media-utils` (single source of truth for `mediaFilter` presets). */
+export { COLOR_FILTERS, type ColorFilterPreset } from "@twick/media-utils";

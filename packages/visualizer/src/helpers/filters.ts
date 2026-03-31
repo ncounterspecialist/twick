@@ -65,6 +65,10 @@ export const applyColorFilter = (ref: Reference<any>, filterType: string) => {
         ref().filters.contrast(1.25);
         ref().filters.brightness(1.05);
         break;
+      case COLOR_FILTERS.SEPIA:
+        ref().filters.sepia(1);
+        ref().filters.contrast(1.08);
+        break;
       case COLOR_FILTERS.COOL:
         ref().filters.hue(15);
         ref().filters.brightness(1.1);

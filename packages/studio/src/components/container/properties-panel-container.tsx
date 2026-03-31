@@ -3,6 +3,7 @@ import { TextEffects } from "../properties/text-effects";
 import { Animation } from "../properties/animation";
 import {
   VideoElement,
+  ImageElement,
   TextElement,
   AudioElement,
   CaptionElement,
@@ -16,6 +17,7 @@ import {
 } from "@twick/timeline";
 import { CaptionPropPanel } from "../properties/caption-prop";
 import { PlaybackPropsPanel } from "../properties/playback-props";
+import { ColorFilterPropsPanel } from "../properties/color-filter-props";
 import { GenerateCaptionsPanel } from "../properties/generate-captions.tsx";
 import { TextPropsPanel } from "../properties/text-props";
 import { AnnotationStylePanel } from "../properties/annotation-style-panel";
@@ -139,6 +141,7 @@ export function PropertiesPanelContainer({
               {(() => {
                 const isText = selectedElement instanceof TextElement;
                 const isVideo = selectedElement instanceof VideoElement;
+                const isImage = selectedElement instanceof ImageElement;
                 const isAudio = selectedElement instanceof AudioElement;
 
                 const isAnnotation =
@@ -176,6 +179,14 @@ export function PropertiesPanelContainer({
                     {/* Playback + Volume – video and audio */}
                     {(isVideo || isAudio) && (
                       <PlaybackPropsPanel
+                        selectedElement={selectedElement}
+                        updateElement={updateElement}
+                      />
+                    )}
+
+                    {/* Color filter – image and video (props.mediaFilter → visualizer) */}
+                    {(isVideo || isImage) && (
+                      <ColorFilterPropsPanel
                         selectedElement={selectedElement}
                         updateElement={updateElement}
                       />

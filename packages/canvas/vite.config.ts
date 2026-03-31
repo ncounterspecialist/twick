@@ -11,7 +11,11 @@ export default defineConfig({
       formats: ['es', 'cjs'],
     },
     rollupOptions: {
-      external: ['react', 'react-dom', 'fabric', 'react/jsx-runtime' 
+      external: [
+        'react',
+        'react-dom',
+        'fabric',
+        'react/jsx-runtime',
       ],
       output: {
         globals: {

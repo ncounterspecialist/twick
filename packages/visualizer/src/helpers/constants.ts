@@ -256,24 +256,7 @@ export const OBJECT_FIT = {
   NONE: "none",
 };
 
-export const COLOR_FILTERS = {
-  SATURATED: "saturated",
-  BRIGHT: "bright",
-  VIBRANT: "vibrant",
-  RETRO: "retro",
-  BLACK_WHITE: "blackWhite",
-  SEPIA: "sepia",
-  COOL: "cool",
-  WARM: "warm",
-  CINEMATIC: "cinematic",
-  SOFT_GLOW: "softGlow",
-  MOODY: "moody",
-  DREAMY: "dreamy",
-  INVERTED: "inverted",
-  VINTAGE: "vintage",
-  DRAMATIC: "dramatic",
-  FADED: "faded",
-};
+export { COLOR_FILTERS } from "@twick/media-utils";
 
 export const EVENT_TYPES = {
   PLAYER_UPDATE: "twick:playerUpdate",

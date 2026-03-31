@@ -24,6 +24,7 @@ import {
 } from "../helpers/constants";
 import { disabledControl, rotateControl } from "./element-controls";
 import { getObjectFitSize, getThumbnailCached } from "@twick/media-utils";
+import { applyFabricMediaColorFilters } from "../helpers/media-color-filters";
 
 const MARGIN = 10;
 
@@ -206,11 +207,15 @@ const setImageProps = ({
   img.set("height", height);
   img.set("left", x);
   img.set("top", y);
-  img.set("opacity", element.props?.opacity ?? 1);
   img.set("selectable", true);
   img.set("hasControls", true);
   img.set("touchAction", "all");
   img.set("lockUniScaling", lockAspectRatio);
+  applyFabricMediaColorFilters(
+    img,
+    element.props?.mediaFilter,
+    element.props?.opacity ?? 1
+  );
 };
 
 /**
@@ -463,8 +468,16 @@ export const addImageElement = async ({
   lockAspectRatio?: boolean;
 }) => {
   try {
-    // Load the image from the provided source URL
-    const img = await FabricImage.fromURL(imageUrl || element.props.src || "");
+    const rawSrc = imageUrl || element.props.src || "";
+    const mediaFilter = element.props?.mediaFilter?.trim();
+    const useFilter =
+      !!mediaFilter && mediaFilter !== "none";
+    // Only for http(s) + active filter: CORS is required so Fabric can sample pixels; without it the filtered image can disappear.
+    const fromUrlOpts =
+      useFilter && /^https?:\/\//i.test(rawSrc)
+        ? { crossOrigin: "anonymous" as const }
+        : {};
+    const img = await FabricImage.fromURL(rawSrc, fromUrlOpts);
     img.set({
       originX: "center",
       originY: "center",
@@ -603,8 +616,12 @@ const addMediaGroup = ({
     originY: "center",
     scaleX: newSize.width / img.width,
     scaleY: newSize.height / img.height,
-    opacity: element.props?.opacity ?? 1,
   });
+  applyFabricMediaColorFilters(
+    img,
+    element.props?.mediaFilter,
+    element.props?.opacity ?? 1
+  );
 
   const { x, y } = convertToCanvasPosition(
     framePosition?.x || 0,

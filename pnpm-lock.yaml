@@ -179,9 +179,6 @@ importers:
         specifier: ^18.0.0 || ^19.0.0
         version: 19.2.3
     devDependencies:
-      '@types/fabric':
-        specifier: ^5.3.7
-        version: 5.3.11
       '@types/node':
         specifier: ^20.11.24
         version: 20.19.29
@@ -9042,10 +9039,6 @@ packages:
       '@types/body-parser': 1.19.6
       '@types/express-serve-static-core': 5.1.1
       '@types/serve-static': 2.2.0
-    dev: true
-
-  /@types/fabric@5.3.11:
-    resolution: {integrity: sha512-dvicyfS0rDW2KGnwXGz+t+ckMGZUtHzhp8XvaM99R1TsYVsIenf96PbEWCNMHknR6a3/lyYwh1APxxm+DqRkpw==}
     dev: true
 
   /@types/graceful-fs@4.1.9:
