@@ -42,6 +42,10 @@ function TimelineView({
   videoResolution,
   enableDropOnTimeline = true,
   chapters = [],
+  currentTime = 0,
+  onContextMenuTarget,
+  onDeleteElement,
+  onSplitElement,
 }: {
   zoomLevel: number;
   duration: number;
@@ -84,6 +88,11 @@ function TimelineView({
   /** Whether to enable drop-on-timeline */
   enableDropOnTimeline?: boolean;
   chapters?: ChapterMarker[];
+  /** Playhead time for clip context menu “split at playhead” */
+  currentTime?: number;
+  onContextMenuTarget?: (element: TrackElement) => void;
+  onDeleteElement?: (element: TrackElement) => void;
+  onSplitElement?: (element: TrackElement, splitTime: number) => void;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const seekContainerRef = useRef<HTMLDivElement>(null);
@@ -405,6 +414,10 @@ function TimelineView({
                     setDraggingElementId(isDragging && el ? el.getId() : null);
                   }}
                   elementColors={elementColors}
+                  currentTime={currentTime}
+                  onContextMenuTarget={onContextMenuTarget}
+                  onDeleteElement={onDeleteElement}
+                  onSplitElement={onSplitElement}
                 />
               </div>
               <div

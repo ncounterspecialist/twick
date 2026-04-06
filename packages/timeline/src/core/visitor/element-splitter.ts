@@ -28,6 +28,27 @@ export class ElementSplitter implements ElementVisitor<SplitResult> {
     this.elementCloner = new ElementCloner();
   }
 
+  /**
+   * Split text by word index, clamped to keep both sides non-empty.
+   * Returns null when a valid non-empty split is impossible.
+   */
+  private splitTextToNonEmptyParts(
+    source: string,
+    percentage: number
+  ): { first: string; second: string } | null {
+    const words = source
+      .split(/\s+/)
+      .map((w) => w.trim())
+      .filter(Boolean);
+    if (words.length < 2) return null;
+    const rawIndex = Math.floor(words.length * percentage);
+    const splitIndex = Math.min(words.length - 1, Math.max(1, rawIndex));
+    return {
+      first: words.slice(0, splitIndex).join(" "),
+      second: words.slice(splitIndex).join(" "),
+    };
+  }
+
   visitVideoElement(element: VideoElement): SplitResult {
     if (!canSplitElement(element, this.splitTime)) {
       return { firstElement: null, secondElement: null, success: false };
@@ -91,29 +112,21 @@ export class ElementSplitter implements ElementVisitor<SplitResult> {
       return { firstElement: null, secondElement: null, success: false };
     }
     const originalText = element.getText() || "";
-    const originalTextArray = originalText.split(" ");
     const percentage =
       (this.splitTime - element.getStart()) / element.getDuration();
+    const splitText = this.splitTextToNonEmptyParts(originalText, percentage);
+    if (!splitText) {
+      return { firstElement: null, secondElement: null, success: false };
+    }
     const firstElement = this.elementCloner.visitTextElement(
       element
     ) as TextElement;
-    firstElement.setText(
-      originalTextArray
-        .slice(0, Math.floor(originalTextArray.length * percentage))
-        .join(" ")
-    );
+    firstElement.setText(splitText.first);
     firstElement.setEnd(this.splitTime);
     const secondElement = this.elementCloner.visitTextElement(
       element
     ) as TextElement;
-    secondElement.setText(
-      originalTextArray
-        .slice(
-          Math.floor(originalTextArray.length * percentage),
-          originalTextArray.length
-        )
-        .join(" ")
-    );
+    secondElement.setText(splitText.second);
     secondElement.setStart(this.splitTime);
     return { firstElement, secondElement, success: true };
   }
@@ -123,29 +136,21 @@ export class ElementSplitter implements ElementVisitor<SplitResult> {
       return { firstElement: null, secondElement: null, success: false };
     }
     const originalText = element.getText() || "";
-    const originalTextArray = originalText.split(" ");
     const percentage =
       (this.splitTime - element.getStart()) / element.getDuration();
+    const splitText = this.splitTextToNonEmptyParts(originalText, percentage);
+    if (!splitText) {
+      return { firstElement: null, secondElement: null, success: false };
+    }
     const firstElement = this.elementCloner.visitCaptionElement(
       element
     ) as CaptionElement;
-    firstElement.setText(
-      originalTextArray
-        .slice(0, Math.floor(originalTextArray.length * percentage))
-        .join(" ")
-    );
+    firstElement.setText(splitText.first);
     firstElement.setEnd(this.splitTime);
     const secondElement = this.elementCloner.visitCaptionElement(
       element
     ) as CaptionElement;
-    secondElement.setText(
-      originalTextArray
-        .slice(
-          Math.floor(originalTextArray.length * percentage),
-          originalTextArray.length
-        )
-        .join(" ")
-    );
+    secondElement.setText(splitText.second);
     secondElement.setStart(this.splitTime);
     return { firstElement, secondElement, success: true };
   }

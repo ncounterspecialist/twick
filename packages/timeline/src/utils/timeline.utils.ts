@@ -125,8 +125,14 @@ export const getCurrentElements = (
  * // canSplit = true if element spans across 10.5 seconds
  * ```
  */
+/** Disallow split when playhead is too close to element edges. */
+export const SPLIT_EDGE_BUFFER_SEC = 0.1;
+
 export const canSplitElement = (element: TrackElement, currentTime: number) => {
-  return element.getStart() <= currentTime && element.getEnd() >= currentTime;
+  return (
+    currentTime > element.getStart() + SPLIT_EDGE_BUFFER_SEC &&
+    currentTime < element.getEnd() - SPLIT_EDGE_BUFFER_SEC
+  );
 };
 
 /**

@@ -5,11 +5,13 @@ import SeekControl from "../controls/seek-control";
 import TimelineView from "./timeline-view";
 import {
   ChapterMarker,
+  TrackElement,
   useTimelineContext,
   VALIDATION_ERROR_CODE,
   ValidationError,
 } from "@twick/timeline";
 import { useTimelineManager } from "../../hooks/use-timeline-manager";
+import useTimelineControl from "../../hooks/use-timeline-control";
 import { useTimelineSelection } from "../../hooks/use-timeline-selection";
 import { TimelineTickConfig } from "../video-editor";
 import { ElementColors } from "../../helpers/types";
@@ -25,9 +27,10 @@ const TimelineManager = ({
   timelineTickConfigs?: TimelineTickConfig[];
   elementColors?: ElementColors;
 }) => {
-  const { playerState } = useLivePlayerContext();
+  const { playerState, currentTime } = useLivePlayerContext();
   const { followPlayheadEnabled, editor, videoResolution, setSelectedItem } =
     useTimelineContext();
+  const { deleteItem, splitElement } = useTimelineControl();
   const {
     timelineData,
     totalDuration,
@@ -54,6 +57,13 @@ const TimelineManager = ({
   const isPlayheadActive =
     (followPlayheadEnabled && playerState === PLAYER_STATE.PLAYING) ||
     playheadState.isDragging;
+
+  const handleContextMenuTarget = useCallback(
+    (element: TrackElement) => {
+      setSelectedItem(element);
+    },
+    [setSelectedItem]
+  );
 
   const handleDropOnTimeline = useCallback(
     async (params: {
@@ -113,6 +123,10 @@ const TimelineManager = ({
       onEmptyClick={handleEmptyClick}
       onMarqueeSelect={handleMarqueeSelect}
       elementColors={elementColors}
+      currentTime={currentTime}
+      onContextMenuTarget={handleContextMenuTarget}
+      onDeleteElement={(el) => deleteItem(el)}
+      onSplitElement={(el, t) => splitElement(el, t)}
       playheadPositionPx={playheadState.positionPx}
       isPlayheadActive={isPlayheadActive}
       chapters={(timelineData?.metadata?.chapters as ChapterMarker[] | undefined) ?? []}

@@ -115,9 +115,9 @@ export const useTimelineManager = (): TimelineManagerReturn => {
     if (dragType === DRAG_TYPE.START) {
       if (element instanceof VideoElement || element instanceof AudioElement) {
         const elementProps = element.getProps();
+        const playbackRate = elementProps?.playbackRate || 1;
         const delta =
-          updates.start -
-          element.getStart() * (elementProps?.playbackRate || 1);
+          (updates.start - element.getStart()) * playbackRate;
 
         if (element instanceof AudioElement) {
           (element as AudioElement).setStartAt(element.getStartAt() + delta);

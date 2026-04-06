@@ -1,4 +1,5 @@
 import {
+  canSplitElement,
   extractVideoAudio,
   generateShortUuid,
   getTotalDuration,
@@ -463,26 +464,58 @@ export class TimelineEditor {
     if (!track) {
       return { firstElement: element, secondElement: null, success: false };
     }
+    if (!canSplitElement(element, splitTime)) {
+      return { firstElement: element, secondElement: null, success: false };
+    }
 
     try {
       // Use the visitor pattern to handle different element types
       const elementSplitter = new ElementSplitter(splitTime);
       const result = element.accept(elementSplitter);
 
-      if (result.success) {
+      if (
+        result.success &&
+        result.firstElement &&
+        result.secondElement
+      ) {
         const elementRemover = new ElementRemover(track);
-        // Remove the original element from the track
-        element.accept(elementRemover);
-
-        // Add the first split element to the track
         const elementAdder = new ElementAdder(track);
-        result.firstElement.accept(elementAdder);
-        result.secondElement.accept(elementAdder);
+        let firstAdded = false;
+        let secondAdded = false;
 
-        // Update the timeline data to reflect the change
+        try {
+          // Remove original and add both splits; rollback if either add fails.
+          element.accept(elementRemover);
+          firstAdded = await result.firstElement.accept(elementAdder);
+          if (!firstAdded) {
+            throw new Error("Failed to add first split element");
+          }
+          secondAdded = await result.secondElement.accept(elementAdder);
+          if (!secondAdded) {
+            throw new Error("Failed to add second split element");
+          }
+        } catch (splitError) {
+          if (secondAdded) {
+            result.secondElement.accept(elementRemover);
+          }
+          if (firstAdded) {
+            result.firstElement.accept(elementRemover);
+          }
+          try {
+            await element.accept(elementAdder);
+          } catch (restoreError) {
+            // Best effort restore; caller still receives failure.
+          }
+          return { firstElement: element, secondElement: null, success: false };
+        }
+
+        // Update the timeline data to reflect the split
         const currentData = this.getTimelineData();
         if (currentData) {
-          this.setTimelineData({tracks: currentData.tracks, updatePlayerData: true});
+          this.setTimelineData({
+            tracks: currentData.tracks,
+            updatePlayerData: true,
+          });
         }
       }
       return result;
@@ -989,28 +1022,79 @@ export class TimelineEditor {
 
         const prevStart = element.getStart();
         const prevEnd = element.getEnd();
-
-        if (patch.s !== undefined) element.setStart(patch.s);
-        if (patch.e !== undefined) element.setEnd(patch.e);
-        if (patch.props != null) element.setProps(patch.props);
-        if (patch.t != null) (element as any).setText?.(patch.t);
-        if (patch.position != null) element.setPosition(patch.position);
-        if (patch.rotation != null) element.setRotation(patch.rotation);
-        if (patch.opacity != null) element.setOpacity(patch.opacity);
-
-        this.adjustCaptionWordsForTimeChange(element, prevStart, prevEnd);
-
-        Object.keys(patch).forEach((key) => {
+        const prevProps = structuredClone(element.getProps());
+        const prevText = (element as any).getText?.();
+        const prevPosition = structuredClone(element.getPosition());
+        const prevRotation = element.getRotation();
+        const prevOpacity = element.getOpacity();
+        const prevExtra: Record<string, unknown> = {};
+        const mutableElement = element as unknown as Record<string, unknown>;
+        for (const key of Object.keys(patch)) {
           if (
-            !["id", "type", "s", "e", "t", "position", "rotation", "opacity", "props"].includes(key) &&
-            (patch as Record<string, unknown>)[key] !== undefined
+            ![
+              "id",
+              "type",
+              "s",
+              "e",
+              "t",
+              "position",
+              "rotation",
+              "opacity",
+              "props",
+            ].includes(key)
           ) {
-            (element as any)[key] = (patch as Record<string, unknown>)[key];
+            prevExtra[key] = mutableElement[key];
           }
-        });
-        const updater = new ElementUpdater(track);
-        element.accept(updater);
-        changed = true;
+        }
+
+        try {
+          if (patch.s !== undefined) element.setStart(patch.s);
+          if (patch.e !== undefined) element.setEnd(patch.e);
+          if (patch.props != null) element.setProps(patch.props);
+          if (patch.t != null) (element as any).setText?.(patch.t);
+          if (patch.position != null) element.setPosition(patch.position);
+          if (patch.rotation != null) element.setRotation(patch.rotation);
+          if (patch.opacity != null) element.setOpacity(patch.opacity);
+
+          this.adjustCaptionWordsForTimeChange(element, prevStart, prevEnd);
+
+          Object.keys(patch).forEach((key) => {
+            if (
+              ![
+                "id",
+                "type",
+                "s",
+                "e",
+                "t",
+                "position",
+                "rotation",
+                "opacity",
+                "props",
+              ].includes(key) &&
+              (patch as Record<string, unknown>)[key] !== undefined
+            ) {
+              (element as any)[key] = (patch as Record<string, unknown>)[key];
+            }
+          });
+          const updater = new ElementUpdater(track);
+          const updated = element.accept(updater);
+          if (!updated) {
+            throw new Error("ELEMENT_NOT_UPDATED");
+          }
+          changed = true;
+        } catch (error) {
+          // Roll back in-memory mutation if validation/update fails.
+          element.setStart(prevStart);
+          element.setEnd(prevEnd);
+          element.setProps(prevProps);
+          if (prevText !== undefined) (element as any).setText?.(prevText);
+          element.setPosition(prevPosition);
+          element.setRotation(prevRotation);
+          element.setOpacity(prevOpacity);
+          Object.keys(prevExtra).forEach((key) => {
+            mutableElement[key] = prevExtra[key];
+          });
+        }
         break;
       }
     }

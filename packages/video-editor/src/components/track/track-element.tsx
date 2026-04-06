@@ -11,9 +11,11 @@ import {
   getDecimalNumber,
   TrackElement,
   TIMELINE_ELEMENT_TYPE,
+  canSplitElement,
 } from "@twick/timeline";
 import { ElementColors } from "../../helpers/types";
 import "../../styles/timeline.css";
+import { TrackElementContextMenu } from "./track-element-context-menu";
 
 export interface TrackElementDragPayload {
   element: TrackElement;
@@ -39,6 +41,12 @@ export const TrackElementView: React.FC<{
   onDrag: (payload: TrackElementDragPayload, dropPointer?: DropPointer) => void;
   onDragStateChange?: (isDragging: boolean, element?: TrackElement) => void;
   elementColors?: ElementColors;
+  /** Playhead time (seconds); used for “Split at playhead” */
+  currentTime?: number;
+  /** Selects this element when opening the context menu */
+  onContextMenuTarget?: (element: TrackElement) => void;
+  onDeleteElement?: (element: TrackElement) => void;
+  onSplitElement?: (element: TrackElement, splitTime: number) => void;
 }> = ({
   element,
   parentWidth,
@@ -52,11 +60,18 @@ export const TrackElementView: React.FC<{
   allowOverlap = false,
   onDragStateChange,
   elementColors,
+  currentTime = 0,
+  onContextMenuTarget,
+  onDeleteElement,
+  onSplitElement,
 }) => {
   const ref = useRef<HTMLDivElement>(null);
   const dragType = useRef<string | null>(null);
   const lastPosRef = useRef<{ start: number; end: number } | null>(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [clipMenu, setClipMenu] = useState<{ x: number; y: number } | null>(
+    null
+  );
 
   const [position, setPosition] = useState({
     start: 0,
@@ -93,6 +108,8 @@ export const TrackElementView: React.FC<{
           newStart = nextStart - span;
         }
       }
+      // Keep position valid even after neighbor constraints.
+      newStart = Math.max(0, Math.min(newStart, duration - span));
 
       return {
         start: newStart,
@@ -117,6 +134,7 @@ export const TrackElementView: React.FC<{
       if (prevEnd !== null && !allowOverlap && newStart < prevEnd) {
         newStart = prevEnd;
       }
+      newStart = Math.max(0, Math.min(newStart, prev.end - MIN_DURATION));
       return {
         start: newStart,
         end: prev.end,
@@ -142,6 +160,7 @@ export const TrackElementView: React.FC<{
           newEnd = nextStart;
         }
       }
+      newEnd = Math.max(prev.start + MIN_DURATION, Math.min(newEnd, duration));
       return {
         start: prev.start,
         end: newEnd,
@@ -218,6 +237,18 @@ export const TrackElementView: React.FC<{
   const hasHandles =
     selectedItem?.getId() === element.getId();
 
+  const contextActionsEnabled = Boolean(
+    onDeleteElement && onSplitElement && onContextMenuTarget
+  );
+
+  const handleContextMenu = (e: React.MouseEvent) => {
+    if (!contextActionsEnabled) return;
+    e.preventDefault();
+    e.stopPropagation();
+    onContextMenuTarget?.(element);
+    setClipMenu({ x: e.clientX, y: e.clientY });
+  };
+
   const motionProps: HTMLMotionProps<"div"> = {
     ref,
     className: `twick-track-element ${
@@ -242,6 +273,7 @@ export const TrackElementView: React.FC<{
         onSelection(element, e);
       }
     },
+    onContextMenu: handleContextMenu,
     style: {
       backgroundColor: getElementColor(element.getType()),
       width: `${((position.end - position.start) / duration) * 100}%`,
@@ -252,6 +284,16 @@ export const TrackElementView: React.FC<{
 
   return (
     <motion.div {...motionProps}>
+      {clipMenu && contextActionsEnabled ? (
+        <TrackElementContextMenu
+          x={clipMenu.x}
+          y={clipMenu.y}
+          canSplit={canSplitElement(element, currentTime)}
+          onSplit={() => onSplitElement?.(element, currentTime)}
+          onDelete={() => onDeleteElement?.(element)}
+          onClose={() => setClipMenu(null)}
+        />
+      ) : null}
       <div style={{ touchAction: "none", height: "100%" }} {...bind()}>
         {hasHandles ? (
           <div
