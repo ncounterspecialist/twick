@@ -14,7 +14,12 @@ import {
   Crosshair,
 } from "lucide-react";
 import { UndoRedoControls } from "./undo-redo-controls";
-import { TrackElement, Track, formatTimeWithFrames } from "@twick/timeline";
+import {
+  canSplitElement,
+  TrackElement,
+  Track,
+  formatTimeWithFrames,
+} from "@twick/timeline";
 import { TimelineZoomConfig } from "../video-editor";
 import {
   DEFAULT_TIMELINE_ZOOM_CONFIG,
@@ -135,11 +140,16 @@ const PlayerControls: React.FC<PlayerControlsProps> = ({
 
   const hasSelection = selectedIds.size > 0;
 
+  const canSplitSelected =
+    selectedItem instanceof TrackElement
+      ? canSplitElement(selectedItem, currentTime)
+      : false;
+
   const handleSplit = useCallback(() => {
-    if (selectedItem instanceof TrackElement && onSplit) {
+    if (selectedItem instanceof TrackElement && onSplit && canSplitSelected) {
       onSplit(selectedItem as TrackElement, currentTime);
     }
-  }, [selectedItem, onSplit, currentTime]);
+  }, [selectedItem, onSplit, currentTime, canSplitSelected]);
 
   const handleZoomIn = useCallback(() => {
     if (setZoomLevel && zoomLevel < MAX_ZOOM) {
@@ -170,10 +180,10 @@ const PlayerControls: React.FC<PlayerControlsProps> = ({
 
         <button
           onClick={handleSplit}
-          disabled={!(selectedItem instanceof TrackElement)}
+          disabled={!canSplitSelected}
           title="Split"
           className={`control-btn split-btn ${
-            !(selectedItem instanceof TrackElement) ? "btn-disabled" : ""
+            !canSplitSelected ? "btn-disabled" : ""
           }`}
         >
           <Scissors className="icon-md" />

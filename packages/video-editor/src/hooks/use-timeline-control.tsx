@@ -1,4 +1,5 @@
 import {
+  canSplitElement,
   TrackElement,
   Track,
   useTimelineContext,
@@ -64,7 +65,8 @@ const useTimelineControl = () => {
    * ```
    */
   const splitElement = (element: TrackElement, currentTime: number) => {
-    editor.splitElement(element, currentTime);
+    if (!canSplitElement(element, currentTime)) return;
+    void editor.splitElement(element, currentTime);
   };
 
   /**
