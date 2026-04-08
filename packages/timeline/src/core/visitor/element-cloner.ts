@@ -7,6 +7,7 @@ import { CaptionElement } from "../elements/caption.element";
 import { RectElement } from "../elements/rect.element";
 import { CircleElement } from "../elements/circle.element";
 import { IconElement } from "../elements/icon.element";
+import { EmojiElement } from "../elements/emoji.element";
 import { PlaceholderElement } from "../elements/placeholder.element";
 import { TrackElement } from "../elements/base.element";
 import { ArrowElement } from "../elements/arrow.element";
@@ -104,6 +105,22 @@ export class ElementCloner implements ElementVisitor<TrackElement> {
       element.getProps()!.fill
     );
     this.cloneElementProperties(element, clonedElement);
+    return clonedElement;
+  }
+
+  visitEmojiElement(element: EmojiElement): TrackElement {
+    const clonedElement = new EmojiElement(
+      element.getEmoji(),
+      element.getProps()!.src,
+      element.getParentSize()
+    );
+    this.cloneElementProperties(element, clonedElement);
+    clonedElement
+      .setParentSize(element.getParentSize())
+      .setFrame(element.getFrame())
+      .setFrameEffects(element.getFrameEffects())
+      .setBackgroundColor(element.getBackgroundColor())
+      .setObjectFit(element.getObjectFit());
     return clonedElement;
   }
 

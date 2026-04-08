@@ -8,6 +8,7 @@ import { LineElement } from "../elements/line.element";
 import { SceneElement } from "../elements/scene.element";
 import { TextElement } from "../elements/text.element";
 import { VideoElement } from "../elements/video.element";
+import { EmojiElement } from "../elements/emoji.element";
 import { Element } from "../helpers/types";
 
 export class ElementController {
@@ -32,6 +33,7 @@ export class ElementController {
     elementController.register(SceneElement);
     elementController.register(ImageElement);
     elementController.register(TextElement);
+    elementController.register(EmojiElement);
     elementController.register(AudioElement);
     elementController.register(CircleElement);
     elementController.register(RectElement);

@@ -5,6 +5,7 @@ import { ImageElement } from "../elements/image.element";
 import { TextElement } from "../elements/text.element";
 import { CaptionElement } from "../elements/caption.element";
 import { IconElement } from "../elements/icon.element";
+import { EmojiElement } from "../elements/emoji.element";
 import { CircleElement } from "../elements/circle.element";
 import { RectElement } from "../elements/rect.element";
 import { PlaceholderElement } from "../elements/placeholder.element";
@@ -47,6 +48,10 @@ export class ElementUpdater implements ElementVisitor<boolean> {
   }
 
   visitIconElement(element: IconElement): boolean {
+    return this.trackFriend.updateElement(element);
+  }
+
+  visitEmojiElement(element: EmojiElement): boolean {
     return this.trackFriend.updateElement(element);
   }
 

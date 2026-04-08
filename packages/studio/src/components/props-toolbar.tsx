@@ -38,6 +38,7 @@ import {
   CaptionElement,
   CircleElement,
   IconElement,
+  EmojiElement,
   ImageElement,
   RectElement,
   TextElement,
@@ -172,6 +173,9 @@ export function PropsToolbar({
       sections.push(propsCategories.get("element-props")!);
       sections.push(propsCategories.get("animations")!);
     } else if (selectedElement instanceof IconElement) {
+      sections.push(propsCategories.get("element-props")!);
+      sections.push(propsCategories.get("animations")!);
+    } else if (selectedElement instanceof EmojiElement) {
       sections.push(propsCategories.get("element-props")!);
       sections.push(propsCategories.get("animations")!);
     } else if (selectedElement instanceof CaptionElement) {

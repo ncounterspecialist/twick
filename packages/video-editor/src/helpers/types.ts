@@ -148,6 +148,7 @@ export interface ElementColors {
   text: string;
   caption: string;
   icon: string;
+  emoji: string;
   circle: string;
   rect: string;
   element: string;

@@ -87,6 +87,7 @@ import { CirclePanel } from "./components/panel/circle-panel";
  * Panel for adding and editing rectangle shapes.
  */
 import { RectPanel } from "./components/panel/rect-panel";
+import { EmojiPanel } from "./components/panel/emoji-panel";
 
 
 /**
@@ -153,6 +154,8 @@ export {
   CirclePanel,
   /** Panel for adding rectangles */
   RectPanel,
+  /** Panel for adding emoji stickers */
+  EmojiPanel,
 }
 
 // Hook exports for external logic integration
@@ -350,6 +353,7 @@ export {
   CircleElement,
   RectElement,
   IconElement,
+  EmojiElement,
   CaptionElement,
   ElementAnimation,
   ElementFrameEffect,
@@ -399,6 +403,7 @@ export type {
   RectProps,
   CircleProps,
   IconProps,
+  EmojiProps,
   TextEffect as TimelineTextEffect,
   FrameEffect,
   FrameEffectProps,

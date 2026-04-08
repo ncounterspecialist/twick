@@ -7,6 +7,7 @@ import { CaptionElement } from "../elements/caption.element";
 import { RectElement } from "../elements/rect.element";
 import { CircleElement } from "../elements/circle.element";
 import { IconElement } from "../elements/icon.element";
+import { EmojiElement } from "../elements/emoji.element";
 import { PlaceholderElement } from "../elements/placeholder.element";
 import { ElementCloner } from "./element-cloner";
 import { canSplitElement } from "../../utils/timeline.utils";
@@ -187,6 +188,17 @@ export class ElementSplitter implements ElementVisitor<SplitResult> {
     }
     const firstElement = this.elementCloner.visitIconElement(element);
     const secondElement = this.elementCloner.visitIconElement(element);
+    firstElement.setEnd(this.splitTime);
+    secondElement.setStart(this.splitTime);
+    return { firstElement, secondElement, success: true };
+  }
+
+  visitEmojiElement(element: EmojiElement): SplitResult {
+    if (!canSplitElement(element, this.splitTime)) {
+      return { firstElement: null, secondElement: null, success: false };
+    }
+    const firstElement = this.elementCloner.visitEmojiElement(element);
+    const secondElement = this.elementCloner.visitEmojiElement(element);
     firstElement.setEnd(this.splitTime);
     secondElement.setStart(this.splitTime);
     return { firstElement, secondElement, success: true };

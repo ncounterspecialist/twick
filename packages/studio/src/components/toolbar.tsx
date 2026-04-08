@@ -30,6 +30,7 @@ import {
   Square,
   Wand2,
   File,
+  Smile,
 } from 'lucide-react'
 import type { ToolCategory } from '../types'
 
@@ -40,6 +41,7 @@ const defaultToolCategories: ToolCategory[] = [
   { id: 'image', name: 'Image', icon: 'Image', description: 'Add an image element' },
   { id: 'audio', name: 'Audio', icon: 'Audio', description: 'Add an audio element' },
   { id: 'text', name: 'Text', icon: 'Type', description: 'Add text elements' },
+  { id: 'emoji', name: 'Emoji', icon: 'Smile', description: 'Add emoji stickers' },
   { id: 'text-style', name: 'Text Style', icon: 'Type', description: 'Apply text style presets' },
   { id: 'effect', name: 'Effect', icon: 'Wand2', description: 'Apply GL video effects' },
   { id: 'shape', name: 'Shape', icon: 'Square', description: 'Add lines, arrows, boxes, and circles' },
@@ -63,6 +65,7 @@ const getIcon = (iconName: string) => {
     case 'MessageSquare': return MessageSquare
     case 'Wand2': return Wand2
     case 'File': return File
+    case 'Smile': return Smile
     default: return Plus
   }
 }

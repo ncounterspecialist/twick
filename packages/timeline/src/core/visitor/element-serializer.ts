@@ -8,6 +8,7 @@ import { CaptionElement } from "../elements/caption.element";
 import { RectElement } from "../elements/rect.element";
 import { CircleElement } from "../elements/circle.element";
 import { IconElement } from "../elements/icon.element";
+import { EmojiElement } from "../elements/emoji.element";
 import { PlaceholderElement } from "../elements/placeholder.element";
 import { TrackElement } from "../elements/base.element";
 import { ArrowElement } from "../elements/arrow.element";
@@ -78,6 +79,16 @@ export class ElementSerializer implements ElementVisitor<ElementJSON> {
   visitIconElement(element: IconElement): ElementJSON {
     return {
       ...this.serializeElement(element),
+    };
+  }
+
+  visitEmojiElement(element: EmojiElement): ElementJSON {
+    return {
+      ...this.serializeElement(element),
+      frame: structuredClone(element.getFrame()),
+      frameEffects: element.getFrameEffects()?.map((frameEffect) => frameEffect.toJSON()),
+      backgroundColor: element.getBackgroundColor(),
+      objectFit: element.getObjectFit(),
     };
   }
 
