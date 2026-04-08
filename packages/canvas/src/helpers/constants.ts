@@ -147,6 +147,8 @@ export const ELEMENT_TYPES = {
   CIRCLE: "circle",
   /** Icon element type */
   ICON: "icon",
+  /** Emoji sticker element type */
+  EMOJI: "emoji",
   /** Arrow annotation element type */
   ARROW: "arrow",
   /** Line annotation / shape element type */

@@ -5,6 +5,7 @@ import { ImageElement } from "../elements/image.element";
 import { TextElement } from "../elements/text.element";
 import { CaptionElement } from "../elements/caption.element";
 import { IconElement } from "../elements/icon.element";
+import { EmojiElement } from "../elements/emoji.element";
 import { CircleElement } from "../elements/circle.element";
 import { RectElement } from "../elements/rect.element";
 import { PlaceholderElement } from "../elements/placeholder.element";
@@ -182,6 +183,21 @@ export class ElementValidator implements ElementVisitor<boolean> {
     return { errors, warnings };
   }
 
+  private validateEmojiElement(element: EmojiElement): { errors: string[]; warnings: string[] } {
+    const basicValidation = this.validateBasicProperties(element);
+    const errors = [...basicValidation.errors];
+    const warnings = [...basicValidation.warnings];
+    const props = element.getProps();
+
+    if (!props?.src) {
+      errors.push("Emoji element must have an image source URL");
+    }
+    if (!props?.emoji) {
+      warnings.push("Emoji element should include the source emoji character");
+    }
+    return { errors, warnings };
+  }
+
   private validateCircleElement(element: CircleElement): { errors: string[]; warnings: string[] } {
     const basicValidation = this.validateBasicProperties(element);
     const errors = [...basicValidation.errors];
@@ -320,6 +336,20 @@ export class ElementValidator implements ElementVisitor<boolean> {
       );
     }
     
+    return true;
+  }
+
+  visitEmojiElement(element: EmojiElement): boolean {
+    const validation = this.validateEmojiElement(element);
+
+    if (validation.errors.length > 0) {
+      throw new ValidationError(
+        `Emoji element validation failed: ${validation.errors.join(", ")}`,
+        validation.errors,
+        validation.warnings
+      );
+    }
+
     return true;
   }
 

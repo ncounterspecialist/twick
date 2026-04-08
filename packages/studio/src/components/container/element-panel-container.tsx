@@ -5,6 +5,7 @@ import { AudioPanelContainer } from "./audio-panel-container";
 import { ImagePanelContainer } from "./image-panel-container";
 import { VideoPanelContainer } from "./video-panel-container";
 import { TextPanelContainer } from "./text-panel-container";
+import { EmojiPanelContainer } from "./emoji-panel-container";
 import { TextStylePanelContainer } from "./text-style-panel-container";
 import { EffectStylePanelContainer } from "./effect-style-panel-container";
 import { Wand2 } from "lucide-react";
@@ -119,6 +120,15 @@ const ElementPanelContainer = ({
         return (
           <TextPanelContainer
             selectedElement={selectedElement}
+            addElement={addNewElement}
+            updateElement={updateElement}
+          />
+        );
+      case "emoji":
+        return (
+          <EmojiPanelContainer
+            selectedElement={selectedElement}
+            videoResolution={videoResolution}
             addElement={addNewElement}
             updateElement={updateElement}
           />

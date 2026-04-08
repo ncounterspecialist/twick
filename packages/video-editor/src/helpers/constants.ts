@@ -160,6 +160,8 @@ export const DEFAULT_ELEMENT_COLORS: ElementColors = {
     animation: "#4B9B78",
     /** Icon element color - bright orchid */
     icon: "#A76CD4",
+    /** Emoji element color - warm amber */
+    emoji: "#F59E0B",
     /** Circle element color - deep byzantium */
     circle: "#703D8B",
     /** Effect element color - cyan accent for global effects */

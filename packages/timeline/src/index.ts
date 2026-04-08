@@ -45,6 +45,7 @@ import { ImageElement } from "./core/elements/image.element";
 import { AudioElement } from "./core/elements/audio.element";
 import { CircleElement } from "./core/elements/circle.element";
 import { IconElement } from "./core/elements/icon.element";
+import { EmojiElement } from "./core/elements/emoji.element";
 import { VideoElement } from "./core/elements/video.element";
 import { PlaceholderElement } from "./core/elements/placeholder.element";
 import { ArrowElement } from "./core/elements/arrow.element";
@@ -72,6 +73,7 @@ export {
   TextElement,
   ImageElement,
   IconElement,
+  EmojiElement,
   AudioElement,
   CircleElement,
   VideoElement,
@@ -152,6 +154,7 @@ if (typeof window !== "undefined") {
     AudioElement,
     CircleElement,
     IconElement,
+    EmojiElement,
     VideoElement,
     PlaceholderElement,
     ArrowElement,

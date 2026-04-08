@@ -5,6 +5,7 @@ import { ImageElement } from "../elements/image.element";
 import { TextElement } from "../elements/text.element";
 import { CaptionElement } from "../elements/caption.element";
 import { IconElement } from "../elements/icon.element";
+import { EmojiElement } from "../elements/emoji.element";
 import { CircleElement } from "../elements/circle.element";
 import { RectElement } from "../elements/rect.element";
 import { PlaceholderElement } from "../elements/placeholder.element";
@@ -212,6 +213,26 @@ export class ElementAdder implements ElementVisitor<Promise<boolean>> {
       element.setEnd(element.getStart() + 1);
     }
     
+    return this.trackFriend.addElement(element);
+  }
+
+  /**
+   * Adds an emoji element to the track.
+   * Updates emoji image metadata and calculates appropriate start/end times
+   * based on existing track elements.
+   */
+  async visitEmojiElement(element: EmojiElement): Promise<boolean> {
+    await element.updateImageMeta();
+    const elements = this.track.getElements();
+    const lastEndtime = elements?.length
+      ? elements[elements.length - 1].getEnd()
+      : 0;
+    if (isNaN(element.getStart())) {
+      element.setStart(lastEndtime);
+    }
+    if (isNaN(element.getEnd())) {
+      element.setEnd(element.getStart() + 1);
+    }
     return this.trackFriend.addElement(element);
   }
 

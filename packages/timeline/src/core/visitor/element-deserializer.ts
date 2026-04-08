@@ -5,6 +5,7 @@ import { ImageElement } from "../elements/image.element";
 import { TextElement } from "../elements/text.element";
 import { CaptionElement } from "../elements/caption.element";
 import { IconElement } from "../elements/icon.element";
+import { EmojiElement } from "../elements/emoji.element";
 import { CircleElement } from "../elements/circle.element";
 import { RectElement } from "../elements/rect.element";
 import { PlaceholderElement } from "../elements/placeholder.element";
@@ -125,6 +126,34 @@ export class ElementDeserializer {
     return iconElement;
   }
 
+  static deserializeEmojiElement(json: ElementJSON): EmojiElement {
+    const parentSize = json.frame && json.frame.size
+      ? { width: json.frame.size[0], height: json.frame.size[1] }
+      : { width: 0, height: 0 };
+
+    const emojiElement = new EmojiElement(
+      json.props?.emoji || "",
+      json.props?.src || "",
+      parentSize
+    );
+    ElementDeserializer.deserializeBaseElement(emojiElement, json);
+
+    if (json.objectFit) emojiElement.setObjectFit(json.objectFit);
+    if (json.frame) {
+      emojiElement.setFrame(json.frame);
+    } else {
+      emojiElement.setFrame({
+        x: 0,
+        y: 0,
+        size: [150, 150],
+      });
+    }
+    if (json.frameEffects) emojiElement.setFrameEffects(json.frameEffects.map((frameEffect: any) => ElementFrameEffect.fromJSON(frameEffect)));
+    if (json.backgroundColor) emojiElement.setBackgroundColor(json.backgroundColor);
+
+    return emojiElement;
+  }
+
   static deserializeCircleElement(json: ElementJSON): CircleElement {
     const circleElement = new CircleElement(
       json.props?.fill || "",
@@ -207,6 +236,8 @@ export class ElementDeserializer {
         return ElementDeserializer.deserializeCaptionElement(json);
       case "icon":
         return ElementDeserializer.deserializeIconElement(json);
+      case "emoji":
+        return ElementDeserializer.deserializeEmojiElement(json);
       case "circle":
         return ElementDeserializer.deserializeCircleElement(json);
       case "rect":

@@ -220,6 +220,8 @@ export const TrackElementView: React.FC<{
         ? "circle"
         : elementType === TIMELINE_ELEMENT_TYPE.ICON
         ? "icon"
+        : elementType === TIMELINE_ELEMENT_TYPE.EMOJI
+        ? "emoji"
         : elementType === TIMELINE_ELEMENT_TYPE.EFFECT
         ? "effect"
         : "element";

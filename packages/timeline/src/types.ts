@@ -218,6 +218,10 @@ export interface IconProps {
   size?: number;
 }
 
+export interface EmojiProps extends ImageProps {
+  emoji: string;
+}
+
 export interface ArrowProps {
   fill: string;
   width: number;

@@ -9,6 +9,7 @@ import { WatermarkElement } from "../elements/watermark.element";
 import { ArrowElement } from "../elements/arrow.element";
 import { LineElement } from "../elements/line.element";
 import { EffectElement } from "../elements/effect.element";
+import { EmojiElement } from "../elements/emoji.element";
 
 /**
  * Registry for canvas element handlers. Enables scalable dispatch by type:
@@ -38,6 +39,7 @@ function registerElements() {
   elementController.register(RectElement);
   elementController.register(CircleElement);
   elementController.register(TextElement);
+  elementController.register(EmojiElement);
   elementController.register(CaptionElement);
   elementController.register(WatermarkElement);
   elementController.register(ArrowElement);

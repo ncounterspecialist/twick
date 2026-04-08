@@ -283,6 +283,8 @@ export const TIMELINE_ELEMENT_TYPE = {
   CIRCLE: "circle",
   /** Icon element type */
   ICON: "icon",
+  /** Emoji sticker element type */
+  EMOJI: "emoji",
   /** Placeholder element type (e.g. for lazy-loaded media) */
   PLACEHOLDER: "placeholder",
   /** Line annotation / shape element type */

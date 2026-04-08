@@ -247,6 +247,7 @@ export const ELEMENT_TYPES = {
   RECT: "rect",
   CIRCLE: "circle",
   ICON: "icon",
+  EMOJI: "emoji",
 };
 
 export const OBJECT_FIT = {
