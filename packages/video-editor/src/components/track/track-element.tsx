@@ -16,6 +16,7 @@ import {
 import { ElementColors } from "../../helpers/types";
 import "../../styles/timeline.css";
 import { TrackElementContextMenu } from "./track-element-context-menu";
+import { AudioWaveform } from "./audio-waveform";
 
 export interface TrackElementDragPayload {
   element: TrackElement;
@@ -236,6 +237,20 @@ export const TrackElementView: React.FC<{
     return selectedIds.has(element.getId());
   }, [selectedIds, element]);
 
+  const isAudioElement = element.getType() === TIMELINE_ELEMENT_TYPE.AUDIO;
+  const elementLabel =
+    element.getType() === TIMELINE_ELEMENT_TYPE.EFFECT
+      ? (element as any).getProps?.()?.effectKey ?? "Effect"
+      : (element as any).getText
+      ? (element as any).getText()
+      : element.getName() || element.getType();
+  const mediaSrc =
+    isAudioElement && (element as any).getSrc ? (element as any).getSrc() : undefined;
+  const elementWidthPx = Math.max(
+    1,
+    ((position.end - position.start) / Math.max(duration, MIN_DURATION)) * parentWidth
+  );
+
   const hasHandles =
     selectedItem?.getId() === element.getId();
 
@@ -257,7 +272,9 @@ export const TrackElementView: React.FC<{
       isSelected
         ? "twick-track-element-selected"
         : "twick-track-element-default"
-    } ${isDragging ? "twick-track-element-dragging" : ""}`,
+    } ${isDragging ? "twick-track-element-dragging" : ""} ${
+      isAudioElement ? "twick-track-element-audio" : ""
+    }`,
     onMouseDown: (e) => {
       if (e.target === ref.current) {
         setLastPos();
@@ -304,12 +321,21 @@ export const TrackElementView: React.FC<{
             className="twick-track-element-handle twick-track-element-handle-start"
           />
         ) : null}
-        <div className="twick-track-element-content">
-          {element.getType() === TIMELINE_ELEMENT_TYPE.EFFECT
-            ? (element as any).getProps?.()?.effectKey ?? "Effect"
-            : (element as any).getText
-            ? (element as any).getText()
-            : element.getName() || element.getType()}
+        <div
+          className={`twick-track-element-content ${
+            isAudioElement ? "twick-track-element-content-audio" : ""
+          }`}
+        >
+          {isAudioElement ? (
+            <AudioWaveform
+              src={mediaSrc}
+              widthPx={elementWidthPx}
+              heightPx={40}
+              label={elementLabel}
+            />
+          ) : (
+            elementLabel
+          )}
         </div>
         {hasHandles ? (
           <div

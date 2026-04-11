@@ -133,6 +133,42 @@
   text-overflow: ellipsis;
 }
 
+.twick-track-element-audio {
+  background: rgba(139, 92, 246, 0.20) !important;
+  border-color: rgba(255, 255, 255, 0.24);
+}
+
+.twick-track-element-content-audio {
+  position: relative;
+  padding: 0;
+  overflow: hidden;
+}
+
+.twick-audio-waveform-root {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.twick-audio-waveform-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.twick-audio-waveform-label {
+  position: absolute;
+  left: 8px;
+  bottom: 2px;
+  max-width: calc(100% - 16px);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 8px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
 .twick-track-element-handle {
   position: absolute;
   width: 2px;
