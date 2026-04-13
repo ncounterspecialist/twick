@@ -231,8 +231,8 @@ importers:
         specifier: ^0.15.25
         version: 0.15.25
       '@twick/visualizer':
-        specifier: ^0.15.26
-        version: 0.15.26(typescript@5.9.3)
+        specifier: ^0.15.28
+        version: 0.15.28(typescript@5.9.3)
       '@twick/vite-plugin':
         specifier: ^0.15.25
         version: 0.15.25
@@ -8748,8 +8748,8 @@ packages:
       culori: 4.0.2
       mp4-wasm: 1.0.6
 
-  /@twick/effects@0.15.26:
-    resolution: {integrity: sha512-MX0EaSmIRLyvfhsOeGXmOtsZlaDthFQxSpCIQpqvPtrdvNmRouzZj1rp+lWS8a1qYpywbUSOVWNoKAXIe2dL+Q==}
+  /@twick/effects@0.15.28:
+    resolution: {integrity: sha512-8N2CthdGTEELd15cKNSmULcIincETXeaUs5STc2vYLcUTMCecssh1PvqyljS8823bMoh7nSNknuelarN0dRPYA==}
     dependencies:
       '@twick/gl-runtime': 0.15.25
     dev: false
@@ -8769,15 +8769,15 @@ packages:
   /@twick/gl-runtime@0.15.25:
     resolution: {integrity: sha512-6qWXk1xyWgSQvH/dw++DBHLsuF3Rbi5AevEhb339MZsvqRyNfQNPeNpJXgsDbhKGWYA3fCbObTyR8tohrOsTLQ==}
 
-  /@twick/media-utils@0.15.26:
-    resolution: {integrity: sha512-u5T7IqPukXkyYBLlVgN5ZarInXdVdnM3ichkTHgasZUmhp6eqSz/EL+GdoWMm/I3RvLTu/Acqy0tDFt6m0OX6Q==}
+  /@twick/media-utils@0.15.27:
+    resolution: {integrity: sha512-2q0ziR+qQLgwo7KJ84oL2IybQjg5n8cQ2AmPb8NdG7vVRdJHOSKbFXxWRe+zlsL28aDJ4/VSpUUWMFT7v0Dp9g==}
     engines: {node: '>=20.0.0'}
     dependencies:
       lamejs: 1.2.1
     dev: false
 
-  /@twick/media-utils@0.15.27:
-    resolution: {integrity: sha512-2q0ziR+qQLgwo7KJ84oL2IybQjg5n8cQ2AmPb8NdG7vVRdJHOSKbFXxWRe+zlsL28aDJ4/VSpUUWMFT7v0Dp9g==}
+  /@twick/media-utils@0.15.28:
+    resolution: {integrity: sha512-iloWkXX8neuydBEnHwsUO78bG1ObMgS0qCoZyqCD7rt/IcfSoXGUmcmqI/hSsJiArk8D+I1ksPYcW5WAp+dMPg==}
     engines: {node: '>=20.0.0'}
     dependencies:
       lamejs: 1.2.1
@@ -8843,15 +8843,15 @@ packages:
       '@twick/core': 0.15.25
       preact: 10.28.2
 
-  /@twick/visualizer@0.15.26(typescript@5.9.3):
-    resolution: {integrity: sha512-Eqx0PAe93si3s9KnDlrnwqolIqRHAHKE8PyeF3pRdsm9LQl2e+mmkMCs6AMbAJUPn+dqB0WInBITUZcogpq/Dw==}
+  /@twick/visualizer@0.15.28(typescript@5.9.3):
+    resolution: {integrity: sha512-/B9Fsuvb6ToNu6qjGjlRxiJTEoGijOvTVyxTYgFjrAZ2gZlAygL8KwssRVO+cfDLawJGvKj1nm68FRA/z0qQEQ==}
     engines: {node: '>=20.0.0'}
     dependencies:
       '@preact/signals': 1.3.2(preact@10.28.2)
       '@twick/2d': 0.15.25
       '@twick/core': 0.15.25
-      '@twick/effects': 0.15.26
-      '@twick/media-utils': 0.15.26
+      '@twick/effects': 0.15.28
+      '@twick/media-utils': 0.15.28
       '@twick/renderer': 0.15.25(@types/node@20.19.29)(typescript@5.9.3)
       '@twick/vite-plugin': 0.15.25
       crelt: 1.0.6

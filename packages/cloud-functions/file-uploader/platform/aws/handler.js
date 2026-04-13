@@ -93,7 +93,7 @@ export const handler = async (event) => {
     }
 
     // Get S3 configuration from environment variables
-    const prefix = normalizePrefix(process.env.FILE_UPLOADER_S3_PREFIX || '');
+    const prefix = normalizePrefix(process.env.FILE_UPLOADER_S3_PREFIX || 'uploads');
     const region = process.env.FILE_UPLOADER_S3_REGION || process.env.AWS_REGION || 'ap-south-1';
     const defaultExpiresIn = parseInt(
       process.env.FILE_UPLOADER_DEFAULT_EXPIRES_IN || '3600',

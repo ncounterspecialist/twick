@@ -26,9 +26,14 @@ COPY . ./
 RUN mkdir -p fonts && \
     cp -r node_modules/@twick/visualizer/dist/fonts/. fonts/
 
-# Bundle local emoji PNG assets for deterministic emoji rendering in Lambda
+# Bundle local emoji PNG assets for deterministic emoji rendering in Lambda.
+# twemoji>=14 no longer includes assets in the npm package, so keep build non-fatal.
 RUN mkdir -p emoji && \
-    cp -r node_modules/twemoji/assets/72x72/. emoji/
+    if [ -d node_modules/twemoji/assets/72x72 ]; then \
+      cp -r node_modules/twemoji/assets/72x72/. emoji/; \
+    else \
+      echo "twemoji PNG assets not found in npm package; continuing without bundled emoji assets"; \
+    fi
 
 # Install Puppeteer (if needed)
 RUN node node_modules/puppeteer/install.mjs
