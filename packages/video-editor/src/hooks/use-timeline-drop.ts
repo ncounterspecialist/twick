@@ -30,6 +30,7 @@ export function useTimelineDrop({
   zoomLevel,
   labelWidth,
   trackHeight,
+  separatorHeight = 0,
   /** Width of the track content area (timeline minus labels). Used for accurate time mapping. */
   trackContentWidth,
   onDrop,
@@ -43,6 +44,7 @@ export function useTimelineDrop({
   zoomLevel: number;
   labelWidth: number;
   trackHeight: number;
+  separatorHeight?: number;
   trackContentWidth?: number;
   onDrop: (params: {
     track: Track | null;
@@ -66,7 +68,9 @@ export function useTimelineDrop({
       const viewportLeft = scrollEl?.getBoundingClientRect?.()?.left ?? rect.left;
       const contentX = (clientX - viewportLeft) + scrollLeft - labelWidth;
       const relY = clientY - rect.top;
-      const rawTrackIndex = Math.floor(relY / trackHeight);
+      const rowHeight = trackHeight + separatorHeight;
+      const yFromFirstTrack = Math.max(0, relY - separatorHeight);
+      const rawTrackIndex = Math.floor(yFromFirstTrack / Math.max(1, rowHeight));
       const trackIndex =
         tracks.length === 0
           ? 0
@@ -88,6 +92,7 @@ export function useTimelineDrop({
       tracks.length,
       labelWidth,
       trackHeight,
+      separatorHeight,
       zoomLevel,
       duration,
       trackContentWidth,

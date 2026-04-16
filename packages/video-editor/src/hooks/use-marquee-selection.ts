@@ -16,6 +16,7 @@ interface UseMarqueeSelectionOptions {
   labelWidth: number;
   trackCount: number;
   trackHeight: number;
+  separatorHeight?: number;
   tracks: Track[];
   containerRef: React.RefObject<HTMLDivElement | null>;
   onMarqueeSelect: (ids: Set<string>) => void;
@@ -28,6 +29,7 @@ export function useMarqueeSelection({
   labelWidth,
   trackCount,
   trackHeight,
+  separatorHeight = 2,
   tracks,
   containerRef,
   onMarqueeSelect,
@@ -87,7 +89,7 @@ export function useMarqueeSelection({
 
     const startTime = Math.max(0, (left - labelWidth) / pixelsPerSecond);
     const endTime = Math.min(duration, (right - labelWidth) / pixelsPerSecond);
-    const rowHeight = trackHeight + 2;
+    const rowHeight = trackHeight + separatorHeight;
     const startTrackIdx = Math.max(0, Math.floor(top / rowHeight));
     const endTrackIdx = Math.min(
       trackCount - 1,
@@ -119,6 +121,7 @@ export function useMarqueeSelection({
     labelWidth,
     trackCount,
     trackHeight,
+    separatorHeight,
     tracks,
     onMarqueeSelect,
     onEmptyClick,
