@@ -17,6 +17,7 @@ import { ElementColors } from "../../helpers/types";
 import "../../styles/timeline.css";
 import { TrackElementContextMenu } from "./track-element-context-menu";
 import { AudioWaveform } from "./audio-waveform";
+import { ImageTimelineStrip, VideoTimelineStrip } from "./timeline-media-strip";
 
 export interface TrackElementDragPayload {
   element: TrackElement;
@@ -238,6 +239,8 @@ export const TrackElementView: React.FC<{
   }, [selectedIds, element]);
 
   const isAudioElement = element.getType() === TIMELINE_ELEMENT_TYPE.AUDIO;
+  const isVideoElement = element.getType() === TIMELINE_ELEMENT_TYPE.VIDEO;
+  const isImageElement = element.getType() === TIMELINE_ELEMENT_TYPE.IMAGE;
   const elementLabel =
     element.getType() === TIMELINE_ELEMENT_TYPE.EFFECT
       ? (element as any).getProps?.()?.effectKey ?? "Effect"
@@ -245,7 +248,15 @@ export const TrackElementView: React.FC<{
       ? (element as any).getText()
       : element.getName() || element.getType();
   const mediaSrc =
-    isAudioElement && (element as any).getSrc ? (element as any).getSrc() : undefined;
+    (isAudioElement || isVideoElement || isImageElement) && (element as any).getSrc
+      ? (element as any).getSrc()
+      : undefined;
+  const mediaOffsetSec =
+    isVideoElement && (element as any).getStartAt ? (element as any).getStartAt() : 0;
+  const playbackRate =
+    isVideoElement && (element as any).getPlaybackRate ? (element as any).getPlaybackRate() : 1;
+  const mediaDurationSec =
+    isVideoElement && (element as any).getMediaDuration ? (element as any).getMediaDuration() : undefined;
   const elementWidthPx = Math.max(
     1,
     ((position.end - position.start) / Math.max(duration, MIN_DURATION)) * parentWidth
@@ -330,8 +341,24 @@ export const TrackElementView: React.FC<{
             <AudioWaveform
               src={mediaSrc}
               widthPx={elementWidthPx}
-              heightPx={40}
+              heightPx={46}
               label={elementLabel}
+            />
+          ) : isVideoElement && mediaSrc ? (
+            <VideoTimelineStrip
+              src={mediaSrc}
+              widthPx={elementWidthPx}
+              heightPx={46}
+              durationSec={Math.max(0, element.getDuration())}
+              mediaOffsetSec={mediaOffsetSec}
+              playbackRate={playbackRate}
+              mediaDurationSec={mediaDurationSec}
+            />
+          ) : isImageElement && mediaSrc ? (
+            <ImageTimelineStrip
+              src={mediaSrc}
+              widthPx={elementWidthPx}
+              heightPx={46}
             />
           ) : (
             elementLabel

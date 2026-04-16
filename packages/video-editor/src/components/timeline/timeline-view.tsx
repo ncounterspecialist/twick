@@ -17,7 +17,7 @@ import type { TrackElementDragPayload } from "../track/track-element";
 
 /** Width of sticky left area (add track button + track headers) in pixels */
 const LABEL_WIDTH = 40;
-const TRACK_HEIGHT = 44;
+const TRACK_HEIGHT = 52;
 const SEPARATOR_HEIGHT = 6;
 
 function TimelineView({
@@ -239,6 +239,7 @@ function TimelineView({
       labelWidth: LABEL_WIDTH,
       trackCount: tracks?.length ?? 0,
       trackHeight: TRACK_HEIGHT,
+      separatorHeight: SEPARATOR_HEIGHT,
       tracks: tracks ?? [],
       containerRef: timelineContentRef,
       onMarqueeSelect,
@@ -254,6 +255,7 @@ function TimelineView({
       zoomLevel,
       labelWidth: LABEL_WIDTH,
       trackHeight: TRACK_HEIGHT,
+      separatorHeight: SEPARATOR_HEIGHT,
       trackContentWidth: timelineWidth - LABEL_WIDTH,
       onDrop: onDropOnTimeline ?? (async () => {}),
       enabled: enableDropOnTimeline && !!onDropOnTimeline && !!videoResolution,
@@ -369,7 +371,7 @@ function TimelineView({
             style={{
               position: "absolute",
               left: LABEL_WIDTH + (preview.timeSec / duration) * (timelineWidth - LABEL_WIDTH),
-              top: preview.trackIndex * TRACK_HEIGHT + 2,
+              top: SEPARATOR_HEIGHT + preview.trackIndex * (TRACK_HEIGHT + SEPARATOR_HEIGHT) + 2,
               width: (preview.widthPct / 100) * (timelineWidth - LABEL_WIDTH),
               height: TRACK_HEIGHT - 4,
             }}

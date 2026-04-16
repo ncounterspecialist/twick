@@ -8,7 +8,7 @@
 /* Timeline Container Styles */
 .twick-timeline-container {
   display: flex;
-  height: 2.75rem;
+  height: 3.25rem;
   position: relative;
 }
 
@@ -263,9 +263,38 @@
 .twick-track {
   min-width: 100%;
   position: relative;
-  height: 2.5rem;
+  height: 3rem;
   margin-top: 2px;
   background-color: #474747;
+}
+
+.twick-media-strip {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  overflow: hidden;
+  pointer-events: none;
+  border-radius: 6px;
+}
+
+.twick-media-strip-video {
+  background: linear-gradient(
+    90deg,
+    rgba(30, 41, 59, 0.9) 0%,
+    rgba(51, 65, 85, 0.75) 100%
+  );
+}
+
+.twick-media-strip-image {
+  background: rgba(30, 41, 59, 0.6);
+}
+
+.twick-media-strip-thumb {
+  flex: 1 0 0;
+  width: 0;
+  height: 100%;
+  object-fit: cover;
+  user-select: none;
 }
 
 /* Drop preview - ghost placeholder when dragging files over timeline */
