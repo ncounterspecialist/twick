@@ -4,18 +4,57 @@ import {
   LivePlayerProvider,
   TimelineProvider,
   INITIAL_TIMELINE_DATA,
+  BrowserMediaManager,
   type VideoSettings,
   type ProjectJSON,
 } from "@twick/studio";
 import "@twick/studio/dist/studio.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const VIDEO_SIZE = {
   width: 720,
   height: 1280,
 };
 
+const REMOVE_DEFAULT_MEDIA_ITEMS = false; // Set to true to remove default media items
+
+const clearAllMediaItems = async (mediaManager: BrowserMediaManager) => {
+  const mediaTypes = ["video", "image", "audio"] as const;
+  await Promise.all(
+    mediaTypes.map(async (type) => {
+      const items = await mediaManager.search({
+        type,
+        query: "",
+      });
+      await Promise.all(items.map((item) => mediaManager.deleteItem(item.id)));
+    })
+  );
+};
+
+let hasPatchedAddItems = false;
+const originalAddItems = BrowserMediaManager.prototype.addItems;
+
+const configureDefaultMediaSeeding = (shouldRemoveDefaults: boolean) => {
+  if (!shouldRemoveDefaults) {
+    if (hasPatchedAddItems) {
+      BrowserMediaManager.prototype.addItems = originalAddItems;
+      hasPatchedAddItems = false;
+    }
+    return;
+  }
+
+  if (hasPatchedAddItems) {
+    return;
+  }
+  BrowserMediaManager.prototype.addItems = async function addItemsNoop() {
+    return [];
+  };
+  hasPatchedAddItems = true;
+};
+
 export default function ExampleStudio() {
+  configureDefaultMediaSeeding(REMOVE_DEFAULT_MEDIA_ITEMS);
+
   const { render, progress, isRendering, error, reset } = useBrowserRenderer({
     // Let the renderer derive width/height from variables.input.properties
     includeAudio: true,
@@ -23,6 +62,31 @@ export default function ExampleStudio() {
   });
 
   const [showSuccess, setShowSuccess] = useState(false);
+  const [isStudioReady, setIsStudioReady] = useState(false);
+
+  useEffect(() => {
+    if (!REMOVE_DEFAULT_MEDIA_ITEMS) {
+      setIsStudioReady(true);
+      return;
+    }
+    let isCancelled = false;
+    const mediaManager = new BrowserMediaManager();
+    const prepareMediaStore = async () => {
+      try {
+        await clearAllMediaItems(mediaManager);
+      } finally {
+        if (!isCancelled) {
+          setIsStudioReady(true);
+        }
+      }
+    };
+
+    void prepareMediaStore();
+
+    return () => {
+      isCancelled = true;
+    };
+  }, []);
 
   const onExportVideo = async (project: ProjectJSON, videoSettings: VideoSettings) => {
     try {
@@ -64,16 +128,18 @@ export default function ExampleStudio() {
           initialData={INITIAL_TIMELINE_DATA}
           contextId={"studio-demo"}
         >
-          <TwickStudio studioConfig={{
-            exportVideo: onExportVideo,
-            canvasConfig: {
-              enableShiftAxisLock: true,
-            },
-            videoProps: {
-              width: 720,
-              height: 1280,
-            },
-          }} />
+          {isStudioReady ? (
+            <TwickStudio studioConfig={{
+              exportVideo: onExportVideo,
+              canvasConfig: {
+                enableShiftAxisLock: true,
+              },
+              videoProps: {
+                width: 720,
+                height: 1280,
+              },
+            }} />
+          ) : null}
         </TimelineProvider>
       </LivePlayerProvider>
 
