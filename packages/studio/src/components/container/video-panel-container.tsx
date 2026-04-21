@@ -3,11 +3,12 @@ import type { PanelProps } from "../../types";
 import { VideoPanel } from "../panel/video-panel";
 import { useMediaPanel } from "../../hooks/use-media-panel";
 import { useMedia } from "../../context/media-context";
-import { getMediaManager, CloudMediaUpload } from "../shared";
+import { CloudMediaUpload } from "../shared";
 import SearchInput from "../shared/search-input";
 import type { AssetProviderConfig, MediaItem } from "@twick/video-editor";
 import { throttle } from "@twick/video-editor";
 import { getAssetLibrary } from "../../helpers/asset-library";
+import { ConfirmDialog } from "../shared/confirm-dialog";
 
 export function VideoPanelContainer(props: PanelProps) {
   const [activeSource, setActiveSource] = useState<"user" | "public">("user");
@@ -44,9 +45,9 @@ export function VideoPanelContainer(props: PanelProps) {
 }
 
 function VideoUserAssetsSection(props: PanelProps) {
-  const { addItem } = useMedia("video");
-  const mediaManager = getMediaManager();
+  const { addItem, removeItem, mediaManager } = useMedia("video");
   const [page, setPage] = useState(1);
+  const [pendingDelete, setPendingDelete] = useState<MediaItem | null>(null);
   const PAGE_SIZE = 30;
   const {
     items,
@@ -99,6 +100,24 @@ function VideoUserAssetsSection(props: PanelProps) {
 
   return (
     <>
+      <ConfirmDialog
+        isOpen={!!pendingDelete}
+        title="Delete asset?"
+        description={
+          pendingDelete
+            ? `Are you sure you want to delete "${pendingDelete.name}" from your library?`
+            : undefined
+        }
+        confirmText="Delete"
+        cancelText="Cancel"
+        onCancel={() => setPendingDelete(null)}
+        onConfirm={async () => {
+          if (!pendingDelete) return;
+          await mediaManager.deleteItem(pendingDelete.id);
+          removeItem(pendingDelete.id);
+          setPendingDelete(null);
+        }}
+      />
       {props.uploadConfig && (
         <div className="flex panel-section">
           <CloudMediaUpload
@@ -118,6 +137,7 @@ function VideoUserAssetsSection(props: PanelProps) {
         isLoading={isLoading}
         acceptFileTypes={acceptFileTypes}
         onUrlAdd={onUrlAdd}
+        onItemDelete={(item) => setPendingDelete(item)}
         canLoadMore={canLoadMore}
         onLoadMore={() => setPage((prev) => prev + 1)}
       />
@@ -126,7 +146,8 @@ function VideoUserAssetsSection(props: PanelProps) {
 }
 
 function VideoPublicAssetsSection() {
-  const assetLibrary = getAssetLibrary();
+  const { mediaManager } = useMedia("video");
+  const assetLibrary = getAssetLibrary(mediaManager);
   const [providerConfigs, setProviderConfigs] = useState<AssetProviderConfig[]>(
     [],
   );

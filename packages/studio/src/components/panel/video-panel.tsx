@@ -25,7 +25,7 @@
  * ```
  */
 
-import { Wand2, Plus, Play, Pause } from "lucide-react";
+import { Wand2, Plus, Play, Pause, Trash2 } from "lucide-react";
 import type { MediaItem } from "@twick/video-editor";
 import { TIMELINE_DROP_MEDIA_TYPE } from "@twick/video-editor";
 import type { VideoPanelProps } from "../../types/media-panel";
@@ -41,6 +41,7 @@ export function VideoPanel({
   isLoading,
   canLoadMore,
   onLoadMore,
+  onItemDelete,
 }: VideoPanelProps) {
   const { playingVideo, togglePlayPause } = useVideoPreview();
   return (
@@ -89,8 +90,34 @@ export function VideoPanel({
                 0:13
               </div> */}
 
-              {/* Corner play/pause control */}
+              {/* Top-right controls (match Image): Add + Delete */}
               <div className="media-actions media-actions-corner">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onItemSelect(item, true);
+                  }}
+                  className="media-action-btn"
+                  title="Add to timeline"
+                >
+                  <Plus className="icon-sm" />
+                </button>
+                {onItemDelete ? (
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onItemDelete(item);
+                    }}
+                    className="media-action-btn"
+                    title="Delete asset"
+                  >
+                    <Trash2 className="icon-sm" color="var(--color-red-500)" />
+                  </button>
+                ) : null}
+              </div>
+
+              {/* Bottom-right control: Play/Pause only */}
+              <div className="media-actions media-actions-corner media-actions-corner-bottom">
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
@@ -101,21 +128,13 @@ export function VideoPanel({
                     }
                   }}
                   className="media-action-btn"
+                  title={playingVideo === item.id ? "Pause preview" : "Play preview"}
                 >
                   {playingVideo === item.id ? (
                     <Pause className="icon-sm" />
                   ) : (
                     <Play className="icon-sm" />
                   )}
-                </button>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onItemSelect(item, true);
-                  }}
-                  className="media-action-btn"
-                >
-                  <Plus className="icon-sm" />
                 </button>
               </div>
             </div>

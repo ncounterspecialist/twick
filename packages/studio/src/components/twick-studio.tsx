@@ -73,7 +73,7 @@ export function TwickStudio({ studioConfig }: { studioConfig?: StudioConfig }) {
   );
 
   return (
-    <MediaProvider>
+    <MediaProvider studioConfig={twickStudiConfig}>
       <div className="studio-container">
         {/* Header */}
         <StudioHeader

@@ -3,11 +3,12 @@ import { useMediaPanel } from "../../hooks/use-media-panel";
 import { AudioPanel } from "../panel/audio-panel";
 import type { PanelProps } from "../../types";
 import { useMedia } from "../../context/media-context";
-import { getMediaManager, CloudMediaUpload } from "../shared";
+import { CloudMediaUpload } from "../shared";
 import SearchInput from "../shared/search-input";
 import type { AssetProviderConfig, MediaItem } from "@twick/video-editor";
 import { getAssetLibrary } from "../../helpers/asset-library";
 import { throttle } from "@twick/video-editor";
+import { ConfirmDialog } from "../shared/confirm-dialog";
 
 export const AudioPanelContainer = (props: PanelProps) => {
   const [activeSource, setActiveSource] = useState<"user" | "public">("user");
@@ -45,8 +46,8 @@ export const AudioPanelContainer = (props: PanelProps) => {
 };
 
 function AudioUserAssetsSection(props: PanelProps) {
-  const { addItem } = useMedia("audio");
-  const mediaManager = getMediaManager();
+  const { addItem, removeItem, mediaManager } = useMedia("audio");
+  const [pendingDelete, setPendingDelete] = useState<MediaItem | null>(null);
   const {
     items,
     searchQuery,
@@ -97,6 +98,24 @@ function AudioUserAssetsSection(props: PanelProps) {
 
   return (
     <>
+      <ConfirmDialog
+        isOpen={!!pendingDelete}
+        title="Delete asset?"
+        description={
+          pendingDelete
+            ? `Are you sure you want to delete "${pendingDelete.name}" from your library?`
+            : undefined
+        }
+        confirmText="Delete"
+        cancelText="Cancel"
+        onCancel={() => setPendingDelete(null)}
+        onConfirm={async () => {
+          if (!pendingDelete) return;
+          await mediaManager.deleteItem(pendingDelete.id);
+          removeItem(pendingDelete.id);
+          setPendingDelete(null);
+        }}
+      />
       {props.uploadConfig && (
         <div className="flex panel-section">
           <CloudMediaUpload
@@ -118,13 +137,15 @@ function AudioUserAssetsSection(props: PanelProps) {
         isLoading={isLoading}
         acceptFileTypes={acceptFileTypes}
         onUrlAdd={onUrlAdd}
+        onItemDelete={(item) => setPendingDelete(item)}
       />
     </>
   );
 }
 
 function AudioPublicAssetsSection() {
-  const assetLibrary = getAssetLibrary();
+  const { mediaManager } = useMedia("audio");
+  const assetLibrary = getAssetLibrary(mediaManager);
   const [providerConfigs, setProviderConfigs] = useState<AssetProviderConfig[]>(
     [],
   );

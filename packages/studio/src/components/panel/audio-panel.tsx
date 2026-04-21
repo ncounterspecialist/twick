@@ -28,7 +28,7 @@
  * ```
  */
 
-import { Wand2, Plus, Volume2, Play, Pause } from "lucide-react";
+import { Wand2, Plus, Volume2, Play, Pause, Trash2 } from "lucide-react";
 import { TIMELINE_DROP_MEDIA_TYPE } from "@twick/video-editor";
 import UrlInput from "../shared/url-input";
 import type { AudioPanelProps } from "../../types/media-panel";
@@ -42,6 +42,7 @@ export const AudioPanel = ({
   isLoading,
   canLoadMore,
   onLoadMore,
+  onItemDelete,
 }: AudioPanelProps) => {
   const { playingAudio, togglePlayPause } = useAudioPreview();
   return (
@@ -107,6 +108,18 @@ export const AudioPanel = ({
                 >
                   <Plus className="icon-sm" />
                 </button>
+                {onItemDelete ? (
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onItemDelete(item);
+                    }}
+                    className="media-action-btn"
+                    title="Delete asset"
+                  >
+                    <Trash2 className="icon-sm" color="var(--color-red-500)" />
+                  </button>
+                ) : null}
               </div>
             </div>
           ))}

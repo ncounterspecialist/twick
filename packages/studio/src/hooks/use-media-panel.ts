@@ -6,7 +6,6 @@ import {
   Size,
 } from "@twick/timeline";
 import type { MediaItem } from "@twick/video-editor";
-import { getMediaManager } from "../components/shared";
 import { useMedia } from "../context/media-context";
 
 export interface MediaPanelState {
@@ -72,9 +71,8 @@ export const useMediaPanel = (
   },
   videoResolution: Size
 ): MediaPanelState & MediaPanelActions => {
-  const { items, searchQuery, setSearchQuery, addItem, isLoading } =
+  const { items, searchQuery, setSearchQuery, addItem, isLoading, mediaManager } =
     useMedia(type);
-  const mediaManager = getMediaManager();
 
   const handleSelection = async (item: MediaItem, forceAdd?: boolean) => {
     const config = mediaConfigs[type];

@@ -4,57 +4,54 @@ import {
   LivePlayerProvider,
   TimelineProvider,
   INITIAL_TIMELINE_DATA,
-  BrowserMediaManager,
   type VideoSettings,
   type ProjectJSON,
+  type MediaItem,
 } from "@twick/studio";
 import "@twick/studio/dist/studio.css";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const VIDEO_SIZE = {
   width: 720,
   height: 1280,
 };
 
-const REMOVE_DEFAULT_MEDIA_ITEMS = false; // Set to true to remove default media items
+/**
+ * Demo toggles:
+ * - `USE_CUSTOM_MEDIA_NAMESPACE` shows how to use a brand new namespace and seed
+ *   exactly 1 video + 1 image + 1 audio as "default assets" for that namespace.
+ * - `REMOVE_DEFAULT_MEDIA_ITEMS` shows how to disable Twick's built-in demo defaults.
+ */
+const USE_CUSTOM_MEDIA_NAMESPACE = false;
+const REMOVE_DEFAULT_MEDIA_ITEMS = false;
 
-const clearAllMediaItems = async (mediaManager: BrowserMediaManager) => {
-  const mediaTypes = ["video", "image", "audio"] as const;
-  await Promise.all(
-    mediaTypes.map(async (type) => {
-      const items = await mediaManager.search({
-        type,
-        query: "",
-      });
-      await Promise.all(items.map((item) => mediaManager.deleteItem(item.id)));
-    })
-  );
-};
+const MEDIA_NAMESPACE = USE_CUSTOM_MEDIA_NAMESPACE
+  ? "studio-demo:custom-default-assets"
+  : "studio-demo";
 
-let hasPatchedAddItems = false;
-const originalAddItems = BrowserMediaManager.prototype.addItems;
-
-const configureDefaultMediaSeeding = (shouldRemoveDefaults: boolean) => {
-  if (!shouldRemoveDefaults) {
-    if (hasPatchedAddItems) {
-      BrowserMediaManager.prototype.addItems = originalAddItems;
-      hasPatchedAddItems = false;
-    }
-    return;
-  }
-
-  if (hasPatchedAddItems) {
-    return;
-  }
-  BrowserMediaManager.prototype.addItems = async function addItemsNoop() {
-    return [];
-  };
-  hasPatchedAddItems = true;
-};
+// One of each (video, image, audio) using the same demo asset URLs shipped with Twick Studio.
+const CUSTOM_DEFAULT_MEDIA_ITEMS: Array<Omit<MediaItem, "id">> = [
+  {
+    name: "Mountain Road (Video)",
+    type: "video",
+    url: "https://videos.pexels.com/video-files/31708803/13510402_1080_1920_30fps.mp4",
+    metadata: { origin: "custom-defaults", provider: "pexels" },
+  },
+  {
+    name: "Waterfall (Image)",
+    type: "image",
+    url: "https://images.pexels.com/photos/358457/pexels-photo-358457.jpeg",
+    metadata: { origin: "custom-defaults", provider: "pexels" },
+  },
+  {
+    name: "Audio 1",
+    type: "audio",
+    url: "https://cdn.pixabay.com/audio/2022/03/14/audio_782eeb590e.mp3",
+    metadata: { origin: "custom-defaults", provider: "pixabay" },
+  },
+];
 
 export default function ExampleStudio() {
-  configureDefaultMediaSeeding(REMOVE_DEFAULT_MEDIA_ITEMS);
-
   const { render, progress, isRendering, error, reset } = useBrowserRenderer({
     // Let the renderer derive width/height from variables.input.properties
     includeAudio: true,
@@ -62,31 +59,6 @@ export default function ExampleStudio() {
   });
 
   const [showSuccess, setShowSuccess] = useState(false);
-  const [isStudioReady, setIsStudioReady] = useState(false);
-
-  useEffect(() => {
-    if (!REMOVE_DEFAULT_MEDIA_ITEMS) {
-      setIsStudioReady(true);
-      return;
-    }
-    let isCancelled = false;
-    const mediaManager = new BrowserMediaManager();
-    const prepareMediaStore = async () => {
-      try {
-        await clearAllMediaItems(mediaManager);
-      } finally {
-        if (!isCancelled) {
-          setIsStudioReady(true);
-        }
-      }
-    };
-
-    void prepareMediaStore();
-
-    return () => {
-      isCancelled = true;
-    };
-  }, []);
 
   const onExportVideo = async (project: ProjectJSON, videoSettings: VideoSettings) => {
     try {
@@ -128,8 +100,8 @@ export default function ExampleStudio() {
           initialData={INITIAL_TIMELINE_DATA}
           contextId={"studio-demo"}
         >
-          {isStudioReady ? (
-            <TwickStudio studioConfig={{
+          <TwickStudio
+            studioConfig={{
               exportVideo: onExportVideo,
               canvasConfig: {
                 enableShiftAxisLock: true,
@@ -138,8 +110,17 @@ export default function ExampleStudio() {
                 width: 720,
                 height: 1280,
               },
-            }} />
-          ) : null}
+              media: {
+                // In real multi-tenant SaaS, use `${env}:${tenantId}:${userId}` (or workspaceId).
+                namespace: MEDIA_NAMESPACE,
+                seed: USE_CUSTOM_MEDIA_NAMESPACE
+                  ? { items: CUSTOM_DEFAULT_MEDIA_ITEMS }
+                  : REMOVE_DEFAULT_MEDIA_ITEMS
+                    ? "none"
+                    : "defaults",
+              },
+            }}
+          />
         </TimelineProvider>
       </LivePlayerProvider>
 

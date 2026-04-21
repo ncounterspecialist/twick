@@ -4,7 +4,7 @@ import type {
   AssetProviderConfig,
   MediaItem,
 } from "@twick/video-editor";
-import { getMediaManager } from "../components/shared";
+import type { BaseMediaManager } from "@twick/video-editor";
 
 interface Paginated<T> {
   items: T[];
@@ -15,8 +15,10 @@ interface Paginated<T> {
 
 const DEFAULT_PAGE_SIZE = 50;
 
-async function listUserAssets(params: AssetListParams): Promise<Paginated<MediaItem>> {
-  const mediaManager = getMediaManager();
+async function listUserAssets(
+  mediaManager: BaseMediaManager,
+  params: AssetListParams
+): Promise<Paginated<MediaItem>> {
   const all = await mediaManager.search({
     query: params.query,
     type: params.type,
@@ -84,16 +86,15 @@ async function listPublicAssets(params: AssetListParams): Promise<Paginated<Medi
   };
 }
 
-const studioAssetLibrary: AssetLibrary = {
+const createStudioAssetLibrary = (mediaManager: BaseMediaManager): AssetLibrary => ({
   async listAssets(params: AssetListParams): Promise<Paginated<MediaItem>> {
     if (params.source === "user") {
-      return listUserAssets(params);
+      return listUserAssets(mediaManager, params);
     }
     return listPublicAssets(params);
   },
 
   async getAsset(id: string): Promise<MediaItem | null> {
-    const mediaManager = getMediaManager();
     const item = await mediaManager.getItem(id);
     return item ?? null;
   },
@@ -105,7 +106,6 @@ const studioAssetLibrary: AssetLibrary = {
       metadata?: Record<string, unknown>;
     }
   ): Promise<MediaItem> {
-    const mediaManager = getMediaManager();
     const arrayBuffer = await file.arrayBuffer();
     const type = options?.type ?? file.type.split("/")[0];
 
@@ -127,7 +127,6 @@ const studioAssetLibrary: AssetLibrary = {
   },
 
   async deleteAsset(id: string): Promise<void> {
-    const mediaManager = getMediaManager();
     await mediaManager.deleteItem(id);
   },
 
@@ -139,7 +138,8 @@ const studioAssetLibrary: AssetLibrary = {
     const data = (await res.json()) as { providers?: AssetProviderConfig[] };
     return data.providers ?? [];
   },
-};
+});
 
-export const getAssetLibrary = () => studioAssetLibrary;
+export const getAssetLibrary = (mediaManager: BaseMediaManager) =>
+  createStudioAssetLibrary(mediaManager);
 
