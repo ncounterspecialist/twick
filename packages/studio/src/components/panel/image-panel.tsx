@@ -25,7 +25,7 @@
  * ```
  */
 
-import { Wand2, Plus } from "lucide-react";
+import { Wand2, Plus, Trash2 } from "lucide-react";
 import type { MediaItem } from "@twick/video-editor";
 import { TIMELINE_DROP_MEDIA_TYPE } from "@twick/video-editor";
 import type { ImagePanelProps } from "../../types/media-panel";
@@ -39,6 +39,7 @@ export function ImagePanel({
   canLoadMore,
   onLoadMore,
   showAddByUrl = true,
+  onItemDelete,
 }: ImagePanelProps) {
   return (
     <div className="panel-container">
@@ -79,6 +80,18 @@ export function ImagePanel({
                 >
                   <Plus className="icon-sm" />
                 </button>
+                {onItemDelete ? (
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onItemDelete(item);
+                    }}
+                    className="media-action-btn"
+                    title="Delete asset"
+                  >
+                    <Trash2 className="icon-sm" color="var(--color-red-500)" />
+                  </button>
+                ) : null}
               </div>
             </div>
           ))}

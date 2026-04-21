@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import type { MediaItem } from "@twick/video-editor";
-import { getMediaManager } from "../components/shared";
+import { useMediaManager } from "./media-context";
 
 interface VideoPanelContextType {
   items: MediaItem[];
@@ -16,7 +16,7 @@ export function VideoPanelProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<MediaItem[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const mediaManager = getMediaManager();
+  const mediaManager = useMediaManager();
 
   useEffect(() => {
     const loadItems = async () => {
@@ -32,7 +32,7 @@ export function VideoPanelProvider({ children }: { children: ReactNode }) {
       }
     };
     loadItems();
-  }, [searchQuery]);
+  }, [mediaManager, searchQuery]);
 
   const addItem = (newItem: MediaItem) => {
     setItems((prev) => [...prev, newItem]);

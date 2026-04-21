@@ -5,6 +5,82 @@
   --transition-all: all 0.2s ease;
 }
 
+/* ========================================
+   MODALS (Studio themed)
+   ======================================== */
+
+.twick-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  backdrop-filter: blur(6px);
+}
+
+.twick-modal-content {
+  width: 100%;
+  max-width: 420px;
+  border-radius: 0.5rem;
+  background: rgba(23, 23, 28, 0.98);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.55);
+  padding: 0.75rem;
+}
+
+.twick-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.twick-modal-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: rgba(226, 232, 240, 0.96);
+}
+
+.twick-modal-close {
+  padding: 0.25rem 0.5rem;
+}
+
+.twick-modal-description {
+  font-size: 0.85rem;
+  color: rgba(148, 163, 184, 0.95);
+  line-height: 1.35;
+  margin-bottom: 0.75rem;
+}
+
+.twick-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.btn-danger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.9rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  background: rgba(239, 68, 68, 0.15);
+  color: rgba(254, 226, 226, 0.98);
+  transition: var(--transition-all);
+}
+
+.btn-danger:hover {
+  background: rgba(239, 68, 68, 0.22);
+  border-color: rgba(239, 68, 68, 0.5);
+}
+
 
 /* Base styles */
 *,
@@ -668,6 +744,7 @@ html {
   display: block;
 }
 
+
 .media-duration {
   position: absolute;
   bottom: 0.5rem;
@@ -871,6 +948,11 @@ html {
   justify-content: flex-end;
 }
 
+.media-actions-corner-bottom {
+  top: auto;
+  bottom: 0.5rem;
+}
+
 .media-action-btn {
   width: 2rem;
   height: 2rem;
@@ -1049,6 +1131,7 @@ html {
   transform: scale(1.05);
   box-shadow: 0 4px 6px -1px rgba(147, 51, 234, 0.2);
 }
+
 
 /* Progress bar styling */
 .progress-bar {

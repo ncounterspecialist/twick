@@ -1,10 +1,29 @@
 import BaseMediaManager from "./base-media-manager";
 import { MediaItem, PaginationOptions, SearchOptions } from "../types";
 
+export type BrowserMediaManagerOptions = {
+  /**
+   * IndexedDB database name. Use this to namespace per tenant/user/project.
+   * Defaults to "mediaStore" for backwards compatibility.
+   */
+  dbName?: string;
+  /**
+   * Object store name within the database.
+   * Defaults to "mediaItems" for backwards compatibility.
+   */
+  storeName?: string;
+};
+
 class BrowserMediaManager extends BaseMediaManager {
-    private dbName = 'mediaStore';
-    private storeName = 'mediaItems';
+    private dbName: string;
+    private storeName: string;
     private db: IDBDatabase | null = null;
+
+    constructor(options?: BrowserMediaManagerOptions) {
+      super();
+      this.dbName = options?.dbName ?? "mediaStore";
+      this.storeName = options?.storeName ?? "mediaItems";
+    }
   
     private async initDB(): Promise<IDBDatabase> {
       if (this.db) return this.db;
@@ -32,6 +51,38 @@ class BrowserMediaManager extends BaseMediaManager {
       const db = await this.initDB();
       const transaction = db.transaction(this.storeName, mode);
       return transaction.objectStore(this.storeName);
+    }
+
+    /**
+     * Clears all items from the object store within this manager's database.
+     * This is scoped to the manager's dbName/storeName (safe for multi-tenant namespaces).
+     */
+    async clearStore(): Promise<void> {
+      const store = await this.getStore("readwrite");
+      await new Promise<void>((resolve, reject) => {
+        const request = store.clear();
+        request.onsuccess = () => resolve();
+        request.onerror = () => reject(request.error);
+      });
+    }
+
+    /**
+     * Deletes the entire IndexedDB database used by this manager.
+     * Note: Any other tabs/instances using the same dbName may be affected.
+     */
+    async dropDatabase(): Promise<void> {
+      if (this.db) {
+        this.db.close();
+        this.db = null;
+      }
+      await new Promise<void>((resolve, reject) => {
+        const request = indexedDB.deleteDatabase(this.dbName);
+        request.onsuccess = () => resolve();
+        request.onerror = () => reject(request.error);
+        request.onblocked = () => {
+          reject(new Error(`Failed to delete IndexedDB database "${this.dbName}" (blocked)`));
+        };
+      });
     }
 
     private async convertArrayBufferToBlob(arrayBuffer: ArrayBuffer, type: string): Promise<Blob> {

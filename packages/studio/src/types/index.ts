@@ -1,5 +1,6 @@
 import type { ProjectJSON, Size, TrackElement, VideoElement } from "@twick/timeline"
 import type { ComponentType } from "react";
+import type { BaseMediaManager, MediaItem as EditorMediaItem } from "@twick/video-editor";
 
 export type {
   IImageGenerationService,
@@ -173,6 +174,44 @@ export interface StudioConfig extends VideoEditorConfig {
   customPanels?: Record<string, ComponentType<PanelProps>>;
   /** Optional project templates shown in Template Gallery. */
   templates?: ProjectTemplate[];
+
+  /**
+   * Media library configuration (multi-tenant safe).
+   *
+   * By default, Twick Studio uses an IndexedDB-backed `BrowserMediaManager` and
+   * seeds demo defaults (Pexels/Pixabay URLs). In production SaaS, you typically:
+   * - set `seed = "none"`
+   * - set `namespace` to `${env}:${tenantId}:${userId}` (or workspaceId)
+   * - optionally provide a custom `manager` that talks to your backend
+   */
+  media?: {
+    /**
+     * Namespace key used by storage-backed media managers (e.g. IndexedDB) to
+     * isolate assets per tenant/user. If omitted, a shared default namespace is used.
+     */
+    namespace?: string;
+    /**
+     * Provide a media manager implementation (remote-backed, custom cache, etc.).
+     * If omitted, Studio uses an IndexedDB-backed `BrowserMediaManager`.
+     */
+    manager?: BaseMediaManager;
+    /**
+     * Optional factory to create the manager lazily. Ignored if `manager` is provided.
+     */
+    createManager?: () => BaseMediaManager;
+    /**
+     * Controls initial seeding behavior.
+     * - "defaults": seed demo defaults (backwards compatible behavior)
+     * - "none": do not seed anything
+     * - { items }: seed with a fixed list of assets
+     * - (mgr) => Promise<void>: custom async seeding (e.g. fetch user library)
+     */
+    seed?:
+      | "defaults"
+      | "none"
+      | { items: Omit<EditorMediaItem, "id">[] }
+      | ((manager: BaseMediaManager) => Promise<void>);
+  };
 }
 
 export interface PanelProps {

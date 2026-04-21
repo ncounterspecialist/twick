@@ -8,6 +8,8 @@ export interface MediaPanelBasePropsCommon {
   acceptFileTypes: string[];
   onItemSelect: (item: MediaItem, forceAdd?: boolean) => void;
   onFileUpload: (fileData: { file: File; blobUrl: string }) => void;
+  /** Optional delete handler (typically for "My assets"). */
+  onItemDelete?: (item: MediaItem) => void;
   canLoadMore?: boolean;
   onLoadMore?: () => void;
 }
