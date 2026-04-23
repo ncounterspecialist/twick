@@ -180,8 +180,8 @@ export interface StudioConfig extends VideoEditorConfig {
    *
    * By default, Twick Studio uses an IndexedDB-backed `BrowserMediaManager` and
    * seeds demo defaults (Pexels/Pixabay URLs). In production SaaS, you typically:
-   * - set `seed = "none"`
-   * - set `namespace` to `${env}:${tenantId}:${userId}` (or workspaceId)
+   * - set `seed` to the string `"none"`
+   * - set `namespace` to a tenant-scoped string (for example env, tenant id, and user id joined with colons)
    * - optionally provide a custom `manager` that talks to your backend
    */
   media?: {
@@ -201,10 +201,10 @@ export interface StudioConfig extends VideoEditorConfig {
     createManager?: () => BaseMediaManager;
     /**
      * Controls initial seeding behavior.
-     * - "defaults": seed demo defaults (backwards compatible behavior)
-     * - "none": do not seed anything
-     * - { items }: seed with a fixed list of assets
-     * - (mgr) => Promise<void>: custom async seeding (e.g. fetch user library)
+     * - `"defaults"`: seed demo defaults (backwards compatible behavior)
+     * - `"none"`: do not seed anything
+     * - `{ items }` object shape: seed with a fixed list of assets
+     * - `(mgr) => Promise<void>`: custom async seeding (e.g. fetch user library)
      */
     seed?:
       | "defaults"

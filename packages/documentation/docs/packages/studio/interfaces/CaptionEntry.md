@@ -11,6 +11,7 @@ Caption entry format used for timeline integration
 - [e](CaptionEntry.md#e)
 - [s](CaptionEntry.md#s)
 - [t](CaptionEntry.md#t)
+- [w](CaptionEntry.md#w)
 
 ## Properties
 
@@ -20,7 +21,7 @@ Caption entry format used for timeline integration
 
 #### Defined in
 
-[studio/src/types/index.ts:37](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/studio/src/types/index.ts#L37)
+[studio/src/types/index.ts:49](https://github.com/ncounterspecialist/twick/blob/4f6ff1e413da0a811994ab66a7c9586f7594c61a/packages/studio/src/types/index.ts#L49)
 
 ___
 
@@ -30,7 +31,7 @@ ___
 
 #### Defined in
 
-[studio/src/types/index.ts:36](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/studio/src/types/index.ts#L36)
+[studio/src/types/index.ts:48](https://github.com/ncounterspecialist/twick/blob/4f6ff1e413da0a811994ab66a7c9586f7594c61a/packages/studio/src/types/index.ts#L48)
 
 ___
 
@@ -40,4 +41,17 @@ ___
 
 #### Defined in
 
-[studio/src/types/index.ts:38](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/studio/src/types/index.ts#L38)
+[studio/src/types/index.ts:50](https://github.com/ncounterspecialist/twick/blob/4f6ff1e413da0a811994ab66a7c9586f7594c61a/packages/studio/src/types/index.ts#L50)
+
+___
+
+### w
+
+• `Optional` **w**: `number`[]
+
+Optional per-word start times in seconds (relative to full media timeline).
+When present, consumers can use this for precise karaoke-style word timing.
+
+#### Defined in
+
+[studio/src/types/index.ts:55](https://github.com/ncounterspecialist/twick/blob/4f6ff1e413da0a811994ab66a7c9586f7594c61a/packages/studio/src/types/index.ts#L55)

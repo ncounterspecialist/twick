@@ -20,7 +20,7 @@
 
 #### Defined in
 
-[studio/src/types/index.ts:196](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/studio/src/types/index.ts#L196)
+[studio/src/types/index.ts:308](https://github.com/ncounterspecialist/twick/blob/4f6ff1e413da0a811994ab66a7c9586f7594c61a/packages/studio/src/types/index.ts#L308)
 
 ___
 
@@ -30,7 +30,7 @@ ___
 
 #### Defined in
 
-[studio/src/types/index.ts:195](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/studio/src/types/index.ts#L195)
+[studio/src/types/index.ts:307](https://github.com/ncounterspecialist/twick/blob/4f6ff1e413da0a811994ab66a7c9586f7594c61a/packages/studio/src/types/index.ts#L307)
 
 ___
 
@@ -40,7 +40,7 @@ ___
 
 #### Defined in
 
-[studio/src/types/index.ts:193](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/studio/src/types/index.ts#L193)
+[studio/src/types/index.ts:305](https://github.com/ncounterspecialist/twick/blob/4f6ff1e413da0a811994ab66a7c9586f7594c61a/packages/studio/src/types/index.ts#L305)
 
 ___
 
@@ -50,7 +50,7 @@ ___
 
 #### Defined in
 
-[studio/src/types/index.ts:194](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/studio/src/types/index.ts#L194)
+[studio/src/types/index.ts:306](https://github.com/ncounterspecialist/twick/blob/4f6ff1e413da0a811994ab66a7c9586f7594c61a/packages/studio/src/types/index.ts#L306)
 
 ___
 
@@ -60,4 +60,4 @@ ___
 
 #### Defined in
 
-[studio/src/types/index.ts:197](https://github.com/ncounterspecialist/twick/blob/533901386ed738b22786d2b99dbb9ae8d75eeeea/packages/studio/src/types/index.ts#L197)
+[studio/src/types/index.ts:309](https://github.com/ncounterspecialist/twick/blob/4f6ff1e413da0a811994ab66a7c9586f7594c61a/packages/studio/src/types/index.ts#L309)
