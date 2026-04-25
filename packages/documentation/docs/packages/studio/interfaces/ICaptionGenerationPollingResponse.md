@@ -6,11 +6,21 @@
 
 ### Properties
 
-- [error](#error)
-- [status](#status)
-- [captions](#captions)
+- [captions](ICaptionGenerationPollingResponse.md#captions)
+- [error](ICaptionGenerationPollingResponse.md#error)
+- [status](ICaptionGenerationPollingResponse.md#status)
 
 ## Properties
+
+### captions
+
+• `Optional` **captions**: [`CaptionEntry`](CaptionEntry.md)[]
+
+#### Defined in
+
+[studio/src/types/index.ts:97](https://github.com/ncounterspecialist/twick/blob/4f6ff1e413da0a811994ab66a7c9586f7594c61a/packages/studio/src/types/index.ts#L97)
+
+___
 
 ### error
 
@@ -18,7 +28,7 @@
 
 #### Defined in
 
-[studio/src/types/index.ts:75](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/studio/src/types/index.ts#L75)
+[studio/src/types/index.ts:98](https://github.com/ncounterspecialist/twick/blob/4f6ff1e413da0a811994ab66a7c9586f7594c61a/packages/studio/src/types/index.ts#L98)
 
 ___
 
@@ -28,14 +38,4 @@ ___
 
 #### Defined in
 
-[studio/src/types/index.ts:73](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/studio/src/types/index.ts#L73)
-
-___
-
-### captions
-
-• `Optional` **captions**: [`CaptionEntry`](CaptionEntry.md)[]
-
-#### Defined in
-
-[studio/src/types/index.ts:74](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/studio/src/types/index.ts#L74)
+[studio/src/types/index.ts:96](https://github.com/ncounterspecialist/twick/blob/4f6ff1e413da0a811994ab66a7c9586f7594c61a/packages/studio/src/types/index.ts#L96)

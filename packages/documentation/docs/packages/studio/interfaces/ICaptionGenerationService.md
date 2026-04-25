@@ -6,10 +6,11 @@
 
 ### Properties
 
-- [generateCaptionVideo](#generatecaptionvideo)
-- [generateCaptions](#generatecaptions)
-- [getRequestStatus](#getrequeststatus)
-- [updateProjectWithCaptions](#updateprojectwithcaptions)
+- [generateCaptionVideo](ICaptionGenerationService.md#generatecaptionvideo)
+- [generateCaptions](ICaptionGenerationService.md#generatecaptions)
+- [getRequestStatus](ICaptionGenerationService.md#getrequeststatus)
+- [pollingIntervalMs](ICaptionGenerationService.md#pollingintervalms)
+- [updateProjectWithCaptions](ICaptionGenerationService.md#updateprojectwithcaptions)
 
 ## Properties
 
@@ -36,17 +37,17 @@
 
 #### Defined in
 
-[studio/src/types/index.ts:88](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/studio/src/types/index.ts#L88)
+[studio/src/types/index.ts:115](https://github.com/ncounterspecialist/twick/blob/4f6ff1e413da0a811994ab66a7c9586f7594c61a/packages/studio/src/types/index.ts#L115)
 
 ___
 
 ### generateCaptions
 
-• **generateCaptions**: (`videoElement`: `VideoElement`, `project`: `ProjectJSON`) => `Promise`\<`string`\>
+• **generateCaptions**: (`videoElement`: `VideoElement`, `project`: `ProjectJSON`, `language?`: `string`, `phraseLength?`: [`CaptionPhraseLength`](../modules.md#captionphraselength)) => `Promise`\<`string`\>
 
 #### Type declaration
 
-▸ (`videoElement`, `project`): `Promise`\<`string`\>
+▸ (`videoElement`, `project`, `language?`, `phraseLength?`): `Promise`\<`string`\>
 
 ##### Parameters
 
@@ -54,6 +55,8 @@ ___
 | :------ | :------ |
 | `videoElement` | `VideoElement` |
 | `project` | `ProjectJSON` |
+| `language?` | `string` |
+| `phraseLength?` | [`CaptionPhraseLength`](../modules.md#captionphraselength) |
 
 ##### Returns
 
@@ -61,7 +64,7 @@ ___
 
 #### Defined in
 
-[studio/src/types/index.ts:79](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/studio/src/types/index.ts#L79)
+[studio/src/types/index.ts:104](https://github.com/ncounterspecialist/twick/blob/4f6ff1e413da0a811994ab66a7c9586f7594c61a/packages/studio/src/types/index.ts#L104)
 
 ___
 
@@ -85,7 +88,19 @@ ___
 
 #### Defined in
 
-[studio/src/types/index.ts:93](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/studio/src/types/index.ts#L93)
+[studio/src/types/index.ts:120](https://github.com/ncounterspecialist/twick/blob/4f6ff1e413da0a811994ab66a7c9586f7594c61a/packages/studio/src/types/index.ts#L120)
+
+___
+
+### pollingIntervalMs
+
+• `Optional` **pollingIntervalMs**: `number`
+
+Polling interval in milliseconds for caption status checks. Defaults to 5000.
+
+#### Defined in
+
+[studio/src/types/index.ts:125](https://github.com/ncounterspecialist/twick/blob/4f6ff1e413da0a811994ab66a7c9586f7594c61a/packages/studio/src/types/index.ts#L125)
 
 ___
 
@@ -109,4 +124,4 @@ ___
 
 #### Defined in
 
-[studio/src/types/index.ts:84](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/studio/src/types/index.ts#L84)
+[studio/src/types/index.ts:111](https://github.com/ncounterspecialist/twick/blob/4f6ff1e413da0a811994ab66a7c9586f7594c61a/packages/studio/src/types/index.ts#L111)

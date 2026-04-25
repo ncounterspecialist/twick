@@ -8,7 +8,7 @@ Response from POST /generate-captions
 
 ### Properties
 
-- [reqId](#reqid)
+- [reqId](GenerateCaptionsResponse.md#reqid)
 
 ## Properties
 
@@ -18,4 +18,4 @@ Response from POST /generate-captions
 
 #### Defined in
 
-[studio/src/types/index.ts:45](https://github.com/ncounterspecialist/twick/blob/845e7e79a54994608c45a61c336277623e17fab5/packages/studio/src/types/index.ts#L45)
+[studio/src/types/index.ts:68](https://github.com/ncounterspecialist/twick/blob/4f6ff1e413da0a811994ab66a7c9586f7594c61a/packages/studio/src/types/index.ts#L68)
