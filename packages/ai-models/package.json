@@ -20,7 +20,7 @@
     "docs": "typedoc",
     "lint": "eslint src/",
     "clean": "rimraf .turbo node_modules dist",
-    "test": "echo \"No tests for @twick/ai-models\" && exit 0"
+    "test": "tsc -p tsconfig.test.json && node --test .test-build/providers/*.test.js"
   },
   "devDependencies": {
     "@types/node": "^20.11.24",

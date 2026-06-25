@@ -16,6 +16,7 @@ export type AIModelProvider =
   | "openai"
   | "gemini"
   | "bedrock"
+  | "twelvelabs"
   | "local";
 
 export interface ModelDimension {
