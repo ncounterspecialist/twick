@@ -56,6 +56,48 @@ This provides a provider-agnostic backend layer so Twick apps can:
 3. Keep timeline/caption/export pipeline stable while swapping models
 4. Feed normalized patch data into `@twick/workflow` for project/timeline application
 
+## Built-in providers
+
+### TwelveLabs (Pegasus captions)
+
+`TwelveLabsAdapter` is an opt-in adapter that generates time-aligned captions
+straight from a video URL using [TwelveLabs](https://twelvelabs.io) Pegasus
+video understanding — no separate transcription step. It implements the same
+`ProviderAdapter` contract and is registered like any other provider, so
+defaults and existing flows are unaffected.
+
+```ts
+import {
+  ProviderRegistry,
+  GenerationOrchestrator,
+  TwelveLabsAdapter,
+  toTimelinePatch,
+} from "@twick/ai-models";
+
+const registry = new ProviderRegistry();
+registry.registerAdapter(new TwelveLabsAdapter());
+registry.setProviderConfig({
+  provider: "twelvelabs",
+  apiKey: process.env.TWELVELABS_API_KEY,
+});
+
+const orchestrator = new GenerationOrchestrator(registry);
+
+const job = await orchestrator.createJob({
+  type: "caption",
+  provider: "twelvelabs",
+  input: { videoUrl: "https://example.com/clip.mp4", language: "en" },
+});
+
+const completed = await orchestrator.dispatch(job.id);
+const patch = toTimelinePatch(completed); // TimelineCaptionPatch
+```
+
+Captions are produced asynchronously: `startJob` creates a Pegasus analyze task
+(`POST /analyze/tasks`, `time_based_metadata` mode) and the orchestrator polls
+`getJobStatus` (`GET /analyze/tasks/{id}`) until the task is `ready`. Grab a free
+API key at [twelvelabs.io](https://twelvelabs.io) — there is a generous free tier.
+
 ## Notes
 
 - Implement `ProviderAdapter` for each production provider (e.g. Sora, HeyGen, ElevenLabs).

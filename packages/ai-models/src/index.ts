@@ -60,6 +60,8 @@ export {
   UnsupportedGenerationTypeError,
 } from "./provider-adapter";
 
+export { TwelveLabsAdapter, parseCaptionData } from "./providers/twelvelabs-adapter";
+
 export type { JobStore } from "./job-store";
 export { InMemoryJobStore } from "./job-store";
 export { GenerationOrchestrator } from "./orchestrator";
